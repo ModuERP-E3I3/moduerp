@@ -163,7 +163,7 @@
     <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
 
-    <Context docBase="C:\moduERP-e3i3\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ROOT" path="" reloadable="false"/><Context docBase="C:\moduERP-e3i3\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\moduerp" path="/moduerp" reloadable="true" source="org.eclipse.jst.jee.server:moduerp"/>
+    <Context docBase="C:\moduERP-e3i3\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ROOT" path="" reloadable="false"/><Context docBase="C:\moduERP-e3i3\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\moduERP-e3i3\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\moduERP-e3i3\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\moduERP-e3i3\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\moduERP-e3i3\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\moduERP-e3i3\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\moduerp" path="/moduerp" reloadable="true" source="org.eclipse.jst.jee.server:moduerp"/>
 </Host>
 
     </Engine>
