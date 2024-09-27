@@ -2,10 +2,13 @@ content_assist_completion_replacement_background=200,200,0
 content_assist_completion_replacement_foreground=200,0,0
 content_assist_disabled_computers=org.eclipse.jdt.ui.textProposalCategory\u0000org.eclipse.jdt.ui.javaPostfixProposalCategory\u0000org.eclipse.jdt.ui.javaAllProposalCategory\u0000org.eclipse.jdt.ui.javaTypeProposalCategory\u0000org.eclipse.jdt.ui.javaNoTypeProposalCategory\u0000org.eclipse.jdt.ui.javaChainProposalCategory\u0000
 content_assist_number_of_computers=22
+<<<<<<< HEAD
 content_assist_parameters_background=52,57,61
 content_assist_parameters_foreground=238,238,238
 content_assist_proposals_background=52,57,61
 content_assist_proposals_foreground=238,238,238
+=======
+>>>>>>> 40ae63b4a189ad2faf0f3c5160f97f4a73119a30
 eclipse.preferences.version=1
 java_bracket=249,250,244
 java_comment_task_tag=154,140,124
