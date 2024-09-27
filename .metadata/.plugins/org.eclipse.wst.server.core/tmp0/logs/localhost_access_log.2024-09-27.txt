@@ -1,6 +1,5 @@
-127.0.0.1 - - [27/Sep/2024:16:29:02 +0900] "GET / HTTP/1.1" 404 807
-127.0.0.1 - - [27/Sep/2024:16:29:19 +0900] "GET / HTTP/1.1" 404 807
-0:0:0:0:0:0:0:1 - - [27/Sep/2024:16:29:46 +0900] "GET /moduerp HTTP/1.1" 302 -
-0:0:0:0:0:0:0:1 - - [27/Sep/2024:16:29:48 +0900] "GET /moduerp/ HTTP/1.1" 200 10179
-0:0:0:0:0:0:0:1 - - [27/Sep/2024:16:29:48 +0900] "GET /moduerp/resources/images/moduerp_green.jpg HTTP/1.1" 304 -
-0:0:0:0:0:0:0:1 - - [27/Sep/2024:16:29:48 +0900] "GET /moduerp/resources/images/moduerp_red.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [27/Sep/2024:20:33:29 +0900] "GET / HTTP/1.1" 404 807
+0:0:0:0:0:0:0:1 - - [27/Sep/2024:20:33:49 +0900] "GET /moduerp/ HTTP/1.1" 200 10179
+0:0:0:0:0:0:0:1 - - [27/Sep/2024:20:33:49 +0900] "GET /moduerp/resources/images/moduerp_red.jpg HTTP/1.1" 200 58323
+0:0:0:0:0:0:0:1 - - [27/Sep/2024:20:33:49 +0900] "GET /moduerp/resources/images/moduerp_green.jpg HTTP/1.1" 200 45003
+0:0:0:0:0:0:0:1 - - [27/Sep/2024:20:33:49 +0900] "GET /favicon.ico HTTP/1.1" 404 818
