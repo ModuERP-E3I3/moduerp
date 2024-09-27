@@ -1699,3 +1699,6 @@ Caused by: org.eclipse.emf.ecore.xmi.FeatureNotFoundException: Feature 'load-on-
 	at org.eclipse.jem.internal.util.emf.workbench.ProjectResourceSetImpl.demandLoad(ProjectResourceSetImpl.java:811)
 	at org.eclipse.emf.ecore.resource.impl.ResourceSetImpl.demandLoadHelper(ResourceSetImpl.java:274)
 	... 15 more
+
+!ENTRY org.eclipse.core.resources 2 10035 2024-09-27 21:05:50.078
+!MESSAGE The workspace will exit with unsaved changes in this session.
