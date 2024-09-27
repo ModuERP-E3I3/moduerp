@@ -174,3 +174,15 @@ Caused by: java.lang.IllegalStateException: No typehandler found for property cr
 	at org.apache.ibatis.builder.xml.XMLMapperBuilder.resultMapElements(XMLMapperBuilder.java:246)
 	at org.apache.ibatis.builder.xml.XMLMapperBuilder.configurationElement(XMLMapperBuilder.java:119)
 	... 37 more
+<<<<<<< Updated upstream
+=======
+[16:41:06][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[16:41:06][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 521 ms
+[16:41:06][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[16:41:07][INFO ][FrameworkServlet.java: 547] - Completed initialization in 448 ms
+[16:41:26][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /moduerp/nlist.do
+[16:41:29][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /moduerp/moveAjax.do
+[16:41:30][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /moduerp/moveApi.do
+[16:41:34][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /moduerp/moveApi.do
+[16:42:16][WARN ][DispatcherServlet.java: 1278] - No mapping for GET /moduerp/enrollPage.do
+>>>>>>> Stashed changes
