@@ -1,7 +1,0 @@
-INDEX VERSION 1.131
-C:\moduERP-e3i3\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1224660520.index
-\moduerp\src\main\java
-C:\moduERP-e3i3\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1179517974.index
-\moduerp\src\main\java
-C:\moduERP-e3i3\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3165035368.index
-\moduerp\src\main\java

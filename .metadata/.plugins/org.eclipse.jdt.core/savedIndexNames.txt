@@ -1,4 +1,0 @@
-INDEX VERSION 1.131+C:\moduERP-e3i3\.metadata\.plugins\org.eclipse.jdt.core
-1444538277.index
-2842528100.index
-1865797976.index
