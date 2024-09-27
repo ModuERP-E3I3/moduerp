@@ -14,6 +14,7 @@
 	<!-- 존재하지 않는 클래스와 매퍼파일을 먼저 등록 설정하면 에러 발생함 : 톰켓 구동 안됨 -->
 	<typeAliases>	
 		<!-- *-mapper.xml 에서 dto 클래스명을 간단하게 사용하기 위해서 클래스명 줄임말 지정 -->	
+		<typeAlias type="com.e3i3.moduerp.company.model.dto.Company" alias="Company" />
 	<!-- 	<typeAlias type="org.myweb.first.member.model.dto.User" alias="User" />	
 		<typeAlias type="org.myweb.first.member.model.dto.Member" alias="Member" />	
 		<typeAlias type="org.myweb.first.test.model.dto.Test" alias="Test" />
@@ -22,6 +23,7 @@
 	</typeAliases>
 	
 	<mappers>
+	<mapper resource="mappers/company-mapper.xml" />
 		<!-- <mapper resource="mappers/member-mapper.xml" />
 		<mapper resource="mappers/test-mapper.xml" />
 		<mapper resource="mappers/notice-mapper.xml" />
