@@ -3,3 +3,11 @@
 0:0:0:0:0:0:0:1 - - [27/Sep/2024:20:33:49 +0900] "GET /moduerp/resources/images/moduerp_red.jpg HTTP/1.1" 200 58323
 0:0:0:0:0:0:0:1 - - [27/Sep/2024:20:33:49 +0900] "GET /moduerp/resources/images/moduerp_green.jpg HTTP/1.1" 200 45003
 0:0:0:0:0:0:0:1 - - [27/Sep/2024:20:33:49 +0900] "GET /favicon.ico HTTP/1.1" 404 818
+127.0.0.1 - - [27/Sep/2024:21:35:02 +0900] "GET / HTTP/1.1" 404 807
+0:0:0:0:0:0:0:1 - - [27/Sep/2024:21:35:06 +0900] "GET /moduerp/ HTTP/1.1" 200 10179
+0:0:0:0:0:0:0:1 - - [27/Sep/2024:21:35:06 +0900] "GET /moduerp/resources/images/moduerp_red.jpg HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [27/Sep/2024:21:35:06 +0900] "GET /moduerp/resources/images/moduerp_green.jpg HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [27/Sep/2024:21:35:09 +0900] "GET /moduerp/main.do HTTP/1.1" 200 10179
+0:0:0:0:0:0:0:1 - - [27/Sep/2024:21:35:10 +0900] "GET /moduerp/nlist.do?page=1 HTTP/1.1" 404 721
+0:0:0:0:0:0:0:1 - - [27/Sep/2024:21:35:11 +0900] "GET /moduerp/blist.do?page=1 HTTP/1.1" 404 721
+0:0:0:0:0:0:0:1 - - [27/Sep/2024:21:36:16 +0900] "GET /moduerp/moveApi.do HTTP/1.1" 404 721
