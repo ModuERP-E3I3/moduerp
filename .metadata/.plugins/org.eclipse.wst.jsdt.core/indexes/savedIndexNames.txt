@@ -1,6 +1,0 @@
-INDEX VERSION 1.4+D:\erp_workspace\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-2730528603.index
-1965993580.index
-1362550579.index
-3388362253.index
-863582944.index
