@@ -13,3 +13,10 @@
 #서버
 /Servers2/
 /Servers/
+
+#추가
+/.settings/
+
+.classpath
+
+.springBeans
