@@ -1,1 +1,24 @@
 /.metadata/
+# Java
+*.class
+*.jar
+*.war
+
+# Maven
+target/
+
+# IDE
+.idea/
+*.iml
+.classpath
+.project
+
+# 로그 파일
+*.log
+
+# 기타
+.DS_Store
+
+#서버
+/Servers2/
+/Servers/
