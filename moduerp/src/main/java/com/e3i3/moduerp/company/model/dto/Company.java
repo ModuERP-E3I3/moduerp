@@ -1,7 +1,7 @@
 package com.e3i3.moduerp.company.model.dto;
 
 import java.io.Serializable;
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +25,6 @@ public class Company implements Serializable {
 	private String approvalCode; //승인코드
 	private String departmentId; //부서ID
 	private String companyName;//회사명
-	private Timestamp createdAt; //생성일시
+	private Timestamp createdAt; //생성일시 java.sql.Timestamp
 	
 }
