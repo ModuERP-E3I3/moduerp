@@ -164,21 +164,25 @@ window.onclick = function(event) {
 </head>
 <body>
 
-<c:if test="${ empty sessionScope.loginUser }">
+<!--<c:if test="${ empty sessionScope.loginUser }"> -->
 	<nav>
 		<a href="main.do" class="moduerp-logo">ModuERP</a>
 		<ul id="menubar">
-			<li><a href="nlist.do?page=1"><i class="fas fa-bullhorn"></i>공지사항</a></li>
-			<li><a href="blist.do?page=1"><i class="fas fa-clipboard"></i>구매</a></li>
-			<li><a href="salesStockIn.do"><i class="fas fa-code"></i>체험페이지</a></li>
-			<li><a href="moveApi.do"><i class="fas fa-plug"></i>고객서비스</a></li>
-			<li><a href="moveApi.do"><i class="fas fa-plug"></i>회사소개</a></li>
+			<li><a href="main.do"><i class="fas fa-bullhorn"></i>공지사항</a></li>
+			<li><a href="main.do"><i class="fas fa-clipboard"></i>구매</a></li>
+			<li><a href="main.do"><i class="fas fa-code"></i>체험페이지</a></li>
+			<li><a href="main.do"><i class="fas fa-plug"></i>고객서비스</a></li>
+			<li><a href="main.do"><i class="fas fa-plug"></i>회사소개</a></li>
+			
+			<!-- !!!! 테스트용 경로 !!!! -->
+			<li><a href="erpMain.do"><i class="fas fa-plug"></i>ERP 테스트용</a></li>
+			
 		</ul>
 		<ul>
 		    <li><a href="#" onclick="openLoginModal()"><i class="fas fa-sign-in-alt"></i> 로그인</a></li>
 		</ul>
 	</nav>
-</c:if>
+<!--</c:if> -->
 
 <c:if test="${ !empty sessionScope.loginUser and sessionScope.loginUser.adminYN eq 'Y' }">
 	<nav>
@@ -197,12 +201,12 @@ window.onclick = function(event) {
 	<nav>
 		<a href="main.do" class="moduerp-logo">ModuERP</a>
 		<ul id="menubar">
-		    <li><a href="nlist.do?page=1"><i class="fas fa-bullhorn"></i>공지사항</a></li>
-		    <li><a href="blist.do?page=1"><i class="fas fa-clipboard"></i>구매</a></li>
-		    <li><a href="moveAjax.do"><i class="fas fa-code"></i>체험페이지</a></li>
-		    <li><a href="moveApi.do"><i class="fas fa-plug"></i>고객서비스</a></li>
-		    <li><a href="moveApi.do"><i class="fas fa-plug"></i>회사소개</a></li>
-		    <li><a href="erpmain.do"><i class="fas fa-home"></i> ERP</a></li>
+		    <li><a href="salesStockIn.do"><i class="fas fa-bullhorn"></i>공지사항</a></li>
+		    <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>구매</a></li>
+		    <li><a href="salesStockIn.do"><i class="fas fa-code"></i>체험페이지</a></li>
+		    <li><a href="salesStockIn.do"><i class="fas fa-plug"></i>고객서비스</a></li>
+		    <li><a href="salesStockIn.do"><i class="fas fa-plug"></i>회사소개</a></li>
+		    <li><a href="salesStockIn.do"><i class="fas fa-home"></i> ERP</a></li>
 		    <li><a href="myinfo.do?userId=${ sessionScope.loginUser.userId }"><i class="fas fa-user"></i> My Page</a></li>
 			<!-- 로그아웃 -->
 		    <li><a href="logout.do"><i class="fas fa-sign-out-alt"></i> 로그아웃</a></li>

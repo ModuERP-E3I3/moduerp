@@ -5,12 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>erpMain</title>
+<title>salesStockOut</title>
 
 <style type="text/css">
     /* 하얀 박스 스타일 */
     .content-box {
-        width: 98%; /* 화면에 가득 차지 않게 */
+        width: 97%; /* 화면에 가득 차지 않게 */
         height: 78vh; /* 화면 높이의 78% */
         background-color: white;
         margin-left: 1%;
@@ -105,7 +105,7 @@
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">메인페이지</div>
+        <div class="content-title">영업/판매 관리</div>
 
         <!-- 필터 박스 -->
         <div class="filter-box">
