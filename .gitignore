@@ -16,8 +16,8 @@
 
 
 #추가
-/.settings/
+/moduerp/.settings/
 
-.classpath
+/moduerp/.classpath
 
-.springBeans
+/moduerp/.springBeans

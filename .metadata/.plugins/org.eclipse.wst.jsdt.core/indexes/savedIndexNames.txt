@@ -1,7 +1,0 @@
-INDEX VERSION 1.4+C:\moduerp_workspace\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-1705571113.index
-1194019818.index
-1077726669.index
-1838769503.index
-205776494.index
-1717103812.index
