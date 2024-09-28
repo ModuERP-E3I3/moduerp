@@ -1,1 +1,16 @@
+# metadata
 /.metadata/
+
+# Java
+*.class
+
+
+# IDE
+.project
+
+# 로그 파일
+*.log
+
+#서버
+/Servers2/
+/Servers/

@@ -170,7 +170,7 @@ window.onclick = function(event) {
 		<ul id="menubar">
 			<li><a href="nlist.do?page=1"><i class="fas fa-bullhorn"></i>공지사항</a></li>
 			<li><a href="blist.do?page=1"><i class="fas fa-clipboard"></i>구매</a></li>
-			<li><a href="moveAjax.do"><i class="fas fa-code"></i>체험페이지</a></li>
+			<li><a href="salesStockIn.do"><i class="fas fa-code"></i>체험페이지</a></li>
 			<li><a href="moveApi.do"><i class="fas fa-plug"></i>고객서비스</a></li>
 			<li><a href="moveApi.do"><i class="fas fa-plug"></i>회사소개</a></li>
 		</ul>
