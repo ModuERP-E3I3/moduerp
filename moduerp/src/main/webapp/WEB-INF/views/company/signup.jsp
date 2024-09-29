@@ -84,7 +84,7 @@
 <body>
     <div class="signup-container">
         <h1>회원가입</h1>
-        <form id="signupForm" action="processSignup.do" method="post" enctype="multipart/form-data">
+        <form id="signupForm" action="register.do" method="post" enctype="multipart/form-data">
             <!-- 사업자번호 입력 -->
             <div class="form-group">
                 <label for="bizNumber">사업자번호</label>
@@ -113,7 +113,11 @@
             <div class="form-group">
                 <label for="fileUpload">부서 및 사원 정보 엑셀 파일 첨부</label>
                 <input type="file" id="fileUpload" name="fileUpload" accept=".xls,.xlsx" required>
-                <a href="downloadTemplate.do" class="download-template">엑셀 템플릿 파일 다운로드</a>
+                 <span id="template-file" style="display: block; margin-top: 5px; font-size: 12px;">
+        <a href="<c:url value='/resources/templates/department_employee_template.xlsx'/>" download="department_employee_template.xlsx">
+            department_employee_template.xlsx
+        </a>
+    </span>
             </div>
 
             <!-- 회원가입 버튼 -->

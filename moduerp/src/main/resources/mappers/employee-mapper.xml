@@ -4,7 +4,7 @@
 
     <!-- 직원 정보를 매핑하기 위한 resultMap -->
     <resultMap id="resultEmployee" type="com.e3i3.moduerp.employee.model.dto.Employee">
-        <id property="uuid" column="uuid" /> <!-- PK 지정 -->
+        <id property="uuid" column="uuid" javaType="java.util.UUID" typeHandler="com.e3i3.moduerp.common.handler.UUIDTypeHandler"/>
         <result property="bizNumber" column="biz_number" />
         <result property="approvalCode" column="approval_code" />
         <result property="deptId" column="dept_id" />
@@ -39,7 +39,7 @@
                               registration_date, profile_img, updated_at, is_deleted, last_login_location, deleted_excuse, 
                               deleted_at, hire_date, quit_date, re_num, address, is_email_changed, new_emp_email, remaining_leave, 
                               contract_start_time, contract_end_time, mgr_uuid)
-        VALUES (#{uuid}, #{bizNumber}, #{approvalCode}, #{deptId}, #{jobId}, #{privateAuthority}, #{empNo}, #{empName}, #{empEmail}, #{userPhone},
+        VALUES (#{uuid, javaType=java.util.UUID, jdbcType=VARCHAR, typeHandler=com.e3i3.moduerp.common.handler.UUIDTypeHandler}, #{bizNumber}, #{approvalCode}, #{deptId}, #{jobId}, #{privateAuthority}, #{empNo}, #{empName}, #{empEmail}, #{userPhone},
                 #{registrationDate}, #{profileImg}, #{updatedAt}, #{isDeleted}, #{lastLoginLocation}, #{deletedExcuse},
                 #{deletedAt}, #{hireDate}, #{quitDate}, #{reNum}, #{address}, #{isEmailChanged}, #{newEmpEmail}, #{remainingLeave},
                 #{contractStartTime}, #{contractEndTime}, #{mgrUuid})

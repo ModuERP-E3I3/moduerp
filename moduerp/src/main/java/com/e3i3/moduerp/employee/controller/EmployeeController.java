@@ -25,10 +25,15 @@ import com.e3i3.moduerp.employee.model.service.EmployeeService;
 import com.e3i3.moduerp.employee.util.ExcelParser;
 
 @Controller
-@RequestMapping
 public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
+	
+	//로그인용 메소드
+	@RequestMapping("signin.do")
+	public String signIn() {
+		return "employee/signin";
+	}
 	
 	//직원 등록용 엑셀 파일 업로드 및 처리
 	@PostMapping("/registerFromExcel.do")

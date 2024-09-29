@@ -23,3 +23,8 @@
 /moduerp/.springBeans
 
 /moduerp/target/
+
+/moduerp/.project
+
+#로그제외
+src/main/resources/logs
