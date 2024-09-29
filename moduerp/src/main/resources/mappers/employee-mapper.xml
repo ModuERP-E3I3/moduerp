@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="EmployeeMapper">
+
+    <!-- 직원 정보를 매핑하기 위한 resultMap -->
+    <resultMap id="resultEmployee" type="com.e3i3.moduerp.employee.model.dto.Employee">
+        <id property="uuid" column="uuid" /> <!-- PK 지정 -->
+        <result property="bizNumber" column="biz_number" />
+        <result property="approvalCode" column="approval_code" />
+        <result property="deptId" column="dept_id" />
+        <result property="jobId" column="job_id" />
+        <result property="privateAuthority" column="private_authority" />
+        <result property="empNo" column="emp_no" />
+        <result property="empName" column="emp_name" />
+        <result property="empEmail" column="emp_email" />
+        <result property="userPhone" column="user_phone" />
+        <result property="registrationDate" column="registration_date" />
+        <result property="profileImg" column="profile_img" />
+        <result property="updatedAt" column="updated_at" />
+        <result property="isDeleted" column="is_deleted" />
+        <result property="lastLoginLocation" column="last_login_location" />
+        <result property="deletedExcuse" column="deleted_excuse" />
+        <result property="deletedAt" column="deleted_at" />
+        <result property="hireDate" column="hire_date" />
+        <result property="quitDate" column="quit_date" />
+        <result property="reNum" column="re_num" />
+        <result property="address" column="address" />
+        <result property="isEmailChanged" column="is_email_changed" />
+        <result property="newEmpEmail" column="new_emp_email" />
+        <result property="remainingLeave" column="remaining_leave" />
+        <result property="contractStartTime" column="contract_start_time" />
+        <result property="contractEndTime" column="contract_end_time" />
+        <result property="mgrUuid" column="mgr_uuid" />
+    </resultMap>
+
+    <!-- 직원 정보 등록용 쿼리 -->
+    <insert id="insertEmployee" parameterType="com.e3i3.moduerp.employee.model.dto.Employee">
+        INSERT INTO employee (uuid, biz_number, approval_code, dept_id, job_id, private_authority, emp_no, emp_name, emp_email, user_phone, 
+                              registration_date, profile_img, updated_at, is_deleted, last_login_location, deleted_excuse, 
+                              deleted_at, hire_date, quit_date, re_num, address, is_email_changed, new_emp_email, remaining_leave, 
+                              contract_start_time, contract_end_time, mgr_uuid)
+        VALUES (#{uuid}, #{bizNumber}, #{approvalCode}, #{deptId}, #{jobId}, #{privateAuthority}, #{empNo}, #{empName}, #{empEmail}, #{userPhone},
+                #{registrationDate}, #{profileImg}, #{updatedAt}, #{isDeleted}, #{lastLoginLocation}, #{deletedExcuse},
+                #{deletedAt}, #{hireDate}, #{quitDate}, #{reNum}, #{address}, #{isEmailChanged}, #{newEmpEmail}, #{remainingLeave},
+                #{contractStartTime}, #{contractEndTime}, #{mgrUuid})
+    </insert>
+
+    <!-- 직원 정보 수정용 쿼리 -->
+    <update id="updateEmployee" parameterType="com.e3i3.moduerp.employee.model.dto.Employee">
+        UPDATE employee
+        SET biz_number = #{bizNumber},
+            approval_code = #{approvalCode},
+            dept_id = #{deptId},
+            job_id = #{jobId},
+            private_authority = #{privateAuthority},
+            emp_no = #{empNo},
+            emp_name = #{empName},
+            emp_email = #{empEmail},
+            user_phone = #{userPhone},
+            registration_date = #{registrationDate},
+            profile_img = #{profileImg},
+            updated_at = #{updatedAt},
+            is_deleted = #{isDeleted},
+            last_login_location = #{lastLoginLocation},
+            deleted_excuse = #{deletedExcuse},
+            deleted_at = #{deletedAt},
+            hire_date = #{hireDate},
+            quit_date = #{quitDate},
+            re_num = #{reNum},
+            address = #{address},
+            is_email_changed = #{isEmailChanged},
+            new_emp_email = #{newEmpEmail},
+            remaining_leave = #{remainingLeave},
+            contract_start_time = #{contractStartTime},
+            contract_end_time = #{contractEndTime},
+            mgr_uuid = #{mgrUuid}
+        WHERE uuid = #{uuid}
+    </update>
+
+    <!-- 직원 정보 삭제용 쿼리 -->
+    <delete id="deleteEmployee" parameterType="String">
+        DELETE FROM employee WHERE uuid = #{uuid}
+    </delete>
+
+    <!-- UUID로 직원 조회용 쿼리 -->
+    <select id="selectEmployeeByUuid" parameterType="String" resultMap="resultEmployee">
+        SELECT * FROM employee WHERE uuid = #{uuid}
+    </select>
+
+    <!-- 모든 직원 조회용 쿼리 -->
+    <select id="selectAllEmployees" resultType="com.e3i3.moduerp.employee.model.dto.Employee">
+        SELECT * FROM employee
+    </select>
+
+</mapper>

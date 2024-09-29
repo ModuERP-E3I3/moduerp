@@ -33,9 +33,14 @@ public class CompanyDao {
 	public Company selectCompanyByBizNumber(String bizNumber) {
 		return sqlSessionTemplate.selectOne("CompanyMapper.selectCompanyByBizNumber", bizNumber);
 	}
-	
+
+	// 회사에 속한 부서들 조회
+	public Company selectCompanyWithDepartments(String bizNumber) {
+		return sqlSessionTemplate.selectOne("CompanyMapper.selectCompanyWithDepartments", bizNumber);
+	}
+
 	// 전체 회사 조회
-	public List<Company> selectAllCompanies(){
+	public List<Company> selectAllCompanies() {
 		return sqlSessionTemplate.selectList("CompanyMapper.selectAllCompanies");
 	}
 }

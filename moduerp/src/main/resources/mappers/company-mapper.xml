@@ -8,22 +8,26 @@
     <resultMap id="resultCompany" type="com.e3i3.moduerp.company.model.dto.Company">
         <result property="bizNumber" column="biz_number" />
         <result property="approvalCode" column="approval_code" />
-        <result property="departmentId" column="department_id" />
         <result property="companyName" column="company_name" />
         <result property="createdAt" column="created_at" />
+          <!-- Nested Mapping: Company에 포함된 부서 목록 설정 -->
+        <collection property="departments" ofType="com.e3i3.moduerp.department.model.dto.Department">
+            <id property="departmentCode" column="department_code" />
+            <result property="departmentName" column="department_name" />
+            <result property="bizNumber" column="biz_number" />
+        </collection>
     </resultMap>
 
     <!-- 회사 등록용 쿼리 -->
     <insert id="insertCompany" parameterType="com.e3i3.moduerp.company.model.dto.Company">
-        INSERT INTO company (biz_number, approval_code, department_id, company_name, created_at)
-        VALUES (#{bizNumber}, #{approvalCode}, #{departmentId}, #{companyName}, #{createdAt})
+        INSERT INTO company (biz_number, approval_code, company_name, created_at)
+        VALUES (#{bizNumber}, #{approvalCode}, #{companyName}, #{createdAt})
     </insert>
 
     <!-- 회사 수정용 쿼리 -->
     <update id="updateCompany" parameterType="com.e3i3.moduerp.company.model.dto.Company">
         UPDATE company
         SET approval_code = #{approvalCode},
-            department_id = #{departmentId},
             company_name = #{companyName},
             created_at = #{createdAt}
         WHERE biz_number = #{bizNumber}
@@ -43,5 +47,14 @@
     <select id="selectAllCompanies" resultType="com.e3i3.moduerp.company.model.dto.Company">
         SELECT * FROM company
     </select>
-
+    
+     <!-- Company와 관련된 Department 정보를 가져오는 select 쿼리 -->
+    <select id="selectCompanyWithDepartments" parameterType="String" resultMap="companyResultMap">
+        SELECT c.biz_number, c.approval_code, c.company_name, c.created_at
+               d.department_code, d.department_name
+        FROM company c
+        LEFT JOIN department d ON c.biz_number = d.biz_number
+        WHERE c.biz_number = #{bizNumber}
+    </select>
+    
 </mapper>
