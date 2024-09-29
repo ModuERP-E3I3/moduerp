@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+ 카드 등록 실패
 </body>
 </html>
