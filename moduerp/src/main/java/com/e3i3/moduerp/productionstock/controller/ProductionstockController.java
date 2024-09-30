@@ -10,13 +10,25 @@ public class ProductionstockController {
 
     // productionStockIn.jsp 요청 처리
     @RequestMapping(value = "/productionStockIn.do", method = RequestMethod.GET)
-    public String forwardSalesStockIn() {
+    public String forwardProductionIn() {
         return "productionStock/productionStockIn";  // JSP 파일 경로 반환
     }
 
     // productionStockOut.jsp 요청 처리
     @RequestMapping(value = "/productionStockOut.do", method = RequestMethod.GET)
-    public String forwardSalesStockOut() {
+    public String forwardProductionOut() {
         return "productionStock/productionStockOut";  // JSP 파일 경로 반환
+    }
+    
+ // productionWorkorder.jsp 요청 처리
+    @RequestMapping(value = "/productionWorkorder.do", method = RequestMethod.GET)
+    public String forwardProductionWorkorder() {
+        return "productionStock/productionWorkorder";  // JSP 파일 경로 반환
+    }
+
+    // productionQuality.jsp 요청 처리
+    @RequestMapping(value = "/productionQuality.do", method = RequestMethod.GET)
+    public String forwardProductionQuality() {
+        return "productionStock/productionQuality";  // JSP 파일 경로 반환
     }
 }

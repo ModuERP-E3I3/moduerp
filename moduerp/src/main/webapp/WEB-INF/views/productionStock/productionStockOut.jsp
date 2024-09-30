@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -170,7 +169,7 @@
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">생산관리 | 생산입고</div>
+        <div class="content-title">생산관리 | 생산출고</div>
 
         <!-- 필터 박스 -->
         <div class="filter-box">
@@ -228,7 +227,6 @@
 
     </div>
 </body>
-
 <script>
     const activeMenu = "productionStockIn";
 
@@ -241,6 +239,4 @@
         });
     });
 </script>
-
-
 </html>
