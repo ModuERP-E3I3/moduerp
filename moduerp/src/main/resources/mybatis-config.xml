@@ -25,5 +25,6 @@
 		<mapper resource="mappers/company-mapper.xml" />
 		<mapper resource="mappers/employee-mapper.xml" />
 		<mapper resource="mappers/department-mapper.xml" />
+		<mapper resource="mappers/productionStock-mapper.xml" />
 	</mappers>
 </configuration>

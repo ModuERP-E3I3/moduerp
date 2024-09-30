@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/")
 public class BuystockController {
-	// buyStockIn.jsp 夸没 贸府
+	// productionStockIn.jsp 夸没 贸府
     @RequestMapping(value = "/buyStockIn.do", method = RequestMethod.GET)
-    public String forwardBuyStockIn() {
+    public String forwardProductionIn() {
         return "buyStock/buyStockIn";  // JSP 颇老 版肺 馆券
     }
 }
