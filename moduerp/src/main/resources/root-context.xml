@@ -78,7 +78,9 @@
 		<aop:pointcut expression="execution(* com.e3i3.moduerp..*Impl.*(..))" id="serviceMethod" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod" id="transactionAdvisor" />
 	</aop:config>
+	
 
+	
 </beans>
 
 
