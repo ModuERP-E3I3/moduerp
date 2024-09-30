@@ -170,7 +170,7 @@
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">ModuERP Main</div>
+        <div class="content-title">ModuERP Maintest</div>
 
         <!-- 필터 박스 -->
         <div class="filter-box">
