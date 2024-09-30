@@ -12,6 +12,7 @@
     .content-box {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         width: 96.8%; /* 화면에 가득 차지 않게 */
 =======
         width: 98%; /* 화면에 가득 차지 않게 */
@@ -19,6 +20,9 @@
 =======
         width: 98%; /* 화면에 가득 차지 않게 */
 >>>>>>> parent of 29df839 (Merge branch 'eunji' into mankyoung)
+=======
+        width: 97%; /* 화면에 가득 차지 않게 */
+>>>>>>> parent of 6af6bcf (salesStockIn&Out)
         height: 78vh; /* 화면 높이의 78% */
         background-color: white;
         margin-left: 1%;
