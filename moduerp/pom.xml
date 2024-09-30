@@ -41,6 +41,8 @@
 			<version>${org.aspectj-version}</version>
 		</dependency>
 
+
+
 		<!-- AspectJ Weaver 추가 -->
 		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
 		<dependency>
@@ -235,7 +237,7 @@
 			<artifactId>jackson-core</artifactId>
 			<version>2.14.2</version>
 		</dependency>
-		
+
 		<!-- Lombok 라이브러리 -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -244,6 +246,52 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- Apache POI Core -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>5.2.3</version>
+		</dependency>
+
+		<!-- Apache POI for Excel (XLSX 지원) -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>5.2.3</version>
+		</dependency>
+
+		<!-- Apache POI Dependencies (POI에서 XML 처리에 필요한 패키지) -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-schemas</artifactId>
+			<version>4.1.2</version>
+		</dependency>
+
+		<!-- OOXML Schemas (엑셀의 데이터 타입을 더 잘 처리하기 위해) -->
+		<dependency>
+			<groupId>org.apache.xmlbeans</groupId>
+			<artifactId>xmlbeans</artifactId>
+			<version>5.1.1</version>
+		</dependency>
+
+		<!-- Apache Commons Compress (압축된 형식 지원) -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-compress</artifactId>
+			<version>1.21</version>
+		</dependency>
+
+		<!-- Apache POI requires Log4j for logging -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.14.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.14.1</version>
+		</dependency>
 
 		<!-- Test -->
 		<dependency>

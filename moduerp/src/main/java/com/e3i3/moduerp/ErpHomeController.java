@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Handles requests for the application home page.
  */
 @Controller
-public class homeController {
+public class ErpHomeController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(homeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ErpHomeController.class);
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "moduerp/main", method = RequestMethod.GET)
+	@RequestMapping(value = "/erpMain", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
@@ -37,9 +37,9 @@ public class homeController {
 	}
 	
 	//index.jsp 가 웰컴 요청될 때 포워딩된 요청을 받아서, common/main.jsp 를 내보내기 위한 메소드
-	@RequestMapping("main.do")
+	@RequestMapping("erpMain.do")
 	public String forwardMain() {
-		return "common/main";
+		return "common/erpMain";
 	}
 	
 }
