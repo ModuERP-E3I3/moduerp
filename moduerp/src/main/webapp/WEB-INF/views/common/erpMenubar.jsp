@@ -88,7 +88,7 @@ nav.side ul li a.active {
         <li><a href="erpMain.do"><i class="fas fa-code"></i> 구매 관리</a></li>
         <li><a href="salesStockIn.do"><i class="fas fa-plug"></i> 영업/판매 관리</a></li>
         <li><a href="erpMain.do"><i class="fas fa-plug"></i> 회계 관리</a></li>
-        <li><a href="carRes.do"><i class="fas fa-plug"></i> 차량 관리</a></li>
+        <li><a href="erpMain.do"><i class="fas fa-plug"></i> 차량 관리</a></li>
         <li><a href="erpMain.do"><i class="fas fa-plug"></i> 그룹 웨어</a></li>
         <li><a href="main.do"><i class="fas fa-home"></i> Homepage</a></li>
         <li><a href="erpMain.do"><i class="fas fa-sign-out-alt"></i> 로그아웃</a></li>
