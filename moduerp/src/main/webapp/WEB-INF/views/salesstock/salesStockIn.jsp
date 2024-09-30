@@ -11,7 +11,11 @@
     /* 하얀 박스 스타일 */
     .content-box {
 <<<<<<< HEAD
+<<<<<<< HEAD
         width: 96.8%; /* 화면에 가득 차지 않게 */
+=======
+        width: 98%; /* 화면에 가득 차지 않게 */
+>>>>>>> parent of 29df839 (Merge branch 'eunji' into mankyoung)
 =======
         width: 98%; /* 화면에 가득 차지 않게 */
 >>>>>>> parent of 29df839 (Merge branch 'eunji' into mankyoung)
