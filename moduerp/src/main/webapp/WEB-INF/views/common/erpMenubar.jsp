@@ -86,10 +86,10 @@ nav.side ul li a.active {
         <li><a href="productionStockIn.do"><i class="fas fa-bullhorn"></i> 인사 관리</a></li>
         <li><a href="productionStockOut.do"><i class="fas fa-clipboard"></i> 생산 관리</a></li>
         <li><a href="buyStockIn.do"><i class="fas fa-code"></i> 구매 관리</a></li>
-        <li><a href="erpMain.do"><i class="fas fa-plug"></i> 영업/판매 관리</a></li>
-        <li><a href="erpMain.do"><i class="fas fa-plug"></i> 회계 관리</a></li>
-        <li><a href="salesStockOut.do"><i class="fas fa-plug"></i> 차량 관리</a></li>
-        <li><a href="salesStockIn.do"><i class="fas fa-plug"></i> 그룹 웨어</a></li>
+        <li><a href="salesStockOut.do"><i class="fas fa-plug"></i> 영업/판매 관리</a></li>
+        <li><a href="salesStockIn.do"><i class="fas fa-plug"></i> 회계 관리</a></li>
+        <li><a href="productionWorkorder.do"><i class="fas fa-plug"></i> 차량 관리</a></li>
+        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 그룹 웨어</a></li>
         <li><a href="main.do"><i class="fas fa-home"></i> Homepage</a></li>
         <li><a href="erpMain.do"><i class="fas fa-sign-out-alt"></i> 로그아웃</a></li>
     </ul>
@@ -101,13 +101,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentUrl = window.location.href;
 
     menuItems.forEach(item => {
-        // 현재 URL이 메뉴 항목의 href와 일치하는 경우 active 클래스를 추가
+        // 현재 URL이 메뉴 항목의 href와 일치하는 경우 active 클래스 추가
         if (currentUrl.includes(item.getAttribute('href'))) {
             item.classList.add('active');
         }
 
         item.addEventListener('click', function() {
-            // 모든 항목에서 active 클래스 제거
+            // 모든 항목의 active 클래스 제거
             menuItems.forEach(i => i.classList.remove('active'));
             
             // 클릭된 항목에 active 클래스 추가
