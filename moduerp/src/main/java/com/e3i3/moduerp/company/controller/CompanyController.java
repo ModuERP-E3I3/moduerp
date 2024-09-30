@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,10 @@ public class CompanyController {
 	private DepartmentService departmentService;
 	@Autowired
 	private EmployeeService employeeService;
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
 
-	  // 1. 회원가입 페이지 이동
+	 // 1. 회원가입 페이지 이동
 	@RequestMapping("/signup.do")
 	public String signUp() {
 		return "company/signup";
@@ -64,6 +67,8 @@ public class CompanyController {
 				 System.out.println("Department ID: " + department.getDepartmentId() + ", Name: " + department.getDepartmentName());
 				departmentService.insertDepartment(department);
 			}
+			 // 암호화된 비밀번호 생성
+	        String encodedPassword = bcryptPasswordEncoder.encode(password);
 			
 			// 사장님 정보도 직원 테이블에 저장
 			Employee ceo=new Employee()
@@ -75,13 +80,19 @@ public class CompanyController {
 	                    .setLastLoginLocation("default")
 	                    .setIsEmailChanged('N')
 	                    .setEmpEmail(email)
+	                    .setPassword(encodedPassword) //암호화된 비밀번호 설정
 	                    .setEmpNo("CEO001")
 	                    .setEmpName("CEO")
 	                    .setProfileImg(null)
 	                    .setRegistrationDate(new java.sql.Date(System.currentTimeMillis()));
+			
 			employees.add(ceo);
 			
 			for(Employee employee: employees) {
+				// 직원 정보 저장 시 암호 필드 설정
+				if(employee.getPassword()==null || employee.getPassword().isEmpty()) {
+					  employee.setPassword(encodedPassword); // 기본 암호 설정
+				}
 				employeeService.insertEmployee(employee);
 			}
 			

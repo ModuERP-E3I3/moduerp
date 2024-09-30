@@ -26,6 +26,7 @@ public class Employee implements Serializable{
 	private String empNo; // 사원번호
 	private String empName; // 사원명
 	private String empEmail; // 사원 이메일
+	private String password; //암호
 	private String userPhone; // 사용자 전화번호
 	private Date registrationDate; // 등록일자
 	private String profileImg; // 프로필 이미지명 (uuid_프로필명)

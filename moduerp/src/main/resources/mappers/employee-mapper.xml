@@ -13,6 +13,7 @@
         <result property="empNo" column="emp_no" />
         <result property="empName" column="emp_name" />
         <result property="empEmail" column="emp_email" />
+        <result property="password" column="password"/> <!-- 추가 -->
         <result property="userPhone" column="user_phone" />
         <result property="registrationDate" column="registration_date" />
         <result property="profileImg" column="profile_img" />
@@ -35,7 +36,8 @@
 
     <!-- 직원 정보 등록용 쿼리 -->
 <insert id="insertEmployee" parameterType="com.e3i3.moduerp.employee.model.dto.Employee">
-    INSERT INTO employee (uuid, biz_number, approval_code, department_id, job_id, private_authority, emp_no, emp_name, emp_email, user_phone, 
+    INSERT INTO employee (uuid, biz_number, approval_code, department_id, job_id, private_authority, emp_no, 
+    					  emp_name, emp_email, password, user_phone, 
                           registration_date, profile_img, updated_at, is_deleted, last_login_location, deleted_excuse, 
                           deleted_at, hire_date, quit_date, re_num, address, is_email_changed, new_emp_email, remaining_leave, 
                           contract_start_time, contract_end_time, mgr_uuid)
@@ -48,6 +50,7 @@
             #{empNo}, 
             #{empName}, 
             #{empEmail}, 
+            #{password},
             #{userPhone, jdbcType=VARCHAR}, <!-- null -->
             #{registrationDate}, 
             #{profileImg, jdbcType=VARCHAR}, <!-- null -->
