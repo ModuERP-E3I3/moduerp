@@ -11,9 +11,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-@Data // getter, setter, toString, equals, hashCode ë©”ì†Œë“œë¥¼ ìë™ìœ¼ë¡œ ìƒì„±
-@NoArgsConstructor // ê¸°ë³¸ìƒì„±ì
-@AllArgsConstructor // ëª¨ë“  í•„ë“œë¥¼ ë§¤ê°œë³€ìˆ˜ë¡œ ë°›ëŠ” ìƒì„±ì ìƒì„±
+@Data // getter, setter, toString, equals, hashCode ¸Ş¼Òµå¸¦ ÀÚµ¿À¸·Î »ı¼º
+@NoArgsConstructor // ±âº»»ı¼ºÀÚ
+@AllArgsConstructor // ¸ğµç ÇÊµå¸¦ ¸Å°³º¯¼ö·Î ¹Ş´Â »ı¼ºÀÚ »ı¼º
 @Accessors(chain = true) // company.setBizNumber("123").setCompanyName("MyCompany)
 public class Company implements Serializable {
 	private static final long serialVersionUID = -3757699675044058669L;
@@ -21,9 +21,9 @@ public class Company implements Serializable {
 	 * biz_number VARCHAR2(50 BYTE) approval_code VARCHAR2(100 BYTE) company_name
 	 * VARCHAR2(50 BYTE) created_at TIMESTAMP(6)
 	 */
-	private String bizNumber; // ì‚¬ì—…ìë²ˆí˜¸
-	private String approvalCode; // ìŠ¹ì¸ì½”ë“œ
-	private String companyName;// íšŒì‚¬ëª…
-	private Timestamp createdAt; // ìƒì„±ì¼ì‹œ java.sql.Timestamp
-	private List<Department> departments; // ë¶€ì„œ ë¦¬ìŠ¤íŠ¸ (1:N ê´€ê³„)
+	private String bizNumber; // »ç¾÷ÀÚ¹øÈ£
+	private String approvalCode; // ½ÂÀÎÄÚµå
+	private String companyName;// È¸»ç¸í
+	private Timestamp createdAt; // »ı¼ºÀÏ½Ã java.sql.Timestamp
+	private List<Department> departments; // ºÎ¼­ ¸®½ºÆ® (1:N °ü°è)
 }

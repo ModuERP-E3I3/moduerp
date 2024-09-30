@@ -1,74 +1,152 @@
 package com.e3i3.moduerp.company.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.e3i3.moduerp.company.model.dto.Company;
 import com.e3i3.moduerp.company.model.service.CompanyService;
+import com.e3i3.moduerp.department.model.dto.Department;
+import com.e3i3.moduerp.department.model.service.DepartmentService;
+import com.e3i3.moduerp.employee.model.dto.Employee;
+import com.e3i3.moduerp.employee.model.service.EmployeeService;
+import com.e3i3.moduerp.employee.util.ExcelParser;
 
 @Controller
 public class CompanyController {
 
-	@Autowired
-	private CompanyService companyService;
+   @Autowired
+   private CompanyService companyService;
+   @Autowired
+   private DepartmentService departmentService;
+   @Autowired
+   private EmployeeService employeeService;
+   @Autowired
+   private BCryptPasswordEncoder bcryptPasswordEncoder;
 
-	// íšŒì›ê°€ì…ìš© ë©”ì†Œë“œ
-	@RequestMapping("/signup.do")
-	public String signIn() {
-		return "company/signup";
-	}
+    // 1. È¸¿ø°¡ÀÔ ÆäÀÌÁö ÀÌµ¿
+   @RequestMapping("/signup.do")
+   public String signUp() {
+      return "company/signup";
+   }
 
-	// 1. íšŒì‚¬ ë“±ë¡
-	@PostMapping("/register.do")
-	public ResponseEntity<String> registerCompany(@RequestBody Company company) {
-		companyService.insertCompany(company);
-		return ResponseEntity.ok("íšŒì‚¬ ë“±ë¡ì´ ì„±ê³µì ìœ¼ë¡œ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
-	}
+   // 2. È¸»ç µî·Ï ¹× ºÎ¼­¿Í Á÷¿ø Á¤º¸ µî·Ï
+   @PostMapping("/register.do")
+   public String registerCompany(@RequestParam("bizNumber") String bizNumber,
+            @RequestParam("approvalCode") String approvalCode,
+            @RequestParam("companyName") String companyName,
+            @RequestParam("email") String email,
+            @RequestParam("password") String password,
+            @RequestParam("fileUpload") MultipartFile file,
+            Model model) {
+       try {
+      // 1) È¸»ç Á¤º¸ »ı¼º ¹× ÀúÀå
+      Company company=new Company()
+            .setBizNumber(bizNumber)
+            .setApprovalCode(approvalCode)
+            .setCompanyName(companyName)
+              .setCreatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
+      
+      
+      companyService.insertCompany(company);
+      
+      
+         // 2) ¿¢¼¿ÆÄÀÏ¿¡¼­ ºÎ¼­ Á¤º¸ ¹× Á÷¿ø Á¤º¸ ÆÄ½ÌÇÏ¿© ÀúÀå
+         List<Department> departments=ExcelParser.parseDepartments(file.getInputStream(), bizNumber);
+         List<Employee> employees = ExcelParser.parseEmployees(file.getInputStream(), company);
+         
+         // 3) ºÎ¼­ ¹× Á÷¿ø Á¤º¸ ÀúÀå
+         for(Department department: departments) {
+             System.out.println("Department ID: " + department.getDepartmentId() + ", Name: " + department.getDepartmentName());
+            departmentService.insertDepartment(department);
+         }
+          // ¾ÏÈ£È­µÈ ºñ¹Ğ¹øÈ£ »ı¼º
+           String encodedPassword = bcryptPasswordEncoder.encode(password);
+         
+         // »çÀå´Ô Á¤º¸µµ Á÷¿ø Å×ÀÌºí¿¡ ÀúÀå
+         Employee ceo=new Employee()
+                   .setUuid(java.util.UUID.randomUUID())
+                       .setBizNumber(bizNumber)
+                       .setApprovalCode(approvalCode)
+                       .setDepartmentId("ceo-dpt")
+                       .setPrivateAuthority('N')
+                       .setLastLoginLocation("default")
+                       .setIsEmailChanged('N')
+                       .setEmpEmail(email)
+                       .setPassword(encodedPassword) //¾ÏÈ£È­µÈ ºñ¹Ğ¹øÈ£ ¼³Á¤
+                       .setEmpNo("CEO001")
+                       .setEmpName("CEO")
+                       .setProfileImg(null)
+                       .setRegistrationDate(new java.sql.Date(System.currentTimeMillis()));
+         
+         employees.add(ceo);
+         
+         for(Employee employee: employees) {
+            // Á÷¿ø Á¤º¸ ÀúÀå ½Ã ¾ÏÈ£ ÇÊµå ¼³Á¤
+            if(employee.getPassword()==null || employee.getPassword().isEmpty()) {
+                 employee.setPassword(encodedPassword); // ±âº» ¾ÏÈ£ ¼³Á¤
+            }
+            employeeService.insertEmployee(employee);
+         }
+         
+         // È¸¿ø°¡ÀÔ ¼º°ø ½Ã ·Î±×ÀÎ ÆäÀÌÁö·Î ÀÌµ¿
+           return "redirect:/signin.do";  // Àı´ë °æ·Î·Î ¼öÁ¤
+         
+       }catch (RuntimeException e) {
+              if (e.getMessage().contains("Company with the same bizNumber")) {
+                  model.addAttribute("message", "ÀÌ¹Ì µ¿ÀÏÇÑ »ç¾÷ÀÚ¹øÈ£·Î µî·ÏµÈ È¸»ç°¡ Á¸ÀçÇÕ´Ï´Ù.");
+                  return "company/error"; // ¿¡·¯ ÆäÀÌÁö·Î ÀÌµ¿
+              }
+              e.printStackTrace();
+              model.addAttribute("message", "È¸»ç µî·Ï Áß ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.");
+              return "company/error";
+      }catch(IOException e) {
+         e.printStackTrace();
+         model.addAttribute("message", "¿¢¼¿ ÆÄÀÏ Ã³¸® Áß ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.");
+         return "company/error";
+      }
+   }
 
-	// 2. íšŒì‚¬ ìˆ˜ì •
-	@PutMapping("/update.do")
-	public ResponseEntity<String> updateCompany(@RequestBody Company company) {
-		companyService.updateCompany(company);
-		return ResponseEntity.ok("íšŒì‚¬ ì •ë³´ê°€ ì„±ê³µì ìœ¼ë¡œ ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤.");
-	}
+   // 2. È¸»ç ¼öÁ¤
+   @PutMapping("/update.do")
+   public ResponseEntity<String> updateCompany(@RequestBody Company company) {
+      companyService.updateCompany(company);
+      return ResponseEntity.ok("È¸»ç Á¤º¸°¡ ¼º°øÀûÀ¸·Î ¼öÁ¤µÇ¾ú½À´Ï´Ù.");
+   }
 
-	// 3. íšŒì‚¬ ì‚­ì œ
-	@DeleteMapping("/delete/{bizNumber}.do")
-	public ResponseEntity<String> deleteCompany(@PathVariable String bizNumber) {
-		companyService.deleteCompany(bizNumber);
-		return ResponseEntity.ok("íšŒì‚¬ ì •ë³´ê°€ ì„±ê³µì ìœ¼ë¡œ ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.");
-	}
+   // 3. È¸»ç »èÁ¦
+   @DeleteMapping("/delete/{bizNumber}.do")
+   public ResponseEntity<String> deleteCompany(@PathVariable String bizNumber) {
+      companyService.deleteCompany(bizNumber);
+      return ResponseEntity.ok("È¸»ç Á¤º¸°¡ ¼º°øÀûÀ¸·Î »èÁ¦µÇ¾ú½À´Ï´Ù.");
+   }
 
-	// 4. ì‚¬ì—…ìë²ˆí˜¸ë¡œ íŠ¹ì • íšŒì‚¬ ì¡°íšŒ
-	@GetMapping("/{bizNumber}.do")
-	public ResponseEntity<Company> getCompanyByBizNumber(@PathVariable String bizNumber) {
-		Company company = companyService.selectCompanyByBizNumber(bizNumber);
-		return ResponseEntity.ok(company);
-	}
+   // 4. »ç¾÷ÀÚ¹øÈ£·Î Æ¯Á¤ È¸»ç Á¶È¸
+   @GetMapping("/{bizNumber}.do")
+   public ResponseEntity<Company> getCompanyByBizNumber(@PathVariable String bizNumber) {
+      Company company = companyService.selectCompanyByBizNumber(bizNumber);
+      return ResponseEntity.ok(company);
+   }
 
-	// 5. ì‚¬ì—…ìë²ˆí˜¸ë¡œ íŠ¹ì • íšŒì‚¬ ë° ê´€ë ¨ ë¶€ì„œ ì¡°íšŒ
-	@GetMapping("/{bizNumber}/departments.do")
-	public ResponseEntity<Company> getCompanyWithDepartments(@PathVariable String bizNumber) {
-		Company company = companyService.selectCompanyWithDepartments(bizNumber);
-		return ResponseEntity.ok(company);
-	}
+   // 5. »ç¾÷ÀÚ¹øÈ£·Î Æ¯Á¤ È¸»ç ¹× °ü·Ã ºÎ¼­ Á¶È¸
+   @GetMapping("/{bizNumber}/departments.do")
+   public ResponseEntity<Company> getCompanyWithDepartments(@PathVariable String bizNumber) {
+      Company company = companyService.selectCompanyWithDepartments(bizNumber);
+      return ResponseEntity.ok(company);
+   }
 
-	// 6. ëª¨ë“  íšŒì‚¬ ì¡°íšŒ
-	@GetMapping("/all.do")
-	public ResponseEntity<List<Company>> getAllCompanies() {
-		List<Company> companies = companyService.selectAllCompanies();
-		return ResponseEntity.ok(companies);
-	}
+   // 6. ¸ğµç È¸»ç Á¶È¸
+   @GetMapping("/all.do")
+   public ResponseEntity<List<Company>> getAllCompanies() {
+      List<Company> companies = companyService.selectAllCompanies();
+      return ResponseEntity.ok(companies);
+   }
 
-	// 7. íšŒì‚¬ ë“±ë¡ í˜ì´ì§€ ì´ë™ (JSP í˜ì´ì§€ì™€ì˜ ì—°ë™)
-	@GetMapping("/registerPage.do")
-	public String showCompanyRegistrationForm(Model model) {
-		model.addAttribute("company", new Company());
-		return "company/registerForm"; // company/registerForm.jspë¡œ ì´ë™
-	}
 }
