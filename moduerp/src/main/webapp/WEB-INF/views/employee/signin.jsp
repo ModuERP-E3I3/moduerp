@@ -143,7 +143,7 @@
     <header>
         <!-- 내부 컨텐츠를 위한 중앙 배치 div -->
         <div class="header-container">
-            <a href="#" class="logo">ModuERP</a>
+            <a href="main.do" class="logo">ModuERP</a>
             <div class="signup-text">
                 사장님의 첫 방문이시라면?	 <a href="signup.do">회원가입하기</a>
             </div>
