@@ -96,7 +96,7 @@
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">차량</div>
+		<div class="content-title">차량 관리</div>
 
 		<!-- 이 안에 내용 넣을 거임!! -->
 
