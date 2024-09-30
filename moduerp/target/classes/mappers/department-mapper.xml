@@ -1,18 +1,55 @@
+<<<<<<< Updated upstream
 <?xml version="1.0" encoding="UTF-8" ?>
+=======
+<?xml version="1.0" encoding="UTF-8" ?> 
+>>>>>>> Stashed changes
 <!DOCTYPE mapper PUBLIC 
 "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="DepartmentMapper">
     <!-- Department 정보를 저장하기 위한 insert 쿼리 -->
     <insert id="insertDepartment" parameterType="com.e3i3.moduerp.department.model.dto.Department">
+<<<<<<< Updated upstream
         INSERT INTO department (department_code, department_name, biz_number)
         VALUES (#{departmentCode}, #{departmentName}, #{bizNumber})
+=======
+        INSERT INTO department (department_id, department_name, biz_number)
+        VALUES (#{departmentId}, #{departmentName}, #{bizNumber})
+>>>>>>> Stashed changes
     </insert>
 
     <!-- 특정 사업자번호에 소속된 모든 Department 정보를 가져오는 select 쿼리 -->
     <select id="selectDepartmentsByBizNumber" parameterType="String" resultType="com.e3i3.moduerp.department.model.dto.Department">
+<<<<<<< Updated upstream
         SELECT department_code, department_name, biz_number
         FROM department
         WHERE biz_number = #{bizNumber}
     </select>
+=======
+        SELECT department_id, department_name, biz_number
+        FROM department
+        WHERE biz_number = #{bizNumber}
+    </select>
+
+    <!-- 모든 부서 정보를 가져오는 select 쿼리 -->
+    <select id="selectAllDepartments" resultType="com.e3i3.moduerp.department.model.dto.Department">
+        SELECT department_id, department_name, biz_number
+        FROM department
+    </select>
+
+    <!-- 특정 부서를 삭제하는 delete 쿼리 -->
+    <delete id="deleteDepartmentById" parameterType="String">
+        DELETE FROM department
+        WHERE department_id = #{departmentId}
+    </delete>
+
+    <!-- 특정 부서의 정보를 업데이트하는 update 쿼리 -->
+    <update id="updateDepartment" parameterType="com.e3i3.moduerp.department.model.dto.Department">
+        UPDATE department
+        SET 
+            department_name = #{departmentName},
+            biz_number = #{bizNumber}
+        WHERE department_id = #{departmentId}
+    </update>
+>>>>>>> Stashed changes
 </mapper>

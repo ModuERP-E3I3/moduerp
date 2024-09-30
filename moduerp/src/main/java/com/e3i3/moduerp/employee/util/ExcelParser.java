@@ -14,17 +14,26 @@ import com.e3i3.moduerp.employee.model.dto.Employee;
 
 public class ExcelParser {
 
+<<<<<<< Updated upstream
     // Á÷¿ø Á¤º¸ ÆÄ½Ì ¸Ş¼Òµå
     public static List<Employee> parseEmployees(InputStream is, Company company) throws IOException {
         List<Employee> employees = new ArrayList<>();
         Workbook workbook = new XSSFWorkbook(is);
         Sheet sheet = workbook.getSheet("»ç¿øÁ¤º¸");
+=======
+    // ì§ì› ì •ë³´ íŒŒì‹± ë©”ì†Œë“œ
+    public static List<Employee> parseEmployees(InputStream is, Company company) throws IOException {
+        List<Employee> employees = new ArrayList<>();
+        Workbook workbook = new XSSFWorkbook(is);
+        Sheet sheet = workbook.getSheet("ì‚¬ì›ì •ë³´");
+>>>>>>> Stashed changes
 
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
             if (row == null) continue;
 
             Employee employee = new Employee();
+<<<<<<< Updated upstream
             String departmentId = getCellValue(row.getCell(3)); // ºÎ¼­ÄÚµå
             // departmentId°¡ ºó ¹®ÀÚ¿­ÀÌ°Å³ª nullÀÌ¸é ¿¹¿Ü Ã³¸®
             if (departmentId == null || departmentId.trim().isEmpty()) {
@@ -34,6 +43,17 @@ public class ExcelParser {
                     .setEmpNo(getCellValue(row.getCell(1)))   // »ç¹ø
                     .setEmpEmail(getCellValue(row.getCell(2)))// »ç¿ø ÀÌ¸ŞÀÏ
                     .setDepartmentId(departmentId)            // ºÎ¼­ÄÚµå
+=======
+            String departmentId = getCellValue(row.getCell(3)); // ë¶€ì„œì½”ë“œ
+            // departmentIdê°€ ë¹ˆ ë¬¸ìì—´ì´ê±°ë‚˜ nullì´ë©´ ì˜ˆì™¸ ì²˜ë¦¬
+            if (departmentId == null || departmentId.trim().isEmpty()) {
+                throw new IllegalArgumentException("ë¶€ì„œì½”ë“œê°€ ëˆ„ë½ëœ í–‰ì´ ìˆìŠµë‹ˆë‹¤. í–‰ ë²ˆí˜¸: " + (i + 1));
+            }
+            employee.setEmpName(getCellValue(row.getCell(0))) // ì‚¬ì›ëª…
+                    .setEmpNo(getCellValue(row.getCell(1)))   // ì‚¬ë²ˆ
+                    .setEmpEmail(getCellValue(row.getCell(2)))// ì‚¬ì› ì´ë©”ì¼
+                    .setDepartmentId(departmentId)            // ë¶€ì„œì½”ë“œ
+>>>>>>> Stashed changes
                     .setUuid(java.util.UUID.randomUUID())
                     .setBizNumber(company.getBizNumber())
                     .setIsDeleted('N')
@@ -49,20 +69,34 @@ public class ExcelParser {
         return employees;
     }
 
+<<<<<<< Updated upstream
     // ºÎ¼­ Á¤º¸ ÆÄ½Ì ¸Ş¼Òµå
     public static List<Department> parseDepartments(InputStream is, String bizNumber) throws IOException {
         List<Department> departments = new ArrayList<>();
         Workbook workbook = new XSSFWorkbook(is);
         Sheet sheet = workbook.getSheet("ºÎ¼­Á¤º¸");
+=======
+    // ë¶€ì„œ ì •ë³´ íŒŒì‹± ë©”ì†Œë“œ
+    public static List<Department> parseDepartments(InputStream is, String bizNumber) throws IOException {
+        List<Department> departments = new ArrayList<>();
+        Workbook workbook = new XSSFWorkbook(is);
+        Sheet sheet = workbook.getSheet("ë¶€ì„œì •ë³´");
+>>>>>>> Stashed changes
 
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
             if (row == null) continue;
 
             Department department = new Department();
+<<<<<<< Updated upstream
             department.setDepartmentId(getCellValue(row.getCell(0)))  // ºÎ¼­ÄÚµå
                       .setDepartmentName(getCellValue(row.getCell(1)))  // ºÎ¼­¸í
                       .setBizNumber(bizNumber);                        // »ç¾÷ÀÚ¹øÈ£
+=======
+            department.setDepartmentId(getCellValue(row.getCell(0)))  // ë¶€ì„œì½”ë“œ
+                      .setDepartmentName(getCellValue(row.getCell(1)))  // ë¶€ì„œëª…
+                      .setBizNumber(bizNumber);                        // ì‚¬ì—…ìë²ˆí˜¸
+>>>>>>> Stashed changes
 
             departments.add(department);
         }
@@ -70,7 +104,11 @@ public class ExcelParser {
         return departments;
     }
 
+<<<<<<< Updated upstream
     // ¼¿ °ª ÀĞ±â À¯Æ¿¸®Æ¼ ¸Ş¼Òµå
+=======
+    // ì…€ ê°’ ì½ê¸° ìœ í‹¸ë¦¬í‹° ë©”ì†Œë“œ
+>>>>>>> Stashed changes
     private static String getCellValue(Cell cell) {
         if (cell == null) return "";
         switch (cell.getCellType()) {
@@ -80,4 +118,8 @@ public class ExcelParser {
             default: return "";
         }
     }
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes

@@ -19,6 +19,7 @@ public class CompanyDao {
 		sqlSessionTemplate.insert("CompanyMapper.insertCompany", company);
 	}
 
+
 	// 회사 수정
 	public void updateCompany(Company company) {
 		sqlSessionTemplate.update("CompanyMapper.updateCompany", company);

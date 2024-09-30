@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,6 +30,10 @@
     font-size: 30px;
     font-weight: bold;
 }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 /* ul의 기본 스타일 제거 */
 #menubar {
     list-style: none; /* 기본 list-style 없애기 */
@@ -55,6 +62,7 @@
     border-radius: 10px; /* 호버 시 살짝 둥근 배경 */
 }
 
+<<<<<<< Updated upstream
 
     /* 하얀 박스 스타일 */
     .content-box {
@@ -148,6 +156,98 @@
     	background-color: white;
     	
     }
+=======
+/* 하얀 박스 스타일 */
+.content-box {
+    width: 96%; /* 화면에 가득 차지 않게 */
+    height: 70vh; /* 화면 높이의 78% */
+    background-color: white;
+    margin-left: 1%;
+    margin-right: 5%;
+    margin-top: 3%;
+    border: 1px solid #ccc;
+    border-radius: 20px; /* 박스 둥글게 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    position: relative;
+    padding: 20px; /* 내부 여백 추가 */
+}
+
+/* 제목 스타일 */
+.content-title {
+    position: absolute;
+    top: -40px;
+    left: 20px;
+    font-size: 24px;
+    color: white; 
+    font-weight: bold;
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+/* 버튼 스타일 */
+.btn-group {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.btn {
+    padding: 8px 16px;
+    margin-left: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn.red {
+    background-color: red;
+    color: white;
+}
+
+.btn.green {
+    background-color: green;
+    color: white;
+}
+
+.btn.blue {
+    background-color: blue;
+    color: white;
+}
+
+.filter-box {
+    margin-bottom: 20px;
+}
+
+.filter-box input, .filter-box select {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.filter-box input[type="date"] {
+    width: 160px;
+}
+
+.top-content-box{
+    background-color: white;
+}
+>>>>>>> Stashed changes
 
 </style>
 
@@ -157,6 +257,7 @@
     <!-- 서브헤더 JSP 임포트 -->
     <c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
+<<<<<<< Updated upstream
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
@@ -171,6 +272,22 @@
     <div class="content-box">
 
         <div class="content-title">구매관리</div>
+=======
+    <!-- 위에 하얀 박스  -->
+    <div class="top-content-box">
+        <ul id="menubar">
+            <li><a href="main.do"><i class="fas fa-bullhorn"></i> 생산 입고</a></li>
+            <li><a href="main.do"><i class="fas fa-clipboard"></i> 생산 출고</a></li>
+            <li><a href="main.do"><i class="fas fa-code"></i> 작업지시서</a></li>
+            <li><a href="main.do"><i class="fas fa-plug"></i> 품질관리</a></li>
+        </ul>
+    </div>
+
+    <!-- 하얀 큰 박스 -->
+    <div class="content-box">
+
+        <div class="content-title">생산관리 | 품질관리</div>
+>>>>>>> Stashed changes
 
         <!-- 필터 박스 -->
         <div class="filter-box">
@@ -195,12 +312,17 @@
                     <th>품목코드</th>
                     <th>품명</th>
                     <th>입고 수량</th>
+<<<<<<< Updated upstream
+=======
+                    <th>출고 수량</th>
+>>>>>>> Stashed changes
                     <th>재고 수량</th>
                     <th>단가</th>
                     <th>비고</th>
                 </tr>
             </thead>
             <tbody>
+<<<<<<< Updated upstream
 			    <c:forEach var="productionStockIn" items="${stockList}">
 			        <tr>
 			            <td>${productionStockIn.pStockInId}</td>
@@ -212,6 +334,23 @@
 			    </c:forEach>
 			</tbody>
 
+=======
+                <!-- 더미 데이터 -->
+                <c:forEach var="item" items="${dummyData}">
+                    <tr>
+                        <td>${item.no}</td>
+                        <td>${item.client}</td>
+                        <td>${item.productCode}</td>
+                        <td>${item.productName}</td>
+                        <td>${item.inQuantity}</td>
+                        <td>${item.outQuantity}</td>
+                        <td>${item.stockQuantity}</td>
+                        <td>${item.unitPrice}</td>
+                        <td>${item.remark}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+>>>>>>> Stashed changes
         </table>
 
         <!-- 버튼 그룹 -->
@@ -223,6 +362,7 @@
 
     </div>
 </body>
+<<<<<<< Updated upstream
 
 <script>
     const activeMenu = "buyStockIn";
@@ -238,4 +378,23 @@
 </script>
 
 
+=======
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuItems = document.querySelectorAll('#menubar li a');
+        
+        menuItems.forEach(item => {
+            item.addEventListener('click', function(event) {
+                // 모든 메뉴 항목에서 active 클래스 제거
+                menuItems.forEach(menu => {
+                    menu.classList.remove('active');
+                });
+
+                // 클릭된 메뉴에 active 클래스 추가
+                item.classList.add('active');
+            });
+        });
+    });
+</script>
+>>>>>>> Stashed changes
 </html>
