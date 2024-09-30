@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -166,11 +165,12 @@
 	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> <!-- 수정 -->
 	    </ul>
 	</div>
+
 	
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">생산관리 | 생산입고</div>
+        <div class="content-title">생산관리 | 품질관리</div>
 
         <!-- 필터 박스 -->
         <div class="filter-box">
@@ -202,17 +202,21 @@
                 </tr>
             </thead>
             <tbody>
-			    <c:forEach var="productionStockIn" items="${stockList}">
-			        <tr>
-			            <td>${productionStockIn.pStockInId}</td>
-			            <td>${productionStockIn.itemCode}</td>
-			            <td>${productionStockIn.pStockInDate}</td>
-			            <td>${productionStockIn.pStockPlace}</td>
-			            <td>${productionStockIn.pStockInQty}</td>
-			        </tr>
-			    </c:forEach>
-			</tbody>
-
+                <!-- 더미 데이터 -->
+                <c:forEach var="item" items="${dummyData}">
+                    <tr>
+                        <td>${item.no}</td>
+                        <td>${item.client}</td>
+                        <td>${item.productCode}</td>
+                        <td>${item.productName}</td>
+                        <td>${item.inQuantity}</td>
+                        <td>${item.outQuantity}</td>
+                        <td>${item.stockQuantity}</td>
+                        <td>${item.unitPrice}</td>
+                        <td>${item.remark}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
         </table>
 
         <!-- 버튼 그룹 -->
@@ -224,7 +228,6 @@
 
     </div>
 </body>
-
 <script>
     const activeMenu = "productionStockIn";
 
@@ -237,6 +240,4 @@
         });
     });
 </script>
-
-
 </html>

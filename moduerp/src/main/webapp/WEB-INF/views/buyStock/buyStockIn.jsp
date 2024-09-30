@@ -160,8 +160,8 @@
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	        <li><a href="productionStockIn.do"><i class="fas fa-bullhorn"></i> 생산 입고</a></li>
-	        <li><a href="productionStockOut.do"><i class="fas fa-clipboard"></i> 생산 출고</a></li> <!-- 수정 -->
+	        <li><a href="productionStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
+	        <li><a href="productionStockOut.do"><i class="fas fa-clipboard"></i> 구매 출고</a></li> <!-- 수정 -->
 	        <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> <!-- 수정 -->
 	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> <!-- 수정 -->
 	    </ul>
@@ -170,7 +170,7 @@
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">생산관리 | 생산입고</div>
+        <div class="content-title">구매관리 | 구매입고</div>
 
         <!-- 필터 박스 -->
         <div class="filter-box">
@@ -202,17 +202,21 @@
                 </tr>
             </thead>
             <tbody>
-			    <c:forEach var="productionStockIn" items="${stockList}">
-			        <tr>
-			            <td>${productionStockIn.pStockInId}</td>
-			            <td>${productionStockIn.itemCode}</td>
-			            <td>${productionStockIn.pStockInDate}</td>
-			            <td>${productionStockIn.pStockPlace}</td>
-			            <td>${productionStockIn.pStockInQty}</td>
-			        </tr>
-			    </c:forEach>
-			</tbody>
-
+                <!-- 더미 데이터 -->
+                <c:forEach var="item" items="${dummyData}">
+                    <tr>
+                        <td>${item.no}</td>
+                        <td>${item.client}</td>
+                        <td>${item.productCode}</td>
+                        <td>${item.productName}</td>
+                        <td>${item.inQuantity}</td>
+                        <td>${item.outQuantity}</td>
+                        <td>${item.stockQuantity}</td>
+                        <td>${item.unitPrice}</td>
+                        <td>${item.remark}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
         </table>
 
         <!-- 버튼 그룹 -->
@@ -226,7 +230,7 @@
 </body>
 
 <script>
-    const activeMenu = "productionStockIn";
+    const activeMenu = "buyStockIn";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');
