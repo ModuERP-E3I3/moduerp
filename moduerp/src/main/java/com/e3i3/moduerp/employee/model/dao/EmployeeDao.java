@@ -25,17 +25,17 @@ public class EmployeeDao {
 			sqlSessionTemplate.update("EmployeeMapper.updateEmployee", employee);
 		}
 
-		// 직원 삭제
+		// ���� ����
 		public void deleteEmployee(UUID uuid) {
 			sqlSessionTemplate.delete("EmployeeMapper.deleteEmployee", uuid);
 		}
 
-		// 직원 조회
+		// ���� ��ȸ
 		public Employee selectEmployeeByUuid(UUID uuid) {
 			return sqlSessionTemplate.selectOne("EmployeeMapper.selectEmployeeByUuid", uuid);
 		}
 		
-		// 직원 회사 조회
+		// ���� ȸ�� ��ȸ
 		public List<Employee> selectAllEmployees(){
 			return sqlSessionTemplate.selectList("EmployeeMapper.selectAllEmployees");
 		}

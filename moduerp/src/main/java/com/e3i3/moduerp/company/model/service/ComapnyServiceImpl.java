@@ -37,7 +37,6 @@ public class ComapnyServiceImpl implements CompanyService {
 		
 	}
 
-	
 	@Override
 	public Company selectCompanyByBizNumber(String bizNumber) {
 		return companyDao.selectCompanyByBizNumber(bizNumber);

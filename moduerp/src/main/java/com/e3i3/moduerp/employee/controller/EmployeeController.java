@@ -1,5 +1,6 @@
 package com.e3i3.moduerp.employee.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,14 +23,14 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 	
-	//로그인용 메소드
+	//�α��ο� �޼ҵ�
 	@RequestMapping("signin.do")
 	public String signIn() {
 		return "employee/signin";
 	}
 	
 	
-	 // 특정 직원 조회
+	 // Ư�� ���� ��ȸ
     @GetMapping("/view.do/{uuid}")
     public String viewEmployee(@PathVariable("uuid") UUID uuid, Model model) {
         Employee employee = employeeService.selectEmployeeByUuid(uuid);
@@ -37,7 +38,7 @@ public class EmployeeController {
         return "employee/employeeDetail";
     }
 	
-    // 모든 직원 목록 조회
+    // ��� ���� ��� ��ȸ
     @GetMapping("/list.do")
     public String listAllEmployees(Model model) {
         List<Employee> employees = employeeService.selectAllEmployees();
@@ -45,7 +46,7 @@ public class EmployeeController {
         return "employee/employeeList";
     }
     
-    // 직원 정보 수정
+    // ���� ���� ����
     @PutMapping("/edit.do/{uuid}")
     public ResponseEntity<String> updateEmployee(@PathVariable("uuid") UUID uuid, @RequestBody Employee employee) {
         employee.setUuid(uuid);

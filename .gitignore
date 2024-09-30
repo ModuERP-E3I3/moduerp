@@ -22,9 +22,6 @@
 
 /moduerp/.springBeans
 
-/moduerp/target/
+/moduerp/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
 
-/moduerp/.project
-
-#로그제외
-src/main/resources/logs
+/moduerp/target/**/MANIFEST.MF
