@@ -4,123 +4,230 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ERPMenubar</title>
+<title>Navigation Menu</title>
 
 <style type="text/css">
+
 body {
-    margin-left: 180px; /* 왼쪽 사이드바 공간 확보 */
+    margin-top: 60px; /* 네비게이션 바 높이만큼 상단 여백 설정 */
     font-family: 'Arial', sans-serif;
-    background-color: #223D38;
 }
 
-/* 왼쪽 사이드바 */
-nav.side {
-    font-weight: bold;
-    width: 180px;
-    height: 100vh;
+/* 상단 메뉴바 */
+nav {
+	padding: 8px ;
+    width: 100%; /* 메뉴바 너비 */
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #217770; /* 기본 색상 */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-top: 20px;
+    height: 60px;
+    background: white;
+    color: black;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    display: flex; /* nav 안의 요소들을 한 줄에 배치 */
+    align-items: center;
 }
-
-nav.side ul {
+nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    height: 100%;
 }
-
-nav.side ul li {
-    width: 100%;
+nav ul li {
+    margin: 0 20px; /* 메뉴 항목 간격 */
 }
-
-nav.side ul li a {
+nav ul li a {
+    color: black;
+    text-decoration: none;
+    padding: 15px 20px;
     display: block;
+    font-size: 16px; /* 텍스트 크기 */
+    position: relative; /* 밑줄에 대한 상대 위치 설정 */
+    transition: background 0.3s ease, transform 0.3s ease; /* 호버 효과 애니메이션 */
+}
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    background: black; /* 밑줄 색상 */
+    left: 0;
+    bottom: 0;
+    transition: width 0.3s ease; /* 밑줄 애니메이션 */
+}
+nav ul li a:hover::after {
+    width: 100%; /* 호버 시 밑줄이 왼쪽에서 오른쪽으로 그어짐 */
+}
+nav ul li a i {
+    margin-right: 10px; /* 아이콘과 텍스트 간격 */
+}
+#logout-button {
+    width: 15px;
+    height: 20px;
+    margin: 10px;
+    background: #E74C3C; /* 로그아웃 버튼 색 */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: white;
     text-decoration: none;
-    padding: 15px;
-    transition: background-color 0.3s ease;
-    font-size: 16px;
-    text-align: left;
+    transition: background 0.3s ease;
+}
+#logout-button:hover {
+    background: #C0392B; /* 호버 시 버튼 색상 변경 */
+}
+nav .moduerp-logo {
+    font-size: 28px; /* ModuERP 글씨 크기 */
+    font-weight: bold;
+    color: black;
+    margin-right: 20px; /* 메뉴바와 로고 거리*/
+    padding-left: 20px;
+    text-decoration: none;
 }
 
-nav.side ul li a i {
-        margin-right: 10px; /* 아이콘과 텍스트 사이 간격 */
-    }
-
-nav.side ul li a:hover {
-    background-color: #223D38; /* 호버 시 색상 */
-    border-top-left-radius: 20px; /* 왼쪽 상단만 둥글게 */
-    border-bottom-left-radius: 20px; /* 왼쪽 하단만 둥글게 */
-    border
+/* 모달 창 스타일 */
+.modal {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4); /* 배경 어둡게 */
+    justify-content: center;
+    align-items: center;
 }
-
-
-
-
-/* 클릭된 항목에 적용할 active 클래스 */
-nav.side ul li a.active {
-    background-color: #223D38; /* 호버 시 색상과 동일하게 설정 */
-    border-top-left-radius: 20px; /* 왼쪽 상단만 둥글게 */
-    border-bottom-left-radius: 20px; /* 왼쪽 하단만 둥글게 */
-}
-
-/* 메인 콘텐츠 */
-.main-content {
+.modal-content {
+    background-color: #fefefe;
     padding: 20px;
-    margin-left: 200px; /* 사이드바 공간만큼 확보 */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 300px;
+    text-align: center;
+}
+.modal-content button {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    background-color: navy;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+.modal-content button:hover {
+    background-color: #444;
+}
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 </style>
 
 <!-- Font Awesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+<script type="text/javascript">
+// 로그인 모달 열기
+function openLoginModal() {
+    document.getElementById("loginModal").style.display = "flex";
+}
+
+// 로그인 모달 닫기
+function closeLoginModal() {
+    document.getElementById("loginModal").style.display = "none";
+}
+
+// 모달 외부 클릭 시 닫기
+window.onclick = function(event) {
+    var modal = document.getElementById("loginModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
 </head>
 <body>
 
-<!-- 왼쪽 사이드바 -->
-<nav class="side">
-    <ul>
-        <li><a href="erpMain.do"><i class="fas fa-home"></i>ModuERP</a></li>
-        <li><a href="erpMain.do"><i class="fas fa-bullhorn"></i>인사 관리</a></li>
-        <li><a href="productionStockIn.do"><i class="fas fa-clipboard"></i>생산 관리</a></li>
-        <li><a href="buyStockIn.do"><i class="fas fa-code"></i>구매 관리</a></li>
-        <li><a href="salesStockIn.do"><i class="fas fa-plug"></i>영업/판매 관리</a></li>
-        <li><a href="erpMain.do"><i class="fas fa-plug"></i>회계 관리</a></li>
-        <li><a href="erpMain.do"><i class="fas fa-plug"></i>차량 관리</a></li>
-        <li><a href="erpMain.do"><i class="fas fa-plug"></i>그룹 웨어</a></li>
-        <li><a href="main.do"><i class="fas fa-home"></i>Homepage</a></li>
-        <li><a href="erpMain.do"><i class="fas fa-sign-out-alt"></i>로그아웃</a></li>
-    </ul>
-</nav>
+<!--<c:if test="${ empty sessionScope.loginUser }"> -->
+	<nav>
+		<a href="main.do" class="moduerp-logo">ModuERP</a>
+		<ul id="menubar">
+			<li><a href="main.do"><i class="fas fa-bullhorn"></i>공지사항</a></li>
+			<li><a href="main.do"><i class="fas fa-clipboard"></i>구매</a></li>
+			<li><a href="main.do"><i class="fas fa-code"></i>체험페이지</a></li>
+			<li><a href="main.do"><i class="fas fa-plug"></i>고객서비스</a></li>
+			<li><a href="main.do"><i class="fas fa-plug"></i>회사소개</a></li>
+			
+			<!-- !!!! 테스트용 경로 !!!! -->
+			<li><a href="erpMain.do"><i class="fas fa-plug"></i>ERP 테스트용</a></li>
+			
+		</ul>
+		<ul>
+		    <li><a href="#" onclick="openLoginModal()"><i class="fas fa-sign-in-alt"></i> 로그인</a></li>
+		</ul>
+	</nav>
+<!--</c:if> -->
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const menuItems = document.querySelectorAll('nav.side ul li a');
-    const currentUrl = window.location.href;
+<c:if test="${ !empty sessionScope.loginUser and sessionScope.loginUser.adminYN eq 'Y' }">
+	<nav>
+		<a href="main.do" class="moduerp-logo">ModuERP - Adminpage</a>
+		<ul id="menubar">
+			<li><a href="nlist.do?page=1"><i class="fas fa-bullhorn"></i> 공지사항 관리</a></li>
+			<li><a href="blist.do?page=1"><i class="fas fa-clipboard"></i> 게시글 관리</a></li>
+			<li><a href="mlist.do?page=1"><i class="fas fa-users"></i> 회원 관리</a></li>
+			<!-- 로그아웃 -->
+		    <li><a href="logout.do"><i class="fas fa-sign-out-alt"></i> 로그아웃</a></li>
+		</ul>
+	</nav>
+</c:if>
 
-    menuItems.forEach(item => {
-        // 현재 URL이 메뉴 항목의 href와 일치하는 경우 active 클래스를 추가
-        if (currentUrl.includes(item.getAttribute('href'))) {
-            item.classList.add('active');
-        }
+<c:if test="${ !empty sessionScope.loginUser and sessionScope.loginUser.adminYN eq 'N' }">
+	<nav>
+		<a href="main.do" class="moduerp-logo">ModuERP</a>
+		<ul id="menubar">
+		    <li><a href="salesStockIn.do"><i class="fas fa-bullhorn"></i>공지사항</a></li>
+		    <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>구매</a></li>
+		    <li><a href="salesStockIn.do"><i class="fas fa-code"></i>체험페이지</a></li>
+		    <li><a href="salesStockIn.do"><i class="fas fa-plug"></i>고객서비스</a></li>
+		    <li><a href="salesStockIn.do"><i class="fas fa-plug"></i>회사소개</a></li>
+		    <li><a href="salesStockIn.do"><i class="fas fa-home"></i> ERP</a></li>
+		    <li><a href="myinfo.do?userId=${ sessionScope.loginUser.userId }"><i class="fas fa-user"></i> My Page</a></li>
+			<!-- 로그아웃 -->
+		    <li><a href="logout.do"><i class="fas fa-sign-out-alt"></i> 로그아웃</a></li>
+		</ul>
+	</nav>
+</c:if>
 
-        item.addEventListener('click', function() {
-            // 모든 항목에서 active 클래스 제거
-            menuItems.forEach(i => i.classList.remove('active'));
-            
-            // 클릭된 항목에 active 클래스 추가
-            this.classList.add('active');
-        });
-    });
-});
-
-</script>
+<!-- 로그인 모달 -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeLoginModal()">&times;</span>
+        <h2>로그인</h2>
+        <form action="login.do" method="post">
+            <input type="text" name="userId" placeholder="아이디" required><br><br>
+            <input type="password" name="userPwd" placeholder="비밀번호" required><br><br>
+            <button type="submit">로그인</button>
+        </form>
+        <br>
+        <button onclick="location.href='enrollPage.do'">회원가입</button>
+    </div>
+</div>
 
 </body>
 </html>
