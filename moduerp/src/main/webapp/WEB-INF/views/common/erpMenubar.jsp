@@ -66,7 +66,7 @@ nav.side ul li a i {
     padding: 20px;
     margin-left: 200px; /* 사이드바 공간만큼 확보 */											
 }
-
+	
 </style>
 
 
