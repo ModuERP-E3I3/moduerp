@@ -19,5 +19,7 @@ public class ProductionStockInDAOImpl implements ProductionStockInDAO {
         return sqlSession.selectList(namespace + ".getAllProductionStockIn");
     }
 
-  
+    public ProductionStockInDTO getProductionStockInById(String pStockInId) {
+        return sqlSession.selectOne(namespace + ".getProductionStockInById", pStockInId);
+    }
 }

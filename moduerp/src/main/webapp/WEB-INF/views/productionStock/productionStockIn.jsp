@@ -63,7 +63,7 @@
         background-color: white;
         margin-left: 1%;
         margin-right: 5%;
-        margin-top: 3%;
+        margin-top: 5%;
         border: 1px solid #ccc;
         border-radius: 20px; /* 박스 둥글게 */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -195,28 +195,23 @@
                     <th>품목코드</th>
                     <th>품명</th>
                     <th>입고 수량</th>
-                    <th>출고 수량</th>
                     <th>재고 수량</th>
                     <th>단가</th>
                     <th>비고</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- 더미 데이터 -->
-                <c:forEach var="item" items="${dummyData}">
-                    <tr>
-                        <td>${item.no}</td>
-                        <td>${item.client}</td>
-                        <td>${item.productCode}</td>
-                        <td>${item.productName}</td>
-                        <td>${item.inQuantity}</td>
-                        <td>${item.outQuantity}</td>
-                        <td>${item.stockQuantity}</td>
-                        <td>${item.unitPrice}</td>
-                        <td>${item.remark}</td>
-                    </tr>
-                </c:forEach>
-            </tbody>
+			    <c:forEach var="productionStockIn" items="${stockList}">
+			        <tr>
+			            <td>${productionStockIn.pStockInId}</td>
+			            <td>${productionStockIn.itemCode}</td>
+			            <td>${productionStockIn.pStockInDate}</td>
+			            <td>${productionStockIn.pStockPlace}</td>
+			            <td>${productionStockIn.pStockInQty}</td>
+			        </tr>
+			    </c:forEach>
+			</tbody>
+
         </table>
 
         <!-- 버튼 그룹 -->
