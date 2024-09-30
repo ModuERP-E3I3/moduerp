@@ -23,3 +23,5 @@
 /moduerp/.springBeans
 
 /moduerp/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
+
+/moduerp/target/**/MANIFEST.MF
