@@ -1,27 +1,16 @@
 package com.e3i3.moduerp.productionstock.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.e3i3.moduerp.productionstock.dto.ProductionStockInDTO;
-import com.e3i3.moduerp.productionstock.service.ProductionStockInService;
 
 @Controller
 @RequestMapping("/")
 public class ProductionstockController {
 
-	@Autowired
-    private ProductionStockInService productionStockInService;
-
+    // productionStockIn.jsp 요청 처리
     @RequestMapping(value = "/productionStockIn.do", method = RequestMethod.GET)
-    public String forwardProductionIn(Model model) {
-        List<ProductionStockInDTO> stockList = productionStockInService.getAllProductionStockIn();
-        model.addAttribute("stockList", stockList);
+    public String forwardProductionIn() {
         return "productionStock/productionStockIn";  // JSP 파일 경로 반환
     }
 
