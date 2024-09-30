@@ -1,6 +1,4 @@
-# metadata
 /.metadata/
-
 # Java
 *.class
 
@@ -11,6 +9,15 @@
 # 로그 파일
 *.log
 
+
 #서버
 /Servers2/
 /Servers/
+
+
+#추가
+/moduerp/.settings/
+
+/moduerp/.classpath
+
+/moduerp/.springBeans
