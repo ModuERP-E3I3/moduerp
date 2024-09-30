@@ -19,6 +19,6 @@
  	request.getRequestDispatcher("main.do").forward(request, response); 	
  %> --%>
  <%-- jsp 표준액션 태그를 사용한다면 --%>
- <jsp:forward page="signin.do" />
+ <jsp:forward page="main.do" />
 </body>
 </html>

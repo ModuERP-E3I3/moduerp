@@ -1,9 +1,6 @@
 # metadata
 /.metadata/
-<<<<<<< HEAD
 
-=======
->>>>>>> eunyoung
 # Java
 *.class
 
@@ -14,28 +11,6 @@
 # 로그 파일
 *.log
 
-<<<<<<< HEAD
 #서버
 /Servers2/
 /Servers/
-=======
-
-#서버
-/Servers2/
-/Servers/
-
-
-#추가
-/moduerp/.settings/
-
-/moduerp/.classpath
-
-/moduerp/.springBeans
-
-/moduerp/target/
-
-/moduerp/.project
-
-#로그제외
-src/main/resources/logs
->>>>>>> eunyoung
