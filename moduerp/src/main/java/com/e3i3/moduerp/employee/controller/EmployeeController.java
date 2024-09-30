@@ -35,22 +35,6 @@ public class EmployeeController {
 		return "employee/signin";
 	}
 	
-	//직원 등록용 엑셀 파일 업로드 및 처리
-	@PostMapping("/registerFromExcel.do")
-	public ResponseEntity<String> registerEmployeesFromExcel(@RequestParam("file") MultipartFile file, @ModelAttribute Company company ){
-		try {
-			// ExcelParser 클래스 사용하여 파일 파싱
-			List<Employee> employees = ExcelParser.parseExcelFile(file.getInputStream(), company);
-			for(Employee employee: employees) {
-				employeeService.insertEmployee(employee);
-			}
-			return ResponseEntity.ok("직원 정보가 성공적으로 등록되었습니다.");
-		} catch (IOException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(500).body("직원 등록 중 오류가 발생했습니다.");
-		}
-		
-	}
 	
 	 // 특정 직원 조회
     @GetMapping("/view.do/{uuid}")

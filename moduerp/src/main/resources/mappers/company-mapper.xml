@@ -12,7 +12,7 @@
         <result property="createdAt" column="created_at" />
           <!-- Nested Mapping: Company에 포함된 부서 목록 설정 -->
         <collection property="departments" ofType="com.e3i3.moduerp.department.model.dto.Department">
-            <id property="departmentCode" column="department_code" />
+            <id property="departmentCode" column="department_id" />
             <result property="departmentName" column="department_name" />
             <result property="bizNumber" column="biz_number" />
         </collection>
@@ -49,9 +49,9 @@
     </select>
     
      <!-- Company와 관련된 Department 정보를 가져오는 select 쿼리 -->
-    <select id="selectCompanyWithDepartments" parameterType="String" resultMap="companyResultMap">
+    <select id="selectCompanyWithDepartments" parameterType="String" resultMap="resultCompany">
         SELECT c.biz_number, c.approval_code, c.company_name, c.created_at
-               d.department_code, d.department_name
+               d.department_id, d.department_name
         FROM company c
         LEFT JOIN department d ON c.biz_number = d.biz_number
         WHERE c.biz_number = #{bizNumber}

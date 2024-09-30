@@ -20,7 +20,7 @@ public class Employee implements Serializable{
 	private UUID uuid; // uuid
 	private String bizNumber; // 사업자번호
 	private String approvalCode; // 승인코드
-	private String deptId; // 부서 ID
+	private String departmentId; // 부서 ID
 	private String jobId; // 직무 ID
 	private char privateAuthority; // 사설 권한 여부
 	private String empNo; // 사원번호
