@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -114,8 +115,8 @@
                 <label for="fileUpload">부서 및 사원 정보 엑셀 파일 첨부</label>
                 <input type="file" id="fileUpload" name="fileUpload" accept=".xls,.xlsx" required>
                  <span id="template-file" style="display: block; margin-top: 5px; font-size: 12px;">
-        <a href="<c:url value='/resources/templates/department_employee_template.xlsx'/>" download="department_employee_template.xlsx">
-            department_employee_template.xlsx
+        <a href="<c:url value='/resources/templates/부서직원파일양식.xlsx'/>" download="부서직원파일양식.xlsx">
+            부서직원파일양식.xlsx
         </a>
     </span>
             </div>
