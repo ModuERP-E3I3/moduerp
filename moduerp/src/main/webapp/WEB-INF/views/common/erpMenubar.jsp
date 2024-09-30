@@ -66,7 +66,7 @@ nav.side ul li a i {
     padding: 20px;
     margin-left: 200px; /* 사이드바 공간만큼 확보 */											
 }
-	
+
 </style>
 
 
@@ -80,16 +80,16 @@ nav.side ul li a i {
 <!-- 왼쪽 사이드바 -->																									
 <nav class="side">
     <ul>
-        <li><a href="erpMain.do"><i class="fas fa-home"></i>ModuERP</a></li>
-        <li><a href="erpMain.do"><i class="fas fa-bullhorn"></i>인사 관리</a></li>
-        <li><a href="erpMain.do"><i class="fas fa-clipboard"></i>생산 관리</a></li>
-        <li><a href=erpMain.do><i class="fas fa-code"></i>구매 관리</a></li>
-        <li><a href="salesStockIn.do"><i class="fas fa-plug"></i>영업/판매 관리</a></li>
-        <li><a href="erpMain.do"><i class="fas fa-plug"></i>회계 관리</a></li>
-        <li><a href="erpMain.do"><i class="fas fa-plug"></i>차량 관리</a></li>
-        <li><a href="erpMain.do"><i class="fas fa-plug"></i>그룹 웨어</a></li>
+        <li><a href="erpmain.do"><i class="fas fa-home"></i>ModuERP</a></li>
+        <li><a href="erpmain.do"><i class="fas fa-bullhorn"></i>인사 관리</a></li>
+        <li><a href="erpmain.do"><i class="fas fa-clipboard"></i>생산 관리</a></li>
+        <li><a href=erpmain.do><i class="fas fa-code"></i>구매 관리</a></li>
+        <li><a href="erpmain.do"><i class="fas fa-plug"></i>영업/판매 관리</a></li>
+        <li><a href="erpmain.do"><i class="fas fa-plug"></i>회계 관리</a></li>
+        <li><a href="erpmain.do"><i class="fas fa-plug"></i>차량 관리</a></li>
+        <li><a href="erpmain.do"><i class="fas fa-plug"></i>그룹 웨어</a></li>
         <li><a href="main.do"><i class="fas fa-home"></i>Homepage</a></li>
-		<li><a href="erpMain.do"><i class="fas fa-sign-out-alt"></i>로그아웃</a></li>
+		<li><a href="erpmain.do"><i class="fas fa-sign-out-alt"></i>로그아웃</a></li>
 		<!-- <li><a href="logout.do"><i class="fas fa-sign-out-alt"></i>로그아웃</a></li> -->
     </ul>
 
