@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/moduerp")
+@RequestMapping("/")
 public class SalestockController {
 
     // salesStockIn.jsp 요청 처리
