@@ -1,0 +1,35 @@
+package com.e3i3.moduerp.buystock.dao;
+
+import com.e3i3.moduerp.buystock.dto.BuyStockInDTO;
+import com.e3i3.moduerp.buystock.dto.BuyStockOutDTO;
+import org.springframework.stereotype.Repository;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Repository
+public class BuyStockDAO {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    // 구매 입고 DB 처리
+    public boolean insertBuyStockIn(BuyStockInDTO buyStockInDTO) {
+        String sql = "INSERT INTO Buy_stock_in (b_stock_in_id, item_code, uuid, account_no, bank_id, department_id, order_id, b_stock_in_date, b_stock_in_place, b_stock_in_qty, b_stock_in_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        int result = jdbcTemplate.update(sql, buyStockInDTO.getBStockInId(), 
+        		buyStockInDTO.getItemCode(), buyStockInDTO.getUuid(),
+                buyStockInDTO.getAccountNo(), buyStockInDTO.getBankId(),
+                buyStockInDTO.getDepartmentId(), buyStockInDTO.getOrderId(),
+                buyStockInDTO.getBStockInDate(), buyStockInDTO.getBStockInPlace(),
+                buyStockInDTO.getBStockInQty(), buyStockInDTO.getBStockInPrice());
+        return result > 0;
+    }
+
+    // 구매 출고 DB 처리
+    public boolean insertBuyStockOut(BuyStockOutDTO buyStockOutDTO) {
+        String sql = "INSERT INTO Buy_stock_out (b_stock_out_id, item_code, uuid, account_no, bank_id, department_id, b_stock_out_date, b_stock_out_place, b_stock_out_qty) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        int result = jdbcTemplate.update(sql, buyStockOutDTO.getBStockOutId(), buyStockOutDTO.getItemCode(), buyStockOutDTO.getUuid(),
+                buyStockOutDTO.getAccountNo(), buyStockOutDTO.getBankId(), buyStockOutDTO.getDepartmentId(), buyStockOutDTO.getBStockOutDate(),
+                buyStockOutDTO.getBStockOutPlace(), buyStockOutDTO.getBStockOutQty());
+        return result > 0;
+    }
+}

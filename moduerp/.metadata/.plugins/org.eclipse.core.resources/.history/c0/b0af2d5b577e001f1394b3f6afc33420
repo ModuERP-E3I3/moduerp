@@ -1,0 +1,50 @@
+package com.e3i3.moduerp.buystock.service;
+
+import com.e3i3.moduerp.buystock.dto.BuyStockInDTO;
+import com.e3i3.moduerp.buystock.dto.BuyStockOutDTO;
+import com.e3i3.moduerp.buystock.repository.BuyStockInRepository;
+import com.e3i3.moduerp.buystock.repository.BuyStockOutRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class StockService {
+
+    @Autowired
+    private BuyStockInRepository stockInRepository;
+
+    @Autowired
+    private BuyStockOutRepository stockOutRepository;
+
+    // 입고 추가
+    public BuyStockInDTO addStockIn(BuyStockInDTO stockIn) {
+        return stockInRepository.save(stockIn);
+    }
+
+    // 입고 조회
+    public BuyStockInDTO getStockInById(String id) {
+        return stockInRepository.findById(id).orElse(null);
+    }
+
+    // 입고 목록 조회
+    public List<BuyStockInDTO> getAllStockIns() {
+        return stockInRepository.findAll();
+    }
+
+    // 출고 추가
+    public BuyStockOutDTO addStockOut(BuyStockOutDTO stockOut) {
+        return stockOutRepository.save(stockOut);
+    }
+
+    // 출고 조회
+    public BuyStockOutDTO getStockOutById(String id) {
+        return stockOutRepository.findById(id).orElse(null);
+    }
+
+    // 출고 목록 조회
+    public List<BuyStockOutDTO> getAllStockOuts() {
+        return stockOutRepository.findAll();
+    }
+}

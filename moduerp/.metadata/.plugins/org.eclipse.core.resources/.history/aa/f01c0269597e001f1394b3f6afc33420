@@ -1,0 +1,27 @@
+package com.e3i3.moduerp.buystock.controller;
+
+import com.e3i3.moduerp.buystock.service.BuyStockService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/buystock")
+public class BuyStockController {
+
+    @Autowired
+    private BuyStockService buyStockService;
+
+    // 구매 입고처리
+    @PostMapping("/in")
+    public String buyStockIn(@RequestBody BuyStockInDTO buyStockInDTO) {
+        boolean result = buyStockService.handleBuyStockIn(buyStockInDTO);
+        return result ? "입고 처리 완료" : "입고 처리 실패";
+    }
+
+    // 구매 출고 처리
+    @PostMapping("/out")
+    public String buyStockOut(@RequestBody BuyStockOutDTO buyStockOutDTO) {
+        boolean result = buyStockService.handleBuyStockOut(buyStockOutDTO);
+        return result ? "출고 처리 완료" : "출고 처리 실패";
+    }
+}

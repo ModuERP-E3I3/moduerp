@@ -16,9 +16,10 @@
 		and Filters -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:root-context.xml
-					<!-- 스프링 시큐리티 설정 파일 추가 등록 -->
-					/WEB-INF/spring/appServlet/spring-security.xml
+		<param-value>
+			classpath:root-context.xml
+			<!-- 스프링 시큐리티 설정 파일 추가 등록 -->
+			/WEB-INF/spring/appServlet/spring-security.xml
 		</param-value>
 	</context-param>
 
@@ -27,14 +28,11 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener
 		</listener-class>
 	</listener>
-	
-	<!-- 전송방식이 post 로 전송오는 한글데이터는 인코딩 처리를 반드시 해야 함 : 안하면 한글이 깨짐
-		스프링에서는 한글 인코딩 처리를 위한 인코딩 필터(Filter)를 제공함 : 등록 설정하면 인코딩 처리됨
-		원래 웹 요청 처리 : 
-			post 요청 - 디스패처서블릿 - 핸들러매핑 - 컨트롤러 - 메소드 : 한글인코딩처리
-		필터사용으로 변경 : 
-			post 요청 - 인코딩처리필터 : 한글인코딩처리 - 디스패처서블릿 - 핸들러매핑 - 컨트롤러 - 메소드
-	 -->
+
+	<!-- 전송방식이 post 로 전송오는 한글데이터는 인코딩 처리를 반드시 해야 함 : 안하면 한글이 깨짐 스프링에서는 한글 인코딩 
+		처리를 위한 인코딩 필터(Filter)를 제공함 : 등록 설정하면 인코딩 처리됨 원래 웹 요청 처리 : post 요청 - 디스패처서블릿 
+		- 핸들러매핑 - 컨트롤러 - 메소드 : 한글인코딩처리 필터사용으로 변경 : post 요청 - 인코딩처리필터 : 한글인코딩처리 - 
+		디스패처서블릿 - 핸들러매핑 - 컨트롤러 - 메소드 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -67,5 +65,14 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
+
+	<!-- lombook -->
+	<dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<version>1.18.24</version> 
+		<scope>provided</scope>
+	</dependency>
+
 
 </web-app>

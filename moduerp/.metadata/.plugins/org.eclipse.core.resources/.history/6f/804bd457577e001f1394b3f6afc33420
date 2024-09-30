@@ -1,0 +1,25 @@
+package com.e3i3.moduerp.buystock.model;
+
+import javax.persistence.*;
+import java.util.Date;
+
+@Entity
+@Table(name = "Buy_stock_in")
+public class BuyStockIn {
+    @Id
+    private String bStockInId;
+    private String itemCode;
+    private String uuid;
+    private String accountNo;
+    private String bankId;
+    private String departmentId;
+    private String orderId;
+    @Temporal(TemporalType.DATE)
+    private Date bStockInDate;
+    private Integer bStockInPlace;
+    private Integer bStockInQty;
+    private Double bStockInPrice;
+
+    // Getters and Setters
+    // ...
+}
