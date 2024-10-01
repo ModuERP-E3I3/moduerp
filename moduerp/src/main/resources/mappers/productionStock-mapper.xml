@@ -3,7 +3,7 @@
 <mapper namespace="ProductionStockMapper">
 
     <!-- ProductionStockIn에 대한 resultMap -->
-    <resultMap id="resultProductionStockIn" type="com.e3i3.moduerp.productionstock.dto.ProductionStockInDTO">
+    <resultMap id="resultProductionStockIn" type="com.e3i3.moduerp.productionstock.model.dto.ProductionStockInDTO">
         <result property="pStockInId" column="P_STOCK_IN_ID" />
         <result property="itemCode" column="ITEM_CODE" />
         <result property="pStockInDate" column="P_STOCK_IN_DATE" />
