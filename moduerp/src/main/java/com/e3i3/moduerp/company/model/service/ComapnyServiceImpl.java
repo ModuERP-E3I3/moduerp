@@ -16,7 +16,7 @@ public class ComapnyServiceImpl implements CompanyService {
 	
 	@Override
 	public void insertCompany(Company company) {
-		//ÀÌ¹Ì Á¸ÀçÇÏ´Â »ç¾÷ÀÚ¹øÈ£¶ó¸é ¿¹¿ÜÃ³¸® È£Ãâ
+		//ì´ë¯¸ ì¡´ì¬í•˜ëŠ” ì‚¬ì—…ìë²ˆí˜¸ë¼ë©´ ì˜ˆì™¸ì²˜ë¦¬ í˜¸ì¶œ
 		if (companyDao.selectCompanyByBizNumber(company.getBizNumber()) != null) {
 			 throw new RuntimeException("Company with the same bizNumber already exists.");
 		} else {

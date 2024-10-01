@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class Department implements Serializable {
     private static final long serialVersionUID = 1L;
-    private String departmentId;  // ºÎ¼­ÄÚµå (Primary Key)
-    private String departmentName;  // ºÎ¼­¸í
-    private String bizNumber;       // È¸»çÀÇ »ç¾÷ÀÚ¹øÈ£ (Foreign Key)
+    private String departmentId;  // ï¿½Î¼ï¿½ï¿½Úµï¿½ (Primary Key)
+    private String departmentName;  // ï¿½Î¼ï¿½ï¿½ï¿½
+    private String bizNumber;       // È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú¹ï¿½È£ (Foreign Key)
 }
