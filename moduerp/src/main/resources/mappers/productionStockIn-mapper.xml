@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ProductionStockMapper">
+
+    <!-- ProductionStockIn에 대한 resultMap -->
+    <resultMap id="resultProductionStockIn" type="com.e3i3.moduerp.productionstock.model.dto.ProductionStockInDTO">
+        <result property="pStockInId" column="P_STOCK_IN_ID" />
+        <result property="itemCode" column="ITEM_CODE" />
+        <result property="pStockInDate" column="P_STOCK_IN_DATE" />
+        <result property="pStockPlace" column="P_STOCK_PLACE" />
+        <result property="pStockInQty" column="P_STOCK_IN_QTY" />
+        <result property="UUID" column="UUID" />
+    </resultMap>
+
+    <!-- 모든 생산 입고 데이터 조회용 쿼리 -->
+    <select id="getAllProductionStockIn" resultMap="resultProductionStockIn">
+        SELECT P_STOCK_IN_ID, ITEM_CODE, P_STOCK_IN_DATE, P_STOCK_PLACE, P_STOCK_IN_QTY, UUID
+        FROM PRODUCTION_STOCK_IN
+    </select>
+
+    <!-- 특정 생산 입고 데이터 조회용 쿼리 -->
+    <select id="getProductionStockInById" parameterType="String" resultMap="resultProductionStockIn">
+        SELECT P_STOCK_IN_ID, ITEM_CODE, P_STOCK_IN_DATE, P_STOCK_PLACE, P_STOCK_IN_QTY
+        FROM PRODUCTION_STOCK_IN
+        WHERE P_STOCK_IN_ID = #{pStockInId}
+    </select>
+</mapper>

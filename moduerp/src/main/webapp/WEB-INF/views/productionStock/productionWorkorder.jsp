@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>erpMain</title>
+<title>ERP Main | 작업지시서</title>
 
 <style type="text/css">
 
@@ -185,43 +185,53 @@
         </div>
 
         <!-- 테이블 -->
-        <table>
-            <thead>
-                <tr>
-                    <th>순번</th>
-                    <th>거래처</th>
-                    <th>품목코드</th>
-                    <th>품명</th>
-                    <th>입고 수량</th>
-                    <th>출고 수량</th>
-                    <th>재고 수량</th>
-                    <th>단가</th>
-                    <th>비고</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- 더미 데이터 -->
-                <c:forEach var="item" items="${dummyData}">
-                    <tr>
-                        <td>${item.no}</td>
-                        <td>${item.client}</td>
-                        <td>${item.productCode}</td>
-                        <td>${item.productName}</td>
-                        <td>${item.inQuantity}</td>
-                        <td>${item.outQuantity}</td>
-                        <td>${item.stockQuantity}</td>
-                        <td>${item.unitPrice}</td>
-                        <td>${item.remark}</td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+		<table>
+			<thead>
+				<tr>
+					<th>지시서 번호</th>
+					<th>품목코드</th>
+					<th>UUID</th>
+					<th>부서ID</th>
+					<th>시작날짜</th>
+					<th>종료날짜</th>
+					<th>작업명</th>
+					<th>작업수량</th>
+					<th>진행상태</th>
+					<th>작업팀</th>
+					<th>작업자</th>
+					<th>작업장소</th>
+					<th>지시자</th>
+				</tr>
+			</thead>
+			<tbody>
+				
 
-        <!-- 버튼 그룹 -->
+				<c:forEach var="workOrder" items="${workOrderList}">
+					<tr>
+						<td>${workOrder.orderNumber}</td>
+						<td>${workOrder.itemCode}</td>
+						<td>${workOrder.uuid}</td>
+						<td>${workOrder.departmentId}</td>
+						<td>${workOrder.startDate}</td>
+						<td>${workOrder.endDate}</td>
+						<td>${workOrder.taskName}</td>
+						<td>${workOrder.qty}</td>
+						<td>${workOrder.progressStatus}</td>
+						<td>${workOrder.workerTeam}</td>
+						<td>${workOrder.worker}</td>
+						<td>${workOrder.workPlace}</td>
+						<td>${workOrder.wDirector}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+
+		</table>
+
+		<!-- 버튼 그룹 -->
         <div class="btn-group">
-            <button class="btn red">삭제</button>
-            <button class="btn green">수정</button>
-            <button class="btn blue">등록</button>
+            <a href="workorderInsert.do"><button class="btn blue">등록</button></a>
+            <a href="workorderUpdate.do"><button class="btn green">수정</button></a>
+            <a href="workorderDelete.do"><button class="btn red">삭제</button></a>
         </div>
 
     </div>

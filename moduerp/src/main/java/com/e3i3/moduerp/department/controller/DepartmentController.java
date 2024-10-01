@@ -20,7 +20,7 @@ public class DepartmentController {
     @Autowired
     private DepartmentService departmentService;
 
-    // 1. Æ¯Á¤ »ç¾÷ÀÚ¹øÈ£·Î ºÎ¼­ Á¶È¸
+    // 1. íŠ¹ì • ì‚¬ì—…ìë²ˆí˜¸ë¡œ ë¶€ì„œ ì¡°íšŒ
     @RequestMapping(value = "departmentListByBizNumber.do", method = RequestMethod.GET)
     public String getDepartmentsByBizNumber(@RequestParam("bizNumber") String bizNumber, Model model) {
         List<Department> departments = departmentService.selectDepartmentsByBizNumber(bizNumber);
@@ -28,7 +28,7 @@ public class DepartmentController {
         return "department/departmentList";
     }
 
-    // 2. ÀüÃ¼ ºÎ¼­ Á¶È¸
+    // 2. ì „ì²´ ë¶€ì„œ ì¡°íšŒ
     @RequestMapping(value = "departmentAll.do", method = RequestMethod.GET)
     public String getAllDepartments(Model model) {
         List<Department> departments = departmentService.selectAllDepartments();
@@ -36,40 +36,40 @@ public class DepartmentController {
         return "department/departmentList";
     }
 
-    // 3. ºÎ¼­ µî·Ï ÆäÀÌÁö ÀÌµ¿
+    // 3. ë¶€ì„œ ë“±ë¡ í˜ì´ì§€ ì´ë™
     @RequestMapping(value = "departmentRegisterPage.do", method = RequestMethod.GET)
     public String showDepartmentForm() {
         return "department/registerDepartment";
     }
 
-    // 4. ºÎ¼­ µî·Ï ¿äÃ» Ã³¸®
+    // 4. ë¶€ì„œ ë“±ë¡ ìš”ì²­ ì²˜ë¦¬
     @RequestMapping(value = "departmentRegister.do", method = RequestMethod.POST)
     public String registerDepartment(Department department, Model model) {
         departmentService.insertDepartment(department);
-        model.addAttribute("message", "ºÎ¼­°¡ ¼º°øÀûÀ¸·Î µî·ÏµÇ¾ú½À´Ï´Ù.");
+        model.addAttribute("message", "ë¶€ì„œê°€ ì„±ê³µì ìœ¼ë¡œ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤.");
         return "redirect:departmentAll.do";
     }
 
-    // 5. Æ¯Á¤ ºÎ¼­ »èÁ¦
+    // 5. íŠ¹ì • ë¶€ì„œ ì‚­ì œ
     @RequestMapping(value = "departmentDelete.do/{departmentId}", method = RequestMethod.POST)
     @ResponseBody
     public String deleteDepartment(@PathVariable("departmentId") String departmentId) {
         int result = departmentService.deleteDepartmentById(departmentId);
         if (result > 0) {
-            return "ºÎ¼­°¡ ¼º°øÀûÀ¸·Î »èÁ¦µÇ¾ú½À´Ï´Ù.";
+            return "ë¶€ì„œê°€ ì„±ê³µì ìœ¼ë¡œ ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.";
         } else {
-            return "»èÁ¦ÇÒ ºÎ¼­°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.";
+            return "ì‚­ì œí•  ë¶€ì„œê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.";
         }
     }
 
-    // 6. Æ¯Á¤ ºÎ¼­ Á¤º¸ ¾÷µ¥ÀÌÆ®
+    // 6. íŠ¹ì • ë¶€ì„œ ì •ë³´ ì—…ë°ì´íŠ¸
     @RequestMapping(value = "departmentUpdate.do", method = RequestMethod.POST)
     public String updateDepartment(Department department, Model model) {
         int result = departmentService.updateDepartment(department);
         if (result > 0) {
-            model.addAttribute("message", "ºÎ¼­ Á¤º¸°¡ ¼º°øÀûÀ¸·Î ¼öÁ¤µÇ¾ú½À´Ï´Ù.");
+            model.addAttribute("message", "ë¶€ì„œ ì •ë³´ê°€ ì„±ê³µì ìœ¼ë¡œ ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤.");
         } else {
-            model.addAttribute("message", "ºÎ¼­ Á¤º¸ ¼öÁ¤¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
+            model.addAttribute("message", "ë¶€ì„œ ì •ë³´ ìˆ˜ì •ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
         }
         return "redirect:departmentAll.do";
     }

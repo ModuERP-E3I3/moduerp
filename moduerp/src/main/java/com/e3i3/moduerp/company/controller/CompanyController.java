@@ -2,8 +2,12 @@ package com.e3i3.moduerp.company.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -31,13 +35,13 @@ public class CompanyController {
    @Autowired
    private BCryptPasswordEncoder bcryptPasswordEncoder;
 
-    // 1. È¸¿ø°¡ÀÔ ÆäÀÌÁö ÀÌµ¿
+    // 1. íšŒì›ê°€ì… í˜ì´ì§€ ì´ë™
    @RequestMapping("/signup.do")
    public String signUp() {
       return "company/signup";
    }
 
-   // 2. È¸»ç µî·Ï ¹× ºÎ¼­¿Í Á÷¿ø Á¤º¸ µî·Ï
+   // 2. íšŒì‚¬ ë“±ë¡ ë° ë¶€ì„œì™€ ì§ì› ì •ë³´ ë“±ë¡
    @PostMapping("/register.do")
    public String registerCompany(@RequestParam("bizNumber") String bizNumber,
             @RequestParam("approvalCode") String approvalCode,
@@ -47,7 +51,7 @@ public class CompanyController {
             @RequestParam("fileUpload") MultipartFile file,
             Model model) {
        try {
-      // 1) È¸»ç Á¤º¸ »ı¼º ¹× ÀúÀå
+      // 1) íšŒì‚¬ ì •ë³´ ìƒì„± ë° ì €ì¥
       Company company=new Company()
             .setBizNumber(bizNumber)
             .setApprovalCode(approvalCode)
@@ -58,91 +62,103 @@ public class CompanyController {
       companyService.insertCompany(company);
       
       
-         // 2) ¿¢¼¿ÆÄÀÏ¿¡¼­ ºÎ¼­ Á¤º¸ ¹× Á÷¿ø Á¤º¸ ÆÄ½ÌÇÏ¿© ÀúÀå
-         List<Department> departments=ExcelParser.parseDepartments(file.getInputStream(), bizNumber);
-         List<Employee> employees = ExcelParser.parseEmployees(file.getInputStream(), company);
+         // 2) ì—‘ì…€íŒŒì¼ì—ì„œ ë¶€ì„œ ì •ë³´ ë° ì§ì› ì •ë³´ íŒŒì‹±í•˜ì—¬ ì €ì¥
+      	 Workbook workbook = new XSSFWorkbook(file.getInputStream());
+         List<Department> departments=ExcelParser.parseDepartments(workbook , bizNumber);
+         List<Employee> employees = ExcelParser.parseEmployees(workbook , company, departments);
+         workbook.close();
          
-         // 3) ºÎ¼­ ¹× Á÷¿ø Á¤º¸ ÀúÀå
+         // 3) ë¶€ì„œ ë° ì§ì› ì •ë³´ ì €ì¥
          for(Department department: departments) {
              System.out.println("Department ID: " + department.getDepartmentId() + ", Name: " + department.getDepartmentName());
             departmentService.insertDepartment(department);
          }
-          // ¾ÏÈ£È­µÈ ºñ¹Ğ¹øÈ£ »ı¼º
+          // ì•”í˜¸í™”ëœ ë¹„ë°€ë²ˆí˜¸ ìƒì„±
            String encodedPassword = bcryptPasswordEncoder.encode(password);
          
-         // »çÀå´Ô Á¤º¸µµ Á÷¿ø Å×ÀÌºí¿¡ ÀúÀå
+         // ì‚¬ì¥ë‹˜ ì •ë³´ë„ ì§ì› í…Œì´ë¸”ì— ì €ì¥
          Employee ceo=new Employee()
                    .setUuid(java.util.UUID.randomUUID())
                        .setBizNumber(bizNumber)
                        .setApprovalCode(approvalCode)
                        .setDepartmentId("ceo-dpt")
+                       .setIsDeleted('N')
                        .setPrivateAuthority('N')
                        .setLastLoginLocation("default")
                        .setIsEmailChanged('N')
                        .setEmpEmail(email)
-                       .setPassword(encodedPassword) //¾ÏÈ£È­µÈ ºñ¹Ğ¹øÈ£ ¼³Á¤
-                       .setEmpNo("CEO001")
-                       .setEmpName("CEO")
+                       .setPassword(encodedPassword) //ì•”í˜¸í™”ëœ ë¹„ë°€ë²ˆí˜¸ ì„¤ì •
+                       .setEmpNo(bizNumber+"_CEO")
+                       .setEmpName(bizNumber+"_CEO")
                        .setProfileImg(null)
                        .setRegistrationDate(new java.sql.Date(System.currentTimeMillis()));
          
          employees.add(ceo);
          
          for(Employee employee: employees) {
-            // Á÷¿ø Á¤º¸ ÀúÀå ½Ã ¾ÏÈ£ ÇÊµå ¼³Á¤
+            // ì§ì› ì •ë³´ ì €ì¥ ì‹œ ì•”í˜¸ í•„ë“œ ì„¤ì •
             if(employee.getPassword()==null || employee.getPassword().isEmpty()) {
-                 employee.setPassword(encodedPassword); // ±âº» ¾ÏÈ£ ¼³Á¤
+                 employee.setPassword(encodedPassword); // ê¸°ë³¸ ì•”í˜¸ ì„¤ì •
             }
-            employeeService.insertEmployee(employee);
+            if (employee.getDepartmentId() == null || employee.getDepartmentId().isEmpty()) {
+                employee.setDepartmentId("UNIQUE_DEPT_ID_" + UUID.randomUUID());  // ì„ì‹œ ë¶€ì„œ ID í• ë‹¹
+            }
+
+            try {
+                employeeService.insertEmployee(employee);
+            } catch (DuplicateKeyException e) {
+                System.out.println("ì¤‘ë³µëœ departmentIdë¡œ ì¸í•´ ì‚½ì… ì‹¤íŒ¨: " + employee.getDepartmentId());
+                // ë¡œê·¸ ì¶œë ¥ í›„, í•„ìš”ì‹œ ìˆ˜ì • ë¡œì§ ì¶”ê°€
+            }
          }
          
-         // È¸¿ø°¡ÀÔ ¼º°ø ½Ã ·Î±×ÀÎ ÆäÀÌÁö·Î ÀÌµ¿
-           return "redirect:/signin.do";  // Àı´ë °æ·Î·Î ¼öÁ¤
+         // íšŒì›ê°€ì… ì„±ê³µ ì‹œ ë¡œê·¸ì¸ í˜ì´ì§€ë¡œ ì´ë™
+           return "redirect:/signin.do";  // ì ˆëŒ€ ê²½ë¡œë¡œ ìˆ˜ì •
          
        }catch (RuntimeException e) {
               if (e.getMessage().contains("Company with the same bizNumber")) {
-                  model.addAttribute("message", "ÀÌ¹Ì µ¿ÀÏÇÑ »ç¾÷ÀÚ¹øÈ£·Î µî·ÏµÈ È¸»ç°¡ Á¸ÀçÇÕ´Ï´Ù.");
-                  return "company/error"; // ¿¡·¯ ÆäÀÌÁö·Î ÀÌµ¿
+                  model.addAttribute("message", "ì´ë¯¸ ë™ì¼í•œ ì‚¬ì—…ìë²ˆí˜¸ë¡œ ë“±ë¡ëœ íšŒì‚¬ê°€ ì¡´ì¬í•©ë‹ˆë‹¤.");
+                  return "company/error"; // ì—ëŸ¬ í˜ì´ì§€ë¡œ ì´ë™
               }
               e.printStackTrace();
-              model.addAttribute("message", "È¸»ç µî·Ï Áß ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.");
+              model.addAttribute("message", "íšŒì‚¬ ë“±ë¡ ì¤‘ ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.");
               return "company/error";
       }catch(IOException e) {
          e.printStackTrace();
-         model.addAttribute("message", "¿¢¼¿ ÆÄÀÏ Ã³¸® Áß ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.");
+         model.addAttribute("message", "ì—‘ì…€ íŒŒì¼ ì²˜ë¦¬ ì¤‘ ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.");
          return "company/error";
       }
    }
 
-   // 2. È¸»ç ¼öÁ¤
+   // 2. íšŒì‚¬ ìˆ˜ì •
    @PutMapping("/update.do")
    public ResponseEntity<String> updateCompany(@RequestBody Company company) {
       companyService.updateCompany(company);
-      return ResponseEntity.ok("È¸»ç Á¤º¸°¡ ¼º°øÀûÀ¸·Î ¼öÁ¤µÇ¾ú½À´Ï´Ù.");
+      return ResponseEntity.ok("íšŒì‚¬ ì •ë³´ê°€ ì„±ê³µì ìœ¼ë¡œ ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤.");
    }
 
-   // 3. È¸»ç »èÁ¦
+   // 3. íšŒì‚¬ ì‚­ì œ
    @DeleteMapping("/delete/{bizNumber}.do")
    public ResponseEntity<String> deleteCompany(@PathVariable String bizNumber) {
       companyService.deleteCompany(bizNumber);
-      return ResponseEntity.ok("È¸»ç Á¤º¸°¡ ¼º°øÀûÀ¸·Î »èÁ¦µÇ¾ú½À´Ï´Ù.");
+      return ResponseEntity.ok("íšŒì‚¬ ì •ë³´ê°€ ì„±ê³µì ìœ¼ë¡œ ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.");
    }
 
-   // 4. »ç¾÷ÀÚ¹øÈ£·Î Æ¯Á¤ È¸»ç Á¶È¸
+   // 4. ì‚¬ì—…ìë²ˆí˜¸ë¡œ íŠ¹ì • íšŒì‚¬ ì¡°íšŒ
    @GetMapping("/{bizNumber}.do")
    public ResponseEntity<Company> getCompanyByBizNumber(@PathVariable String bizNumber) {
       Company company = companyService.selectCompanyByBizNumber(bizNumber);
       return ResponseEntity.ok(company);
    }
 
-   // 5. »ç¾÷ÀÚ¹øÈ£·Î Æ¯Á¤ È¸»ç ¹× °ü·Ã ºÎ¼­ Á¶È¸
+   // 5. ì‚¬ì—…ìë²ˆí˜¸ë¡œ íŠ¹ì • íšŒì‚¬ ë° ê´€ë ¨ ë¶€ì„œ ì¡°íšŒ
    @GetMapping("/{bizNumber}/departments.do")
    public ResponseEntity<Company> getCompanyWithDepartments(@PathVariable String bizNumber) {
       Company company = companyService.selectCompanyWithDepartments(bizNumber);
       return ResponseEntity.ok(company);
    }
 
-   // 6. ¸ğµç È¸»ç Á¶È¸
+   // 6. ëª¨ë“  íšŒì‚¬ ì¡°íšŒ
    @GetMapping("/all.do")
    public ResponseEntity<List<Company>> getAllCompanies() {
       List<Company> companies = companyService.selectAllCompanies();

@@ -1,6 +1,7 @@
 package com.e3i3.moduerp.employee.model.dao;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -11,32 +12,41 @@ import com.e3i3.moduerp.employee.model.dto.Employee;
 
 @Repository
 public class EmployeeDao {
-	// root-context.xml¿¡ ¼³Á¤µÈ ¸¶ÀÌ¹ÙÆ¼½º °´Ã¼¸¦ ¿¬°á »ç¿ëÇÔ
-		@Autowired
-		private SqlSessionTemplate sqlSessionTemplate;
+	@Autowired
+	private SqlSessionTemplate sqlSessionTemplate;
 
-		// Á÷¿ø µî·Ï
-		public void insertEmployee(Employee employee) {
-			sqlSessionTemplate.insert("EmployeeMapper.insertEmployee", employee);
-		}
+	// ì§ì› ë“±ë¡
+	public void insertEmployee(Employee employee) {
+		sqlSessionTemplate.insert("EmployeeMapper.insertEmployee", employee);
+	}
 
-		// Á÷¿ø ¼öÁ¤
-		public void updateEmployee(Employee employee) {
-			sqlSessionTemplate.update("EmployeeMapper.updateEmployee", employee);
-		}
+	// ë¡œê·¸ì¸ ë©”ì†Œë“œ
+	public Employee selectEmployeeForLogin(Map<String, Object> params) {
+		return sqlSessionTemplate.selectOne("EmployeeMapper.selectEmployeeForLogin", params);
+	}
 
-		// Á÷¿ø »èÁ¦
-		public void deleteEmployee(UUID uuid) {
-			sqlSessionTemplate.delete("EmployeeMapper.deleteEmployee", uuid);
-		}
+	// ì§ì› ì •ë³´ ì—…ë°ì´íŠ¸
+	public void updateEmployee(Employee employee) {
+		sqlSessionTemplate.update("EmployeeMapper.updateEmployee", employee);
+	}
 
-		// Á÷¿ø Á¶È¸
-		public Employee selectEmployeeByUuid(UUID uuid) {
-			return sqlSessionTemplate.selectOne("EmployeeMapper.selectEmployeeByUuid", uuid);
-		}
-		
-		// Á÷¿ø È¸»ç Á¶È¸
-		public List<Employee> selectAllEmployees(){
-			return sqlSessionTemplate.selectList("EmployeeMapper.selectAllEmployees");
-		}
+	// uuidë¡œ ì§ì› ì‚­ì œ
+	public void deleteEmployee(UUID uuid) {
+		sqlSessionTemplate.delete("EmployeeMapper.deleteEmployee", uuid);
+	}
+
+	// uuidë¡œ ì§ì› ì¡°íšŒ
+	public Employee selectEmployeeByUuid(UUID uuid) {
+		return sqlSessionTemplate.selectOne("EmployeeMapper.selectEmployeeByUuid", uuid);
+	}
+	
+	//ì‚¬ì—…ìë²ˆí˜¸ë¡œ ì§ì› ì¡°íšŒ
+	public List<Employee> selectEmployeesByBizNum(String bizNumber) {
+		return sqlSessionTemplate.selectList("EmployeeMapper.selectEmployeesByBizNum", bizNumber);
+	}
+	
+	// ì¡´ì¬í•˜ëŠ” ëª¨ë“  ì§ì› ì¡°íšŒ(í•„ìš”ì„± ê²€í† )
+	public List<Employee> selectAllEmployees() {
+		return sqlSessionTemplate.selectList("EmployeeMapper.selectAllEmployees");
+	}
 }

@@ -14,26 +14,30 @@ import com.e3i3.moduerp.employee.model.dto.Employee;
 
 public class ExcelParser {
 
-    // Á÷¿ø Á¤º¸ ÆÄ½Ì ¸Ş¼Òµå
-    public static List<Employee> parseEmployees(InputStream is, Company company) throws IOException {
+    // ì§ì› ì •ë³´ íŒŒì‹± ë©”ì†Œë“œ
+    public static List<Employee> parseEmployees(Workbook workbook, Company company, List<Department> departments) throws IOException {
         List<Employee> employees = new ArrayList<>();
-        Workbook workbook = new XSSFWorkbook(is);
-        Sheet sheet = workbook.getSheet("»ç¿øÁ¤º¸");
+        Sheet sheet = workbook.getSheet("ì‚¬ì›ì •ë³´");
 
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
             if (row == null) continue;
 
             Employee employee = new Employee();
-            String departmentId = getCellValue(row.getCell(3)); // ºÎ¼­ÄÚµå
-            // departmentId°¡ ºó ¹®ÀÚ¿­ÀÌ°Å³ª nullÀÌ¸é ¿¹¿Ü Ã³¸®
-            if (departmentId == null || departmentId.trim().isEmpty()) {
-                throw new IllegalArgumentException("ºÎ¼­ÄÚµå°¡ ´©¶ôµÈ ÇàÀÌ ÀÖ½À´Ï´Ù. Çà ¹øÈ£: " + (i + 1));
+            String departmentName = getCellValue(row.getCell(3)); // ë¶€ì„œëª…
+            
+            // departmentNameì´ ë¹ˆ ë¬¸ìì—´ì´ê±°ë‚˜ nullì´ë©´ ì˜ˆì™¸ ì²˜ë¦¬
+            if (departmentName == null || departmentName.trim().isEmpty()) {
+                throw new IllegalArgumentException("ë¶€ì„œëª…ì´ ëˆ„ë½ëœ í–‰ì´ ìˆìŠµë‹ˆë‹¤. í–‰ ë²ˆí˜¸: " + (i + 1));
             }
-            employee.setEmpName(getCellValue(row.getCell(0))) // »ç¿ø¸í
-                    .setEmpNo(getCellValue(row.getCell(1)))   // »ç¹ø
-                    .setEmpEmail(getCellValue(row.getCell(2)))// »ç¿ø ÀÌ¸ŞÀÏ
-                    .setDepartmentId(departmentId)            // ºÎ¼­ÄÚµå
+            
+            // departmentNameìœ¼ë¡œ departmentId ì°¾ê¸°
+            String departmentId=findDepartmentIdByName(departmentName, departments);
+            
+            employee.setEmpName(getCellValue(row.getCell(0))) // ì‚¬ì›ëª…
+                    .setEmpNo(getCellValue(row.getCell(1)))   // ì‚¬ë²ˆ
+                    .setEmpEmail(getCellValue(row.getCell(2)))// ì‚¬ì› ì´ë©”ì¼
+                    .setDepartmentId(departmentId)           // ë¶€ì„œì½”ë“œ
                     .setUuid(java.util.UUID.randomUUID())
                     .setBizNumber(company.getBizNumber())
                     .setIsDeleted('N')
@@ -49,20 +53,29 @@ public class ExcelParser {
         return employees;
     }
 
-    // ºÎ¼­ Á¤º¸ ÆÄ½Ì ¸Ş¼Òµå
-    public static List<Department> parseDepartments(InputStream is, String bizNumber) throws IOException {
+    // departmentNameìœ¼ë¡œ departmentId ì°¾ê¸°
+    private static String findDepartmentIdByName(String departmentName, List<Department> departments) {
+		for(Department department: departments) {
+			if(department.getDepartmentName().equalsIgnoreCase(departmentName)) {
+				return department.getDepartmentId();
+			}
+		}
+		throw new IllegalArgumentException("ë¶€ì„œëª…ì´ ì¼ì¹˜í•˜ëŠ” ë¶€ì„œë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤: " + departmentName);
+	}
+
+	// ë¶€ì„œ ì •ë³´ íŒŒì‹± ë©”ì†Œë“œ
+    public static List<Department> parseDepartments(Workbook workbook, String bizNumber) throws IOException {
         List<Department> departments = new ArrayList<>();
-        Workbook workbook = new XSSFWorkbook(is);
-        Sheet sheet = workbook.getSheet("ºÎ¼­Á¤º¸");
+        Sheet sheet = workbook.getSheet("ë¶€ì„œì •ë³´");
 
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
             if (row == null) continue;
 
             Department department = new Department();
-            department.setDepartmentId(getCellValue(row.getCell(0)))  // ºÎ¼­ÄÚµå
-                      .setDepartmentName(getCellValue(row.getCell(1)))  // ºÎ¼­¸í
-                      .setBizNumber(bizNumber);                        // »ç¾÷ÀÚ¹øÈ£
+            department.generateCustomDepartmentId(i) // í–‰ì˜ ìˆœì„œë¡œ departmentId ìƒì„± (DPT-0001, DPT-0002 ë“±) 
+                      .setDepartmentName(getCellValue(row.getCell(0)))  // ë¶€ì„œëª…
+                      .setBizNumber(bizNumber);                        // ì‚¬ì—…ìë²ˆí˜¸
 
             departments.add(department);
         }
@@ -70,7 +83,7 @@ public class ExcelParser {
         return departments;
     }
 
-    // ¼¿ °ª ÀĞ±â À¯Æ¿¸®Æ¼ ¸Ş¼Òµå
+    // ì…€ ê°’ ì½ê¸° ìœ í‹¸ë¦¬í‹° ë©”ì†Œë“œ
     private static String getCellValue(Cell cell) {
         if (cell == null) return "";
         switch (cell.getCellType()) {

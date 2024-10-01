@@ -10,31 +10,31 @@ import com.e3i3.moduerp.department.model.dto.Department;
 
 @Repository
 public class DepartmentDao {
-	// root-context.xml¿¡ ¼³Á¤µÈ ¸¶ÀÌ¹ÙÆ¼½º °´Ã¼¸¦ ¿¬°á »ç¿ëÇÔ
+	// root-context.xmlì— ì„¤ì •ëœ ë§ˆì´ë°”í‹°ìŠ¤ ê°ì²´ë¥¼ ì—°ê²° ì‚¬ìš©í•¨
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 
-	// ºÎ¼­ µî·Ï
+	// ë¶€ì„œ ë“±ë¡
 	public void insertDepartment(Department department) {
 		sqlSessionTemplate.insert("DepartmentMapper.insertDepartment", department);
 	}
 
-	// »ç¾÷ÀÚ¹øÈ£·Î È¸»çÀÇ ÀüÃ¼ ºÎ¼­ Á¶È¸
+	// ì‚¬ì—…ìë²ˆí˜¸ë¡œ íšŒì‚¬ì˜ ì „ì²´ ë¶€ì„œ ì¡°íšŒ
 	public List<Department> selectDepartmentsByBizNumber(String bizNumber) {
 		return sqlSessionTemplate.selectList("DepartmentMapper.selectDepartmentsByBizNumber", bizNumber);
 	}
 
-	// ¸ğµç ºÎ¼­ Á¶È¸
+	// ëª¨ë“  ë¶€ì„œ ì¡°íšŒ
 	public List<Department> selectAllDepartments() {
 		return sqlSessionTemplate.selectList("DepartmentMapper.selectAllDepartments");
 	}
 
-	// Æ¯Á¤ ºÎ¼­ »èÁ¦
+	// íŠ¹ì • ë¶€ì„œ ì‚­ì œ
 	public int deleteDepartmentById(String departmentId) {
 		return sqlSessionTemplate.delete("DepartmentMapper.deleteDepartmentById", departmentId);
 	}
 
-	// Æ¯Á¤ ºÎ¼­ Á¤º¸ ¾÷µ¥ÀÌÆ®
+	// íŠ¹ì • ë¶€ì„œ ì •ë³´ ì—…ë°ì´íŠ¸
 	public int updateDepartment(Department department) {
 		return sqlSessionTemplate.update("DepartmentMapper.updateDepartment", department);
 	}

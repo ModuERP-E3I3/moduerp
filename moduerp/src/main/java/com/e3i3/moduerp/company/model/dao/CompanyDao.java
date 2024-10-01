@@ -10,37 +10,37 @@ import com.e3i3.moduerp.company.model.dto.Company;
 
 @Repository
 public class CompanyDao {
-	// root-context.xml¿¡ ¼³Á¤µÈ ¸¶ÀÌ¹ÙÆ¼½º °´Ã¼¸¦ ¿¬°á »ç¿ëÇÔ
+	// root-context.xmlì— ì„¤ì •ëœ ë§ˆì´ë°”í‹°ìŠ¤ ê°ì²´ë¥¼ ì—°ê²° ì‚¬ìš©í•¨
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 
-	// È¸»ç µî·Ï
+	// íšŒì‚¬ ë“±ë¡
 	public void insertCompany(Company company) {
 		sqlSessionTemplate.insert("CompanyMapper.insertCompany", company);
 	}
 
 
-	// È¸»ç ¼öÁ¤
+	// íšŒì‚¬ ìˆ˜ì •
 	public void updateCompany(Company company) {
 		sqlSessionTemplate.update("CompanyMapper.updateCompany", company);
 	}
 
-	// È¸»ç »èÁ¦
+	// íšŒì‚¬ ì‚­ì œ
 	public void deleteCompany(String bizNumber) {
 		sqlSessionTemplate.delete("CompanyMapper.deleteCompany", bizNumber);
 	}
 
-	// È¸»ç Á¶È¸
+	// íšŒì‚¬ ì¡°íšŒ
 	public Company selectCompanyByBizNumber(String bizNumber) {
 		return sqlSessionTemplate.selectOne("CompanyMapper.selectCompanyByBizNumber", bizNumber);
 	}
 
-	// È¸»ç¿¡ ¼ÓÇÑ ºÎ¼­µé Á¶È¸
+	// íšŒì‚¬ì— ì†í•œ ë¶€ì„œë“¤ ì¡°íšŒ
 	public Company selectCompanyWithDepartments(String bizNumber) {
 		return sqlSessionTemplate.selectOne("CompanyMapper.selectCompanyWithDepartments", bizNumber);
 	}
 
-	// ÀüÃ¼ È¸»ç Á¶È¸
+	// ì „ì²´ íšŒì‚¬ ì¡°íšŒ
 	public List<Company> selectAllCompanies() {
 		return sqlSessionTemplate.selectList("CompanyMapper.selectAllCompanies");
 	}

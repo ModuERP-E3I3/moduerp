@@ -4,18 +4,18 @@ import java.util.List;
 import com.e3i3.moduerp.department.model.dto.Department;
 
 public interface DepartmentService {
-    // ºÎ¼­ µî·Ï
+    // ë¶€ì„œ ë“±ë¡
     void insertDepartment(Department department);
 
-    // Æ¯Á¤ »ç¾÷ÀÚ ¹øÈ£¿¡ ´ëÇÑ ¸ğµç ºÎ¼­ Á¶È¸
+    // íŠ¹ì • ì‚¬ì—…ì ë²ˆí˜¸ì— ëŒ€í•œ ëª¨ë“  ë¶€ì„œ ì¡°íšŒ
     List<Department> selectDepartmentsByBizNumber(String bizNumber);
     
-    // Æ¯Á¤ ºÎ¼­ »èÁ¦
+    // íŠ¹ì • ë¶€ì„œ ì‚­ì œ
     int deleteDepartmentById(String departmentId);
 
-    // ¸ğµç ºÎ¼­ Á¶È¸
+    // ëª¨ë“  ë¶€ì„œ ì¡°íšŒ
     List<Department> selectAllDepartments();
 
-    // ºÎ¼­ Á¤º¸ ¾÷µ¥ÀÌÆ®
+    // ë¶€ì„œ ì •ë³´ ì—…ë°ì´íŠ¸
     int updateDepartment(Department department);
 }

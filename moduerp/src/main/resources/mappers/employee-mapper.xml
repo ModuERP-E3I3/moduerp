@@ -114,9 +114,25 @@
         SELECT * FROM employee WHERE uuid = #{uuid}
     </select>
 
+    <!-- 사업자번호로 직원 조회용 쿼리 -->
+    <select id="selectEmployeesByBizNum" parameterType="String" resultMap="resultEmployee">
+        SELECT * FROM employee WHERE biz_number = #{bizNumber}
+    </select>
+    
     <!-- 모든 직원 조회용 쿼리 -->
     <select id="selectAllEmployees" resultType="com.e3i3.moduerp.employee.model.dto.Employee">
         SELECT * FROM employee
+    </select>
+    
+     <!-- 로그인 검증을 위한 쿼리 -->
+    <select id="selectEmployeeForLogin" parameterType="map" resultType="com.e3i3.moduerp.employee.model.dto.Employee">
+        SELECT emp_email, emp_no, emp_name, department_id AS departmentId, 
+           biz_number, approval_code, password, is_deleted
+    FROM employee
+    WHERE emp_email = #{empEmail}
+    AND biz_number = #{bizNumber}
+    AND approval_code = #{approvalCode}
+    AND is_deleted = 'N'
     </select>
 
 </mapper>

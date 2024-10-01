@@ -5,24 +5,24 @@ import java.util.List;
 import com.e3i3.moduerp.company.model.dto.Company;
 
 public interface CompanyService {
-	// È¸»ç µî·Ï
+	// íšŒì‚¬ ë“±ë¡
 	public void insertCompany(Company company);
 
 
-	// È¸»ç ¼öÁ¤
+	// íšŒì‚¬ ìˆ˜ì •
 	public void updateCompany(Company company);
 
-	// È¸»ç »èÁ¦
+	// íšŒì‚¬ ì‚­ì œ
 	public void deleteCompany(String bizNumber);
 	
 
-	// È¸»ç Á¶È¸
+	// íšŒì‚¬ ì¡°íšŒ
 	public Company selectCompanyByBizNumber(String bizNumber);
 	
 
-	// È¸»ç¿¡ ¼ÓÇÑ ºÎ¼­µé Á¶È¸
+	// íšŒì‚¬ì— ì†í•œ ë¶€ì„œë“¤ ì¡°íšŒ
 	public Company selectCompanyWithDepartments(String bizNumber);
 	
-	// ÀüÃ¼ È¸»ç Á¶È¸
+	// ì „ì²´ íšŒì‚¬ ì¡°íšŒ
 	public List<Company> selectAllCompanies();
 }

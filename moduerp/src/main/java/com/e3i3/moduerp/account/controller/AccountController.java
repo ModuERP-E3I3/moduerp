@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/")
 public class AccountController {
 
-    // account.jsp ¿äÃ» Ã³¸®
+    // account.jsp ï¿½ï¿½Ã» Ã³ï¿½ï¿½
     @RequestMapping(value = "/account.do", method = RequestMethod.GET)
     public String forwardAccount() {
-        return "salesStock/account";  // JSP ÆÄÀÏ °æ·Î ¹ÝÈ¯
+        return "salesStock/account";  // JSP ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     }
 }

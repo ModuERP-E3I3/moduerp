@@ -1,7 +1,8 @@
 package com.e3i3.moduerp.employee.controller;
 
-import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,60 +11,97 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.e3i3.moduerp.company.model.dto.Company;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 import com.e3i3.moduerp.employee.model.service.EmployeeService;
-import com.e3i3.moduerp.employee.util.ExcelParser;
 
 @Controller
 public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
-	
-	//·Î±×ÀÎ¿ë ¸Ş¼Òµå
+
+	// ë¡œê·¸ì¸ í˜ì´ì§€ ë°˜í™˜
 	@RequestMapping("signin.do")
-	public String signIn() {
+	public String signInPage() {
 		return "employee/signin";
 	}
-	
-	
-	 // Æ¯Á¤ Á÷¿ø Á¶È¸
-    @GetMapping("/view.do/{uuid}")
-    public String viewEmployee(@PathVariable("uuid") UUID uuid, Model model) {
-        Employee employee = employeeService.selectEmployeeByUuid(uuid);
-        model.addAttribute("employee", employee);
-        return "employee/employeeDetail";
-    }
-	
-    // ¸ğµç Á÷¿ø ¸ñ·Ï Á¶È¸
-    @GetMapping("/list.do")
-    public String listAllEmployees(Model model) {
-        List<Employee> employees = employeeService.selectAllEmployees();
-        model.addAttribute("employees", employees);
-        return "employee/employeeList";
-    }
-    
-    // Á÷¿ø Á¤º¸ ¼öÁ¤
-    @PutMapping("/edit.do/{uuid}")
-    public ResponseEntity<String> updateEmployee(@PathVariable("uuid") UUID uuid, @RequestBody Employee employee) {
-        employee.setUuid(uuid);
-        employeeService.updateEmployee(employee);
-        return ResponseEntity.ok("Á÷¿ø Á¤º¸°¡ ¼º°øÀûÀ¸·Î ¼öÁ¤µÇ¾ú½À´Ï´Ù.");
-    }
-    
-    // Á÷¿ø Á¤º¸ »èÁ¦
-    @DeleteMapping("/delete.do/{uuid}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable("uuid") UUID uuid) {
-        employeeService.deleteEmployee(uuid);
-        return ResponseEntity.ok("Á÷¿ø Á¤º¸°¡ ¼º°øÀûÀ¸·Î »èÁ¦µÇ¾ú½À´Ï´Ù.");
-    }
+
+	@SuppressWarnings("unused")
+	@PostMapping("/login.do")
+	public String signinMethod(@RequestParam("bizNumber") String bizNumber,
+	                           @RequestParam("approvalCode") String approvalCode,
+	                           @RequestParam("empEmail") String empEmail,
+	                           @RequestParam("password") String password,
+	                           Model model) {
+
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("bizNumber", bizNumber);
+	    params.put("approvalCode", approvalCode);
+	    params.put("empEmail", empEmail);
+	    params.put("password", password);
+
+	    Employee employee = employeeService.validateLogin(params);
+	    try {
+	    	System.out.println("ë¡œê·¸ì¸í•œ ìœ ì €ì˜ ë¶€ì„œì•„ì´ë””: "+employee.getDepartmentId());
+	    }catch(NullPointerException e) {
+	    	e.getMessage();
+	    }
+	    if (employee != null) {
+	        if ("ceo-dpt".equals(employee.getDepartmentId())) {
+	            // ì‚¬ì¥ì¼ ê²½ìš° main.jspë¡œ ì´ë™
+	        	System.out.println("ì‚¬ì¥ë‹˜ ë¡œê·¸ì¸ ì„±ê³µ");
+	            model.addAttribute("message", "ì‚¬ì¥ë‹˜ ë¡œê·¸ì¸ ì„±ê³µ");
+	            return "common/main";
+	        } else {
+	            // ì‚¬ì›ì¼ ê²½ìš° erpMain.jspë¡œ ì´ë™
+	        	System.out.println("ì‚¬ì› ë¡œê·¸ì¸ ì„±ê³µ");
+	            model.addAttribute("message", "ì‚¬ì› ë¡œê·¸ì¸ ì„±ê³µ");
+	            return "common/erpMain";
+	        }
+	    } else {
+	    	//ì•„ì´ë””(ë¡œê·¸ì¸ ì „í™”ë²ˆí˜¸, ë¡œê·¸ì¸ ì „ìš© ì•„ì´ë””) ë˜ëŠ” ë¹„ë°€ë²ˆí˜¸ê°€ ì˜ëª» ë˜ì—ˆìŠµë‹ˆë‹¤. 
+	    	//ì•„ì´ë””ì™€ ë¹„ë°€ë²ˆí˜¸ë¥¼ ì •í™•íˆ ì…ë ¥í•´ ì£¼ì„¸ìš”.
+	        model.addAttribute("errorMessage", "ë¡œê·¸ì¸ ì‹¤íŒ¨: ì‚¬ì—…ìë²ˆí˜¸, ìŠ¹ì¸ì½”ë“œ, ì´ë©”ì¼ ë˜ëŠ” ë¹„ë°€ë²ˆí˜¸ê°€ ì˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤.");
+	        return "employee/signin"; // ë¡œê·¸ì¸ í˜ì´ì§€ì— ë¨¸ë¬´ë¦„
+	    }
+	}
+
+
+	// uuidë¡œ ì§ì› ì¡°íšŒ
+	@GetMapping("/view.do/{uuid}")
+	public String viewEmployee(@PathVariable("uuid") UUID uuid, Model model) {
+		Employee employee = employeeService.selectEmployeeByUuid(uuid);
+		model.addAttribute("employee", employee);
+		return "employee/employeeDetail";
+	}
+
+	// ì¡´ì¬í•˜ëŠ” ëª¨ë“  ì§ì› ì¡°íšŒ
+	@GetMapping("/list.do")
+	public String listAllEmployees(Model model) {
+		List<Employee> employees = employeeService.selectAllEmployees();
+		model.addAttribute("employees", employees);
+		return "employee/employeeList";
+	}
+
+	// ì§ì› ìˆ˜ì •
+	@PutMapping("/edit.do/{uuid}")
+	public ResponseEntity<String> updateEmployee(@PathVariable("uuid") UUID uuid, @RequestBody Employee employee) {
+		employee.setUuid(uuid);
+		employeeService.updateEmployee(employee);
+		return ResponseEntity.ok(uuid + "ì§ì› ìˆ˜ì • ì„±ê³µí–ˆìŠµë‹ˆë‹¤..");
+	}
+
+	// uuidë¡œ ì§ì› ì‚­ì œ
+	@DeleteMapping("/delete.do/{uuid}")
+	public ResponseEntity<String> deleteEmployee(@PathVariable("uuid") UUID uuid) {
+		employeeService.deleteEmployee(uuid);
+		return ResponseEntity.ok(uuid + "ì§ì› ì‚­ì œ ì„±ê³µí–ˆìŠµë‹ˆë‹¤..");
+	}
 }

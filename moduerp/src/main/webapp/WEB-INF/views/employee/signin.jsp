@@ -15,7 +15,7 @@
 
         /* 전체 헤더 스타일 */
         header {
-            width: 100%; /* 헤더 전체 너비 */
+            width: 100%;
             height: 60px;
             background: #ffffff;
             color: #000000;
@@ -25,19 +25,17 @@
             left: 0;
             z-index: 100;
             display: flex;
-            justify-content: center; /* 내부 요소 중앙 배치 */
+            justify-content: center;
             align-items: center;
         }
 
-        /* 내부 컨테이너 스타일 */
         .header-container {
-            width: 70%; /* 내부 컨텐츠를 70%로 설정하여 중앙 배치 */
+            width: 70%;
             display: flex;
-            justify-content: space-between; /* 로고와 텍스트 양쪽에 배치 */
+            justify-content: space-between;
             align-items: center;
         }
 
-        /* ModuERP 로고 스타일 */
         .header-container .logo {
             font-size: 24px;
             font-weight: bold;
@@ -45,7 +43,6 @@
             color: #217770;
         }
 
-        /* 우측 텍스트 스타일 */
         .header-container .signup-text {
             font-size: 14px;
             color: #333333;
@@ -61,13 +58,12 @@
             text-decoration: underline;
         }
 
-        /* 기존 로그인 페이지 스타일 */
         body {
             background-color: #223D38;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 100px; /* 헤더 높이와의 간격을 조정 */
+            margin-top: 100px;
         }
 
         .container {
@@ -139,9 +135,7 @@
     </style>
 </head>
 <body>
-    <!-- 상단 고정된 헤더 -->
     <header>
-        <!-- 내부 컨텐츠를 위한 중앙 배치 div -->
         <div class="header-container">
             <a href="main.do" class="logo">ModuERP</a>
             <div class="signup-text">
@@ -150,45 +144,43 @@
         </div>
     </header>
 
-    <!-- 기존 로그인 페이지 컨텐츠 -->
-    <div class="container">
-        <h1>로그인</h1>
-        <form id="signinForm">
-            <!-- Step 1: 사업자번호 -->
-            <div class="form-group">
-                <label for="bizNumber" class="active">사업자번호</label>
-                <input type="text" id="bizNumber" placeholder="사업자번호 입력 (10자리)" maxlength="10" class="active" required>
-                <span id="bizNumberError" class="error"></span>
-            </div>
+<div class="container">
+    <h1>로그인</h1>
+    
+    <!-- 로그인 실패 시 에러 메시지 표시 -->
+    <% if (request.getAttribute("errorMessage") != null) { %>
+        <div style="color: red; text-align: center; margin-bottom: 15px;">
+            <%= request.getAttribute("errorMessage") %>
+        </div>
+    <% } %>
+    
+    <form id="signinForm" action="login.do" method="POST">
+        <div class="form-group">
+            <label for="bizNumber" class="active">사업자번호</label>
+            <input type="text" id="bizNumber" name="bizNumber" placeholder="사업자번호 입력 (10자리)" maxlength="10" class="active" required>
+            <span id="bizNumberError" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label for="approvalCode">승인코드</label>
+            <input type="text" id="approvalCode" name="approvalCode" placeholder="승인코드 입력 (6자리)" maxlength="6" required>
+            <span id="approvalCodeError" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label for="email">이메일</label>
+            <input type="email" id="email" name="empEmail" placeholder="이메일 입력" required>
+            <span id="emailError" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label for="password">암호</label>
+            <input type="password" id="password" name="password" placeholder="암호 입력 (8자 이상)" minlength="8" required>
+            <span id="passwordError" class="error"></span>
+        </div>
+        <button type="submit" class="btn active" id="continueBtn">Continue</button>
+    </form>
+</div>
 
-            <!-- Step 2: 승인코드 -->
-            <div class="form-group">
-                <label for="approvalCode">승인코드</label>
-                <input type="text" id="approvalCode" placeholder="승인코드 입력 (6자리)" maxlength="6" required>
-                <span id="approvalCodeError" class="error"></span>
-            </div>
-
-            <!-- Step 3: 이메일 -->
-            <div class="form-group">
-                <label for="email">이메일</label>
-                <input type="email" id="email" placeholder="이메일 입력" required>
-                <span id="emailError" class="error"></span>
-            </div>
-
-            <!-- Step 4: 암호 -->
-            <div class="form-group">
-                <label for="password">암호</label>
-                <input type="password" id="password" placeholder="암호 입력 (8자 이상)" minlength="8" required>
-                <span id="passwordError" class="error"></span>
-            </div>
-
-            <!-- Continue 버튼 -->
-            <button type="button" class="btn" id="continueBtn" onclick="validateLogin()">Continue</button>
-        </form>
-    </div>
 
     <script>
-        // 기존 폼 유효성 검사 스크립트 유지
         document.getElementById("bizNumber").oninput = function () {
             const bizNumber = document.getElementById("bizNumber").value;
             if (/^\d{10}$/.test(bizNumber)) {
@@ -226,15 +218,10 @@
             const password = document.getElementById("password").value;
             if (password.length >= 8) {
                 document.getElementById("passwordError").textContent = "";
-                document.getElementById("continueBtn").classList.add("active");
             } else {
                 document.getElementById("passwordError").textContent = "암호는 최소 8자 이상이어야 합니다.";
             }
         };
-
-        function validateLogin() {
-            alert("로그인 성공!");
-        }
 
         function validateEmail(email) {
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

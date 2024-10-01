@@ -6,8 +6,15 @@ public class ProductionStockInDTO {
     private String pStockInDate;
     private String pStockPlace;
     private int pStockInQty;
+    private String UUID;
 
-    // Getters and Setters
+    public String getUUID() {
+		return UUID;
+	}
+	public void setUUID(String uUID) {
+		UUID = uUID;
+	}
+	// Getters and Setters
     public String getpStockInId() {
         return pStockInId;
     }

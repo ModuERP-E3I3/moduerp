@@ -189,34 +189,28 @@
         <table>
             <thead>
                 <tr>
-                    <th>순번</th>
-                    <th>거래처</th>
+                    <th>출고번호</th>
                     <th>품목코드</th>
-                    <th>품명</th>
-                    <th>입고 수량</th>
-                    <th>출고 수량</th>
-                    <th>재고 수량</th>
-                    <th>단가</th>
-                    <th>비고</th>
+                    <th>UUID</th>
+                    <th>출고날짜</th>
+                    <th>보관장소</th>
+                    <th>출고수량</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- 더미 데이터 -->
-                <c:forEach var="item" items="${dummyData}">
-                    <tr>
-                        <td>${item.no}</td>
-                        <td>${item.client}</td>
-                        <td>${item.productCode}</td>
-                        <td>${item.productName}</td>
-                        <td>${item.inQuantity}</td>
-                        <td>${item.outQuantity}</td>
-                        <td>${item.stockQuantity}</td>
-                        <td>${item.unitPrice}</td>
-                        <td>${item.remark}</td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+			<tbody>
+				<c:forEach var="stockOut" items="${stockOutList}">
+					<tr>
+						<td>${stockOut.pStockOutId}</td>
+						<td>${stockOut.itemCode}</td>
+						<td>${stockOut.uuid}</td>
+						<td>${stockOut.pStockOutDate}</td>
+						<td>${stockOut.pStockOutPlace}</td>
+						<td>${stockOut.pStockOutQty}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+
+		</table>
 
         <!-- 버튼 그룹 -->
         <div class="btn-group">

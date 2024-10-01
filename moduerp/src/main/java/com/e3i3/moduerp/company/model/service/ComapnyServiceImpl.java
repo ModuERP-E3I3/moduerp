@@ -8,15 +8,20 @@ import org.springframework.stereotype.Service;
 import com.e3i3.moduerp.company.model.dao.CompanyDao;
 import com.e3i3.moduerp.company.model.dto.Company;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 public class ComapnyServiceImpl implements CompanyService {
 
+	
+	 private static final Logger logger = LoggerFactory.getLogger(ComapnyServiceImpl.class);
 	@Autowired
 	private CompanyDao companyDao;
 	
 	@Override
 	public void insertCompany(Company company) {
-		//ÀÌ¹Ì Á¸ÀçÇÏ´Â »ç¾÷ÀÚ¹øÈ£¶ó¸é ¿¹¿ÜÃ³¸® È£Ãâ
+		//ì´ë¯¸ ì¡´ì¬í•˜ëŠ” ì‚¬ì—…ìë²ˆí˜¸ë¼ë©´ ì˜ˆì™¸ì²˜ë¦¬ í˜¸ì¶œ
 		if (companyDao.selectCompanyByBizNumber(company.getBizNumber()) != null) {
 			 throw new RuntimeException("Company with the same bizNumber already exists.");
 		} else {
@@ -40,6 +45,8 @@ public class ComapnyServiceImpl implements CompanyService {
 	
 	@Override
 	public Company selectCompanyByBizNumber(String bizNumber) {
+		//---- ï¿½ï¿½ï¿½ï¿½
+		logger.info("Executing selectCompanyByBizNumber in CompanyServiceImpl with bizNumber: " + bizNumber);
 		return companyDao.selectCompanyByBizNumber(bizNumber);
 	}
 
@@ -52,5 +59,9 @@ public class ComapnyServiceImpl implements CompanyService {
 	public List<Company> selectAllCompanies() {
 		return companyDao.selectAllCompanies();
 	}
+	
+	
+
+	
 
 }
