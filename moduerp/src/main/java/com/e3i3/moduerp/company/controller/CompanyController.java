@@ -2,8 +2,12 @@ package com.e3i3.moduerp.company.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -59,8 +63,10 @@ public class CompanyController {
       
       
          // 2) 엑셀파일에서 부서 정보 및 직원 정보 파싱하여 저장
-         List<Department> departments=ExcelParser.parseDepartments(file.getInputStream(), bizNumber);
-         List<Employee> employees = ExcelParser.parseEmployees(file.getInputStream(), company);
+      	 Workbook workbook = new XSSFWorkbook(file.getInputStream());
+         List<Department> departments=ExcelParser.parseDepartments(workbook , bizNumber);
+         List<Employee> employees = ExcelParser.parseEmployees(workbook , company, departments);
+         workbook.close();
          
          // 3) 부서 및 직원 정보 저장
          for(Department department: departments) {
@@ -82,7 +88,7 @@ public class CompanyController {
                        .setIsEmailChanged('N')
                        .setEmpEmail(email)
                        .setPassword(encodedPassword) //암호화된 비밀번호 설정
-                       .setEmpNo(bizNumber+"_CEO001")
+                       .setEmpNo(bizNumber+"_CEO")
                        .setEmpName(bizNumber+"_CEO")
                        .setProfileImg(null)
                        .setRegistrationDate(new java.sql.Date(System.currentTimeMillis()));
@@ -94,7 +100,16 @@ public class CompanyController {
             if(employee.getPassword()==null || employee.getPassword().isEmpty()) {
                  employee.setPassword(encodedPassword); // 기본 암호 설정
             }
-            employeeService.insertEmployee(employee);
+            if (employee.getDepartmentId() == null || employee.getDepartmentId().isEmpty()) {
+                employee.setDepartmentId("UNIQUE_DEPT_ID_" + UUID.randomUUID());  // 임시 부서 ID 할당
+            }
+
+            try {
+                employeeService.insertEmployee(employee);
+            } catch (DuplicateKeyException e) {
+                System.out.println("중복된 departmentId로 인해 삽입 실패: " + employee.getDepartmentId());
+                // 로그 출력 후, 필요시 수정 로직 추가
+            }
          }
          
          // 회원가입 성공 시 로그인 페이지로 이동

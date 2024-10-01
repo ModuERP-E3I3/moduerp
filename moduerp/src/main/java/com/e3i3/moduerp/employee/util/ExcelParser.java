@@ -15,9 +15,8 @@ import com.e3i3.moduerp.employee.model.dto.Employee;
 public class ExcelParser {
 
     // 직원 정보 파싱 메소드
-    public static List<Employee> parseEmployees(InputStream is, Company company) throws IOException {
+    public static List<Employee> parseEmployees(Workbook workbook, Company company, List<Department> departments) throws IOException {
         List<Employee> employees = new ArrayList<>();
-        Workbook workbook = new XSSFWorkbook(is);
         Sheet sheet = workbook.getSheet("사원정보");
 
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
@@ -26,14 +25,19 @@ public class ExcelParser {
 
             Employee employee = new Employee();
             String departmentName = getCellValue(row.getCell(3)); // 부서명
+            
             // departmentName이 빈 문자열이거나 null이면 예외 처리
             if (departmentName == null || departmentName.trim().isEmpty()) {
                 throw new IllegalArgumentException("부서명이 누락된 행이 있습니다. 행 번호: " + (i + 1));
             }
+            
+            // departmentName으로 departmentId 찾기
+            String departmentId=findDepartmentIdByName(departmentName, departments);
+            
             employee.setEmpName(getCellValue(row.getCell(0))) // 사원명
                     .setEmpNo(getCellValue(row.getCell(1)))   // 사번
                     .setEmpEmail(getCellValue(row.getCell(2)))// 사원 이메일
-                    .setDepartment(departmentId)            // 부서코드
+                    .setDepartmentId(departmentId)           // 부서코드
                     .setUuid(java.util.UUID.randomUUID())
                     .setBizNumber(company.getBizNumber())
                     .setIsDeleted('N')
@@ -49,10 +53,19 @@ public class ExcelParser {
         return employees;
     }
 
-    // 부서 정보 파싱 메소드
-    public static List<Department> parseDepartments(InputStream is, String bizNumber) throws IOException {
+    // departmentName으로 departmentId 찾기
+    private static String findDepartmentIdByName(String departmentName, List<Department> departments) {
+		for(Department department: departments) {
+			if(department.getDepartmentName().equalsIgnoreCase(departmentName)) {
+				return department.getDepartmentId();
+			}
+		}
+		throw new IllegalArgumentException("부서명이 일치하는 부서를 찾을 수 없습니다: " + departmentName);
+	}
+
+	// 부서 정보 파싱 메소드
+    public static List<Department> parseDepartments(Workbook workbook, String bizNumber) throws IOException {
         List<Department> departments = new ArrayList<>();
-        Workbook workbook = new XSSFWorkbook(is);
         Sheet sheet = workbook.getSheet("부서정보");
 
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
@@ -60,8 +73,8 @@ public class ExcelParser {
             if (row == null) continue;
 
             Department department = new Department();
-            department.setDepartmentId(getCellValue(row.getCell(0)))  // 부서코드
-                      .setDepartmentName(getCellValue(row.getCell(1)))  // 부서명
+            department.generateCustomDepartmentId(i) // 행의 순서로 departmentId 생성 (DPT-0001, DPT-0002 등) 
+                      .setDepartmentName(getCellValue(row.getCell(0)))  // 부서명
                       .setBizNumber(bizNumber);                        // 사업자번호
 
             departments.add(department);
