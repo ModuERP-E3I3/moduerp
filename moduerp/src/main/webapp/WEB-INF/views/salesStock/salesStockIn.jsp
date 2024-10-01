@@ -199,9 +199,10 @@
                     <th>비고</th>
                 </tr>
             </thead>
-            <tbody>
+            
+			<tbody>
 			    <c:forEach var="salesStockIn" items="${stockList}">
-			        <tr>
+			        <tr onclick="location.href='accountCreate.jsp?sStockInId=${salesStockIn.sStockInId}'" style="cursor: pointer;">
 			            <td>${salesStockIn.sStockInId}</td>
 			            <td>${salesStockIn.itemCode}</td>
 			            <td>${salesStockIn.sStockInDate}</td>
