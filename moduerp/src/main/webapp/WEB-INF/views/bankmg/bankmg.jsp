@@ -170,7 +170,7 @@
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">결산 관리</div>
+        <div class="content-title">은행 계좌 관리</div>
 
         <!-- 필터 박스 -->
         <div class="filter-box">
@@ -180,7 +180,7 @@
             <input type="date" />
             <input type="date" />
             <select>
-                <option>품목 선택</option>
+                <option>은행 선택</option>
             </select>
             <input type="text" placeholder="내용 입력" />
             <button class="btn">조회</button>
@@ -191,13 +191,13 @@
             <thead>
                 <tr>
                     <th>순번</th>
-                    <th>거래처</th>
-                    <th>품목코드</th>
-                    <th>품명</th>
-                    <th>입고 수량</th>
-                    <th>재고 수량</th>
-                    <th>단가</th>
-                    <th>비고</th>
+                    <th>구분</th>
+                    <th>계좌명</th>
+                    <th>계좌번호</th>
+                    <th>계좌 소유자</th>
+                    <th>입출금액</th>
+                    <th>잔액</th>
+                    <th>입/출금일자</th>
                 </tr>
             </thead>
             <tbody>

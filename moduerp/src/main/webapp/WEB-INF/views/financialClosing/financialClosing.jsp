@@ -180,7 +180,7 @@
             <input type="date" />
             <input type="date" />
             <select>
-                <option>품목 선택</option>
+                <option>상태 선택</option>
             </select>
             <input type="text" placeholder="내용 입력" />
             <button class="btn">조회</button>
@@ -191,13 +191,14 @@
             <thead>
                 <tr>
                     <th>순번</th>
-                    <th>거래처</th>
-                    <th>품목코드</th>
-                    <th>품명</th>
-                    <th>입고 수량</th>
-                    <th>재고 수량</th>
-                    <th>단가</th>
-                    <th>비고</th>
+                    <th>시작일</th>
+                    <th>종료일</th>
+                    <th>총 매출</th>
+                    <th>총 비용</th>
+                    <th>순이익</th>
+                    <th>결산유형</th>
+                    <th>결산일</th>
+                    <th>승인여부</th>
                 </tr>
             </thead>
             <tbody>

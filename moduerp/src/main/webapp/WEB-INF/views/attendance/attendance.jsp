@@ -180,7 +180,7 @@
             <input type="date" />
             <input type="date" />
             <select>
-                <option>품목 선택</option>
+                <option>직원 선택</option>
             </select>
             <input type="text" placeholder="내용 입력" />
             <button class="btn">조회</button>
@@ -191,13 +191,12 @@
             <thead>
                 <tr>
                     <th>순번</th>
-                    <th>거래처</th>
-                    <th>품목코드</th>
-                    <th>품명</th>
-                    <th>입고 수량</th>
-                    <th>재고 수량</th>
-                    <th>단가</th>
-                    <th>비고</th>
+                    <th>직원명</th>
+                    <th>날짜</th>
+                    <th>출근시간</th>
+                    <th>퇴근시간</th>
+                    <th>근무 외 시간</th>
+                    <th>총 근무시간</th>
                 </tr>
             </thead>
             <tbody>
