@@ -9,11 +9,12 @@
         <result property="pStockInDate" column="P_STOCK_IN_DATE" />
         <result property="pStockPlace" column="P_STOCK_PLACE" />
         <result property="pStockInQty" column="P_STOCK_IN_QTY" />
+        <result property="UUID" column="UUID" />
     </resultMap>
 
     <!-- 모든 생산 입고 데이터 조회용 쿼리 -->
     <select id="getAllProductionStockIn" resultMap="resultProductionStockIn">
-        SELECT P_STOCK_IN_ID, ITEM_CODE, P_STOCK_IN_DATE, P_STOCK_PLACE, P_STOCK_IN_QTY
+        SELECT P_STOCK_IN_ID, ITEM_CODE, P_STOCK_IN_DATE, P_STOCK_PLACE, P_STOCK_IN_QTY, UUID
         FROM PRODUCTION_STOCK_IN
     </select>
 
