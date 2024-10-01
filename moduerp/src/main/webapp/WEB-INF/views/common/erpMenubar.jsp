@@ -90,7 +90,7 @@ nav.side ul li a.active {
         <li><a href="dlstk"><i class="fas fa-bullhorn"></i>인사 관리</a></li>
         <li><a href="productionStockIn.do"><i class="fas fa-clipboard"></i>생산 관리</a></li>
         <li><a href="buyStockIn.do"><i class="fas fa-code"></i>구매 관리</a></li>
-        <li><a href="salesStockIn.do"><i class="fas fa-plug"></i>영업/판매 관리</a></li>
+        <li><a href="account.do"><i class="fas fa-plug"></i>영업/판매 관리</a></li>
         <li><a href="ghlrP"><i class="fas fa-plug"></i>회계 관리</a></li>
         <li><a href="car"><i class="fas fa-plug"></i>차량 관리</a></li>
         <li><a href="group"><i class="fas fa-plug"></i>그룹 웨어</a></li>
