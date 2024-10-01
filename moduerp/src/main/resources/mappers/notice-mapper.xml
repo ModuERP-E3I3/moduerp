@@ -6,16 +6,15 @@
 <!-- namespace (이름공간) == 패키지와 같음 : 매퍼 영역에 이름을 붙여준 것으로 이해하면 됨 -->
 	
 	<resultMap type="Notice" id="resultNotice">
-		<result property="noticeNo" column="NOTICENO" />
-		<result property="noticeTitle" column="NOTICETITLE" />
-		<result property="noticeDate" column="NOTICEDATE" />
-		<result property="noticeWriter" column="NOTICEWRITER" />
-		<result property="noticeContent" column="NOTICECONTENT" />
-		<result property="originalFilePath" column="ORIGINAL_FILEPATH" />
-		<result property="renameFilePath" column="RENAME_FILEPATH" />
-		<result property="importance" column="IMPORTANCE" />
-		<result property="impEndDate" column="IMP_END_DATE" />
-		<result property="readCount" column="READCOUNT" />
+		<result property="noticeSeq" column="NOTICE_SEQ" />
+		<result property="uuID" column="UUID" />
+		<result property="departmentId" column="DEPARTMENT_ID" />
+		<result property="noticeTitle" column="NOTICE_TITLE" />
+		<result property="writeDate" column="WRITE_DATE" />
+		<result property="noticeBody" column="NOTICE_BODY" />
+		<result property="noticeImp" column="NOTICE_IMP" />
+		<result property="viewCnt" column="VIEW_CNT" />
+		<result property="attachFile" column="ATTACH_FILE" />
 	</resultMap>
 
 

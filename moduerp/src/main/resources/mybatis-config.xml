@@ -15,6 +15,8 @@
 		<typeAlias type="com.e3i3.moduerp.company.model.dto.Company" alias="Company" />
 		<typeAlias type="com.e3i3.moduerp.employee.model.dto.Employee" alias="Employee" />
 		<typeAlias type="com.e3i3.moduerp.department.model.dto.Department" alias="Department" />
+		<typeAlias type="com.e3i3.moduerp.notice.model.dto.Notice" alias="Notice" />
+		
 	</typeAliases>
 
 	 <typeHandlers>
@@ -26,5 +28,6 @@
 		<mapper resource="mappers/employee-mapper.xml" />
 		<mapper resource="mappers/department-mapper.xml" />
 		<mapper resource="mappers/productionStock-mapper.xml" />
+		<mapper resource="mappers/notice-mapper.xml" />
 	</mappers>
 </configuration>
