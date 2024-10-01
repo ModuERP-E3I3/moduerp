@@ -1,0 +1,6 @@
+INDEX VERSION 1.4+D:\moduerp\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+3220839018.index
+2190878620.index
+1194019818.index
+4159423949.index
+943294195.index
