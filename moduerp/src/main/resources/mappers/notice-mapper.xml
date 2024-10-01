@@ -19,24 +19,24 @@
 
 
 	<resultMap type="Notice" id="resultTop3">
-		<result property="noticeNo" column="NOTICENO" />
-		<result property="noticeTitle" column="NOTICETITLE" />
-		<result property="noticeDate" column="NOTICEDATE" />
+		<result property="noticeSeq" column="NOTICE_SEQ" />
+		<result property="noticeTitle" column="NOTICE_TITLE" />
+		<result property="writeDate" column="WRITE_DATE" />
 	</resultMap>
 
 	<!-- ajax 테스트용 : 최근 등록된 마지막 공지글 한 개 조회용 -->
 	<select id="selectLast" resultMap="resultNotice">
-		select * from notice
-		where noticeno = (select max(noticeno) from notice)
+		select * from NOTICE
+		where NOTICE_SEQ = (select max(NOTICE_SEQ) from NOTICE)
 	</select>
 	
 	<!-- ajax 요청 : 최근 등록 게시글 3개 조회용 (top-N) -->
 	<select id="selectTop3" resultMap="resultTop3">
 		SELECT *
-		FROM (SELECT ROWNUM RNUM, NOTICENO, NOTICETITLE, NOTICEDATE
+		FROM (SELECT ROWNUM RNUM, NOTICE_SEQ, NOTICE_TITLE, WRITE_DATE
 		            FROM(SELECT * FROM NOTICE
-		                        WHERE IMPORTANCE = 'N'
-		                        ORDER BY NOTICEDATE DESC, NOTICENO DESC))
+		                        WHERE NOTICE_IMP = 'N'
+		                        ORDER BY WRITE_DATE DESC, NOTICE_SEQ DESC))
 		WHERE RNUM BETWEEN 1 AND 3
 	</select><!-- #selectTop3 end -->
 	
@@ -44,16 +44,16 @@
 	
 	<!-- 공지 제목 검색용 쿼리 -->
 	<select id="selectSearchTitleKeyword" parameterType="string" resultMap="resultNotice">
-		select * from notice
-		where noticetitle like '%' || #{ keyword } || '%'
-		order by importance desc, noticeno desc
+		select * from NOTICE
+		where NOTICE_TITLE like '%' || #{ keyword } || '%'
+		order by NOTICE_IMP desc, NOTICE_SEQ desc
 	</select>
 	
 	<!-- 새 공지글 등록용 쿼리 -->
-	<insert id="insertNotice" parameterType="Notice">
-		insert into notice
-		<if test="importance != null">
-		values ((select max(noticeno) + 1 from notice), 
+	<!-- <insert id="insertNotice" parameterType="Notice">
+		insert into NOTICE
+		<if test="NOTICE_IMP != null">
+		values ((select max(NOTICE_SEQ) + 1 from NOTICE), 
 				#{ noticeTitle }, sysdate, #{ noticeWriter }, #{ noticeContent },
 				#{ originalFilePath }, #{ renameFilePath }, #{ importance }, #{ impEndDate }, default)
 		</if>
@@ -62,7 +62,7 @@
 				#{ noticeTitle }, sysdate, #{ noticeWriter }, #{ noticeContent },
 				#{ originalFilePath }, #{ renameFilePath }, default, sysdate, default)
 		</if>
-	</insert>
+	</insert> -->
 	
 
 	

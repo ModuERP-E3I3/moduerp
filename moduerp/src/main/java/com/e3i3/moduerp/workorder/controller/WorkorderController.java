@@ -11,7 +11,7 @@ import com.e3i3.moduerp.workorder.model.service.WorkOrderService;
 
 @Controller
 @RequestMapping("/")
-public class WorkOrderController {
+public class WorkorderController {
 
     @Autowired
     private WorkOrderService workOrderService;
