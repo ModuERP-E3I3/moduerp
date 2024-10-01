@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.e3i3.moduerp.productionstock.dto.ProductionStockInDTO;
+import com.e3i3.moduerp.productionstock.model.dto.ProductionStockInDTO;
 import com.e3i3.moduerp.productionstock.service.ProductionStockInService;
 
 @Controller

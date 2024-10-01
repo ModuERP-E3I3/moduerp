@@ -1,10 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +9,6 @@
 <title>erpMain</title>
 
 <style type="text/css">
-<<<<<<< Updated upstream
 
 .top-content-box {
     width: 96%; /* 화면에 가득 차지 않게 */
@@ -68,23 +64,11 @@
         margin-left: 1%;
         margin-right: 5%;
         margin-top: 5%;
-=======
-    /* 하얀 박스 스타일 */
-    .content-box {
-        width: 98%; /* 화면에 가득 차지 않게 */
-        height: 78vh; /* 화면 높이의 78% */
-        background-color: white;
-        margin-left: 1%;
-        margin-top: 6%;
->>>>>>> Stashed changes
         border: 1px solid #ccc;
         border-radius: 20px; /* 박스 둥글게 */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
         position: relative;
-<<<<<<< Updated upstream
         padding: 20px; /* 내부 여백 추가 */
-=======
->>>>>>> Stashed changes
     }
 
     /* 제목 스타일 */
@@ -95,7 +79,6 @@
         font-size: 24px;
         color: white; 
         font-weight: bold;
-<<<<<<< Updated upstream
          
     }
 
@@ -168,29 +151,12 @@
 
 </style>
 
-=======
-    }
-</style>
-
-
-
-<!--   <script type="text/javascript" src="${ pageContext.servletContext.contextPath }/resources/js/jquery-3.7.1.min.js"></script>
-<script type="text/javascript">
-function movePage() {
-    location.href = "loginPage.do";
-}
-</script>
--->
-
-
->>>>>>> Stashed changes
 </head>
 
 <body>
     <!-- 서브헤더 JSP 임포트 -->
     <c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
-<<<<<<< Updated upstream
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
@@ -204,7 +170,7 @@ function movePage() {
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">ModuERP Maintest</div>
+        <div class="content-title">ModuERP Maintesttest</div>
 
         <!-- 필터 박스 -->
         <div class="filter-box">
@@ -272,16 +238,4 @@ function movePage() {
 </script>
 
 
-=======
-    <!-- 하얀 큰 박스 -->
-    <div class="content-box">
-
-        <div class="content-title">메인페이지</div>
-
-        <!-- 이 안에 내용 넣을 거임!! -->    
-        
-        
-    </div>
-</body>
->>>>>>> Stashed changes
 </html>

@@ -1,4 +1,4 @@
-package com.e3i3.moduerp.productionstock.dto;
+package com.e3i3.moduerp.productionstock.model.dto;
 
 public class ProductionStockInDTO {
     private String pStockInId;
