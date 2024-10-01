@@ -3,8 +3,9 @@ package com.e3i3.moduerp.productionstock.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.e3i3.moduerp.productionstock.dao.ProductionStockInDAO;
-import com.e3i3.moduerp.productionstock.dto.ProductionStockInDTO;
+
+import com.e3i3.moduerp.productionstock.model.dao.ProductionStockInDAO;
+import com.e3i3.moduerp.productionstock.model.dto.ProductionStockInDTO;
 
 @Service
 public class ProductionStockInServiceImpl implements ProductionStockInService {
