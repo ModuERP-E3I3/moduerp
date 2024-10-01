@@ -169,7 +169,7 @@
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">거래처관리 | 거래처정보</div>
+        <div class="content-title">영업/판매 관리 | 거래처관리</div>
 
         <!-- 필터 박스 -->
         <div class="filter-box">
@@ -199,9 +199,10 @@
                     <th>비고</th>
                 </tr>
             </thead>
-            <tbody>
+            
+			<tbody>
 			    <c:forEach var="salesStockIn" items="${stockList}">
-			        <tr>
+			        <tr onclick="location.href='accountCreate.jsp?sStockInId=${salesStockIn.sStockInId}'" style="cursor: pointer;">
 			            <td>${salesStockIn.sStockInId}</td>
 			            <td>${salesStockIn.itemCode}</td>
 			            <td>${salesStockIn.sStockInDate}</td>
