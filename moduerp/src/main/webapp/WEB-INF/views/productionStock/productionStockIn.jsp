@@ -63,7 +63,7 @@
         background-color: white;
         margin-left: 1%;
         margin-right: 5%;
-        margin-top: 5%;
+        margin-top: 3%;
         border: 1px solid #ccc;
         border-radius: 20px; /* 박스 둥글게 */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -191,23 +191,25 @@
             <thead>
                 <tr>
                     <th>순번</th>
-                    <th>거래처</th>
+                    <th>입고번호</th>
                     <th>품목코드</th>
-                    <th>품명</th>
-                    <th>입고 수량</th>
-                    <th>재고 수량</th>
-                    <th>단가</th>
-                    <th>비고</th>
+                    <th>UUID</th>
+                    <th>입고날짜</th>
+                    <th>보관장소</th>
+                    <th>입고수량</th>
                 </tr>
             </thead>
             <tbody>
-			    <c:forEach var="productionStockIn" items="${stockList}">
+			    <c:forEach var="productionStockIn" items="${stockList}" varStatus="status">
 			        <tr>
+			            <td>${status.index + 1}</td> <!-- 순번을 1부터 시작 -->
 			            <td>${productionStockIn.pStockInId}</td>
 			            <td>${productionStockIn.itemCode}</td>
+			            <td>${productionStockIn.UUID}</td>
 			            <td>${productionStockIn.pStockInDate}</td>
 			            <td>${productionStockIn.pStockPlace}</td>
 			            <td>${productionStockIn.pStockInQty}</td>
+			            
 			        </tr>
 			    </c:forEach>
 			</tbody>
@@ -218,7 +220,7 @@
         <div class="btn-group">
             <button class="btn red">삭제</button>
             <button class="btn green">수정</button>
-            <button class="btn blue">등록</button>
+            <a href="productionInCreate.do"><button class="btn blue">등록</button></a>
         </div>
 
     </div>
