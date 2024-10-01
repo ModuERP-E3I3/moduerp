@@ -169,7 +169,7 @@
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">영업관리 | 영업출고</div>
+        <div class="content-title">거래처관리 | 거래처정보</div>
 
         <!-- 필터 박스 -->
         <div class="filter-box">
@@ -200,13 +200,13 @@
                 </tr>
             </thead>
             <tbody>
-			    <c:forEach var="salesStockOut" items="${stockList}">
+			    <c:forEach var="salesStockIn" items="${stockList}">
 			        <tr>
-			            <td>${salesStockOut.sStockInId}</td>
-			            <td>${salesStockOut.itemCode}</td>
-			            <td>${salesStockOut.sStockInDate}</td>
-			            <td>${salesStockOut.sStockPlace}</td>
-			            <td>${salesStockOut.sStockInQty}</td>
+			            <td>${salesStockIn.sStockInId}</td>
+			            <td>${salesStockIn.itemCode}</td>
+			            <td>${salesStockIn.sStockInDate}</td>
+			            <td>${salesStockIn.sStockPlace}</td>
+			            <td>${salesStockIn.sStockInQty}</td>
 			        </tr>
 			    </c:forEach>
 			</tbody>

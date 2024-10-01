@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SalesStockMapper">
+
+    <!-- SalesStockIn에 대한 resultMap -->
+    <resultMap id="resultSalesStockIn" type="com.e3i3.moduerp.salesstock.model.dto.SalesStockInDTO">
+        <result property="sStockInId" column="S_STOCK_IN_ID" />
+        <result property="itemCode" column="ITEM_CODE" />
+        <result property="accountNo" column="ACCOUNT_NO" />
+        <result property="sStockInDate" column="STOCK_IN_DATE" />
+        <result property="sStockPlace" column="S_STOCK_IN_PLACE" />
+        <result property="unitPrice" column="UNIT_PRICE" />
+        <result property="sStockInQty" column="S_STOCK_IN_QTY" />
+    </resultMap>
+
+    <!-- 모든 판매 입고 데이터 조회용 쿼리 -->
+    <select id="getAllSalesStockIn" resultMap="resultSalesStockIn">
+        SELECT S_STOCK_IN_ID, ITEM_CODE, ACCOUNT_NO, STOCK_IN_DATE, S_STOCK_IN_PLACE, UNIT_PRICE, S_STOCK_IN_QTY
+        FROM SALES_STOCK_IN
+    </select>
+
+    <!-- 특정 판매 입고 데이터 조회용 쿼리 -->
+    <select id="getSalesStockInById" parameterType="String" resultMap="resultSalesStockIn">
+        SELECT S_STOCK_IN_ID, ITEM_CODE, STOCK_IN_DATE, S_STOCK_IN_PLACE, S_STOCK_IN_QTY
+        FROM SALES_STOCK_IN
+        WHERE S_STOCK_IN_ID = #{sStockInId}
+    </select>
+</mapper>
