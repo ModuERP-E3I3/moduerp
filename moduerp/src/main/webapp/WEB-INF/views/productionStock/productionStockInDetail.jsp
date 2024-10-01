@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -169,7 +170,7 @@
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">생산관리 | 생산출고</div>
+        <div class="content-title">생산관리 | 생산입고 | ? 디테일</div>
 
         <!-- 필터 박스 -->
         <div class="filter-box">
@@ -189,28 +190,31 @@
         <table>
             <thead>
                 <tr>
-                    <th>출고번호</th>
+                    <th>순번</th>
+                    <th>입고번호</th>
                     <th>품목코드</th>
                     <th>UUID</th>
-                    <th>출고날짜</th>
+                    <th>입고날짜</th>
                     <th>보관장소</th>
-                    <th>출고수량</th>
+                    <th>입고수량</th>
                 </tr>
             </thead>
-			<tbody>
-				<c:forEach var="stockOut" items="${stockOutList}">
-					<tr>
-						<td>${stockOut.pStockOutId}</td>
-						<td>${stockOut.itemCode}</td>
-						<td>${stockOut.uuid}</td>
-						<td>${stockOut.pStockOutDate}</td>
-						<td>${stockOut.pStockOutPlace}</td>
-						<td>${stockOut.pStockOutQty}</td>
-					</tr>
-				</c:forEach>
+            <tbody>
+			    <c:forEach var="productionStockIn" items="${stockList}" varStatus="status">
+			        <tr>
+			            <td>${status.index + 1}</td> <!-- 순번을 1부터 시작 -->
+			            <td>${productionStockIn.pStockInId}</td>
+			            <td>${productionStockIn.itemCode}</td>
+			            <td>${productionStockIn.UUID}</td>
+			            <td>${productionStockIn.pStockInDate}</td>
+			            <td>${productionStockIn.pStockPlace}</td>
+			            <td>${productionStockIn.pStockInQty}</td>
+			            
+			        </tr>
+			    </c:forEach>
 			</tbody>
 
-		</table>
+        </table>
 
         <!-- 버튼 그룹 -->
         <div class="btn-group">
@@ -221,6 +225,7 @@
 
     </div>
 </body>
+
 <script>
     const activeMenu = "productionStockIn";
 
@@ -233,4 +238,6 @@
         });
     });
 </script>
+
+
 </html>

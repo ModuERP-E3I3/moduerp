@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -62,7 +63,7 @@
         background-color: white;
         margin-left: 1%;
         margin-right: 5%;
-        margin-top: 3%;
+        margin-top: 5%;
         border: 1px solid #ccc;
         border-radius: 20px; /* 박스 둥글게 */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -159,17 +160,17 @@
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	        <li><a href="productionStockIn.do"><i class="fas fa-bullhorn"></i> 생산 입고</a></li>
-	        <li><a href="productionStockOut.do"><i class="fas fa-clipboard"></i> 생산 출고</a></li> <!-- 수정 -->
-	        <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> <!-- 수정 -->
-	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> <!-- 수정 -->
+	        <li><a href="attendance.do"><i class="fas fa-bullhorn"></i> 출퇴근</a></li>
+	        <li><a href="leave.do"><i class="fas fa-clipboard"></i> 휴 가</a></li> <!-- 수정 -->
+	        <!-- <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> 수정
+	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> 수정 -->
 	    </ul>
 	</div>
 	
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">생산관리 | 생산출고</div>
+        <div class="content-title">출퇴근</div>
 
         <!-- 필터 박스 -->
         <div class="filter-box">
@@ -179,7 +180,7 @@
             <input type="date" />
             <input type="date" />
             <select>
-                <option>품목 선택</option>
+                <option>직원 선택</option>
             </select>
             <input type="text" placeholder="내용 입력" />
             <button class="btn">조회</button>
@@ -189,28 +190,28 @@
         <table>
             <thead>
                 <tr>
-                    <th>출고번호</th>
-                    <th>품목코드</th>
-                    <th>UUID</th>
-                    <th>출고날짜</th>
-                    <th>보관장소</th>
-                    <th>출고수량</th>
+                    <th>순번</th>
+                    <th>직원명</th>
+                    <th>날짜</th>
+                    <th>출근시간</th>
+                    <th>퇴근시간</th>
+                    <th>근무 외 시간</th>
+                    <th>총 근무시간</th>
                 </tr>
             </thead>
-			<tbody>
-				<c:forEach var="stockOut" items="${stockOutList}">
-					<tr>
-						<td>${stockOut.pStockOutId}</td>
-						<td>${stockOut.itemCode}</td>
-						<td>${stockOut.uuid}</td>
-						<td>${stockOut.pStockOutDate}</td>
-						<td>${stockOut.pStockOutPlace}</td>
-						<td>${stockOut.pStockOutQty}</td>
-					</tr>
-				</c:forEach>
+            <tbody>
+			    <c:forEach var="productionStockIn" items="${stockList}">
+			        <tr>
+			            <td>${productionStockIn.pStockInId}</td>
+			            <td>${productionStockIn.itemCode}</td>
+			            <td>${productionStockIn.pStockInDate}</td>
+			            <td>${productionStockIn.pStockPlace}</td>
+			            <td>${productionStockIn.pStockInQty}</td>
+			        </tr>
+			    </c:forEach>
 			</tbody>
 
-		</table>
+        </table>
 
         <!-- 버튼 그룹 -->
         <div class="btn-group">
@@ -221,8 +222,9 @@
 
     </div>
 </body>
+
 <script>
-    const activeMenu = "productionStockIn";
+    const activeMenu = "attendance";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');
@@ -233,4 +235,6 @@
         });
     });
 </script>
+
+
 </html>

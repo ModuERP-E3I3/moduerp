@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="WorkOrderMapper">
+    <resultMap id="resultWorkOrder" type="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+        <result property="orderNumber" column="ORDER_NUMBER"/>
+        <result property="itemCode" column="ITEM_CODE"/>
+        <result property="uuid" column="UUID"/>
+        <result property="departmentId" column="DEPARTMENT_ID"/>
+        <result property="startDate" column="START_DATE"/>
+        <result property="endDate" column="END_DATE"/>
+        <result property="taskName" column="TASK_NAME"/>
+        <result property="qty" column="QTY"/>
+        <result property="progressStatus" column="PROGRESS_STATUS"/>
+        <result property="workerTeam" column="WORKER_TEAM"/>
+        <result property="worker" column="WORKER"/>
+        <result property="workPlace" column="WORK_PLACE"/>
+        <result property="wDirector" column="W_DIRECTOR"/> 
+
+    </resultMap>
+
+    <select id="getAllWorkOrders" resultMap="resultWorkOrder">
+        SELECT * FROM WORK_ORDER
+    </select>
+</mapper>
