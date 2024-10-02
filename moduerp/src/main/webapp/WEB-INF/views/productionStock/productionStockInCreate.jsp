@@ -188,49 +188,50 @@
 
         <!-- 테이블 -->
         <table>
-            <thead>
-                <tr>
-                    <th>입고날짜</th>
-                    <th>보관장소</th>
-                    <th>입고수량</th>
-                    <th>품목 이름</th>
-                    <th>품목 설명</th>
-                    <th>보관장소</th>
-                    <th>입고 가격</th>
-                    <th>자재 종류</th>
-                </tr>
-            </thead>
-            <tbody>
-				
-					<tr>
-						<td><input type="date" /></td>
-						<!-- 날짜 선택하는 칸 -->
-						<td><input type="text" placeholder="보관장소 입력" /></td>
-						<!-- 글자 입력 칸 (보관장소) -->
-						<td><input type="number" placeholder="수량 입력" /></td>
-						<!-- 숫자 입력 칸 (입고수량) -->
-						<td><input type="text" placeholder="품목 이름 입력" /></td>
-						<!-- 글자 입력 칸 (품목 이름) -->
-						<td><input type="text" placeholder="품목 설명 입력" /></td>
-						<!-- 글자 입력 칸 (품목 설명) -->
-						<td><input type="text" placeholder="보관장소 입력" /></td>
-						<!-- 글자 입력 칸 (보관장소) -->
+			<thead>
+				<tr>
+					<th>입고날짜</th>
+					<th>보관장소</th>
+					<th>입고수량</th>
+					<th>품목 이름</th>
+					<th>품목 설명</th>
+					<th>보관장소</th>
+					<th>입고 가격</th>
+					<th>자재 종류</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr>
+					<td><input type="date" /></td>
+					<!-- 날짜 선택하는 칸 -->
+					<td><input type="text" placeholder="보관장소 입력" /></td>
+					<!-- 글자 입력 칸 (보관장소) -->
+					<td><input type="number" placeholder="수량 입력" /></td>
+					<!-- 숫자 입력 칸 (입고수량) -->
+					<td><input type="text" placeholder="품목 이름 입력" /></td>
+					<!-- 글자 입력 칸 (품목 이름) -->
+					<td><input type="text" placeholder="품목 설명 입력" /></td>
+					<!-- 글자 입력 칸 (품목 설명) -->
+					<td><input type="text" placeholder="보관장소 입력" /></td>
+					<!-- 글자 입력 칸 (보관장소) -->
 					<td><input type="number" placeholder="가격 입력" step="0.01" /></td>
 					<!-- 숫자 입력 칸 (가격 입력) -->
 					<td><input list="materialTypes" placeholder="자재 종류 입력" /> <datalist
 							id="materialTypes">
-							<option value="자재 종류 1"></option>
-							<option value="자재 종류 2"></option>
-							<!-- 추가할 자재 종류 옵션들 -->
+							<c:forEach var="itemName" items="${itemNames}">
+								<option value="${itemName}"></option>
+							</c:forEach>
 						</datalist></td>
 
+
 					<!-- 선택 칸 (자재 종류 선택) -->
-					</tr>
-				
+				</tr>
+
 
 			</tbody>
 
-        </table>
+		</table>
 
         <!-- 버튼 그룹 -->
         <div class="btn-group">

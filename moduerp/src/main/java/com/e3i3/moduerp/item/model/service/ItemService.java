@@ -1,5 +1,7 @@
 package com.e3i3.moduerp.item.model.service;
 
-public class ItemService {
+import java.util.List;
 
+public interface ItemService {
+    List<String> getItemNamesByBizNumber(String bizNumber);
 }
