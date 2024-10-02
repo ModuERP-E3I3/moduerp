@@ -76,9 +76,39 @@
 }
 </style>
 
+<script type="text/javascript">
 
+$(function(){
+	$.ajax({
+		url: 'carlist.do',
+		type: 'post',
+		dataType: 'json',
+		success: function(data){
+			console.log('success : ' + data);  //[object Object]
+			
+			//object --> string
+			var str = JSON.stringify(data);
+			
+			//string --> json : parsing
+			var json = JSON.parse(str);
+			
+			values = '';
+			for(var i in json.nlist){
+				values += '<tr><td>' + json.nlist[i].no
+						+ '</td><td><a href="ndetail.do?no=' + json.nlist[i].no + '">' 
+						+ decodeURIComponent(json.nlist[i].title).replace(/\+/gi, ' ')
+						+ '</a></td><td>' + json.nlist[i].date + '</td></tr>';
+			}
+			
+			$('#newnotice').html($('#newnotice').html() + values);
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			console.log('error : ' + jqXHR + ", " + textStatus + ", " + errorThrown);
+		}
+	});  
+});
+</script>
 </head>
-
 <body>
 	<!-- 서브헤더 JSP 임포트 -->
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
