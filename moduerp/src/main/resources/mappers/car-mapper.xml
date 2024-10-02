@@ -9,6 +9,13 @@
  		<result property="ownershipStatus" column="OWNERSHIP_STATUS" />
  	</resultMap>
  	
- 	<resultMap type="Car" id="resultTop10"></resultMap>
- 
+ 	<resultMap type="Car" id="resultTop10">
+ 		<result property="carId" column="CAR_ID" />
+ 		<result property="carModel" column="CAR_MODEL" />
+ 		<result property="ownershipStatus" column="OWNERSHIP_STATUS" />
+ 	</resultMap>
+ 	
+ 	<select id="selectCar" parameterType="_int" resultMap="resultNotice">
+ 		select * from car
+ 	</select>
  </mapper>
