@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -39,7 +41,7 @@ public class EmployeeController {
 	                           @RequestParam("approvalCode") String approvalCode,
 	                           @RequestParam("empEmail") String empEmail,
 	                           @RequestParam("password") String password,
-	                           Model model) {
+	                           Model model, HttpSession session) {
 
 	    Map<String, Object> params = new HashMap<>();
 	    params.put("bizNumber", bizNumber);
@@ -47,23 +49,33 @@ public class EmployeeController {
 	    params.put("empEmail", empEmail);
 	    params.put("password", password);
 
-	    Employee employee = employeeService.validateLogin(params);
+	    Employee employee = employeeService.selectEmployeeForLogin(params);
 	    try {
 	    	System.out.println("로그인한 유저의 부서아이디: "+employee.getDepartmentId());
 	    }catch(NullPointerException e) {
 	    	e.getMessage();
 	    }
+	    
+	    // 로그인 결과 확인
 	    if (employee != null) {
+	    	// 세션에 UUID와 bizNumber 저장
+	    	System.out.println("세션에 저장할 uuid: "+ employee.getUuid());
+	    	System.out.println("세션에 저장할 bizNum: "+ employee.getBizNumber());
+	    	
+	    	session.setAttribute("uuid", employee.getUuid()); //로그인 성공한 직원의 uuid 
+	    	session.setAttribute("bizNum", employee.getBizNumber()); // 로그인한 직원의 bizNumber
+	    	
+	    	// 사장인지 직원인지에 따른 페이지 이동
 	        if ("ceo-dpt".equals(employee.getDepartmentId())) {
 	            // 사장일 경우 main.jsp로 이동
 	        	System.out.println("사장님 로그인 성공");
 	            model.addAttribute("message", "사장님 로그인 성공");
-	            return "common/main";
+	            return "redirect:main.do"; // 성공 시
 	        } else {
 	            // 사원일 경우 erpMain.jsp로 이동
 	        	System.out.println("사원 로그인 성공");
 	            model.addAttribute("message", "사원 로그인 성공");
-	            return "common/erpMain";
+	            return "redirect:erpMain.do"; // 성공 시
 	        }
 	    } else {
 	    	//아이디(로그인 전화번호, 로그인 전용 아이디) 또는 비밀번호가 잘못 되었습니다. 

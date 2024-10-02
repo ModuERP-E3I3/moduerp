@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.util.UUID" %>
 
 <!DOCTYPE html>
 <html>
@@ -170,7 +171,22 @@
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">ModuERP Maintesttest</div>
+        <div class="content-title">ModuERP Main Test</div>
+        
+        
+          <!-- 세션에서 UUID와 bizNumber 추출 및 출력 -->
+      <%
+    UUID employeeUUID = (UUID) session.getAttribute("uuid"); // 세션에서 UUID 가져오기
+    String bizNumber = (String) session.getAttribute("bizNum"); // 세션에서 bizNumber 가져오기
+
+    if (employeeUUID != null && bizNumber != null) {
+        out.println("로그인한 직원 UUID: " + employeeUUID.toString()); // UUID 출력
+        out.println("로그인한 직원 BizNumber: " + bizNumber); // bizNumber 출력
+    } else {
+        out.println("세션에 로그인 정보가 없습니다."); // 로그인 정보가 없을 때
+    }
+%>
+
 
         <!-- 필터 박스 -->
         <div class="filter-box">
