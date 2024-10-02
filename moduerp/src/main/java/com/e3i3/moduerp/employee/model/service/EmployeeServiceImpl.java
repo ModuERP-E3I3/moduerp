@@ -50,19 +50,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeDao.selectEmployeesByBizNum(biznumber);
 	}
 	
-	
 	// 로그인 검증 메소드
 	@Override
-	public Employee selectEmployeeForLogin(Map<String, Object> params) {
+	public Employee validateLogin(Map<String, Object> params) {
 		// 전달된 파라미터(사업자번호, 승인코드, 이메일)을 이용해 직원 조회
 		Employee employee = employeeDao.selectEmployeeForLogin(params);
-		System.out.println("impl employee: "+employee);
-		
 		if (employee != null) {
-			
-			System.out.println("로그인한 직원 UUID impl: " + employee.getUuid());
-			System.out.println("로그인한 직원 BizNumber impl : " + employee.getBizNumber());
-			
 			// 암호화된 비밀번호 비교
 			String inputPassword=(String)params.get("password"); // 사용자가 입력한 비밀번호
 			String storedPassword=employee.getPassword(); //데이터베이스에 저장된 암호화된 비밀번호

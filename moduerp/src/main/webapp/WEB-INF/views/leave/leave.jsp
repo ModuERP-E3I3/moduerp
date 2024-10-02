@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>erpMain</title>
+<title>휴가</title>
 
 <style type="text/css">
 
@@ -161,9 +161,8 @@
 	<div class="top-content-box">
 	    <ul id="menubar">
 	        <li><a href="attendance.do"><i class="fas fa-bullhorn"></i> 출퇴근</a></li>
-	        <li><a href="leave.do"><i class="fas fa-clipboard"></i> 휴 가</a></li> <!-- 수정 -->
-	        <!-- <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> 수정
-	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> 수정 -->
+	        <li><a href="leave.do"><i class="fas fa-clipboard"></i> 휴 가</a></li> 
+	        <li><a href="inbox.do"><i class="fas fa-clipboard"></i> 이메일</a></li> 
 	    </ul>
 	</div>
 	
@@ -172,46 +171,7 @@
 
         <div class="content-title">휴 가</div>
 
-        <!-- 필터 박스 -->
-        <div class="filter-box">
-            <select>
-                <option>조회기간</option>
-            </select>
-            <input type="date" />
-            <input type="date" />
-            <select>
-                <option>종류 선택</option>
-            </select>
-            <input type="text" placeholder="내용 입력" />
-            <button class="btn">조회</button>
-        </div>
-
-        <!-- 테이블 -->
-        <table>
-            <thead>
-                <tr>
-                    <th>휴가 종류</th>
-                    <th>직원명</th>
-                    <th>휴가 시작날짜</th>
-                    <th>휴가 종료날짜</th>
-                    <th>잔여 연차</th>
-                    <th>특이사항(휴가)</th>
-                    <th>담당자명</th>
-                </tr>
-            </thead>
-            <tbody>
-			    <c:forEach var="productionStockIn" items="${stockList}">
-			        <tr>
-			            <td>${productionStockIn.pStockInId}</td>
-			            <td>${productionStockIn.itemCode}</td>
-			            <td>${productionStockIn.pStockInDate}</td>
-			            <td>${productionStockIn.pStockPlace}</td>
-			            <td>${productionStockIn.pStockInQty}</td>
-			        </tr>
-			    </c:forEach>
-			</tbody>
-
-        </table>
+    
 
         <!-- 버튼 그룹 -->
         <div class="btn-group">

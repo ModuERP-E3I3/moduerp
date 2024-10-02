@@ -19,5 +19,5 @@ public interface EmployeeService {
 
 	public List<Employee> selectAllEmployees();
 
-	public Employee selectEmployeeForLogin(Map<String, Object> params);
+	public Employee validateLogin(Map<String, Object> params);
 }

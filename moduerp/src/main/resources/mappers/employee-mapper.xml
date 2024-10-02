@@ -123,48 +123,6 @@
     <select id="selectAllEmployees" resultType="com.e3i3.moduerp.employee.model.dto.Employee">
         SELECT * FROM employee
     </select>
-<<<<<<< HEAD
-    
-<!-- 로그인 검증을 위한 쿼리 -->
-<select id="selectEmployeeForLogin" parameterType="map" resultType="com.e3i3.moduerp.employee.model.dto.Employee">
-    SELECT 
-        UUID,
-        BIZ_NUMBER,
-        APPROVAL_CODE,
-        DEPARTMENT_ID,
-        JOB_ID,
-        PRIVATE_AUTHORITY,
-        EMP_NO,
-        EMP_NAME,
-        EMP_EMAIL,
-        USER_PHONE,
-        REGISTRATION_DATE,
-        PROFILE_IMG,
-        UPDATED_AT,
-        IS_DELETED,
-        LAST_LOGIN_LOCATION,
-        DELETED_EXCUSE,
-        DELETED_AT,
-        HIRE_DATE,
-        QUIT_DATE,
-        RE_NUM,
-        ADDRESS,
-        IS_EMAIL_CHANGED,
-        NEW_EMP_EMAIL,
-        REMAINING_LEAVE,
-        CONTRACT_START_TIME,
-        CONTRACT_END_TIME,
-        MGR_UUID,
-        PASSWORD
-    FROM employee
-    WHERE 
-        BIZ_NUMBER = #{bizNumber} AND 
-        APPROVAL_CODE = #{approvalCode} AND 
-        EMP_EMAIL = #{empEmail}
-</select>
-
-
-=======
 
 	<!-- 로그인 검증을 위한 쿼리 -->
 	<select id="selectEmployeeForLogin" parameterType="map"
@@ -177,7 +135,6 @@
 		AND approval_code = #{approvalCode}
 		AND is_deleted = 'N'
 	</select>
->>>>>>> 5c2e71e708b156708c70447e4b84b5847ef3efe2
 
 
 </mapper>
