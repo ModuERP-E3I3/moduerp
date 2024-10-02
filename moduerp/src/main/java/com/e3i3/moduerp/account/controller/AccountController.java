@@ -11,6 +11,6 @@ public class AccountController {
     // account.jsp 요청 처리
     @RequestMapping(value = "/account.do", method = RequestMethod.GET)
     public String forwardAccount() {
-        return "account/account";  // JSP 파일 경로 반환
+        return "salesStock/account";  // JSP 파일 경로 반환
     }
 }

@@ -160,17 +160,16 @@
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	        <li><a href="productionStockIn.do"><i class="fas fa-bullhorn"></i> 생산 입고</a></li>
-	        <li><a href="productionStockOut.do"><i class="fas fa-clipboard"></i> 생산 출고</a></li> <!-- 수정 -->
-	        <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> <!-- 수정 -->
-	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> <!-- 수정 -->
+	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
+	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
+	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
 	    </ul>
 	</div>
 	
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">영업/판매관리</div>
+        <div class="content-title">영업/판매 관리 | 영업출고</div>
 
         <!-- 필터 박스 -->
         <div class="filter-box">
@@ -201,13 +200,13 @@
                 </tr>
             </thead>
             <tbody>
-			    <c:forEach var="productionStockIn" items="${stockList}">
+			    <c:forEach var="salesStockOut" items="${stockList}">
 			        <tr>
-			            <td>${productionStockIn.pStockInId}</td>
-			            <td>${productionStockIn.itemCode}</td>
-			            <td>${productionStockIn.pStockInDate}</td>
-			            <td>${productionStockIn.pStockPlace}</td>
-			            <td>${productionStockIn.pStockInQty}</td>
+			            <td>${salesStockOut.sStockInId}</td>
+			            <td>${salesStockOut.itemCode}</td>
+			            <td>${salesStockOut.sStockInDate}</td>
+			            <td>${salesStockOut.sStockPlace}</td>
+			            <td>${salesStockOut.sStockInQty}</td>
 			        </tr>
 			    </c:forEach>
 			</tbody>
@@ -225,7 +224,7 @@
 </body>
 
 <script>
-    const activeMenu = "salseStockIn";
+    const activeMenu = "account.do";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

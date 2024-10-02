@@ -63,7 +63,7 @@
         background-color: white;
         margin-left: 1%;
         margin-right: 5%;
-        margin-top: 3%;
+        margin-top: 5%;
         border: 1px solid #ccc;
         border-radius: 20px; /* 박스 둥글게 */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -160,17 +160,16 @@
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	        <li><a href="productionStockIn.do"><i class="fas fa-bullhorn"></i> 생산 입고</a></li>
-	        <li><a href="productionStockOut.do"><i class="fas fa-clipboard"></i> 생산 출고</a></li> <!-- 수정 -->
-	        <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> <!-- 수정 -->
-	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> <!-- 수정 -->
+	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
+	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
+	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
 	    </ul>
 	</div>
 	
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">생산관리 | 생산입고 | 신규 등록</div>
+        <div class="content-title">영업/판매 관리 | 거래처관리</div>
 
         <!-- 필터 박스 -->
         <div class="filter-box">
@@ -190,58 +189,43 @@
         <table>
             <thead>
                 <tr>
-                    <th>입고날짜</th>
-                    <th>보관장소</th>
-                    <th>입고수량</th>
-                    <th>품목 이름</th>
-                    <th>품목 설명</th>
-                    <th>보관장소</th>
-                    <th>입고 가격</th>
-                    <th>자재 종류</th>
+                    <th>순번</th>
+                    <th>거래처</th>
+                    <th>품목코드</th>
+                    <th>품명</th>
+                    <th>입고 수량</th>
+                    <th>재고 수량</th>
+                    <th>단가</th>
+                    <th>비고</th>
                 </tr>
             </thead>
-            <tbody>
-				
-					<tr>
-						<td><input type="date" /></td>
-						<!-- 날짜 선택하는 칸 -->
-						<td><input type="text" placeholder="보관장소 입력" /></td>
-						<!-- 글자 입력 칸 (보관장소) -->
-						<td><input type="number" placeholder="수량 입력" /></td>
-						<!-- 숫자 입력 칸 (입고수량) -->
-						<td><input type="text" placeholder="품목 이름 입력" /></td>
-						<!-- 글자 입력 칸 (품목 이름) -->
-						<td><input type="text" placeholder="품목 설명 입력" /></td>
-						<!-- 글자 입력 칸 (품목 설명) -->
-						<td><input type="text" placeholder="보관장소 입력" /></td>
-						<!-- 글자 입력 칸 (보관장소) -->
-					<td><input type="number" placeholder="가격 입력" step="0.01" /></td>
-					<!-- 숫자 입력 칸 (가격 입력) -->
-					<td><input list="materialTypes" placeholder="자재 종류 입력" /> <datalist
-							id="materialTypes">
-							<option value="자재 종류 1"></option>
-							<option value="자재 종류 2"></option>
-							<!-- 추가할 자재 종류 옵션들 -->
-						</datalist></td>
-
-					<!-- 선택 칸 (자재 종류 선택) -->
-					</tr>
-				
-
+            
+			<tbody>
+			    <c:forEach var="salesStockIn" items="${stockList}">
+			        <tr onclick="location.href='accountCreate.jsp?sStockInId=${salesStockIn.sStockInId}'" style="cursor: pointer;">
+			            <td>${salesStockIn.sStockInId}</td>
+			            <td>${salesStockIn.itemCode}</td>
+			            <td>${salesStockIn.sStockInDate}</td>
+			            <td>${salesStockIn.sStockPlace}</td>
+			            <td>${salesStockIn.sStockInQty}</td>
+			        </tr>
+			    </c:forEach>
 			</tbody>
 
         </table>
 
         <!-- 버튼 그룹 -->
         <div class="btn-group">
-            <button class="btn blue">등록 완료</button>
+            <button class="btn red">삭제</button>
+            <button class="btn green">수정</button>
+            <button class="btn blue">등록</button>
         </div>
 
     </div>
 </body>
 
 <script>
-    const activeMenu = "productionStockIn";
+    const activeMenu = "account.do";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

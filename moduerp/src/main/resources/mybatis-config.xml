@@ -8,30 +8,45 @@
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL" />
 		<setting name="cacheEnabled" value="false" />
+
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+		<setting name="logImpl" value="STDOUT_LOGGING" />
+
 	</settings>
 
 	<!-- 존재하지 않는 클래스와 매퍼파일을 먼저 등록 설정하면 에러 발생함 : 톰켓 구동 안됨 -->
 	<typeAliases>
-		<typeAlias type="com.e3i3.moduerp.company.model.dto.Company" alias="Company" />
-		<typeAlias type="com.e3i3.moduerp.employee.model.dto.Employee" alias="Employee" />
-		<typeAlias type="com.e3i3.moduerp.department.model.dto.Department" alias="Department" />
-		<typeAlias type="com.e3i3.moduerp.notice.model.dto.Notice" alias="Notice" />
-		
+		<typeAlias type="com.e3i3.moduerp.company.model.dto.Company"
+			alias="Company" />
+		<typeAlias
+			type="com.e3i3.moduerp.employee.model.dto.Employee" alias="Employee" />
+		<typeAlias
+			type="com.e3i3.moduerp.department.model.dto.Department"
+			alias="Department" />
+		<typeAlias type="com.e3i3.moduerp.notice.model.dto.Notice"
+			alias="Notice" />
+
 	</typeAliases>
 
-	 <typeHandlers>
-        <typeHandler handler="com.e3i3.moduerp.common.handler.UUIDTypeHandler" javaType="java.util.UUID"/>
-    </typeHandlers>
-    
+	<typeHandlers>
+		<typeHandler
+			handler="com.e3i3.moduerp.common.handler.UUIDTypeHandler"
+			javaType="java.util.UUID" />
+	</typeHandlers>
+
 	<mappers>
 		<mapper resource="mappers/company-mapper.xml" />
 		<mapper resource="mappers/employee-mapper.xml" />
 		<mapper resource="mappers/department-mapper.xml" />
-		
+
 		<mapper resource="mappers/notice-mapper.xml" />
 		<mapper resource="mappers/productionStockIn-mapper.xml" />
 		<mapper resource="mappers/productionStockOut-mapper.xml" />
 		<mapper resource="mappers/workorder-mapper.xml" />
 		<mapper resource="mappers/productionquality-mapper.xml" />
+		<mapper resource="mappers/salesStock-mapper.xml" />
 	</mappers>
+
+	
+
 </configuration>
