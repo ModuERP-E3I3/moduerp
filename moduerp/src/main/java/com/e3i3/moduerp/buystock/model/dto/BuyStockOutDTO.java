@@ -70,23 +70,6 @@ public class BuyStockOutDTO {
 		this.bStockOutQty = bStockOutQty;
 	}
 	
-	public BuyStockOutDTO() {
-		super();
-	}
-	
-	public BuyStockOutDTO(String bStockOutId, String itemCode, String uuid, String accountNo, String bankId,
-			String departmentId, Date bStockOutDate, String bStockOutPlace, int bStockOutQty) {
-		super();
-		this.bStockOutId = bStockOutId;
-		this.itemCode = itemCode;
-		this.uuid = uuid;
-		this.accountNo = accountNo;
-		this.bankId = bankId;
-		this.departmentId = departmentId;
-		this.bStockOutDate = bStockOutDate;
-		this.bStockOutPlace = bStockOutPlace;
-		this.bStockOutQty = bStockOutQty;
-	}
     
     
 	
