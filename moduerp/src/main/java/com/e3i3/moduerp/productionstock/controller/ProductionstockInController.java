@@ -27,12 +27,12 @@ public class ProductionstockInController {
 	@Autowired
 	private ItemProductionstockService itemProductionstockService;
 
-	// ±âÁ¸ GET ¸Þ¼­µå
+	// ï¿½ï¿½ï¿½ï¿½ GET ï¿½Þ¼ï¿½ï¿½ï¿½
 	@RequestMapping(value = "/productionStockIn.do", method = RequestMethod.GET)
 	public String forwardProductionIn(Model model) {
 		List<ProductionStockInDTO> stockList = productionStockInService.getAllProductionStockIn();
 		model.addAttribute("stockList", stockList);
-		return "productionStock/productionStockIn"; // JSP ÆÄÀÏ °æ·Î ¹ÝÈ¯
+		return "productionStock/productionStockIn"; // JSP ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
 	}
 
 	@PostMapping("/productionStockInCreate.do")
@@ -42,54 +42,54 @@ public class ProductionstockInController {
 			@RequestParam("inPrice") double inPrice, @RequestParam("materialType") List<String> materialType,
 			HttpSession session) {
 
-		// ¼¼¼Ç¿¡¼­ biz_number¿Í uuid¸¦ °¡Á®¿È
+		// ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ biz_numberï¿½ï¿½ uuidï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String userUuid = (String) session.getAttribute("uuid");
 
-		// ITEM_CODE »ý¼º: biz_number + "P" + ÇöÀç Å¸ÀÓ½ºÅÆÇÁ
+		// ITEM_CODE ï¿½ï¿½ï¿½ï¿½: biz_number + "P" + ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½Ó½ï¿½ï¿½ï¿½ï¿½ï¿½
 		String itemCode = bizNumber + "P" + new Timestamp(System.currentTimeMillis()).getTime();
 
-		// stockInDateStr¸¦ LocalDate·Î º¯È¯ÇÑ ÈÄ LocalDateTimeÀ¸·Î º¯È¯ (ÀÚÁ¤ ½Ã°£ Ãß°¡)
+		// stockInDateStrï¿½ï¿½ LocalDateï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ LocalDateTimeï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ (ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ß°ï¿½)
 		LocalDate localDate = LocalDate.parse(stockInDateStr);
-		LocalDateTime localDateTime = localDate.atStartOfDay(); // ÀÚÁ¤ ½Ã°£ Ãß°¡
+		LocalDateTime localDateTime = localDate.atStartOfDay(); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ß°ï¿½
 		Timestamp stockInDate = Timestamp.valueOf(localDateTime);
 
-		// ITEM Å×ÀÌºí¿¡ ÀúÀåÇÒ µ¥ÀÌÅÍ ¼³Á¤
+		// ITEM ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		ItemDTO itemDTO = new ItemDTO();
 		itemDTO.setItemCode(itemCode);
 		itemDTO.setItemName(itemName);
 		itemDTO.setItemDesc(itemDesc);
 
-		// TOTAL_STOCK_QTY °è»ê ¹× ¼³Á¤
-		// Ã³À½ ÀÔ·ÂµÉ °æ¿ì TOTAL_STOCK_QTY´Â 0À¸·Î ½ÃÀÛ
+		// TOTAL_STOCK_QTY ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		// Ã³ï¿½ï¿½ ï¿½Ô·Âµï¿½ ï¿½ï¿½ï¿½ TOTAL_STOCK_QTYï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		int totalStockQty = 0;
 
-		// °¡°Ý°ú ¼ö·®À» ±â¹ÝÀ¸·Î TOTAL_STOCK_QTY °è»ê
-		totalStockQty += stockInQty; // ÇöÀç ÀÔ°í ¼ö·®À» TOTAL_STOCK_QTY¿¡ Ãß°¡
-		itemDTO.setTotalStockQty(totalStockQty); // TOTAL_STOCK_QTY ¼³Á¤
+		// ï¿½ï¿½ï¿½Ý°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ TOTAL_STOCK_QTY ï¿½ï¿½ï¿½
+		totalStockQty += stockInQty; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ô°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ TOTAL_STOCK_QTYï¿½ï¿½ ï¿½ß°ï¿½
+		itemDTO.setTotalStockQty(totalStockQty); // TOTAL_STOCK_QTY ï¿½ï¿½ï¿½ï¿½
 
-		itemDTO.setCreatedAt(stockInDate); // º¯È¯µÈ Timestamp »ç¿ë
+		itemDTO.setCreatedAt(stockInDate); // ï¿½ï¿½È¯ï¿½ï¿½ Timestamp ï¿½ï¿½ï¿½
 		itemDTO.setStockPlace(stockPlace);
 		itemDTO.setInPrice(inPrice);
 		itemDTO.setBizNumber(bizNumber);
 		itemDTO.setItemList(materialType);
 
-		// ITEM Å×ÀÌºí¿¡ µ¥ÀÌÅÍ ÀúÀå
+		// ITEM ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		itemProductionstockService.insertItem(itemDTO);
 
-		// PRODUCTION_STOCK_IN Å×ÀÌºí¿¡ ÀúÀåÇÒ µ¥ÀÌÅÍ ¼³Á¤
+		// PRODUCTION_STOCK_IN ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		ProductionStockInDTO productionStockInDTO = new ProductionStockInDTO();
-		productionStockInDTO.setPStockInId(itemCode); // ITEM_CODE »ç¿ë
+		productionStockInDTO.setPStockInId(itemCode); // ITEM_CODE ï¿½ï¿½ï¿½
 		productionStockInDTO.setItemCode(itemCode);
-		productionStockInDTO.setPStockInDate(stockInDate); // º¯È¯µÈ Timestamp »ç¿ë
+		productionStockInDTO.setPStockInDate(stockInDate); // ï¿½ï¿½È¯ï¿½ï¿½ Timestamp ï¿½ï¿½ï¿½
 		productionStockInDTO.setPStockPlace(stockPlace);
 		productionStockInDTO.setPStockInQty(stockInQty);
 		productionStockInDTO.setUUID(userUuid);
 
-		// PRODUCTION_STOCK_IN Å×ÀÌºí¿¡ µ¥ÀÌÅÍ ÀúÀå
+		// PRODUCTION_STOCK_IN ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		productionStockInService.insertProductionStockIn(productionStockInDTO);
 
-		return "redirect:/productionStockIn.do"; // µî·Ï ÈÄ ¸ñ·Ï ÆäÀÌÁö·Î ¸®´ÙÀÌ·ºÆ®
+		return "redirect:/productionStockIn.do"; // ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì·ï¿½Æ®
 	}
 
 }

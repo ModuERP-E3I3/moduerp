@@ -54,7 +54,8 @@ public class EmployeeController {
 
 	    if (employee != null) {
 	        // 로그인 성공: 세션에 uuid와 biz_number, email 저장
-	        session.setAttribute("uuid", employee.getUuid());
+//	        session.setAttribute("uuid", employee.getUuid());
+	        session.setAttribute("uuid", employee.getUuid().toString());
 	        session.setAttribute("biz_number", employee.getBizNumber());
 	        session.setAttribute("email", employee.getEmpEmail());
 	        
