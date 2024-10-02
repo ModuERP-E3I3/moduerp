@@ -9,9 +9,7 @@
 <title>erpMain</title>
 
 <style type="text/css">
-body {
-	background-color : #223D38;
-}
+
 .top-content-box {
     width: 80%; /* 화면에 가득 차지 않게 */
     height: 6vh;

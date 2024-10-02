@@ -23,8 +23,10 @@
 		<typeAlias
 			type="com.e3i3.moduerp.department.model.dto.Department"
 			alias="Department" />
+    	<typeAlias type="com.e3i3.moduerp.car.model.dto.CarDto" alias="CarDto" />
 		<typeAlias type="com.e3i3.moduerp.notice.model.dto.Notice"
 			alias="Notice" />
+		
 
 	</typeAliases>
 
@@ -38,7 +40,7 @@
 		<mapper resource="mappers/company-mapper.xml" />
 		<mapper resource="mappers/employee-mapper.xml" />
 		<mapper resource="mappers/department-mapper.xml" />
-
+		<mapper resource="mappers/car-mapper.xml" />
 		<mapper resource="mappers/notice-mapper.xml" />
 		<mapper resource="mappers/buyStockIn-mapper.xml" />
 		<mapper resource="mappers/productionStockIn-mapper.xml" />
