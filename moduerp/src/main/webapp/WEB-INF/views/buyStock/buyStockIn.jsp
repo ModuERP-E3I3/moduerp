@@ -161,9 +161,7 @@
 	<div class="top-content-box">
 	    <ul id="menubar">
 	        <li><a href="productionStockIn.do"><i class="fas fa-bullhorn"></i> 생산 입고</a></li>
-	        <li><a href="productionStockOut.do"><i class="fas fa-clipboard"></i> 생산 출고</a></li> <!-- 수정 -->
-	        <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> <!-- 수정 -->
-	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> <!-- 수정 -->
+
 	    </ul>
 	</div>
 	
@@ -203,11 +201,11 @@
             <tbody>
 			    <c:forEach var="productionStockIn" items="${stockList}">
 			        <tr>
-			            <td>${productionStockIn.pStockInId}</td>
-			            <td>${productionStockIn.itemCode}</td>
-			            <td>${productionStockIn.pStockInDate}</td>
-			            <td>${productionStockIn.pStockPlace}</td>
-			            <td>${productionStockIn.pStockInQty}</td>
+			            <td>${buyStockIn.bStockInId}</td>
+			            <td>${buyStockIn.itemCode}</td>
+			            <td>${buyStockIn.bStockInDate}</td>
+			            <td>${buyStockIn.bStockPlace}</td>
+			            <td>${buyStockIn.bStockInQty}</td>
 			        </tr>
 			    </c:forEach>
 			</tbody>
