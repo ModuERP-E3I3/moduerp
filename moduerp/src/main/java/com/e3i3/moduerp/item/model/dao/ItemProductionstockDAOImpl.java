@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class ItemDAOImpl implements ItemDAO {
+public class ItemProductionstockDAOImpl implements ItemProductionstockDAO {
 
     @Autowired
     private SqlSessionTemplate sqlSession;
@@ -17,5 +17,10 @@ public class ItemDAOImpl implements ItemDAO {
     @Override
     public List<String> selectItemNamesByBizNumber(String bizNumber) {
         return sqlSession.selectList(NAMESPACE + "selectItemNamesByBizNumber", bizNumber);
+    }
+
+    @Override
+    public List<String> selectStockPlacesByBizNumber(String bizNumber) { // 추가된 메서드
+        return sqlSession.selectList(NAMESPACE + "selectStockPlacesByBizNumber", bizNumber);
     }
 }
