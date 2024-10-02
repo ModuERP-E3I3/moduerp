@@ -9,6 +9,7 @@
 		<setting name="jdbcTypeForNull" value="NULL" />
 		<setting name="cacheEnabled" value="false" />
 
+		<!-- 카멜 케이스 VO 매핑 -->
 		<setting name="mapUnderscoreToCamelCase" value="true" />
 		<setting name="logImpl" value="STDOUT_LOGGING" />
 
@@ -26,14 +27,17 @@
     	<typeAlias type="com.e3i3.moduerp.car.model.dto.CarDto" alias="CarDto" />
 		<typeAlias type="com.e3i3.moduerp.notice.model.dto.Notice"
 			alias="Notice" />
-		
-
+		<typeAlias type="com.e3i3.moduerp.email.model.dto.Email"
+			alias="Email" />
 	</typeAliases>
 
 	<typeHandlers>
 		<typeHandler
 			handler="com.e3i3.moduerp.common.handler.UUIDTypeHandler"
 			javaType="java.util.UUID" />
+		<typeHandler
+			handler="com.e3i3.moduerp.handler.StringListTypeHandler"
+			javaType="java.util.List" jdbcType="VARCHAR" />
 	</typeHandlers>
 
 	<mappers>
@@ -41,6 +45,7 @@
 		<mapper resource="mappers/employee-mapper.xml" />
 		<mapper resource="mappers/department-mapper.xml" />
 		<mapper resource="mappers/car-mapper.xml" />
+		<mapper resource="mappers/email-mapper.xml"/>
 		<mapper resource="mappers/notice-mapper.xml" />
 		<mapper resource="mappers/buyStockIn-mapper.xml" />
 		<mapper resource="mappers/productionStockIn-mapper.xml" />
@@ -51,6 +56,6 @@
 		<mapper resource="mappers/item-productionstock-mapper.xml" />
 	</mappers>
 
-	
+
 
 </configuration>
