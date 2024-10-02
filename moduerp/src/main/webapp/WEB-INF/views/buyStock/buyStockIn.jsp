@@ -160,8 +160,9 @@
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	        <li><a href="productionStockIn.do"><i class="fas fa-bullhorn"></i> 생산 입고</a></li>
-
+	        <li><a href="productionStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
+			<li><a href="productionStockIn.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
+			<li><a href="productionStockIn.do"><i class="fas fa-bullhorn"></i> 배송 조회</a></li>
 	    </ul>
 	</div>
 	
@@ -195,17 +196,22 @@
                     <th>입고 수량</th>
                     <th>재고 수량</th>
                     <th>단가</th>
-                    <th>비고</th>
+                    <th>직원명</th>
+                    <th>비고</th>                    
                 </tr>
             </thead>
             <tbody>
-			    <c:forEach var="productionStockIn" items="${stockList}">
+			    <c:forEach var="BuyStockIn" items="${stockList}">
 			        <tr>
+			            <td>${buyStockIn.bStockInId}</td>
 			            <td>${buyStockIn.bStockInId}</td>
 			            <td>${buyStockIn.itemCode}</td>
 			            <td>${buyStockIn.bStockInDate}</td>
 			            <td>${buyStockIn.bStockPlace}</td>
 			            <td>${buyStockIn.bStockInQty}</td>
+			            <td>${buyStockIn.bStockInId}</td>
+			            <td>${buyStockIn.empName}</td>
+			            <td>${buyStockIn.bStockInId}</td>
 			        </tr>
 			    </c:forEach>
 			</tbody>
@@ -214,8 +220,6 @@
 
         <!-- 버튼 그룹 -->
         <div class="btn-group">
-            <button class="btn red">삭제</button>
-            <button class="btn green">수정</button>
             <button class="btn blue">등록</button>
         </div>
 
