@@ -1,26 +1,33 @@
 package com.e3i3.moduerp.item.model.dao;
 
-import org.mybatis.spring.SqlSessionTemplate;
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.e3i3.moduerp.item.model.dto.ItemDTO;
 
 @Repository
 public class ItemProductionstockDAOImpl implements ItemProductionstockDAO {
 
     @Autowired
-    private SqlSessionTemplate sqlSession;
+    private SqlSession sqlSession;
 
-    private static final String NAMESPACE = "ItemMapper.";
+    private static final String namespace = "ItemMapper";
 
     @Override
     public List<String> selectItemNamesByBizNumber(String bizNumber) {
-        return sqlSession.selectList(NAMESPACE + "selectItemNamesByBizNumber", bizNumber);
+        return sqlSession.selectList(namespace + ".selectItemNamesByBizNumber", bizNumber);
     }
 
     @Override
-    public List<String> selectStockPlacesByBizNumber(String bizNumber) { // 추가된 메서드
-        return sqlSession.selectList(NAMESPACE + "selectStockPlacesByBizNumber", bizNumber);
+    public List<String> selectStockPlacesByBizNumber(String bizNumber) {
+        return sqlSession.selectList(namespace + ".selectStockPlacesByBizNumber", bizNumber);
+    }
+
+    @Override
+    public void insertItem(ItemDTO itemDTO) {
+        sqlSession.insert(namespace + ".insertItem", itemDTO);
     }
 }

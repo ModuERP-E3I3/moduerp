@@ -188,33 +188,34 @@
 
         <!-- 테이블 -->
         <table>
-            <thead>
-                <tr>
-                    <th>순번</th>
-                    <th>입고번호</th>
-                    <th>품목코드</th>
-                    <th>UUID</th>
-                    <th>입고날짜</th>
-                    <th>보관장소</th>
-                    <th>입고수량</th>
-                </tr>
-            </thead>
-            <tbody>
-			    <c:forEach var="productionStockIn" items="${stockList}" varStatus="status">
-			        <tr>
-			            <td>${status.index + 1}</td> <!-- 순번을 1부터 시작 -->
-			            <td>${productionStockIn.pStockInId}</td>
-			            <td>${productionStockIn.itemCode}</td>
-			            <td>${productionStockIn.UUID}</td>
-			            <td>${productionStockIn.pStockInDate}</td>
-			            <td>${productionStockIn.pStockPlace}</td>
-			            <td>${productionStockIn.pStockInQty}</td>
-			            
-			        </tr>
-			    </c:forEach>
+			<thead>
+				<tr>
+					<th>순번</th>
+					<th>입고번호</th>
+					<th>품목코드</th>
+					<th>UUID</th>
+					<th>입고날짜</th>
+					<th>보관장소</th>
+					<th>입고수량</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="productionStockIn" items="${stockList}"
+					varStatus="status">
+					<tr>
+						<td>${status.index + 1}</td>
+						<td>${productionStockIn.pStockInId}</td>
+						<td>${productionStockIn.itemCode}</td>
+						<td>${productionStockIn.UUID}</td>
+						<td>${productionStockIn.pStockInDate}</td>
+						<td>${productionStockIn.pStockPlace}</td>
+						<td>${productionStockIn.pStockInQty}</td>
+					</tr>
+				</c:forEach>
 			</tbody>
 
-        </table>
+
+		</table>
 
         <!-- 버튼 그룹 -->
         <div class="btn-group">
