@@ -4,7 +4,6 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import com.e3i3.moduerp.productionstock.model.dto.ProductionStockInDTO;
 
 @Repository
@@ -20,7 +19,8 @@ public class ProductionStockInDAOImpl implements ProductionStockInDAO {
         return sqlSession.selectList(namespace + ".getAllProductionStockIn");
     }
 
-    public ProductionStockInDTO getProductionStockInById(String pStockInId) {
-        return sqlSession.selectOne(namespace + ".getProductionStockInById", pStockInId);
+    @Override
+    public void insertProductionStockIn(ProductionStockInDTO productionStockInDTO) {
+        sqlSession.insert(namespace + ".insertProductionStockIn", productionStockInDTO);
     }
 }

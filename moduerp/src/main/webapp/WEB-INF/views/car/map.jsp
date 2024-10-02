@@ -9,13 +9,18 @@
 <title>erpMain</title>
 
 <style type="text/css">
-
+body {
+	background-color : #223D38;
+}
 .top-content-box {
-    width: 96%; /* 화면에 가득 차지 않게 */
+    width: 80%; /* 화면에 가득 차지 않게 */
     height: 6vh;
+     position: absolute; /* 화면의 절대 위치로 변경 */
+    right: 0; /* 화면의 오른쪽에 위치 */
+    top: 1%; /* 위쪽에서 20% 지점에 배치, 필요 시 조정 가능 */
     background-color: white;
     margin-left: 1%;
-    margin-right: 5%;
+    margin-right: 1%;
     margin-top: 1.8%;
     border: 1px solid #ccc;
     border-radius: 20px; /* 박스 둥글게 */
@@ -58,18 +63,21 @@
 
     /* 하얀 박스 스타일 */
     .content-box {
-        width: 96%; /* 화면에 가득 차지 않게 */
-        height: 70vh; /* 화면 높이의 78% */
-        background-color: white;
-        margin-left: 1%;
-        margin-right: 5%;
-        margin-top: 5%;
-        border: 1px solid #ccc;
-        border-radius: 20px; /* 박스 둥글게 */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-        position: relative;
-        padding: 20px; /* 내부 여백 추가 */
-    }
+    width: 80%; /* 너비를 필요에 따라 조정 가능 */
+    height: 70vh; /* 화면 높이의 70% */
+    background-color: white;
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-top: 2%;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: absolute; /* 화면의 절대 위치로 변경 */
+    right: 0; /* 화면의 오른쪽에 위치 */
+    top: 20%; /* 위쪽에서 20% 지점에 배치, 필요 시 조정 가능 */
+    padding: 20px;
+}
+
 
     /* 제목 스타일 */
     .content-title {
@@ -77,7 +85,7 @@
         top: -40px;
         left: 20px;
         font-size: 24px;
-        color: white; 
+        color: block; 
         font-weight: bold;
          
     }
@@ -160,73 +168,30 @@
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
-	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
-	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
+	        <li><a href="carRes.do"><i class="fas fa-bullhorn"></i> 차량 예약</a></li>
+	        <li><a href="carMgt.do"><i class="fas fa-clipboard"></i> 차량 결제 관리</a></li> <!-- 수정 -->
+	        <li><a href="map.do"><i class="fas fa-code"></i> 도로 교통 / 경로 조회</a></li> <!-- 수정 -->
 	    </ul>
 	</div>
 	
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">영업/판매 관리 | 영업입고</div>
+        <div class="content-title">차량 | 생산입고</div>
 
-        <!-- 필터 박스 -->
-        <div class="filter-box">
-            <select>
-                <option>조회기간</option>
-            </select>
-            <input type="date" />
-            <input type="date" />
-            <select>
-                <option>품목 선택</option>
-            </select>
-            <input type="text" placeholder="내용 입력" />
-            <button class="btn">조회</button>
-        </div>
-
-        <!-- 테이블 -->
-        <table>
-            <thead>
-                <tr>
-                    <th>순번</th>
-                    <th>거래처</th>
-                    <th>품목코드</th>
-                    <th>품명</th>
-                    <th>입고 수량</th>
-                    <th>재고 수량</th>
-                    <th>단가</th>
-                    <th>비고</th>
-                </tr>
-            </thead>
-            
-			<tbody>
-			    <c:forEach var="salesStockIn" items="${stockList}" varStatus="status">
-			        <tr>
-			     	    <td>${status.index + 1}</td> <!-- 순번을 1부터 시작 -->
-			            <td>${salesStockIn.sStockInId}</td>
-			            <td>${salesStockIn.itemCode}</td>
-			            <td>${salesStockIn.sStockInDate}</td>
-			            <td>${salesStockIn.sStockPlace}</td>
-			            <td>${salesStockIn.sStockInQty}</td>
-			        </tr>
-			    </c:forEach>
-			</tbody>
-
-        </table>
-
-        <!-- 버튼 그룹 -->
-        <div class="btn-group">
-            <button class="btn red">삭제</button>
-            <button class="btn green">수정</button>
-            <a href="salesInCreate.do"><button class="btn blue">등록</button></a>
-        </div>
+        <div id="maphtml">
+			<c:import url="mapapi.html" />
+			<%-- <%@ include file="mapapi.html"%> --%>
+		</div>
+		
+		
+        
 
     </div>
 </body>
 
 <script>
-    const activeMenu = "account.do";
+    const activeMenu = "carRes";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

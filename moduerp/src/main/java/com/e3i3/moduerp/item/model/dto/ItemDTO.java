@@ -1,5 +1,128 @@
 package com.e3i3.moduerp.item.model.dto;
 
-public class ItemDTO {
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.List;
+
+public class ItemDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	private String itemCode;
+	private String itemName;
+	private String itemDesc;
+	private Integer totalStockQty;
+	private Timestamp createdAt;
+	private Timestamp updatedAt;
+	private Integer stockIn;
+	private Integer stockOut;
+	private Integer stock;
+	private String stockPlace;
+	private Double inPrice;
+	private List<String> itemList;
+	private String bizNumber;
+
+	public String getItemCode() {
+		return itemCode;
+	}
+
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
+	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+	public String getItemDesc() {
+		return itemDesc;
+	}
+
+	public void setItemDesc(String itemDesc) {
+		this.itemDesc = itemDesc;
+	}
+
+	public Integer getTotalStockQty() {
+		return totalStockQty;
+	}
+
+	public void setTotalStockQty(Integer totalStockQty) {
+		this.totalStockQty = totalStockQty;
+	}
+
+	public Timestamp getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Timestamp getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Timestamp updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Integer getStockIn() {
+		return stockIn;
+	}
+
+	public void setStockIn(Integer stockIn) {
+		this.stockIn = stockIn;
+	}
+
+	public Integer getStockOut() {
+		return stockOut;
+	}
+
+	public void setStockOut(Integer stockOut) {
+		this.stockOut = stockOut;
+	}
+
+	public Integer getStock() {
+		return stock;
+	}
+
+	public void setStock(Integer stock) {
+		this.stock = stock;
+	}
+
+	public String getStockPlace() {
+		return stockPlace;
+	}
+
+	public void setStockPlace(String stockPlace) {
+		this.stockPlace = stockPlace;
+	}
+
+	public Double getInPrice() {
+		return inPrice;
+	}
+
+	public void setInPrice(Double inPrice) {
+		this.inPrice = inPrice;
+	}
+
+	public List<String> getItemList() {
+		return itemList;
+	}
+
+	public void setItemList(List<String> itemList) {
+		this.itemList = itemList;
+	}
+
+	public String getBizNumber() {
+		return bizNumber;
+	}
+
+	public void setBizNumber(String bizNumber) {
+		this.bizNumber = bizNumber;
+	}
 
 }

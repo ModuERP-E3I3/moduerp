@@ -63,7 +63,7 @@
         background-color: white;
         margin-left: 1%;
         margin-right: 5%;
-        margin-top: 5%;
+        margin-top: 3%;
         border: 1px solid #ccc;
         border-radius: 20px; /* 박스 둥글게 */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -160,16 +160,17 @@
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
-	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
-	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
+	        <li><a href="productionStockIn.do"><i class="fas fa-bullhorn"></i> 생산 입고</a></li>
+	        <li><a href="productionStockOut.do"><i class="fas fa-clipboard"></i> 생산 출고</a></li> <!-- 수정 -->
+	        <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> <!-- 수정 -->
+	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> <!-- 수정 -->
 	    </ul>
 	</div>
 	
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">영업/판매 관리 | 영업입고</div>
+        <div class="content-title">생산관리 | 생산입고 | ? 디테일</div>
 
         <!-- 필터 박스 -->
         <div class="filter-box">
@@ -190,25 +191,25 @@
             <thead>
                 <tr>
                     <th>순번</th>
-                    <th>거래처</th>
+                    <th>입고번호</th>
                     <th>품목코드</th>
-                    <th>품명</th>
-                    <th>입고 수량</th>
-                    <th>재고 수량</th>
-                    <th>단가</th>
-                    <th>비고</th>
+                    <th>UUID</th>
+                    <th>입고날짜</th>
+                    <th>보관장소</th>
+                    <th>입고수량</th>
                 </tr>
             </thead>
-            
-			<tbody>
-			    <c:forEach var="salesStockIn" items="${stockList}" varStatus="status">
+            <tbody>
+			    <c:forEach var="productionStockIn" items="${stockList}" varStatus="status">
 			        <tr>
-			     	    <td>${status.index + 1}</td> <!-- 순번을 1부터 시작 -->
-			            <td>${salesStockIn.sStockInId}</td>
-			            <td>${salesStockIn.itemCode}</td>
-			            <td>${salesStockIn.sStockInDate}</td>
-			            <td>${salesStockIn.sStockPlace}</td>
-			            <td>${salesStockIn.sStockInQty}</td>
+			            <td>${status.index + 1}</td> <!-- 순번을 1부터 시작 -->
+			            <td>${productionStockIn.pStockInId}</td>
+			            <td>${productionStockIn.itemCode}</td>
+			            <td>${productionStockIn.UUID}</td>
+			            <td>${productionStockIn.pStockInDate}</td>
+			            <td>${productionStockIn.pStockPlace}</td>
+			            <td>${productionStockIn.pStockInQty}</td>
+			            
 			        </tr>
 			    </c:forEach>
 			</tbody>
@@ -219,7 +220,7 @@
         <div class="btn-group">
             <button class="btn red">삭제</button>
             <button class="btn green">수정</button>
-            <a href="salesInCreate.do"><button class="btn blue">등록</button></a>
+            <button class="btn blue">등록</button>
         </div>
 
     </div>

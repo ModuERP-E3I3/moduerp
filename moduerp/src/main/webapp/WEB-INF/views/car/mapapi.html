@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  
+    <title>Map with Current Location and Directions</title>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2653d3c20cd9767e679feeb33da0120d&libraries=services"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        #map {
+            width: 90%;
+            height: 60vh;
+            margin: 20px auto;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .controls {
+            text-align: center;
+            margin: 20px auto;
+        }
+
+        .controls input {
+            padding: 10px;
+            font-size: 16px;
+            margin: 0 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .controls button {
+            background-color: #007aff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 24px;
+            margin: 0 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .controls button:hover {
+            background-color: #005bb5;
+            transform: scale(1.05);
+        }
+
+        .controls button:disabled {
+            background-color: #ddd;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        #result {
+            margin: 20px auto;
+            padding: 15px;
+            max-width: 900px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            white-space: pre-wrap; /* Ensure JSON formatting is preserved */
+            font-family: monospace;
+            font-size: 14px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+   
+
+
+
+        <div id="map"></div>
+        <div class="controls">
+            <!-- 주소 입력 필드 추가 -->
+            <div>
+                <label for="startAddress">start addr:</label>
+                <input type="text" id="startAddress" placeholder="start addr">
+                <button onclick="setStartPoint()">start Point</button>
+            </div>
+            <div style="margin-top: 10px;">
+                <label for="endAddress">end addr:</label>
+                <input type="text" id="endAddress" placeholder="end addr">
+                <button onclick="setEndPoint()">end point</button>
+            </div>
+            <div style="margin-top: 20px;">
+                <button onclick="getCarDirection()">select</button>
+            </div>
+        </div>
+        <pre id="result"></pre>
+
+        <script>
+            var map;
+            var startPointMarker = null;
+            var endPointMarker = null;
+            var pointObj = {
+                startPoint: { lat: null, lng: null },
+                endPoint: { lat: null, lng: null }
+            };
+
+            // 카카오 지도 초기화 함수
+            function initializeMap(lat, lon) {
+                var container = document.getElementById('map');
+                var options = {
+                    center: new kakao.maps.LatLng(lat, lon),
+                    level: 3
+                };
+
+                map = new kakao.maps.Map(container, options);
+                map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
+            }
+
+            // 현재 위치 받아서 지도 초기화
+            function getCurrentLocation(callback) {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        function(position) {
+                            var lat = position.coords.latitude;
+                            var lon = position.coords.longitude;
+                            callback(lat, lon);
+                        },
+                        function(error) {
+                            console.error("Geolocation error: " + error.message);
+                            callback(33.450701, 126.570667);
+                        }
+                    );
+                } else {
+                    console.error("Geolocation is not supported by this browser.");
+                    callback(33.450701, 126.570667);
+                }
+            }
+
+            getCurrentLocation(function(lat, lon) {
+                initializeMap(lat, lon);
+            });
+
+            // 주소 검색 (Geocoder 사용) 및 출발지 설정
+            function setStartPoint() {
+                var address = document.getElementById('startAddress').value;
+                if (!address) {
+                    alert('출발지 주소를 입력하세요.');
+                    return;
+                }
+
+                var geocoder = new kakao.maps.services.Geocoder();
+
+                geocoder.addressSearch(address, function(result, status) {
+                    if (status === kakao.maps.services.Status.OK) {
+                        var lat = result[0].y;
+                        var lng = result[0].x;
+
+                        if (startPointMarker) {
+                            startPointMarker.setMap(null);
+                        }
+
+                        startPointMarker = new kakao.maps.Marker({
+                            position: new kakao.maps.LatLng(lat, lng)
+                        });
+
+                        startPointMarker.setMap(map);
+                        pointObj.startPoint = { lat, lng };
+                        map.setCenter(new kakao.maps.LatLng(lat, lng));
+                        console.log(pointObj.startPoint.lng + "    " + pointObj.startPoint.lat)
+                    } else {
+                        alert('출발지 주소를 찾을 수 없습니다.');
+                    }
+                });
+            }
+
+            // 주소 검색 (Geocoder 사용) 및 목적지 설정
+            function setEndPoint() {
+                var address = document.getElementById('endAddress').value;
+                if (!address) {
+                    alert('목적지 주소를 입력하세요.');
+                    return;
+                }
+
+                var geocoder = new kakao.maps.services.Geocoder();
+
+                geocoder.addressSearch(address, function(result, status) {
+                    if (status === kakao.maps.services.Status.OK) {
+                        var lat = result[0].y;
+                        var lng = result[0].x;
+
+                        if (endPointMarker) {
+                            endPointMarker.setMap(null);
+                        }
+
+                        endPointMarker = new kakao.maps.Marker({
+                            position: new kakao.maps.LatLng(lat, lng)
+                        });
+
+                        endPointMarker.setMap(map);
+                        pointObj.endPoint = { lat, lng };
+                        map.setCenter(new kakao.maps.LatLng(lat, lng));
+                        console.log(pointObj.endPoint.lng + "    " + pointObj.endPoint.lat)
+                    } else {
+                        alert('목적지 주소를 찾을 수 없습니다.');
+                    }
+                });
+            }
+
+            // 경로 조회 (기존 함수 사용)
+            async function getCarDirection() {
+            const REST_API_KEY = 'f067d298eba2e8cc578395195c0fb1e7'; // 실제 API 키로 교체
+            const url = 'https://apis-navi.kakaomobility.com/v1/directions';
+
+            if (!pointObj.startPoint.lat || !pointObj.endPoint.lat) {
+                alert('출발지와 목적지를 모두 설정해주세요.');
+                return;
+            }
+
+            const origin = `${pointObj.startPoint.lng},${pointObj.startPoint.lat}`;
+            const destination = `${pointObj.endPoint.lng},${pointObj.endPoint.lat}`;
+
+            const headers = {
+                Authorization: `KakaoAK ${REST_API_KEY}`,
+                'Content-Type': "application / json"
+            };
+
+            const queryParams = new URLSearchParams({
+                origin: origin,
+                destination: destination
+            });
+
+            const requestUrl = `${url}?${queryParams}`;
+
+            try {
+                const response = await fetch(requestUrl, {
+                    method: 'GET',
+                    headers: headers
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+
+                // 경로를 지도에 그리기
+                drawRouteOnMap(data);
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('result').textContent = 'Error: ' + error;
+            }
+        }
+
+            // 경로 그리기 함수 (기존 코드 유지)
+            function drawRouteOnMap(data) {
+                const linePath = [];
+                data.routes[0].sections[0].roads.forEach(road => {
+                    road.vertexes.forEach((vertex, index) => {
+                        if (index % 2 === 0) {
+                            linePath.push(new kakao.maps.LatLng(road.vertexes[index + 1], road.vertexes[index]));
+                        }
+                    });
+                });
+
+                const polyline = new kakao.maps.Polyline({
+                    path: linePath,
+                    strokeWeight: 5,
+                    strokeColor: '#007aff', // 선 색상
+                    strokeOpacity: 0.7,
+                    strokeStyle: 'solid'
+                });
+
+                polyline.setMap(map);
+                map.setBounds(new kakao.maps.LatLngBounds(linePath[0], linePath[linePath.length - 1]));
+            }
+        </script>
+</body>
+</html>
