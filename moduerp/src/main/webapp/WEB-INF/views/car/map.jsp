@@ -9,13 +9,18 @@
 <title>erpMain</title>
 
 <style type="text/css">
-
+body {
+	background-color : #223D38;
+}
 .top-content-box {
-    width: 96%; /* 화면에 가득 차지 않게 */
+    width: 80%; /* 화면에 가득 차지 않게 */
     height: 6vh;
+     position: absolute; /* 화면의 절대 위치로 변경 */
+    right: 0; /* 화면의 오른쪽에 위치 */
+    top: 1%; /* 위쪽에서 20% 지점에 배치, 필요 시 조정 가능 */
     background-color: white;
     margin-left: 1%;
-    margin-right: 5%;
+    margin-right: 1%;
     margin-top: 1.8%;
     border: 1px solid #ccc;
     border-radius: 20px; /* 박스 둥글게 */
@@ -58,18 +63,21 @@
 
     /* 하얀 박스 스타일 */
     .content-box {
-        width: 96%; /* 화면에 가득 차지 않게 */
-        height: 70vh; /* 화면 높이의 78% */
-        background-color: white;
-        margin-left: 1%;
-        margin-right: 5%;
-        margin-top: 5%;
-        border: 1px solid #ccc;
-        border-radius: 20px; /* 박스 둥글게 */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-        position: relative;
-        padding: 20px; /* 내부 여백 추가 */
-    }
+    width: 80%; /* 너비를 필요에 따라 조정 가능 */
+    height: 70vh; /* 화면 높이의 70% */
+    background-color: white;
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-top: 2%;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: absolute; /* 화면의 절대 위치로 변경 */
+    right: 0; /* 화면의 오른쪽에 위치 */
+    top: 20%; /* 위쪽에서 20% 지점에 배치, 필요 시 조정 가능 */
+    padding: 20px;
+}
+
 
     /* 제목 스타일 */
     .content-title {
@@ -77,7 +85,7 @@
         top: -40px;
         left: 20px;
         font-size: 24px;
-        color: white; 
+        color: block; 
         font-weight: bold;
          
     }
@@ -169,53 +177,15 @@
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">차량 관리 | 차량 결제 관리</div>
+        <div class="content-title">차량 | 생산입고</div>
 
-        <!-- 필터 박스 -->
-        <div class="filter-box">
-            <select>
-                <option>조회기간</option>
-            </select>
-            <input type="date" />
-            <input type="date" />
-            <input type="text" placeholder="내용 입력" />
-            <button class="btn">조회</button>
-        </div>
-
-        <!-- 테이블 -->
-        <table>
-            <thead>
-                <tr>
-                    <th>차종</th>
-                    <th>차량 번호</th>
-                    <th>소유 형태</th>
-                    <th>내역</th>
-                    <th>금액</th>
-                    <th>일자</th>
-                </tr>
-            </thead>
-            <tbody>
-			    <%-- <c:forEach var="productionStockIn" items="${stockList}"> --%>
-			        <tr>
-			            <td><%-- ${productionStockIn.pStockInId} --%></td>
-			            <td><%-- ${productionStockIn.itemCode} --%></td>
-			            <td><%-- ${productionStockIn.pStockInDate} --%></td>
-			            <td><%-- ${productionStockIn.pStockPlace} --%></td>
-			            <td><%-- ${productionStockIn.pStockInQty} --%></td>
-			            <td></td>
-			           
-			        </tr>
-			    <%-- </c:forEach> --%>
-			</tbody>
-
-        </table>
-
-        <!-- 버튼 그룹 -->
-        <div class="btn-group">
-            <button class="btn red">삭제</button>
-            <button class="btn green">수정</button>
-            <button class="btn blue">등록</button>
-        </div>
+        <div id="maphtml">
+			<c:import url="mapapi.html" />
+			<%-- <%@ include file="mapapi.html"%> --%>
+		</div>
+		
+		
+        
 
     </div>
 </body>

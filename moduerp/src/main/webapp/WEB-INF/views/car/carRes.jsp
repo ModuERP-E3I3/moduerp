@@ -1,4 +1,3 @@
-@ -0,0 +1,106 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -90,7 +89,7 @@
 			<li><a href="carRes.do"><i class="fas fa-bullhorn"></i> 차량 예약</a></li>
 			<li><a href="carMgt.do"><i class="fas fa-clipboard"></i> 차량 결제
 					관리</a></li>
-			<li><a href="main.do"><i class="fas fa-code"></i> 도로 교통 / 경로
+			<li><a href="map.do"><i class="fas fa-code"></i> 도로 교통 / 경로
 					조회</a></li>
 		</ul>
 	</div>
@@ -103,5 +102,7 @@
 
 
 	</div>
+	
+
 </body>
 </html>
