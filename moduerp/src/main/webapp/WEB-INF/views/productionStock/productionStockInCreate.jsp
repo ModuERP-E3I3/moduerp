@@ -213,7 +213,7 @@ th {
 							</datalist></td>
 
 						<!-- 입고수량 칸 -->
-						<td><input type="number" name="stockInQty"
+						<td><input type="number" name="stockIn"
 							placeholder="수량 입력" /></td>
 
 						<!-- 품목 이름 칸 -->

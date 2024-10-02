@@ -16,8 +16,8 @@ public class ProductionStockInServiceImpl implements ProductionStockInService {
     @Autowired
     private ProductionStockInDAO productionStockInDAO;
 
-    @Autowired
-    private ItemProductionstockDAO itemProductionstockDAO; 
+//    @Autowired
+//    private ItemProductionstockDAO itemProductionstockDAO; 
 
     @Override
     public List<ProductionStockInDTO> getAllProductionStockIn() {

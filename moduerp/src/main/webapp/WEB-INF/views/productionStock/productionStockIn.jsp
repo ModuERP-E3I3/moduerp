@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -187,37 +188,42 @@
         </div>
 
         <!-- 테이블 -->
-        <table>
+		<table>
 			<thead>
 				<tr>
 					<th>순번</th>
-					<th>입고번호</th>
-					<th>품목코드</th>
-					<th>UUID</th>
-					<th>입고날짜</th>
-					<th>보관장소</th>
+					<th>제품명</th>
+					<th>생성일자</th>
 					<th>입고수량</th>
+					<th>입고장소</th>
+					<th>입고단가</th>
 				</tr>
 			</thead>
+			
 			<tbody>
-				<c:forEach var="productionStockIn" items="${stockList}"
-					varStatus="status">
+				<c:forEach var="item" items="${itemList}" varStatus="status">
 					<tr>
 						<td>${status.index + 1}</td>
-						<td>${productionStockIn.pStockInId}</td>
-						<td>${productionStockIn.itemCode}</td>
-						<td>${productionStockIn.UUID}</td>
-						<td>${productionStockIn.pStockInDate}</td>
-						<td>${productionStockIn.pStockPlace}</td>
-						<td>${productionStockIn.pStockInQty}</td>
+						<!-- 순번 -->
+						<td>${item.itemName}</td>
+						<!-- 제품명 -->
+						<td>${item.createdAt}</td>
+						<!-- 생성일자 -->
+						<td>${item.stockIn}</td>
+						<!-- 입고수량 -->
+						<td>${item.stockPlace}</td>
+						<!-- 입고장소 -->
+						<td>${item.inPrice}</td>
+						<!-- 입고단가 -->
 					</tr>
 				</c:forEach>
 			</tbody>
 
 
+
 		</table>
 
-        <!-- 버튼 그룹 -->
+		<!-- 버튼 그룹 -->
         <div class="btn-group">
             <button class="btn red">삭제</button>
             <button class="btn green">수정</button>
