@@ -17,7 +17,7 @@ public class BuyStockInController {
 		private com.e3i3.moduerp.buystock.service.BuyStockInService BuyStockInService;
 
 		@RequestMapping(value = "/BuyStockIn.do", method = RequestMethod.GET)
-		public String forwardProductionIn(Model model) {
+		public String forwardBuyIn(Model model) {
 			List<BuyStockInDTO> stockList = BuyStockInService.getAllBuyStockIn();
 			model.addAttribute("stockList", stockList);
 			return "buyStock/buyStockIn"; // JSP 파일 경로 반환
