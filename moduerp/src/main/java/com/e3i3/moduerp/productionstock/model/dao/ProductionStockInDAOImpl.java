@@ -1,6 +1,8 @@
 package com.e3i3.moduerp.productionstock.model.dao;
 
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -20,7 +22,5 @@ public class ProductionStockInDAOImpl implements ProductionStockInDAO {
         return sqlSession.selectList(namespace + ".getAllProductionStockIn");
     }
 
-    public ProductionStockInDTO getProductionStockInById(String pStockInId) {
-        return sqlSession.selectOne(namespace + ".getProductionStockInById", pStockInId);
-    }
+   
 }

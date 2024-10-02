@@ -18,10 +18,9 @@
         FROM PRODUCTION_STOCK_IN
     </select>
 
-    <!-- 특정 생산 입고 데이터 조회용 쿼리 -->
-    <select id="getProductionStockInById" parameterType="String" resultMap="resultProductionStockIn">
-        SELECT P_STOCK_IN_ID, ITEM_CODE, P_STOCK_IN_DATE, P_STOCK_PLACE, P_STOCK_IN_QTY
-        FROM PRODUCTION_STOCK_IN
-        WHERE P_STOCK_IN_ID = #{pStockInId}
-    </select>
+    <insert id="insertProductionStockIn" parameterType="com.e3i3.moduerp.productionstock.model.dto.ProductionStockInDTO">
+        INSERT INTO PRODUCTION_STOCK_IN (p_stock_in_id, item_code, p_stock_in_date, p_stock_place, p_stock_in_qty, uuid)
+        VALUES (#{pStockInId}, #{itemCode}, #{pStockInDate}, #{pStockPlace}, #{pStockInQty}, #{UUID})
+    </insert>
+
 </mapper>

@@ -20,6 +20,7 @@ import com.e3i3.moduerp.notice.model.dto.Notice;
 @RequestMapping("/")
 public class CarController {
 
+
 	// carRes.jsp view
 	@CrossOrigin(origins = "https://apis-navi.kakaomobility.com/v1/directions") // 특정 도메인만 허용
 	@RequestMapping(value = "/carRes.do", method = RequestMethod.GET)
@@ -71,3 +72,4 @@ public class CarController {
 	}
 
 }
+
