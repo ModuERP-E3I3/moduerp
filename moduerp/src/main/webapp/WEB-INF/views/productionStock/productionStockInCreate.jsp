@@ -190,28 +190,44 @@
         <table>
             <thead>
                 <tr>
-                    <th>순번</th>
-                    <th>입고번호</th>
-                    <th>품목코드</th>
-                    <th>UUID</th>
                     <th>입고날짜</th>
                     <th>보관장소</th>
                     <th>입고수량</th>
+                    <th>품목 이름</th>
+                    <th>품목 설명</th>
+                    <th>보관장소</th>
+                    <th>입고 가격</th>
+                    <th>자재 종류</th>
                 </tr>
             </thead>
             <tbody>
-			    <c:forEach var="productionStockIn" items="${stockList}" varStatus="status">
-			        <tr>
-			            <td>${status.index + 1}</td> <!-- 순번을 1부터 시작 -->
-			            <td>${productionStockIn.pStockInId}</td>
-			            <td>${productionStockIn.itemCode}</td>
-			            <td>${productionStockIn.UUID}</td>
-			            <td>${productionStockIn.pStockInDate}</td>
-			            <td>${productionStockIn.pStockPlace}</td>
-			            <td>${productionStockIn.pStockInQty}</td>
-			            
-			        </tr>
-			    </c:forEach>
+				
+					<tr>
+						<td><input type="date" /></td>
+						<!-- 날짜 선택하는 칸 -->
+						<td><input type="text" placeholder="보관장소 입력" /></td>
+						<!-- 글자 입력 칸 (보관장소) -->
+						<td><input type="number" placeholder="수량 입력" /></td>
+						<!-- 숫자 입력 칸 (입고수량) -->
+						<td><input type="text" placeholder="품목 이름 입력" /></td>
+						<!-- 글자 입력 칸 (품목 이름) -->
+						<td><input type="text" placeholder="품목 설명 입력" /></td>
+						<!-- 글자 입력 칸 (품목 설명) -->
+						<td><input type="text" placeholder="보관장소 입력" /></td>
+						<!-- 글자 입력 칸 (보관장소) -->
+					<td><input type="number" placeholder="가격 입력" step="0.01" /></td>
+					<!-- 숫자 입력 칸 (가격 입력) -->
+					<td><input list="materialTypes" placeholder="자재 종류 입력" /> <datalist
+							id="materialTypes">
+							<option value="자재 종류 1"></option>
+							<option value="자재 종류 2"></option>
+							<!-- 추가할 자재 종류 옵션들 -->
+						</datalist></td>
+
+					<!-- 선택 칸 (자재 종류 선택) -->
+					</tr>
+				
+
 			</tbody>
 
         </table>

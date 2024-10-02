@@ -123,16 +123,18 @@
     <select id="selectAllEmployees" resultType="com.e3i3.moduerp.employee.model.dto.Employee">
         SELECT * FROM employee
     </select>
-    
-     <!-- 로그인 검증을 위한 쿼리 -->
-    <select id="selectEmployeeForLogin" parameterType="map" resultType="com.e3i3.moduerp.employee.model.dto.Employee">
-        SELECT emp_email, emp_no, emp_name, department_id AS departmentId, 
-           biz_number, approval_code, password, is_deleted
-    FROM employee
-    WHERE emp_email = #{empEmail}
-    AND biz_number = #{bizNumber}
-    AND approval_code = #{approvalCode}
-    AND is_deleted = 'N'
-    </select>
+
+	<!-- 로그인 검증을 위한 쿼리 -->
+	<select id="selectEmployeeForLogin" parameterType="map"
+		resultType="com.e3i3.moduerp.employee.model.dto.Employee">
+		SELECT uuid, emp_email, emp_no, emp_name, department_id AS departmentId,
+		biz_number, approval_code, password, is_deleted
+		FROM employee
+		WHERE emp_email = #{empEmail}
+		AND biz_number = #{bizNumber}
+		AND approval_code = #{approvalCode}
+		AND is_deleted = 'N'
+	</select>
+
 
 </mapper>
