@@ -45,7 +45,7 @@
 		<mapper resource="mappers/workorder-mapper.xml" />
 		<mapper resource="mappers/productionquality-mapper.xml" />
 		<mapper resource="mappers/salesStock-mapper.xml" />
-		<mapper resource="mappers/item-mapper.xml" />
+		<mapper resource="mappers/item-productionstock-mapper.xml" />
 	</mappers>
 
 	

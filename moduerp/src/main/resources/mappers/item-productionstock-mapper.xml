@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ItemMapper">
+
+	<!-- 아이템 정보를 매핑하기 위한 resultMap -->
+	<resultMap id="itemResultMap"
+		type="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		<id property="itemId" column="item_id" />
+		<result property="itemName" column="item_name" />
+		<result property="itemDescription" column="item_description" />
+		<result property="itemPrice" column="item_price" />
+		<result property="stockQuantity" column="stock_quantity" />
+		<result property="storageLocation" column="storage_location" />
+		<result property="bizNumber" column="biz_number" />
+		<!-- 기타 필드들 -->
+	</resultMap>
+
+	<!-- biz_number로 필터링된 item_name 리스트를 조회하는 쿼리 -->
+	<select id="selectItemNamesByBizNumber" parameterType="String"
+		resultType="String">
+		SELECT item_name
+		FROM item
+		WHERE biz_number = #{bizNumber}
+	</select>
+
+	<!-- biz_number로 필터링된 stock_place 리스트를 조회하는 쿼리 -->
+	<select id="selectStockPlacesByBizNumber" parameterType="String"
+		resultType="String">
+		SELECT DISTINCT stock_place
+		FROM item
+		WHERE biz_number = #{bizNumber}
+	</select>
+
+
+	<insert id="insertItem">
+        INSERT INTO item (item_code, item_name, item_desc, stock_place, in_price, stock_in_qty, material_type, biz_number)
+        VALUES (#{itemCode}, #{itemName}, #{itemDesc}, #{stockPlace}, #{inPrice}, #{stockInQty}, #{materialType}, #{bizNumber})
+    </insert>
+
+</mapper>

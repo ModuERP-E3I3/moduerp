@@ -25,10 +25,5 @@ public class ProductionstockInController {
 		return "productionStock/productionStockIn"; // JSP 파일 경로 반환
 	}
 
-//	@RequestMapping(value = "/productionInCreate.do", method = RequestMethod.GET)
-//	public String forwardProductionInCreate() {
-//
-//		return "productionStock/productionStockInCreate";
-//	}
-
+	
 }
