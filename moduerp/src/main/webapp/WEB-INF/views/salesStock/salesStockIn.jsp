@@ -201,8 +201,9 @@
             </thead>
             
 			<tbody>
-			    <c:forEach var="salesStockIn" items="${stockList}">
-			        <tr onclick="location.href='accountCreate.jsp?sStockInId=${salesStockIn.sStockInId}'" style="cursor: pointer;">
+			    <c:forEach var="salesStockIn" items="${stockList}" varStatus="status">
+			        <tr>
+			     	    <td>${status.index + 1}</td> <!-- 순번을 1부터 시작 -->
 			            <td>${salesStockIn.sStockInId}</td>
 			            <td>${salesStockIn.itemCode}</td>
 			            <td>${salesStockIn.sStockInDate}</td>
@@ -218,7 +219,7 @@
         <div class="btn-group">
             <button class="btn red">삭제</button>
             <button class="btn green">수정</button>
-            <button class="btn blue">등록</button>
+            <a href="salesInCreate.do"><button class="btn blue">등록</button></a>
         </div>
 
     </div>

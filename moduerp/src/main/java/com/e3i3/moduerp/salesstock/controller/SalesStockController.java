@@ -31,5 +31,12 @@ public class SalesStockController {
     public String forwardSalesStockOut() {
         return "salesStock/salesStockOut";  // JSP 파일 경로 반환
     }
+
+	@RequestMapping(value = "/salesStockInCreate.do", method = RequestMethod.GET)
+	public String forwardSalesStockInCreate() {
+
+		return "salesStock/salesStockInCreate";
+	}
+
 }
 

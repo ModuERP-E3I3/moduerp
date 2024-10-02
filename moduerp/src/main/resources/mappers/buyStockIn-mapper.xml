@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BuyStockMapper">
+
+    <!-- BuyStockIn에 대한 resultMap -->
+    <resultMap id="resultBuyStockIn" type="com.e3i3.moduerp.buystock.model.dto.BuyStockInDTO">
+        <result property="bStockInId" column="B_STOCK_IN_ID" />
+        <result property="itemCode" column="ITEM_CODE" />
+        <result property="uuid" column="UUID" />
+        <result property="accountNo" column="ACCOUNT_NO" />
+        <result property="bankId" column="BANK_ID" />
+        <result property="orderId" column="ORDER_ID" />
+        <result property="bStockInDate" column="B_STOCK_IN_DATE" />
+        <result property="bStockInPlace" column="B_STOCK_IN_PLACE" />
+        <result property="bStockInQty" column="B_STOCK_IN_QTY" />
+        <result property="empName" column="EMP_NAME" /> 
+    </resultMap>
+    
+    <!-- 모든 구매 입고 데이터 조회용 쿼리 -->
+    <select id="getAllBuyStockIn" resultMap="resultBuyStockIn"> 
+        SELECT B_STOCK_IN_ID, ITEM_CODE, UUID, ACCOUNT_NO, BANK_ID,
+            ORDER_ID, B_STOCK_IN_DATE, B_STOCK_IN_PLACE, B_STOCK_IN_QTY, EMP_NAME
+        FROM BUY_STOCK_IN
+    </select>
+
+    <!-- 특정 구매 입고 데이터 조회용 쿼리 -->
+    <select id="getBuyStockInById" parameterType="String" resultMap="resultBuyStockIn">
+        SELECT B_STOCK_IN_ID, ITEM_CODE, UUID, ACCOUNT_NO, BANK_ID,
+            ORDER_ID, B_STOCK_IN_DATE, B_STOCK_IN_PLACE, B_STOCK_IN_QTY, EMP_NAME
+        FROM BUY_STOCK_IN
+        WHERE B_STOCK_IN_ID = #{bStockInId}
+    </select>
+</mapper>
