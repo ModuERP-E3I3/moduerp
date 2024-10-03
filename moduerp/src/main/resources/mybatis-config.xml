@@ -48,6 +48,7 @@
 		<mapper resource="mappers/email-mapper.xml"/>
 		<mapper resource="mappers/notice-mapper.xml" />
 		<mapper resource="mappers/buyStockIn-mapper.xml" />
+		<mapper resource="mappers/buyStockOut-mapper.xml" />
 		<mapper resource="mappers/productionStockIn-mapper.xml" />
 		<mapper resource="mappers/productionStockOut-mapper.xml" />
 		<mapper resource="mappers/workorder-mapper.xml" />

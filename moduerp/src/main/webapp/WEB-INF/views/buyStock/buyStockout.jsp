@@ -160,9 +160,9 @@
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	        <li><a href="productionStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
-			<li><a href="productionStockIn.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
-			<li><a href="productionStockIn.do"><i class="fas fa-bullhorn"></i> 배송 조회</a></li>
+	        <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
+			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
+			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 배송 조회</a></li>
 	    </ul>
 	</div>
 	
@@ -189,24 +189,27 @@
         <table>
             <thead>
                 <tr>
-                    <th>순번</th>
-                    <th>거래처</th>
-                    <th>품목코드</th>
-                    <th>품명</th>
-                    <th>입고 수량</th>
+                    <th>id</th>
+                    <th>아이템코드</th>
+                    <th>UUID</th>
+                    <th>NO</th>
+                    <th>ID</th>
                     <th>재고 수량</th>
                     <th>단가</th>
-                    <th>비고</th>
+                    <th>직원명</th>
                 </tr>
             </thead>
             <tbody>
 			    <c:forEach var="BuyStockIn" items="${stockList}">
 			        <tr>
-			            <td>${buyStockIn.bStockInId}</td>
-			            <td>${buyStockIn.itemCode}</td>
-			            <td>${buyStockIn.bStockInDate}</td>
-			            <td>${buyStockIn.bStockPlace}</td>
-			            <td>${buyStockIn.bStockInQty}</td>
+			            <td>${buyStockout.bStockOutId}</td>
+			            <td>${buyStockout.itemCode}</td>
+			            <td>${buyStockout.uuid}</td>
+			            <td>${buyStockout.accountNo}</td>
+			            <td>${buyStockout.bankId}</td>
+			            <td>${buyStockout.bStockOutDate}</td>
+			            <td>${buyStockout.bStockOutPlace}</td>
+			            <td>${buyStockout.bStockOutQty}</td>
 			        </tr>
 			    </c:forEach>
 			</tbody>
@@ -222,7 +225,7 @@
 </body>
 
 <script>
-    const activeMenu = "buyStockIn";
+    const activeMenu = "buyStockOut";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');
