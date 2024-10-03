@@ -44,16 +44,23 @@
 		<mapper resource="mappers/company-mapper.xml" />
 		<mapper resource="mappers/employee-mapper.xml" />
 		<mapper resource="mappers/department-mapper.xml" />
-		<mapper resource="mappers/car-mapper.xml" />
 		<mapper resource="mappers/email-mapper.xml"/>
+		
+		<mapper resource="mappers/car-mapper.xml" />
+		
 		<mapper resource="mappers/notice-mapper.xml" />
+
 		<mapper resource="mappers/buyStockIn-mapper.xml" />
+
 		<mapper resource="mappers/productionStockIn-mapper.xml" />
 		<mapper resource="mappers/productionStockOut-mapper.xml" />
 		<mapper resource="mappers/workorder-mapper.xml" />
 		<mapper resource="mappers/productionquality-mapper.xml" />
-		<mapper resource="mappers/salesStock-mapper.xml" />
+		
+		<mapper resource="mappers/salesStockIn-mapper.xml" />
+		
 		<mapper resource="mappers/item-productionstock-mapper.xml" />
+	
 	</mappers>
 
 
