@@ -12,4 +12,6 @@ public interface ProductionStockInService {
 
 	void updateProductionStockIn(ProductionStockInDTO productionStockInDTO);
 
+	void deleteProductionStockInByItemCode(String itemCode);
+
 }

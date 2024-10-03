@@ -43,4 +43,9 @@ public class ItemProductionstockServiceImpl implements ItemProductionstockServic
 	public void updateItem(ItemDTO itemDTO) {
 		itemProductionstockDAO.updateItem(itemDTO);
 	}
+
+	@Override
+	public void deleteItemByCode(String itemCode) {
+		itemProductionstockDAO.deleteItemByCode(itemCode);
+	}
 }

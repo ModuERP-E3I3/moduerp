@@ -40,11 +40,15 @@ public class ItemProductionstockDAOImpl implements ItemProductionstockDAO {
 	public ItemDTO selectItemByCode(String itemCode) {
 		return sqlSession.selectOne(namespace + ".selectItemByCode", itemCode);
 	}
-	
+
 	@Override
 	public void updateItem(ItemDTO itemDTO) {
-	    // 데이터베이스 업데이트 쿼리 실행
-	    sqlSession.update(namespace + ".updateItem", itemDTO);
+		// 데이터베이스 업데이트 쿼리 실행
+		sqlSession.update(namespace + ".updateItem", itemDTO);
 	}
 
+	@Override
+	public void deleteItemByCode(String itemCode) {
+		sqlSession.delete(namespace + ".deleteItemByCode", itemCode);
+	}
 }

@@ -217,4 +217,15 @@ public class ProductionstockInController {
 		return "redirect:/productionStockIn.do"; // 업데이트 후 목록 페이지로 리다이렉트
 	}
 
+	@PostMapping("/deleteProductionStockIn.do")
+	public String deleteProductionStockIn(@RequestParam("itemCode") String itemCode, HttpSession session) {
+		// 1. PRODUCTION_STOCK_IN 테이블에서 데이터 삭제
+		productionStockInService.deleteProductionStockInByItemCode(itemCode);
+
+		// 2. ITEM 테이블에서 데이터 삭제
+		itemProductionstockService.deleteItemByCode(itemCode);
+
+		return "redirect:/productionStockIn.do"; // 삭제 후 목록 페이지로 리다이렉트
+	}
+
 }

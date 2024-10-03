@@ -38,4 +38,9 @@ public class ProductionStockInServiceImpl implements ProductionStockInService {
 	public void updateProductionStockIn(ProductionStockInDTO productionStockInDTO) {
 		productionStockInDAO.updateProductionStockIn(productionStockInDTO);
 	}
+
+	@Override
+	public void deleteProductionStockInByItemCode(String itemCode) {
+		productionStockInDAO.deleteProductionStockInByItemCode(itemCode);
+	}
 }

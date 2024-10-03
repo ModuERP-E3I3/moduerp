@@ -70,10 +70,16 @@
 		ITEM_DESC = #{itemDesc},
 		STOCK_PLACE = #{stockPlace},
 		IN_PRICE = #{inPrice},
-		ITEM_LIST = #{itemList},
+		ITEM_LIST =
+		#{itemList},
 		STOCK_IN = #{stockIn},
-		UPDATED_AT = SYSDATE  <!-- UPDATED_AT 컬럼 갱신 -->
+		UPDATED_AT = SYSDATE  <!-- UPDATED_AT 컬럼 
+			갱신 -->
 		WHERE ITEM_CODE = #{itemCode}
 	</update>
+
+	<delete id="deleteItemByCode" parameterType="String">
+		DELETE FROM ITEM WHERE ITEM_CODE = #{itemCode}
+	</delete>
 
 </mapper>
