@@ -40,26 +40,46 @@ public class ProductionstockInController {
 
 	// 기존 GET 메서드
 	@RequestMapping(value = "/productionStockIn.do", method = RequestMethod.GET)
-	public String forwardProductionIn(Model model, HttpSession session) {
-		String bizNumber = (String) session.getAttribute("biz_number");
-		List<ItemDTO> itemList = itemProductionstockService.getItemsByBizNumber(bizNumber);
+	public String forwardProductionIn(@RequestParam(value = "page", defaultValue = "1") int page, Model model, HttpSession session) {
+	    String bizNumber = (String) session.getAttribute("biz_number");
+	    List<ItemDTO> itemList = itemProductionstockService.getItemsByBizNumber(bizNumber);
 
-		// CREATED_AT에 9시간 추가하는 로직 추가
-		for (ItemDTO item : itemList) {
-			// CREATED_AT 필드에서 Timestamp 값을 가져옴
-			Timestamp createdAt = item.getCreatedAt();
+	    // CREATED_AT에 9시간 추가하는 로직
+	    for (ItemDTO item : itemList) {
+	        // CREATED_AT 필드에서 Timestamp 값을 가져옴
+	        Timestamp createdAt = item.getCreatedAt();
 
-			// 7시간 추가
-			Timestamp adjustedTimestamp = Timestamp
-					.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000));
+	        // 9시간 추가
+	        Timestamp adjustedTimestamp = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000));
 
-			// Timestamp를 ItemDTO에 설정 (새로운 필드 추가 필요)
-			item.setCreatedAt(adjustedTimestamp); // 조정된 Timestamp 설정
-		}
+	        // Timestamp를 ItemDTO에 설정
+	        item.setCreatedAt(adjustedTimestamp); // 조정된 Timestamp 설정
+	    }
 
-		model.addAttribute("itemList", itemList);
-		return "productionStock/productionStockIn"; // JSP 파일 경로 반환
+	    // 페이지당 항목 수
+	    int itemsPerPage = 10;
+	    
+	    // 총 항목 수
+	    int totalItems = itemList.size();
+	    
+	    // 총 페이지 수
+	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+	    
+	    // 시작 인덱스 계산
+	    int startIndex = (page - 1) * itemsPerPage;
+	    int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+	    
+	    // 서브리스트 생성
+	    List<ItemDTO> paginatedList = itemList.subList(startIndex, endIndex);
+
+	    // 모델에 추가
+	    model.addAttribute("itemList", paginatedList);
+	    model.addAttribute("totalPages", totalPages);
+	    model.addAttribute("currentPage", page);
+	    
+	    return "productionStock/productionStockIn"; // JSP 파일 경로 반환
 	}
+
 
 	@PostMapping("/productionStockInCreate.do")
 	public String createProductionStockIn(@RequestParam("pStockInDate") String stockInDateStr,
