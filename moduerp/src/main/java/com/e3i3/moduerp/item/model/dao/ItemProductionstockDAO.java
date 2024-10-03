@@ -18,4 +18,6 @@ public interface ItemProductionstockDAO {
 	ItemDTO selectItemByCode(String itemCode);
 
 	void updateItem(ItemDTO itemDTO);
+
+	void deleteItemByCode(String itemCode);
 }

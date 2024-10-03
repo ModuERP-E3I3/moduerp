@@ -11,4 +11,6 @@ public interface ProductionStockInDAO {
 	ProductionStockInDTO selectProductionStockInByItemCode(String itemCode);
 
 	void updateProductionStockIn(ProductionStockInDTO productionStockInDTO);
+
+	void deleteProductionStockInByItemCode(String itemCode);
 }

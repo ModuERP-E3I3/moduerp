@@ -32,9 +32,6 @@
 		#{pStockInQty}, #{uuid})
 	</insert>
 
-
-
-
 	<select id="selectProductionStockInByItemCode"
 		parameterType="String"
 		resultType="com.e3i3.moduerp.productionstock.model.dto.ProductionStockInDTO">
@@ -45,9 +42,17 @@
 	<update id="updateProductionStockIn"
 		parameterType="com.e3i3.moduerp.productionstock.model.dto.ProductionStockInDTO">
 		UPDATE PRODUCTION_STOCK_IN
-		SET P_STOCK_PLACE = #{pStockPlace}, P_STOCK_IN_QTY = #{pStockInQty}
-		WHERE ITEM_CODE = #{itemCode}
+		SET P_STOCK_PLACE =
+		#{pStockPlace}, P_STOCK_IN_QTY = #{pStockInQty}
+		WHERE ITEM_CODE =
+		#{itemCode}
 	</update>
+
+	<delete id="deleteProductionStockInByItemCode"
+		parameterType="String">
+		DELETE FROM PRODUCTION_STOCK_IN WHERE ITEM_CODE =
+		#{itemCode}
+	</delete>
 
 
 </mapper>

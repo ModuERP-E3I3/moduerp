@@ -33,4 +33,9 @@ public class ProductionStockInDAOImpl implements ProductionStockInDAO {
 	public void updateProductionStockIn(ProductionStockInDTO productionStockInDTO) {
 		sqlSession.update(namespace + ".updateProductionStockIn", productionStockInDTO);
 	}
+
+	@Override
+	public void deleteProductionStockInByItemCode(String itemCode) {
+		sqlSession.delete(namespace + ".deleteProductionStockInByItemCode", itemCode);
+	}
 }
