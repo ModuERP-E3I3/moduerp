@@ -56,6 +56,7 @@
 		<mapper resource="mappers/productionquality-mapper.xml" />
 		
 		<mapper resource="mappers/salesStockIn-mapper.xml" />
+		<mapper resource="mappers/salesStockOut-mapper.xml" />
 		
 		<mapper resource="mappers/item-productionstock-mapper.xml" />
 	
