@@ -173,19 +173,11 @@ th {
 
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-		<ul id="menubar">
-			<li><a href="account.do"><i
-					class="fas fa-bullhorn"></i> 영업 입고</a></li>
-			<li><a href="salesStockIn.do"><i
-					class="fas fa-clipboard"></i> 영업 출고</a></li>
-			<!-- 수정 -->
-			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
-					작업지시서</a></li>
-			<!-- 수정 -->
-			<li><a href="productionQuality.do"><i class="fas fa-plug"></i>
-					품질관리</a></li>
-			<!-- 수정 -->
-		</ul>
+	    <ul id="menubar">
+	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
+	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
+	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
+	    </ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
