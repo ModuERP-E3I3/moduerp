@@ -118,57 +118,70 @@ public class ProductionstockInController {
 
 	@GetMapping("/getProductionInDetails.do")
 	public String getProductionInDetails(@RequestParam("itemCode") String itemCode, Model model) {
-	    // ITEM 테이블에서 데이터 가져오기
-	    ItemDTO itemDetails = itemProductionstockService.getItemDetails(itemCode);
-	    // PRODUCTION_STOCK_IN 테이블에서 데이터 가져오기
-	    ProductionStockInDTO productionStockInDetails = productionStockInService.getProductionStockInDetails(itemCode);
+		// ITEM 테이블에서 데이터 가져오기
+		ItemDTO itemDetails = itemProductionstockService.getItemDetails(itemCode);
+		// PRODUCTION_STOCK_IN 테이블에서 데이터 가져오기
+		ProductionStockInDTO productionStockInDetails = productionStockInService.getProductionStockInDetails(itemCode);
 
-	    // CREATED_AT에 9시간 추가하는 로직
-	    Timestamp createdAt = itemDetails.getCreatedAt();
-	    Timestamp adjustedCreatedAt = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000)); // 9시간 추가
-	    itemDetails.setCreatedAt(adjustedCreatedAt); // 조정된 Timestamp 설정
+		// CREATED_AT에 9시간 추가하는 로직
+		Timestamp createdAt = itemDetails.getCreatedAt();
+		Timestamp adjustedCreatedAt = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000)); // 9시간
+																														// 추가
+		itemDetails.setCreatedAt(adjustedCreatedAt); // 조정된 Timestamp 설정
 
-	    // UPDATED_AT에 9시간 추가하는 로직
-	    Timestamp updatedAt = itemDetails.getUpdatedAt();
-	    Timestamp adjustedUpdatedAt = Timestamp.from(Instant.ofEpochMilli(updatedAt.getTime() + 9 * 60 * 60 * 1000)); // 9시간 추가
-	    itemDetails.setUpdatedAt(adjustedUpdatedAt); // 조정된 Timestamp 설정
+		// UPDATED_AT에 9시간 추가하는 로직
+		Timestamp updatedAt = itemDetails.getUpdatedAt();
+		if (updatedAt != null) {
+			Timestamp adjustedUpdatedAt = Timestamp
+					.from(Instant.ofEpochMilli(updatedAt.getTime() + 9 * 60 * 60 * 1000)); // 9시간 추가
+			itemDetails.setUpdatedAt(adjustedUpdatedAt); // 조정된 Timestamp 설정
+		} else {
+			// updatedAt이 null일 경우, 아무 작업도 하지 않고 null로 유지합니다.
+			itemDetails.setUpdatedAt(null); // 명시적으로 null로 설정 (선택 사항)
+		}
 
-	    // 모델에 추가
-	    model.addAttribute("itemDetails", itemDetails);
-	    model.addAttribute("productionStockInDetails", productionStockInDetails);
+		// 모델에 추가
+		model.addAttribute("itemDetails", itemDetails);
+		model.addAttribute("productionStockInDetails", productionStockInDetails);
 
-	    return "productionStock/productionStockInDetail"; // JSP 파일 경로
+		return "productionStock/productionStockInDetail"; // JSP 파일 경로
 	}
 
 	@GetMapping("/productionStockInDetailUpdate.do")
 	public String showUpdateForm(@RequestParam("itemCode") String itemCode, Model model, HttpSession session) {
-	    // ITEM 테이블에서 해당 itemCode의 데이터 가져오기
-	    ItemDTO itemDetails = itemProductionstockService.getItemDetails(itemCode);
+		// ITEM 테이블에서 해당 itemCode의 데이터 가져오기
+		ItemDTO itemDetails = itemProductionstockService.getItemDetails(itemCode);
 
-	    // CREATED_AT에 9시간 추가하는 로직
-	    Timestamp createdAt = itemDetails.getCreatedAt();
-	    Timestamp adjustedCreatedAt = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000)); // 9시간 추가
-	    itemDetails.setCreatedAt(adjustedCreatedAt); // 조정된 Timestamp 설정
+		// CREATED_AT에 9시간 추가하는 로직
+		Timestamp createdAt = itemDetails.getCreatedAt();
+		Timestamp adjustedCreatedAt = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000)); // 9시간
+																														// 추가
+		itemDetails.setCreatedAt(adjustedCreatedAt); // 조정된 Timestamp 설정
 
-	    // PRODUCTION_STOCK_IN 테이블에서 데이터 가져오기
-	    ProductionStockInDTO productionStockInDetails = productionStockInService.getProductionStockInDetails(itemCode);
+		// PRODUCTION_STOCK_IN 테이블에서 데이터 가져오기
+		ProductionStockInDTO productionStockInDetails = productionStockInService.getProductionStockInDetails(itemCode);
 
-	    // UPDATED_AT에 9시간 추가하는 로직
-	    Timestamp updatedAt = itemDetails.getUpdatedAt();
-	    Timestamp adjustedUpdatedAt = Timestamp.from(Instant.ofEpochMilli(updatedAt.getTime() + 9 * 60 * 60 * 1000)); // 9시간 추가
-	    itemDetails.setUpdatedAt(adjustedUpdatedAt); // 조정된 Timestamp 설정
+		// UPDATED_AT에 9시간 추가하는 로직
+		Timestamp updatedAt = itemDetails.getUpdatedAt();
+		if (updatedAt != null) {
+			Timestamp adjustedUpdatedAt = Timestamp
+					.from(Instant.ofEpochMilli(updatedAt.getTime() + 9 * 60 * 60 * 1000)); // 9시간 추가
+			itemDetails.setUpdatedAt(adjustedUpdatedAt); // 조정된 Timestamp 설정
+		} else {
+			itemDetails.setUpdatedAt(null); // 명시적으로 null로 설정 (선택 사항)
+		}
 
-	    String bizNumber = (String) session.getAttribute("biz_number");
-	    // biz_number로 item_name 목록을 가져옴
-	    List<String> itemNames = itemProductionstockService.getItemNamesByBizNumber(bizNumber);
+		String bizNumber = (String) session.getAttribute("biz_number");
+		// biz_number로 item_name 목록을 가져옴
+		List<String> itemNames = itemProductionstockService.getItemNamesByBizNumber(bizNumber);
 
-	    // 모델에 추가
-	    model.addAttribute("itemDetails", itemDetails);
-	    model.addAttribute("productionStockInDetails", productionStockInDetails);
-	    model.addAttribute("itemNames", itemNames);
+		// 모델에 추가
+		model.addAttribute("itemDetails", itemDetails);
+		model.addAttribute("productionStockInDetails", productionStockInDetails);
+		model.addAttribute("itemNames", itemNames);
 
-	    // 수정 페이지로 이동
-	    return "productionStock/productionStockInDetailUpdate"; // 수정할 JSP 파일 경로
+		// 수정 페이지로 이동
+		return "productionStock/productionStockInDetailUpdate"; // 수정할 JSP 파일 경로
 	}
 
 	@PostMapping("/updateProductionStockIn.do")
