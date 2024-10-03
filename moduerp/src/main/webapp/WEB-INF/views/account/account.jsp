@@ -197,7 +197,7 @@
                 </tr>
             </thead>
 			<tbody>
-				<c:forEach var="stockOut" items="${accountList}">
+				<c:forEach var="account" items="${accountList}">
 					<tr>
 						<td>${account.accountNo}</td>
 						<td>${account.accountName}</td>
