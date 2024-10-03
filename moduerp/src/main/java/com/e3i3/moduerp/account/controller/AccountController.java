@@ -1,16 +1,26 @@
 package com.e3i3.moduerp.account.controller;
 
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import com.e3i3.moduerp.account.model.dto.AccountDTO;
+import com.e3i3.moduerp.account.service.AccountService;
 
 @Controller
 @RequestMapping("/")
 public class AccountController {
 
+    @Autowired
+    private AccountService accountService;
+
     // account.jsp 요청 처리
-    @RequestMapping(value = "/account.do", method = RequestMethod.GET)
-    public String forwardAccount() {
-        return "salesStock/account";  // JSP 파일 경로 반환
+    @RequestMapping("/account.do")
+    public String showAccount(Model model) {
+        List<AccountDTO> accountList = accountService.getAllAccounts();
+        model.addAttribute("accountList", accountList);
+        return "account/account";
     }
+
 }

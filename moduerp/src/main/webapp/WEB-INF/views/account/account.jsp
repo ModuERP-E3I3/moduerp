@@ -197,14 +197,13 @@
                 </tr>
             </thead>
 			<tbody>
-				<c:forEach var="stockOut" items="${stockOutList}">
+				<c:forEach var="stockOut" items="${accountList}">
 					<tr>
-						<td>${stockOut.sStockOutId}</td>
-						<td>${stockOut.itemCode}</td>
-						<td>${stockOut.uuid}</td>
-						<td>${stockOut.sStockOutDate}</td>
-						<td>${stockOut.sStockOutPlace}</td>
-						<td>${stockOut.sStockOutQty}</td>
+						<td>${account.accountNo}</td>
+						<td>${account.accountName}</td>
+						<td>${account.businessType}</td>
+						<td>${account.items}</td>
+						<td>${account.bossName}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
