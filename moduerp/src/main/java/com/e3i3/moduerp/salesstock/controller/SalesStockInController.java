@@ -13,7 +13,7 @@ import com.e3i3.moduerp.salesstock.service.SalesStockInService;
 
 @Controller
 @RequestMapping("/")
-public class SalesStockController {
+public class SalesStockInController {
 
     @Autowired
     private SalesStockInService salesStockInService;
