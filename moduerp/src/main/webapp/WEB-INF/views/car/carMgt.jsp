@@ -193,20 +193,23 @@
                     <th>차종</th>
                     <th>차량 번호</th>
                     <th>소유 형태</th>
+                    <th>사용처</th>
                     <th>내역</th>
                     <th>금액</th>
                     <th>일자</th>
                 </tr>
             </thead>
             <tbody>
-			    <c:forEach var="car" items="${carList}">
+			    <c:forEach var="carmgt" items="${carmgtList}">
 			        <tr>
-			            <td></td>
-			            <td></td>
-			            <td></td>
-			            <td></td>
-			            <td></td>
-			            <td></td>
+			            <td>${ carmgt.carModel }</td>
+			            <td>${ carmgt.carId }</td>
+			            <td>${ carmgt.ownershipStatus }</td>
+			            <td>${ carmgt.paymentPlace } </td>
+			            <td>${ carmgt.paymentHistory } </td>
+			            <td>${ carmgt.paymentPrice }</td>
+			            <td>${ carmgt.paymentDate }</td>
+			            
 			        </tr>
 			    </c:forEach>
 			</tbody>

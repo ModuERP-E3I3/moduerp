@@ -19,12 +19,7 @@ public class CarController {
 	// carRes.jsp view
 	
 
-	// carMgt.jsp view
-	@CrossOrigin(origins = "https://apis-navi.kakaomobility.com/v1/directions") // 특정 도메인만 허용
-	@RequestMapping(value = "/carMgt.do", method = RequestMethod.GET)
-	public String forwardCarMgt() {
-		return "car/carMgt";
-	}
+	
 
 	// map.jsp view
 	@CrossOrigin(origins = "https://apis-navi.kakaomobility.com/v1/directions") // 특정 도메인만 허용

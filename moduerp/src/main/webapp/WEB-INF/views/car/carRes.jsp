@@ -198,8 +198,8 @@
             <tbody>
 			    <c:forEach var="car" items="${carList}">
 			        <tr>
-			            <td>${ car.carId }</td>
 			            <td>${ car.carModel }</td>
+			            <td>${ car.carId }</td>
 			            <td>${ car.ownershipStatus }</td>
 			        </tr>
 			    </c:forEach>
