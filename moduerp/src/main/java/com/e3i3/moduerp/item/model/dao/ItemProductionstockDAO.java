@@ -15,4 +15,7 @@ public interface ItemProductionstockDAO {
 
 	void insertItem(ItemDTO itemDTO);
 
+	ItemDTO selectItemByCode(String itemCode);
+
+	void updateItem(ItemDTO itemDTO);
 }

@@ -23,17 +23,31 @@
 	</select>
 
 	<!-- 새로운 생산 입고 데이터를 삽입하는 쿼리 -->
-	<insert id="insertProductionStockIn"
-		parameterType="com.e3i3.moduerp.productionstock.model.dto.ProductionStockInDTO">
-		INSERT INTO PRODUCTION_STOCK_IN (P_STOCK_IN_ID, ITEM_CODE, P_STOCK_IN_DATE,
+	<insert id="insertProductionStockIn">
+		INSERT INTO PRODUCTION_STOCK_IN (P_STOCK_IN_ID,
+		ITEM_CODE, P_STOCK_IN_DATE,
 		P_STOCK_PLACE, P_STOCK_IN_QTY, UUID)
-		VALUES (#{pStockInId}, #{itemCode}, #{pStockInDate}, #{pStockPlace},
+		VALUES
+		(#{pStockInId}, #{itemCode}, #{pStockInDate}, #{pStockPlace},
 		#{pStockInQty}, #{uuid})
 	</insert>
 
 
 
 
+	<select id="selectProductionStockInByItemCode"
+		parameterType="String"
+		resultType="com.e3i3.moduerp.productionstock.model.dto.ProductionStockInDTO">
+		SELECT * FROM PRODUCTION_STOCK_IN WHERE ITEM_CODE =
+		#{itemCode}
+	</select>
+
+	<update id="updateProductionStockIn"
+		parameterType="com.e3i3.moduerp.productionstock.model.dto.ProductionStockInDTO">
+		UPDATE PRODUCTION_STOCK_IN
+		SET P_STOCK_PLACE = #{pStockPlace}, P_STOCK_IN_QTY = #{pStockInQty}
+		WHERE ITEM_CODE = #{itemCode}
+	</update>
 
 
 </mapper>

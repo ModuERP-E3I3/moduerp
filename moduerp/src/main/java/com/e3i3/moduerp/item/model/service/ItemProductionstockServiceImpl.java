@@ -33,4 +33,14 @@ public class ItemProductionstockServiceImpl implements ItemProductionstockServic
 	public List<ItemDTO> getItemsByBizNumber(String bizNumber) {
 		return itemProductionstockDAO.getItemsByBizNumber(bizNumber);
 	}
+
+	@Override
+	public ItemDTO getItemDetails(String itemCode) {
+		return itemProductionstockDAO.selectItemByCode(itemCode);
+	}
+
+	@Override
+	public void updateItem(ItemDTO itemDTO) {
+		itemProductionstockDAO.updateItem(itemDTO);
+	}
 }

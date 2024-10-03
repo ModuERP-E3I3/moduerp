@@ -202,7 +202,8 @@ th {
 				<tbody>
 					<tr>
 						<!-- 날짜 선택하는 칸 -->
-						<td> <input type="date" id="pStockInDate" name="pStockInDate"> </td>
+						<td><input type="date" id="pStockInDate" name="pStockInDate">
+						</td>
 
 						<!-- 보관장소 선택 칸 -->
 						<td><input list="stockPlaces" name="stockPlace"
@@ -213,8 +214,7 @@ th {
 							</datalist></td>
 
 						<!-- 입고수량 칸 -->
-						<td><input type="number" name="stockIn"
-							placeholder="수량 입력" /></td>
+						<td><input type="number" name="stockIn" placeholder="수량 입력" /></td>
 
 						<!-- 품목 이름 칸 -->
 						<td><input type="text" name="itemName" placeholder="품목 이름 입력" /></td>
@@ -227,12 +227,23 @@ th {
 							step="0.01" /></td>
 
 						<!-- 자재 종류 선택 칸 -->
-						<td><input list="materialTypes" name="materialType"
-							placeholder="자재 종류 입력" /> <datalist id="materialTypes">
-								<c:forEach var="itemName" items="${itemNames}">
-									<option value="${itemName}"></option>
-								</c:forEach>
-							</datalist></td>
+						<td>
+							<!-- 자재 종류 입력 부분 -->
+							<div id="materialTypeContainer">
+								<div class="material-type-input">
+									<input list="materialTypes" name="materialType"
+										placeholder="자재 종류 입력" />
+									<datalist id="materialTypes">
+										<c:forEach var="itemName" items="${itemNames}">
+											<option value="${itemName}"></option>
+										</c:forEach>
+									</datalist>
+									<button type="button" class="remove-btn"
+										onclick="removeMaterialType(this)">삭제</button>
+								</div>
+							</div>
+							<button type="button" onclick="addMaterialType()">자재 종류추가</button>
+						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -246,6 +257,29 @@ th {
 
 	</div>
 </body>
+<script>
+function addMaterialType() {
+    const container = document.getElementById('materialTypeContainer');
+    const newInputDiv = document.createElement('div');
+    newInputDiv.className = 'material-type-input';
+    newInputDiv.innerHTML = `
+        <input list="materialTypes" name="materialType" placeholder="자재 종류 입력" />
+        <datalist id="materialTypes">
+            <c:forEach var="itemName" items="${itemNames}">
+                <option value="${itemName}"></option>
+            </c:forEach>
+        </datalist>
+        <button type="button" class="remove-btn" onclick="removeMaterialType(this)">삭제</button>
+    `;
+    container.appendChild(newInputDiv);
+}
+
+function removeMaterialType(button) {
+    const inputDiv = button.parentElement;
+    inputDiv.remove();
+}
+</script>
+
 
 <script>
     const activeMenu = "productionStockIn";
