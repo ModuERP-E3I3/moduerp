@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PurchaseordersMapper">
+
+    <resultMap id="purchaseordersResult"
+        type="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseordersDTO">
+        <result property="purchaseOrderNo" column="PURCHASE_ORDER_NO" />
+        <result property="supplierName" column="SUPPLIER_NAME" />
+        <result property="orderStatus" column="ORDER_STATUS" />
+        <result property="orderedItems" column="ORDERED_ITEMS" />
+        <result property="purchaserName" column="PURCHASER_NAME" />
+    </resultMap>
+
+    <select id="selectAllPurchaseorders"
+        resultMap="purchaseordersResult">
+        SELECT * FROM PURCHASEORDERS
+    </select>
+
+</mapper>
