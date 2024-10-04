@@ -5,18 +5,18 @@ import java.util.List;
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 
 public interface ItemSalesStockService {
-    List<String> getItemNamesByBizNumber(String bizNumber);
+	List<String> getItemNamesByBizNumber(String bizNumber);
 
-    List<String> getStockPlacesByBizNumber(String bizNumber); // Ãß°¡µÈ ¸Ş¼­µå
+	List<String> getStockPlacesByBizNumber(String bizNumber); // ì¶”ê°€ëœ ë©”ì„œë“œ
 
-    void insertItem(ItemDTO itemDTO);
+	void insertItem(ItemDTO itemDTO);
 
-    ItemDTO getItemDetails(String itemCode);
+	ItemDTO getItemDetails(String itemCode);
 
-    // biz_number·Î ÇÊÅÍ¸µµÈ ¾ÆÀÌÅÛ ¸®½ºÆ®¸¦ °¡Á®¿À´Â ¸Ş¼­µå
-    List<ItemDTO> getItemsByBizNumber(String bizNumber);
+	// biz_numberë¡œ í•„í„°ë§ëœ ì•„ì´í…œ ë¦¬ìŠ¤íŠ¸ë¥¼ ê°€ì ¸ì˜¤ëŠ” ë©”ì„œë“œ
+	List<ItemDTO> getItemsByBizNumber(String bizNumber);
 
-    void updateItem(ItemDTO itemDTO);
+	void updateItem(ItemDTO itemDTO);
 
-    void deleteItemByCode(String itemCode);
+	void deleteItemByCode(String itemCode);
 }

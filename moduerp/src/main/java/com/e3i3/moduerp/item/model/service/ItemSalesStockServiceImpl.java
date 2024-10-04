@@ -20,7 +20,7 @@ public class ItemSalesStockServiceImpl implements ItemSalesStockService {
     }
 
     @Override
-    public List<String> getStockPlacesByBizNumber(String bizNumber) { // 추가된 메서드
+    public List<String> getStockPlacesByBizNumber(String bizNumber) { 
         return itemSalesStockDAO.selectStockPlacesByBizNumber(bizNumber);
     }
 

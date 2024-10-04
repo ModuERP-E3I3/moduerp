@@ -43,7 +43,6 @@ public class ItemProductionstockDAOImpl implements ItemProductionstockDAO {
 
 	@Override
 	public void updateItem(ItemDTO itemDTO) {
-		// 데이터베이스 업데이트 쿼리 실행
 		sqlSession.update(namespace + ".updateItem", itemDTO);
 	}
 
