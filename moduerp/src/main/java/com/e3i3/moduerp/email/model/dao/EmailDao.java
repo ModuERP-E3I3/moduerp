@@ -10,36 +10,47 @@ import com.e3i3.moduerp.email.model.dto.Email;
 
 @Repository
 public class EmailDao {
-    @Autowired
-    private SqlSessionTemplate sqlSessionTemplate;
+	@Autowired
+	private SqlSessionTemplate sqlSessionTemplate;
 
-    // 이메일 등록
-    public void insertEmail(Email email) {
-        sqlSessionTemplate.insert("EmailMapper.insertEmail", email);
-    }
+	// 이메일 등록
+	public void insertEmail(Email email) {
+		sqlSessionTemplate.insert("EmailMapper.insertEmail", email);
+	}
 
-    // 모든 이메일 조회
-    public List<Email> selectAllEmails() {
-        return sqlSessionTemplate.selectList("EmailMapper.selectAllEmails");
-    }
+	// 모든 이메일 조회
+	public List<Email> selectAllEmails() {
+		return sqlSessionTemplate.selectList("EmailMapper.selectAllEmails");
+	}
 
-    // 수신한 이메일 조회
-    public List<Email> selectEmailsByRecipient(String recipientEmail) {
-        return sqlSessionTemplate.selectList("EmailMapper.selectEmailsByRecipient", recipientEmail);
-    }
+	// 수신한 이메일 조회
+	public List<Email> selectEmailsByRecipient(String recipientEmail) {
+		return sqlSessionTemplate.selectList("EmailMapper.selectEmailsByRecipient", recipientEmail);
+	}
 
-    // 보낸 이메일 조회
-    public List<Email> selectEmailsBySender(String senderEmail) {
-        return sqlSessionTemplate.selectList("EmailMapper.selectEmailsBySender", senderEmail);
-    }
+	// 보낸 이메일 조회
+	public List<Email> selectEmailsBySender(String senderEmail) {
+		return sqlSessionTemplate.selectList("EmailMapper.selectEmailsBySender", senderEmail);
+	}
 
-    // 로그인 유저가 보낸 이메일과 받은 이메일 조회
-    public List<Email> selectEmailsByUser(String userEmail) {
-        return sqlSessionTemplate.selectList("EmailMapper.selectEmailsByUser", userEmail);
-    }
-    
-    // 이메일 ID로 이메일 조회
-    public Email selectEmailById(Long emailId) {
-        return sqlSessionTemplate.selectOne("EmailMapper.selectEmailById", emailId);
-    }
+	// 로그인 유저가 보낸 이메일과 받은 이메일 조회
+	public List<Email> selectEmailsByUser(String userEmail) {
+		return sqlSessionTemplate.selectList("EmailMapper.selectEmailsByUser", userEmail);
+	}
+
+	// 이메일 아이디로 조회해서 isRead 'Y'로 업데이트하기
+	// 이메일 ID로 이메일 조회
+	public Email updateReadStatus(Long emailId) {
+		return sqlSessionTemplate.selectOne("EmailMapper.updateReadStatus", emailId);
+	}
+
+	// 이메일 ID로 이메일 조회
+	public Email selectEmailById(Long emailId) {
+		return sqlSessionTemplate.selectOne("EmailMapper.selectEmailById", emailId);
+	}
+
+	// 읽음 상태 일괄 업데이트
+	public void updateReadStatusBatch(List<Long> emailIds) {
+		sqlSessionTemplate.update("EmailMapper.updateReadStatusBatch", emailIds);
+	}
 }

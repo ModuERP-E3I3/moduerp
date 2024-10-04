@@ -35,3 +35,6 @@
 /moduerp/src/main/resources/logs/
 
 /src/
+
+/.apt_generated/
+/.apt_generated_tests/

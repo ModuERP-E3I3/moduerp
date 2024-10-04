@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/")
 public class AttendanceController {
 
-    // attendance.jsp 요청 처리
     @RequestMapping(value = "/attendance.do", method = RequestMethod.GET)
     public String forwardAttendance() {
-        return "attendance/attendance";  // JSP 파일 경로 반환
+        return "attendance/attendance";  
     }
 }

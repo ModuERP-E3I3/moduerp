@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> <!-- fmt 태그 라이브러리 추가 -->
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>이메일</title>
+<title>이메일 상세 보기</title>
 <style type="text/css">
 /* 기존 CSS 스타일을 여기에 추가하세요. */
 .top-content-box {
@@ -57,50 +57,72 @@
 }
 
 .content-box {
-    width: 96%;
-    background-color: white;
-    margin-left: 1%;
-    margin-right: 5%;
-    margin-top: 5%;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    position: relative;
-    padding: 20px;
+	width: 96%;
+	background-color: white;
+	margin-left: 1%;
+	margin-right: 5%;
+	margin-top: 5%;
+	border: 1px solid #ccc;
+	border-radius: 20px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	position: relative;
+	padding: 20px;
 }
 
 /* 제목 스타일 */
 .content-title {
-    position: absolute;
-    top: -40px;
-    left: 20px;
-    font-size: 24px;
-    color: white;
+	position: absolute;
+	top: -40px;
+	left: 20px;
+	font-size: 24px;
+	color: white;
+	font-weight: bold;
+}
+
+.email-detail {
+    padding: 10px;
+}
+
+.email-detail label {
     font-weight: bold;
+    display: block;
+    margin-top: 10px;
 }
 
-.email-list {
-    list-style: none;
-    padding: 0;
+.email-detail span {
+    display: block;
+    margin-top: 5px;
 }
 
-.email-item {
-    border-bottom: 1px solid #ccc;
-    padding: 10px 0;
+/* 버튼 스타일 */
+.btn-group {
+    text-align: right;
+    margin-top: 20px;
 }
 
-.email-item:last-child {
-    border-bottom: none;
+.btn {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #0056b3;
 }
 
 /* 드롭다운 메뉴 스타일 */
 .dropdown-menu {
     display: none; /* 기본적으로 숨김 */
-    position: absolute; /* 위치 지정 */
+    position: absolute; /* 트리거 요소를 기준으로 위치 지정 */
+    top: 100%; /* 트리거 요소 바로 아래에 위치 */
+    left: 0; /* 트리거 요소의 왼쪽에 맞춤 */
     background-color: white;
     border: 1px solid #ccc;
     z-index: 1;
-    margin-top: 5px; /* 상단 여백 */
     border-radius: 5px; /* 둥근 모서리 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
     list-style: none; /* 동그라미 제거 */
@@ -119,11 +141,11 @@
 .dropdown-item:hover {
     background-color: #f4f4f4; /* 호버 시 배경색 변경 */
 }
+
 /* 날짜 레이블 스타일 */
 .date-label {
     font-weight: bold;
 }
-
 </style>
 </head>
 
@@ -137,8 +159,7 @@
             <li><a href="<c:url value='/attendance.do' />"><i class="fas fa-bullhorn"></i> 출퇴근</a></li>
             <li><a href="<c:url value='/leave.do' />"><i class="fas fa-clipboard"></i> 휴 가</a></li>
             <li>
-                <a href="javascript:void(0);" class="active" onclick="toggleDropdown(this);"><i class="fas fa-clipboard"></i>
-                    이메일</a>
+                <a href="javascript:void(0);" class="active" onclick="toggleDropdown(this);"><i class="fas fa-clipboard"></i> 이메일</a>
                 <ul class="dropdown-menu">
                     <li><a href="<c:url value='/email/list.do' />" class="dropdown-item" onclick="hideDropdown()">전체 이메일</a></li>
                     <li><a href="<c:url value='/email/inbox.do' />" class="dropdown-item" onclick="hideDropdown()">받은 이메일</a></li>
@@ -150,52 +171,55 @@
 
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
+        <div class="content-title">이메일 상세 보기</div>
 
-        <div class="content-title">받은 이메일</div>
+        <!-- 이메일 상세 정보 -->
+        <div class="email-detail">
+            <label>발신자:</label> <span>${email.senderEmail}</span>
+            <label>수신자:</label> <span>${email.recipientEmail}</span>
+            <label>제목:</label> <span>${email.subject}</span>
+            <label>내용:</label> <span>${email.body}</span>
 
-        <!-- 이메일 리스트 -->
-        <ul class="email-list">
-            <c:forEach var="email" items="${emails}">
-                <li class="email-item">
-                    <strong>발신자:</strong> ${email.senderEmail} <br> 
-                    <strong>제목:</strong> ${email.subject} <br> 
-                    <strong class="date-label">받은 날짜:</strong>
-                    <!-- 날짜 형식 지정 (분 단위까지, 한국어 로케일) -->
-                    <fmt:setLocale value="ko_KR" />
-                    <fmt:formatDate value="${email.sentDate}" pattern="yyyy년 MM월 dd일 (E) a hh:mm" /> 
-                    <br>
-                    
-                    <a href="view.do?emailId=${email.emailId}">자세히 보기</a>
-                </li>
-            </c:forEach>
-        </ul>
+            <!-- 날짜 레이블 조건부 표시 -->
+            <c:choose>
+                <c:when test="${email.senderEmail == sessionScope.email}">
+                    <label class="date-label">보낸 날짜:</label>
+                </c:when>
+                <c:otherwise>
+                    <label class="date-label">받은 날짜:</label>
+                </c:otherwise>
+            </c:choose>
 
-        <!-- 메일쓰기 버튼 -->
-        <div class="btn-group" style="text-align: right; margin-top: 20px;">
-            <a href="send.do" class="btn blue">메일쓰기</a>
+            <!-- 날짜 형식 지정 (분 단위까지, 한국어 로케일) -->
+            <fmt:setLocale value="ko_KR" />
+            <fmt:formatDate value="${email.sentDate}" pattern="yyyy년 MM월 dd일 (E) a hh:mm" />
+        </div>
+
+        <!-- 뒤로가기 버튼 -->
+        <div class="btn-group">
+            <button type="button" class="btn" onclick="goBack()">뒤로가기</button>
         </div>
     </div>
 
     <script>
+      function goBack() {
+            window.history.back();
+        }
         function toggleDropdown(element) {
             const dropdown = element.nextElementSibling; // 드롭다운 메뉴
-            if (dropdown.style.display === "block") {
-                dropdown.style.display = "none"; // 이미 열려있으면 닫기
-            } else {
-                dropdown.style.display = "block"; // 열기
-            }
+            dropdown.classList.toggle('active'); // active 클래스 토글
         }
 
         function hideDropdown() {
             const dropdowns = document.querySelectorAll('.dropdown-menu');
             dropdowns.forEach(dropdown => {
-                dropdown.style.display = "none"; // 모든 드롭다운 닫기
+                dropdown.classList.remove('active'); // active 클래스 제거
             });
         }
 
         // 페이지 로드 시 드롭다운을 자동으로 닫기
         window.onclick = function(event) {
-            if (!event.target.matches('.active')) {
+            if (!event.target.matches('.active') && !event.target.closest('.dropdown-menu')) {
                 hideDropdown();
             }
         }

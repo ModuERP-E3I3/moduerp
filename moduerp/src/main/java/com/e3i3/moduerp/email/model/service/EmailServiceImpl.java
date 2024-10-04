@@ -41,4 +41,15 @@ public class EmailServiceImpl implements EmailService {
     public Email selectEmailById(Long emailId) {
         return emailDao.selectEmailById(emailId);
     }
+    
+    @Override
+    public Email updateReadStatus(Long emailId) {
+    	return emailDao.updateReadStatus(emailId);
+    }
+
+	@Override
+	public void updateReadStatusBatch(List<Long> emailIds) {
+		 emailDao.updateReadStatusBatch(emailIds);
+		
+	}
 }

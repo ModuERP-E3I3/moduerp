@@ -26,6 +26,6 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public Notice getNoticeById(int noticeId) {
-        return NoticeDao.getNoticeById(noticeId); // 공지사항 상세 조회 DAO 호출
+        return NoticeDao.getNoticeById(noticeId); 
     }
 }

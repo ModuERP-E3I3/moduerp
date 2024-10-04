@@ -86,18 +86,19 @@ nav.side ul li a.active {
 <!-- 왼쪽 사이드바 -->
 <nav class="side">
     <ul>
-        <li><a href="erpMain.do"><i class="fas fa-home"></i>ModuERP</a></li>
-        <li><a href="hr.do"><i class="fas fa-bullhorn"></i>인사 관리</a></li>
-        <li><a href="productionStockIn.do"><i class="fas fa-clipboard"></i>생산 관리</a></li>
-        <li><a href="purchaseorders.do"><i class="fas fa-code"></i>구매 관리</a></li>
-        <li><a href="account.do"><i class="fas fa-plug"></i>영업/판매 관리</a></li>
-        <li><a href="bankmg.do"><i class="fas fa-plug"></i>회계 관리</a></li>
-        <li><a href="carRes.do"><i class="fas fa-plug"></i>차량 관리</a></li>
-        <li><a href="attendance.do"><i class="fas fa-plug"></i>그룹 웨어</a></li>
-        <li><a href="main.do"><i class="fas fa-home"></i>Homepage</a></li>
-        <li><a href="logout"><i class="fas fa-sign-out-alt"></i>로그아웃</a></li>
+        <li><a href="<c:url value='/erpMain.do' />"><i class="fas fa-home"></i>ModuERP</a></li>
+        <li><a href="<c:url value='/hr.do' />"><i class="fas fa-bullhorn"></i>인사 관리</a></li>
+        <li><a href="<c:url value='/productionStockIn.do' />"><i class="fas fa-clipboard"></i>생산 관리</a></li>
+        <li><a href="<c:url value='/purchaseorders.do' />"><i class="fas fa-code"></i>구매 관리</a></li>
+        <li><a href="<c:url value='/account.do' />"><i class="fas fa-plug"></i>영업/판매 관리</a></li>
+        <li><a href="<c:url value='/bankmg.do' />"><i class="fas fa-plug"></i>회계 관리</a></li>
+        <li><a href="<c:url value='/carRes.do' />"><i class="fas fa-plug"></i>차량 관리</a></li>
+        <li><a href="<c:url value='/attendance.do' />"><i class="fas fa-plug"></i>그룹 웨어</a></li>
+        <li><a href="<c:url value='/main.do' />"><i class="fas fa-home"></i>Homepage</a></li>
+        <li><a href="<c:url value='/logout' />"><i class="fas fa-sign-out-alt"></i>로그아웃</a></li>
     </ul>
 </nav>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
