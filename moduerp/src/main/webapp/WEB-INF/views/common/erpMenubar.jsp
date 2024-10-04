@@ -13,6 +13,21 @@ body {
     background-color: #223D38;
 }
 
+/* ModuERP 부분 호버 효과 제거 */
+.no-hover {
+    display: block;
+    color: white;
+    padding: 15px;
+    font-size: 20px;
+    text-align: left;
+}
+
+.no-hover:hover {
+    background-color: transparent; /* 호버 시 배경색 변하지 않도록 설정 */
+    cursor: default; /* 커서가 변경되지 않도록 설정 */
+}
+
+
 /* 왼쪽 사이드바 */
 nav.side {
     font-weight: bold;
@@ -86,8 +101,8 @@ nav.side ul li a.active {
 <!-- 왼쪽 사이드바 -->
 <nav class="side">
     <ul>
-        <li><a href="erpMain.do"><i class="fas fa-home"></i>ModuERP</a></li>
-        <li><a href="hr.do"><i class="fas fa-bullhorn"></i>인사 관리</a></li>
+       <li><span class="no-hover"><i class="fas fa-home"></i>   ModuERP</span></li>
+
         <li><a href="productionStockIn.do"><i class="fas fa-clipboard"></i>생산 관리</a></li>
         <li><a href="purchaseorders.do"><i class="fas fa-code"></i>구매 관리</a></li>
         <li><a href="account.do"><i class="fas fa-plug"></i>영업/판매 관리</a></li>
