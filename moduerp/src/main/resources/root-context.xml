@@ -7,13 +7,6 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
-	<!-- Root Context: defines shared resources visible to all other web components -->
-	<!-- 데이터베이스 연결 설정 -->
-	<!-- 1. DataSource 등록 -->
-	<!-- import org.apache.commons.dbcp.BasicDataSource; BasicDataSource dataSource 
-		= new BasicDataSource(); try { 드라이버 등록, db 연결 설정 } catch (Exception e) { 
-		에러 처리 } finally { dataSource.close(); } -->
-
 
 	<bean class="org.apache.commons.dbcp.BasicDataSource"
 		id="realDataSource" destroy-method="close">
