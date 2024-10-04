@@ -160,6 +160,7 @@
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
+	     	<li><a href="purchaseorders.do"><i class="fas fa-bullhorn"></i> 발주서관리</a></li>
 	        <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
 			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
 			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 배송 조회</a></li>
@@ -200,7 +201,7 @@
                 </tr>
             </thead>
             <tbody>
-			    <c:forEach var="BuyStockIn" items="${stockList}">
+			    <c:forEach var="buyStockOut" items="${stockList}">
 			        <tr>
 			            <td>${buyStockout.bStockOutId}</td>
 			            <td>${buyStockout.itemCode}</td>
@@ -225,7 +226,7 @@
 </body>
 
 <script>
-    const activeMenu = "buyStockOut";
+    const activeMenu = "purchaseorders";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

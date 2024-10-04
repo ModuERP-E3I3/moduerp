@@ -194,25 +194,27 @@
                     <th>거래처</th>
                     <th>품목코드</th>
                     <th>품명</th>
+                    <th>입고 날짜</th>
                     <th>입고 수량</th>
                     <th>재고 수량</th>
-                    <th>단가</th>
+                    <th>입고 장소</th>
                     <th>직원명</th>
-                    <th>비고</th>                    
+                    <th>발주서</th>                    
                 </tr>
             </thead>
             <tbody>
-			    <c:forEach var="BuyStockIn" items="${stockList}">
-			        <tr>
+			    <c:forEach var="buyStockIn" items="${stockList}">
+	 		        <tr>
 			            <td>${buyStockIn.bStockInId}</td>
-			            <td>${buyStockIn.bStockInId}</td>
+			            <td>${buyStockIn.accountNo}</td>
 			            <td>${buyStockIn.itemCode}</td>
+			            <td>${buyStockIn.bStockInId}</td>
 			            <td>${buyStockIn.bStockInDate}</td>
-			            <td>${buyStockIn.bStockPlace}</td>
 			            <td>${buyStockIn.bStockInQty}</td>
-			            <td>${buyStockIn.bStockInId}</td>
+			            <td>${buyStockIn.bStockInQty}</td>
+			            <td>${buyStockIn.bStockInPlace}</td>
 			            <td>${buyStockIn.empName}</td>
-			            <td>${buyStockIn.bStockInId}</td>
+			            <td>${buyStockIn.orderId}</td>
 			        </tr>
 			    </c:forEach>
 			</tbody>
@@ -228,7 +230,7 @@
 </body>
 
 <script>
-    const activeMenu = "buyStockIn";
+    const activeMenu = "purchaseorders";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');
