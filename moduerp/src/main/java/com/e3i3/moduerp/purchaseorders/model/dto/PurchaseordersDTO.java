@@ -1,66 +1,63 @@
 package com.e3i3.moduerp.purchaseorders.model.dto;
 
-import java.util.Date;
-import java.util.List;
-
 public class PurchaseordersDTO {
-    private String purchaseOrderNo;
-    private String supplierName;
-    private String orderStatus;
-    private List<String> orderedItems;
-    private String purchaserName;
+    private String orderId;        
+    private String itemCode;       
+    private String accountNo;      
+    private int quantity;          
+    private double supplyPrice;    
 
     public PurchaseordersDTO() {
         super();
     }
 
-    public PurchaseordersDTO(String purchaseOrderNo, String supplierName, String orderStatus, List<String> orderedItems, String purchaserName) {
+    public PurchaseordersDTO(String orderId, String itemCode, String accountNo, int quantity, double supplyPrice) {
         super();
-        this.purchaseOrderNo = purchaseOrderNo;
-        this.supplierName = supplierName;
-        this.orderStatus = orderStatus;
-        this.orderedItems = orderedItems;
-        this.purchaserName = purchaserName;
+        this.orderId = orderId;
+        this.itemCode = itemCode;
+        this.accountNo = accountNo;
+        this.quantity = quantity;
+        this.supplyPrice = supplyPrice;
     }
 
     // Getters and Setters
-    public String getPurchaseOrderNo() {
-        return purchaseOrderNo;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setPurchaseOrderNo(String purchaseOrderNo) {
-        this.purchaseOrderNo = purchaseOrderNo;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
-    public String getSupplierName() {
-        return supplierName;
+    public String getItemCode() {
+        return itemCode;
     }
 
-    public void setSupplierName(String supplierName) {
-        this.supplierName = supplierName;
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
     }
 
-    public String getOrderStatus() {
-        return orderStatus;
+    public String getAccountNo() {
+        return accountNo;
     }
 
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus;
+    public void setAccountNo(String accountNo) {
+        this.accountNo = accountNo;
     }
 
-    public List<String> getOrderedItems() {
-        return orderedItems;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setOrderedItems(List<String> orderedItems) {
-        this.orderedItems = orderedItems;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public String getPurchaserName() {
-        return purchaserName;
+    public double getSupplyPrice() {
+        return supplyPrice;
     }
 
-    public void setPurchaserName(String purchaserName) {
-        this.purchaserName = purchaserName;
+    public void setSupplyPrice(double supplyPrice) {
+        this.supplyPrice = supplyPrice;
     }
 }

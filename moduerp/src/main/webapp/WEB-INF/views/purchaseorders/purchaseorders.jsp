@@ -200,11 +200,11 @@
 			<tbody>
 				<c:forEach var="purchaseOrders" items="${purchaseordersList}">
 					<tr>
-						<td>${purchaseOrders.ORDER_ID}</td>
-						<td>${purchaseOrders.ITEM_CODE}</td>
-						<td>${purchaseOrders.ACCOUNT_NO}</td>
-						<td>${purchaseOrders.QUANTITY}</td>
-						<td>${purchaseOrders.SUPPLY_PRICE}</td>
+						<td>${purchaseOrders.orderId}</td>
+						<td>${purchaseOrders.itemCode}</td>
+						<td>${purchaseOrders.accountNo}</td>
+						<td>${purchaseOrders.quantity}</td>
+						<td>${purchaseOrders.supplyPrice}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
