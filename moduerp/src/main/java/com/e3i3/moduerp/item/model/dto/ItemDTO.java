@@ -10,7 +10,7 @@ public class ItemDTO implements Serializable {
 	private String itemCode;
 	private String itemName;
 	private String itemDesc;
-	private Integer totalStockQty;
+	
 	private Timestamp createdAt;
 	private Timestamp updatedAt;
 	private Integer stockIn;
@@ -45,13 +45,7 @@ public class ItemDTO implements Serializable {
 		this.itemDesc = itemDesc;
 	}
 
-	public Integer getTotalStockQty() {
-		return totalStockQty;
-	}
-
-	public void setTotalStockQty(Integer totalStockQty) {
-		this.totalStockQty = totalStockQty;
-	}
+	
 
 	public Timestamp getCreatedAt() {
 		return createdAt;

@@ -9,18 +9,33 @@ import com.e3i3.moduerp.productionstock.model.dto.ProductionStockInDTO;
 @Repository
 public class ProductionStockInDAOImpl implements ProductionStockInDAO {
 
-    @Autowired
-    private SqlSession sqlSession;
+	@Autowired
+	private SqlSession sqlSession;
 
-    private static final String namespace = "ProductionStockMapper";
+	private static final String namespace = "ProductionStockMapper";
 
-    @Override
-    public List<ProductionStockInDTO> getAllProductionStockIn() {
-        return sqlSession.selectList(namespace + ".getAllProductionStockIn");
-    }
+	@Override
+	public List<ProductionStockInDTO> getAllProductionStockIn() {
+		return sqlSession.selectList(namespace + ".getAllProductionStockIn");
+	}
 
-    @Override
-    public void insertProductionStockIn(ProductionStockInDTO productionStockInDTO) {
-        sqlSession.insert(namespace + ".insertProductionStockIn", productionStockInDTO);
-    }
+	@Override
+	public void insertProductionStockIn(ProductionStockInDTO productionStockInDTO) {
+		sqlSession.insert(namespace + ".insertProductionStockIn", productionStockInDTO);
+	}
+
+	@Override
+	public ProductionStockInDTO selectProductionStockInByItemCode(String itemCode) {
+		return sqlSession.selectOne(namespace + ".selectProductionStockInByItemCode", itemCode);
+	}
+
+	@Override
+	public void updateProductionStockIn(ProductionStockInDTO productionStockInDTO) {
+		sqlSession.update(namespace + ".updateProductionStockIn", productionStockInDTO);
+	}
+
+	@Override
+	public void deleteProductionStockInByItemCode(String itemCode) {
+		sqlSession.delete(namespace + ".deleteProductionStockInByItemCode", itemCode);
+	}
 }

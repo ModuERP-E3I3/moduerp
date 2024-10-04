@@ -160,16 +160,16 @@
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	        <li><a href="carRes.do"><i class="fas fa-bullhorn"></i> 차량 예약</a></li>
-	        <li><a href="carMgt.do"><i class="fas fa-clipboard"></i> 차량 결제 관리</a></li> <!-- 수정 -->
-	        <li><a href="map.do"><i class="fas fa-code"></i> 도로 교통 / 경로 조회</a></li> <!-- 수정 -->
+	        <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
+			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
+			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 배송 조회</a></li>
 	    </ul>
 	</div>
 	
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">차량 관리 | 차량 결제 관리</div>
+        <div class="content-title">구매관리</div>
 
         <!-- 필터 박스 -->
         <div class="filter-box">
@@ -178,6 +178,9 @@
             </select>
             <input type="date" />
             <input type="date" />
+            <select>
+                <option>품목 선택</option>
+            </select>
             <input type="text" placeholder="내용 입력" />
             <button class="btn">조회</button>
         </div>
@@ -186,34 +189,35 @@
         <table>
             <thead>
                 <tr>
-                    <th>차종</th>
-                    <th>차량 번호</th>
-                    <th>소유 형태</th>
-                    <th>내역</th>
-                    <th>금액</th>
-                    <th>일자</th>
+                    <th>id</th>
+                    <th>아이템코드</th>
+                    <th>UUID</th>
+                    <th>NO</th>
+                    <th>ID</th>
+                    <th>재고 수량</th>
+                    <th>단가</th>
+                    <th>직원명</th>
                 </tr>
             </thead>
             <tbody>
-			    <%-- <c:forEach var="productionStockIn" items="${stockList}"> --%>
+			    <c:forEach var="BuyStockIn" items="${stockList}">
 			        <tr>
-			            <td><%-- ${productionStockIn.pStockInId} --%></td>
-			            <td><%-- ${productionStockIn.itemCode} --%></td>
-			            <td><%-- ${productionStockIn.pStockInDate} --%></td>
-			            <td><%-- ${productionStockIn.pStockPlace} --%></td>
-			            <td><%-- ${productionStockIn.pStockInQty} --%></td>
-			            <td></td>
-			           
+			            <td>${buyStockout.bStockOutId}</td>
+			            <td>${buyStockout.itemCode}</td>
+			            <td>${buyStockout.uuid}</td>
+			            <td>${buyStockout.accountNo}</td>
+			            <td>${buyStockout.bankId}</td>
+			            <td>${buyStockout.bStockOutDate}</td>
+			            <td>${buyStockout.bStockOutPlace}</td>
+			            <td>${buyStockout.bStockOutQty}</td>
 			        </tr>
-			    <%-- </c:forEach> --%>
+			    </c:forEach>
 			</tbody>
 
         </table>
 
         <!-- 버튼 그룹 -->
         <div class="btn-group">
-            <button class="btn red">삭제</button>
-            <button class="btn green">수정</button>
             <button class="btn blue">등록</button>
         </div>
 
@@ -221,7 +225,7 @@
 </body>
 
 <script>
-    const activeMenu = "carRes";
+    const activeMenu = "buyStockOut";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,7 +62,7 @@
         background-color: white;
         margin-left: 1%;
         margin-right: 5%;
-        margin-top: 5%;
+        margin-top: 3%;
         border: 1px solid #ccc;
         border-radius: 20px; /* 박스 둥글게 */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -189,30 +188,27 @@
         <table>
             <thead>
                 <tr>
-                    <th>순번</th>
-                    <th>거래처</th>
+                    <th>출고번호</th>
                     <th>품목코드</th>
-                    <th>품명</th>
-                    <th>입고 수량</th>
-                    <th>재고 수량</th>
-                    <th>단가</th>
-                    <th>비고</th>
+                    <th>UUID</th>
+                    <th>출고날짜</th>
+                    <th>보관장소</th>
+                    <th>출고수량</th>
                 </tr>
             </thead>
-            
 			<tbody>
-			    <c:forEach var="salesStockIn" items="${stockList}">
-			        <tr onclick="location.href='accountCreate.jsp?sStockInId=${salesStockIn.sStockInId}'" style="cursor: pointer;">
-			            <td>${salesStockIn.sStockInId}</td>
-			            <td>${salesStockIn.itemCode}</td>
-			            <td>${salesStockIn.sStockInDate}</td>
-			            <td>${salesStockIn.sStockPlace}</td>
-			            <td>${salesStockIn.sStockInQty}</td>
-			        </tr>
-			    </c:forEach>
+				<c:forEach var="account" items="${accountList}">
+					<tr>
+						<td>${account.accountNo}</td>
+						<td>${account.accountName}</td>
+						<td>${account.businessType}</td>
+						<td>${account.items}</td>
+						<td>${account.bossName}</td>
+					</tr>
+				</c:forEach>
 			</tbody>
 
-        </table>
+		</table>
 
         <!-- 버튼 그룹 -->
         <div class="btn-group">
@@ -223,9 +219,8 @@
 
     </div>
 </body>
-
 <script>
-    const activeMenu = "account.do";
+    const activeMenu = "account";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');
@@ -236,6 +231,4 @@
         });
     });
 </script>
-
-
 </html>

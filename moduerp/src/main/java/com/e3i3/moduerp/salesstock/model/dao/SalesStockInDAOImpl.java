@@ -4,7 +4,6 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import com.e3i3.moduerp.salesstock.model.dto.SalesStockInDTO;
 
 @Repository
@@ -20,7 +19,23 @@ public class SalesStockInDAOImpl implements SalesStockInDAO {
         return sqlSession.selectList(namespace + ".getAllSalesStockIn");
     }
 
-    public SalesStockInDTO getSalesStockInById(String sStockInId) {
-        return sqlSession.selectOne(namespace + ".getSalesStockInById", sStockInId);
+    @Override
+    public void insertSalesStockIn(SalesStockInDTO salesStockInDTO) {
+        sqlSession.insert(namespace + ".insertSalesStockIn", salesStockInDTO);
+    }
+
+    @Override
+    public SalesStockInDTO selectSalesStockInByItemCode(String itemCode) {
+        return sqlSession.selectOne(namespace + ".selectSalesStockInByItemCode", itemCode);
+    }
+
+    @Override
+    public void updateSalesStockIn(SalesStockInDTO salesStockInDTO) {
+        sqlSession.update(namespace + ".updateSalesStockIn", salesStockInDTO);
+    }
+
+    @Override
+    public void deleteSalesStockInByItemCode(String itemCode) {
+        sqlSession.delete(namespace + ".deleteSalesStockInByItemCode", itemCode);
     }
 }

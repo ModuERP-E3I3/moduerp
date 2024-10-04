@@ -1,15 +1,15 @@
 package com.e3i3.moduerp.car.model.dto;
 
-public class Car {
+public class CarDto {
 	private String carId;
 	private String carModel;
 	private String ownershipStatus;
 	
-	public Car() {
+	public CarDto() {
 		super();
 	}
 
-	public Car(String carId, String carModel, String ownershipStatus) {
+	public CarDto(String carId, String carModel, String ownershipStatus) {
 		super();
 		this.carId = carId;
 		this.carModel = carModel;

@@ -3,24 +3,29 @@ package com.e3i3.moduerp.productionstock.model.dto;
 import java.sql.Timestamp;
 
 public class ProductionStockInDTO {
-    private String pStockInId;
-    private String itemCode;
-    private Timestamp pStockInDate;  // 필드 추가
-    private String pStockPlace;
-    private int pStockInQty;
-    private String uuid;
+	private String pStockInId;
+	private String itemCode;
+	private Timestamp pStockInDate; // 필드 추가
+	private String pStockPlace;
+	private int pStockInQty;
+	private String uuid;
 
-    // Getters and Setters
-    public String getPStockInId() {
-        return pStockInId;
-    }
+	// Getters and Setters
 
-    public String getpStockInId() {
+	public String getpStockInId() {
 		return pStockInId;
 	}
 
 	public void setpStockInId(String pStockInId) {
 		this.pStockInId = pStockInId;
+	}
+
+	public String getItemCode() {
+		return itemCode;
+	}
+
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
 	}
 
 	public Timestamp getpStockInDate() {
@@ -39,6 +44,7 @@ public class ProductionStockInDTO {
 		this.pStockPlace = pStockPlace;
 	}
 
+	
 	public int getpStockInQty() {
 		return pStockInQty;
 	}
@@ -47,47 +53,12 @@ public class ProductionStockInDTO {
 		this.pStockInQty = pStockInQty;
 	}
 
-	public void setPStockInId(String pStockInId) {
-        this.pStockInId = pStockInId;
-    }
+	public String getUuid() {
+		return uuid;
+	}
 
-    public String getItemCode() {
-        return itemCode;
-    }
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
 
-    public void setItemCode(String itemCode) {
-        this.itemCode = itemCode;
-    }
-
-    public Timestamp getPStockInDate() {  // getter 추가
-        return pStockInDate;
-    }
-
-    public void setPStockInDate(Timestamp pStockInDate) {  // setter 추가
-        this.pStockInDate = pStockInDate;
-    }
-
-    public String getPStockPlace() {
-        return pStockPlace;
-    }
-
-    public void setPStockPlace(String pStockPlace) {
-        this.pStockPlace = pStockPlace;
-    }
-
-    public int getPStockInQty() {
-        return pStockInQty;
-    }
-
-    public void setPStockInQty(int pStockInQty) {
-        this.pStockInQty = pStockInQty;
-    }
-
-    public String getUUID() {
-        return uuid;
-    }
-
-    public void setUUID(String UUID) {
-        this.uuid = UUID;
-    }
 }

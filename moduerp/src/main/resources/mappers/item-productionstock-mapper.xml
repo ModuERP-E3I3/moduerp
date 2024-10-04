@@ -2,44 +2,84 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ItemMapper">
 
-    <!-- 아이템 정보를 매핑하기 위한 resultMap -->
-    <resultMap id="itemResultMap"
-        type="com.e3i3.moduerp.item.model.dto.ItemDTO">
-        <id property="itemCode" column="ITEM_CODE" />
-        <result property="itemName" column="ITEM_NAME" />
-        <result property="itemDescription" column="ITEM_DESC" />
-        <result property="totalStockQty" column="TOTAL_STOCK_QTY" />
-        <result property="createdAt" column="CREATED_AT" />
-        <result property="updatedAt" column="UPDATED_AT" />
-        <result property="stockIn" column="STOCK_IN" />
-        <result property="stockOut" column="STOCK_OUT" />
-        <result property="stock" column="STOCK" />
-        <result property="stockPlace" column="STOCK_PLACE" />
-        <result property="inPrice" column="IN_PRICE" />
-        <result property="itemList" column="ITEM_LIST" />
-        <result property="bizNumber" column="BIZ_NUMBER" />
-         <result property="itemList" column="ITEM_LIST" typeHandler="com.e3i3.moduerp.handler.StringListTypeHandler"/>
-    </resultMap>
+	<!-- 아이템 정보를 매핑하기 위한 resultMap -->
+	<resultMap id="itemResultMap"
+		type="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		<id property="itemCode" column="ITEM_CODE" />
+		<result property="itemName" column="ITEM_NAME" />
+		<result property="itemDesc" column="ITEM_DESC" />
+		<result property="stockIn" column="STOCK_IN" />
+		<result property="createdAt" column="CREATED_AT" />
+		<result property="updatedAt" column="UPDATED_AT" />
+		<result property="stockIn" column="STOCK_IN" />
+		<result property="stockOut" column="STOCK_OUT" />
+		<result property="stock" column="STOCK" />
+		<result property="stockPlace" column="STOCK_PLACE" />
+		<result property="inPrice" column="IN_PRICE" />
+		<result property="itemList" column="ITEM_LIST" />
+		<result property="bizNumber" column="BIZ_NUMBER" />
+		<result property="itemList" column="ITEM_LIST"
+			typeHandler="com.e3i3.moduerp.handler.StringListTypeHandler" />
+	</resultMap>
 
-   <!-- 아이템 이름을 biz_number로 필터링해서 조회하는 쿼리 -->
-    <select id="selectItemNamesByBizNumber" parameterType="String" resultType="String">
-        SELECT ITEM_NAME
-        FROM ITEM
-        WHERE BIZ_NUMBER = #{bizNumber}
-    </select>
+	<!-- 아이템 이름을 biz_number로 필터링해서 조회하는 쿼리 -->
+	<select id="selectItemNamesByBizNumber" parameterType="String"
+		resultType="String">
+		SELECT ITEM_NAME
+		FROM ITEM
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
 
-    <!-- biz_number로 필터링된 stock_place 리스트를 조회하는 쿼리 -->
-    <select id="selectStockPlacesByBizNumber" parameterType="String"
-        resultType="String">
-        SELECT DISTINCT STOCK_PLACE
-        FROM ITEM
-        WHERE BIZ_NUMBER = #{bizNumber}
-    </select>
+	<!-- biz_number로 필터링된 stock_place 리스트를 조회하는 쿼리 -->
+	<select id="selectStockPlacesByBizNumber" parameterType="String"
+		resultType="String">
+		SELECT DISTINCT STOCK_PLACE
+		FROM ITEM
+		WHERE BIZ_NUMBER =
+		#{bizNumber}
+	</select>
 
-    <!-- 새로 추가된 메서드: 아이템을 삽입하는 쿼리 -->
-    <insert id="insertItem">
-        INSERT INTO ITEM (ITEM_CODE, ITEM_NAME, ITEM_DESC, TOTAL_STOCK_QTY, CREATED_AT, STOCK_PLACE, IN_PRICE, BIZ_NUMBER)
-        VALUES (#{itemCode}, #{itemName}, #{itemDesc}, #{totalStockQty}, SYSDATE, #{stockPlace}, #{inPrice}, #{bizNumber})
-    </insert>
+	<!-- 아이템을 삽입하는 쿼리에서 TOTAL_STOCK_QTY를 제거하고 STOCK_IN을 추가 -->
+	<insert id="insertItem">
+		INSERT INTO ITEM (ITEM_CODE, ITEM_NAME, ITEM_DESC,
+		STOCK_IN,
+		CREATED_AT,
+		STOCK_PLACE, IN_PRICE, BIZ_NUMBER, ITEM_LIST)
+		VALUES
+		(#{itemCode}, #{itemName}, #{itemDesc}, #{stockIn}, SYSDATE,
+		#{stockPlace}, #{inPrice}, #{bizNumber}, #{itemList,
+		typeHandler=com.e3i3.moduerp.handler.StringListTypeHandler}) <!-- typeHandler 
+			추가 -->
+	</insert>
+
+
+	<select id="getItemsByBizNumber" parameterType="String"
+		resultMap="itemResultMap">
+		SELECT * FROM ITEM WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+
+	<select id="selectItemByCode" parameterType="String"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT * FROM ITEM WHERE ITEM_CODE = #{itemCode}
+	</select>
+
+	<update id="updateItem"
+		parameterType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		UPDATE ITEM
+		SET ITEM_NAME = #{itemName},
+		ITEM_DESC = #{itemDesc},
+		STOCK_PLACE = #{stockPlace},
+		IN_PRICE = #{inPrice},
+		ITEM_LIST =
+		#{itemList},
+		STOCK_IN = #{stockIn},
+		UPDATED_AT = SYSDATE  <!-- UPDATED_AT 컬럼 
+			갱신 -->
+		WHERE ITEM_CODE = #{itemCode}
+	</update>
+
+	<delete id="deleteItemByCode" parameterType="String">
+		DELETE FROM ITEM WHERE ITEM_CODE = #{itemCode}
+	</delete>
 
 </mapper>

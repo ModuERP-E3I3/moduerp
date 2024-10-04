@@ -12,20 +12,40 @@ import com.e3i3.moduerp.item.model.dto.ItemDTO;
 public class ItemProductionstockServiceImpl implements ItemProductionstockService {
 
 	@Autowired
-    private ItemProductionstockDAO itemProductionstockDAO;
+	private ItemProductionstockDAO itemProductionstockDAO;
 
-    @Override
-    public List<String> getItemNamesByBizNumber(String bizNumber) {
-        return itemProductionstockDAO.selectItemNamesByBizNumber(bizNumber);
-    }
+	@Override
+	public List<String> getItemNamesByBizNumber(String bizNumber) {
+		return itemProductionstockDAO.selectItemNamesByBizNumber(bizNumber);
+	}
 
-    @Override
-    public List<String> getStockPlacesByBizNumber(String bizNumber) { // 추가된 메서드
-        return itemProductionstockDAO.selectStockPlacesByBizNumber(bizNumber);
-    }
-    
-    @Override
-    public void insertItem(ItemDTO itemDTO) {
-        itemProductionstockDAO.insertItem(itemDTO);
-    }
+	@Override
+	public List<String> getStockPlacesByBizNumber(String bizNumber) { // 추가된 메서드
+		return itemProductionstockDAO.selectStockPlacesByBizNumber(bizNumber);
+	}
+
+	@Override
+	public void insertItem(ItemDTO itemDTO) {
+		itemProductionstockDAO.insertItem(itemDTO);
+	}
+
+	@Override
+	public List<ItemDTO> getItemsByBizNumber(String bizNumber) {
+		return itemProductionstockDAO.getItemsByBizNumber(bizNumber);
+	}
+
+	@Override
+	public ItemDTO getItemDetails(String itemCode) {
+		return itemProductionstockDAO.selectItemByCode(itemCode);
+	}
+
+	@Override
+	public void updateItem(ItemDTO itemDTO) {
+		itemProductionstockDAO.updateItem(itemDTO);
+	}
+
+	@Override
+	public void deleteItemByCode(String itemCode) {
+		itemProductionstockDAO.deleteItemByCode(itemCode);
+	}
 }
