@@ -15,7 +15,7 @@ public class ProductionstockOutController {
 	@Autowired
     private ProductionStockOutService productionStockOutService;
 
-	// productionStockOut.jsp 夸没 贸府
+	// productionStockOut.jsp 锟斤拷没 贸锟斤拷
 	@RequestMapping("/productionStockOut.do")
 	public String showProductionStockOut(Model model) {
 		List<ProductionStockOutDTO> stockOutList = productionStockOutService.getAllProductionStockOuts();
