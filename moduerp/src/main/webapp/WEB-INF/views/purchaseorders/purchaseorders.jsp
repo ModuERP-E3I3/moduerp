@@ -159,16 +159,17 @@
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
-	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
-	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
+	        <li><a href="purchaseorders.do"><i class="fas fa-bullhorn"></i> 발주서관리</a></li>
+	        <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
+			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
+			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 배송 조회</a></li>
 	    </ul>
 	</div>
 	
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">영업/판매 관리 | 거래처관리</div>
+        <div class="content-title">구매 관리 | 발주서관리</div>
 
         <!-- 필터 박스 -->
         <div class="filter-box">
@@ -197,13 +198,13 @@
                 </tr>
             </thead>
 			<tbody>
-				<c:forEach var="account" items="${accountList}">
+				<c:forEach var="purchaseOrders" items="${purchaseordersList}">
 					<tr>
-						<td>${account.accountNo}</td>
-						<td>${account.accountName}</td>
-						<td>${account.businessType}</td>
-						<td>${account.items}</td>
-						<td>${account.bossName}</td>
+						<td>${purchaseOrders.ORDER_ID}</td>
+						<td>${purchaseOrders.ITEM_CODE}</td>
+						<td>${purchaseOrders.ACCOUNT_NO}</td>
+						<td>${purchaseOrders.QUANTITY}</td>
+						<td>${purchaseOrders.SUPPLY_PRICE}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
