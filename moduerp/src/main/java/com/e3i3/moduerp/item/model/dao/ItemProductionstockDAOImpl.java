@@ -1,6 +1,8 @@
 package com.e3i3.moduerp.item.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +45,64 @@ public class ItemProductionstockDAOImpl implements ItemProductionstockDAO {
 
 	@Override
 	public void updateItem(ItemDTO itemDTO) {
-		// µ¥ÀÌÅÍº£ÀÌ½º ¾÷µ¥ÀÌÆ® Äõ¸® ½ÇÇà
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½Ì½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		sqlSession.update(namespace + ".updateItem", itemDTO);
 	}
 
 	@Override
 	public void deleteItemByCode(String itemCode) {
 		sqlSession.delete(namespace + ".deleteItemByCode", itemCode);
+	}
+
+	// ---------------------------------------------------
+	// productionOUT
+	@Override
+	public List<ItemDTO> getItemsByBizNumberOutDate(String bizNumber) {
+		return sqlSession.selectList(namespace + ".getItemsByBizNumberOutDate", bizNumber);
+	}
+
+	@Override
+	public List<ItemDTO> selectItemsByBizNumberStartingWith(String bizNumber) {
+		return sqlSession.selectList(namespace + ".selectItemsByBizNumberStartingWith", bizNumber);
+	}
+
+	@Override
+	public int getStockByItemCode(String itemCode) {
+		return sqlSession.selectOne(namespace + ".getStockByItemCode", itemCode);
+	}
+
+	@Override
+	public void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut,
+			double outPrice, int updatedStock) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("itemCode", itemCode);
+		params.put("createdOutAt", createdOutAt);
+		params.put("stockOutPlace", stockOutPlace);
+		params.put("stockOut", stockOut);
+		params.put("outPrice", outPrice);
+		params.put("updatedStock", updatedStock);
+
+		sqlSession.update(namespace + ".updateItemForProductionOut", params);
+	}
+
+	@Override
+	public void updateStockOutByItemCode(String itemCode, int totalStockOut) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("itemCode", itemCode);
+		params.put("totalStockOut", totalStockOut);
+		sqlSession.update(namespace + ".updateStockOut", params);
+	}
+
+	@Override
+	public int getStockInByItemCode(String itemCode) {
+		return sqlSession.selectOne(namespace + ".getStockInByItemCode", itemCode);
+	}
+
+	@Override
+	public void updateStockByItemCode(String itemCode, int updatedStock) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("itemCode", itemCode);
+		params.put("updatedStock", updatedStock);
+		sqlSession.update(namespace + ".updateStock", params);
 	}
 }

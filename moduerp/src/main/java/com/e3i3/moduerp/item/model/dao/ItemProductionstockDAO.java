@@ -8,9 +8,9 @@ import com.e3i3.moduerp.productionstock.model.dto.ProductionStockInDTO;
 public interface ItemProductionstockDAO {
 	List<String> selectItemNamesByBizNumber(String bizNumber);
 
-	List<String> selectStockPlacesByBizNumber(String bizNumber); // ±âÁ¸ ¸Ş¼­µå
+	List<String> selectStockPlacesByBizNumber(String bizNumber); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ş¼ï¿½ï¿½ï¿½
 
-	// biz_number·Î ÇÊÅÍ¸µµÈ ¾ÆÀÌÅÛ ¸®½ºÆ®¸¦ °¡Á®¿À´Â ¸Ş¼­µå
+	// biz_numberï¿½ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ş¼ï¿½ï¿½ï¿½
 	List<ItemDTO> getItemsByBizNumber(String bizNumber);
 
 	void insertItem(ItemDTO itemDTO);
@@ -20,4 +20,24 @@ public interface ItemProductionstockDAO {
 	void updateItem(ItemDTO itemDTO);
 
 	void deleteItemByCode(String itemCode);
+
+	// ---------------------------------------------------
+	// productionOUT
+	List<ItemDTO> getItemsByBizNumberOutDate(String bizNumber);
+
+	List<ItemDTO> selectItemsByBizNumberStartingWith(String bizNumber);
+
+	void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut, double outPrice,
+			int updatedStock);
+
+	int getStockByItemCode(String itemCode);
+
+	// STOCK_OUT ì—…ë°ì´íŠ¸
+	void updateStockOutByItemCode(String itemCode, int totalStockOut);
+
+	// STOCK_IN ê°’ ê°€ì ¸ì˜¤ê¸°
+	int getStockInByItemCode(String itemCode);
+
+	// STOCK ê°’ ì—…ë°ì´íŠ¸
+	void updateStockByItemCode(String itemCode, int updatedStock);
 }

@@ -7,10 +7,10 @@ import java.util.List;
 public class ItemDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	private String itemCode;
 	private String itemName;
 	private String itemDesc;
-	
 	private Timestamp createdAt;
 	private Timestamp updatedAt;
 	private Integer stockIn;
@@ -20,6 +20,10 @@ public class ItemDTO implements Serializable {
 	private Double inPrice;
 	private List<String> itemList;
 	private String bizNumber;
+	private Double outPrice; // 추가된 필드
+	private String stockOutPlace; // 추가된 필드
+	private Timestamp createdOutAt; // 추가된 필드
+	private Timestamp updateOutAt; // 추가된 필드
 
 	public String getItemCode() {
 		return itemCode;
@@ -44,8 +48,6 @@ public class ItemDTO implements Serializable {
 	public void setItemDesc(String itemDesc) {
 		this.itemDesc = itemDesc;
 	}
-
-	
 
 	public Timestamp getCreatedAt() {
 		return createdAt;
@@ -117,6 +119,42 @@ public class ItemDTO implements Serializable {
 
 	public void setBizNumber(String bizNumber) {
 		this.bizNumber = bizNumber;
+	}
+
+	public Double getOutPrice() {
+		return outPrice;
+	}
+
+	public void setOutPrice(Double outPrice) {
+		this.outPrice = outPrice;
+	}
+
+	public String getStockOutPlace() {
+		return stockOutPlace;
+	}
+
+	public void setStockOutPlace(String stockOutPlace) {
+		this.stockOutPlace = stockOutPlace;
+	}
+
+	public Timestamp getcreatedOutAt() {
+		return createdOutAt;
+	}
+
+	public void setCreatedOutAt(Timestamp createdOutAt) {
+		this.createdOutAt = createdOutAt;
+	}
+
+	public Timestamp getUpdateOutAt() {
+		return updateOutAt;
+	}
+
+	public void setUpdateOutAt(Timestamp updateOutAt) {
+		this.updateOutAt = updateOutAt;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

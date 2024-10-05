@@ -7,17 +7,33 @@ import com.e3i3.moduerp.item.model.dto.ItemDTO;
 public interface ItemProductionstockService {
 	List<String> getItemNamesByBizNumber(String bizNumber);
 
-	List<String> getStockPlacesByBizNumber(String bizNumber); // Ãß°¡µÈ ¸Ş¼­µå
+	List<String> getStockPlacesByBizNumber(String bizNumber); // ï¿½ß°ï¿½ï¿½ï¿½ ï¿½Ş¼ï¿½ï¿½ï¿½
 
 	void insertItem(ItemDTO itemDTO);
 
 	ItemDTO getItemDetails(String itemCode);
 
-	// biz_number·Î ÇÊÅÍ¸µµÈ ¾ÆÀÌÅÛ ¸®½ºÆ®¸¦ °¡Á®¿À´Â ¸Ş¼­µå
+	// biz_numberï¿½ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ş¼ï¿½ï¿½ï¿½
 	List<ItemDTO> getItemsByBizNumber(String bizNumber);
 
 	void updateItem(ItemDTO itemDTO);
 
 	void deleteItemByCode(String itemCode);
 
+	// ---------------------------------------------------
+	// productionOUT
+	List<ItemDTO> getItemsByBizNumberOutDate(String bizNumber);
+
+	List<ItemDTO> getItemsByBizNumberStartingWith(String bizNumber);
+
+	void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut, double outPrice);
+
+	// STOCK_OUT ì—…ë°ì´íŠ¸
+    void updateItemStockOutTotal(String itemCode, int totalStockOut);
+
+    // STOCK_IN ê°’ ê°€ì ¸ì˜¤ê¸°
+    int getStockInByItemCode(String itemCode);
+
+    // STOCK ê°’ ì—…ë°ì´íŠ¸
+    void updateItemStock(String itemCode, int updatedStock);
 }

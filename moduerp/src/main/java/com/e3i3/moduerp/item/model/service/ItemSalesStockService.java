@@ -7,13 +7,13 @@ import com.e3i3.moduerp.item.model.dto.ItemDTO;
 public interface ItemSalesStockService {
     List<String> getItemNamesByBizNumber(String bizNumber);
 
-    List<String> getStockPlacesByBizNumber(String bizNumber); // Ãß°¡µÈ ¸Þ¼­µå
+    List<String> getStockPlacesByBizNumber(String bizNumber); // ï¿½ß°ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
 
     void insertItem(ItemDTO itemDTO);
 
     ItemDTO getItemDetails(String itemCode);
 
-    // biz_number·Î ÇÊÅÍ¸µµÈ ¾ÆÀÌÅÛ ¸®½ºÆ®¸¦ °¡Á®¿À´Â ¸Þ¼­µå
+    // biz_numberï¿½ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     List<ItemDTO> getItemsByBizNumber(String bizNumber);
 
     void updateItem(ItemDTO itemDTO);

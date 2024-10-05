@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -145,6 +144,52 @@ th {
 .top-content-box {
 	background-color: white;
 }
+
+/* Modal Styles */
+#delete-modal {
+	display: none; /* 초기에는 보이지 않도록 설정 */
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%; /* 전체 화면 너비 */
+	height: 100%; /* 전체 화면 높이 */
+	background-color: rgba(0, 0, 0, 0.5); /* 배경 반투명 */
+	display: flex; /* 플렉스 박스를 사용하여 중앙 정렬 */
+}
+
+.modal-content {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	text-align: center;
+	width: 300px; /* 원하는 너비 */
+	position: relative;
+	margin: auto; /* 중앙 정렬을 위한 마진 */
+	margin-top: 20%;
+}
+
+.modal-content h2 {
+	margin-bottom: 20px;
+}
+
+.modal-content button {
+	padding: 10px 20px;
+	margin: 10px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.modal-content .go-delete {
+	background-color: red;
+	color: #fff;
+}
+
+.modal-content .stay-page {
+	background-color: gray;
+	color: #fff;
+}
 </style>
 
 </head>
@@ -173,7 +218,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 생산출고</div>
+		<div class="content-title">생산관리 | 생산입고 | ${itemDetails.itemName}</div>
 
 		<!-- 필터 박스 -->
 		<div class="filter-box">
@@ -189,39 +234,82 @@ th {
 		<table>
 			<thead>
 				<tr>
-					<th>순번</th>
 					<th>제품명</th>
-					<th>최종 출고 일자</th>
-					<th>총 출고 수량</th>
-					<th>최종 출고 장소</th>
-					<th>최종 출고 단가</th>
+					<th>제품 설명</th>
+					<th>출고 날짜</th>
+					<th>수정 날짜</th>
+					<th>출고 수량</th>
+					<th>출고 가격</th>
+					<th>출고 장소</th>
+					<th>자재 종류</th>
+
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="item" items="${itemList}" varStatus="status">
-					<tr
-						onclick="window.location.href='getProductionOutDetails.do?itemCode=${item.itemCode}'">
-						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<td>${item.itemName}</td>
-						<td><fmt:formatDate value="${item.createdOutAt}"
-								pattern="yyyy-MM-dd" /></td>
-						<td>${item.stockOut}</td>
-						<td>${item.stockOutPlace}</td>
-						<td>${item.outPrice}</td>
-					</tr>
-				</c:forEach>
-			</tbody>
 
+				<tr>
+
+					<td>${itemDetailsSub.itemName}</td>
+					<td>${itemDetailsSub.itemDesc}</td>
+					<td><fmt:formatDate
+							value="${productionStockOutDetailsSub.pStockOutDate}"
+							pattern="yyyy-MM-dd HH:mm:ss" /></td>
+					<td><fmt:formatDate
+							value="${productionStockOutDetailsSub.pStockOutUpdate}"
+							pattern="yyyy-MM-dd HH:mm:ss" /></td>
+					<td>${productionStockOutDetailsSub.pStockOutQty}</td>
+					<td>${productionStockOutDetailsSub.pStockOutPrice}</td>
+					<td>${productionStockOutDetailsSub.pStockOutPlace}</td>
+					<td>${itemDetailsSub.itemList}</td>
+
+
+				</tr>
+
+			</tbody>
 
 		</table>
 
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
-			<a href="productionStockOutCreate.do"><button class="btn blue">등록</button></a>
+			<button class="btn red" onclick="openDeleteModal()">삭제</button>
+			<a
+				href="productionStockOutDetailSubUpdate.do?itemCode=${itemDetailsSub.itemCode}&pStockId=${productionStockOutDetailsSub.pStockOutId}">
+				<button class="btn green">수정</button>
+			</a>
 		</div>
 
+
+
 	</div>
+	<!-- 삭제 확인 모달 -->
+	<div id="delete-modal" style="display: none;">
+		<div class="modal-content">
+			<h2>정말로 삭제하시겠습니까?</h2>
+			<p>삭제된 데이터는 복구할 수 없습니다.</p>
+			<!-- 삭제 버튼을 포함하는 폼 추가 -->
+			<form action="deleteProductionStockOut.do" method="POST">
+				<input type="hidden" name="itemCode" value="${itemDetails.itemCode}">
+				<!-- itemCode를 숨겨진 필드로 전달 -->
+				<button type="submit" class="go-delete">삭제</button>
+				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>
+			</form>
+		</div>
+	</div>
+
 </body>
+
+<script type="text/javascript">
+function openDeleteModal() {
+    document.getElementById('delete-modal').style.display = 'block';
+}
+
+function closeDeleteModal() {
+    document.getElementById('delete-modal').style.display = 'none';
+}
+
+
+
+</script>
 <script>
     const activeMenu = "productionStockIn";
 
@@ -234,4 +322,6 @@ th {
         });
     });
 </script>
+
+
 </html>
