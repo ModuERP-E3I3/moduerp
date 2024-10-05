@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -175,53 +173,92 @@ th {
 
 		<div class="content-title">생산관리 | 생산출고</div>
 
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-		</div>
+		<!-- 폼 시작 -->
+		<form action="/moduerp/productionStockOutCreate.do" method="POST">
+			<!-- 필터 박스 -->
+			<div class="filter-box">
+				<select>
+					<option>조회기간</option>
+				</select> <input type="date" /> <input type="date" /> <select>
+					<option>품목 선택</option>
+				</select> <input type="text" placeholder="내용 입력" />
+				<button class="btn">조회</button>
+			</div>
 
-		<!-- 테이블 -->
-		<table>
-			<thead>
-				<tr>
-					<th>순번</th>
-					<th>제품명</th>
-					<th>최종 출고 일자</th>
-					<th>총 출고 수량</th>
-					<th>최종 출고 장소</th>
-					<th>최종 출고 단가</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="item" items="${itemList}" varStatus="status">
-					<tr
-						onclick="window.location.href='getProductionOutDetails.do?itemCode=${item.itemCode}'">
-						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<td>${item.itemName}</td>
-						<td><fmt:formatDate value="${item.createdOutAt}"
-								pattern="yyyy-MM-dd" /></td>
-						<td>${item.stockOut}</td>
-						<td>${item.stockOutPlace}</td>
-						<td>${item.outPrice}</td>
+			<!-- 테이블 -->
+			<table>
+				<thead>
+					<tr>
+						<th>제품명</th>
+						<th>출고날짜</th>
+						<th>출고장소</th>
+						<th>출고수량</th>
+						<th>출고단가</th>
 					</tr>
-				</c:forEach>
-			</tbody>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input list="itemNames" name="itemName"
+							id="itemNameInput" placeholder="품목 이름 선택" required
+							onchange="updateItemCode()" /> <datalist id="itemNames">
+								<c:forEach var="item" items="${itemList}">
+									<option value="${item.itemName} 재고 : ${item.stock}"
+										data-item-code="${item.itemCode}"></option>
+								</c:forEach>
+							</datalist> <input type="hidden" name="itemCode" id="itemCodeInput" /> <!-- itemCode를 담을 숨겨진 입력 필드 -->
+						</td>
 
+						<td><input type="date" name="createdOutAt" required /></td>
+						<td><input list="stockOutPlaces" name="stockOutPlace"
+							placeholder="출고 장소 선택" required /> <datalist id="stockOutPlaces">
+								<c:forEach var="place" items="${stockOutPlaces}">
+									<option value="${place}"></option>
+								</c:forEach>
+							</datalist></td>
+						<td><input type="number" name="stockOut" required /></td>
+						<td><input type="number" name="outPrice" step="0.01" required /></td>
+					</tr>
+				</tbody>
+			</table>
 
-		</table>
-
-		<!-- 버튼 그룹 -->
-		<div class="btn-group">
-			<a href="productionStockOutCreate.do"><button class="btn blue">등록</button></a>
-		</div>
-
+			<!-- 버튼 그룹 -->
+			<div class="btn-group">
+				<button type="submit" class="btn blue">등록완료</button>
+			</div>
+		</form>
+		<!-- 폼 끝 -->
 	</div>
 </body>
+
+<script>
+function updateItemCode() {
+    // itemNameInput에서 선택한 옵션
+    var input = document.getElementById('itemNameInput');
+    // 사용자가 선택한 값을 가져옵니다.
+    var selectedValue = input.value;
+
+    // datalist에서 모든 옵션을 가져옵니다.
+    var datalist = document.getElementById('itemNames');
+    var options = datalist.getElementsByTagName('option');
+
+    var itemCode = ''; // 기본값을 설정합니다.
+
+    // 옵션을 순회하여 선택한 값과 일치하는지 확인합니다.
+    for (var i = 0; i < options.length; i++) {
+        if (options[i].value === selectedValue) {
+            // 일치하는 경우 data-item-code 속성에서 itemCode를 가져옵니다.
+            itemCode = options[i].getAttribute('data-item-code');
+            break; // 일치하는 값을 찾았으면 반복 종료
+        }
+    }
+
+    // 숨겨진 입력 필드에 itemCode 설정
+    document.getElementById('itemCodeInput').value = itemCode;
+}
+
+
+
+</script>
 <script>
     const activeMenu = "productionStockIn";
 

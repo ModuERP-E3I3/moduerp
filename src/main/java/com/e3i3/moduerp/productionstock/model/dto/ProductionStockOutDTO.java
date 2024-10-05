@@ -9,25 +9,11 @@ public class ProductionStockOutDTO {
     private String pStockOutPlace;
     private int pStockOutQty;
     private String uuid;
+    private Double pStockOutPrice;
+    private Date pStockOutUpdate;
     
     
-    
-    public ProductionStockOutDTO() {
-		super();
-	}
-    
-    
-	public ProductionStockOutDTO(String pStockOutId, String itemCode, Date pStockOutDate, String pStockOutPlace,
-			int pStockOutQty, String uuid) {
-		super();
-		this.pStockOutId = pStockOutId;
-		this.itemCode = itemCode;
-		this.pStockOutDate = pStockOutDate;
-		this.pStockOutPlace = pStockOutPlace;
-		this.pStockOutQty = pStockOutQty;
-		this.uuid = uuid;
-	}
-
+   
 
 	// Getters and Setters
 	public String getpStockOutId() {
@@ -65,6 +51,18 @@ public class ProductionStockOutDTO {
 	}
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+	public Double getpStockOutPrice() {
+		return pStockOutPrice;
+	}
+	public void setpStockOutPrice(Double pStockOutPrice) {
+		this.pStockOutPrice = pStockOutPrice;
+	}
+	public Date getpStockOutUpdate() {
+		return pStockOutUpdate;
+	}
+	public void setpStockOutUpdate(Date pStockOutUpdate) {
+		this.pStockOutUpdate = pStockOutUpdate;
 	}
 
    

@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -98,35 +97,6 @@ th {
 	font-weight: bold;
 }
 
-/* 버튼 스타일 */
-.btn-group {
-	margin-top: 20px;
-	text-align: right;
-}
-
-.btn {
-	padding: 8px 16px;
-	margin-left: 5px;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-}
-
-.btn.red {
-	background-color: red;
-	color: white;
-}
-
-.btn.green {
-	background-color: green;
-	color: white;
-}
-
-.btn.blue {
-	background-color: blue;
-	color: white;
-}
-
 .filter-box {
 	margin-bottom: 20px;
 }
@@ -173,7 +143,8 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 생산출고</div>
+		<div class="content-title">생산관리 | 생산출고 | ${itemDetails.itemName}
+			출고 정보</div>
 
 		<!-- 필터 박스 -->
 		<div class="filter-box">
@@ -186,42 +157,70 @@ th {
 		</div>
 
 		<!-- 테이블 -->
+		<!-- 아이템 관련 데이터 테이블 -->
 		<table>
 			<thead>
 				<tr>
-					<th>순번</th>
 					<th>제품명</th>
-					<th>최종 출고 일자</th>
+					<th>제품 설명</th>
+					<th>최종 출고 날짜</th>
 					<th>총 출고 수량</th>
+					<th>최종 출고 가격</th>
 					<th>최종 출고 장소</th>
-					<th>최종 출고 단가</th>
+					<th>자재 종류</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="item" items="${itemList}" varStatus="status">
+				<tr>
+					<td>${itemDetails.itemName}</td>
+					<td>${itemDetails.itemDesc}</td>
+					<td><fmt:formatDate value="${itemDetails.createdOutAt}"
+							pattern="yyyy-MM-dd" /></td>
+					<td>${itemDetails.stockOut}</td>
+					<td>${itemDetails.outPrice}</td>
+					<td>${itemDetails.stockOutPlace}</td>
+					<td>${itemDetails.itemList}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<!-- 생산 출고 관련 데이터 테이블 -->
+		<table>
+			<thead>
+				<tr>
+					<th>출고 날짜</th>
+					<th>출고 장소</th>
+					<th>출고 수량</th>
+					<th>출고 가격</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="stockOut" items="${productionStockOutDetails}">
 					<tr
-						onclick="window.location.href='getProductionOutDetails.do?itemCode=${item.itemCode}'">
-						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<td>${item.itemName}</td>
-						<td><fmt:formatDate value="${item.createdOutAt}"
-								pattern="yyyy-MM-dd" /></td>
-						<td>${item.stockOut}</td>
-						<td>${item.stockOutPlace}</td>
-						<td>${item.outPrice}</td>
+						onclick="window.location.href='getProductionOutDetailsSub.do?pStockOutId=${stockOut.pStockOutId}&itemCode=${itemDetails.itemCode }'">
+						<td><fmt:formatDate value="${stockOut.pStockOutDate}"
+								pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td>${stockOut.pStockOutPlace}</td>
+						<td>${stockOut.pStockOutQty}</td>
+						<td>${stockOut.pStockOutPrice}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
-
-
 		</table>
 
-		<!-- 버튼 그룹 -->
-		<div class="btn-group">
-			<a href="productionStockOutCreate.do"><button class="btn blue">등록</button></a>
-		</div>
+
+
+
+
+
 
 	</div>
+
 </body>
+
+
+
+
 <script>
     const activeMenu = "productionStockIn";
 
@@ -234,4 +233,6 @@ th {
         });
     });
 </script>
+
+
 </html>

@@ -7,17 +7,30 @@ import com.e3i3.moduerp.item.model.dto.ItemDTO;
 public interface ItemProductionstockService {
 	List<String> getItemNamesByBizNumber(String bizNumber);
 
-	List<String> getStockPlacesByBizNumber(String bizNumber); // 추가된 메서드
+	List<String> getStockPlacesByBizNumber(String bizNumber); // �߰��� �޼���
 
 	void insertItem(ItemDTO itemDTO);
 
 	ItemDTO getItemDetails(String itemCode);
 
-	// biz_number로 필터링된 아이템 리스트를 가져오는 메서드
+	// biz_number�� ���͸��� ������ ����Ʈ�� �������� �޼���
 	List<ItemDTO> getItemsByBizNumber(String bizNumber);
 
 	void updateItem(ItemDTO itemDTO);
 
 	void deleteItemByCode(String itemCode);
 
+	// ---------------------------------------------------
+	List<ItemDTO> getItemsByBizNumberStartingWith(String bizNumber);
+
+	void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut, double outPrice);
+
+	// STOCK_OUT 업데이트
+    void updateItemStockOutTotal(String itemCode, int totalStockOut);
+
+    // STOCK_IN 값 가져오기
+    int getStockInByItemCode(String itemCode);
+
+    // STOCK 값 업데이트
+    void updateItemStock(String itemCode, int updatedStock);
 }

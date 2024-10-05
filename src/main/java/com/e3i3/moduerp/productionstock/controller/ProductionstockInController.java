@@ -40,46 +40,47 @@ public class ProductionstockInController {
 
 	// 기존 GET 메서드
 	@RequestMapping(value = "/productionStockIn.do", method = RequestMethod.GET)
-	public String forwardProductionIn(@RequestParam(value = "page", defaultValue = "1") int page, Model model, HttpSession session) {
-	    String bizNumber = (String) session.getAttribute("biz_number");
-	    List<ItemDTO> itemList = itemProductionstockService.getItemsByBizNumber(bizNumber);
+	public String forwardProductionIn(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
+			HttpSession session) {
+		String bizNumber = (String) session.getAttribute("biz_number");
+		List<ItemDTO> itemList = itemProductionstockService.getItemsByBizNumber(bizNumber);
 
-	    // CREATED_AT에 9시간 추가하는 로직
-	    for (ItemDTO item : itemList) {
-	        // CREATED_AT 필드에서 Timestamp 값을 가져옴
-	        Timestamp createdAt = item.getCreatedAt();
+		// CREATED_AT에 9시간 추가하는 로직
+		for (ItemDTO item : itemList) {
+			// CREATED_AT 필드에서 Timestamp 값을 가져옴
+			Timestamp createdAt = item.getCreatedAt();
 
-	        // 9시간 추가
-	        Timestamp adjustedTimestamp = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000));
+			// 9시간 추가
+			Timestamp adjustedTimestamp = Timestamp
+					.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000));
 
-	        // Timestamp를 ItemDTO에 설정
-	        item.setCreatedAt(adjustedTimestamp); // 조정된 Timestamp 설정
-	    }
+			// Timestamp를 ItemDTO에 설정
+			item.setCreatedAt(adjustedTimestamp); // 조정된 Timestamp 설정
+		}
 
-	    // 페이지당 항목 수
-	    int itemsPerPage = 10;
-	    
-	    // 총 항목 수
-	    int totalItems = itemList.size();
-	    
-	    // 총 페이지 수
-	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
-	    
-	    // 시작 인덱스 계산
-	    int startIndex = (page - 1) * itemsPerPage;
-	    int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-	    
-	    // 서브리스트 생성
-	    List<ItemDTO> paginatedList = itemList.subList(startIndex, endIndex);
+		// 페이지당 항목 수
+		int itemsPerPage = 10;
 
-	    // 모델에 추가
-	    model.addAttribute("itemList", paginatedList);
-	    model.addAttribute("totalPages", totalPages);
-	    model.addAttribute("currentPage", page);
-	    
-	    return "productionStock/productionStockIn"; // JSP 파일 경로 반환
+		// 총 항목 수
+		int totalItems = itemList.size();
+
+		// 총 페이지 수
+		int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+
+		// 시작 인덱스 계산
+		int startIndex = (page - 1) * itemsPerPage;
+		int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+		// 서브리스트 생성
+		List<ItemDTO> paginatedList = itemList.subList(startIndex, endIndex);
+
+		// 모델에 추가
+		model.addAttribute("itemList", paginatedList);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", page);
+
+		return "productionStock/productionStockIn"; // JSP 파일 경로 반환
 	}
-
 
 	@PostMapping("/productionStockInCreate.do")
 	public String createProductionStockIn(@RequestParam("pStockInDate") String stockInDateStr,
@@ -91,6 +92,7 @@ public class ProductionstockInController {
 		// 세션에서 biz_number와 uuid를 가져옴
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String userUuid = (String) session.getAttribute("uuid");
+		
 		// stockInDateStr를 LocalDate로 변환한 후 LocalDateTime으로 변환 (자정 시간 추가)
 		LocalDate localDate = LocalDate.parse(stockInDateStr);
 		LocalDateTime localDateTime = localDate.atStartOfDay(); // 자정 시간 추가
@@ -114,6 +116,7 @@ public class ProductionstockInController {
 		itemDTO.setBizNumber(bizNumber);
 		itemDTO.setItemList(materialType); // List 형태로 설정
 		itemDTO.setStockIn(stockIn);
+		itemDTO.setStock(stockIn);
 
 		// ITEM 테이블에 데이터 저장
 		itemProductionstockService.insertItem(itemDTO);
@@ -209,14 +212,26 @@ public class ProductionstockInController {
 			@RequestParam("itemName") String itemName, @RequestParam("itemDesc") String itemDesc,
 			@RequestParam("stockIn") int stockIn, @RequestParam("inPrice") double inPrice,
 			@RequestParam("stockPlace") String stockPlace, @RequestParam("materialTypes") List<String> materialTypes) {
+
 		// 현재 타임스탬프 생성
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+
+		// 현재 아이템 정보를 DB에서 가져옴
+		ItemDTO currentItem = itemProductionstockService.getItemDetails(itemCode);
+
+		// stockOut이 null이면 0으로 설정
+		Integer stockOut = currentItem.getStockOut() != null ? currentItem.getStockOut() : 0;
+
+		// STOCK 컬럼 계산: STOCK_IN - STOCK_OUT
+		int stock = stockIn - stockOut;
+
 		// ITEM 테이블에 업데이트할 데이터 설정
 		ItemDTO itemDTO = new ItemDTO();
 		itemDTO.setItemCode(itemCode);
 		itemDTO.setItemName(itemName);
 		itemDTO.setItemDesc(itemDesc);
 		itemDTO.setStockIn(stockIn);
+		itemDTO.setStock(stock); // 계산된 stock 값 설정
 		itemDTO.setInPrice(inPrice);
 		itemDTO.setStockPlace(stockPlace);
 		itemDTO.setItemList(materialTypes); // List 형태로 설정
