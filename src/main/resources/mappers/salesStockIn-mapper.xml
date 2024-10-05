@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SalesStockMapper">
+
+	<!-- SalesStockIn에 대한 resultMap -->
+	<resultMap id="resultSalesStockIn"
+		type="com.e3i3.moduerp.salesstock.model.dto.SalesStockInDTO">
+		<result property="sStockInId" column="S_STOCK_IN_ID" />
+		<result property="itemCode" column="ITEM_CODE" />
+		<result property="sStockInDate" column="S_STOCK_IN_DATE" />
+		<result property="sStockPlace" column="S_STOCK_PLACE" />
+		<result property="sStockInQty" column="S_STOCK_IN_QTY" />
+		<result property="uuid" column="UUID" />
+	</resultMap>
+
+	<!-- 모든 sales 입고 데이터 조회용 쿼리 -->
+	<select id="getAllSalesStockIn"
+		resultMap="resultSalesStockIn">
+		SELECT S_STOCK_IN_ID, ITEM_CODE, S_STOCK_IN_DATE,
+		S_STOCK_PLACE,
+		S_STOCK_IN_QTY, UUID
+		FROM SALES_STOCK_IN
+	</select>
+
+	<!-- 새로운 sales 입고 데이터를 삽입하는 쿼리 -->
+	<insert id="insertSalesStockIn">
+		INSERT INTO SALES_STOCK_IN (S_STOCK_IN_ID,
+		ITEM_CODE, S_STOCK_IN_DATE,
+		S_STOCK_PLACE, S_STOCK_IN_QTY, UUID)
+		VALUES
+		(#{sStockInId}, #{itemCode}, #{sStockInDate}, #{sStockPlace},
+		#{sStockInQty}, #{uuid})
+	</insert>
+
+	<select id="selectSalesStockInByItemCode"
+		parameterType="String"
+		resultType="com.e3i3.moduerp.salesstock.model.dto.SalesStockInDTO">
+		SELECT * FROM SALES_STOCK_IN WHERE ITEM_CODE =
+		#{itemCode}
+	</select>
+
+	<update id="updateSalesStockIn"
+		parameterType="com.e3i3.moduerp.salesstock.model.dto.SalesStockInDTO">
+		UPDATE SALES_STOCK_IN
+		SET S_STOCK_PLACE =
+		#{sStockPlace}, S_STOCK_IN_QTY = #{sStockInQty}
+		WHERE ITEM_CODE =
+		#{itemCode}
+	</update>
+
+	<delete id="deleteSalesStockInByItemCode"
+		parameterType="String">
+		DELETE FROM SALES_STOCK_IN WHERE ITEM_CODE =
+		#{itemCode}
+	</delete>
+
+</mapper>
