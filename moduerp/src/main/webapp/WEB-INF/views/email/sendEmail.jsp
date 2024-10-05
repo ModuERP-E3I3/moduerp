@@ -183,6 +183,61 @@
 .autocomplete-item:hover {
 	background-color: #f4f4f4;
 }
+/* 이메일 폼 스타일 */
+.email-form {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px; /* 폼 전체에 패딩 추가 */
+    border: 1px solid #ccc;
+    border-radius: 10px; /* 전체 폼에 둥근 모서리 적용 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 폼에 그림자 효과 추가 */
+    background-color: #f9f9f9;
+}
+
+/* 폼 그룹 스타일 */
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px; /* 각 폼 그룹 사이에 여백 추가 */
+}
+
+/* 라벨과 입력 필드를 한 줄에 배치 */
+.inline-label {
+    min-width: 100px; /* 라벨 너비 지정 */
+    margin-right: 15px; /* 라벨과 입력 필드 사이 간격 */
+    font-weight: bold;
+}
+
+.inline-input {
+    flex-grow: 1;
+    padding: 8px; /* 입력 필드 패딩 조정 */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 텍스트 영역 스타일 */
+.email-form textarea {
+    width: calc(100% - 20px); /* 테두리와 패딩을 고려한 너비 */
+    height: 200px; /* 텍스트 영역 높이 */
+    padding: 10px; /* 내부 여백 추가 */
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 입력란 크기 통일 */
+.email-form input[type="email"],
+.email-form input[type="text"],
+.email-form input[type="file"],
+.email-form textarea {
+    margin-left: 10px;
+}
+
+/* TinyMCE 에디터 상단에 여백 추가 */
+#body_ifr {
+    margin-top: 10px;
+}
 </style>
 </head>
 
@@ -201,6 +256,8 @@
 				onclick="toggleDropdown(this);"><i class="fas fa-clipboard"></i>
 					이메일</a>
 				<ul class="dropdown-menu">
+					<li><a href="<c:url value='/email/send.do' />"
+						class="dropdown-item" onclick="hideDropdown()">메일 쓰기</a></li>
 					<li><a href="<c:url value='/email/list.do' />"
 						class="dropdown-item" onclick="hideDropdown()">전체 이메일</a></li>
 					<li><a href="<c:url value='/email/inbox.do' />"
@@ -216,29 +273,55 @@
 		<div class="content-title">이메일 전송</div>
 
 		<!-- 이메일 전송 폼 -->
-		<form class="email-form" action="<c:url value='/email/sending.do' />"
-			method="post" enctype="multipart/form-data">
-			<label for="recipientEmail">수신자 이메일:</label> <input type="email"
-				id="recipientEmail" name="recipientEmail" required />
+		<form id="emailForm" class="email-form"
+			action="<c:url value='/email/sending.do' />" method="post"
+			enctype="multipart/form-data">
+
+			<!-- 받는 사람 입력란 -->
+			<div class="form-group">
+				<label for="recipientEmail" class="inline-label">받는 사람:</label> <input
+					type="email" id="recipientEmail" name="recipientEmail"
+					class="inline-input" required />
+			</div>
+
 			<div id="autocompleteDropdown" class="autocomplete-dropdown"></div>
 
-			<label for="subject">제목:</label> <input type="text" id="subject"
-				name="subject" required /> <label for="body">내용:</label>
-			<textarea id="body" name="body" required></textarea>
+			<!-- 제목 입력란 -->
+			<div class="form-group">
+				<label for="subject" class="inline-label">제목:</label> <input
+					type="text" id="subject" name="subject" class="inline-input"
+					required />
+			</div>
 
-			<label for="file">첨부파일 (선택):</label> <input type="file" id="file"
-				name="file" />
+			<!-- 본문 입력란 -->
+			<textarea id="body" name="body" required aria-hidden="false"></textarea>
 
+			<!-- 첨부파일 입력란 -->
+			<div class="form-group">
+				<label for="file" class="inline-label">첨부파일</label> <input
+					type="file" id="file" name="file" class="inline-input" />
+			</div>
+
+			<!-- 전송 및 취소 버튼 -->
 			<div class="btn-group">
 				<button type="submit" class="btn blue">전송</button>
 				<a href="<c:url value='/email/list.do' />" class="btn red">취소</a>
 			</div>
 		</form>
 	</div>
+	<!-- HTML 에디터 TinyMCE 적용 -->
+	<script
+		src="https://cdn.tiny.cloud/1/3tsdea3vx5lpucf1yoweoga3yn0ezwgmz6ha52ed3603kal9/tinymce/7/tinymce.min.js"
+		referrerpolicy="origin"></script>
+
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
-     console.log("AJAX URL: " + "<c:url value='/email/searchRecipient.do' />");
 
+	// 폼 제출 전에 TinyMCE의 내용을 textarea와 동기화
+     document.getElementById("emailForm").addEventListener("submit", function(event) {
+       tinymce.triggerSave();  // TinyMCE 내용을 textarea에 저장
+     });
+     
 	    $("#autocompleteDropdown").empty(); // 기존 목록 초기화
 	    
         $(document).ready(function() {
@@ -347,5 +430,30 @@
             }
         }
     </script>
+
+	<script>
+tinymce.init({
+  api_key: '3tsdea3vx5lpucf1yoweoga3yn0ezwgmz6ha52ed3603kal9',  // API 키 위치를 가장 위로 설정
+  selector: '#body',  // ID가 body인 textarea에 적용
+  plugins: [
+    'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+    'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown'
+  ],
+  toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+  tinycomments_mode: 'embedded',
+  tinycomments_author: 'Author name',
+  mergetags_list: [
+    { value: 'First.Name', title: 'First Name' },
+    { value: 'Email', title: 'Email' }
+  ],
+  ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+  setup: function(editor) {
+	    editor.on('change', function() {
+	      tinymce.triggerSave();  // 폼 전송 시 TinyMCE의 내용을 textarea에 저장
+	    });
+	  }
+});
+</script>
+
 </body>
 </html>

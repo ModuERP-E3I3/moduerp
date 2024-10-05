@@ -84,7 +84,7 @@ public class EmailController {
 
 		if (recipient == null) {
 			model.addAttribute("message", "수신자의 이메일을 찾을 수 없습니다. 같은 회사의 이메일만 입력해 주세요.");
-			return "email/sendEmail"; // 수신자 이메일을 찾지 못하면 다시 전송 페이지로 이동
+			return "email/error"; // 수신자 이메일을 찾지 못하면 다시 전송 페이지로 이동
 		}
 
 		// 3. 수신자의 UUID 설정
@@ -97,7 +97,7 @@ public class EmailController {
 		// 분 단위의 등록시간을 sendDate로 설정하기
 		email.setSentDate(sentDate);
 
-		// 5. 파일 첨부 처리 로직 (생략 가능)
+		// 파일 첨부 처리 로직
 		if (!file.isEmpty()) {
 			try {
 				// 원본 파일명 가져오기
@@ -105,60 +105,61 @@ public class EmailController {
 
 				if (originalFilename == null) {
 					model.addAttribute("message", "파일명 정보를 가져올 수 없습니다.");
-					return "email/sendEmail";
-				}
-
-				// 파일 확장자 검증 (보안 강화)
-				List<String> allowedExtensions = Arrays.asList(".jpg", ".png", ".pdf", ".docx");
-				int dotIndex = originalFilename.lastIndexOf(".");
-				if (dotIndex == -1) {
-					model.addAttribute("message", "파일 확장자가 없습니다.");
-					return "email/sendEmail";
-				}
-
-				String fileExtension = originalFilename.substring(dotIndex).toLowerCase();
-				if (!allowedExtensions.contains(fileExtension)) {
-					model.addAttribute("message", "허용되지 않은 파일 형식입니다.");
-					return "email/sendEmail";
+					return "email/error";
 				}
 
 				// 파일명에 ".." 포함 여부 확인 (디렉토리 트래버설 방지)
 				if (originalFilename.contains("..")) {
 					model.addAttribute("message", "유효하지 않은 파일명입니다.");
-					return "email/sendEmail";
+					return "email/error";
 				}
 
-				// 새로운 파일명 생성 (첨부한 사람의 이메일 + "_" + 파일명)
-				String newFilename = senderEmail + "_" + originalFilename;
+				// 새로운 파일명 생성 (첨부한 사람의 UUID + "_" + 파일명)
+				String newFilename = senderUUID + "_" + originalFilename;
 
-				// 파일 저장 경로를 절대 경로로 설정
-				// String uploadDir =
-				// "D:/erp_workspace/moduerp/src/main/webapp/resources/templates/email_files";
-				// 하드코딩 비추천! application.properties 에 경로 지정하기
-				String uploadDir = this.uploadDir;
-
+				// 파일 저장 경로 설정 시 File.separator 사용
+				String uploadDir = this.uploadDir.replace("/", File.separator).replace("\\", File.separator);
+				
 				// 로그 추가 (디버깅용)
 				System.out.println("Upload Directory: " + uploadDir);
 
-				// 디렉토리가 존재하지 않으면 생성/
+				// 디렉토리가 존재하지 않으면 생성
 				File dir = new File(uploadDir);
 				if (!dir.exists()) {
 					boolean dirsCreated = dir.mkdirs();
 					if (!dirsCreated) {
 						model.addAttribute("message", "파일 저장 디렉토리를 생성할 수 없습니다.");
-						return "email/sendEmail";
+						return "email/error";
 					}
 				}
+
+				// 파일 저장 경로를 File 객체로 생성
+				File serverFile = new File(uploadDir + File.separator + newFilename);
+				
+				// 경로 로그 출력 (확인용)
+				System.out.println("통일된 파일 저장 경로: " + serverFile.getAbsolutePath());
+				
 				// 파일 저장
-				File serverFile = new File(dir, newFilename);
 				file.transferTo(serverFile);
+
+				// 파일 저장 경로 확인
+				if (serverFile.exists()) {
+				    System.out.println("파일이 성공적으로 저장되었습니다: " + serverFile.getAbsolutePath());
+				} else {
+				    System.out.println("파일 저장에 실패했습니다.");
+				}
+				
+				// 파일 경로가 Windows 또는 Linux 환경에 따라 다르게 처리될 수 있으므로,
+				String normalizedPath = serverFile.getAbsolutePath().replace("\\", "/");
+				System.out.println("정규화된 파일 경로: " + normalizedPath);
+
 
 				// attachmentPath 설정 (파일명만 저장)
 				email.setAttachmentPath(newFilename);
 			} catch (Exception e) {
 				e.printStackTrace();
 				model.addAttribute("message", "파일 업로드 실패: " + e.getMessage());
-				return "email/sendEmail"; // 오류 발생 시 이메일 전송 페이지로 돌아감
+				return "email/error"; // 오류 발생 시 이메일 전송 페이지로 돌아감
 			}
 		} else {
 			email.setAttachmentPath(null); // 파일 첨부하지 않은 경우

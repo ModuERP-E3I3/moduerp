@@ -55,24 +55,24 @@
 </head>
 <body>
     <div class="error-container">
-        <!-- 에러 제목 -->
+        <%-- 에러 제목 --%>
         <div class="error-title">오류가 발생했습니다</div>
         
-        <!-- 오류 메시지 표시 -->
+        <%--오류 메시지 표시 --%>
         <div class="error-message">
             <c:choose>
-                <!-- 컨트롤러에서 전달된 오류 메시지가 있을 경우 -->
+            	<%-- 컨트롤러에서 전달된 오류 메시지가 있을 경우 --%>
                 <c:when test="${not empty errorMessage}">
                     <c:out value="${errorMessage}" />
                 </c:when>
-                <!-- 기본 오류 메시지 -->
+                <%-- 기본 오류 메시지 --%>
                 <c:otherwise>
                     요청을 처리하는 동안 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.
                 </c:otherwise>
             </c:choose>
         </div>
 
-        <!-- 네비게이션 버튼 -->
+		<%--네비게이션 버튼 --%>
         <div class="nav-buttons">
             <a href="javascript:history.back()">이전 페이지로</a>
             <a href="<c:url value='/' />">홈으로 이동</a>
