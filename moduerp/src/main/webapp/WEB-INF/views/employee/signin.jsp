@@ -225,8 +225,10 @@
         }
     };
 
+ 	// 이메일 유효성 검사 함수
     function validateEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    	// 정규표현식: [앞부분]@[도메인].[최상위도메인](예: .com, .net 등)
+        const re = /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/;
         return re.test(email);
     }
 </script>
