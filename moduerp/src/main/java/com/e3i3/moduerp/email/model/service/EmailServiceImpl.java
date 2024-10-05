@@ -24,32 +24,32 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public List<Email> selectEmailsByRecipient(String recipientEmail) {
-        return emailDao.selectEmailsByRecipient(recipientEmail);
+    public List<Email> selectEmailsByRecipient(String recipientUUID) {
+        return emailDao.selectEmailsByRecipient(recipientUUID);
     }
 
     @Override
-    public List<Email> selectEmailsBySender(String senderEmail) {
-        return emailDao.selectEmailsBySender(senderEmail);
+    public List<Email> selectEmailsBySender(String senderUUID) {
+        return emailDao.selectEmailsBySender(senderUUID);
     }
 
     @Override
-    public List<Email> selectEmailsByUser(String userEmail) {
-        return emailDao.selectEmailsByUser(userEmail);
+    public List<Email> selectEmailsByUser(String userUUID) {
+        return emailDao.selectEmailsByUser(userUUID);
     }
+
     @Override
     public Email selectEmailById(Long emailId) {
         return emailDao.selectEmailById(emailId);
     }
-    
+
     @Override
     public Email updateReadStatus(Long emailId) {
-    	return emailDao.updateReadStatus(emailId);
+        return emailDao.updateReadStatus(emailId);
     }
 
-	@Override
-	public void updateReadStatusBatch(List<Long> emailIds) {
-		 emailDao.updateReadStatusBatch(emailIds);
-		
-	}
+    @Override
+    public void updateReadStatusBatch(List<Long> emailIds) {
+        emailDao.updateReadStatusBatch(emailIds);
+    }
 }

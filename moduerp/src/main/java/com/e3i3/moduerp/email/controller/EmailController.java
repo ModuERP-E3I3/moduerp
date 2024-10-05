@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,15 +22,24 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.e3i3.moduerp.email.model.dto.Email;
 import com.e3i3.moduerp.email.model.service.EmailService;
+import com.e3i3.moduerp.employee.model.dto.Employee;
+import com.e3i3.moduerp.employee.model.dto.EmployeeBasicInfo;
+import com.e3i3.moduerp.employee.model.service.EmployeeService;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 @PropertySource("classpath:application.properties") // 프로퍼티 파일 명시적 로드
 @Controller
 public class EmailController {
 	@Autowired
 	private EmailService emailService;
+	@Autowired
+	private EmployeeService employeeService; // EmployeeService 추가하여 UUID 조회
+
 	private static final Logger logger = LoggerFactory.getLogger(EmailController.class);
 
 	// 필드 추가
@@ -42,21 +52,63 @@ public class EmailController {
 		return "email/sendEmail"; // 전송 페이지 뷰 이름
 	}
 
+	@GetMapping(value = "/email/searchRecipient.do", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<EmployeeBasicInfo>> searchEmailsByBizNumber(@RequestParam("keyword") String keyword, HttpSession session) {
+	    System.out.println("Inside searchEmailsByBizNumber method...");
+	    
+	    String bizNumber = (String) session.getAttribute("biz_number");
+	    System.out.println("Received Keyword: " + keyword);
+	    System.out.println("Current User's BizNumber: " + bizNumber);
+
+	    // 필요한 필드만 사용하여 새로운 DTO 리스트로 변환
+	    List<EmployeeBasicInfo> result = employeeService
+	            .selectEmployeesByEmailAndBizNumber(keyword, bizNumber)
+	            .stream()
+	            .map(emp -> new EmployeeBasicInfo(emp.getEmpName(), emp.getEmpEmail())) // 필요한 정보만 DTO로 변환
+	            .collect(Collectors.toList());
+	    
+	    System.out.println("Found Employees: " + result);
+	    
+	    return ResponseEntity.ok()
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .body(result);
+	}
+
+
+
 	// 이메일 전송 처리
 	@PostMapping("/email/sending.do")
 	public String sendEmail(@ModelAttribute Email email, @RequestParam("file") MultipartFile file, HttpSession session,
 			HttpServletRequest request, Model model) throws IOException {
-		// 로그인 유저의 이메일 주소 가져오기
+		// 1. 로그인 유저의 이메일 주소와 UUID, 사업자번호 가져오기
+		String senderUUID = (String) session.getAttribute("uuid");
 		String senderEmail = (String) session.getAttribute("email");
+		String bizNumber = (String) session.getAttribute("biz_number"); // 사업자번호 가져오기
+
+		email.setSenderUUID(senderUUID);
 		email.setSenderEmail(senderEmail);
 
-		// 현재 시간 가져오기 (분 단위까지)
+		// 2. 수신자의 이메일로 UUID 조회 (EmployeeService를 사용하여 조회)
+		String recipientEmail = email.getRecipientEmail();
+		Employee recipient = employeeService.selectEmployeeByEmailAndBizNumber(recipientEmail, bizNumber);
+
+		if (recipient == null) {
+			model.addAttribute("message", "수신자의 이메일을 찾을 수 없습니다. 같은 회사의 이메일만 입력해 주세요.");
+			return "email/sendEmail"; // 수신자 이메일을 찾지 못하면 다시 전송 페이지로 이동
+		}
+
+		// 3. 수신자의 UUID 설정
+		email.setRecipientUUID(recipient.getUuid().toString());
+		email.setRecipientName(recipient.getEmpName()); // 수신자 이름도 설정
+
+		// 4. 현재 시간 설정
 		LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
 		Timestamp sentDate = Timestamp.valueOf(now);
 		// 분 단위의 등록시간을 sendDate로 설정하기
 		email.setSentDate(sentDate);
 
-		// 파일 첨부 처리
+		// 5. 파일 첨부 처리 로직 (생략 가능)
 		if (!file.isEmpty()) {
 			try {
 				// 원본 파일명 가져오기

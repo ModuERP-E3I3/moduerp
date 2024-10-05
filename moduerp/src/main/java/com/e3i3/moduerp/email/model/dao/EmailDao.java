@@ -23,23 +23,22 @@ public class EmailDao {
 		return sqlSessionTemplate.selectList("EmailMapper.selectAllEmails");
 	}
 
-	// 수신한 이메일 조회
-	public List<Email> selectEmailsByRecipient(String recipientEmail) {
-		return sqlSessionTemplate.selectList("EmailMapper.selectEmailsByRecipient", recipientEmail);
+	// 수신한 이메일 조회 (UUID를 기준으로)
+	public List<Email> selectEmailsByRecipient(String recipientUUID) {
+		return sqlSessionTemplate.selectList("EmailMapper.selectEmailsByRecipient", recipientUUID);
 	}
 
-	// 보낸 이메일 조회
-	public List<Email> selectEmailsBySender(String senderEmail) {
-		return sqlSessionTemplate.selectList("EmailMapper.selectEmailsBySender", senderEmail);
+	// 보낸 이메일 조회 (UUID를 기준으로)
+	public List<Email> selectEmailsBySender(String senderUUID) {
+		return sqlSessionTemplate.selectList("EmailMapper.selectEmailsBySender", senderUUID);
 	}
 
-	// 로그인 유저가 보낸 이메일과 받은 이메일 조회
-	public List<Email> selectEmailsByUser(String userEmail) {
-		return sqlSessionTemplate.selectList("EmailMapper.selectEmailsByUser", userEmail);
+	// 로그인 유저가 보낸 이메일과 받은 이메일 조회 (UUID를 기준으로)
+	public List<Email> selectEmailsByUser(String userUUID) {
+		return sqlSessionTemplate.selectList("EmailMapper.selectEmailsByUser", userUUID);
 	}
 
-	// 이메일 아이디로 조회해서 isRead 'Y'로 업데이트하기
-	// 이메일 ID로 이메일 조회
+	// 이메일 ID로 조회하여 isRead 'Y'로 업데이트하기
 	public Email updateReadStatus(Long emailId) {
 		return sqlSessionTemplate.selectOne("EmailMapper.updateReadStatus", emailId);
 	}

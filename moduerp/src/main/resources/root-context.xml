@@ -25,15 +25,8 @@
 		설정함. 이 설정을 하려면 바로 위에서 선언한 DataSource 에 로그 설정을 연결해야 함 pom.xml 에 log4jdbc-remix 
 		라이브러리를 dependency 추가해야 함 import net.sf.log4jdbc.Log4jdbcProxyDataSource; 
 		Log4jdbcProxyDataSource dataSource = new Log4jdbcProxyDataSource(realDataSource); -->
-	<bean id="dataSource"
-		class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+	<bean id="dataSource" class="com.p6spy.engine.spy.P6DataSource">
 		<constructor-arg ref="realDataSource" />
-		<property name="logFormatter">
-			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
-				<property name="loggingType" value="MULTI_LINE" />
-				<property name="sqlPrefix" value="[SQL] " />
-			</bean>
-		</property>
 	</bean>
 
 	<!-- 2. 바로 위에서 설정된 dataSource 를 spring 과 mybatis 와 연결 설정 -->

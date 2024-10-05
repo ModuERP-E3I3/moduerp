@@ -235,7 +235,7 @@
 					</span> 
 					
 					<!-- 수신자 메일주소 --> 
-					${email.recipientEmail} &nbsp; 
+					${email.recipientName} &nbsp; 
 					<!-- 이메일 제목 (클릭 시 상세 페이지 이동) -->
 					<a href="view.do?emailId=${email.emailId}">${email.subject}</a>&nbsp; 
 					<!-- 보낸 날짜 --> 
