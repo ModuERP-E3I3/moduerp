@@ -1,0 +1,406 @@
+[02:46:57][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[02:46:58][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 863 ms
+[02:46:58][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[02:46:59][WARN ][AbstractApplicationContext.java: 591] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'emailController' defined in file [D:\erp_workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\moduerp\WEB-INF\classes\com\e3i3\moduerp\email\controller\EmailController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.e3i3.moduerp.email.controller.EmailController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	The method getEmpName() is undefined for the type EmployeeBasicInfo
+	The method getEmpEmail() is undefined for the type EmployeeBasicInfo
+	The method setSenderUUID(String) is undefined for the type Email
+	The method setSenderEmail(String) is undefined for the type Email
+	The method getRecipientEmail() is undefined for the type Email
+	The method getUuid() is undefined for the type Employee
+	The method getEmpName() is undefined for the type Employee
+	The method setSentDate(Timestamp) is undefined for the type Email
+	The method setAttachmentPath(String) is undefined for the type Email
+	The method setAttachmentPath(null) is undefined for the type Email
+	The method getRecipientUUID() is undefined for the type Email
+	The method getSenderUUID() is undefined for the type Email
+	The method getIsRead() is undefined for the type Email
+
+[02:46:59][ERROR][FrameworkServlet.java: 534] - Context initialization failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'emailController' defined in file [D:\erp_workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\moduerp\WEB-INF\classes\com\e3i3\moduerp\email\controller\EmailController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.e3i3.moduerp.email.controller.EmailController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	The method getEmpName() is undefined for the type EmployeeBasicInfo
+	The method getEmpEmail() is undefined for the type EmployeeBasicInfo
+	The method setSenderUUID(String) is undefined for the type Email
+	The method setSenderEmail(String) is undefined for the type Email
+	The method getRecipientEmail() is undefined for the type Email
+	The method getUuid() is undefined for the type Employee
+	The method getEmpName() is undefined for the type Employee
+	The method setSentDate(Timestamp) is undefined for the type Email
+	The method setAttachmentPath(String) is undefined for the type Email
+	The method setAttachmentPath(null) is undefined for the type Email
+	The method getRecipientUUID() is undefined for the type Email
+	The method getSenderUUID() is undefined for the type Email
+	The method getIsRead() is undefined for the type Email
+
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1334)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:953)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
+	at org.springframework.web.servlet.FrameworkServlet.configureAndRefreshWebApplicationContext(FrameworkServlet.java:702)
+	at org.springframework.web.servlet.FrameworkServlet.createWebApplicationContext(FrameworkServlet.java:668)
+	at org.springframework.web.servlet.FrameworkServlet.createWebApplicationContext(FrameworkServlet.java:716)
+	at org.springframework.web.servlet.FrameworkServlet.initWebApplicationContext(FrameworkServlet.java:591)
+	at org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:530)
+	at org.springframework.web.servlet.HttpServletBean.init(HttpServletBean.java:170)
+	at javax.servlet.GenericServlet.init(GenericServlet.java:143)
+	at org.apache.catalina.core.StandardWrapper.initServlet(StandardWrapper.java:984)
+	at org.apache.catalina.core.StandardWrapper.loadServlet(StandardWrapper.java:941)
+	at org.apache.catalina.core.StandardWrapper.load(StandardWrapper.java:838)
+	at org.apache.catalina.core.StandardContext.loadOnStartup(StandardContext.java:4182)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4482)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:140)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749)
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:721)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:140)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749)
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:211)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:415)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:878)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.startup.Catalina.start(Catalina.java:735)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.apache.catalina.startup.Bootstrap.start(Bootstrap.java:345)
+	at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:473)
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.e3i3.moduerp.email.controller.EmailController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	The method getEmpName() is undefined for the type EmployeeBasicInfo
+	The method getEmpEmail() is undefined for the type EmployeeBasicInfo
+	The method setSenderUUID(String) is undefined for the type Email
+	The method setSenderEmail(String) is undefined for the type Email
+	The method getRecipientEmail() is undefined for the type Email
+	The method getUuid() is undefined for the type Employee
+	The method getEmpName() is undefined for the type Employee
+	The method setSentDate(Timestamp) is undefined for the type Email
+	The method setAttachmentPath(String) is undefined for the type Email
+	The method setAttachmentPath(null) is undefined for the type Email
+	The method getRecipientUUID() is undefined for the type Email
+	The method getSenderUUID() is undefined for the type Email
+	The method getIsRead() is undefined for the type Email
+
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:224)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:87)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1326)
+	... 50 more
+Caused by: java.lang.Error: Unresolved compilation problems: 
+	The method getEmpName() is undefined for the type EmployeeBasicInfo
+	The method getEmpEmail() is undefined for the type EmployeeBasicInfo
+	The method setSenderUUID(String) is undefined for the type Email
+	The method setSenderEmail(String) is undefined for the type Email
+	The method getRecipientEmail() is undefined for the type Email
+	The method getUuid() is undefined for the type Employee
+	The method getEmpName() is undefined for the type Employee
+	The method setSentDate(Timestamp) is undefined for the type Email
+	The method setAttachmentPath(String) is undefined for the type Email
+	The method setAttachmentPath(null) is undefined for the type Email
+	The method getRecipientUUID() is undefined for the type Email
+	The method getSenderUUID() is undefined for the type Email
+	The method getIsRead() is undefined for the type Email
+
+	at com.e3i3.moduerp.email.controller.EmailController.<init>(EmailController.java:61)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:490)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:211)
+	... 52 more
+[02:47:09][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[02:47:10][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 807 ms
+[02:47:10][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[02:47:11][WARN ][AbstractApplicationContext.java: 591] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'emailController' defined in file [D:\erp_workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\moduerp\WEB-INF\classes\com\e3i3\moduerp\email\controller\EmailController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.e3i3.moduerp.email.controller.EmailController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	The method getEmpName() is undefined for the type EmployeeBasicInfo
+	The method getEmpEmail() is undefined for the type EmployeeBasicInfo
+	The method setSenderUUID(String) is undefined for the type Email
+	The method setSenderEmail(String) is undefined for the type Email
+	The method getRecipientEmail() is undefined for the type Email
+	The method getUuid() is undefined for the type Employee
+	The method getEmpName() is undefined for the type Employee
+	The method setSentDate(Timestamp) is undefined for the type Email
+	The method setAttachmentPath(String) is undefined for the type Email
+	The method setAttachmentPath(null) is undefined for the type Email
+	The method getRecipientUUID() is undefined for the type Email
+	The method getSenderUUID() is undefined for the type Email
+	The method getIsRead() is undefined for the type Email
+
+[02:47:11][ERROR][FrameworkServlet.java: 534] - Context initialization failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'emailController' defined in file [D:\erp_workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\moduerp\WEB-INF\classes\com\e3i3\moduerp\email\controller\EmailController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.e3i3.moduerp.email.controller.EmailController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	The method getEmpName() is undefined for the type EmployeeBasicInfo
+	The method getEmpEmail() is undefined for the type EmployeeBasicInfo
+	The method setSenderUUID(String) is undefined for the type Email
+	The method setSenderEmail(String) is undefined for the type Email
+	The method getRecipientEmail() is undefined for the type Email
+	The method getUuid() is undefined for the type Employee
+	The method getEmpName() is undefined for the type Employee
+	The method setSentDate(Timestamp) is undefined for the type Email
+	The method setAttachmentPath(String) is undefined for the type Email
+	The method setAttachmentPath(null) is undefined for the type Email
+	The method getRecipientUUID() is undefined for the type Email
+	The method getSenderUUID() is undefined for the type Email
+	The method getIsRead() is undefined for the type Email
+
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1334)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:953)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
+	at org.springframework.web.servlet.FrameworkServlet.configureAndRefreshWebApplicationContext(FrameworkServlet.java:702)
+	at org.springframework.web.servlet.FrameworkServlet.createWebApplicationContext(FrameworkServlet.java:668)
+	at org.springframework.web.servlet.FrameworkServlet.createWebApplicationContext(FrameworkServlet.java:716)
+	at org.springframework.web.servlet.FrameworkServlet.initWebApplicationContext(FrameworkServlet.java:591)
+	at org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:530)
+	at org.springframework.web.servlet.HttpServletBean.init(HttpServletBean.java:170)
+	at javax.servlet.GenericServlet.init(GenericServlet.java:143)
+	at org.apache.catalina.core.StandardWrapper.initServlet(StandardWrapper.java:984)
+	at org.apache.catalina.core.StandardWrapper.loadServlet(StandardWrapper.java:941)
+	at org.apache.catalina.core.StandardWrapper.load(StandardWrapper.java:838)
+	at org.apache.catalina.core.StandardContext.loadOnStartup(StandardContext.java:4182)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4482)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:140)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749)
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:721)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:140)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749)
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:211)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:415)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:878)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.startup.Catalina.start(Catalina.java:735)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.apache.catalina.startup.Bootstrap.start(Bootstrap.java:345)
+	at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:473)
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.e3i3.moduerp.email.controller.EmailController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	The method getEmpName() is undefined for the type EmployeeBasicInfo
+	The method getEmpEmail() is undefined for the type EmployeeBasicInfo
+	The method setSenderUUID(String) is undefined for the type Email
+	The method setSenderEmail(String) is undefined for the type Email
+	The method getRecipientEmail() is undefined for the type Email
+	The method getUuid() is undefined for the type Employee
+	The method getEmpName() is undefined for the type Employee
+	The method setSentDate(Timestamp) is undefined for the type Email
+	The method setAttachmentPath(String) is undefined for the type Email
+	The method setAttachmentPath(null) is undefined for the type Email
+	The method getRecipientUUID() is undefined for the type Email
+	The method getSenderUUID() is undefined for the type Email
+	The method getIsRead() is undefined for the type Email
+
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:224)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:87)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1326)
+	... 50 more
+Caused by: java.lang.Error: Unresolved compilation problems: 
+	The method getEmpName() is undefined for the type EmployeeBasicInfo
+	The method getEmpEmail() is undefined for the type EmployeeBasicInfo
+	The method setSenderUUID(String) is undefined for the type Email
+	The method setSenderEmail(String) is undefined for the type Email
+	The method getRecipientEmail() is undefined for the type Email
+	The method getUuid() is undefined for the type Employee
+	The method getEmpName() is undefined for the type Employee
+	The method setSentDate(Timestamp) is undefined for the type Email
+	The method setAttachmentPath(String) is undefined for the type Email
+	The method setAttachmentPath(null) is undefined for the type Email
+	The method getRecipientUUID() is undefined for the type Email
+	The method getSenderUUID() is undefined for the type Email
+	The method getIsRead() is undefined for the type Email
+
+	at com.e3i3.moduerp.email.controller.EmailController.<init>(EmailController.java:61)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:490)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:211)
+	... 52 more
+[02:47:23][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[02:47:24][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 722 ms
+[02:47:24][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[02:47:25][WARN ][AbstractApplicationContext.java: 591] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'emailController' defined in file [D:\erp_workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\moduerp\WEB-INF\classes\com\e3i3\moduerp\email\controller\EmailController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.e3i3.moduerp.email.controller.EmailController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	The method getEmpName() is undefined for the type EmployeeBasicInfo
+	The method getEmpEmail() is undefined for the type EmployeeBasicInfo
+	The method setSenderUUID(String) is undefined for the type Email
+	The method setSenderEmail(String) is undefined for the type Email
+	The method getRecipientEmail() is undefined for the type Email
+	The method getUuid() is undefined for the type Employee
+	The method getEmpName() is undefined for the type Employee
+	The method setSentDate(Timestamp) is undefined for the type Email
+	The method setAttachmentPath(String) is undefined for the type Email
+	The method setAttachmentPath(null) is undefined for the type Email
+	The method getRecipientUUID() is undefined for the type Email
+	The method getSenderUUID() is undefined for the type Email
+	The method getIsRead() is undefined for the type Email
+
+[02:47:25][ERROR][FrameworkServlet.java: 534] - Context initialization failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'emailController' defined in file [D:\erp_workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\moduerp\WEB-INF\classes\com\e3i3\moduerp\email\controller\EmailController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.e3i3.moduerp.email.controller.EmailController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	The method getEmpName() is undefined for the type EmployeeBasicInfo
+	The method getEmpEmail() is undefined for the type EmployeeBasicInfo
+	The method setSenderUUID(String) is undefined for the type Email
+	The method setSenderEmail(String) is undefined for the type Email
+	The method getRecipientEmail() is undefined for the type Email
+	The method getUuid() is undefined for the type Employee
+	The method getEmpName() is undefined for the type Employee
+	The method setSentDate(Timestamp) is undefined for the type Email
+	The method setAttachmentPath(String) is undefined for the type Email
+	The method setAttachmentPath(null) is undefined for the type Email
+	The method getRecipientUUID() is undefined for the type Email
+	The method getSenderUUID() is undefined for the type Email
+	The method getIsRead() is undefined for the type Email
+
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1334)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:953)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
+	at org.springframework.web.servlet.FrameworkServlet.configureAndRefreshWebApplicationContext(FrameworkServlet.java:702)
+	at org.springframework.web.servlet.FrameworkServlet.createWebApplicationContext(FrameworkServlet.java:668)
+	at org.springframework.web.servlet.FrameworkServlet.createWebApplicationContext(FrameworkServlet.java:716)
+	at org.springframework.web.servlet.FrameworkServlet.initWebApplicationContext(FrameworkServlet.java:591)
+	at org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:530)
+	at org.springframework.web.servlet.HttpServletBean.init(HttpServletBean.java:170)
+	at javax.servlet.GenericServlet.init(GenericServlet.java:143)
+	at org.apache.catalina.core.StandardWrapper.initServlet(StandardWrapper.java:984)
+	at org.apache.catalina.core.StandardWrapper.loadServlet(StandardWrapper.java:941)
+	at org.apache.catalina.core.StandardWrapper.load(StandardWrapper.java:838)
+	at org.apache.catalina.core.StandardContext.loadOnStartup(StandardContext.java:4182)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4482)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardContext.reload(StandardContext.java:3214)
+	at org.apache.catalina.loader.WebappLoader.backgroundProcess(WebappLoader.java:273)
+	at org.apache.catalina.core.StandardContext.backgroundProcess(StandardContext.java:4803)
+	at org.apache.catalina.core.ContainerBase$ContainerBackgroundProcessor.processChildren(ContainerBase.java:1172)
+	at org.apache.catalina.core.ContainerBase$ContainerBackgroundProcessor.processChildren(ContainerBase.java:1176)
+	at org.apache.catalina.core.ContainerBase$ContainerBackgroundProcessor.processChildren(ContainerBase.java:1176)
+	at org.apache.catalina.core.ContainerBase$ContainerBackgroundProcessor.run(ContainerBase.java:1154)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.e3i3.moduerp.email.controller.EmailController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
+	The method getEmpName() is undefined for the type EmployeeBasicInfo
+	The method getEmpEmail() is undefined for the type EmployeeBasicInfo
+	The method setSenderUUID(String) is undefined for the type Email
+	The method setSenderEmail(String) is undefined for the type Email
+	The method getRecipientEmail() is undefined for the type Email
+	The method getUuid() is undefined for the type Employee
+	The method getEmpName() is undefined for the type Employee
+	The method setSentDate(Timestamp) is undefined for the type Email
+	The method setAttachmentPath(String) is undefined for the type Email
+	The method setAttachmentPath(null) is undefined for the type Email
+	The method getRecipientUUID() is undefined for the type Email
+	The method getSenderUUID() is undefined for the type Email
+	The method getIsRead() is undefined for the type Email
+
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:224)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:87)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1326)
+	... 37 more
+Caused by: java.lang.Error: Unresolved compilation problems: 
+	The method getEmpName() is undefined for the type EmployeeBasicInfo
+	The method getEmpEmail() is undefined for the type EmployeeBasicInfo
+	The method setSenderUUID(String) is undefined for the type Email
+	The method setSenderEmail(String) is undefined for the type Email
+	The method getRecipientEmail() is undefined for the type Email
+	The method getUuid() is undefined for the type Employee
+	The method getEmpName() is undefined for the type Employee
+	The method setSentDate(Timestamp) is undefined for the type Email
+	The method setAttachmentPath(String) is undefined for the type Email
+	The method setAttachmentPath(null) is undefined for the type Email
+	The method getRecipientUUID() is undefined for the type Email
+	The method getSenderUUID() is undefined for the type Email
+	The method getIsRead() is undefined for the type Email
+
+	at com.e3i3.moduerp.email.controller.EmailController.<init>(EmailController.java:61)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:490)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:211)
+	... 39 more
+[02:58:02][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[02:58:03][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 889 ms
+[02:58:03][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[02:58:04][INFO ][FrameworkServlet.java: 547] - Completed initialization in 1300 ms
+[03:04:40][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[03:04:41][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 707 ms
+[03:04:41][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[03:04:42][INFO ][FrameworkServlet.java: 547] - Completed initialization in 1151 ms
+[03:07:11][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[03:07:12][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 716 ms
+[03:07:12][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[03:07:13][INFO ][FrameworkServlet.java: 547] - Completed initialization in 1090 ms
+[03:08:12][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[03:08:13][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 1009 ms
+[03:08:13][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[03:08:14][INFO ][FrameworkServlet.java: 547] - Completed initialization in 1476 ms
+[03:13:18][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[03:13:19][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 811 ms
+[03:13:19][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[03:13:20][INFO ][FrameworkServlet.java: 547] - Completed initialization in 1255 ms
+[03:20:27][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[03:20:28][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 719 ms
+[03:20:28][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[03:20:29][INFO ][FrameworkServlet.java: 547] - Completed initialization in 1257 ms
+[03:21:42][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[03:21:43][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 847 ms
+[03:21:43][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[03:21:44][INFO ][FrameworkServlet.java: 547] - Completed initialization in 1553 ms
+[03:25:19][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[03:25:20][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 742 ms
+[03:25:20][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[03:25:21][INFO ][FrameworkServlet.java: 547] - Completed initialization in 1187 ms
+[03:26:17][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[03:26:18][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 804 ms
+[03:26:18][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[03:26:19][INFO ][FrameworkServlet.java: 547] - Completed initialization in 1229 ms
+[03:28:02][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[03:37:01][INFO ][ContextLoader.java: 271] - Root WebApplicationContext: initialization started
+[03:37:02][INFO ][ContextLoader.java: 307] - Root WebApplicationContext initialized in 812 ms
+[03:37:02][INFO ][FrameworkServlet.java: 525] - Initializing Servlet 'appServlet'
+[03:37:03][INFO ][FrameworkServlet.java: 547] - Completed initialization in 1149 ms

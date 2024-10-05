@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE configuration PUBLIC
+ "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- MyBatis 설정 -->
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+		<setting name="cacheEnabled" value="false" />
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+		<setting name="logImpl" value="STDOUT_LOGGING" />
+	</settings>
+
+	<!-- 타입 별칭 설정 -->
+	<typeAliases>
+		<typeAlias type="com.e3i3.moduerp.company.model.dto.Company" alias="Company" />
+		<typeAlias type="com.e3i3.moduerp.employee.model.dto.Employee" alias="Employee" />
+		<typeAlias type="com.e3i3.moduerp.department.model.dto.Department" alias="Department" />
+		<typeAlias type="com.e3i3.moduerp.car.model.dto.CarDto" alias="CarDto" />
+		<typeAlias type="com.e3i3.moduerp.notice.model.dto.Notice" alias="Notice" />
+		<typeAlias type="com.e3i3.moduerp.email.model.dto.Email" alias="Email" />
+	</typeAliases>
+
+	<!-- 타입 핸들러 설정 -->
+	<typeHandlers>
+		<!-- 기존 핸들러 설정 -->
+		<typeHandler handler="com.e3i3.moduerp.common.handler.UUIDTypeHandler" javaType="java.util.UUID" />
+		<typeHandler handler="com.e3i3.moduerp.handler.StringListTypeHandler" javaType="java.util.List" jdbcType="VARCHAR" />
+
+		<!-- Java 8 날짜 및 시간 핸들러 추가 -->
+		<typeHandler handler="org.apache.ibatis.type.LocalDateTimeTypeHandler" javaType="java.time.LocalDateTime" />
+		<typeHandler handler="org.apache.ibatis.type.LocalDateTypeHandler" javaType="java.time.LocalDate" />
+		<typeHandler handler="org.apache.ibatis.type.LocalTimeTypeHandler" javaType="java.time.LocalTime" />
+	</typeHandlers>
+
+	<!-- 매퍼 파일 등록 -->
+	<mappers>
+		<mapper resource="mappers/company-mapper.xml" />
+		<mapper resource="mappers/employee-mapper.xml" />
+		<mapper resource="mappers/department-mapper.xml" />
+		<mapper resource="mappers/email-mapper.xml" />
+		<mapper resource="mappers/car-mapper.xml" />
+		<mapper resource="mappers/carmgt-mapper.xml" />
+		<mapper resource="mappers/notice-mapper.xml" />
+		<mapper resource="mappers/buyStockIn-mapper.xml" />
+		<mapper resource="mappers/buyStockOut-mapper.xml" />
+		<mapper resource="mappers/productionStockIn-mapper.xml" />
+		<mapper resource="mappers/productionStockOut-mapper.xml" />
+		<mapper resource="mappers/workorder-mapper.xml" />
+		<mapper resource="mappers/productionquality-mapper.xml" />
+		<mapper resource="mappers/salesStockIn-mapper.xml" />
+		<mapper resource="mappers/salesStockOut-mapper.xml" />
+		<mapper resource="mappers/account-mapper.xml" />
+		<mapper resource="mappers/purchaseorders-mapper.xml" />
+		<mapper resource="mappers/item-productionstock-mapper.xml" />
+	</mappers>
+
+</configuration>
