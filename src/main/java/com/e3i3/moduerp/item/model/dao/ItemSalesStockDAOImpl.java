@@ -43,7 +43,7 @@ public class ItemSalesStockDAOImpl implements ItemSalesStockDAO {
 
     @Override
     public void updateItem(ItemDTO itemDTO) {
-        // µ¥ÀÌÅÍº£ÀÌ½º ¾÷µ¥ÀÌÆ® Äõ¸® ½ÇÇà
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½Ì½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         sqlSession.update(namespace + ".updateItem", itemDTO);
     }
 

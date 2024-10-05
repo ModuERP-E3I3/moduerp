@@ -21,6 +21,9 @@ public interface ItemProductionstockService {
 	void deleteItemByCode(String itemCode);
 
 	// ---------------------------------------------------
+	// productionOUT
+	List<ItemDTO> getItemsByBizNumberOutDate(String bizNumber);
+
 	List<ItemDTO> getItemsByBizNumberStartingWith(String bizNumber);
 
 	void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut, double outPrice);

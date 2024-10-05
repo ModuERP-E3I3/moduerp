@@ -20,6 +20,9 @@
 		<typeAlias type="com.e3i3.moduerp.car.model.dto.CarDto" alias="CarDto" />
 		<typeAlias type="com.e3i3.moduerp.notice.model.dto.Notice" alias="Notice" />
 		<typeAlias type="com.e3i3.moduerp.email.model.dto.Email" alias="Email" />
+		<typeAlias type="com.e3i3.moduerp.productionstock.model.dto.ProductionStockOutDTO" alias="ProductionStockOutDTO"/>
+
+		
 	</typeAliases>
 
 	<!-- 타입 핸들러 설정 -->
@@ -49,10 +52,11 @@
 		<mapper resource="mappers/productionStockOut-mapper.xml" />
 		<mapper resource="mappers/workorder-mapper.xml" />
 		<mapper resource="mappers/productionquality-mapper.xml" />
+
 		<mapper resource="mappers/salesStockIn-mapper.xml" />
 		<mapper resource="mappers/salesStockOut-mapper.xml" />
 		<mapper resource="mappers/account-mapper.xml" />
-		<mapper resource="mappers/purchaseorders-mapper.xml" />
+
 		<mapper resource="mappers/item-productionstock-mapper.xml" />
 	</mappers>
 
