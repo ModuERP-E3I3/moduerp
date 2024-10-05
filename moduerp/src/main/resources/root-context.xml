@@ -8,7 +8,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 
-	<bean class="org.apache.commons.dbcp.BasicDataSource"
+	<bean class="org.apache.commons.dbcp2.BasicDataSource"
 		id="realDataSource" destroy-method="close">
 		<property name="driverClassName"
 			value="oracle.jdbc.driver.OracleDriver" />
