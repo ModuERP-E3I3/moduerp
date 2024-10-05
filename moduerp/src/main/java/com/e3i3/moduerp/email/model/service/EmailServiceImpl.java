@@ -52,4 +52,9 @@ public class EmailServiceImpl implements EmailService {
     public void updateReadStatusBatch(List<Long> emailIds) {
         emailDao.updateReadStatusBatch(emailIds);
     }
+    @Override
+    public void deleteEmailsBatch(List<Long> emailIds) {
+        emailDao.deleteEmailsBatch(emailIds);  // DAO 메서드 호출
+    }
+
 }

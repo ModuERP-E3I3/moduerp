@@ -48,6 +48,10 @@ public class EmailDao {
 		return sqlSessionTemplate.selectOne("EmailMapper.selectEmailById", emailId);
 	}
 
+	public void deleteEmailsBatch(List<Long> emailIds) {
+		sqlSessionTemplate.delete("EmailMapper.deleteEmailsBatch", emailIds); // 삭제 쿼리 실행
+	}
+
 	// 읽음 상태 일괄 업데이트
 	public void updateReadStatusBatch(List<Long> emailIds) {
 		sqlSessionTemplate.update("EmailMapper.updateReadStatusBatch", emailIds);

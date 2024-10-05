@@ -21,4 +21,9 @@ public interface EmailService {
 	Email updateReadStatus(Long emailId);
 
 	void updateReadStatusBatch(List<Long> emailIds);
+	
+	
+	public void deleteEmailsBatch(List<Long> emailIds);
+	
+
 }

@@ -227,21 +227,16 @@
           </c:choose>" />
 
 
-					<!-- 첨부파일 아이콘 공간 확보 --> 
-					<span class="attachment-space"> 
-					<c:if test="${not empty email.attachmentPath}">
-							<img class="attach-icon icon" src="<c:url value='/resources/icons/attach.png' />" alt="첨부파일" />
-					</c:if>
-					</span> 
-					
-					<!-- 수신자 메일주소 --> 
-					${email.recipientName} &nbsp; 
-					<!-- 이메일 제목 (클릭 시 상세 페이지 이동) -->
-					<a href="view.do?emailId=${email.emailId}">${email.subject}</a>&nbsp; 
-					<!-- 보낸 날짜 --> 
-					<span class="date"> 
-					<fmt:setLocale value="ko_KR" /> 
-					<fmt:formatDate value="${email.sentDate}" pattern="yyyy.MM.dd a hh:mm" />
+					<!-- 첨부파일 아이콘 공간 확보 --> <span class="attachment-space"> <c:if
+							test="${not empty email.attachmentPath}">
+							<img class="attach-icon icon"
+								src="<c:url value='/resources/icons/attach.png' />" alt="첨부파일" />
+						</c:if>
+				</span> <!-- 수신자 메일주소 --> ${email.recipientName} &nbsp; <!-- 이메일 제목 (클릭 시 상세 페이지 이동) -->
+					<a href="view.do?emailId=${email.emailId}">${email.subject}</a>&nbsp;
+					<!-- 보낸 날짜 --> <span class="date"> <fmt:setLocale
+							value="ko_KR" /> <fmt:formatDate value="${email.sentDate}"
+							pattern="yyyy.MM.dd a hh:mm" />
 				</span>
 				</li>
 			</c:forEach>
@@ -254,7 +249,8 @@
 	</div>
 
 	<script>
-
+	 var contextPath = '<%=request.getContextPath()%>';
+	 
     function toggleDropdown(element) {
         const dropdown = element.nextElementSibling; // 드롭다운 메뉴
         if (dropdown) {
@@ -279,32 +275,55 @@
             });
         }
 
-        // 체크한 이메일 삭제
         function deleteSelected() {
-            const selectedEmails = document.querySelectorAll('input[name="emailCheckbox"]:checked');
-            alert("선택한 이메일을 삭제합니다.");
+            const selectedEmails = Array.from(document.querySelectorAll('input[name="emailCheckbox"]:checked'))
+                .map(checkbox => Number(checkbox.value));  // 선택된 이메일 ID들을 배열로 만듦
+
+            if (selectedEmails.length > 0) {
+                // 이메일 ID 배열을 서버로 전송하여 삭제 처리 요청
+                fetch(contextPath + '/email/deleteEmails.do', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(selectedEmails)
+                })
+                .then(response => response.text())
+                .then(result => {
+                    if (result === 'success') {
+                        alert("선택한 이메일이 삭제되었습니다.");
+                        location.reload();  // 삭제 후 페이지를 새로고침하여 업데이트된 목록을 보여줌
+                    } else {
+                        alert("이메일 삭제에 실패했습니다.");
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            } else {
+                alert("삭제할 이메일을 선택하세요.");
+            }
         }
 
-        function markAsRead() {
-        	const selectedEmails = Array.from(document.querySelectorAll('input[name="emailCheckbox"]:checked'))
-        		.map(checkbox => Number(checkbox.value)); // 값이 Long 타입으로 변환되도록 수정
 
-        	if (selectedEmails.length > 0) {
-        		fetch('/email/markAsRead', {
-        			method: 'POST',
-        			headers: { 'Content-Type': 'application/json' },
-        			body: JSON.stringify(selectedEmails)
-        		})
-        		.then(response => response.text())
-        		.then(result => {
-        			if (result === 'success') {
-        				location.reload();
-        			}
-        		})
-        		.catch(error => console.error('Error:', error));
-        	} else {
-        		alert("읽음 처리할 이메일을 선택하세요.");
-        	}
+        function markAsRead() {
+            const selectedEmails = Array.from(document.querySelectorAll('input[name="emailCheckbox"]:checked'))
+                .map(checkbox => Number(checkbox.value));
+
+            console.log("선택된 이메일 ID:", selectedEmails);
+
+            if (selectedEmails.length > 0) {
+                fetch(contextPath + '/email/markAsRead.do', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(selectedEmails)
+                })
+                .then(response => response.text())
+                .then(result => {
+                    if (result === 'success') {
+                        location.reload();
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            } else {
+                alert("읽음 처리할 이메일을 선택하세요.");
+            }
         }
 
     </script>

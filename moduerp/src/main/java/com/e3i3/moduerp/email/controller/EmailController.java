@@ -11,9 +11,6 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +25,6 @@ import com.e3i3.moduerp.employee.model.service.EmployeeService;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
@@ -39,8 +35,6 @@ public class EmailController {
 	private EmailService emailService;
 	@Autowired
 	private EmployeeService employeeService; // EmployeeService 추가하여 UUID 조회
-
-	private static final Logger logger = LoggerFactory.getLogger(EmailController.class);
 
 	// 필드 추가
 	@Value("${email.upload.dir}")
@@ -54,28 +48,23 @@ public class EmailController {
 
 	@GetMapping(value = "/email/searchRecipient.do", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<List<EmployeeBasicInfo>> searchEmailsByBizNumber(@RequestParam("keyword") String keyword, HttpSession session) {
-	    System.out.println("Inside searchEmailsByBizNumber method...");
-	    
-	    String bizNumber = (String) session.getAttribute("biz_number");
-	    System.out.println("Received Keyword: " + keyword);
-	    System.out.println("Current User's BizNumber: " + bizNumber);
+	public ResponseEntity<List<EmployeeBasicInfo>> searchEmailsByBizNumber(@RequestParam("keyword") String keyword,
+			HttpSession session) {
+		System.out.println("Inside searchEmailsByBizNumber method...");
 
-	    // 필요한 필드만 사용하여 새로운 DTO 리스트로 변환
-	    List<EmployeeBasicInfo> result = employeeService
-	            .selectEmployeesByEmailAndBizNumber(keyword, bizNumber)
-	            .stream()
-	            .map(emp -> new EmployeeBasicInfo(emp.getEmpName(), emp.getEmpEmail())) // 필요한 정보만 DTO로 변환
-	            .collect(Collectors.toList());
-	    
-	    System.out.println("Found Employees: " + result);
-	    
-	    return ResponseEntity.ok()
-	            .contentType(MediaType.APPLICATION_JSON)
-	            .body(result);
+		String bizNumber = (String) session.getAttribute("biz_number");
+		System.out.println("Received Keyword: " + keyword);
+		System.out.println("Current User's BizNumber: " + bizNumber);
+
+		// 필요한 필드만 사용하여 새로운 DTO 리스트로 변환
+		List<EmployeeBasicInfo> result = employeeService.selectEmployeesByEmailAndBizNumber(keyword, bizNumber).stream()
+				.map(emp -> new EmployeeBasicInfo(emp.getEmpName(), emp.getEmpEmail())) // 필요한 정보만 DTO로 변환
+				.collect(Collectors.toList());
+
+		System.out.println("Found Employees: " + result);
+
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(result);
 	}
-
-
 
 	// 이메일 전송 처리
 	@PostMapping("/email/sending.do")
@@ -185,21 +174,23 @@ public class EmailController {
 	// 받은 이메일 목록 조회
 	@GetMapping("/email/inbox.do")
 	public String inbox(Model model, HttpSession session) {
-		String recipientEmail = (String) session.getAttribute("email");
-		List<Email> emails = emailService.selectEmailsByRecipient(recipientEmail);
-		model.addAttribute("emails", emails);
-
+		String recipientUUID = (String) session.getAttribute("uuid"); // 로그인한 유저의 UUID를 세션에서 가져옴
+		if (recipientUUID != null && !recipientUUID.isEmpty()) {
+			List<Email> emails = emailService.selectEmailsByRecipient(recipientUUID);
+			model.addAttribute("emails", emails);
+		}
 		return "email/inbox"; // 받은 편지함 페이지 뷰 이름
 	}
 
 	// 보낸 이메일 목록 조회
 	@GetMapping("/email/sent.do")
-	public String sent(Model model, HttpSession session) {
-		String senderEmail = (String) session.getAttribute("email");
-		List<Email> emails = emailService.selectEmailsBySender(senderEmail);
-		model.addAttribute("emails", emails);
-
-		return "email/sent"; // 보낸 편지함 페이지 뷰 이름
+	public String showSentEmails(Model model, HttpSession session) {
+		String senderUUID = (String) session.getAttribute("uuid"); // 로그인한 유저의 UUID를 세션에서 가져옴
+		if (senderUUID != null && !senderUUID.isEmpty()) {
+			List<Email> emails = emailService.selectEmailsBySender(senderUUID);
+			model.addAttribute("emails", emails);
+		}
+		return "email/sent"; // sent.jsp 페이지로 데이터 전달
 	}
 
 	/**
@@ -207,12 +198,11 @@ public class EmailController {
 	 */
 	@GetMapping("/email/view.do") // GET 메소드로 명시적으로 지정
 	public String viewEmail(@RequestParam("emailId") Long emailId, Model model, HttpSession session) {
-		// 세션에서 로그인한 사용자의 이메일 주소 가져오기
-		String loggedInEmail = (String) session.getAttribute("email");
+		String loginUUID = (String) session.getAttribute("uuid");
 
-		if (loggedInEmail == null) {
+		if (loginUUID == null) {
 			// 사용자가 로그인하지 않은 경우, 로그인 페이지로 리다이렉트
-			return "redirect:/login.do"; // 로그인 페이지 URL로 변경 필요
+			return "redirect:/"; // 로그인 페이지 URL로 변경 필요
 		}
 
 		// 이메일 조회
@@ -221,14 +211,14 @@ public class EmailController {
 		if (email == null) {
 			// 이메일이 존재하지 않는 경우, 오류 페이지로 포워드
 			model.addAttribute("errorMessage", "해당 이메일을 찾을 수 없습니다.");
-			return "error"; // error.jsp로 포워딩 (필요 시 생성)
+			return "email/error"; // error.jsp로 포워딩 (필요 시 생성)
 		}
 
 		// 현재 사용자가 이메일의 수신자 또는 발신자인지 확인
-		if (!loggedInEmail.equals(email.getRecipientEmail()) && !loggedInEmail.equals(email.getSenderEmail())) {
+		if (!loginUUID.equals(email.getRecipientUUID()) && !loginUUID.equals(email.getSenderUUID())) {
 			// 권한이 없는 사용자가 접근하려는 경우, 접근 거부 페이지로 포워드
 			model.addAttribute("errorMessage", "이 이메일을 볼 권한이 없습니다.");
-			return "accessDenied"; // accessDenied.jsp로 포워딩 (필요 시 생성)
+			return "email/error";
 		}
 
 		// 이메일 읽음 상태 변경
@@ -242,20 +232,37 @@ public class EmailController {
 	}
 
 	// 읽음 처리 요청을 처리하는 메서드
-	@PostMapping("/email/markAsRead")
+	@PostMapping(value = "/email/markAsRead.do", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String markAsRead(@RequestBody List<Long> emailIds) {
+	public ResponseEntity<String> markAsRead(@RequestBody List<Long> emailIds) {
 		System.out.println("읽음 처리할 이메일 ID 목록: " + emailIds); // 요청이 제대로 전달되었는지 확인
 		emailService.updateReadStatusBatch(emailIds);
-		return "success";
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("success");
+	}
+
+	// 이메일 삭제 요청을 처리하는 메서드
+	@PostMapping(value = "/email/deleteEmails.do", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<String> deleteEmails(@RequestBody List<Long> emailIds) {
+		System.out.println("삭제할 이메일 ID 목록: " + emailIds);
+		try {
+			emailService.deleteEmailsBatch(emailIds); // EmailService를 통해 삭제 로직 호출
+			return ResponseEntity.ok().body("success"); // 성공 시 'success' 문자열 반환
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(500).body("fail"); // 실패 시 'fail' 반환
+		}
 	}
 
 	// 이메일 전체 페이지
 	@GetMapping("/email/list.do")
 	public String emailListPage(HttpSession session, Model model) {
-		String userEmail = (String) session.getAttribute("email"); // 세션에서 이메일 가져오기
-
-		List<Email> emails = emailService.selectEmailsByUser(userEmail); // 로그인 유저의 이메일로 받은/보낸 이메일 조회
+		String loginUUID = (String) session.getAttribute("uuid");
+		if (loginUUID == null) {
+			// 사용자가 로그인하지 않은 경우, 로그인 페이지로 리다이렉트
+			return "redirect:/"; // 로그인 페이지 URL로 변경 필요
+		}
+		List<Email> emails = emailService.selectEmailsByUser(loginUUID); // 로그인 세션의 UUID로 받은/보낸 이메일 조회
 		model.addAttribute("emails", emails);
 		return "email/emailList"; // 이메일 목록을 보여주는 JSP 페이지 이름
 	}
