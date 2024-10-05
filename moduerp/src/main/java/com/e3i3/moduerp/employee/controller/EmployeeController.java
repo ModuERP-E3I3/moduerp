@@ -50,7 +50,7 @@ public class EmployeeController {
 	    params.put("empEmail", empEmail);
 	    params.put("password", password);
 
-	    Employee employee = employeeService.validateLogin(params);
+	    Employee employee = employeeService.validateLogin(params); //로그인처리하는 서비스 메소드 
 
 	    if (employee != null) {
 	        // 로그인 성공: 세션에 uuid와 biz_number, email 저장
@@ -58,13 +58,13 @@ public class EmployeeController {
 	        session.setAttribute("uuid", employee.getUuid().toString());
 	        session.setAttribute("biz_number", employee.getBizNumber());
 	        session.setAttribute("email", employee.getEmpEmail());
-	        
+	        session.setAttribute("name", employee.getEmpName());
 	        
 	        // 콘솔에 로그인 세션 정보 출력
 	        System.out.println("로그인한 사용자의 UUID: " + session.getAttribute("uuid"));
 	        System.out.println("로그인한 사용자의 사업자번호: " + session.getAttribute("biz_number"));
 	        System.out.println("로그인한 사용자의 이메일: " + session.getAttribute("email"));
-	        
+	        System.out.println("로그인한 사용자의 이름: "+session.getAttribute("name"));
 	        
 	        System.out.println("쿼리로 반환된 UUID: " + employee.getUuid());
 	        System.out.println("쿼리로 반환된 사업자번호: " + employee.getBizNumber());

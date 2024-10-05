@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html>
@@ -147,7 +148,7 @@
     font-weight: bold;
 }
 </style>
-</head>
+</head>f
 
 <body>
     <!-- 서브헤더 JSP 임포트 -->
@@ -180,6 +181,17 @@
             <label>제목:</label> <span>${email.subject}</span>
             <label>내용:</label> <span>${email.body}</span>
 
+  			<!-- 첨부 파일이 있을 경우 다운로드 링크 표시 -->
+            <c:if test="${not empty email.attachmentPath}">
+                <label>첨부 파일:</label>
+                <span>
+                    <c:set var="originalFileName" value="${fn:substringAfter(email.attachmentPath, '_')}" />
+                      <a href="<c:url value='/resources/templates/email_files/${email.attachmentPath}' />" download="${originalFileName}">
+                        ${originalFileName}
+                    </a>
+                </span>
+            </c:if>
+            
             <!-- 날짜 레이블 조건부 표시 -->
             <c:choose>
                 <c:when test="${email.senderEmail == sessionScope.email}">

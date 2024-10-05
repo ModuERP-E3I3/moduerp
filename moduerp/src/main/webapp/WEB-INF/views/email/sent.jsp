@@ -227,16 +227,21 @@
           </c:choose>" />
 
 
-					<!-- 첨부파일 아이콘 공간 확보 --> <span class="attachment-space"> <c:if
-							test="${not empty email.attachmentPath}">
-							<img class="attach-icon icon"
-								src="<c:url value='/resources/icons/attach.png' />" alt="첨부파일" />
-						</c:if>
-				</span> <!-- 수신자 이름 --> ${email.recipientEmail} &nbsp; <!-- 이메일 제목 (클릭 시 상세 페이지 이동) -->
-					<a href="view.do?emailId=${email.emailId}">${email.subject}</a>
-					&nbsp; <!-- 보낸 날짜 --> <span class="date"> <fmt:setLocale
-							value="ko_KR" /> <fmt:formatDate value="${email.sentDate}"
-							pattern="yyyy.MM.dd a hh:mm" />
+					<!-- 첨부파일 아이콘 공간 확보 --> 
+					<span class="attachment-space"> 
+					<c:if test="${not empty email.attachmentPath}">
+							<img class="attach-icon icon" src="<c:url value='/resources/icons/attach.png' />" alt="첨부파일" />
+					</c:if>
+					</span> 
+					
+					<!-- 수신자 메일주소 --> 
+					${email.recipientEmail} &nbsp; 
+					<!-- 이메일 제목 (클릭 시 상세 페이지 이동) -->
+					<a href="view.do?emailId=${email.emailId}">${email.subject}</a>&nbsp; 
+					<!-- 보낸 날짜 --> 
+					<span class="date"> 
+					<fmt:setLocale value="ko_KR" /> 
+					<fmt:formatDate value="${email.sentDate}" pattern="yyyy.MM.dd a hh:mm" />
 				</span>
 				</li>
 			</c:forEach>
