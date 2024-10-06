@@ -202,9 +202,12 @@ th {
 							id="itemNameInput" placeholder="품목 이름 선택" required
 							onchange="updateItemCode()" /> <datalist id="itemNames">
 								<c:forEach var="item" items="${itemList}">
-									<option value="${item.itemName} 재고 : ${item.stock}"
-										data-item-code="${item.itemCode}"></option>
+									<c:if test="${item.stock > 0}">
+										<option value="${item.itemName} 재고 : ${item.stock}"
+											data-item-code="${item.itemCode}"></option>
+									</c:if>
 								</c:forEach>
+
 							</datalist> <input type="hidden" name="itemCode" id="itemCodeInput" /> <!-- itemCode를 담을 숨겨진 입력 필드 -->
 						</td>
 
