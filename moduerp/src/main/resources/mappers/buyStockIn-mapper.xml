@@ -8,6 +8,7 @@
         <result property="itemCode" column="ITEM_CODE" />
         <result property="uuid" column="UUID" />
         <result property="accountNo" column="ACCOUNT_NO" />
+        <result property="bankId" column="BANK_ID" />
         <result property="orderId" column="ORDER_ID" />
         <result property="bStockInDate" column="B_STOCK_IN_DATE" />
         <result property="bStockInPlace" column="B_STOCK_IN_PLACE" />
@@ -17,14 +18,14 @@
     
     <!-- 모든 구매 입고 데이터 조회용 쿼리 -->
     <select id="getAllBuyStockIn" resultMap="resultBuyStockIn"> 
-        SELECT DISTINCT B_STOCK_IN_ID, ITEM_CODE, UUID, ACCOUNT_NO, 
+        SELECT DISTINCT B_STOCK_IN_ID, ITEM_CODE, UUID, ACCOUNT_NO, BANK_ID,
             ORDER_ID, B_STOCK_IN_DATE, B_STOCK_IN_PLACE, B_STOCK_IN_QTY, EMP_NAME
         FROM BUY_STOCK_IN
     </select>
 
     <!-- 특정 구매 입고 데이터 조회용 쿼리 -->
     <select id="getBuyStockInById" parameterType="String" resultMap="resultBuyStockIn">
-        SELECT DISTINCT B_STOCK_IN_ID, ITEM_CODE, UUID, ACCOUNT_NO, 
+        SELECT DISTINCT B_STOCK_IN_ID, ITEM_CODE, UUID, ACCOUNT_NO, BANK_ID,
             ORDER_ID, B_STOCK_IN_DATE, B_STOCK_IN_PLACE, B_STOCK_IN_QTY, EMP_NAME
         FROM BUY_STOCK_IN
         WHERE B_STOCK_IN_ID = #{bStockInId}

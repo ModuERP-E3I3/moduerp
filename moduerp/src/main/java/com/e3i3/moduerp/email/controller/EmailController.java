@@ -1,21 +1,15 @@
 package com.e3i3.moduerp.email.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.e3i3.moduerp.email.model.dto.Email;
 import com.e3i3.moduerp.email.model.service.EmailService;
@@ -25,31 +19,29 @@ import com.e3i3.moduerp.employee.model.service.EmployeeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-
-@PropertySource("classpath:application.properties") // 프로퍼티 파일 명시적 로드
 @Controller
 public class EmailController {
-	@Autowired
-	private EmailService emailService;
-	@Autowired
-	private EmployeeService employeeService; // EmployeeService 추가하여 UUID 조회
+    @Autowired
+    private EmailService emailService;
 
-	// 필드 추가
-	@Value("${email.upload.dir}")
-	private String uploadDir;
+    // 이메일 전송 페이지로 이동
+    @GetMapping("/send.do")
+    public String sendEmailPage() {
+        return "email/sendEmail"; // 전송 페이지 뷰 이름
+    }
 
-	// 이메일 전송 페이지로 이동
-	@GetMapping("/email/send.do")
-	public String sendEmailPage() {
-		return "email/sendEmail"; // 전송 페이지 뷰 이름
-	}
+    // 이메일 전송 처리
+    @PostMapping("/sending.do")
+    public String sendEmail(Email email, HttpSession session, Model model) {
+        // 로그인 유저의 이메일 주소 가져오기
+        String senderEmail = (String) session.getAttribute("email");
+        email.setSenderEmail(senderEmail);
+        
+        emailService.insertEmail(email);
+        model.addAttribute("message", "이메일이 전송되었습니다.");
+        
+        return "redirect:/email/sent"; // 전송 완료 페이지
+    }
 
 	@GetMapping(value = "/email/searchRecipient.do", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

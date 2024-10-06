@@ -4,24 +4,95 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="WorkOrderMapper">
-    <resultMap id="resultWorkOrder" type="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
-        <result property="orderNumber" column="ORDER_NUMBER"/>
-        <result property="itemCode" column="ITEM_CODE"/>
-        <result property="uuid" column="UUID"/>
-        <result property="departmentId" column="DEPARTMENT_ID"/>
-        <result property="startDate" column="START_DATE"/>
-        <result property="endDate" column="END_DATE"/>
-        <result property="taskName" column="TASK_NAME"/>
-        <result property="qty" column="QTY"/>
-        <result property="progressStatus" column="PROGRESS_STATUS"/>
-        <result property="workerTeam" column="WORKER_TEAM"/>
-        <result property="worker" column="WORKER"/>
-        <result property="workPlace" column="WORK_PLACE"/>
-        <result property="wDirector" column="W_DIRECTOR"/> 
+	<resultMap id="resultWorkOrder"
+		type="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		<result property="orderNumber" column="ORDER_NUMBER" />
+		<result property="itemCode" column="ITEM_CODE" />
+		<result property="uuid" column="UUID" />
+		<result property="departmentId" column="DEPARTMENT_ID" />
+		<result property="startDate" column="START_DATE" />
+		<result property="endDate" column="END_DATE" />
+		<result property="taskName" column="TASK_NAME" />
+		<result property="qty" column="QTY" />
+		<result property="progressStatus" column="PROGRESS_STATUS" />
+		<result property="workerTeam" column="WORKER_TEAM" />
+		<result property="worker" column="WORKER" />
+		<result property="workPlace" column="WORK_PLACE" />
+		<result property="wDirector" column="W_DIRECTOR" />
+		<result property="bizNumber" column="BIZ_NUMBER" />
+		<result property="itemName" column="ITEM_NAME" />
+		<result property="endExDate" column="END_EX_DATE" />
 
-    </resultMap>
+	</resultMap>
 
-    <select id="getAllWorkOrders" resultMap="resultWorkOrder">
-        SELECT * FROM WORK_ORDER
-    </select>
+	<select id="selectWorkOrdersByBizNumber" parameterType="String"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+
+	<select id="getWorkOrderByOrderNumber" parameterType="String"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT * FROM WORK_ORDER WHERE ORDER_NUMBER =
+		#{orderNumber}
+	</select>
+
+	<!-- Worker Teams by Biz Number -->
+	<select id="getWorkerTeamsByBizNumber" resultType="string">
+		SELECT
+		DISTINCT WORKER_TEAM
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+
+	<!-- Work Places by Biz Number -->
+	<select id="getWorkPlacesByBizNumber" resultType="string">
+		SELECT DISTINCT
+		WORK_PLACE
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+
+
+	<insert id="insertWorkOrder"
+		parameterType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		INSERT INTO WORK_ORDER (
+		ORDER_NUMBER,
+		ITEM_CODE,
+		UUID,
+		DEPARTMENT_ID,
+		START_DATE,
+		END_DATE,
+		TASK_NAME,
+		QTY,
+		PROGRESS_STATUS,
+		WORKER_TEAM,
+		WORKER,
+		WORK_PLACE,
+		W_DIRECTOR,
+		BIZ_NUMBER,
+		ITEM_NAME,
+		END_EX_DATE
+		) VALUES (
+		#{orderNumber},
+		#{itemCode},
+		#{uuid},
+		#{departmentId},
+		#{startDate},
+		#{endDate},
+		#{taskName},
+		#{qty},
+		#{progressStatus},
+		#{workerTeam},
+		#{worker},
+		#{workPlace},
+		#{wDirector},
+		#{bizNumber},
+		#{itemName},
+		#{endExDate}
+		)
+	</insert>
+
+
 </mapper>

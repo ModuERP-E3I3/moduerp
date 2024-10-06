@@ -6,23 +6,34 @@ import org.springframework.stereotype.Service;
 import com.e3i3.moduerp.workorder.model.dao.WorkOrderDAO;
 import com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @Service
 public class WorkOrderServiceImpl implements WorkOrderService {
 
-  
-    
-    private static final Logger logger = LoggerFactory.getLogger(WorkOrderServiceImpl.class);
+	@Autowired
+	private WorkOrderDAO workOrderDAO;
 
-    @Autowired
-    private WorkOrderDAO workOrderDAO;
+	@Override
+	public List<WorkOrderDTO> getWorkOrdersByBizNumber(String bizNumber) {
+		return workOrderDAO.selectWorkOrdersByBizNumber(bizNumber);
+	}
 
-    @Override
-    public List<WorkOrderDTO> getAllWorkOrders() {
-        List<WorkOrderDTO> workOrderList = workOrderDAO.getAllWorkOrders();
-        logger.info("Work orders retrieved: {}", workOrderList);
-        return workOrderList;
-    }
+	@Override
+	public WorkOrderDTO getWorkOrderByOrderNumber(String orderNumber) {
+		return workOrderDAO.getWorkOrderByOrderNumber(orderNumber);
+	}
+
+	@Override
+	public List<String> getWorkerTeamsByBizNumber(String bizNumber) {
+		return workOrderDAO.getWorkerTeamsByBizNumber(bizNumber);
+	}
+
+	@Override
+	public List<String> getWorkPlacesByBizNumber(String bizNumber) {
+		return workOrderDAO.getWorkPlacesByBizNumber(bizNumber);
+	}
+
+	@Override
+	public void insertWorkOrder(WorkOrderDTO workOrderDTO) {
+		workOrderDAO.insertWorkOrder(workOrderDTO);
+	}
 }

@@ -1,9 +1,9 @@
 package com.e3i3.moduerp.item.model.dao;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
-import com.e3i3.moduerp.productionstock.model.dto.ProductionStockInDTO;
 
 public interface ItemProductionstockDAO {
 	List<String> selectItemNamesByBizNumber(String bizNumber);
@@ -40,4 +40,19 @@ public interface ItemProductionstockDAO {
 
 	// STOCK 값 업데이트
 	void updateStockByItemCode(String itemCode, int updatedStock);
+
+	public void updateItemCreatedOutAt(String itemCode, Timestamp createdOutAt);
+
+	public void updateItemOutPrice(String itemCode, double outPrice);
+
+	void updateItemWithLatestStockOut(String itemCode, Timestamp latestOutDate, double latestOutPrice,
+			String latestOutPlace);
+
+	void resetItemStockOutDetails(String itemCode);
+
+	void updateItemStockOutToNull(String itemCode);
+
+	// -----------------------------------------------------
+	// workorder
+	List<ItemDTO> selectItemNamesAndStockByBizNumberStartingWith(String bizNumber);
 }

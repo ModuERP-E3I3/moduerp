@@ -5,7 +5,8 @@
 
 <mapper namespace="ProductionStockOutMapper">
 
-<resultMap id="productionStockOutResult" type="com.e3i3.moduerp.productionstock.model.dto.ProductionStockOutDTO">
+	<resultMap id="productionStockOutResult"
+		type="com.e3i3.moduerp.productionstock.model.dto.ProductionStockOutDTO">
 		<result property="pStockOutId" column="P_STOCK_OUT_ID" />
 		<result property="itemCode" column="ITEM_CODE" />
 		<result property="pStockOutDate" column="P_STOCK_OUT_DATE" />
@@ -17,12 +18,13 @@
 	</resultMap>
 
 
-	<select id="selectAllProductionStockOuts" resultType="com.e3i3.moduerp.productionstock.model.dto.ProductionStockOutDTO">
+	<select id="selectAllProductionStockOuts"
+		resultMap="productionStockOutResult">
 		SELECT * FROM PRODUCTION_STOCK_OUT
 	</select>
 
 	<insert id="insertProductionStockOut"
-		parameterType="com.e3i3.moduerp.productionstock.model.dto.ProductionStockOutDTO">
+		parameterType="ProductionStockOutDTO">
 		INSERT INTO PRODUCTION_STOCK_OUT (
 		P_STOCK_OUT_ID,
 		ITEM_CODE, P_STOCK_OUT_DATE, P_STOCK_OUT_PLACE, P_STOCK_OUT_QTY, UUID,
@@ -68,6 +70,25 @@
 		resultType="int">
 		SELECT SUM(P_STOCK_OUT_QTY)
 		FROM PRODUCTION_STOCK_OUT
-		WHERE ITEM_CODE = #{itemCode}
+		WHERE
+		ITEM_CODE = #{itemCode}
 	</select>
+
+	<!-- 삭제 -->
+	<delete id="deleteProductionStockOut" parameterType="String">
+		DELETE FROM
+		PRODUCTION_STOCK_OUT WHERE P_STOCK_OUT_ID = #{pStockOutId}
+	</delete>
+
+	<!-- 가장 최근의 출고 기록을 조회하는 쿼리 -->
+	<select id="selectMostRecentStockOutDetails"
+		parameterType="String" resultMap="productionStockOutResult">
+		SELECT *
+		FROM PRODUCTION_STOCK_OUT
+		WHERE ITEM_CODE = #{itemCode}
+		ORDER BY P_STOCK_OUT_DATE DESC
+		FETCH FIRST 1 ROWS ONLY
+	</select>
+
+
 </mapper>

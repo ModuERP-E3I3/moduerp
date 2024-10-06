@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -171,29 +172,29 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 생산출고</div>
+		<div class="content-title">생산관리 | 작업지시서 | 신규 등록</div>
 
-		<!-- 폼 시작 -->
-		<form action="/moduerp/productionStockOutCreate.do" method="POST">
-			<!-- 필터 박스 -->
-			<div class="filter-box">
-				<select>
-					<option>조회기간</option>
-				</select> <input type="date" /> <input type="date" /> <select>
-					<option>품목 선택</option>
-				</select> <input type="text" placeholder="내용 입력" />
-				<button class="btn">조회</button>
-			</div>
+		<!-- 필터 박스 -->
+		<div class="filter-box">
+			<select>
+				<option>조회기간</option>
+			</select> <input type="date" /> <input type="date" /> <select>
+				<option>품목 선택</option>
+			</select> <input type="text" placeholder="내용 입력" />
+			<button class="btn">조회</button>
+		</div>
 
-			<!-- 테이블 -->
+		<!-- 테이블 -->
+		<!-- 테이블 -->
+		<form action="/moduerp/productionWorkOrderInsert.do" method="POST">
 			<table>
 				<thead>
 					<tr>
 						<th>제품명</th>
-						<th>출고날짜</th>
-						<th>출고장소</th>
-						<th>출고수량</th>
-						<th>출고단가</th>
+						<th>작업명</th>
+						<th>시작 날짜</th>
+						<th>종료 예정 날짜</th>
+						<th>작업 수량</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -214,29 +215,112 @@ th {
 							</datalist> <input type="hidden" name="itemCode" id="itemCodeInput" /> <!-- itemCode를 담을 숨겨진 입력 필드 -->
 						</td>
 
+						<td><input type="text" name="taskName" placeholder="작업명 입력"
+							required /></td>
+						<td><input type="date" id="startDate" name="startDate"
+							required></td>
+						<td><input type="date" id="endExDate" name="endExDate"
+							required></td>
+						<td><input type="number" id="qty" name="qty" required></td>
+
+					</tr>
+				</tbody>
+				<thead>
+					<tr>
+
+						<th>진행 상태</th>
+						<th>작업팀</th>
+						<th>작업자</th>
+						<th>작업장소</th>
+						<th>지시자</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><select name="progressStatus" required>
+								<option value="작업 전">작업 전</option>
+								<option value="작업 중">작업 중</option>
+								<option value="작업 후">작업 후</option>
+						</select></td>
+						<!-- 작업팀을 선택하는 input 필드 -->
+						<td><input list="workerTeamsList" name="workerTeam"
+							placeholder="작업팀 선택" required /> <datalist id="workerTeamsList">
+								<!-- workerTeams 모델에 담긴 리스트를 반복하여 datalist에 출력 -->
+								<c:forEach var="team" items="${workerTeams}">
+									<option value="${team}"></option>
+								</c:forEach>
+							</datalist></td>
+
+						<!-- 작업자를 선택하는 input 필드 -->
+						<td>
+							<!-- 작업자 선택 부분 -->
+							<div id="workerContainer">
+								<div class="worker-input">
+									<input list="employeeNamesList" name="worker"
+										placeholder="작업자 선택" required />
+									<datalist id="employeeNamesList">
+										<!-- employeeNames 모델에 담긴 리스트를 반복하여 datalist에 출력 -->
+										<c:forEach var="employee" items="${employeeNames}">
+											<option value="${employee}"></option>
+										</c:forEach>
+									</datalist>
+									<button type="button" class="remove-btn"
+										onclick="removeWorker(this)">삭제</button>
+								</div>
+							</div>
+							<button type="button" onclick="addWorker()">작업자 추가</button>
+						</td>
 
 
-						<td><input type="date" name="createdOutAt" required /></td>
-						<td><input list="stockOutPlaces" name="stockOutPlace"
-							placeholder="출고 장소 선택" required /> <datalist id="stockOutPlaces">
-								<c:forEach var="place" items="${stockOutPlaces}">
+						<!-- 작업 장소를 선택하는 input 필드 -->
+						<td><input list="workPlacesList" name="workPlace"
+							placeholder="작업 장소 선택" required /> <datalist id="workPlacesList">
+								<!-- workPlaces 모델에 담긴 리스트를 반복하여 datalist에 출력 -->
+								<c:forEach var="place" items="${workPlaces}">
 									<option value="${place}"></option>
 								</c:forEach>
 							</datalist></td>
-						<td><input type="number" name="stockOut" required /></td>
-						<td><input type="number" name="outPrice" step="0.01" required /></td>
+
+						<td><input type="text" name="wDirector"
+							value="${directorName}" readonly /></td>
 					</tr>
 				</tbody>
 			</table>
 
 			<!-- 버튼 그룹 -->
 			<div class="btn-group">
-				<button type="submit" class="btn blue">등록완료</button>
+				<button type="submit" class="btn blue">등록 완료</button>
 			</div>
 		</form>
-		<!-- 폼 끝 -->
+
+
 	</div>
 </body>
+
+<script type="text/javascript">
+function addWorker() {
+    const container = document.getElementById('workerContainer');
+    const newInputDiv = document.createElement('div');
+    newInputDiv.className = 'worker-input';
+    newInputDiv.innerHTML = `
+        <input list="employeeNamesList" name="worker" placeholder="작업자 선택" required />
+        <datalist id="employeeNamesList">
+            <!-- 이 부분은 서버에서 제공된 employeeNames 데이터를 사용 -->
+            <c:forEach var="employee" items="${employeeNames}">
+                <option value="${employee}"></option>
+            </c:forEach>
+        </datalist>
+        <button type="button" class="remove-btn" onclick="removeWorker(this)">삭제</button>
+    `;
+    container.appendChild(newInputDiv);
+}
+
+function removeWorker(button) {
+    const inputDiv = button.parentElement;
+    inputDiv.remove();
+}
+
+</script>
 <script>
     document.getElementById('itemNameInput').addEventListener('input', function() {
         // "=========="가 선택된 경우 값을 비워서 선택되지 않게 함
@@ -301,6 +385,8 @@ function updateItemCode() {
 
 
 </script>
+
+
 <script>
     const activeMenu = "productionStockIn";
 
@@ -313,4 +399,6 @@ function updateItemCode() {
         });
     });
 </script>
+
+
 </html>

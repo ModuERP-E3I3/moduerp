@@ -46,4 +46,14 @@ public class ProductionStockOutServiceImpl implements ProductionStockOutService 
 	public int getTotalStockOutByItemCode(String itemCode) {
 		return productionStockOutDAO.selectTotalStockOutByItemCode(itemCode);
 	}
+
+	@Override
+	public void deleteProductionStockOut(String pStockOutId) {
+		productionStockOutDAO.deleteProductionStockOut(pStockOutId);
+	}
+
+	@Override
+	public ProductionStockOutDTO getMostRecentStockOutDetails(String itemCode) {
+		return productionStockOutDAO.selectMostRecentStockOutDetails(itemCode);
+	}
 }

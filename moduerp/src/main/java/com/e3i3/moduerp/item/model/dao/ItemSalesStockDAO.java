@@ -7,9 +7,9 @@ import com.e3i3.moduerp.item.model.dto.ItemDTO;
 public interface ItemSalesStockDAO {
     List<String> selectItemNamesByBizNumber(String bizNumber);
 
-    List<String> selectStockPlacesByBizNumber(String bizNumber); // ê¸°ì¡´ ë©”ì„œë“œ
+    List<String> selectStockPlacesByBizNumber(String bizNumber); // ±âÁ¸ ¸Ş¼­µå
 
-    // biz_numberë¡œ í•„í„°ë§ëœ ì•„ì´í…œ ë¦¬ìŠ¤íŠ¸ë¥¼ ê°€ì ¸ì˜¤ëŠ” ë©”ì„œë“œ
+    // biz_number·Î ÇÊÅÍ¸µµÈ ¾ÆÀÌÅÛ ¸®½ºÆ®¸¦ °¡Á®¿À´Â ¸Ş¼­µå
     List<ItemDTO> getItemsByBizNumber(String bizNumber);
 
     void insertItem(ItemDTO itemDTO);

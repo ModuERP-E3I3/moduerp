@@ -5,18 +5,18 @@ import java.util.List;
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 
 public interface ItemSalesStockService {
-	List<String> getItemNamesByBizNumber(String bizNumber);
+    List<String> getItemNamesByBizNumber(String bizNumber);
 
-	List<String> getStockPlacesByBizNumber(String bizNumber); // 추가된 메서드
+    List<String> getStockPlacesByBizNumber(String bizNumber); // �߰��� �޼���
 
-	void insertItem(ItemDTO itemDTO);
+    void insertItem(ItemDTO itemDTO);
 
-	ItemDTO getItemDetails(String itemCode);
+    ItemDTO getItemDetails(String itemCode);
 
-	// biz_number로 필터링된 아이템 리스트를 가져오는 메서드
-	List<ItemDTO> getItemsByBizNumber(String bizNumber);
+    // biz_number�� ���͸��� ������ ����Ʈ�� �������� �޼���
+    List<ItemDTO> getItemsByBizNumber(String bizNumber);
 
-	void updateItem(ItemDTO itemDTO);
+    void updateItem(ItemDTO itemDTO);
 
-	void deleteItemByCode(String itemCode);
+    void deleteItemByCode(String itemCode);
 }

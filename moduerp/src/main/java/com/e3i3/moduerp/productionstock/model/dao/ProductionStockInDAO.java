@@ -13,4 +13,6 @@ public interface ProductionStockInDAO {
 	void updateProductionStockIn(ProductionStockInDTO productionStockInDTO);
 
 	void deleteProductionStockInByItemCode(String itemCode);
+	
+	
 }

@@ -63,7 +63,7 @@
         background-color: white;
         margin-left: 1%;
         margin-right: 5%;
-        margin-top: 3%;
+        margin-top: 5%;
         border: 1px solid #ccc;
         border-radius: 20px; /* 박스 둥글게 */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */

@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class ProductionStockInDTO {
 	private String pStockInId;
 	private String itemCode;
-	private Timestamp pStockInDate; 
+	private Timestamp pStockInDate; // 필드 추가
 	private String pStockPlace;
 	private int pStockInQty;
 	private String uuid;

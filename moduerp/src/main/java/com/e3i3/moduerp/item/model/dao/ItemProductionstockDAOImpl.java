@@ -1,5 +1,6 @@
 package com.e3i3.moduerp.item.model.dao;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,5 +105,40 @@ public class ItemProductionstockDAOImpl implements ItemProductionstockDAO {
 		params.put("itemCode", itemCode);
 		params.put("updatedStock", updatedStock);
 		sqlSession.update(namespace + ".updateStock", params);
+	}
+
+	@Override
+	public void updateItemCreatedOutAt(String itemCode, Timestamp createdOutAt) {
+		sqlSession.update(namespace + ".updateItemCreatedOutAt",
+				Map.of("itemCode", itemCode, "createdOutAt", createdOutAt));
+	}
+
+	@Override
+	public void updateItemOutPrice(String itemCode, double outPrice) {
+		sqlSession.update(namespace + ".updateItemOutPrice", Map.of("itemCode", itemCode, "outPrice", outPrice));
+	}
+
+	@Override
+	public void updateItemWithLatestStockOut(String itemCode, Timestamp latestOutDate, double latestOutPrice,
+			String latestOutPlace) {
+		sqlSession.update(namespace + ".updateItemWithLatestStockOut", Map.of("itemCode", itemCode, "latestOutDate",
+				latestOutDate, "latestOutPrice", latestOutPrice, "latestOutPlace", latestOutPlace));
+	}
+
+	@Override
+	public void resetItemStockOutDetails(String itemCode) {
+		sqlSession.update(namespace + ".resetItemStockOutDetails", itemCode);
+	}
+
+	@Override
+	public void updateItemStockOutToNull(String itemCode) {
+		sqlSession.update(namespace + ".updateItemStockOutToNull", itemCode);
+	}
+
+	// -------------------------------------------
+	// workorder
+	@Override
+	public List<ItemDTO> selectItemNamesAndStockByBizNumberStartingWith(String bizNumber) {
+		return sqlSession.selectList(namespace + ".selectItemNamesAndStockByBizNumberStartingWith", bizNumber);
 	}
 }

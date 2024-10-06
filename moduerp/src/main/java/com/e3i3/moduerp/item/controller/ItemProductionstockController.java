@@ -16,30 +16,30 @@ import com.e3i3.moduerp.item.model.service.ItemProductionstockService;
 @RequestMapping("/")
 public class ItemProductionstockController {
 
-	@Autowired
-	private ItemProductionstockService itemService;
+    @Autowired
+    private ItemProductionstockService itemService;
 
-	@RequestMapping(value = "/productionInCreate.do", method = RequestMethod.GET)
-	public String showProductionStockInCreatePage(HttpSession session, Model model) {
-		String bizNumber = (String) session.getAttribute("biz_number");
+    @RequestMapping(value = "/productionInCreate.do", method = RequestMethod.GET)
+    public String showProductionStockInCreatePage(HttpSession session, Model model) {
+        String bizNumber = (String) session.getAttribute("biz_number");
+        
+        // ¼¼¼Ç¿¡ ÀúÀåµÈ »ç¾÷ÀÚ¹øÈ£ ·Î±× Ãâ·Â
+        System.out.println("·Î±×ÀÎÇÑ »ç¿ëÀÚÀÇ »ç¾÷ÀÚ¹øÈ£: " + bizNumber);
+        
+        if (bizNumber != null) {
+            // biz_number·Î item_name ¸ñ·ÏÀ» °¡Á®¿È
+            List<String> itemNames = itemService.getItemNamesByBizNumber(bizNumber);
+            // biz_number·Î stock_place ¸ñ·ÏÀ» °¡Á®¿È
+            List<String> stockPlaces = itemService.getStockPlacesByBizNumber(bizNumber);
 
-		// ì„¸ì…˜ì— ì €ì¥ëœ ì‚¬ì—…ìë²ˆí˜¸ ë¡œê·¸ ì¶œë ¥
-		System.out.println("ë¡œê·¸ì¸í•œ ì‚¬ìš©ìì˜ ì‚¬ì—…ìë²ˆí˜¸: " + bizNumber);
-
-		if (bizNumber != null) {
-			// biz_numberë¡œ item_name ëª©ë¡ì„ ê°€ì ¸ì˜´
-			List<String> itemNames = itemService.getItemNamesByBizNumber(bizNumber);
-			// biz_numberë¡œ stock_place ëª©ë¡ì„ ê°€ì ¸ì˜´
-			List<String> stockPlaces = itemService.getStockPlacesByBizNumber(bizNumber);
-
-			// ì¿¼ë¦¬ ê²°ê³¼ ë¡œê·¸ ì¶œë ¥
-			System.out.println("ì¡°íšŒëœ itemNames: " + itemNames);
-			System.out.println("ì¡°íšŒëœ stockPlaces: " + stockPlaces);
-
-			// JSPë¡œ ì „ë‹¬í•  ëª¨ë¸ ì¶”ê°€
-			model.addAttribute("itemNames", itemNames);
-			model.addAttribute("stockPlaces", stockPlaces);
-		}
-		return "productionStock/productionStockInCreate"; // JSP íŒŒì¼ ì´ë¦„
-	}
+            // Äõ¸® °á°ú ·Î±× Ãâ·Â
+            System.out.println("Á¶È¸µÈ itemNames: " + itemNames);
+            System.out.println("Á¶È¸µÈ stockPlaces: " + stockPlaces);
+            
+            // JSP·Î Àü´ŞÇÒ ¸ğµ¨ Ãß°¡
+            model.addAttribute("itemNames", itemNames);
+            model.addAttribute("stockPlaces", stockPlaces);
+        }
+        return "productionStock/productionStockInCreate"; // JSP ÆÄÀÏ ÀÌ¸§
+    }
 }

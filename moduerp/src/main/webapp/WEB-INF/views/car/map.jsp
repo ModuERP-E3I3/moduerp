@@ -11,11 +11,11 @@
 <style type="text/css">
 
 .top-content-box {
-    width: 96%; /* 화면에 가득 차지 않게 */
+    width: 80%; /* 화면에 가득 차지 않게 */
     height: 6vh;
-    position: relative; /* 화면의 절대 위치로 변경 */
+     position: absolute; /* 화면의 절대 위치로 변경 */
     right: 0; /* 화면의 오른쪽에 위치 */
-    top: 0.1%; /* 위쪽에서 20% 지점에 배치, 필요 시 조정 가능 */
+    top: 1%; /* 위쪽에서 20% 지점에 배치, 필요 시 조정 가능 */
     background-color: white;
     margin-left: 1%;
     margin-right: 1%;
@@ -30,35 +30,6 @@
     font-size: 30px;
     font-weight: bold;
 }
-
-.point {
-	width: 14%;
-	background-color: #fff;
-	padding: 10px;
-	border: 1px solid #ddd;
-	border-radius: 8px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	float: left; /* point를 맵 오른쪽으로 배치 */
-	margin-left: 20px; /* 맵과 point 사이 간격 */
-}
-
-.point ul {
-	padding: 0;
-	margin: 0;
-}
-
-.point li {
-	list-style: none;
-	margin-bottom: 5px;
-	display: flex;
-	align-items: center;
-	font-weight: 800;
-}
-
-.point li img {
-	margin-right: 10px;
-}
-
 /* ul의 기본 스타일 제거 */
 #menubar {
     list-style: none; /* 기본 list-style 없애기 */
@@ -90,16 +61,16 @@
 
     /* 하얀 박스 스타일 */
     .content-box {
-    width: 96%; /* 너비를 필요에 따라 조정 가능 */
+    width: 80%; /* 너비를 필요에 따라 조정 가능 */
     height: 70vh; /* 화면 높이의 70% */
     background-color: white;
     margin-left: 1%;
     margin-right: 1%;
-    margin-top: 3%;
+    margin-top: 2%;
     border: 1px solid #ccc;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    position: relative; /* 화면의 절대 위치로 변경 */
+    position: absolute; /* 화면의 절대 위치로 변경 */
     right: 0; /* 화면의 오른쪽에 위치 */
     top: 20%; /* 위쪽에서 20% 지점에 배치, 필요 시 조정 가능 */
     padding: 20px;
@@ -112,7 +83,7 @@
         top: -40px;
         left: 20px;
         font-size: 24px;
-        color: white; 
+        color: block; 
         font-weight: bold;
          
     }
@@ -183,18 +154,6 @@
     	background-color: white;
     	
     }
-    #startaddr{
-    	color : black;
-    	font-weight : 700;
-    	background-color : white;
-    	width : 100px;
-    	height : 4%;
-    	text-align : right;
-    	position : relative;
-    	left : 37.8%;
-    	/* top : 74.2%; */
-    	top: 50%;
-    }
 
 </style>
 
@@ -219,29 +178,10 @@
         <div class="content-title">차량 | 생산입고</div>
 
         <div id="maphtml">
-        	<div class="point">
-			<ul>
-				<li><img src="/moduerp/resources/images/pointgreen.png"
-				alt="pointgreen"> 원활</li>
-				<li><img src="/moduerp/resources/images/pointyellow.png"
-				alt="pointyellow"> 보통</li>
-				<li><img src="/moduerp/resources/images/pointorange.png"
-				alt="pointorange"> 혼잡</li>
-				<li><img src="/moduerp/resources/images/pointred.png"
-				alt="pointred"> 포화</li>
-			</ul>
-			</div>
-			<c:import url="mapapi.html" charEncoding="UTF-8" />
+			<c:import url="mapapi.html" />
 			<%-- <%@ include file="mapapi.html"%> --%>
-			<!-- <div id="startaddr">
-			출발지 입력
-		</div> -->
 		</div>
 		
-	<!-- 	<div id="endaddr">
-		도착지 입력
-		</div>
-		 -->
 		
         
 

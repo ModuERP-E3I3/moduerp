@@ -23,23 +23,23 @@ public class ItemSalesStockController {
     public String showSalesStockInCreatePage(HttpSession session, Model model) {
         String bizNumber = (String) session.getAttribute("biz_number");
         
-        // ì„¸ì…˜ì— ì €ì¥ëœ ì‚¬ì—…ìë²ˆí˜¸ ë¡œê·¸ ì¶œë ¥
-        System.out.println("ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú¹ï¿½È£: " + bizNumber);
+        // ¼¼¼Ç¿¡ ÀúÀåµÈ »ç¾÷ÀÚ¹øÈ£ ·Î±× Ãâ·Â
+        System.out.println("·Î±×ÀÎÇÑ »ç¿ëÀÚÀÇ »ç¾÷ÀÚ¹øÈ£: " + bizNumber);
         
         if (bizNumber != null) {
-        	 // biz_numberë¡œ item_name ëª©ë¡ì„ ê°€ì ¸ì˜´
+            // biz_number·Î item_name ¸ñ·ÏÀ» °¡Á®¿È
             List<String> itemNames = itemService.getItemNamesByBizNumber(bizNumber);
-         // biz_numberë¡œ stock_place ëª©ë¡ì„ ê°€ì ¸ì˜´
+            // biz_number·Î stock_place ¸ñ·ÏÀ» °¡Á®¿È
             List<String> stockPlaces = itemService.getStockPlacesByBizNumber(bizNumber);
 
-            // ì¿¼ë¦¬ ê²°ê³¼ ë¡œê·¸ ì¶œë ¥
-            System.out.println("ì¡°íšŒëœ itemNames: " + itemNames);
-            System.out.println("ì¡°íšŒëœ stockPlaces: " + stockPlaces);
+            // Äõ¸® °á°ú ·Î±× Ãâ·Â
+            System.out.println("Á¶È¸µÈ itemNames: " + itemNames);
+            System.out.println("Á¶È¸µÈ stockPlaces: " + stockPlaces);
             
-            // JSPë¡œ ì „ë‹¬í•  ëª¨ë¸ ì¶”ê°€
+            // JSP·Î Àü´ŞÇÒ ¸ğµ¨ Ãß°¡
             model.addAttribute("itemNames", itemNames);
             model.addAttribute("stockPlaces", stockPlaces);
         }
-        return "salesStock/salesStockInCreate";  // JSP íŒŒì¼ ì´ë¦„
+        return "salesStock/salesStockInCreate"; // JSP ÆÄÀÏ ÀÌ¸§
     }
 }

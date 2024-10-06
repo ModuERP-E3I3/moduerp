@@ -13,21 +13,6 @@ body {
     background-color: #223D38;
 }
 
-/* ModuERP 부분 호버 효과 제거 */
-.no-hover {
-    display: block;
-    color: white;
-    padding: 15px;
-    font-size: 20px;
-    text-align: left;
-}
-
-.no-hover:hover {
-    background-color: transparent; /* 호버 시 배경색 변하지 않도록 설정 */
-    cursor: default; /* 커서가 변경되지 않도록 설정 */
-}
-
-
 /* 왼쪽 사이드바 */
 nav.side {
     font-weight: bold;
@@ -113,7 +98,6 @@ nav.side ul li a.active {
         <li><a href="<c:url value='/logout.do' />"><i class="fas fa-sign-out-alt"></i>로그아웃</a></li>
     </ul>
 </nav>
-
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

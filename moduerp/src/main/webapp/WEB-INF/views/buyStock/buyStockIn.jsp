@@ -160,7 +160,6 @@
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	        <li><a href="purchaseorders.do"><i class="fas fa-bullhorn"></i> 발주서관리</a></li>
 	        <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
 			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
 			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 배송 조회</a></li>
@@ -194,27 +193,25 @@
                     <th>거래처</th>
                     <th>품목코드</th>
                     <th>품명</th>
-                    <th>입고 날짜</th>
                     <th>입고 수량</th>
                     <th>재고 수량</th>
-                    <th>입고 장소</th>
+                    <th>단가</th>
                     <th>직원명</th>
-                    <th>발주서</th>                    
+                    <th>비고</th>                    
                 </tr>
             </thead>
             <tbody>
-			    <c:forEach var="buyStockIn" items="${stockList}">
-	 		        <tr>
+			    <c:forEach var="BuyStockIn" items="${stockList}">
+			        <tr>
 			            <td>${buyStockIn.bStockInId}</td>
-			            <td>${buyStockIn.accountNo}</td>
+			            <td>${buyStockIn.bStockInId}</td>
 			            <td>${buyStockIn.itemCode}</td>
-			            <td>${buyStockIn.bStockInId}</td>
 			            <td>${buyStockIn.bStockInDate}</td>
+			            <td>${buyStockIn.bStockPlace}</td>
 			            <td>${buyStockIn.bStockInQty}</td>
-			            <td>${buyStockIn.bStockInQty}</td>
-			            <td>${buyStockIn.bStockInPlace}</td>
+			            <td>${buyStockIn.bStockInId}</td>
 			            <td>${buyStockIn.empName}</td>
-			            <td>${buyStockIn.orderId}</td>
+			            <td>${buyStockIn.bStockInId}</td>
 			        </tr>
 			    </c:forEach>
 			</tbody>
@@ -230,7 +227,7 @@
 </body>
 
 <script>
-    const activeMenu = "purchaseorders";
+    const activeMenu = "buyStockIn";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

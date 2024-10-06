@@ -9,13 +9,33 @@ import com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO;
 @Repository
 public class WorkOrderDAOImpl implements WorkOrderDAO {
 
-    @Autowired
-    private SqlSession sqlSession;
+	@Autowired
+	private SqlSession sqlSession;
 
-    private static final String namespace = "WorkOrderMapper.";
+	private static final String namespace = "WorkOrderMapper";
 
-    @Override
-    public List<WorkOrderDTO> getAllWorkOrders() {
-        return sqlSession.selectList(namespace + "getAllWorkOrders");
-    }
+	@Override
+	public List<WorkOrderDTO> selectWorkOrdersByBizNumber(String bizNumber) {
+		return sqlSession.selectList(namespace + ".selectWorkOrdersByBizNumber", bizNumber);
+	}
+
+	@Override
+	public WorkOrderDTO getWorkOrderByOrderNumber(String orderNumber) {
+		return sqlSession.selectOne(namespace + ".getWorkOrderByOrderNumber", orderNumber);
+	}
+
+	@Override
+	public List<String> getWorkerTeamsByBizNumber(String bizNumber) {
+		return sqlSession.selectList(namespace + ".getWorkerTeamsByBizNumber", bizNumber);
+	}
+
+	@Override
+	public List<String> getWorkPlacesByBizNumber(String bizNumber) {
+		return sqlSession.selectList(namespace + ".getWorkPlacesByBizNumber", bizNumber);
+	}
+
+	@Override
+	public void insertWorkOrder(WorkOrderDTO workOrderDTO) {
+		sqlSession.insert(namespace + ".insertWorkOrder", workOrderDTO);
+	}
 }

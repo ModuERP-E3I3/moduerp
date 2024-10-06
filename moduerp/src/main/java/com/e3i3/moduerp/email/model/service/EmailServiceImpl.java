@@ -24,37 +24,21 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public List<Email> selectEmailsByRecipient(String recipientUUID) {
-        return emailDao.selectEmailsByRecipient(recipientUUID);
+    public List<Email> selectEmailsByRecipient(String recipientEmail) {
+        return emailDao.selectEmailsByRecipient(recipientEmail);
     }
 
     @Override
-    public List<Email> selectEmailsBySender(String senderUUID) {
-        return emailDao.selectEmailsBySender(senderUUID);
+    public List<Email> selectEmailsBySender(String senderEmail) {
+        return emailDao.selectEmailsBySender(senderEmail);
     }
 
     @Override
-    public List<Email> selectEmailsByUser(String userUUID) {
-        return emailDao.selectEmailsByUser(userUUID);
+    public List<Email> selectEmailsByUser(String userEmail) {
+        return emailDao.selectEmailsByUser(userEmail);
     }
-
     @Override
     public Email selectEmailById(Long emailId) {
         return emailDao.selectEmailById(emailId);
     }
-
-    @Override
-    public Email updateReadStatus(Long emailId) {
-        return emailDao.updateReadStatus(emailId);
-    }
-
-    @Override
-    public void updateReadStatusBatch(List<Long> emailIds) {
-        emailDao.updateReadStatusBatch(emailIds);
-    }
-    @Override
-    public void deleteEmailsBatch(List<Long> emailIds) {
-        emailDao.deleteEmailsBatch(emailIds);  // DAO 메서드 호출
-    }
-
 }
