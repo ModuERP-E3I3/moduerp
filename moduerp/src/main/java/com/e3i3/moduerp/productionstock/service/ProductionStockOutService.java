@@ -17,4 +17,8 @@ public interface ProductionStockOutService {
 
 	// itemCode에 따른 총 출고 수량 구하기
 	int getTotalStockOutByItemCode(String itemCode);
+
+	void deleteProductionStockOut(String pStockOutId);
+
+	ProductionStockOutDTO getMostRecentStockOutDetails(String itemCode);
 }

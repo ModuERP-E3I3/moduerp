@@ -152,18 +152,51 @@
 	<update id="updateStockOut">
 		UPDATE ITEM
 		SET STOCK_OUT = #{totalStockOut}
-		WHERE ITEM_CODE = #{itemCode}
+		WHERE
+		ITEM_CODE = #{itemCode}
 	</update>
 
 	<!-- STOCK_IN 값 가져오기 쿼리 -->
 	<select id="getStockInByItemCode" resultType="int">
-		SELECT STOCK_IN FROM ITEM WHERE ITEM_CODE = #{itemCode}
+		SELECT STOCK_IN
+		FROM ITEM WHERE ITEM_CODE = #{itemCode}
 	</select>
 
 	<!-- STOCK 업데이트 쿼리 -->
 	<update id="updateStock">
 		UPDATE ITEM
 		SET STOCK = #{updatedStock}
+		WHERE ITEM_CODE
+		= #{itemCode}
+	</update>
+
+	<!-- ITEM 테이블의 CREATED_OUT_AT, OUT_PRICE, STOCK_OUT_PLACE 업데이트 -->
+	<update id="updateItemWithLatestStockOut" parameterType="map">
+		UPDATE
+		ITEM
+		SET CREATED_OUT_AT = #{latestOutDate},
+		OUT_PRICE =
+		#{latestOutPrice},
+		STOCK_OUT_PLACE = #{latestOutPlace}
+		WHERE ITEM_CODE =
+		#{itemCode}
+	</update>
+
+	<!-- 출고 기록이 없을 경우 null로 초기화하는 쿼리 -->
+	<update id="resetItemStockOutDetails" parameterType="String">
+		UPDATE ITEM
+		SET CREATED_OUT_AT = NULL,
+		OUT_PRICE = NULL,
+		STOCK_OUT_PLACE = NULL
+		WHERE ITEM_CODE = #{itemCode}
+	</update>
+	
+	<update id="updateItemStockOutToNull">
+		UPDATE ITEM
+		SET STOCK_OUT = 0,
+		OUT_PRICE = NULL,
+		STOCK_OUT_PLACE = NULL,
+		CREATED_OUT_AT = NULL
 		WHERE ITEM_CODE = #{itemCode}
 	</update>
 

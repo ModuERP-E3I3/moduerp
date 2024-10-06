@@ -221,20 +221,58 @@ public class ProductionstockOutController {
 		// 데이터베이스 업데이트 로직 호출
 		productionStockOutService.updateProductionStockOut(productionStockOutDTO);
 
-		
 		// 1. PRODUCTION_STOCK_OUT 테이블에서 동일한 itemCode에 대한 P_STOCK_OUT_QTY 합계 구하기
-	    int totalStockOut = productionStockOutService.getTotalStockOutByItemCode(itemCode);
+		int totalStockOut = productionStockOutService.getTotalStockOutByItemCode(itemCode);
 
-	    // 2. ITEM 테이블의 STOCK_OUT 컬럼 업데이트
-	    itemProductionstockService.updateItemStockOutTotal(itemCode, totalStockOut);
+		// 2. ITEM 테이블의 STOCK_OUT 컬럼 업데이트
+		itemProductionstockService.updateItemStockOutTotal(itemCode, totalStockOut);
 
-	    // 3. ITEM 테이블에서 STOCK_IN - STOCK_OUT 계산 후 STOCK 업데이트
-	    int stockIn = itemProductionstockService.getStockInByItemCode(itemCode);
-	    int updatedStock = stockIn - totalStockOut;
-	    itemProductionstockService.updateItemStock(itemCode, updatedStock);
-	    
+		// 3. ITEM 테이블에서 STOCK_IN - STOCK_OUT 계산 후 STOCK 업데이트
+		int stockIn = itemProductionstockService.getStockInByItemCode(itemCode);
+		int updatedStock = stockIn - totalStockOut;
+		itemProductionstockService.updateItemStock(itemCode, updatedStock);
+
 		// 수정 완료 후 출고 목록 페이지로 리다이렉트
 		return "redirect:/productionStockOut.do";
 	}
+
+	@PostMapping("/deleteProductionStockOut.do")
+	public String deleteProductionStockOut(@RequestParam("pStockOutId") String pStockOutId,
+	                                      @RequestParam("itemCode") String itemCode) {
+	    // 1. PRODUCTION_STOCK_OUT 테이블에서 pStockOutId에 맞는 데이터 삭제
+	    productionStockOutService.deleteProductionStockOut(pStockOutId);
+
+	    // 2. PRODUCTION_STOCK_OUT 테이블에서 동일한 itemCode에 대한 P_STOCK_OUT_QTY 합계 구하기
+	    int totalStockOut = productionStockOutService.getTotalStockOutByItemCode(itemCode);
+
+	    // 3. ITEM 테이블의 STOCK_OUT 컬럼 업데이트
+	    itemProductionstockService.updateItemStockOutTotal(itemCode, totalStockOut);
+
+	    // 4. ITEM 테이블에서 STOCK_IN - STOCK_OUT 계산 후 STOCK 업데이트
+	    int stockIn = itemProductionstockService.getStockInByItemCode(itemCode);
+	    int updatedStock = stockIn - totalStockOut;
+	    itemProductionstockService.updateItemStock(itemCode, updatedStock);
+
+	    // 5. PRODUCTION_STOCK_OUT 테이블에서 가장 최근의 P_STOCK_OUT_DATE, P_STOCK_OUT_PRICE, P_STOCK_OUT_PLACE 가져오기
+	    ProductionStockOutDTO recentStockOut = productionStockOutService.getMostRecentStockOutDetails(itemCode);
+
+	    if (recentStockOut != null) {
+	        // 최근 출고 내역이 있을 경우
+	        // Date를 Timestamp로 변환 (필요한 경우)
+	        Timestamp latestOutDate = new Timestamp(recentStockOut.getpStockOutDate().getTime());
+
+	        // 6. ITEM 테이블의 CREATED_OUT_AT, OUT_PRICE, STOCK_OUT_PLACE 업데이트
+	        itemProductionstockService.updateItemWithLatestStockOut(itemCode, latestOutDate,
+	                recentStockOut.getpStockOutPrice(), recentStockOut.getpStockOutPlace());
+	    } else {
+	        // 7. PRODUCTION_STOCK_OUT 테이블에 데이터가 없으면 ITEM 테이블의 STOCK_OUT, OUT_PRICE, STOCK_OUT_PLACE, CREATED_OUT_AT 컬럼을 초기화
+	        itemProductionstockService.resetItemStockOut(itemCode);
+	    }
+
+	    // 8. 수정이 완료된 후 출고 목록 페이지로 리다이렉트
+	    return "redirect:/productionStockOut.do";
+	}
+
+
 
 }

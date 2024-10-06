@@ -1,5 +1,6 @@
 package com.e3i3.moduerp.item.model.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,5 +90,32 @@ public class ItemProductionstockServiceImpl implements ItemProductionstockServic
 	@Override
 	public void updateItemStock(String itemCode, int updatedStock) {
 		itemProductionstockDAO.updateStockByItemCode(itemCode, updatedStock);
+	}
+
+	@Override
+	public void updateItemCreatedOutAt(String itemCode, Timestamp createdOutAt) {
+		itemProductionstockDAO.updateItemCreatedOutAt(itemCode, createdOutAt);
+	}
+
+	@Override
+	public void updateItemOutPrice(String itemCode, double outPrice) {
+		itemProductionstockDAO.updateItemOutPrice(itemCode, outPrice);
+	}
+
+	@Override
+	public void updateItemWithLatestStockOut(String itemCode, Timestamp latestOutDate, double latestOutPrice,
+			String latestOutPlace) {
+		itemProductionstockDAO.updateItemWithLatestStockOut(itemCode, latestOutDate, latestOutPrice, latestOutPlace);
+	}
+
+	@Override
+	public void resetItemStockOutDetails(String itemCode) {
+		itemProductionstockDAO.resetItemStockOutDetails(itemCode);
+	}
+
+	@Override
+	public void resetItemStockOut(String itemCode) {
+		// DAO를 통해 ITEM 테이블을 업데이트하는 로직
+		itemProductionstockDAO.updateItemStockOutToNull(itemCode);
 	}
 }

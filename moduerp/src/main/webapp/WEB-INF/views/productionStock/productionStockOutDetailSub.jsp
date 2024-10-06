@@ -288,7 +288,9 @@ th {
 			<p>삭제된 데이터는 복구할 수 없습니다.</p>
 			<!-- 삭제 버튼을 포함하는 폼 추가 -->
 			<form action="deleteProductionStockOut.do" method="POST">
-				<input type="hidden" name="itemCode" value="${itemDetails.itemCode}">
+				<input type="hidden" name="itemCode" value="${itemDetailsSub.itemCode}">
+				<input type="hidden" name="pStockOutId"
+					value="${productionStockOutDetailsSub.pStockOutId}">
 				<!-- itemCode를 숨겨진 필드로 전달 -->
 				<button type="submit" class="go-delete">삭제</button>
 				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>
