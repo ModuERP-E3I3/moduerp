@@ -201,6 +201,8 @@ th {
 						<td><input list="itemNames" name="itemName"
 							id="itemNameInput" placeholder="품목 이름 선택" required
 							onchange="updateItemCode()" /> <datalist id="itemNames">
+								<option value="==========">==========</option>
+
 								<c:forEach var="item" items="${itemList}">
 									<c:if test="${item.stock > 0}">
 										<option value="${item.itemName} 재고 : ${item.stock}"
@@ -208,8 +210,11 @@ th {
 									</c:if>
 								</c:forEach>
 
+								<option value="==========">==========</option>
 							</datalist> <input type="hidden" name="itemCode" id="itemCodeInput" /> <!-- itemCode를 담을 숨겨진 입력 필드 -->
 						</td>
+
+
 
 						<td><input type="date" name="createdOutAt" required /></td>
 						<td><input list="stockOutPlaces" name="stockOutPlace"
@@ -232,6 +237,40 @@ th {
 		<!-- 폼 끝 -->
 	</div>
 </body>
+<script>
+    document.getElementById('itemNameInput').addEventListener('input', function() {
+        // "=========="가 선택된 경우 값을 비워서 선택되지 않게 함
+        if (this.value === '==========') {
+            this.value = ''; // 선택을 방지하기 위해 값을 비움
+        }
+    });
+</script>
+
+<script>
+    function updateItemCode() {
+        var input = document.getElementById('itemNameInput');
+        var datalist = document.getElementById('itemNames');
+        var options = datalist.getElementsByTagName('option');
+        var valid = false;
+
+        // 사용자가 선택한 값과 일치하는 값이 있는지 확인
+        for (var i = 0; i < options.length; i++) {
+            if (options[i].value === input.value) {
+                valid = true;
+                break;
+            }
+        }
+
+        // 유효하지 않은 값이면 경고창 띄우고 입력 필드 비우기
+        if (!valid) {
+            alert("유효한 항목을 선택하세요.");
+            input.value = ''; // 입력된 값 제거
+        }
+    }
+
+    // 사용자가 포커스를 벗어날 때 updateItemCode 함수 실행
+    document.getElementById('itemNameInput').addEventListener('blur', updateItemCode);
+</script>
 
 <script>
 function updateItemCode() {
