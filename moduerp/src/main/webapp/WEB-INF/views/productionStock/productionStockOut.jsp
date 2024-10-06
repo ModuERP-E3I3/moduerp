@@ -145,6 +145,24 @@ th {
 .top-content-box {
 	background-color: white;
 }
+
+#pagebutton {
+	display: flex;
+	justify-content: center;
+	margin-top: 5%; /* 위쪽 여백 추가 */
+}
+
+#pagebutton a {
+	color: black; /* 글자 색상 검은색 */
+	text-decoration: none; /* 밑줄 제거 */
+	font-size: 20px; /* 글자 크기 증가 */
+	margin: 0 10px; /* 페이지 버튼 간격 조정 */
+}
+
+#pagebutton strong {
+	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
+	color: black; /* 강조 색상 검은색 유지 */
+}
 </style>
 
 </head>
@@ -193,6 +211,7 @@ th {
 					<th>제품명</th>
 					<th>최종 출고 일자</th>
 					<th>총 출고 수량</th>
+					<th>재고 수량</th>
 					<th>최종 출고 장소</th>
 					<th>최종 출고 단가</th>
 				</tr>
@@ -206,6 +225,7 @@ th {
 						<td><fmt:formatDate value="${item.createdOutAt}"
 								pattern="yyyy-MM-dd" /></td>
 						<td>${item.stockOut}</td>
+						<td>${item.stock}</td>
 						<td>${item.stockOutPlace}</td>
 						<td>${item.outPrice}</td>
 					</tr>
@@ -214,6 +234,23 @@ th {
 
 
 		</table>
+		<!-- 페이지 버튼 -->
+		<div id="pagebutton">
+			<c:if test="${totalPages > 1}">
+				<c:forEach var="i" begin="1" end="${totalPages}">
+					<c:choose>
+						<c:when test="${i == currentPage}">
+							<strong>${i}</strong>
+							<!-- 현재 페이지는 강조 -->
+						</c:when>
+						<c:otherwise>
+							<a href="productionStockOut.do?page=${i}">${i}</a>
+							<!-- 페이지 링크 -->
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</c:if>
+		</div>
 
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
