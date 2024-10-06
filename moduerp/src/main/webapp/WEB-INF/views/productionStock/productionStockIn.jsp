@@ -149,7 +149,7 @@ th {
 #pagebutton {
 	display: flex;
 	justify-content: center;
-	margin-top: 5%; /* 위쪽 여백 추가 */
+	margin-top: 2%; /* 위쪽 여백 추가 */
 }
 
 #pagebutton a {
