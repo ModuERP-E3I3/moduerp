@@ -49,4 +49,8 @@ public interface ItemProductionstockService {
 	void resetItemStockOutDetails(String itemCode);
 
 	void resetItemStockOut(String itemCode);
+
+	// --------------------------------------------
+	// workorder
+	List<ItemDTO> getItemNamesAndStockByBizNumberStartingWith(String bizNumber);
 }

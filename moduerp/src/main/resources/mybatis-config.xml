@@ -66,6 +66,7 @@
 		<mapper resource="mappers/account-mapper.xml" />
 
 		<mapper resource="mappers/item-productionstock-mapper.xml" />
+		<mapper resource="mappers/employee-production-mapper.xml" />
 
 	</mappers>
 

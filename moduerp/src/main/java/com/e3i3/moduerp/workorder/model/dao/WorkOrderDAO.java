@@ -4,5 +4,13 @@ import java.util.List;
 import com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO;
 
 public interface WorkOrderDAO {
-    List<WorkOrderDTO> getAllWorkOrders();
+	List<WorkOrderDTO> selectWorkOrdersByBizNumber(String bizNumber);
+
+	WorkOrderDTO getWorkOrderByOrderNumber(String orderNumber);
+
+	List<String> getWorkerTeamsByBizNumber(String bizNumber);
+
+	List<String> getWorkPlacesByBizNumber(String bizNumber);
+
+	void insertWorkOrder(WorkOrderDTO workOrderDTO);
 }

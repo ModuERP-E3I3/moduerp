@@ -135,4 +135,10 @@ public class ItemProductionstockDAOImpl implements ItemProductionstockDAO {
 		sqlSession.update(namespace + ".updateItemStockOutToNull", itemCode);
 	}
 
+	// -------------------------------------------
+	// workorder
+	@Override
+	public List<ItemDTO> selectItemNamesAndStockByBizNumberStartingWith(String bizNumber) {
+		return sqlSession.selectList(namespace + ".selectItemNamesAndStockByBizNumberStartingWith", bizNumber);
+	}
 }

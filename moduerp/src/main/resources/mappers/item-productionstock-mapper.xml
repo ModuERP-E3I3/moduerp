@@ -190,14 +190,28 @@
 		STOCK_OUT_PLACE = NULL
 		WHERE ITEM_CODE = #{itemCode}
 	</update>
-	
+
 	<update id="updateItemStockOutToNull">
 		UPDATE ITEM
 		SET STOCK_OUT = 0,
 		OUT_PRICE = NULL,
 		STOCK_OUT_PLACE = NULL,
 		CREATED_OUT_AT = NULL
-		WHERE ITEM_CODE = #{itemCode}
+		WHERE ITEM_CODE =
+		#{itemCode}
 	</update>
+
+	<!-- =============================================== -->
+	<!-- workorder -->
+
+	<select id="selectItemNamesAndStockByBizNumberStartingWith"
+		parameterType="String" resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT ITEM_CODE, ITEM_NAME, STOCK
+		FROM ITEM
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'P%')
+	</select>
+
+
 
 </mapper>

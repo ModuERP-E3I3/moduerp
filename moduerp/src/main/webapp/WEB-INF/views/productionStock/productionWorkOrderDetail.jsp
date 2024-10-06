@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ERP Main | 작업지시서</title>
+<title>erpMain</title>
 
 <style type="text/css">
 .top-content-box {
@@ -144,6 +144,52 @@ th {
 .top-content-box {
 	background-color: white;
 }
+
+/* Modal Styles */
+#delete-modal {
+	display: none; /* 초기에는 보이지 않도록 설정 */
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%; /* 전체 화면 너비 */
+	height: 100%; /* 전체 화면 높이 */
+	background-color: rgba(0, 0, 0, 0.5); /* 배경 반투명 */
+	display: flex; /* 플렉스 박스를 사용하여 중앙 정렬 */
+}
+
+.modal-content {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	text-align: center;
+	width: 300px; /* 원하는 너비 */
+	position: relative;
+	margin: auto; /* 중앙 정렬을 위한 마진 */
+	margin-top: 20%;
+}
+
+.modal-content h2 {
+	margin-bottom: 20px;
+}
+
+.modal-content button {
+	padding: 10px 20px;
+	margin: 10px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.modal-content .go-delete {
+	background-color: red;
+	color: #fff;
+}
+
+.modal-content .stay-page {
+	background-color: gray;
+	color: #fff;
+}
 </style>
 
 </head>
@@ -172,7 +218,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 작업지시서</div>
+		<div class="content-title">생산관리 | 작업지시서 |</div>
 
 		<!-- 필터 박스 -->
 		<div class="filter-box">
@@ -188,51 +234,80 @@ th {
 		<table>
 			<thead>
 				<tr>
-					<th>지시서 번호</th>
 					<th>작업명</th>
-					<th>시작 날짜</th>
-					<th>종료 예정 날짜</th>
-					<th>작업 수량</th>
-					<th>진행 상태</th>
+					<th>시작날짜</th>
+					<th>종료날짜</th>
+					<th>작업수량</th>
+					<th>진행상태</th>
 					<th>작업팀</th>
 					<th>작업자</th>
-					<th>작업 장소</th>
+					<th>작업장소</th>
 					<th>지시자</th>
+
 				</tr>
 			</thead>
 			<tbody>
+				<tr>
+					<td>${workOrderDetails.taskName}</td>
+					<td><fmt:formatDate value="${workOrderDetails.startDate}"
+							pattern="yyyy-MM-dd HH:mm:ss" /></td>
+					<td><fmt:formatDate value="${workOrderDetails.endDate}"
+							pattern="yyyy-MM-dd HH:mm:ss" /></td>
+					<td>${workOrderDetails.qty}</td>
+					<td>${workOrderDetails.progressStatus}</td>
+					<td>${workOrderDetails.workerTeam}</td>
+					<td>${workOrderDetails.worker}</td>
+					<td>${workOrderDetails.workPlace}</td>
+					<td>${workOrderDetails.wDirector}</td>
 
 
+				</tr>
 
-				<c:forEach var="workOrder" items="${workOrderList}"
-					varStatus="status">
-					<tr onclick="window.location.href='getProductionWorkOrderDetails.do?orderNumber=${workOrder.orderNumber}'">
-						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<td>${workOrder.taskName}</td>
-						<td><fmt:formatDate value="${workOrder.startDate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
-						<td><fmt:formatDate value="${workOrder.endExDate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
-						<td>${workOrder.qty}</td>
-						<td>${workOrder.progressStatus}</td>
-						<td>${workOrder.workerTeam}</td>
-						<td>${workOrder.worker}</td>
-						<td>${workOrder.workPlace}</td>
-						<td>${workOrder.wDirector}</td>
-					</tr>
-
-				</c:forEach>
 			</tbody>
 
 		</table>
 
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
-			<a href="productionWorkOrderCreate.do"><button class="btn blue">등록</button></a>
+			<button class="btn red" onclick="openDeleteModal()">삭제</button>
+			<a
+				href="productionStockInDetailUpdate.do?itemCode=${itemDetails.itemCode}">
+				<button class="btn green">수정</button>
+			</a>
 		</div>
 
+
+
 	</div>
+	<!-- 삭제 확인 모달 -->
+	<div id="delete-modal" style="display: none;">
+		<div class="modal-content">
+			<h2>정말로 삭제하시겠습니까?</h2>
+			<p>삭제된 데이터는 복구할 수 없습니다.</p>
+			<!-- 삭제 버튼을 포함하는 폼 추가 -->
+			<form action="deleteProductionStockIn.do" method="POST">
+				<input type="hidden" name="itemCode" value="${itemDetails.itemCode}">
+				<!-- itemCode를 숨겨진 필드로 전달 -->
+				<button type="submit" class="go-delete">삭제</button>
+				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>
+			</form>
+		</div>
+	</div>
+
 </body>
+
+<script type="text/javascript">
+function openDeleteModal() {
+    document.getElementById('delete-modal').style.display = 'block';
+}
+
+function closeDeleteModal() {
+    document.getElementById('delete-modal').style.display = 'none';
+}
+
+
+
+</script>
 <script>
     const activeMenu = "productionStockIn";
 
@@ -245,4 +320,6 @@ th {
         });
     });
 </script>
+
+
 </html>

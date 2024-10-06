@@ -52,4 +52,7 @@ public interface ItemProductionstockDAO {
 
 	void updateItemStockOutToNull(String itemCode);
 
+	// -----------------------------------------------------
+	// workorder
+	List<ItemDTO> selectItemNamesAndStockByBizNumberStartingWith(String bizNumber);
 }

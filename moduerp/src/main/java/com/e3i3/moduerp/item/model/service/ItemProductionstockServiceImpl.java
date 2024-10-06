@@ -118,4 +118,12 @@ public class ItemProductionstockServiceImpl implements ItemProductionstockServic
 		// DAO를 통해 ITEM 테이블을 업데이트하는 로직
 		itemProductionstockDAO.updateItemStockOutToNull(itemCode);
 	}
+
+	// -----------------------------------------
+	// workorder
+
+	@Override
+	public List<ItemDTO> getItemNamesAndStockByBizNumberStartingWith(String bizNumber) {
+		return itemProductionstockDAO.selectItemNamesAndStockByBizNumberStartingWith(bizNumber);
+	}
 }
