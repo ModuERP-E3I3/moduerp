@@ -22,6 +22,8 @@ import com.e3i3.moduerp.email.model.service.EmailService;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 import com.e3i3.moduerp.employee.model.dto.EmployeeBasicInfo;
 import com.e3i3.moduerp.employee.model.service.EmployeeService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -51,34 +53,45 @@ public class EmailController {
 
 	@GetMapping(value = "/email/searchRecipient.do", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<List<EmployeeBasicInfo>> searchEmailsByBizNumber(@RequestParam("keyword") String keyword,
-			HttpSession session) {
-		System.out.println("Inside searchEmailsByBizNumber method...");
+	public String searchEmailsByBizNumber(@RequestParam("keyword") String keyword, HttpSession session) {
+		String loginUUID = (String) session.getAttribute("uuid");
 
-		String bizNumber = (String) session.getAttribute("biz_number");
-		System.out.println("Received Keyword: " + keyword);
-		System.out.println("Current User's BizNumber: " + bizNumber);
+		if (loginUUID == null) {
+			// 사용자가 로그인하지 않은 경우, 로그인 페이지로 리다이렉트
+			return "redirect:/"; // 로그인 페이지 URL로 변경 필요
+		}
+	    String bizNumber = (String) session.getAttribute("biz_number");
 
-		// 필요한 필드만 사용하여 새로운 DTO 리스트로 변환
-		List<EmployeeBasicInfo> result = employeeService.selectEmployeesByEmailAndBizNumber(keyword, bizNumber).stream()
-				.map(emp -> new EmployeeBasicInfo(emp.getEmpName(), emp.getEmpEmail())) // 필요한 정보만 DTO로 변환
-				.collect(Collectors.toList());
+	    List<EmployeeBasicInfo> result = employeeService.selectEmployeesByEmailAndBizNumber(keyword, bizNumber).stream()
+	            .map(emp -> new EmployeeBasicInfo(emp.getEmpName(), emp.getEmpEmail()))
+	            .collect(Collectors.toList());
 
-		System.out.println("Found Employees: " + result);
-
-		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(result);
+	    // ObjectMapper를 사용하여 리스트를 JSON 문자열로 변환
+	    ObjectMapper objectMapper = new ObjectMapper();
+	    try {
+	        return objectMapper.writeValueAsString(result);
+	    } catch (JsonProcessingException e) {
+	        e.printStackTrace();
+	        return "[]"; // 예외 발생 시 빈 배열 반환
+	    }
 	}
+
 
 	// 이메일 전송 처리
 	@PostMapping("/email/sending.do")
 	public String sendEmail(@ModelAttribute Email email, @RequestParam("file") MultipartFile file, HttpSession session,
 			HttpServletRequest request, Model model) throws IOException {
 		// 1. 로그인 유저의 이메일 주소와 UUID, 사업자번호 가져오기
-		String senderUUID = (String) session.getAttribute("uuid");
+		String loginUUID = (String) session.getAttribute("uuid");
+
+		if (loginUUID == null) {
+			// 사용자가 로그인하지 않은 경우, 로그인 페이지로 리다이렉트
+			return "redirect:/"; // 로그인 페이지 URL로 변경 필요
+		}
 		String senderEmail = (String) session.getAttribute("email");
 		String bizNumber = (String) session.getAttribute("biz_number"); // 사업자번호 가져오기
 
-		email.setSenderUUID(senderUUID);
+		email.setSenderUUID(loginUUID);
 		email.setSenderEmail(senderEmail);
 
 		// 2. 수신자의 이메일로 UUID 조회 (EmployeeService를 사용하여 조회)
@@ -118,7 +131,7 @@ public class EmailController {
 				}
 
 				// 새로운 파일명 생성 (첨부한 사람의 UUID + "_" + 파일명)
-				String newFilename = senderUUID + "_" + originalFilename;
+				String newFilename = loginUUID + "_" + originalFilename;
 
 				// 파일 저장 경로 설정 시 File.separator 사용
 				String uploadDir = this.uploadDir.replace("/", File.separator).replace("\\", File.separator);
@@ -178,9 +191,14 @@ public class EmailController {
 	// 받은 이메일 목록 조회
 	@GetMapping("/email/inbox.do")
 	public String inbox(Model model, HttpSession session) {
-		String recipientUUID = (String) session.getAttribute("uuid"); // 로그인한 유저의 UUID를 세션에서 가져옴
-		if (recipientUUID != null && !recipientUUID.isEmpty()) {
-			List<Email> emails = emailService.selectEmailsByRecipient(recipientUUID);
+		String loginUUID = (String) session.getAttribute("uuid");
+
+		if (loginUUID == null) {
+			// 사용자가 로그인하지 않은 경우, 로그인 페이지로 리다이렉트
+			return "redirect:/"; // 로그인 페이지 URL로 변경 필요
+		}
+		if (loginUUID != null && !loginUUID.isEmpty()) {
+			List<Email> emails = emailService.selectEmailsByRecipient(loginUUID);
 			model.addAttribute("emails", emails);
 		}
 		return "email/inbox"; // 받은 편지함 페이지 뷰 이름
@@ -189,9 +207,14 @@ public class EmailController {
 	// 보낸 이메일 목록 조회
 	@GetMapping("/email/sent.do")
 	public String showSentEmails(Model model, HttpSession session) {
-		String senderUUID = (String) session.getAttribute("uuid"); // 로그인한 유저의 UUID를 세션에서 가져옴
-		if (senderUUID != null && !senderUUID.isEmpty()) {
-			List<Email> emails = emailService.selectEmailsBySender(senderUUID);
+		String loginUUID = (String) session.getAttribute("uuid");
+
+		if (loginUUID == null) {
+			// 사용자가 로그인하지 않은 경우, 로그인 페이지로 리다이렉트
+			return "redirect:/"; // 로그인 페이지 URL로 변경 필요
+		}
+		if (loginUUID != null && !loginUUID.isEmpty()) {
+			List<Email> emails = emailService.selectEmailsBySender(loginUUID);
 			model.addAttribute("emails", emails);
 		}
 		return "email/sent"; // sent.jsp 페이지로 데이터 전달
