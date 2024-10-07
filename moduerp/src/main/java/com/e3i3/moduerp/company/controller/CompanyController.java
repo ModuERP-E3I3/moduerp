@@ -41,94 +41,93 @@ public class CompanyController {
       return "company/signup";
    }
 
-   // 2. 회사 등록 및 부서와 직원 정보 등록
    @PostMapping("/register.do")
    public String registerCompany(@RequestParam("bizNumber") String bizNumber,
-            @RequestParam("approvalCode") String approvalCode,
-            @RequestParam("companyName") String companyName,
-            @RequestParam("email") String email,
-            @RequestParam("password") String password,
-            @RequestParam("fileUpload") MultipartFile file,
-            Model model) {
+                                 @RequestParam("companyName") String companyName,
+                                 @RequestParam("email") String email,
+                                 @RequestParam("password") String password,
+                                 @RequestParam("fileUpload") MultipartFile file,
+                                 Model model) {
        try {
-      // 1) 회사 정보 생성 및 저장
-      Company company=new Company()
-            .setBizNumber(bizNumber)
-            .setApprovalCode(approvalCode)
-            .setCompanyName(companyName)
-              .setCreatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
-      
-      
-      companyService.insertCompany(company);
-      
-      
-         // 2) 엑셀파일에서 부서 정보 및 직원 정보 파싱하여 저장
-      	 Workbook workbook = new XSSFWorkbook(file.getInputStream());
-         List<Department> departments=ExcelParser.parseDepartments(workbook , bizNumber);
-         List<Employee> employees = ExcelParser.parseEmployees(workbook , company, departments);
-         workbook.close();
-         
-         // 3) 부서 및 직원 정보 저장
-         for(Department department: departments) {
-             System.out.println("Department ID: " + department.getDepartmentId() + ", Name: " + department.getDepartmentName());
-            departmentService.insertDepartment(department);
-         }
-          // 암호화된 비밀번호 생성
-           String encodedPassword = bcryptPasswordEncoder.encode(password);
-         
-         // 사장님 정보도 직원 테이블에 저장
-         Employee ceo=new Employee()
-                   .setUuid(java.util.UUID.randomUUID())
-                       .setBizNumber(bizNumber)
-                       .setApprovalCode(approvalCode)
-                       .setDepartmentId("ceo-dpt")
-                       .setIsDeleted('N')
-                       .setPrivateAuthority('N')
-                       .setLastLoginLocation("default")
-                       .setIsEmailChanged('N')
-                       .setEmpEmail(email)
-                       .setPassword(encodedPassword) //암호화된 비밀번호 설정
-                       .setEmpNo(bizNumber+"_CEO")
-                       .setEmpName(bizNumber+"_CEO")
-                       .setProfileImg(null)
-                       .setRegistrationDate(new java.sql.Date(System.currentTimeMillis()));
-         
-         employees.add(ceo);
-         
-         for(Employee employee: employees) {
-            // 직원 정보 저장 시 암호 필드 설정
-            if(employee.getPassword()==null || employee.getPassword().isEmpty()) {
-                 employee.setPassword(encodedPassword); // 기본 암호 설정
-            }
-            if (employee.getDepartmentId() == null || employee.getDepartmentId().isEmpty()) {
-                employee.setDepartmentId("UNIQUE_DEPT_ID_" + UUID.randomUUID());  // 임시 부서 ID 할당
-            }
+           // 1) 승인코드 6자리 랜덤 생성
+           String approvalCode = String.format("%06d", (int)(Math.random() * 1000000));
 
-            try {
-                employeeService.insertEmployee(employee);
-            } catch (DuplicateKeyException e) {
-                System.out.println("중복된 departmentId로 인해 삽입 실패: " + employee.getDepartmentId());
-                // 로그 출력 후, 필요시 수정 로직 추가
-            }
-         }
-         
-         // 회원가입 성공 시 로그인 페이지로 이동
-           return "redirect:/signin.do";  // 절대 경로로 수정
-         
-       }catch (RuntimeException e) {
-              if (e.getMessage().contains("Company with the same bizNumber")) {
-                  model.addAttribute("message", "이미 동일한 사업자번호로 등록된 회사가 존재합니다.");
-                  return "company/error"; // 에러 페이지로 이동
-              }
-              e.printStackTrace();
-              model.addAttribute("message", "회사 등록 중 오류가 발생했습니다.");
-              return "company/error";
-      }catch(IOException e) {
-         e.printStackTrace();
-         model.addAttribute("message", "엑셀 파일 처리 중 오류가 발생했습니다.");
-         return "company/error";
-      }
+           // 2) 회사 정보 생성 및 저장
+           Company company = new Company()
+                   .setBizNumber(bizNumber)
+                   .setApprovalCode(approvalCode)
+                   .setCompanyName(companyName)
+                   .setCreatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
+
+           companyService.insertCompany(company);
+
+           // 3) 엑셀파일에서 부서 정보 및 직원 정보 파싱하여 저장
+           Workbook workbook = new XSSFWorkbook(file.getInputStream());
+           List<Department> departments = ExcelParser.parseDepartments(workbook, bizNumber);
+           List<Employee> employees = ExcelParser.parseEmployees(workbook, company, departments);
+           workbook.close();
+
+           // 4) 부서 및 직원 정보 저장
+           for (Department department : departments) {
+               departmentService.insertDepartment(department);
+           }
+
+           // 5) 비밀번호 암호화 처리
+           String encodedPassword = bcryptPasswordEncoder.encode(password);
+
+           // 6) 사장님 정보도 직원 테이블에 저장
+           Employee ceo = new Employee()
+                   .setUuid(java.util.UUID.randomUUID())
+                   .setBizNumber(bizNumber)
+                   .setApprovalCode(approvalCode)
+                   .setDepartmentId("ceo-dpt")
+                   .setIsDeleted('N')
+                   .setPrivateAuthority('N')
+                   .setLastLoginLocation("default")
+                   .setIsEmailChanged('N')
+                   .setEmpEmail(email)
+                   .setPassword(encodedPassword)
+                   .setEmpNo(bizNumber + "_CEO")
+                   .setEmpName(bizNumber + "_CEO")
+                   .setProfileImg(null)
+                   .setRegistrationDate(new java.sql.Date(System.currentTimeMillis()));
+
+           employees.add(ceo);
+
+           for (Employee employee : employees) {
+               if (employee.getPassword() == null || employee.getPassword().isEmpty()) {
+                   employee.setPassword(encodedPassword); // 기본 암호 설정
+               }
+               if (employee.getDepartmentId() == null || employee.getDepartmentId().isEmpty()) {
+                   employee.setDepartmentId("UNIQUE_DEPT_ID_" + UUID.randomUUID());
+               }
+
+               try {
+                   employeeService.insertEmployee(employee);
+               } catch (DuplicateKeyException e) {
+                   System.out.println("중복된 departmentId로 인해 삽입 실패: " + employee.getDepartmentId());
+               }
+           }
+
+           // 7) 승인코드 출력 페이지로 이동 (모델에 승인코드 추가)
+           model.addAttribute("approvalCode", approvalCode);
+           return "company/approvalCodeView";
+
+       } catch (RuntimeException e) {
+           if (e.getMessage().contains("Company with the same bizNumber")) {
+               model.addAttribute("message", "이미 동일한 사업자번호로 등록된 회사가 존재합니다.");
+               return "company/error";
+           }
+           e.printStackTrace();
+           model.addAttribute("message", "회사 등록 중 오류가 발생했습니다.");
+           return "company/error";
+       } catch (IOException e) {
+           e.printStackTrace();
+           model.addAttribute("message", "엑셀 파일 처리 중 오류가 발생했습니다.");
+           return "company/error";
+       }
    }
+
 
    // 2. 회사 수정
    @PutMapping("/update.do")

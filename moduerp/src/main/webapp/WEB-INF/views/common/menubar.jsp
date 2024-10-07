@@ -175,6 +175,7 @@ window.onclick = function(event) {
 			<li><a href="main.do"><i class="fas fa-plug"></i>회사소개</a></li>
 			
 			<!-- !!!! 테스트용 경로 !!!! -->
+			<li><a href="admin.do"><i class="fas fa-plug"></i>관리자페이지 테스트용</a></li>
 			<li><a href="erpMain.do"><i class="fas fa-plug"></i>ERP 테스트용</a></li>
 			
 		</ul>

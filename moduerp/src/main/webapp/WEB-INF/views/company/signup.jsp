@@ -94,13 +94,6 @@ h1 {
 					maxlength="10" required>
 			</div>
 
-			<!-- 승인코드 입력 -->
-			<div class="form-group">
-				<label for="approvalCode">승인코드</label> <input type="text"
-					id="approvalCode" name="approvalCode" placeholder="승인코드 입력 (6자리)"
-					maxlength="6" required>
-			</div>
-
 			<!-- 회사명 입력 -->
 			<div class="form-group">
 				<label for="companyName">회사명</label> <input type="text"
@@ -135,14 +128,5 @@ h1 {
 			<button type="submit" class="btn">회원가입</button>
 		</form>
 	</div>
-
-	<script>
-		/*       // 회원가입 버튼 클릭 시 폼 전송 및 로그인 페이지로 이동
-		      document.getElementById("signupForm").onsubmit = function () {
-		          alert("회원가입이 완료되었습니다!");
-		          window.location.href = "loginPage.do"; // 로그인 페이지로 이동
-		          return false; // 실제 서버 전송을 막고 페이지 이동만 처리
-		      }; */
-	</script>
 </body>
 </html>

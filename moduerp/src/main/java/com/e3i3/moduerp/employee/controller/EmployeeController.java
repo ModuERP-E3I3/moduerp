@@ -50,7 +50,7 @@ public class EmployeeController {
 	    params.put("empEmail", empEmail);
 	    params.put("password", password);
 
-	    Employee employee = employeeService.validateLogin(params);
+	    Employee employee = employeeService.validateLogin(params); //로그인처리하는 서비스 메소드 
 
 	    if (employee != null) {
 	        // 로그인 성공: 세션에 uuid와 biz_number, email 저장
@@ -58,13 +58,13 @@ public class EmployeeController {
 	        session.setAttribute("uuid", employee.getUuid().toString());
 	        session.setAttribute("biz_number", employee.getBizNumber());
 	        session.setAttribute("email", employee.getEmpEmail());
-	        
+	        session.setAttribute("name", employee.getEmpName());
 	        
 	        // 콘솔에 로그인 세션 정보 출력
 	        System.out.println("로그인한 사용자의 UUID: " + session.getAttribute("uuid"));
 	        System.out.println("로그인한 사용자의 사업자번호: " + session.getAttribute("biz_number"));
 	        System.out.println("로그인한 사용자의 이메일: " + session.getAttribute("email"));
-	        
+	        System.out.println("로그인한 사용자의 이름: "+session.getAttribute("name"));
 	        
 	        System.out.println("쿼리로 반환된 UUID: " + employee.getUuid());
 	        System.out.println("쿼리로 반환된 사업자번호: " + employee.getBizNumber());
@@ -87,6 +87,27 @@ public class EmployeeController {
 	    }
 	}
 
+	// 로그아웃 처리 메서드
+	@GetMapping("/logout.do")
+	public String logoutMethod(HttpSession session, Model model) {
+	    // 세션 무효화
+	    if (session != null) {
+	        // 콘솔에 로그아웃할 세션 정보 출력
+	        System.out.println("로그아웃하는 사용자의 UUID: " + session.getAttribute("uuid"));
+	        System.out.println("로그아웃하는 사용자의 사업자번호: " + session.getAttribute("biz_number"));
+	        System.out.println("로그아웃하는 사용자의 이메일: " + session.getAttribute("email"));
+	        System.out.println("로그아웃하는 사용자의 이름: " + session.getAttribute("name"));
+
+	        // 세션 무효화
+	        session.invalidate();
+	    }
+
+	    // 로그아웃 후 로그인 페이지로 리다이렉트
+	    model.addAttribute("message", "로그아웃되었습니다.");
+	    return "redirect:/"; // 로그인 페이지 URL로 리다이렉트
+	}
+
+	
 
 	// uuid로 직원 조회
 	@GetMapping("/view.do/{uuid}")

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AdminMapper">
+
+    <resultMap id="adminResult"
+        type="com.e3i3.moduerp.admin.model.dto.AdminDTO">
+        <result property="uuid" column="UUID" />
+        <result property="bizNumber" column="BIZ_NUMBER" />
+        <result property="approvalCode" column="APPROVAL_CODE" />
+        <result property="departmentId" column="DEPARTMENT_ID" />
+        <result property="jobId" column="JOB_ID" />
+        <result property="privateAuthority" column="PRIVATE_AUTHORITY" />
+        <result property="empNo" column="EMP_NO" />
+        <result property="empName" column="EMP_NAME" />
+        <result property="empEmail" column="EMP_EMAIL" />
+        <result property="userPhone" column="USER_PHONE" />
+        <result property="registrationDate" column="REGISTRATION_DATE" />
+        <result property="profileImg" column="PROFILE_IMG" />
+        <result property="updatedAt" column="UPDATED_AT" />
+        <result property="isDeleted" column="IS_DELETED" />
+        <result property="lastLoginLocation" column="LAST_LOGIN_LOCATION" />
+        <result property="deletedExcuse" column="DELETED_EXCUSE" />
+        <result property="deletedAt" column="DELETED_AT" />
+        <result property="hireDate" column="HIRE_DATE" />
+        <result property="quitDate" column="QUIT_DATE" />
+        <result property="reNum" column="RE_NUM" />
+        <result property="isEmailChanged" column="IS_EMAIL_CHANGED" />
+        <result property="newEmpEmail" column="NEW_EMP_EMAIL" />
+        <result property="remainingLeave" column="REMAINING_LEAVE" />
+        <result property="contractStartTime" column="CONTRACT_START_TIME" />
+        <result property="contractEndTime" column="CONTRACT_END_TIME" />
+        <result property="mgrUuid" column="MGR_UUID" />
+        <result property="password" column="PASSWORD" />
+    </resultMap>
+
+    <select id="selectAllAdmins"
+        resultMap="adminResult">
+        SELECT * FROM EMPLOYEE
+    </select>
+
+</mapper>
