@@ -58,6 +58,8 @@
 	<select id="getItemsByBizNumber" parameterType="String"
 		resultMap="itemResultMap">
 		SELECT * FROM ITEM WHERE BIZ_NUMBER = #{bizNumber}
+		AND ITEM_CODE
+		LIKE CONCAT(#{bizNumber}, 'P%')
 	</select>
 
 	<select id="selectItemByCode" parameterType="String"

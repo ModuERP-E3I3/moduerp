@@ -38,4 +38,20 @@ public class WorkOrderDAOImpl implements WorkOrderDAO {
 	public void insertWorkOrder(WorkOrderDTO workOrderDTO) {
 		sqlSession.insert(namespace + ".insertWorkOrder", workOrderDTO);
 	}
+
+	@Override
+	public void updateWorkOrder(WorkOrderDTO workOrderDTO) {
+		sqlSession.update(namespace + ".updateWorkOrder", workOrderDTO);
+	}
+
+	@Override
+	public void deleteWorkOrder(String orderNumber) {
+		// MyBatis를 통해 SQL 쿼리 호출
+		sqlSession.delete(namespace + ".deleteWorkOrder", orderNumber);
+	}
+
+	@Override
+	public int getTotalQtyByItemCode(String itemCode) {
+		return sqlSession.selectOne(namespace + ".getTotalQtyByItemCode", itemCode);
+	}
 }

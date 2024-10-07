@@ -148,6 +148,8 @@ th {
 .material-type-input {
 	margin-bottom: 10px;
 }
+
+
 </style>
 
 </head>
@@ -174,7 +176,8 @@ th {
 
 		<form action="/moduerp/updateProductionStockSubOut.do" method="POST">
 			<input type="hidden" name="itemCode" value="${itemDetails.itemCode}" />
-			<input type="hidden" name="pStockOutId" value="${productionStockOutDetails.pStockOutId}" />
+			<input type="hidden" name="pStockOutId"
+				value="${productionStockOutDetails.pStockOutId}" />
 			<table>
 				<thead>
 					<tr>

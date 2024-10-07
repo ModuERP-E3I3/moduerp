@@ -36,4 +36,20 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 	public void insertWorkOrder(WorkOrderDTO workOrderDTO) {
 		workOrderDAO.insertWorkOrder(workOrderDTO);
 	}
+
+	@Override
+	public void updateWorkOrder(WorkOrderDTO workOrderDTO) {
+		workOrderDAO.updateWorkOrder(workOrderDTO);
+	}
+
+	@Override
+	public void deleteWorkOrder(String orderNumber) {
+		// DAO를 통해 orderNumber에 해당하는 작업지시서 삭제
+		workOrderDAO.deleteWorkOrder(orderNumber);
+	}
+
+	@Override
+	public int getTotalQtyByItemCode(String itemCode) {
+		return workOrderDAO.getTotalQtyByItemCode(itemCode);
+	}
 }

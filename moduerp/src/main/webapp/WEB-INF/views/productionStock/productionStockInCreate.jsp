@@ -174,15 +174,7 @@ th {
 
 		<div class="content-title">생산관리 | 생산입고 | 신규 등록</div>
 
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-		</div>
+	
 
 		<!-- 테이블 -->
 		<!-- 테이블 -->

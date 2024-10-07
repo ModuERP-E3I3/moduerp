@@ -190,6 +190,8 @@ th {
 	background-color: gray;
 	color: #fff;
 }
+
+
 </style>
 
 </head>
@@ -218,17 +220,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 생산입고 | ${itemDetails.itemName}</div>
-
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-		</div>
+		<div class="content-title">생산관리 | 생산출고 | ${itemDetailsSub.itemName}</div>
 
 		<!-- 테이블 -->
 		<table>
@@ -288,8 +280,9 @@ th {
 			<p>삭제된 데이터는 복구할 수 없습니다.</p>
 			<!-- 삭제 버튼을 포함하는 폼 추가 -->
 			<form action="deleteProductionStockOut.do" method="POST">
-				<input type="hidden" name="itemCode" value="${itemDetailsSub.itemCode}">
-				<input type="hidden" name="pStockOutId"
+				<input type="hidden" name="itemCode"
+					value="${itemDetailsSub.itemCode}"> <input type="hidden"
+					name="pStockOutId"
 					value="${productionStockOutDetailsSub.pStockOutId}">
 				<!-- itemCode를 숨겨진 필드로 전달 -->
 				<button type="submit" class="go-delete">삭제</button>
