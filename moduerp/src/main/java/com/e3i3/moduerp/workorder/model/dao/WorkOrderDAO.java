@@ -13,4 +13,10 @@ public interface WorkOrderDAO {
 	List<String> getWorkPlacesByBizNumber(String bizNumber);
 
 	void insertWorkOrder(WorkOrderDTO workOrderDTO);
+
+	void updateWorkOrder(WorkOrderDTO workOrderDTO);
+
+	void deleteWorkOrder(String orderNumber);
+
+	int getTotalQtyByItemCode(String itemCode);
 }

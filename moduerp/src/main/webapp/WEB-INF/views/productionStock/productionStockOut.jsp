@@ -163,6 +163,10 @@ th {
 	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
 	color: black; /* 강조 색상 검은색 유지 */
 }
+
+tbody tr:hover {
+	cursor: pointer;
+}
 </style>
 
 </head>

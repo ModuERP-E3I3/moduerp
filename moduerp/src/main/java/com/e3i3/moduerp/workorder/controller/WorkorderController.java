@@ -2,15 +2,23 @@ package com.e3i3.moduerp.workorder.controller;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +31,7 @@ import com.e3i3.moduerp.workorder.model.service.WorkOrderService;
 
 @Controller
 @RequestMapping("/")
-public class WorkorderController {
+public class WorkOrderController {
 
 	@Autowired
 	private WorkOrderService workOrderService;
@@ -37,34 +45,34 @@ public class WorkorderController {
 	@RequestMapping(value = "/productionWorkorder.do", method = RequestMethod.GET)
 	public String showWorkOrders(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
 			HttpSession session) {
-		// �꽭�뀡�뿉�꽌 biz_number 爰쇰궡湲�
+		// 세션에서 biz_number 꺼내기
 		String bizNumber = (String) session.getAttribute("biz_number");
 
-		// DB�뿉�꽌 biz_number�뿉 �빐�떦�븯�뒗 WorkOrder 紐⑸줉 媛��졇�삤湲�
+		// DB에서 biz_number에 해당하는 WorkOrder 목록 가져오기
 		List<WorkOrderDTO> workOrderList = workOrderService.getWorkOrdersByBizNumber(bizNumber);
 
-		// �럹�씠吏��떦 �빆紐� �닔 �꽕�젙
+		// 페이지당 항목 수 설정
 		int itemsPerPage = 10;
 
-		// 珥� �빆紐� �닔 怨꾩궛
+		// 총 항목 수 계산
 		int totalItems = workOrderList.size();
 
-		// 珥� �럹�씠吏� �닔 怨꾩궛
+		// 총 페이지 수 계산
 		int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
 
-		// �떆�옉 �씤�뜳�뒪 怨꾩궛
+		// 시작 인덱스 계산
 		int startIndex = (page - 1) * itemsPerPage;
 		int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
 
-		// �꽌釉뚮━�뒪�듃 �깮�꽦 (�빐�떦 �럹�씠吏��쓽 �빆紐⑸뱾留� 異붿텧)
+		// 서브리스트 생성 (해당 페이지의 항목들만 추출)
 		List<WorkOrderDTO> paginatedList = workOrderList.subList(startIndex, endIndex);
 
-		// 紐⑤뜽�뿉 WorkOrder 紐⑸줉, 珥� �럹�씠吏� �닔, �쁽�옱 �럹�씠吏� 異붽�
+		// 모델에 WorkOrder 목록, 총 페이지 수, 현재 페이지 추가
 		model.addAttribute("workOrderList", paginatedList);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("currentPage", page);
 
-		return "productionStock/productionWorkorder"; // JSP �뙆�씪 寃쎈줈 諛섑솚
+		return "productionStock/productionWorkorder"; // JSP 파일 경로 반환
 	}
 
 	@RequestMapping(value = "/productionWorkOrderCreate.do", method = RequestMethod.GET)
@@ -72,51 +80,61 @@ public class WorkorderController {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String uuid = (String) session.getAttribute("uuid");
 
-		// ITEM_CODE媛� biz_number + "P"濡� �떆�옉�븯�뒗 �븘�씠�뀥 紐⑸줉怨� stock 而щ읆 媛��졇�삤湲�
+		// ITEM_CODE가 biz_number + "P"로 시작하는 아이템 목록과 stock 컬럼 가져오기
 		List<ItemDTO> itemList = itemProductionstockService.getItemNamesAndStockByBizNumberStartingWith(bizNumber);
-
-		// WORKER_TEAM 紐⑸줉 媛��졇�삤湲�
+		
+		// 각 item에 대한 QTY의 합계를 계산하고 추가
+		Map<String, Integer> itemQtyMap = new HashMap<>();
+		for (ItemDTO item : itemList) {
+			int totalQty = workOrderService.getTotalQtyByItemCode(item.getItemCode());
+			itemQtyMap.put(item.getItemCode(), totalQty);
+		}
+		// WORKER_TEAM 목록 가져오기
 		List<String> workerTeams = workOrderService.getWorkerTeamsByBizNumber(bizNumber);
 
-		// EMP_NAME 紐⑸줉 媛��졇�삤湲�
+		// EMP_NAME 목록 가져오기
 		List<String> employeeNames = employeeProductionService.getEmployeeNamesByBizNumber(bizNumber);
 
-		// WORK_PLACE 紐⑸줉 媛��졇�삤湲�
+		// WORK_PLACE 목록 가져오기
 		List<String> workPlaces = workOrderService.getWorkPlacesByBizNumber(bizNumber);
 
-		// �쁽�옱 濡쒓렇�씤�븳 �궗�슜�옄�쓽 EMP_NAME 媛��졇�삤湲�
+		// 현재 로그인한 사용자의 EMP_NAME 가져오기
 		String directorName = employeeProductionService.getEmployeeNameByUuid(uuid);
 
-		model.addAttribute("itemList", itemList); // stock 而щ읆�쓣 �룷�븿�븳 �븘�씠�뀥 紐⑸줉
+		model.addAttribute("itemList", itemList); // stock 컬럼을 포함한 아이템 목록
+		model.addAttribute("itemQtyMap", itemQtyMap);
 		model.addAttribute("workerTeams", workerTeams);
 		model.addAttribute("employeeNames", employeeNames);
 		model.addAttribute("workPlaces", workPlaces);
 		model.addAttribute("directorName", directorName);
 
-		return "productionStock/productionWorkOrderCreate"; // JSP �뙆�씪 寃쎈줈
+		return "productionStock/productionWorkOrderCreate"; // JSP 파일 경로
 	}
 
 	@RequestMapping(value = "/productionWorkOrderInsert.do", method = RequestMethod.POST)
 	public String insertWorkOrder(@RequestParam("itemName") String itemName, @RequestParam("itemCode") String itemCode,
-			@RequestParam("taskName") String taskName, @RequestParam("startDate") String startDateStr, // �궇吏쒕쭔 �엯�젰諛쏆쓬
-			@RequestParam("endExDate") String endExDateStr, // �궇吏쒕쭔 �엯�젰諛쏆쓬
+			@RequestParam("taskName") String taskName, @RequestParam("startDate") String startDateStr, // 날짜만 입력받음
+			@RequestParam("endExDate") String endExDateStr, // 날짜만 입력받음
 			@RequestParam("qty") int qty, @RequestParam("progressStatus") String progressStatus,
 			@RequestParam("workerTeam") String workerTeam, @RequestParam("worker") String worker,
 			@RequestParam("workPlace") String workPlace, @RequestParam("wDirector") String wDirector,
 			HttpSession session) throws Exception {
-
-		// �꽭�뀡�뿉�꽌 biz_number�� uuid 媛��졇�삤湲�
+		
+		if (itemName.contains(" 재고 :")) {
+	        itemName = itemName.split(" 재고 :")[0];  // "품목 A" 부분만 추출
+	    }
+		// 세션에서 biz_number와 uuid 가져오기
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String uuid = (String) session.getAttribute("uuid");
 
-		// ORDER_NUMBER �깮�꽦: biz_number + 'W' + �쁽�옱 ���엫�뒪�꺃�봽
+		// ORDER_NUMBER 생성: biz_number + 'W' + 현재 타임스탬프
 		String orderNumber = bizNumber + "W" + System.currentTimeMillis();
 
-		// startDate�� endExDate瑜� Timestamp濡� 蹂��솚�븯硫� �쁽�옱 �떆媛꾩쓣 異붽�
+		// startDate와 endExDate를 Timestamp로 변환하며 현재 시간을 추가
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date parsedStartDate = dateFormat.parse(startDateStr);
 
-		// �쁽�옱 �떆媛꾩쓣 媛��졇���꽌 �꽕�젙
+		// 현재 시간을 가져와서 설정
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(parsedStartDate);
 		calendar.set(Calendar.HOUR_OF_DAY, Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
@@ -125,18 +143,18 @@ public class WorkorderController {
 
 		Timestamp startDate = new Timestamp(calendar.getTimeInMillis());
 
-		// endExDate 泥섎━ (�쁽�옱 �떆媛꾩쓣 異붽��븯吏� �븡怨� 湲곕낯 �떆媛� 00:00:00�쑝濡� �꽕�젙)
+		// endExDate 처리 (현재 시간을 추가하지 않고 기본 시간 00:00:00으로 설정)
 		Date parsedEndExDate = dateFormat.parse(endExDateStr);
 		Timestamp endExDate = new Timestamp(parsedEndExDate.getTime());
 
-		// WorkOrderDTO 媛앹껜 �깮�꽦 諛� �뜲�씠�꽣 �꽕�젙
+		// WorkOrderDTO 객체 생성 및 데이터 설정
 		WorkOrderDTO workOrderDTO = new WorkOrderDTO();
 		workOrderDTO.setOrderNumber(orderNumber);
 		workOrderDTO.setItemName(itemName);
 		workOrderDTO.setItemCode(itemCode);
 		workOrderDTO.setTaskName(taskName);
-		workOrderDTO.setStartDate(startDate); // 蹂��솚�맂 Timestamp �꽕�젙
-		workOrderDTO.setEndExDate(endExDate); // 蹂��솚�맂 Timestamp �꽕�젙
+		workOrderDTO.setStartDate(startDate); // 변환된 Timestamp 설정
+		workOrderDTO.setEndExDate(endExDate); // 변환된 Timestamp 설정
 		workOrderDTO.setQty(qty);
 		workOrderDTO.setProgressStatus(progressStatus);
 		workOrderDTO.setWorkerTeam(workerTeam);
@@ -146,11 +164,116 @@ public class WorkorderController {
 		workOrderDTO.setBizNumber(bizNumber);
 		workOrderDTO.setUuid(uuid);
 
-		// �옉�뾽吏��떆�꽌 �뜲�씠�꽣 ���옣
+		// 작업지시서 데이터 저장
 		workOrderService.insertWorkOrder(workOrderDTO);
 
-		// ���옣 �썑 �옉�뾽吏��떆�꽌 由ъ뒪�듃 �럹�씠吏�濡� 由щ떎�씠�젆�듃
+		// 저장 후 작업지시서 리스트 페이지로 리다이렉트
 		return "redirect:/productionWorkorder.do";
 	}
 
+	// 작업 지시서 상세보기 메서드
+	@RequestMapping(value = "/getProductionWorkOrderDetails.do", method = RequestMethod.GET)
+	public String getProductionWorkOrderDetails(@RequestParam("orderNumber") String orderNumber, Model model) {
+
+		// orderNumber로 작업 지시서 조회
+		WorkOrderDTO workOrderDetails = workOrderService.getWorkOrderByOrderNumber(orderNumber);
+
+		// 조회된 작업 지시서를 모델에 추가하여 JSP로 전달
+		model.addAttribute("workOrderDetails", workOrderDetails);
+
+		// 상세 정보 페이지로 이동
+		return "productionStock/productionWorkOrderDetail";
+	}
+
+	// 작업 지시서 수정 페이지로 이동
+	@RequestMapping(value = "/productionWorkOrderDetailUpdate.do", method = RequestMethod.GET)
+	public String updateProductionWorkOrderDetails(@RequestParam("orderNumber") String orderNumber, Model model,
+			HttpSession session) {
+		// 세션에서 biz_number와 uuid 가져오기
+		String bizNumber = (String) session.getAttribute("biz_number");
+
+		// orderNumber로 작업 지시서 조회
+		WorkOrderDTO workOrderDetails = workOrderService.getWorkOrderByOrderNumber(orderNumber);
+
+		List<String> employeeNames = employeeProductionService.getEmployeeNamesByBizNumber(bizNumber);
+
+		// 조회된 작업 지시서를 모델에 추가하여 수정 페이지로 전달
+		model.addAttribute("workOrderDetails", workOrderDetails);
+		model.addAttribute("employeeNames", employeeNames);
+
+		// 수정 페이지로 이동
+		return "productionStock/productionWorkOrderDetailUpdate";
+
+	}
+
+	// 작업 지시서 수정 완료 처리
+	@RequestMapping(value = "/updateProductionWorkOrderUpdateDo.do", method = RequestMethod.POST)
+	public String insertWorkOrder(@RequestParam("taskName") String taskName,
+			@RequestParam("startDate") String startDateStr, // 날짜만 입력받음
+			@RequestParam("endExDate") String endExDateStr, // 날짜만 입력받음
+			@RequestParam("qty") int qty, @RequestParam("progressStatus") String progressStatus,
+			@RequestParam("workerTeam") String workerTeam, @RequestParam("worker") List<String> workerList,
+			@RequestParam("workPlace") String workPlace, @RequestParam("orderNumber") String orderNumber,
+			HttpSession session) throws Exception {
+
+		// startDate를 Timestamp로 변환하며 현재 시간을 추가
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date parsedStartDate = dateFormat.parse(startDateStr);
+
+		// 현재 시간 설정
+		Calendar startCalendar = Calendar.getInstance();
+		startCalendar.setTime(parsedStartDate);
+		startCalendar.set(Calendar.HOUR_OF_DAY, Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+		startCalendar.set(Calendar.MINUTE, Calendar.getInstance().get(Calendar.MINUTE));
+		startCalendar.set(Calendar.SECOND, Calendar.getInstance().get(Calendar.SECOND));
+
+		Timestamp startDate = new Timestamp(startCalendar.getTimeInMillis());
+
+		SimpleDateFormat enddateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date parsedEndExDate = enddateFormat.parse(endExDateStr);
+
+		// WorkOrderDTO 객체 생성 및 데이터 설정
+		WorkOrderDTO workOrderDTO = new WorkOrderDTO();
+		workOrderDTO.setOrderNumber(orderNumber);
+		workOrderDTO.setTaskName(taskName);
+		workOrderDTO.setStartDate(startDate); // 변환된 Timestamp 설정
+		workOrderDTO.setEndExDate(parsedEndExDate);
+		workOrderDTO.setQty(qty);
+		workOrderDTO.setProgressStatus(progressStatus);
+		workOrderDTO.setWorkerTeam(workerTeam);
+
+		String worker = String.join(",", workerList);
+		workOrderDTO.setWorker(worker);
+
+		workOrderDTO.setWorkPlace(workPlace);
+
+		// 현재 시간을 타임스탬프로 설정
+		Timestamp updateDate = new Timestamp(System.currentTimeMillis());
+		workOrderDTO.setUpdateDate(updateDate);
+
+		// progressStatus가 "작업 완료"이면 endDate에 현재 시간을 넣고, 그렇지 않으면 null로 설정
+		if ("작업 완료".equals(progressStatus)) {
+			Timestamp endDate = new Timestamp(System.currentTimeMillis());
+			workOrderDTO.setEndDate(endDate);
+		} else {
+			workOrderDTO.setEndDate(null);
+		}
+
+		// 작업지시서 데이터 업데이트
+		workOrderService.updateWorkOrder(workOrderDTO);
+
+		// 저장 후 작업지시서 리스트 페이지로 리다이렉트
+		return "redirect:/productionWorkorder.do";
+	}
+
+	// 작업지시서 삭제 처리 메서드
+	@PostMapping("/deleteProductionWorkOrder.do")
+	public String deleteProductionWorkOrder(@RequestParam("orderNumber") String orderNumber, HttpSession session) {
+
+		// 해당 orderNumber에 해당하는 작업지시서를 삭제
+		workOrderService.deleteWorkOrder(orderNumber);
+
+		// 삭제 후 작업지시서 리스트 페이지로 리다이렉트
+		return "redirect:/productionWorkorder.do";
+	}
 }

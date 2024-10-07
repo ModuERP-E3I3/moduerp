@@ -174,17 +174,6 @@ th {
 
 		<div class="content-title">생산관리 | 작업지시서 | 신규 등록</div>
 
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-		</div>
-
-		<!-- 테이블 -->
 		<!-- 테이블 -->
 		<form action="/moduerp/productionWorkOrderInsert.do" method="POST">
 			<table>
@@ -205,9 +194,12 @@ th {
 								<option value="==========">==========</option>
 
 								<c:forEach var="item" items="${itemList}">
-									<c:if test="${item.stock > 0}">
-										<option value="${item.itemName} 재고 : ${item.stock}"
-											data-item-code="${item.itemCode}"></option>
+									<c:set var="availableStock"
+										value="${item.stock - itemQtyMap[item.itemCode]}" />
+									<c:if test="${availableStock > 0}">
+										<option value="${item.itemName} 재고 : ${availableStock}"
+											data-item-code="${item.itemCode}"
+											data-available-stock="${availableStock}"></option>
 									</c:if>
 								</c:forEach>
 
@@ -221,8 +213,8 @@ th {
 							required></td>
 						<td><input type="date" id="endExDate" name="endExDate"
 							required></td>
-						<td><input type="number" id="qty" name="qty" required></td>
-
+						<td><input type="number" id="qty" name="qty" required>
+						</td>
 					</tr>
 				</tbody>
 				<thead>
@@ -296,6 +288,38 @@ th {
 
 	</div>
 </body>
+<script>
+document.getElementById('qty').addEventListener('input', function () {
+    // itemNameInput 필드에서 선택된 옵션을 찾음
+    var input = document.getElementById('itemNameInput');
+    var selectedOption = null;
+
+    // datalist의 모든 옵션을 확인하여 선택한 값과 일치하는 옵션을 찾음
+    var options = document.querySelectorAll('#itemNames option');
+    options.forEach(function(option) {
+        if (option.value === input.value) {
+            selectedOption = option;
+        }
+    });
+
+    // 선택된 옵션이 있을 경우
+    if (selectedOption) {
+        // availableStock을 숫자로 변환
+        var availableStock = parseFloat(selectedOption.getAttribute('data-available-stock'));
+
+        // 입력된 수량을 숫자로 변환
+        var enteredQty = parseFloat(this.value);
+
+        // 입력된 수량이 재고보다 많으면 경고창을 띄우고 값을 초기화함
+        if (enteredQty > availableStock) {
+            alert('입력한 수량이 가능한 재고를 초과했습니다.');
+            this.value = '';  // 수량 필드를 빈 값으로 설정
+        }
+    }
+});
+
+</script>
+
 
 <script type="text/javascript">
 function addWorker() {
@@ -386,6 +410,28 @@ function updateItemCode() {
 
 </script>
 
+<script>
+function updateItemCode() {
+    var input = document.getElementById('itemNameInput');
+    var selectedValue = input.value;
+
+    // datalist의 모든 옵션을 확인하여 일치하는 옵션의 itemCode를 가져옴
+    var options = document.querySelectorAll('#itemNames option');
+    var itemCode = ''; // 기본값
+
+    options.forEach(function(option) {
+        if (option.value === selectedValue) {
+            itemCode = option.getAttribute('data-item-code');
+        }
+    });
+
+    // 숨겨진 필드에 itemCode를 설정
+    document.getElementById('itemCodeInput').value = itemCode;
+
+    // qty 입력 필드의 값을 지움
+    document.getElementById('qty').value = '';
+}
+</script>
 
 <script>
     const activeMenu = "productionStockIn";

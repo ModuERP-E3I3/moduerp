@@ -144,6 +144,10 @@ th {
 .top-content-box {
 	background-color: white;
 }
+
+tbody tr:hover {
+	cursor: pointer;
+}
 </style>
 
 </head>
@@ -189,9 +193,11 @@ th {
 			<thead>
 				<tr>
 					<th>지시서 번호</th>
+					<th>제품명</th>
 					<th>작업명</th>
 					<th>시작 날짜</th>
 					<th>종료 예정 날짜</th>
+					<th>종료 날짜</th>
 					<th>작업 수량</th>
 					<th>진행 상태</th>
 					<th>작업팀</th>
@@ -206,12 +212,16 @@ th {
 
 				<c:forEach var="workOrder" items="${workOrderList}"
 					varStatus="status">
-					<tr onclick="window.location.href='getProductionWorkOrderDetails.do?orderNumber=${workOrder.orderNumber}'">
+					<tr
+						onclick="window.location.href='getProductionWorkOrderDetails.do?orderNumber=${workOrder.orderNumber}'">
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
+						<td>${workOrder.itemName}</td>
 						<td>${workOrder.taskName}</td>
 						<td><fmt:formatDate value="${workOrder.startDate}"
 								pattern="yyyy-MM-dd HH:mm:ss" /></td>
 						<td><fmt:formatDate value="${workOrder.endExDate}"
+								pattern="yyyy-MM-dd" /></td>
+						<td><fmt:formatDate value="${workOrder.endDate}"
 								pattern="yyyy-MM-dd HH:mm:ss" /></td>
 						<td>${workOrder.qty}</td>
 						<td>${workOrder.progressStatus}</td>

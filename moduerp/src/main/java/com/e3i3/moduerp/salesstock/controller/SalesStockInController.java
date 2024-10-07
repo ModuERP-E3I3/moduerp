@@ -97,7 +97,7 @@ public class SalesStockInController {
         salesStockInDTO.setsStockInId(sStockInId);
         salesStockInDTO.setItemCode(itemCode);
         salesStockInDTO.setsStockInDate(stockInDate);
-        salesStockInDTO.setsStockPlace(stockPlace);
+        salesStockInDTO.setsStockInPlace(stockPlace);
         salesStockInDTO.setsStockInQty(stockIn);
         salesStockInDTO.setUuid(userUuid);
 
@@ -152,7 +152,7 @@ public class SalesStockInController {
         SalesStockInDTO salesStockInDTO = new SalesStockInDTO();
         salesStockInDTO.setItemCode(itemCode);
         salesStockInDTO.setsStockInQty(stockIn);
-        salesStockInDTO.setsStockPlace(stockPlace);
+        salesStockInDTO.setsStockInPlace(stockPlace);
 
         salesStockInService.updateSalesStockIn(salesStockInDTO);
 
