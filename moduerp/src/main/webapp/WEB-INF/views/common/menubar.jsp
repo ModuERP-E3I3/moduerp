@@ -15,7 +15,7 @@ body {
 
 /* 상단 메뉴바 */
 nav {
-   padding: 8px ;
+	padding: 8px ;
     width: 100%; /* 메뉴바 너비 */
     position: fixed;
     top: 0;
@@ -25,7 +25,6 @@ nav {
     color: black;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
     display: flex; /* nav 안의 요소들을 한 줄에 배치 */
-    justify-content: center;
     align-items: center;
 }
 nav ul {
@@ -166,54 +165,53 @@ window.onclick = function(event) {
 <body>
 
 <!--<c:if test="${ empty sessionScope.loginUser }"> -->
-   <nav>
-      <a href="main.do" class="moduerp-logo">ModuERP</a>
-      <ul id="menubar">
-         <li><a href="noticeList.do"><i class="fas fa-bullhorn"></i>공지사항</a></li>
-         <li><a href="main.do"><i class="fas fa-clipboard"></i>구매</a></li>
-         <li><a href="main.do"><i class="fas fa-code"></i>체험페이지</a></li>
-         <li><a href="main.do"><i class="fas fa-plug"></i>고객서비스</a></li>
-         <li><a href="main.do"><i class="fas fa-plug"></i>회사소개</a></li>
-         <li><a href="admin.do"><i class="fas fa-plug"></i>관리자테스트용</a></li>
-         
-         <!-- !!!! 테스트용 경로 !!!! -->
-         <li><a href="erpMain.do"><i class="fas fa-plug"></i>ERP 테스트용</a></li>
-         
-      </ul>
-      <ul>
-          <li><a href="#" onclick="openLoginModal()"><i class="fas fa-sign-in-alt"></i> 로그인</a></li>
-      </ul>
-   </nav>
+	<nav>
+		<a href="main.do" class="moduerp-logo">ModuERP</a>
+		<ul id="menubar">
+			<li><a href="noticeList.do"><i class="fas fa-bullhorn"></i>공지사항</a></li>
+			<li><a href="main.do"><i class="fas fa-clipboard"></i>구매</a></li>
+			<li><a href="main.do"><i class="fas fa-code"></i>체험페이지</a></li>
+			<li><a href="main.do"><i class="fas fa-plug"></i>고객서비스</a></li>
+			<li><a href="main.do"><i class="fas fa-plug"></i>회사소개</a></li>
+			
+			<!-- !!!! 테스트용 경로 !!!! -->
+			<li><a href="erpMain.do"><i class="fas fa-plug"></i>ERP 테스트용</a></li>
+			
+		</ul>
+		<ul>
+		    <li><a href="#" onclick="openLoginModal()"><i class="fas fa-sign-in-alt"></i> 로그인</a></li>
+		</ul>
+	</nav>
 <!--</c:if> -->
 
 <c:if test="${ !empty sessionScope.loginUser and sessionScope.loginUser.adminYN eq 'Y' }">
-   <nav>
-      <a href="main.do" class="moduerp-logo">ModuERP - Adminpage</a>
-      <ul id="menubar">
-         <li><a href="nlist.do?page=1"><i class="fas fa-bullhorn"></i> 공지사항 관리</a></li>
-         <li><a href="blist.do?page=1"><i class="fas fa-clipboard"></i> 게시글 관리</a></li>
-         <li><a href="mlist.do?page=1"><i class="fas fa-users"></i> 회원 관리</a></li>
-         <!-- 로그아웃 -->
-          <li><a href="logout.do"><i class="fas fa-sign-out-alt"></i> 로그아웃</a></li>
-      </ul>
-   </nav>
+	<nav>
+		<a href="main.do" class="moduerp-logo">ModuERP - Adminpage</a>
+		<ul id="menubar">
+			<li><a href="nlist.do?page=1"><i class="fas fa-bullhorn"></i> 공지사항 관리</a></li>
+			<li><a href="blist.do?page=1"><i class="fas fa-clipboard"></i> 게시글 관리</a></li>
+			<li><a href="mlist.do?page=1"><i class="fas fa-users"></i> 회원 관리</a></li>
+			<!-- 로그아웃 -->
+		    <li><a href="logout.do"><i class="fas fa-sign-out-alt"></i> 로그아웃</a></li>
+		</ul>
+	</nav>
 </c:if>
 
 <c:if test="${ !empty sessionScope.loginUser and sessionScope.loginUser.adminYN eq 'N' }">
-   <nav>
-      <a href="main.do" class="moduerp-logo">ModuERP</a>
-      <ul id="menubar">
-          <li><a href="salesStockIn.do"><i class="fas fa-bullhorn"></i>공지사항</a></li>
-          <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>구매</a></li>
-          <li><a href="salesStockIn.do"><i class="fas fa-code"></i>체험페이지</a></li>
-          <li><a href="salesStockIn.do"><i class="fas fa-plug"></i>고객서비스</a></li>
-          <li><a href="salesStockIn.do"><i class="fas fa-plug"></i>회사소개</a></li>
-          <li><a href="salesStockIn.do"><i class="fas fa-home"></i> ERP</a></li>
-          <li><a href="myinfo.do?userId=${ sessionScope.loginUser.userId }"><i class="fas fa-user"></i> My Page</a></li>
-         <!-- 로그아웃 -->
-          <li><a href="logout.do"><i class="fas fa-sign-out-alt"></i> 로그아웃</a></li>
-      </ul>
-   </nav>
+	<nav>
+		<a href="main.do" class="moduerp-logo">ModuERP</a>
+		<ul id="menubar">
+		    <li><a href="salesStockIn.do"><i class="fas fa-bullhorn"></i>공지사항</a></li>
+		    <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>구매</a></li>
+		    <li><a href="salesStockIn.do"><i class="fas fa-code"></i>체험페이지</a></li>
+		    <li><a href="salesStockIn.do"><i class="fas fa-plug"></i>고객서비스</a></li>
+		    <li><a href="salesStockIn.do"><i class="fas fa-plug"></i>회사소개</a></li>
+		    <li><a href="salesStockIn.do"><i class="fas fa-home"></i> ERP</a></li>
+		    <li><a href="myinfo.do?userId=${ sessionScope.loginUser.userId }"><i class="fas fa-user"></i> My Page</a></li>
+			<!-- 로그아웃 -->
+		    <li><a href="logout.do"><i class="fas fa-sign-out-alt"></i> 로그아웃</a></li>
+		</ul>
+	</nav>
 </c:if>
 
 <!-- 로그인 모달 -->

@@ -2,49 +2,130 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="EmailMapper">
 
-    <!-- 이메일 정보를 매핑하기 위한 resultMap -->
-    <resultMap id="resultEmail" type="com.e3i3.moduerp.email.model.dto.Email">
-        <id property="emailId" column="email_id" />
-        <result property="senderEmail" column="sender_email" />
-        <result property="recipientEmail" column="recipient_email" />
-        <result property="subject" column="subject" />
-        <result property="body" column="body" />
-        <result property="attachmentPath" column="attachment_path" />
-        <result property="sentDate" column="sent_date" />
-        <result property="isRead" column="is_read" />
-    </resultMap>
+	<!-- 이메일 정보를 매핑하기 위한 resultMap -->
+	<resultMap id="resultEmail"
+		type="com.e3i3.moduerp.email.model.dto.Email">
+		<id property="emailId" column="email_id" />
+		<result property="senderUUID" column="sender_uuid" />
+		<result property="recipientUUID" column="recipient_uuid" />
+		<result property="senderEmail" column="sender_email" />
+		<result property="recipientEmail" column="recipient_email" />
+		<result property="senderName" column="sender_name" />
+		<result property="recipientName" column="recipient_name" />
+		<result property="subject" column="subject" />
+		<result property="body" column="body" />
+		<result property="attachmentPath" column="attachment_path" />
+		<result property="sentDate" column="sent_date" />
+		<result property="isRead" column="is_read" />
+	</resultMap>
 
-    <!-- 이메일 등록 쿼리 -->
-    <insert id="insertEmail" parameterType="com.e3i3.moduerp.email.model.dto.Email">
-        INSERT INTO email (sender_email, recipient_email, subject, body, attachment_path, sent_date, is_read)
-        VALUES (#{senderEmail}, #{recipientEmail}, #{subject}, #{body}, #{attachmentPath}, #{sentDate}, #{isRead})
-    </insert>
+	<!-- 이메일 등록 쿼리 (UUID 사용) -->
+	<insert id="insertEmail"
+		parameterType="com.e3i3.moduerp.email.model.dto.Email">
+		INSERT INTO email (sender_uuid, recipient_uuid, subject, body,
+		attachment_path, sent_date, is_read)
+		VALUES (#{senderUUID}, #{recipientUUID}, #{subject}, #{body},
+		#{attachmentPath}, #{sentDate}, #{isRead})
+	</insert>
 
-    <!-- 모든 이메일 조회 쿼리 -->
-    <select id="selectAllEmails" resultMap="resultEmail">
-        SELECT * FROM email
-    </select>
+	<!-- 모든 이메일 조회 쿼리 (Employee 테이블과 조인하여 이름과 이메일 조회) -->
+	<select id="selectAllEmails" resultMap="resultEmail">
+		SELECT e.*,
+		emp1.emp_name AS sender_name,
+		emp1.emp_email AS sender_email,
+		emp2.emp_name AS recipient_name,
+		emp2.emp_email AS recipient_email
+		FROM email e
+		LEFT JOIN employee emp1 ON e.sender_uuid = emp1.uuid
+		LEFT JOIN employee emp2 ON e.recipient_uuid = emp2.uuid
+		ORDER BY e.sent_date DESC
+	</select>
 
-    <!-- 로그인 유저가 받은 이메일 조회 쿼리 -->
-    <select id="selectEmailsByRecipient" parameterType="String" resultMap="resultEmail">
-        SELECT * FROM email WHERE recipient_email = #{recipientEmail}
-    </select>
+	<!-- 로그인 유저가 받은 이메일 조회 (Employee 테이블과 조인하여 이름과 이메일 조회) -->
+	<select id="selectEmailsByRecipient" parameterType="String"
+		resultMap="resultEmail">
+		SELECT e.*,
+		emp1.emp_name AS sender_name,
+		emp1.emp_email AS sender_email,
+		emp2.emp_name AS recipient_name,
+		emp2.emp_email AS recipient_email
+		FROM email e
+		LEFT JOIN employee emp1 ON e.sender_uuid = emp1.uuid
+		LEFT JOIN employee emp2 ON e.recipient_uuid = emp2.uuid
+		WHERE e.recipient_uuid = #{recipientUUID}
+		ORDER BY e.sent_date DESC
+	</select>
 
-    <!-- 로그인 유저가 보낸 이메일 조회 쿼리 -->
-    <select id="selectEmailsBySender" parameterType="String" resultMap="resultEmail">
-        SELECT * FROM email WHERE sender_email = #{senderEmail}
-    </select>
+	<!-- 로그인 유저가 보낸 이메일 조회 (Employee 테이블과 조인하여 이름과 이메일 조회) -->
+	<select id="selectEmailsBySender" parameterType="String"
+		resultMap="resultEmail">
+		SELECT e.*,
+		emp1.emp_name AS sender_name,
+		emp1.emp_email AS sender_email,
+		emp2.emp_name AS recipient_name,
+		emp2.emp_email AS recipient_email
+		FROM email e
+		LEFT JOIN employee emp1 ON e.sender_uuid = emp1.uuid
+		LEFT JOIN employee emp2 ON e.recipient_uuid = emp2.uuid
+		WHERE e.sender_uuid = #{senderUUID}  <!-- 로그인한 사용자의 UUID로 조회 -->
+		ORDER BY e.sent_date DESC
+	</select>
 
-    <!-- 로그인 유저가 보낸 이메일과 받은 이메일 조회 쿼리 -->
-    <select id="selectEmailsByUser" parameterType="String" resultMap="resultEmail">
-        SELECT * FROM email
-        WHERE sender_email = #{userEmail} OR recipient_email = #{userEmail}
-        ORDER BY sent_date DESC
-    </select>
+	<!-- 로그인 유저가 보낸 이메일과 받은 이메일 조회 (Employee 테이블과 조인하여 이름과 이메일 조회) -->
+	<select id="selectEmailsByUser" parameterType="String"
+		resultMap="resultEmail">
+		SELECT e.*,
+		emp1.emp_name AS sender_name,
+		emp1.emp_email AS sender_email,
+		emp2.emp_name AS recipient_name,
+		emp2.emp_email AS recipient_email
+		FROM email e
+		LEFT JOIN employee emp1 ON e.sender_uuid = emp1.uuid
+		LEFT JOIN employee emp2 ON e.recipient_uuid = emp2.uuid
+		WHERE e.sender_uuid = #{userUUID} OR e.recipient_uuid = #{userUUID}
+		ORDER BY e.sent_date DESC
+	</select>
 
-    <!-- 이메일 ID로 이메일 조회 쿼리 -->
-    <select id="selectEmailById" parameterType="Integer" resultMap="resultEmail">
-        SELECT * FROM email WHERE email_id = #{emailId}
-    </select>
+	<!-- 이메일 ID로 이메일 조회 쿼리 (Employee 테이블과 조인하여 이름과 이메일 조회) -->
+	<select id="selectEmailById" parameterType="Long"
+		resultMap="resultEmail">
+		SELECT e.*,
+		emp1.emp_name AS sender_name,
+		emp1.emp_email AS sender_email,
+		emp2.emp_name AS recipient_name,
+		emp2.emp_email AS recipient_email
+		FROM email e
+		LEFT JOIN employee emp1 ON e.sender_uuid = emp1.uuid
+		LEFT JOIN employee emp2 ON e.recipient_uuid = emp2.uuid
+		WHERE e.email_id = #{emailId}
+	</select>
+
+	<!-- 개별 이메일 읽음 상태 업데이트 -->
+	<update id="updateReadStatus" parameterType="long">
+		UPDATE email
+		SET is_read = 'Y'
+		WHERE email_id = #{emailId}
+	</update>
+
+	<!-- 여러 이메일의 읽음 상태 일괄 업데이트 -->
+	<update id="updateReadStatusBatch" parameterType="list">
+		UPDATE email
+		SET is_read = 'Y'
+		WHERE email_id IN
+		<foreach item="item" collection="list" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<delete id="deleteEmailsBatch" parameterType="list">
+		DELETE FROM email
+		WHERE email_id IN
+		<foreach item="item" collection="list" open="(" separator=","
+			close=")">
+			#{item}
+		</foreach>
+	</delete>
+
 
 </mapper>
