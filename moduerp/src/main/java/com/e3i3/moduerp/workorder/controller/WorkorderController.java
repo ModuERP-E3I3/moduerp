@@ -7,7 +7,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -80,7 +82,13 @@ public class WorkOrderController {
 
 		// ITEM_CODE가 biz_number + "P"로 시작하는 아이템 목록과 stock 컬럼 가져오기
 		List<ItemDTO> itemList = itemProductionstockService.getItemNamesAndStockByBizNumberStartingWith(bizNumber);
-
+		
+		// 각 item에 대한 QTY의 합계를 계산하고 추가
+		Map<String, Integer> itemQtyMap = new HashMap<>();
+		for (ItemDTO item : itemList) {
+			int totalQty = workOrderService.getTotalQtyByItemCode(item.getItemCode());
+			itemQtyMap.put(item.getItemCode(), totalQty);
+		}
 		// WORKER_TEAM 목록 가져오기
 		List<String> workerTeams = workOrderService.getWorkerTeamsByBizNumber(bizNumber);
 
@@ -94,6 +102,7 @@ public class WorkOrderController {
 		String directorName = employeeProductionService.getEmployeeNameByUuid(uuid);
 
 		model.addAttribute("itemList", itemList); // stock 컬럼을 포함한 아이템 목록
+		model.addAttribute("itemQtyMap", itemQtyMap);
 		model.addAttribute("workerTeams", workerTeams);
 		model.addAttribute("employeeNames", employeeNames);
 		model.addAttribute("workPlaces", workPlaces);
@@ -110,7 +119,10 @@ public class WorkOrderController {
 			@RequestParam("workerTeam") String workerTeam, @RequestParam("worker") String worker,
 			@RequestParam("workPlace") String workPlace, @RequestParam("wDirector") String wDirector,
 			HttpSession session) throws Exception {
-
+		
+		if (itemName.contains(" 재고 :")) {
+	        itemName = itemName.split(" 재고 :")[0];  // "품목 A" 부분만 추출
+	    }
 		// 세션에서 biz_number와 uuid 가져오기
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String uuid = (String) session.getAttribute("uuid");
@@ -159,4 +171,109 @@ public class WorkOrderController {
 		return "redirect:/productionWorkorder.do";
 	}
 
+	// 작업 지시서 상세보기 메서드
+	@RequestMapping(value = "/getProductionWorkOrderDetails.do", method = RequestMethod.GET)
+	public String getProductionWorkOrderDetails(@RequestParam("orderNumber") String orderNumber, Model model) {
+
+		// orderNumber로 작업 지시서 조회
+		WorkOrderDTO workOrderDetails = workOrderService.getWorkOrderByOrderNumber(orderNumber);
+
+		// 조회된 작업 지시서를 모델에 추가하여 JSP로 전달
+		model.addAttribute("workOrderDetails", workOrderDetails);
+
+		// 상세 정보 페이지로 이동
+		return "productionStock/productionWorkOrderDetail";
+	}
+
+	// 작업 지시서 수정 페이지로 이동
+	@RequestMapping(value = "/productionWorkOrderDetailUpdate.do", method = RequestMethod.GET)
+	public String updateProductionWorkOrderDetails(@RequestParam("orderNumber") String orderNumber, Model model,
+			HttpSession session) {
+		// 세션에서 biz_number와 uuid 가져오기
+		String bizNumber = (String) session.getAttribute("biz_number");
+
+		// orderNumber로 작업 지시서 조회
+		WorkOrderDTO workOrderDetails = workOrderService.getWorkOrderByOrderNumber(orderNumber);
+
+		List<String> employeeNames = employeeProductionService.getEmployeeNamesByBizNumber(bizNumber);
+
+		// 조회된 작업 지시서를 모델에 추가하여 수정 페이지로 전달
+		model.addAttribute("workOrderDetails", workOrderDetails);
+		model.addAttribute("employeeNames", employeeNames);
+
+		// 수정 페이지로 이동
+		return "productionStock/productionWorkOrderDetailUpdate";
+
+	}
+
+	// 작업 지시서 수정 완료 처리
+	@RequestMapping(value = "/updateProductionWorkOrderUpdateDo.do", method = RequestMethod.POST)
+	public String insertWorkOrder(@RequestParam("taskName") String taskName,
+			@RequestParam("startDate") String startDateStr, // 날짜만 입력받음
+			@RequestParam("endExDate") String endExDateStr, // 날짜만 입력받음
+			@RequestParam("qty") int qty, @RequestParam("progressStatus") String progressStatus,
+			@RequestParam("workerTeam") String workerTeam, @RequestParam("worker") List<String> workerList,
+			@RequestParam("workPlace") String workPlace, @RequestParam("orderNumber") String orderNumber,
+			HttpSession session) throws Exception {
+
+		// startDate를 Timestamp로 변환하며 현재 시간을 추가
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date parsedStartDate = dateFormat.parse(startDateStr);
+
+		// 현재 시간 설정
+		Calendar startCalendar = Calendar.getInstance();
+		startCalendar.setTime(parsedStartDate);
+		startCalendar.set(Calendar.HOUR_OF_DAY, Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+		startCalendar.set(Calendar.MINUTE, Calendar.getInstance().get(Calendar.MINUTE));
+		startCalendar.set(Calendar.SECOND, Calendar.getInstance().get(Calendar.SECOND));
+
+		Timestamp startDate = new Timestamp(startCalendar.getTimeInMillis());
+
+		SimpleDateFormat enddateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date parsedEndExDate = enddateFormat.parse(endExDateStr);
+
+		// WorkOrderDTO 객체 생성 및 데이터 설정
+		WorkOrderDTO workOrderDTO = new WorkOrderDTO();
+		workOrderDTO.setOrderNumber(orderNumber);
+		workOrderDTO.setTaskName(taskName);
+		workOrderDTO.setStartDate(startDate); // 변환된 Timestamp 설정
+		workOrderDTO.setEndExDate(parsedEndExDate);
+		workOrderDTO.setQty(qty);
+		workOrderDTO.setProgressStatus(progressStatus);
+		workOrderDTO.setWorkerTeam(workerTeam);
+
+		String worker = String.join(",", workerList);
+		workOrderDTO.setWorker(worker);
+
+		workOrderDTO.setWorkPlace(workPlace);
+
+		// 현재 시간을 타임스탬프로 설정
+		Timestamp updateDate = new Timestamp(System.currentTimeMillis());
+		workOrderDTO.setUpdateDate(updateDate);
+
+		// progressStatus가 "작업 완료"이면 endDate에 현재 시간을 넣고, 그렇지 않으면 null로 설정
+		if ("작업 완료".equals(progressStatus)) {
+			Timestamp endDate = new Timestamp(System.currentTimeMillis());
+			workOrderDTO.setEndDate(endDate);
+		} else {
+			workOrderDTO.setEndDate(null);
+		}
+
+		// 작업지시서 데이터 업데이트
+		workOrderService.updateWorkOrder(workOrderDTO);
+
+		// 저장 후 작업지시서 리스트 페이지로 리다이렉트
+		return "redirect:/productionWorkorder.do";
+	}
+
+	// 작업지시서 삭제 처리 메서드
+	@PostMapping("/deleteProductionWorkOrder.do")
+	public String deleteProductionWorkOrder(@RequestParam("orderNumber") String orderNumber, HttpSession session) {
+
+		// 해당 orderNumber에 해당하는 작업지시서를 삭제
+		workOrderService.deleteWorkOrder(orderNumber);
+
+		// 삭제 후 작업지시서 리스트 페이지로 리다이렉트
+		return "redirect:/productionWorkorder.do";
+	}
 }
