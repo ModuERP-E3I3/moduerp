@@ -115,10 +115,6 @@ th {
 .top-content-box {
 	background-color: white;
 }
-
-#tbpt:hover {
-	cursor: pointer;
-}
 </style>
 
 </head>
@@ -150,7 +146,15 @@ th {
 		<div class="content-title">생산관리 | 생산출고 | ${itemDetails.itemName}
 			출고 정보</div>
 
-		
+		<!-- 필터 박스 -->
+		<div class="filter-box">
+			<select>
+				<option>조회기간</option>
+			</select> <input type="date" /> <input type="date" /> <select>
+				<option>품목 선택</option>
+			</select> <input type="text" placeholder="내용 입력" />
+			<button class="btn">조회</button>
+		</div>
 
 		<!-- 테이블 -->
 		<!-- 아이템 관련 데이터 테이블 -->
@@ -192,7 +196,7 @@ th {
 			</thead>
 			<tbody>
 				<c:forEach var="stockOut" items="${productionStockOutDetails}">
-					<tr id="tbpt"
+					<tr
 						onclick="window.location.href='getProductionOutDetailsSub.do?pStockOutId=${stockOut.pStockOutId}&itemCode=${itemDetails.itemCode }'">
 						<td><fmt:formatDate value="${stockOut.pStockOutDate}"
 								pattern="yyyy-MM-dd HH:mm:ss" /></td>

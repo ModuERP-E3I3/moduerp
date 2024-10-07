@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ItemMapper">
+<mapper namespace="ItemBuyMapper">
 
 	<!-- 아이템 정보를 매핑하기 위한 resultMap -->
 	<resultMap id="itemResultMap"
@@ -28,7 +28,7 @@
 		resultType="String">
 		SELECT ITEM_NAME
 		FROM ITEM
-		WHERE BIZ_NUMBER = #{bizNumber}
+		WHERE BIZ_NUMBER = #{bizNumber}  AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
 	</select>
 
 	<!-- biz_number로 필터링된 stock_place 리스트를 조회하는 쿼리 -->
@@ -58,8 +58,6 @@
 	<select id="getItemsByBizNumber" parameterType="String"
 		resultMap="itemResultMap">
 		SELECT * FROM ITEM WHERE BIZ_NUMBER = #{bizNumber}
-		AND ITEM_CODE
-		LIKE CONCAT(#{bizNumber}, 'P%')
 	</select>
 
 	<select id="selectItemByCode" parameterType="String"
@@ -91,7 +89,7 @@
 	</delete>
 
 	<!-- ======================================= -->
-	<!-- productionOUT -->
+	<!-- buyOUT -->
 	<!-- BizNumber와 CREATED_OUT_AT이 있는 항목 조회 -->
 	<select id="getItemsByBizNumberOutDate" parameterType="String"
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
@@ -118,7 +116,7 @@
 		AND CREATED_OUT_AT IS NOT NULL
 	</select>
 
-	<!-- BizNumber와 item_code가 biz_number + "P"로 시작하는 품목을 조회하는 쿼리 -->
+	<!-- BizNumber와 item_code가 biz_number + "B"로 시작하는 품목을 조회하는 쿼리 -->
 	<select id="selectItemsByBizNumberStartingWith"
 		parameterType="map" resultMap="itemResultMap">
 		SELECT ITEM_NAME, STOCK_OUT_PLACE,
@@ -127,10 +125,10 @@
 		WHERE
 		BIZ_NUMBER = #{bizNumber}
 		AND ITEM_CODE
-		LIKE CONCAT(#{bizNumber}, 'P%')
+		LIKE CONCAT(#{bizNumber}, 'B%')
 	</select>
 
-	<update id="updateItemForProductionOut" parameterType="map">
+	<update id="updateItemForBuyOut" parameterType="map">
 		UPDATE ITEM
 		SET
 		CREATED_OUT_AT = #{createdOutAt},
@@ -204,16 +202,16 @@
 	</update>
 
 	<!-- =============================================== -->
-	<!-- workorder -->
+	<!-- workorder 
 
 	<select id="selectItemNamesAndStockByBizNumberStartingWith"
 		parameterType="String" resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
 		SELECT ITEM_CODE, ITEM_NAME, STOCK
 		FROM ITEM
 		WHERE BIZ_NUMBER = #{bizNumber}
-		AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'P%')
+		AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
 	</select>
-
+		-->
 
 
 </mapper>

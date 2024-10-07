@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -146,150 +145,123 @@ th {
 	background-color: white;
 }
 
-#pagebutton {
-	display: flex;
-	justify-content: center;
-	margin-top: 2%; /* 위쪽 여백 추가 */
-}
-
-#pagebutton a {
-	color: black; /* 글자 색상 검은색 */
-	text-decoration: none; /* 밑줄 제거 */
-	font-size: 20px; /* 글자 크기 증가 */
-	margin: 0 10px; /* 페이지 버튼 간격 조정 */
-}
-
-#pagebutton strong {
-	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
-	color: black; /* 강조 색상 검은색 유지 */
-}
-
-tbody tr:hover {
-	cursor: pointer;
+.material-type-input {
+	margin-bottom: 10px;
 }
 </style>
 
 </head>
 
 <body>
-	<!-- 서브헤더 JSP 임포트 -->
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
-	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
 			<li><a href="productionStockIn.do"><i
 					class="fas fa-bullhorn"></i> 생산 입고</a></li>
 			<li><a href="productionStockOut.do"><i
 					class="fas fa-clipboard"></i> 생산 출고</a></li>
-			<!-- 수정 -->
 			<li><a href="productionWorkorder.do"><i class="fas fa-code"></i>
 					작업지시서</a></li>
-			<!-- 수정 -->
 			<li><a href="productionQuality.do"><i class="fas fa-plug"></i>
 					품질관리</a></li>
-			<!-- 수정 -->
 		</ul>
 	</div>
 
-	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
+		<div class="content-title">생산관리 | 생산입고 | ${itemDetails.itemName}
+			수정하기</div>
 
-		<div class="content-title">생산관리 | 생산입고</div>
-
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-		</div>
-
-		<!-- 테이블 -->
-		<table>
-			<thead>
-				<tr>
-					<th>순번</th>
-					<th>제품명</th>
-					<th>생성일자</th>
-					<th>입고수량</th>
-					<th>입고장소</th>
-					<th>입고단가</th>
-				</tr>
-			</thead>
-
-			<tbody>
-				<c:forEach var="item" items="${itemList}" varStatus="status">
-					<tr
-						onclick="window.location.href='getProductionInDetails.do?itemCode=${item.itemCode}'">
-						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<!-- 순번 계산 -->
-						<td>${item.itemName}</td>
-						<td>${item.createdAt}</td>
-						<td>${item.stockIn}</td>
-						<td>${item.stockPlace}</td>
-						<td>${item.inPrice}</td>
+		<form action="/moduerp/updateProductionStockIn.do" method="POST">
+			<input type="hidden" name="itemCode" value="${itemDetails.itemCode}" />
+			<table>
+				<thead>
+					<tr>
+						<th>제품명</th>
+						<th>제품 설명</th>
+						<th>입고날짜</th>
+						<th>수정날짜</th>
+						<th>입고수량</th>
+						<th>입고가격</th>
+						<th>입고장소</th>
+						<th>자재 종류</th>
 					</tr>
-				</c:forEach>
-			</tbody>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input type="text" name="itemName"
+							value="${itemDetails.itemName}" required /></td>
+						<td><input type="text" name="itemDesc"
+							value="${itemDetails.itemDesc}" required /></td>
+						<td>${itemDetails.createdAt}</td>
+						<td>${itemDetails.updatedAt}</td>
+						<td><input type="number" name="stockIn"
+							value="${itemDetails.stockIn}" required /></td>
+						<td><input type="number" name="inPrice"
+							value="${itemDetails.inPrice}" step="0.01" required /></td>
+
+						<td><input list="stockPlaces" name="stockPlace"
+							value="${itemDetails.stockPlace}" placeholder="보관장소 선택" required />
+							<datalist id="stockPlaces">
+								<c:forEach var="stockPlace" items="${stockPlaces}">
+									<option value="${stockPlace}"></option>
+								</c:forEach>
+							</datalist></td>
+
+
+						<td>
+							<div id="materialTypeContainer">
+								<c:forEach var="materialType" items="${itemDetails.itemList}">
+									<div class="material-type-input">
+										<input list="materialTypes" name="materialTypes"
+											value="${materialType}" placeholder="자재 종류 입력" required />
+										<datalist id="materialTypes">
+											<c:forEach var="itemName" items="${itemNames}">
+												<option value="${itemName}"></option>
+											</c:forEach>
+										</datalist>
+										<button type="button" class="remove-btn"
+											onclick="removeMaterialType(this)">삭제</button>
+									</div>
+								</c:forEach>
+							</div>
+							<button type="button" onclick="addMaterialType()">자재 종류
+								추가</button>
+						</td>
 
 
 
-		</table>
+					</tr>
+				</tbody>
+			</table>
 
-		<!-- 페이지 버튼 -->
-		<div id="pagebutton">
-			<c:if test="${totalPages > 1}">
-				<c:forEach var="i" begin="1" end="${totalPages}">
-					<c:choose>
-						<c:when test="${i == currentPage}">
-							<strong>${i}</strong>
-							<!-- 현재 페이지는 강조 -->
-						</c:when>
-						<c:otherwise>
-							<a href="productionStockIn.do?page=${i}">${i}</a>
-							<!-- 페이지 링크 -->
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-			</c:if>
-		</div>
-
-
-
-		<!-- 버튼 그룹 -->
-		<div class="btn-group">
-			<a href="productionInCreate.do"><button class="btn blue">등록</button></a>
-		</div>
-
+			<div class="btn-group">
+				<button type="submit" class="btn green">수정 완료</button>
+			</div>
+		</form>
 	</div>
 </body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- jQuery 추가 -->
-
 <script>
-    function getItemCode(itemCode) {
-        console.log("클릭한 item_code: " + itemCode);
+    function addMaterialType() {
+        const container = document.getElementById("materialTypeContainer");
+        const newInput = document.createElement("div");
+        newInput.classList.add("material-type-input");
+        newInput.innerHTML = `
+            <input list="materialTypes" name="materialTypes" placeholder="자재 종류 입력" required/>
+            <datalist id="materialTypes">
+                <c:forEach var="itemName" items="${itemNames}">
+                    <option value="${itemName}"></option>
+                </c:forEach>
+            </datalist>
+            <button type="button" class="remove-btn" onclick="removeMaterialType(this)">삭제</button>`;
+        container.appendChild(newInput);
+    }
 
-        $.ajax({
-        	url: '/moduerp/getProductionInDetails.do', // URL을 수정
-            type: 'GET',
-            data: { itemCode: itemCode },
-            success: function(response) {
-                console.log("데이터 가져오기 성공:", response);
-                // 필요한 작업 수행
-            },
-            error: function(xhr, status, error) {
-                console.error("데이터 가져오기 실패:", error);
-            }
-        });
-
+    function removeMaterialType(button) {
+        const inputContainer = button.parentElement;
+        inputContainer.remove();
     }
 </script>
-
-
 
 <script>
     const activeMenu = "productionStockIn";

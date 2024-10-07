@@ -58,21 +58,32 @@
 
 		<mapper resource="mappers/buyStockIn-mapper.xml" />
 		<mapper resource="mappers/buyStockOut-mapper.xml" />
+		
 		<mapper resource="mappers/productionStockIn-mapper.xml" />
 		<mapper resource="mappers/productionStockOut-mapper.xml" />
-		<mapper resource="mappers/workorder-mapper.xml" />
-		<mapper resource="mappers/productionquality-mapper.xml" />
+		<mapper resource="mappers/item-productionstock-mapper.xml" />		
+		<mapper resource="mappers/employee-production-mapper.xml" />
 
 		<mapper resource="mappers/salesStockIn-mapper.xml" />
 		<mapper resource="mappers/salesStockOut-mapper.xml" />
+		<mapper resource="mappers/item-salesstock-mapper.xml" />		
+		<mapper resource="mappers/employee-sales-mapper.xml" />
+		
 		<mapper resource="mappers/account-mapper.xml" />
 		<mapper resource="mappers/admin-mapper.xml" />
+		<mapper resource="mappers/item-buystock-mapper.xml" />
+		<mapper resource="mappers/employee-buy-mapper.xml" />
+
 
 		<mapper resource="mappers/item-productionstock-mapper.xml" />
 		<mapper resource="mappers/employee-production-mapper.xml" />
 		
 		<mapper resource="mappers/attendance-mapper.xml" />
 		
+
+
+		<mapper resource="mappers/workorder-mapper.xml" />
+		<mapper resource="mappers/productionquality-mapper.xml" />
 
 	</mappers>
 

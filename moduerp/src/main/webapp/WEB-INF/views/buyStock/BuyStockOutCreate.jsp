@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -172,18 +171,29 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 작업지시서 | 신규 등록</div>
+		<div class="content-title">생산관리 | 생산출고</div>
 
-		<!-- 테이블 -->
-		<form action="/moduerp/productionWorkOrderInsert.do" method="POST">
+		<!-- 폼 시작 -->
+		<form action="/moduerp/productionStockOutCreate.do" method="POST">
+			<!-- 필터 박스 -->
+			<div class="filter-box">
+				<select>
+					<option>조회기간</option>
+				</select> <input type="date" /> <input type="date" /> <select>
+					<option>품목 선택</option>
+				</select> <input type="text" placeholder="내용 입력" />
+				<button class="btn">조회</button>
+			</div>
+
+			<!-- 테이블 -->
 			<table>
 				<thead>
 					<tr>
 						<th>제품명</th>
-						<th>작업명</th>
-						<th>시작 날짜</th>
-						<th>종료 예정 날짜</th>
-						<th>작업 수량</th>
+						<th>출고날짜</th>
+						<th>출고장소</th>
+						<th>출고수량</th>
+						<th>출고단가</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -194,12 +204,9 @@ th {
 								<option value="==========">==========</option>
 
 								<c:forEach var="item" items="${itemList}">
-									<c:set var="availableStock"
-										value="${item.stock - itemQtyMap[item.itemCode]}" />
-									<c:if test="${availableStock > 0}">
-										<option value="${item.itemName} 재고 : ${availableStock}"
-											data-item-code="${item.itemCode}"
-											data-available-stock="${availableStock}"></option>
+									<c:if test="${item.stock > 0}">
+										<option value="${item.itemName} 재고 : ${item.stock}"
+											data-item-code="${item.itemCode}"></option>
 									</c:if>
 								</c:forEach>
 
@@ -207,144 +214,29 @@ th {
 							</datalist> <input type="hidden" name="itemCode" id="itemCodeInput" /> <!-- itemCode를 담을 숨겨진 입력 필드 -->
 						</td>
 
-						<td><input type="text" name="taskName" placeholder="작업명 입력"
-							required /></td>
-						<td><input type="date" id="startDate" name="startDate"
-							required></td>
-						<td><input type="date" id="endExDate" name="endExDate"
-							required></td>
-						<td><input type="number" id="qty" name="qty" required>
-						</td>
-					</tr>
-				</tbody>
-				<thead>
-					<tr>
-
-						<th>진행 상태</th>
-						<th>작업팀</th>
-						<th>작업자</th>
-						<th>작업장소</th>
-						<th>지시자</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><select name="progressStatus" required>
-								<option value="작업 전">작업 전</option>
-								<option value="작업 중">작업 중</option>
-								<option value="작업 후">작업 후</option>
-						</select></td>
-						<!-- 작업팀을 선택하는 input 필드 -->
-						<td><input list="workerTeamsList" name="workerTeam"
-							placeholder="작업팀 선택" required /> <datalist id="workerTeamsList">
-								<!-- workerTeams 모델에 담긴 리스트를 반복하여 datalist에 출력 -->
-								<c:forEach var="team" items="${workerTeams}">
-									<option value="${team}"></option>
-								</c:forEach>
-							</datalist></td>
-
-						<!-- 작업자를 선택하는 input 필드 -->
-						<td>
-							<!-- 작업자 선택 부분 -->
-							<div id="workerContainer">
-								<div class="worker-input">
-									<input list="employeeNamesList" name="worker"
-										placeholder="작업자 선택" required />
-									<datalist id="employeeNamesList">
-										<!-- employeeNames 모델에 담긴 리스트를 반복하여 datalist에 출력 -->
-										<c:forEach var="employee" items="${employeeNames}">
-											<option value="${employee}"></option>
-										</c:forEach>
-									</datalist>
-									<button type="button" class="remove-btn"
-										onclick="removeWorker(this)">삭제</button>
-								</div>
-							</div>
-							<button type="button" onclick="addWorker()">작업자 추가</button>
-						</td>
 
 
-						<!-- 작업 장소를 선택하는 input 필드 -->
-						<td><input list="workPlacesList" name="workPlace"
-							placeholder="작업 장소 선택" required /> <datalist id="workPlacesList">
-								<!-- workPlaces 모델에 담긴 리스트를 반복하여 datalist에 출력 -->
-								<c:forEach var="place" items="${workPlaces}">
+						<td><input type="date" name="createdOutAt" required /></td>
+						<td><input list="stockOutPlaces" name="stockOutPlace"
+							placeholder="출고 장소 선택" required /> <datalist id="stockOutPlaces">
+								<c:forEach var="place" items="${stockOutPlaces}">
 									<option value="${place}"></option>
 								</c:forEach>
 							</datalist></td>
-
-						<td><input type="text" name="wDirector"
-							value="${directorName}" readonly /></td>
+						<td><input type="number" name="stockOut" required /></td>
+						<td><input type="number" name="outPrice" step="0.01" required /></td>
 					</tr>
 				</tbody>
 			</table>
 
 			<!-- 버튼 그룹 -->
 			<div class="btn-group">
-				<button type="submit" class="btn blue">등록 완료</button>
+				<button type="submit" class="btn blue">등록완료</button>
 			</div>
 		</form>
-
-
+		<!-- 폼 끝 -->
 	</div>
 </body>
-<script>
-document.getElementById('qty').addEventListener('input', function () {
-    // itemNameInput 필드에서 선택된 옵션을 찾음
-    var input = document.getElementById('itemNameInput');
-    var selectedOption = null;
-
-    // datalist의 모든 옵션을 확인하여 선택한 값과 일치하는 옵션을 찾음
-    var options = document.querySelectorAll('#itemNames option');
-    options.forEach(function(option) {
-        if (option.value === input.value) {
-            selectedOption = option;
-        }
-    });
-
-    // 선택된 옵션이 있을 경우
-    if (selectedOption) {
-        // availableStock을 숫자로 변환
-        var availableStock = parseFloat(selectedOption.getAttribute('data-available-stock'));
-
-        // 입력된 수량을 숫자로 변환
-        var enteredQty = parseFloat(this.value);
-
-        // 입력된 수량이 재고보다 많으면 경고창을 띄우고 값을 초기화함
-        if (enteredQty > availableStock) {
-            alert('입력한 수량이 가능한 재고를 초과했습니다.');
-            this.value = '';  // 수량 필드를 빈 값으로 설정
-        }
-    }
-});
-
-</script>
-
-
-<script type="text/javascript">
-function addWorker() {
-    const container = document.getElementById('workerContainer');
-    const newInputDiv = document.createElement('div');
-    newInputDiv.className = 'worker-input';
-    newInputDiv.innerHTML = `
-        <input list="employeeNamesList" name="worker" placeholder="작업자 선택" required />
-        <datalist id="employeeNamesList">
-            <!-- 이 부분은 서버에서 제공된 employeeNames 데이터를 사용 -->
-            <c:forEach var="employee" items="${employeeNames}">
-                <option value="${employee}"></option>
-            </c:forEach>
-        </datalist>
-        <button type="button" class="remove-btn" onclick="removeWorker(this)">삭제</button>
-    `;
-    container.appendChild(newInputDiv);
-}
-
-function removeWorker(button) {
-    const inputDiv = button.parentElement;
-    inputDiv.remove();
-}
-
-</script>
 <script>
     document.getElementById('itemNameInput').addEventListener('input', function() {
         // "=========="가 선택된 경우 값을 비워서 선택되지 않게 함
@@ -409,30 +301,6 @@ function updateItemCode() {
 
 
 </script>
-
-<script>
-function updateItemCode() {
-    var input = document.getElementById('itemNameInput');
-    var selectedValue = input.value;
-
-    // datalist의 모든 옵션을 확인하여 일치하는 옵션의 itemCode를 가져옴
-    var options = document.querySelectorAll('#itemNames option');
-    var itemCode = ''; // 기본값
-
-    options.forEach(function(option) {
-        if (option.value === selectedValue) {
-            itemCode = option.getAttribute('data-item-code');
-        }
-    });
-
-    // 숨겨진 필드에 itemCode를 설정
-    document.getElementById('itemCodeInput').value = itemCode;
-
-    // qty 입력 필드의 값을 지움
-    document.getElementById('qty').value = '';
-}
-</script>
-
 <script>
     const activeMenu = "productionStockIn";
 
@@ -445,6 +313,4 @@ function updateItemCode() {
         });
     });
 </script>
-
-
 </html>
