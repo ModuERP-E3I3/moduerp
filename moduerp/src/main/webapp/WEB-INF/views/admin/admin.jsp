@@ -6,44 +6,51 @@
     <meta charset="UTF-8">
     <title>Admin</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        .container {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-            background-color: white;
-        }
+<style>
+    .container {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        background-color: white;
+    }
 
-        .chart-container {
-            width: 60%;
-        }
+    .chart-container {
+        width: 60%;
+    }
 
-        .table-container {
-            width: 35%;
-        }
+    .table-container {
+        width: 35%;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+    .scrollable-table {
+        max-height: 480px; /* Set a maximum height for the table content */
+        overflow-y: auto; /* Enable vertical scrolling */
+    }
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-        th {
-            background-color: #f2f2f2;
-        }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
 
-        tr:hover {
-            background-color: #f1f1f1;
-        }
+    th {
+        background-color: #f2f2f2;
+    }
 
-        .filter-options {
-            margin-bottom: 10px;
-        }
-    </style>
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .filter-options {
+        margin-bottom: 10px;
+    }
+</style>
+
+
 </head>
 <body>
 
@@ -60,7 +67,8 @@
 
     <!-- Right: Member Table -->
     <div class="table-container">
-        <h2>회원가입 현황 데이터 테이블</h2>
+    <h2>회원가입 현황 데이터 테이블</h2>
+    <div class="scrollable-table">
         <table>
             <thead>
                 <tr>
@@ -85,9 +93,9 @@
                 </c:forEach>
             </tbody>
         </table>
-        
-        
     </div>
+</div>
+
 </div>
 
 <!-- 푸터 임포트 -->
