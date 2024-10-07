@@ -206,6 +206,32 @@
 			</tbody>
 
         </table>
+        
+        
+        <!-- 테이블 -->
+        <table>
+            <thead>
+                <tr>
+                    <th>사원명</th>
+                    <th>부서명</th>
+                    <th>차량 번호</th>
+                    <th>예약 일정</th>
+                    <th>예약 사유</th>
+                </tr>
+            </thead>
+            <tbody>
+			    <c:forEach var="carres" items="${carresList}">
+			        <tr>
+			            <td>${ carres.empName }</td>
+			            <td>${ carres.departmentId }</td>
+			            <td>${ carres.carId }</td>
+			            <td>${ carres.reserveStartDate } ~ ${ carres.reserveEndDate }</td>
+			            <td>${ carres.useReason }</td>
+			        </tr>
+			    </c:forEach>
+			</tbody>
+
+        </table>
 
         
 
