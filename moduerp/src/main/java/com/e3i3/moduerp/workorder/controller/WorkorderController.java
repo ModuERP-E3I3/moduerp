@@ -29,7 +29,7 @@ import com.e3i3.moduerp.workorder.model.service.WorkOrderService;
 
 @Controller
 @RequestMapping("/")
-public class WorkOrderController {
+public class WorkorderController {
 
 	@Autowired
 	private WorkOrderService workOrderService;
@@ -43,34 +43,34 @@ public class WorkOrderController {
 	@RequestMapping(value = "/productionWorkorder.do", method = RequestMethod.GET)
 	public String showWorkOrders(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
 			HttpSession session) {
-		// 세션에서 biz_number 꺼내기
+		// �꽭�뀡�뿉�꽌 biz_number 爰쇰궡湲�
 		String bizNumber = (String) session.getAttribute("biz_number");
 
-		// DB에서 biz_number에 해당하는 WorkOrder 목록 가져오기
+		// DB�뿉�꽌 biz_number�뿉 �빐�떦�븯�뒗 WorkOrder 紐⑸줉 媛��졇�삤湲�
 		List<WorkOrderDTO> workOrderList = workOrderService.getWorkOrdersByBizNumber(bizNumber);
 
-		// 페이지당 항목 수 설정
+		// �럹�씠吏��떦 �빆紐� �닔 �꽕�젙
 		int itemsPerPage = 10;
 
-		// 총 항목 수 계산
+		// 珥� �빆紐� �닔 怨꾩궛
 		int totalItems = workOrderList.size();
 
-		// 총 페이지 수 계산
+		// 珥� �럹�씠吏� �닔 怨꾩궛
 		int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
 
-		// 시작 인덱스 계산
+		// �떆�옉 �씤�뜳�뒪 怨꾩궛
 		int startIndex = (page - 1) * itemsPerPage;
 		int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
 
-		// 서브리스트 생성 (해당 페이지의 항목들만 추출)
+		// �꽌釉뚮━�뒪�듃 �깮�꽦 (�빐�떦 �럹�씠吏��쓽 �빆紐⑸뱾留� 異붿텧)
 		List<WorkOrderDTO> paginatedList = workOrderList.subList(startIndex, endIndex);
 
-		// 모델에 WorkOrder 목록, 총 페이지 수, 현재 페이지 추가
+		// 紐⑤뜽�뿉 WorkOrder 紐⑸줉, 珥� �럹�씠吏� �닔, �쁽�옱 �럹�씠吏� 異붽�
 		model.addAttribute("workOrderList", paginatedList);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("currentPage", page);
 
-		return "productionStock/productionWorkorder"; // JSP 파일 경로 반환
+		return "productionStock/productionWorkorder"; // JSP �뙆�씪 寃쎈줈 諛섑솚
 	}
 
 	@RequestMapping(value = "/productionWorkOrderCreate.do", method = RequestMethod.GET)
@@ -78,51 +78,51 @@ public class WorkOrderController {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String uuid = (String) session.getAttribute("uuid");
 
-		// ITEM_CODE가 biz_number + "P"로 시작하는 아이템 목록과 stock 컬럼 가져오기
+		// ITEM_CODE媛� biz_number + "P"濡� �떆�옉�븯�뒗 �븘�씠�뀥 紐⑸줉怨� stock 而щ읆 媛��졇�삤湲�
 		List<ItemDTO> itemList = itemProductionstockService.getItemNamesAndStockByBizNumberStartingWith(bizNumber);
 
-		// WORKER_TEAM 목록 가져오기
+		// WORKER_TEAM 紐⑸줉 媛��졇�삤湲�
 		List<String> workerTeams = workOrderService.getWorkerTeamsByBizNumber(bizNumber);
 
-		// EMP_NAME 목록 가져오기
+		// EMP_NAME 紐⑸줉 媛��졇�삤湲�
 		List<String> employeeNames = employeeProductionService.getEmployeeNamesByBizNumber(bizNumber);
 
-		// WORK_PLACE 목록 가져오기
+		// WORK_PLACE 紐⑸줉 媛��졇�삤湲�
 		List<String> workPlaces = workOrderService.getWorkPlacesByBizNumber(bizNumber);
 
-		// 현재 로그인한 사용자의 EMP_NAME 가져오기
+		// �쁽�옱 濡쒓렇�씤�븳 �궗�슜�옄�쓽 EMP_NAME 媛��졇�삤湲�
 		String directorName = employeeProductionService.getEmployeeNameByUuid(uuid);
 
-		model.addAttribute("itemList", itemList); // stock 컬럼을 포함한 아이템 목록
+		model.addAttribute("itemList", itemList); // stock 而щ읆�쓣 �룷�븿�븳 �븘�씠�뀥 紐⑸줉
 		model.addAttribute("workerTeams", workerTeams);
 		model.addAttribute("employeeNames", employeeNames);
 		model.addAttribute("workPlaces", workPlaces);
 		model.addAttribute("directorName", directorName);
 
-		return "productionStock/productionWorkOrderCreate"; // JSP 파일 경로
+		return "productionStock/productionWorkOrderCreate"; // JSP �뙆�씪 寃쎈줈
 	}
 
 	@RequestMapping(value = "/productionWorkOrderInsert.do", method = RequestMethod.POST)
 	public String insertWorkOrder(@RequestParam("itemName") String itemName, @RequestParam("itemCode") String itemCode,
-			@RequestParam("taskName") String taskName, @RequestParam("startDate") String startDateStr, // 날짜만 입력받음
-			@RequestParam("endExDate") String endExDateStr, // 날짜만 입력받음
+			@RequestParam("taskName") String taskName, @RequestParam("startDate") String startDateStr, // �궇吏쒕쭔 �엯�젰諛쏆쓬
+			@RequestParam("endExDate") String endExDateStr, // �궇吏쒕쭔 �엯�젰諛쏆쓬
 			@RequestParam("qty") int qty, @RequestParam("progressStatus") String progressStatus,
 			@RequestParam("workerTeam") String workerTeam, @RequestParam("worker") String worker,
 			@RequestParam("workPlace") String workPlace, @RequestParam("wDirector") String wDirector,
 			HttpSession session) throws Exception {
 
-		// 세션에서 biz_number와 uuid 가져오기
+		// �꽭�뀡�뿉�꽌 biz_number�� uuid 媛��졇�삤湲�
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String uuid = (String) session.getAttribute("uuid");
 
-		// ORDER_NUMBER 생성: biz_number + 'W' + 현재 타임스탬프
+		// ORDER_NUMBER �깮�꽦: biz_number + 'W' + �쁽�옱 ���엫�뒪�꺃�봽
 		String orderNumber = bizNumber + "W" + System.currentTimeMillis();
 
-		// startDate와 endExDate를 Timestamp로 변환하며 현재 시간을 추가
+		// startDate�� endExDate瑜� Timestamp濡� 蹂��솚�븯硫� �쁽�옱 �떆媛꾩쓣 異붽�
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date parsedStartDate = dateFormat.parse(startDateStr);
 
-		// 현재 시간을 가져와서 설정
+		// �쁽�옱 �떆媛꾩쓣 媛��졇���꽌 �꽕�젙
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(parsedStartDate);
 		calendar.set(Calendar.HOUR_OF_DAY, Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
@@ -131,18 +131,18 @@ public class WorkOrderController {
 
 		Timestamp startDate = new Timestamp(calendar.getTimeInMillis());
 
-		// endExDate 처리 (현재 시간을 추가하지 않고 기본 시간 00:00:00으로 설정)
+		// endExDate 泥섎━ (�쁽�옱 �떆媛꾩쓣 異붽��븯吏� �븡怨� 湲곕낯 �떆媛� 00:00:00�쑝濡� �꽕�젙)
 		Date parsedEndExDate = dateFormat.parse(endExDateStr);
 		Timestamp endExDate = new Timestamp(parsedEndExDate.getTime());
 
-		// WorkOrderDTO 객체 생성 및 데이터 설정
+		// WorkOrderDTO 媛앹껜 �깮�꽦 諛� �뜲�씠�꽣 �꽕�젙
 		WorkOrderDTO workOrderDTO = new WorkOrderDTO();
 		workOrderDTO.setOrderNumber(orderNumber);
 		workOrderDTO.setItemName(itemName);
 		workOrderDTO.setItemCode(itemCode);
 		workOrderDTO.setTaskName(taskName);
-		workOrderDTO.setStartDate(startDate); // 변환된 Timestamp 설정
-		workOrderDTO.setEndExDate(endExDate); // 변환된 Timestamp 설정
+		workOrderDTO.setStartDate(startDate); // 蹂��솚�맂 Timestamp �꽕�젙
+		workOrderDTO.setEndExDate(endExDate); // 蹂��솚�맂 Timestamp �꽕�젙
 		workOrderDTO.setQty(qty);
 		workOrderDTO.setProgressStatus(progressStatus);
 		workOrderDTO.setWorkerTeam(workerTeam);
@@ -152,10 +152,10 @@ public class WorkOrderController {
 		workOrderDTO.setBizNumber(bizNumber);
 		workOrderDTO.setUuid(uuid);
 
-		// 작업지시서 데이터 저장
+		// �옉�뾽吏��떆�꽌 �뜲�씠�꽣 ���옣
 		workOrderService.insertWorkOrder(workOrderDTO);
 
-		// 저장 후 작업지시서 리스트 페이지로 리다이렉트
+		// ���옣 �썑 �옉�뾽吏��떆�꽌 由ъ뒪�듃 �럹�씠吏�濡� 由щ떎�씠�젆�듃
 		return "redirect:/productionWorkorder.do";
 	}
 
