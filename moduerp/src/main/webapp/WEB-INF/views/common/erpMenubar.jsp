@@ -95,14 +95,20 @@ nav.side ul li.moduerp {
         <li class="moduerp"><i class="fas fa-home"></i>  ModuERP</li>
 
         <!-- 다른 항목들 -->
-        <li><a href="productionStockIn.do"><i class="fas fa-clipboard"></i>생산 관리</a></li>
-        <li><a href="buyStockIn.do"><i class="fas fa-code"></i>구매 관리</a></li>
-        <li><a href="account.do"><i class="fas fa-plug"></i>영업/판매 관리</a></li>
-        <li><a href="bankmg.do"><i class="fas fa-plug"></i>회계 관리</a></li>
-        <li><a href="carRes.do"><i class="fas fa-plug"></i>차량 관리</a></li>
-        <li><a href="attendance.do"><i class="fas fa-plug"></i>그룹 웨어</a></li>
-        <li><a href="main.do"><i class="fas fa-home"></i>Homepage</a></li>
-        <li><a href="logout"><i class="fas fa-sign-out-alt"></i>로그아웃</a></li>
+        <%-- c:url 을 통해 상대 경로를 정확하게 처리함,
+        	JSP의 URL 경로를 동적으로 생성해 주기 때문에, 
+        	서버 환경이나 URL 경로가 변경되더라도 안정적으로 링크를 관리함 
+        	즉, JSP 파일이 어디에 위치하든 항상 정확한 URL을 생성
+        	( /moduerp/email/inbox.do ) ->  ( moduerp/attendance.do ) 로 유연하게 url 작동함 
+        	--%>
+        <li><a href="<c:url value='/productionStockIn.do' />"><i class="fas fa-clipboard"></i>생산 관리</a></li>
+        <li><a href="<c:url value='/buyStockIn.do' />"><i class="fas fa-code"></i>구매 관리</a></li>
+        <li><a href="<c:url value='/account.do' />"><i class="fas fa-plug"></i>영업/판매 관리</a></li>
+        <li><a href="<c:url value='/bankmg.do' />"><i class="fas fa-plug"></i>회계 관리</a></li>
+        <li><a href="<c:url value='/carRes.do' />"><i class="fas fa-plug"></i>차량 관리</a></li>
+        <li><a href="<c:url value='/attendance.do' />"><i class="fas fa-plug"></i>그룹 웨어</a></li>
+        <li><a href="<c:url value='/main.do' />"><i class="fas fa-home"></i>Homepage</a></li>
+        <li><a href="<c:url value='/logout.do' />"><i class="fas fa-sign-out-alt"></i>로그아웃</a></li>
     </ul>
 </nav>
 
