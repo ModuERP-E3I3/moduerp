@@ -16,10 +16,7 @@
 	<!-- 모든 sales 입고 데이터 조회용 쿼리 -->
 	<select id="getAllSalesStockIn"
 		resultMap="resultSalesStockIn">
-		SELECT S_STOCK_IN_ID, ITEM_CODE, S_STOCK_IN_DATE,
-		S_STOCK_IN_PLACE,
-		S_STOCK_IN_QTY, UUID
-		FROM SALES_STOCK_IN
+		SELECT * FROM ITEM WHERE BIZ_NUMBER = ? AND ITEM_CODE LIKE CONCAT(?, 'S%')
 	</select>
 
 	<!-- 새로운 sales 입고 데이터를 삽입하는 쿼리 -->
