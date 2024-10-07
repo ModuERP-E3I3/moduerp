@@ -10,39 +10,39 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 
-@Data // getter, setter, toString, equals, hashCode ¸Ş¼Òµå¸¦ ÀÚµ¿À¸·Î »ı¼º
-@NoArgsConstructor // ±âº»»ı¼ºÀÚ
-@AllArgsConstructor // ¸ğµç ÇÊµå¸¦ ¸Å°³º¯¼ö·Î ¹Ş´Â »ı¼ºÀÚ »ı¼º
+@Data // getter, setter, toString, equals, hashCode ë©”ì†Œë“œë¥¼ ìë™ìœ¼ë¡œ ìƒì„±
+@NoArgsConstructor // ê¸°ë³¸ìƒì„±ì
+@AllArgsConstructor // ëª¨ë“  í•„ë“œë¥¼ ë§¤ê°œë³€ìˆ˜ë¡œ ë°›ëŠ” ìƒì„±ì ìƒì„±
 @Accessors(chain = true) // company.setBizNumber("123").setCompanyName("MyCompany)
 public class Employee implements Serializable{
    private static final long serialVersionUID = -3562883942862635847L;
    
    private UUID uuid; // uuid
-   private String bizNumber; // »ç¾÷ÀÚ¹øÈ£
-   private String approvalCode; // ½ÂÀÎÄÚµå
-   private String departmentId; // ºÎ¼­ ID
-   private String jobId; // Á÷¹« ID
-   private char privateAuthority; // »ç¼³ ±ÇÇÑ ¿©ºÎ
-   private String empNo; // »ç¿ø¹øÈ£
-   private String empName; // »ç¿ø¸í
-   private String empEmail; // »ç¿ø ÀÌ¸ŞÀÏ
-   private String password; //¾ÏÈ£
-   private String userPhone; // »ç¿ëÀÚ ÀüÈ­¹øÈ£
-   private Date registrationDate; // µî·ÏÀÏÀÚ
-   private String profileImg; // ÇÁ·ÎÇÊ ÀÌ¹ÌÁö¸í (uuid_ÇÁ·ÎÇÊ¸í)
-   private Date updatedAt; // ¼öÁ¤ÀÏÀÚ
-   private char isDeleted; // Å»Åğ ¿©ºÎ
-   private String lastLoginLocation; // ¸¶Áö¸· ·Î±×ÀÎ À§Ä¡
-   private String deletedExcuse; // »èÁ¦ »çÀ¯
-   private Date deletedAt; // »èÁ¦ÀÏÀÚ
-   private Date hireDate; // ÀÔ»çÀÏÀÚ
-   private Date quitDate; // Åğ»çÀÏÀÚ
-   private String reNum; // ÁÖ¹Î¹øÈ£
-   private String address; // ÁÖ¼Ò
-   private char isEmailChanged; // ÀÌ¸ŞÀÏ º¯°æ ¿©ºÎ
-   private String newEmpEmail; // »õ ÀÌ¸ŞÀÏ ÁÖ¼Ò
-   private double remainingLeave; // ³²Àº ÈŞ°¡ ÀÏ¼ö
-   private LocalTime contractStartTime; // °è¾à»ó Ãâ±Ù ½Ã°£
-   private LocalTime contractEndTime; // °è¾à»ó Åğ±Ù ½Ã°£
-   private UUID mgrUuid; // °ü¸®ÀÚ uuid
+   private String bizNumber; // ì‚¬ì—…ìë²ˆí˜¸
+   private String approvalCode; // ìŠ¹ì¸ì½”ë“œ
+   private String departmentId; // ë¶€ì„œ ID
+   private String jobId; // ì§ë¬´ ID
+   private char privateAuthority; // ì‚¬ì„¤ ê¶Œí•œ ì—¬ë¶€
+   private String empNo; // ì‚¬ì›ë²ˆí˜¸
+   private String empName; // ì‚¬ì›ëª…
+   private String empEmail; // ì‚¬ì› ì´ë©”ì¼
+   private String password; //ì•”í˜¸
+   private String userPhone; // ì‚¬ìš©ì ì „í™”ë²ˆí˜¸
+   private Date registrationDate; // ë“±ë¡ì¼ì
+   private String profileImg; // í”„ë¡œí•„ ì´ë¯¸ì§€ëª… (uuid_í”„ë¡œí•„ëª…)
+   private Date updatedAt; // ìˆ˜ì •ì¼ì
+   private char isDeleted; // íƒˆí‡´ ì—¬ë¶€
+   private String lastLoginLocation; // ë§ˆì§€ë§‰ ë¡œê·¸ì¸ ìœ„ì¹˜
+   private String deletedExcuse; // ì‚­ì œ ì‚¬ìœ 
+   private Date deletedAt; // ì‚­ì œì¼ì
+   private Date hireDate; // ì…ì‚¬ì¼ì
+   private Date quitDate; // í‡´ì‚¬ì¼ì
+   private String reNum; // ì£¼ë¯¼ë²ˆí˜¸
+   private String address; // ì£¼ì†Œ
+   private char isEmailChanged; // ì´ë©”ì¼ ë³€ê²½ ì—¬ë¶€
+   private String newEmpEmail; // ìƒˆ ì´ë©”ì¼ ì£¼ì†Œ
+   private double remainingLeave; // ë‚¨ì€ íœ´ê°€ ì¼ìˆ˜
+   private LocalTime contractStartTime; // ê³„ì•½ìƒ ì¶œê·¼ ì‹œê°„
+   private LocalTime contractEndTime; // ê³„ì•½ìƒ í‡´ê·¼ ì‹œê°„
+   private UUID mgrUuid; // ê´€ë¦¬ì uuid
 }

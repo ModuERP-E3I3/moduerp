@@ -47,8 +47,16 @@
 			<version>2.11.0</version>
 		</dependency>
 
-
-
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.13.4.2</version> <!-- 버전은 필요에 따라 수정할 수 있습니다. -->
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.13.4.2</version>
+		</dependency>
 
 		<!-- AspectJ Weaver 추가 -->
 		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
@@ -293,7 +301,7 @@
 			<artifactId>log4j-core</artifactId>
 			<version>2.14.1</version>
 		</dependency>
-		
+
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
