@@ -63,7 +63,7 @@
         background-color: white;
         margin-left: 1%;
         margin-right: 5%;
-        margin-top: 5%;
+        margin-top: 3%;
         border: 1px solid #ccc;
         border-radius: 20px; /* 박스 둥글게 */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -201,6 +201,32 @@
 			            <td>${ car.carModel }</td>
 			            <td>${ car.carId }</td>
 			            <td>${ car.ownershipStatus }</td>
+			        </tr>
+			    </c:forEach>
+			</tbody>
+
+        </table>
+        
+        
+        <!-- 테이블 -->
+        <table>
+            <thead>
+                <tr>
+                    <th>사원명</th>
+                    <th>부서명</th>
+                    <th>차량 번호</th>
+                    <th>예약 일정</th>
+                    <th>예약 사유</th>
+                </tr>
+            </thead>
+            <tbody>
+			    <c:forEach var="carres" items="${carresList}">
+			        <tr>
+			            <td>${ carres.empName }</td>
+			            <td>${ carres.departmentId }</td>
+			            <td>${ carres.carId }</td>
+			            <td>${ carres.reserveStartDate } ~ ${ carres.reserveEndDate }</td>
+			            <td>${ carres.useReason }</td>
 			        </tr>
 			    </c:forEach>
 			</tbody>
