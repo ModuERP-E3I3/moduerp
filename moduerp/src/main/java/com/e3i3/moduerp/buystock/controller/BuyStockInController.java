@@ -177,7 +177,7 @@ public class BuyStockInController {
 			// Buy_STOCK_IN 
 			BuyStockInDTO BuyStockInDetails = BuyStockInService.getBuyStockInDetails(itemCode);
 
-			// UPDATED_AT�뿉쭅
+			// UPDATED_AT뿉쭅
 			Timestamp updatedAt = itemDetails.getUpdatedAt();
 			if (updatedAt != null) {
 				Timestamp adjustedUpdatedAt = Timestamp
