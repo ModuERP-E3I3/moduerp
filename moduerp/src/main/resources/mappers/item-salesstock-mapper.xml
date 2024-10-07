@@ -65,7 +65,7 @@
 		LIKE CONCAT(#{bizNumber}, 'S%')
 	</select>
 
-	<select id="selectSalesItemByCode" parameterType="String"
+	<select id="selectItemByCode" parameterType="String"
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
 		SELECT * FROM ITEM WHERE ITEM_CODE = #{itemCode}
 	</select>
