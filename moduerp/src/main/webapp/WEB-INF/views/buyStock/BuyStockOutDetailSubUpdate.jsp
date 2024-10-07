@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -145,105 +145,87 @@ th {
 	background-color: white;
 }
 
-#pagebutton {
-	display: flex;
-	justify-content: center;
-	margin-top: 2%; /* 위쪽 여백 추가 */
-}
-
-#pagebutton a {
-	color: black; /* 글자 색상 검은색 */
-	text-decoration: none; /* 밑줄 제거 */
-	font-size: 20px; /* 글자 크기 증가 */
-	margin: 0 10px; /* 페이지 버튼 간격 조정 */
-}
-
-#pagebutton strong {
-	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
-	color: black; /* 강조 색상 검은색 유지 */
+.material-type-input {
+	margin-bottom: 10px;
 }
 </style>
 
 </head>
 
 <body>
-    <!-- 서브헤더 JSP 임포트 -->
-    <c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
+	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
-	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-	    <ul id="menubar">
-	        <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
-			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
-			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 배송 조회</a></li>
-	    </ul>
+		<ul id="menubar">
+			<li><a href="productionStockIn.do"><i
+					class="fas fa-bullhorn"></i> 생산 입고</a></li>
+			<li><a href="productionStockOut.do"><i
+					class="fas fa-clipboard"></i> 생산 출고</a></li>
+			<li><a href="productionWorkorder.do"><i class="fas fa-code"></i>
+					작업지시서</a></li>
+			<li><a href="productionQuality.do"><i class="fas fa-plug"></i>
+					품질관리</a></li>
+		</ul>
 	</div>
-	
-    <!-- 하얀 큰 박스 -->
-    <div class="content-box">
 
-        <div class="content-title">구매관리 | 구매입고 | 신규등록</div>
+	<div class="content-box">
+		<div class="content-title">생산관리 | 생산입고 | ${itemDetails.itemName}
+			수정하기</div>
 
-        <!-- 필터 박스 -->
-        <div class="filter-box">
-            <select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-        </div>
+		<form action="/moduerp/updateProductionStockSubOut.do" method="POST">
+			<input type="hidden" name="itemCode" value="${itemDetails.itemCode}" />
+			<input type="hidden" name="pStockOutId" value="${productionStockOutDetails.pStockOutId}" />
+			<table>
+				<thead>
+					<tr>
+						<th>제품명</th>
+						<th>제품 설명</th>
+						<th>출고 날짜</th>
+						<th>수정 날짜</th>
+						<th>출고 수량</th>
+						<th>출고 가격</th>
+						<th>출고 장소</th>
+						<th>자재 종류</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>${itemDetails.itemName}</td>
+						<td>${itemDetails.itemDesc}</td>
+						<td><fmt:formatDate
+								value="${productionStockOutDetails.pStockOutDate}"
+								pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td><fmt:formatDate
+								value="${productionStockOutDetails.pStockOutUpdate}"
+								pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td><input type="number" name="stockIn"
+							value="${productionStockOutDetails.pStockOutQty}" required /></td>
+						<td><input type="number" name="inPrice"
+							value="${productionStockOutDetails.pStockOutPrice}" step="0.01"
+							required /></td>
 
-        <!-- 테이블 -->
-        <form action="/moduerp/buyStockInCreate.do" method="POST">
-        <table>
-            <thead>
-                <tr>
-                    <th>순번</th>
-                    <th>입고 날짜</th>
-                    <th>제품명</th>
-                    <th>거래처</th>
-                    <th>입고 수량</th>
-                    <th>입고 장소</th>
-                    <th>입고 단가</th>
-                    <th>직원명</th>                 
-                </tr>
-            </thead>
-            <tbody>
-			    <c:forEach var="item" items="${itemList}" varStatus="status">
-			        <tr
-			            onclick="window.location.href='getBuyInDetails.do?itemCode=${item.itemCode}'">
-						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<!-- 순번 계산 -->			  
-			            <td>${item.itemName}</td>
-			            <td>${item.account_name}</td><!-- account_no로 테이블 넘어가서 받아 와야함  -->	
-			            <td>${item.stockIn}</td>
-			            <!-- 보관장소 선택 칸 -->
 						<td><input list="stockPlaces" name="stockPlace"
-							placeholder="보관장소 선택" /> <datalist id="stockPlaces">
+							value="${productionStockOutDetails.pStockOutPlace}"
+							placeholder="보관장소 선택" required /> <datalist id="stockPlaces">
 								<c:forEach var="stockPlace" items="${stockPlaces}">
 									<option value="${stockPlace}"></option>
 								</c:forEach>
-							</datalist></td>         
-			            <td>${item.inPrice}</td>
-			            <td>${item.empName}</td>
-			        </tr>
-			    </c:forEach>
-			</tbody>
+							</datalist></td>
+						<td>${itemDetails.itemList}</td>
+					</tr>
+				</tbody>
+			</table>
 
-        </table>
-
-        <!-- 버튼 그룹 -->
-        <div class="btn-group">
-            <button class="btn blue">등록</button>
-        </div>
-	</form>
-    </div>
-    
+			<div class="btn-group">
+				<button type="submit" class="btn green">수정 완료</button>
+			</div>
+		</form>
+	</div>
 </body>
 
+
 <script>
-    const activeMenu = "buyStockIn";
+    const activeMenu = "productionStockIn";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

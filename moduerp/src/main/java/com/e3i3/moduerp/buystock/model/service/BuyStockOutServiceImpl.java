@@ -1,4 +1,4 @@
-package com.e3i3.moduerp.buystock.service;
+package com.e3i3.moduerp.buystock.model.service;
 
 import java.util.List;
 
