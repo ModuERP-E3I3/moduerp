@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>NoticeList</title>
-<style type="text/css">
-/* 기본적인 페이지 설정 */
+    <meta charset="UTF-8">
+    <title>NoticeList</title>
+    <style type="text/css">
+    /* 기본적인 페이지 설정 */
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
@@ -142,6 +143,18 @@ h2 {
     color: white;
 }
 
+/* 작성, 수정, 삭제 버튼 공통 스타일 */
+    .action-btn {
+        margin-top: 30px;
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 4px;
+}
+
 /* 페이지 정보 */
 .page-info {
     text-align: center;
@@ -160,7 +173,7 @@ footer {
     border-top: 1px solid #ddd;
     margin-top: 50px;
 }
-</style>
+    </style>
 </head>
 <body>
 
@@ -194,56 +207,35 @@ footer {
 
             <hr>
 
+            <!-- 동적으로 공지사항 리스트 출력 -->
             <ul class="notice-list">
-                <li class="important">
-                    <a href="#">2025년도 Moduerp 업데이트 내용</a>
-                    <div class="meta">
-                        <span>No.123457</span>
-                        <span>작성일 : 2024-10-04</span>
-                    </div>
-                </li>
-                <li class="important">
-                    <a href="#">Moduerp (사용법)</a>
-                    <div class="meta">
-                        <span>No.123456</span>
-                        <span>작성일 : 2024-10-04</span>
-                    </div>
-                </li>
-                <li>
-                    <a href="#">공지사항이야</a>
-                    <div class="meta">
-                        <span>No.124429</span>
-                        <span>작성일 : 2024-10-04</span>
-                    </div>
-                </li>
-                <li>
-                    <a href="#">안녕</a>
-                    <div class="meta">
-                        <span>No.129790</span>
-                        <span>작성일 : 2024-10-04</span>
-                    </div>
-                </li>
+                <c:forEach var="notice" items="${noticeList}">
+                    <li class="<c:if test='${notice.noticeImp == "Y"}'>important</c:if>">
+                        <a href="noticeDetail.do?noticeId=${notice.noticeSeq}">${notice.noticeTitle}</a>
+                        <div class="meta">
+                            <span>No.${notice.noticeSeq}</span>
+                            <span>작성일 : <fmt:formatDate value="${notice.writeDate}" pattern="yyyy-MM-dd" /></span>
+                            <span>조회수 : ${notice.viewCnt}</span>
+                        </div>
+                    </li>
+                </c:forEach>
             </ul>
 
-            <!-- 페이지네이션 -->
+             <!-- 페이지네이션 -->
             <div class="pagination">
-                <button class="page-btn">&laquo;</button>
-                <button class="page-btn">1</button>
-                <button class="page-btn">2</button>
-                <button class="page-btn">3</button>
-                <button class="page-btn">4</button>
-                <button class="page-btn">5</button>
-                <button class="page-btn">6</button>
-                <button class="page-btn">7</button>
-                <button class="page-btn">8</button>
-                <button class="page-btn">9</button>
-                <button class="page-btn">10</button>
-                <button class="page-btn">&raquo;</button>
+                <c:if test="${currentPage > 1}">
+                    <a href="noticeList.do?page=${currentPage - 1}" class="page-btn">이전</a>
+                </c:if>
+                <c:forEach var="i" begin="1" end="${totalPages}">
+                    <a href="noticeList.do?page=${i}" class="page-btn ${i == currentPage ? 'active' : ''}">${i}</a>
+                </c:forEach>
+                <c:if test="${currentPage < totalPages}">
+                    <a href="noticeList.do?page=${currentPage + 1}" class="page-btn">다음</a>
+                </c:if>
             </div>
 
-            <div class="page-info">
-                전체 900건, 1/90 페이지
-            </div>
+            <!-- 작성 버튼 -->
+            <a href="noticeWriteForm.do" class="action-btn">작성</a>
         </div>
     </div>
 </div>
