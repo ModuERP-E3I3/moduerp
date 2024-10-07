@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SalesStockOutMapper">
+
+	<resultMap id="salesStockOutResult"
+		type="com.e3i3.moduerp.salesstock.model.dto.SalesStockOutDTO">
+		<result property="sStockOutId" column="S_STOCK_OUT_ID" />
+		<result property="itemCode" column="ITEM_CODE" />
+		<result property="sStockOutDate" column="S_STOCK_OUT_DATE" />
+		<result property="sStockOutPlace" column="S_STOCK_OUT_PLACE" />
+		<result property="sStockOutQty" column="S_STOCK_OUT_QTY" />
+		<result property="uuid" column="UUID" />
+	</resultMap>
+
+	<select id="selectAllSalesStockOuts"
+		resultMap="salesStockOutResult">
+		SELECT * FROM SALES_STOCK_OUT
+	</select>
+
+</mapper>

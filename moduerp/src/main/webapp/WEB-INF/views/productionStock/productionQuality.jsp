@@ -190,34 +190,38 @@
         <table>
             <thead>
                 <tr>
-                    <th>순번</th>
-                    <th>거래처</th>
-                    <th>품목코드</th>
-                    <th>품명</th>
-                    <th>입고 수량</th>
-                    <th>출고 수량</th>
-                    <th>재고 수량</th>
-                    <th>단가</th>
-                    <th>비고</th>
+                    <th>검사코드</th>
+                    <th>지시서번호</th>
+                    <th>관리자ID</th>
+                    <th>시작날짜</th>
+                    <th>종료날짜</th>
+                    <th>검사유형</th>
+                    <th>진행상태</th>
+                    <th>검사결과</th>
+                    <th>검사수량</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- 더미 데이터 -->
-                <c:forEach var="item" items="${dummyData}">
-                    <tr>
-                        <td>${item.no}</td>
-                        <td>${item.client}</td>
-                        <td>${item.productCode}</td>
-                        <td>${item.productName}</td>
-                        <td>${item.inQuantity}</td>
-                        <td>${item.outQuantity}</td>
-                        <td>${item.stockQuantity}</td>
-                        <td>${item.unitPrice}</td>
-                        <td>${item.remark}</td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+			<tbody>
+
+				<c:forEach var="qualityControl" items="${qualityControlList}" varStatus="status">
+					<tr>
+						<td>${qualityControl.inspecCode}</td>
+						<td>${qualityControl.orderNumber}</td>
+						<td>${qualityControl.uuid}</td>
+						<td>${qualityControl.startDate}</td>
+						<td>${qualityControl.endDate}</td>
+						<td>${qualityControl.inspecType}</td>
+						<td>${qualityControl.progressStatus}</td>
+						<td>${qualityControl.inspecResult}</td>
+						<td>${qualityControl.inspecQty}</td>
+					</tr>
+				</c:forEach>
+
+
+
+			</tbody>
+
+		</table>
 
         <!-- 버튼 그룹 -->
         <div class="btn-group">

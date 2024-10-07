@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+ "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="CarmgtMapper">
+ 	<resultMap id="resultCarmgt" type="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
+ 		<result property="carId"  column="CAR_ID" />
+ 		<result property="departmentId"  column="DEPARTMENT_ID" />
+ 		<result property="paymentHistory"  column="PAYMENT_HISTORY" />
+ 		<result property="paymentPrice"  column="PAYMENT_PRICE" />
+ 		<result property="paymentDate"  column="PAYMENT_DATE" />
+ 		<result property="paymentPlace"  column="PAYMENT_PLACE" />
+ 		<result property="uuid"  column="UUID" />
+ 		<result property="carModel" column="CAR_MODEL" />
+        <result property="ownershipStatus" column="OWNERSHIP_STATUS" />
+ 	</resultMap>
+ 		
+ 		<!-- 차량결제관리 전체 조회 쿼리 -->
+ 		<select id="getAllCarmgt" resultMap="resultCarmgt">
+ 			SELECT 
+    			CM.CAR_ID,            
+    			CM.DEPARTMENT_ID, 
+    			CM.PAYMENT_HISTORY, 
+    			CM.PAYMENT_PRICE, 
+    			CM.PAYMENT_DATE, 
+    			CM.PAYMENT_PLACE,
+   	 			C.CAR_MODEL,         
+    			C.OWNERSHIP_STATUS   
+			FROM 
+    			CAR_MANAGEMENT CM
+			JOIN 
+    			CAR C ON CM.CAR_ID = C.CAR_ID 
+ 		</select>
+
+ 
+ </mapper>

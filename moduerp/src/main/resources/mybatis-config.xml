@@ -8,23 +8,85 @@
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL" />
 		<setting name="cacheEnabled" value="false" />
+
+		<!-- 카멜 케이스 VO 매핑 -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+		<setting name="logImpl" value="STDOUT_LOGGING" />
+
 	</settings>
 
 	<!-- 존재하지 않는 클래스와 매퍼파일을 먼저 등록 설정하면 에러 발생함 : 톰켓 구동 안됨 -->
 	<typeAliases>
-		<typeAlias type="com.e3i3.moduerp.company.model.dto.Company" alias="Company" />
-		<typeAlias type="com.e3i3.moduerp.employee.model.dto.Employee" alias="Employee" />
-		<typeAlias type="com.e3i3.moduerp.department.model.dto.Department" alias="Department" />
+		<typeAlias type="com.e3i3.moduerp.company.model.dto.Company"
+			alias="Company" />
+		<typeAlias
+			type="com.e3i3.moduerp.employee.model.dto.Employee" alias="Employee" />
+		<typeAlias
+			type="com.e3i3.moduerp.department.model.dto.Department"
+			alias="Department" />
+		<typeAlias type="com.e3i3.moduerp.car.model.dto.CarDto"
+			alias="CarDto" />
+		<typeAlias type="com.e3i3.moduerp.notice.model.dto.Notice"
+			alias="Notice" />
+		<typeAlias type="com.e3i3.moduerp.email.model.dto.Email"
+			alias="Email" />
+		<typeAlias
+			type="com.e3i3.moduerp.productionstock.model.dto.ProductionStockOutDTO"
+			alias="ProductionStockOutDTO" /> <!-- 추가된 부분 -->
+			
+		<typeAlias type="com.e3i3.moduerp.attendance.model.dto.Attendance"
+			alias="Attendance" />
 	</typeAliases>
 
-	 <typeHandlers>
-        <typeHandler handler="com.e3i3.moduerp.common.handler.UUIDTypeHandler" javaType="java.util.UUID"/>
-    </typeHandlers>
-    
+	<typeHandlers>
+		<typeHandler
+			handler="com.e3i3.moduerp.common.handler.UUIDTypeHandler"
+			javaType="java.util.UUID" />
+		<typeHandler
+			handler="com.e3i3.moduerp.handler.StringListTypeHandler"
+			javaType="java.util.List" jdbcType="VARCHAR" />
+	</typeHandlers>
+
 	<mappers>
 		<mapper resource="mappers/company-mapper.xml" />
 		<mapper resource="mappers/employee-mapper.xml" />
 		<mapper resource="mappers/department-mapper.xml" />
-		<mapper resource="mappers/productionStock-mapper.xml" />
+		<mapper resource="mappers/email-mapper.xml" />
+		<mapper resource="mappers/car-mapper.xml" />
+		<mapper resource="mappers/carmgt-mapper.xml" />
+		<mapper resource="mappers/notice-mapper.xml" />
+
+		<mapper resource="mappers/buyStockIn-mapper.xml" />
+		<mapper resource="mappers/buyStockOut-mapper.xml" />
+		
+		<mapper resource="mappers/productionStockIn-mapper.xml" />
+		<mapper resource="mappers/productionStockOut-mapper.xml" />
+		<mapper resource="mappers/item-productionstock-mapper.xml" />		
+		<mapper resource="mappers/employee-production-mapper.xml" />
+
+		<mapper resource="mappers/salesStockIn-mapper.xml" />
+		<mapper resource="mappers/salesStockOut-mapper.xml" />
+		<mapper resource="mappers/item-salesstock-mapper.xml" />		
+		<mapper resource="mappers/employee-sales-mapper.xml" />
+		
+		<mapper resource="mappers/account-mapper.xml" />
+		<mapper resource="mappers/admin-mapper.xml" />
+		<mapper resource="mappers/item-buystock-mapper.xml" />
+		<mapper resource="mappers/employee-buy-mapper.xml" />
+
+
+		<mapper resource="mappers/item-productionstock-mapper.xml" />
+		<mapper resource="mappers/employee-production-mapper.xml" />
+		
+		<mapper resource="mappers/attendance-mapper.xml" />
+		
+
+
+		<mapper resource="mappers/workorder-mapper.xml" />
+		<mapper resource="mappers/productionquality-mapper.xml" />
+
 	</mappers>
+
+
+
 </configuration>
