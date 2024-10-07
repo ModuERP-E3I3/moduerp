@@ -234,54 +234,66 @@
 				</div>
 			</c:when>
 
-			<%-- 이메일 리스트가 존재하는 경우 --%>
-			<c:otherwise>
-				<div class="action-buttons">
-					<input type="checkbox" id="selectAll" onclick="selectAllEmails(this)"> 
-					<span style="margin-left: 5px;">전체 선택</span>
-					<button style="margin-left: 15px;" onclick="deleteSelected()">삭제</button>
-					<button style="margin-left: 10px;" onclick="markAsRead()">읽음</button>
-				</div>
+<%-- 이메일 리스트가 존재하는 경우 --%>
+<c:otherwise>
+    <div class="action-buttons">
+        <input type="checkbox" id="selectAll" onclick="selectAllEmails(this)"> 
+        <span style="margin-left: 5px;">전체 선택</span>
+        <button style="margin-left: 15px;" onclick="deleteSelected()">삭제</button>
+        <button style="margin-left: 10px;" onclick="markAsRead()">읽음</button>
+    </div>
 
-				<%-- 이메일 리스트 --%>
-				<ul class="email-list">
-					<c:forEach var="email" items="${emails}">
-						<li class="email-item">
-							<%-- 체크박스 --%>
-							<input type="checkbox" class="checkbox" name="emailCheckbox" value="${email.emailId}">
+    <%-- 이메일 리스트 --%>
+    <ul class="email-list">
+        <c:forEach var="email" items="${emails}">
+            <li class="email-item">
+                <input type="checkbox" class="checkbox" name="emailCheckbox" value="${email.emailId}">
+                <img class="read-status icon" src="<c:choose>
+                    <c:when test='${email.isRead.toString() eq "Y"}'>
+                        <c:url value='/resources/icons/read.png'/>
+                    </c:when>
+                    <c:otherwise>
+                        <c:url value='/resources/icons/unread.png'/>
+                    </c:otherwise>
+                </c:choose>" />
+                <span class="attachment-space">
+                    <c:if test="${not empty email.attachmentPath}">
+                        <img class="attach-icon icon" src="<c:url value='/resources/icons/attach.png' />" alt="첨부 파일">
+                    </c:if>
+                </span>
+                
+                  <!-- 발신자와 수신자를 구분하여 이름 출력 -->
+                   <span class="recipient-name">
+                        <c:choose>
+                              <c:when test="${email.senderUUID == loginUUID}">
+                                    ${email.recipientName} <!-- 내가 보낸 이메일인 경우 수신자 이름 -->
+                               </c:when>
+                           <c:otherwise>
+                                     ${email.senderName} <!-- 내가 받은 이메일인 경우 발신자 이름 -->
+                           </c:otherwise>
+                         </c:choose>
+                   </span>
+                            
+                <a href="view.do?emailId=${email.emailId}">${email.subject}</a> &nbsp;
+                <span class="date">
+                    <fmt:setLocale value="ko_KR" />
+                    <fmt:formatDate value="${email.sentDate}" pattern="yyyy.MM.dd a hh:mm" />
+                </span>
+            </li>
+        </c:forEach>
+    </ul>
 
-							<%-- 읽음 여부 아이콘 --%>
-							<img class="read-status icon" src="<c:choose>
-								<c:when test='${email.isRead.toString() eq "Y"}'>
-									<c:url value='/resources/icons/read.png'/>
-								</c:when>
-								<c:otherwise>
-									<c:url value='/resources/icons/unread.png'/>
-								</c:otherwise>
-							</c:choose>" />
+    <%--페이징 네비게이션 --%>
+    <div style="text-align: center; margin-top: 20px;">
+        <c:forEach begin="1" end="${totalPages}" var="i">
+            <a href="list.do?page=${i}" style="margin: 0 5px; text-decoration: none; 
+                     ${i == currentPage ? 'font-weight: bold; color: blue;' : ''}">
+                ${i}
+            </a>
+        </c:forEach>
+    </div>
+</c:otherwise>
 
-							<%-- 첨부파일 아이콘 공간 확보 --%>
-							<span class="attachment-space">
-								<c:if test="${not empty email.attachmentPath}">
-									<img class="attach-icon icon" src="<c:url value='/resources/icons/attach.png' />" alt="첨부 파일">
-								</c:if>
-							</span>
-
-							<%-- 수신자 이름 --%>
-							<span class="recipient-name">${email.recipientName}</span>
-
-							<%-- 이메일 제목 --%>
-							<a href="view.do?emailId=${email.emailId}">${email.subject}</a> &nbsp;
-
-							<%-- 보낸 날짜 --%>
-							<span class="date">
-								<fmt:setLocale value="ko_KR" />
-								<fmt:formatDate value="${email.sentDate}" pattern="yyyy.MM.dd a hh:mm" />
-							</span>
-						</li>
-					</c:forEach>
-				</ul>
-			</c:otherwise>
 		</c:choose>
 	</div>
 	

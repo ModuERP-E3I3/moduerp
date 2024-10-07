@@ -267,7 +267,7 @@
 							</span>
 
 							<%-- 수신자 이름 --%>
-							<span class="recipient-name">${email.recipientName}</span>
+							<span class="recipient-name">${email.senderName}</span>
 
 							<%-- 이메일 제목 --%>
 							<a href="view.do?emailId=${email.emailId}">${email.subject}</a> &nbsp;
@@ -280,6 +280,17 @@
 						</li>
 					</c:forEach>
 				</ul>
+				
+				 <%-- 페이징 네비게이션 추가 --%>
+                <div style="text-align: center; margin-top: 20px;">
+                    <c:forEach begin="1" end="${totalPages}" var="i">
+                        <a href="inbox.do?page=${i}" style="margin: 0 5px; text-decoration: none; 
+                            ${i == currentPage ? 'font-weight: bold; color: blue;' : ''}">
+                            ${i}
+                        </a>
+                    </c:forEach>
+                </div>
+                
 			</c:otherwise>
 		</c:choose>
 	</div>
