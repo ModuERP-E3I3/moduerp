@@ -20,20 +20,46 @@ public class EmailDao {
 		sqlSessionTemplate.insert("EmailMapper.insertEmail", email);
 	}
 
+	// 로그인 유저가 받은 이메일의 총 개수를 세는 메서드
+	public int countEmailsByRecipient(String recipientUUID) {
+		return sqlSessionTemplate.selectOne("EmailMapper.countEmailsByRecipient", recipientUUID);
+	}
+
+	// 로그인 유저가 받은 이메일을 페이징하여 조회하는 메서드
+	public List<Email> selectEmailsByRecipientWithPaging(String recipientUUID, int offset, int limit) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("recipientUUID", recipientUUID);
+		params.put("offset", offset);
+		params.put("limit", limit);
+		return sqlSessionTemplate.selectList("EmailMapper.selectEmailsByRecipientWithPaging", params);
+	}
+
+	public int countEmailsBySender(String senderUUID) {
+		return sqlSessionTemplate.selectOne("EmailMapper.countEmailsBySender", senderUUID);
+	}
+
+	public List<Email> selectEmailsBySenderWithPaging(String senderUUID, int offset, int limit) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("senderUUID", senderUUID);
+		params.put("offset", offset);
+		params.put("limit", limit);
+		return sqlSessionTemplate.selectList("EmailMapper.selectEmailsBySenderWithPaging", params);
+	}
+
 	// 로그인 유저가 보낸 이메일과 받은 이메일 조회 (페이징 처리)
 	public List<Email> selectEmailsByUserWithPaging(String userUUID, int offset, int limit) {
-	    Map<String, Object> params = new HashMap<>();
-	    params.put("userUUID", userUUID);
-	    params.put("offset", offset);
-	    params.put("limit", limit);
-	    return sqlSessionTemplate.selectList("EmailMapper.selectEmailsByUserWithPaging", params);
+		Map<String, Object> params = new HashMap<>();
+		params.put("userUUID", userUUID);
+		params.put("offset", offset);
+		params.put("limit", limit);
+		return sqlSessionTemplate.selectList("EmailMapper.selectEmailsByUserWithPaging", params);
 	}
 
 	// 전체 이메일 수를 세는 메서드
 	public int countEmailsByUser(String userUUID) {
-	    return sqlSessionTemplate.selectOne("EmailMapper.countEmailsByUser", userUUID);
+		return sqlSessionTemplate.selectOne("EmailMapper.countEmailsByUser", userUUID);
 	}
-	
+
 	// 모든 이메일 조회
 	public List<Email> selectAllEmails() {
 		return sqlSessionTemplate.selectList("EmailMapper.selectAllEmails");

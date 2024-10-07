@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="EmailMapper">
 
 	<!-- 이메일 정보를 매핑하기 위한 resultMap -->
@@ -31,26 +33,80 @@
 		#{isRead})
 	</insert>
 
-<!-- 페이징을 위해 ROWNUM과 서브쿼리를 활용한 이메일 조회 쿼리 -->
-<select id="selectEmailsByUserWithPaging" parameterType="map" resultMap="resultEmail">
-    SELECT * FROM (
-        SELECT e.*, emp1.emp_name AS sender_name, emp1.emp_email AS sender_email,
-               emp2.emp_name AS recipient_name, emp2.emp_email AS recipient_email,
-               ROWNUM AS row_number
-        FROM email e
-        LEFT JOIN employee emp1 ON e.sender_uuid = emp1.uuid
-        LEFT JOIN employee emp2 ON e.recipient_uuid = emp2.uuid
-        WHERE e.sender_uuid = #{userUUID} OR e.recipient_uuid = #{userUUID}
-        ORDER BY e.sent_date DESC
-    )
-    WHERE row_number BETWEEN #{offset} + 1 AND #{offset} + #{limit}
-</select>
+	<!-- 로그인 유저가 받은 이메일의 총 개수를 세는 쿼리 -->
+	<select id="countEmailsByRecipient" parameterType="string"
+		resultType="int">
+		SELECT COUNT(*) FROM email WHERE recipient_uuid =
+		#{recipientUUID}
+	</select>
+
+	<!-- 로그인 유저가 받은 이메일을 페이징하여 조회하는 쿼리 -->
+	<select id="selectEmailsByRecipientWithPaging"
+		parameterType="map" resultMap="resultEmail">
+		SELECT * FROM (
+		SELECT e.*, emp1.emp_name
+		AS sender_name, emp1.emp_email AS sender_email,
+		ROWNUM AS row_number
+		FROM email e
+		LEFT JOIN employee emp1 ON e.sender_uuid = emp1.uuid
+		WHERE
+		e.recipient_uuid = #{recipientUUID}
+		ORDER BY e.sent_date DESC
+		)
+		WHERE
+		row_number BETWEEN #{offset} + 1 AND #{offset} + #{limit}
+	</select>
+
+		<!-- 총 보낸 이메일 수 조회 -->
+		<select id="countEmailsBySender" parameterType="string"
+			resultType="int">
+			SELECT COUNT(*) FROM email WHERE sender_uuid = #{senderUUID}
+		</select>
+
+		<!-- 보낸 이메일 목록 조회 (페이징 처리) -->
+		<select id="selectEmailsBySenderWithPaging" parameterType="map"
+			resultMap="resultEmail">
+			SELECT * FROM (
+			SELECT e.*, emp1.emp_name AS sender_name, emp1.emp_email AS sender_email,
+			emp2.emp_name AS recipient_name, emp2.emp_email AS recipient_email,
+			ROWNUM AS row_number
+			FROM email e
+			LEFT JOIN employee emp1 ON e.sender_uuid = emp1.uuid
+			LEFT JOIN employee emp2 ON e.recipient_uuid = emp2.uuid
+			WHERE e.sender_uuid = #{senderUUID}
+			ORDER BY e.sent_date DESC
+			)
+			WHERE row_number BETWEEN #{offset} + 1 AND #{offset} + #{limit}
+		</select>
+
+
+	<!-- 페이징을 위해 ROWNUM과 서브쿼리를 활용한 이메일 조회 쿼리 -->
+	<select id="selectEmailsByUserWithPaging" parameterType="map"
+		resultMap="resultEmail">
+		SELECT * FROM (
+		SELECT e.*, emp1.emp_name AS sender_name,
+		emp1.emp_email AS sender_email,
+		emp2.emp_name AS recipient_name,
+		emp2.emp_email AS recipient_email,
+		ROWNUM AS row_number
+		FROM email e
+		LEFT JOIN employee emp1 ON e.sender_uuid = emp1.uuid
+		LEFT JOIN employee
+		emp2 ON e.recipient_uuid = emp2.uuid
+		WHERE e.sender_uuid = #{userUUID}
+		OR e.recipient_uuid = #{userUUID}
+		ORDER BY e.sent_date DESC
+		)
+		WHERE
+		row_number BETWEEN #{offset} + 1 AND #{offset} + #{limit}
+	</select>
 
 
 	<!-- 전체 이메일 수를 세는 쿼리 -->
 	<select id="countEmailsByUser" parameterType="string"
 		resultType="int">
-		SELECT COUNT(*) FROM email WHERE sender_uuid = #{userUUID} OR recipient_uuid
+		SELECT COUNT(*) FROM email WHERE sender_uuid = #{userUUID}
+		OR recipient_uuid
 		= #{userUUID}
 	</select>
 

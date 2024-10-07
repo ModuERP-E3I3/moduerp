@@ -185,37 +185,76 @@ public class EmailController {
 		return "redirect:/email/sent.do"; // 전송 완료 페이지로 리다이렉트
 	}
 
-	// 받은 이메일 목록 조회
 	@GetMapping("/email/inbox.do")
-	public String inbox(Model model, HttpSession session) {
-		String loginUUID = (String) session.getAttribute("uuid");
+	public String showReceivedEmails(@RequestParam(value = "page", defaultValue = "1") int page, Model model, HttpSession session) {
+	    String loginUUID = (String) session.getAttribute("uuid");
 
-		if (loginUUID == null) {
-			// 사용자가 로그인하지 않은 경우, 로그인 페이지로 리다이렉트
-			return "redirect:/"; // 로그인 페이지 URL로 변경 필요
-		}
-		if (loginUUID != null && !loginUUID.isEmpty()) {
-			List<Email> emails = emailService.selectEmailsByRecipient(loginUUID);
-			model.addAttribute("emails", emails);
-		}
-		return "email/inbox"; // 받은 편지함 페이지 뷰 이름
+	    if (loginUUID == null) {
+	        // 사용자가 로그인하지 않은 경우, 로그인 페이지로 리다이렉트
+	        return "redirect:/"; 
+	    }
+
+	    // 한 페이지당 표시할 이메일 수
+	    int pageSize = 10;
+
+	    // 페이징을 위한 offset 계산
+	    int offset = (page - 1) * pageSize;
+
+	    // 총 수신 이메일 수 조회
+	    int totalEmails = emailService.countEmailsByRecipient(loginUUID);
+
+	    // 총 페이지 수 계산
+	    int totalPages = (int) Math.ceil((double) totalEmails / pageSize);
+
+	    // 해당 페이지의 이메일 목록 조회
+	    List<Email> emails = emailService.selectEmailsByRecipientWithPaging(loginUUID, offset, pageSize);
+
+	    // 모델에 데이터 추가
+	    model.addAttribute("emails", emails);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("totalEmails", totalEmails);
+	    model.addAttribute("pageSize", pageSize);
+	    model.addAttribute("totalPages", totalPages);
+
+	    return "email/inbox";
 	}
 
-	// 보낸 이메일 목록 조회
+
+	// 보낸 이메일 목록 조회 (페이징 처리)
 	@GetMapping("/email/sent.do")
-	public String showSentEmails(Model model, HttpSession session) {
-		String loginUUID = (String) session.getAttribute("uuid");
+	public String showSentEmails(@RequestParam(value = "page", defaultValue = "1") int page, HttpSession session,
+	                             Model model) {
+	    String loginUUID = (String) session.getAttribute("uuid");
 
-		if (loginUUID == null) {
-			// 사용자가 로그인하지 않은 경우, 로그인 페이지로 리다이렉트
-			return "redirect:/"; // 로그인 페이지 URL로 변경 필요
-		}
-		if (loginUUID != null && !loginUUID.isEmpty()) {
-			List<Email> emails = emailService.selectEmailsBySender(loginUUID);
-			model.addAttribute("emails", emails);
-		}
-		return "email/sent"; // sent.jsp 페이지로 데이터 전달
+	    if (loginUUID == null) {
+	        return "redirect:/"; // 로그인하지 않은 경우 메인 페이지로 리다이렉트
+	    }
+
+	    // 한 페이지당 표시할 이메일 수
+	    int pageSize = 10;
+
+	    // 페이징을 위한 offset 계산
+	    int offset = (page - 1) * pageSize;
+
+	    // 총 보낸 이메일 수 조회
+	    int totalEmails = emailService.countEmailsBySender(loginUUID);
+
+	    // 총 페이지 수 계산
+	    int totalPages = (int) Math.ceil((double) totalEmails / pageSize);
+
+	    // 해당 페이지의 보낸 이메일 목록 조회
+	    List<Email> emails = emailService.selectEmailsBySenderWithPaging(loginUUID, offset, pageSize);
+
+	    // 모델에 페이징 및 이메일 데이터 추가
+	    model.addAttribute("emails", emails);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("totalEmails", totalEmails);
+	    model.addAttribute("pageSize", pageSize);
+	    model.addAttribute("totalPages", totalPages);
+
+	    return "email/sent"; // sent.jsp 페이지로 포워딩
 	}
+
 
 	/**
 	 * 이메일 상세 보기 URL: /email/view.do?emailId=XXX
@@ -278,7 +317,11 @@ public class EmailController {
 		}
 	}
 
-	// 이메일 전체 페이지
+	// 페이징 처리를 한 이메일 전체 페이지
+	// page: 현재 페이지를 나타내는 파라미터 (defaultValue = "1")
+	/* 페이징처리란 데이터 양이 많을 때 사용자가 한 번에 보면 ~ 하기 때문에,
+	 	특정 개수만큼씩 나눠서 볼 수 있도록 분리하는 방식
+	 	100 개의 이메일(totalEmails)을 한 페이지 당 10개씩(pageSize) 보여준다면 총 10페이지(totalPages)가 필요하다. */
 	@GetMapping("/email/list.do")
 	public String emailListPage(@RequestParam(value = "page", defaultValue = "1") int page, HttpSession session,
 			Model model) {
@@ -291,22 +334,28 @@ public class EmailController {
 		int pageSize = 10;
 
 		// 페이징을 위한 offset 계산
+		/* 현재 페이지의 시작 위치: 
+		 * 데이터베이스에서 데이터를 조회할 때, 어느 위치부터 시작할지 결정하는 값이다.
+		 * (현재페이지 - 1) * 페이지당 표시할 데이터 수 
+		 * 현재 페이지가 3인 경우, offset 은 (3 - 1) * 10 = 20 이다.
+		 * 즉, 3번째 페이지는 21번째의 이메일부터 30번째 데이터까지 가져오는 거다. */
 		int offset = (page - 1) * pageSize;
 
 		// 총 이메일 수 조회
 		int totalEmails = emailService.countEmailsByUser(loginUUID);
 
-		// 총 페이지 수 계산
+		// 총 페이지 수 계산: 나눈 값이 소수점이 발생하면 올림 처리를 해줌 9.5 -> 10
 		int totalPages = (int) Math.ceil((double) totalEmails / pageSize);
 
 		// 해당 페이지의 이메일 목록 조회
 		List<Email> emails = emailService.selectEmailsByUserWithPaging(loginUUID, offset, pageSize);
 
+		model.addAttribute("loginUUID", loginUUID);
 		model.addAttribute("emails", emails);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalEmails", totalEmails);
-		model.addAttribute("pageSize", pageSize);
-		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("pageSize", pageSize); // 한 페이지당 표시할 이메일 수  model 에 추가
+		model.addAttribute("totalPages", totalPages); // 전체 페이지 수를 model에 추가
 		
 		return "email/emailList";
 	}

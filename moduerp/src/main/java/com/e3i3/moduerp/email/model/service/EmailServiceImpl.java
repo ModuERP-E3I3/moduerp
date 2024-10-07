@@ -69,5 +69,28 @@ public class EmailServiceImpl implements EmailService {
 	public void deleteEmailsBatch(List<Long> emailIds) {
 		emailDao.deleteEmailsBatch(emailIds); // DAO 메서드 호출
 	}
+	
+	 // 보낸 이메일 페이징 처리를 위한 메서드 구현
+    @Override
+    public int countEmailsBySender(String senderUUID) {
+        return emailDao.countEmailsBySender(senderUUID);
+    }
+
+    @Override
+    public List<Email> selectEmailsBySenderWithPaging(String senderUUID, int offset, int limit) {
+        return emailDao.selectEmailsBySenderWithPaging(senderUUID, offset, limit);
+    }
+    
+    
+    // 추가된 메서드 구현
+    @Override
+    public int countEmailsByRecipient(String recipientUUID) {
+        return emailDao.countEmailsByRecipient(recipientUUID);
+    }
+
+    @Override
+    public List<Email> selectEmailsByRecipientWithPaging(String recipientUUID, int offset, int limit) {
+        return emailDao.selectEmailsByRecipientWithPaging(recipientUUID, offset, limit);
+    }
 
 }

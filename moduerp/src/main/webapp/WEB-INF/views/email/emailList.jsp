@@ -261,7 +261,19 @@
                         <img class="attach-icon icon" src="<c:url value='/resources/icons/attach.png' />" alt="첨부 파일">
                     </c:if>
                 </span>
-                <span class="recipient-name">${email.recipientName}</span>
+                
+                  <!-- 발신자와 수신자를 구분하여 이름 출력 -->
+                   <span class="recipient-name">
+                        <c:choose>
+                              <c:when test="${email.senderUUID == loginUUID}">
+                                    ${email.recipientName} <!-- 내가 보낸 이메일인 경우 수신자 이름 -->
+                               </c:when>
+                           <c:otherwise>
+                                     ${email.senderName} <!-- 내가 받은 이메일인 경우 발신자 이름 -->
+                           </c:otherwise>
+                         </c:choose>
+                   </span>
+                            
                 <a href="view.do?emailId=${email.emailId}">${email.subject}</a> &nbsp;
                 <span class="date">
                     <fmt:setLocale value="ko_KR" />
