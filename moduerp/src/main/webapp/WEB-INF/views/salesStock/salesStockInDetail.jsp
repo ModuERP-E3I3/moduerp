@@ -249,7 +249,6 @@ th {
 					<td>${itemDetails.stockPlace}</td>
 					<td>${itemDetails.itemList}</td>
 
-
 				</tr>
 
 			</tbody>
