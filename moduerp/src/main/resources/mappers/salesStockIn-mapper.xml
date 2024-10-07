@@ -8,7 +8,7 @@
 		<result property="sStockInId" column="S_STOCK_IN_ID" />
 		<result property="itemCode" column="ITEM_CODE" />
 		<result property="sStockInDate" column="S_STOCK_IN_DATE" />
-		<result property="sStockPlace" column="S_STOCK_PLACE" />
+		<result property="sStockInPlace" column="S_STOCK_IN_PLACE" />
 		<result property="sStockInQty" column="S_STOCK_IN_QTY" />
 		<result property="uuid" column="UUID" />
 	</resultMap>
@@ -17,7 +17,7 @@
 	<select id="getAllSalesStockIn"
 		resultMap="resultSalesStockIn">
 		SELECT S_STOCK_IN_ID, ITEM_CODE, S_STOCK_IN_DATE,
-		S_STOCK_PLACE,
+		S_STOCK_IN_PLACE,
 		S_STOCK_IN_QTY, UUID
 		FROM SALES_STOCK_IN
 	</select>
@@ -26,9 +26,9 @@
 	<insert id="insertSalesStockIn">
 		INSERT INTO SALES_STOCK_IN (S_STOCK_IN_ID,
 		ITEM_CODE, S_STOCK_IN_DATE,
-		S_STOCK_PLACE, S_STOCK_IN_QTY, UUID)
+		S_STOCK_IN_PLACE, S_STOCK_IN_QTY, UUID)
 		VALUES
-		(#{sStockInId}, #{itemCode}, #{sStockInDate}, #{sStockPlace},
+		(#{sStockInId}, #{itemCode}, #{sStockInDate}, #{sStockInPlace},
 		#{sStockInQty}, #{uuid})
 	</insert>
 
@@ -42,8 +42,8 @@
 	<update id="updateSalesStockIn"
 		parameterType="com.e3i3.moduerp.salesstock.model.dto.SalesStockInDTO">
 		UPDATE SALES_STOCK_IN
-		SET S_STOCK_PLACE =
-		#{sStockPlace}, S_STOCK_IN_QTY = #{sStockInQty}
+		SET S_STOCK_IN_PLACE =
+		#{sStockInPlace}, S_STOCK_IN_QTY = #{sStockInQty}
 		WHERE ITEM_CODE =
 		#{itemCode}
 	</update>
