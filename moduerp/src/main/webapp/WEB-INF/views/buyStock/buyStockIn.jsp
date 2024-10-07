@@ -201,7 +201,7 @@ th {
                 <tr>
                     <th>순번</th>
                     <th>입고 날짜</th>
-                    <th>제품명</th>
+                    <th>재고명</th>
                     <th>거래처</th>
                     <th>입고 수량</th>
                     <th>입고 장소</th>
@@ -215,18 +215,13 @@ th {
 			            onclick="window.location.href='getBuyInDetails.do?itemCode=${item.itemCode}'">
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
 						<!-- 순번 계산 -->			  
-			            <td>${item.itemName}</td>
-			            <td>${item.account_name}</td><!-- account_no로 테이블 넘어가서 받아 와야함  -->	
+			            <td>${item.createdAt}</td>
+			            <td>${item.itemName}</td>	
+			            <td>${item.stockIn}</td><!-- account_no로 테이블 넘어가서 받아 와야함  -->
 			            <td>${item.stockIn}</td>
-			            <!-- 보관장소 선택 칸 -->
-						<td><input list="stockPlaces" name="stockPlace"
-							placeholder="보관장소 선택" /> <datalist id="stockPlaces">
-								<c:forEach var="stockPlace" items="${stockPlaces}">
-									<option value="${stockPlace}"></option>
-								</c:forEach>
-							</datalist></td>         
+			            <td>${item.stockPlace}</td>  
 			            <td>${item.inPrice}</td>
-			            <td>${item.empName}</td>
+			            <td>${item.itemName}</td><!--  맞다 직원명도 -->
 			        </tr>
 			    </c:forEach>
 			</tbody>

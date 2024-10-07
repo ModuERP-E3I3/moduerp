@@ -155,24 +155,19 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="productionStockIn.do"><i
+			<li><a href="buyStockIn.do"><i
 					class="fas fa-bullhorn"></i> 생산 입고</a></li>
-			<li><a href="productionStockOut.do"><i
+			<li><a href="buyStockOut.do"><i
 					class="fas fa-clipboard"></i> 생산 출고</a></li>
-			<!-- 수정 -->
-			<li><a href="productionWorkorder.do"><i class="fas fa-code"></i>
-					작업지시서</a></li>
-			<!-- 수정 -->
-			<li><a href="productionQuality.do"><i class="fas fa-plug"></i>
-					품질관리</a></li>
-			<!-- 수정 -->
+			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 배송 조회</a></li>
+
 		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 생산입고 | 신규 등록</div>
+		<div class="content-title">구매관리 | 구매입고 | 신규 등록</div>
 
 		<!-- 필터 박스 -->
 		<div class="filter-box">
@@ -186,23 +181,23 @@ th {
 
 		<!-- 테이블 -->
 		<!-- 테이블 -->
-		<form action="/moduerp/productionStockInCreate.do" method="POST">
+		<form action="/moduerp/buyStockInCreate.do" method="POST">
 			<table>
 				<thead>
 					<tr>
-						<th>입고날짜</th>
-						<th>보관장소</th>
-						<th>입고수량</th>
-						<th>품목 이름</th>
-						<th>품목 설명</th>
-						<th>입고 가격</th>
-						<th>자재 종류</th>
+					<th>입고 날짜</th>
+                    <th>제품명</th>
+                    <th>거래처</th>
+                    <th>입고 수량</th>
+                    <th>입고 장소</th>
+                    <th>입고 단가</th>
+                    <th>직원명</th>    
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<!-- 날짜 선택하는 칸 -->
-						<td><input type="date" id="pStockInDate" name="pStockInDate">
+						<td><input type="date" id="bStockInDate" name="bStockInDate">
 						</td>
 
 						<!-- 보관장소 선택 칸 -->
