@@ -40,6 +40,6 @@ public class ItemSalesStockController {
             model.addAttribute("itemNames", itemNames);
             model.addAttribute("stockPlaces", stockPlaces);
         }
-        return "salesStock/salesStockInCreate"; // JSP 파일 이름
+        return "salesStock/salesStockInCreate"; // JSP 
     }
 }

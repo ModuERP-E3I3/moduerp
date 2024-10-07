@@ -32,8 +32,7 @@
 	<select id="selectSalesStockInByItemCode"
 		parameterType="String"
 		resultType="com.e3i3.moduerp.salesstock.model.dto.SalesStockInDTO">
-		SELECT * FROM SALES_STOCK_IN WHERE ITEM_CODE =
-		#{itemCode}
+		SELECT * FROM ITEM WHERE BIZ_NUMBER = ? AND ITEM_CODE LIKE CONCAT(?, 'S%')
 	</select>
 
 	<update id="updateSalesStockIn"
