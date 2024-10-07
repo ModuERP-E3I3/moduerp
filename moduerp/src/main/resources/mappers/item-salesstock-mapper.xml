@@ -120,7 +120,7 @@
 		LIKE CONCAT(#{bizNumber}, 'S%')
 	</select>
 
-	<update id="updateSalesItemForProductionOut" parameterType="map">
+	<update id="updateSalesItemForSalesOut" parameterType="map">
 		UPDATE ITEM
 		SET
 		CREATED_OUT_AT = #{createdOutAt},
