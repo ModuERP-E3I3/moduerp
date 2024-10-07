@@ -220,23 +220,7 @@ th {
 							step="0.01" /></td>
 
 						<!-- 자재 종류 선택 칸 -->
-						<td>
-							<!-- 자재 종류 입력 부분 -->
-							<div id="materialTypeContainer">
-								<div class="material-type-input">
-									<input list="materialTypes" name="materialType"
-										placeholder="자재 종류 입력" />
-									<datalist id="materialTypes">
-										<c:forEach var="itemName" items="${itemNames}">
-											<option value="${itemName}"></option>
-										</c:forEach>
-									</datalist>
-									<button type="button" class="remove-btn"
-										onclick="removeMaterialType(this)">삭제</button>
-								</div>
-							</div>
-							<button type="button" onclick="addMaterialType()">자재 종류추가</button>
-						</td>
+						
 					</tr>
 				</tbody>
 			</table>
@@ -250,32 +234,10 @@ th {
 
 	</div>
 </body>
-<script>
-function addMaterialType() {
-    const container = document.getElementById('materialTypeContainer');
-    const newInputDiv = document.createElement('div');
-    newInputDiv.className = 'material-type-input';
-    newInputDiv.innerHTML = `
-        <input list="materialTypes" name="materialType" placeholder="자재 종류 입력" />
-        <datalist id="materialTypes">
-            <c:forEach var="itemName" items="${itemNames}">
-                <option value="${itemName}"></option>
-            </c:forEach>
-        </datalist>
-        <button type="button" class="remove-btn" onclick="removeMaterialType(this)">삭제</button>
-    `;
-    container.appendChild(newInputDiv);
-}
-
-function removeMaterialType(button) {
-    const inputDiv = button.parentElement;
-    inputDiv.remove();
-}
-</script>
 
 
 <script>
-    const activeMenu = "productionStockIn";
+    const activeMenu = "buyStockIn";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

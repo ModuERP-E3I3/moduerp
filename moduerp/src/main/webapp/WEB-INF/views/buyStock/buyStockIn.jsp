@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -162,80 +163,131 @@ th {
 	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
 	color: black; /* 강조 색상 검은색 유지 */
 }
+
+tbody tr:hover {
+	cursor: pointer;
+}
 </style>
 
 </head>
 
 <body>
-    <!-- 서브헤더 JSP 임포트 -->
-    <c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
+	<!-- 서브헤더 JSP 임포트 -->
+	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-	    <ul id="menubar">
-	        <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
-			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
-			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 배송 조회</a></li>
-	    </ul>
+		<ul id="menubar">
+		 <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
+         <li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
+         <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 배송 조회</a></li>
+
+		</ul>
 	</div>
-	
-    <!-- 하얀 큰 박스 -->
-    <div class="content-box">
 
-        <div class="content-title">구매관리 | 구매입고 | 신규등록</div>
+	<!-- 하얀 큰 박스 -->
+	<div class="content-box">
 
-        <!-- 필터 박스 -->
-        <div class="filter-box">
-            <select>
+		<div class="content-title">구매관리 | 구매입고 | 신규등록</div>
+
+		<!-- 필터 박스 -->
+		<div class="filter-box">
+			<select>
 				<option>조회기간</option>
 			</select> <input type="date" /> <input type="date" /> <select>
 				<option>품목 선택</option>
 			</select> <input type="text" placeholder="내용 입력" />
 			<button class="btn">조회</button>
-        </div>
+		</div>
 
-        <!-- 테이블 -->
-        <form action="/moduerp/buyStockInCreate.do" method="POST">
-        <table>
-            <thead>
-                <tr>
-                    <th>순번</th>
+		<!-- 테이블 -->
+		<table>
+			<thead>
+				<tr>
+					<th>순번</th>
                     <th>입고 날짜</th>
                     <th>재고명</th>
                     <th>거래처</th>
                     <th>입고 수량</th>
                     <th>입고 장소</th>
                     <th>입고 단가</th>
-                    <th>직원명</th>                 
-                </tr>
-            </thead>
-            <tbody>
-			    <c:forEach var="item" items="${itemList}" varStatus="status">
-			        <tr
-			            onclick="window.location.href='getBuyInDetails.do?itemCode=${item.itemCode}'">
-						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<!-- 순번 계산 -->			  
-			            <td>${item.createdAt}</td>
-			            <td>${item.itemName}</td>	
-			            <td>${item.stockIn}</td><!-- account_no로 테이블 넘어가서 받아 와야함  -->
-			            <td>${item.stockIn}</td>
-			            <td>${item.stockPlace}</td>  
-			            <td>${item.inPrice}</td>
-			            <td>${item.itemName}</td><!--  맞다 직원명도 -->
-			        </tr>
-			    </c:forEach>
+                    <th>직원명</th> 
+				</tr>
+			</thead>
+
+			<tbody>
+				<c:forEach var="item" items="${itemList}" varStatus="status">
+					 <tr
+                     onclick="window.location.href='getBuyInDetails.do?itemCode=${item.itemCode}'">
+                  <td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
+                  <!-- 순번 계산 -->           
+                     <td>${item.createdAt}</td>
+                     <td>${item.itemName}</td>   
+                     <td>${item.stockIn}</td><!-- account_no로 테이블 넘어가서 받아 와야함  -->
+                     <td>${item.stockIn}</td>
+                     <td>${item.stockPlace}</td>  
+                     <td>${item.inPrice}</td>
+                     <td>${item.itemName}</td><!--  맞다 직원명도 -->
+                 </tr>
+
+				</c:forEach>
 			</tbody>
 
-        </table>
 
-        <!-- 버튼 그룹 -->
-        <div class="btn-group">
-            <button class="btn blue">등록</button>
-        </div>
-	</form>
-    </div>
-    
+
+		</table>
+
+		<!-- 페이지 버튼 -->
+		<div id="pagebutton">
+			<c:if test="${totalPages > 1}">
+				<c:forEach var="i" begin="1" end="${totalPages}">
+					<c:choose>
+						<c:when test="${i == currentPage}">
+							<strong>${i}</strong>
+							<!-- 현재 페이지는 강조 -->
+						</c:when>
+						<c:otherwise>
+							<a href="buyStockIn.do?page=${i}">${i}</a>
+							<!-- 페이지 링크 -->
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</c:if>
+		</div>
+
+
+
+		<!-- 버튼 그룹 -->
+		<div class="btn-group">
+			<a href="buyInCreate.do"><button class="btn blue">등록</button></a>
+		</div>
+
+	</div>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- jQuery 추가 -->
+
+<script>
+    function getItemCode(itemCode) {
+        console.log("클릭한 item_code: " + itemCode);
+
+        $.ajax({
+        	url: '/moduerp/getBuyInDetails.do', // URL을 수정
+            type: 'GET',
+            data: { itemCode: itemCode },
+            success: function(response) {
+                console.log("데이터 가져오기 성공:", response);
+                // 필요한 작업 수행
+            },
+            error: function(xhr, status, error) {
+                console.error("데이터 가져오기 실패:", error);
+            }
+        });
+
+    }
+</script>
+
+
 
 <script>
     const activeMenu = "buyStockIn";
