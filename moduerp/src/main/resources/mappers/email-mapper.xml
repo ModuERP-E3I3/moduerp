@@ -22,22 +22,53 @@
 	<!-- 이메일 등록 쿼리 (UUID 사용) -->
 	<insert id="insertEmail"
 		parameterType="com.e3i3.moduerp.email.model.dto.Email">
-		INSERT INTO email (sender_uuid, recipient_uuid, subject, body,
+		INSERT INTO email (sender_uuid, recipient_uuid, subject,
+		body,
 		attachment_path, sent_date, is_read)
-		VALUES (#{senderUUID}, #{recipientUUID}, #{subject}, #{body},
-		#{attachmentPath}, #{sentDate}, #{isRead})
+		VALUES (#{senderUUID},
+		#{recipientUUID}, #{subject}, #{body},
+		#{attachmentPath}, #{sentDate},
+		#{isRead})
 	</insert>
+
+<!-- 페이징을 위해 ROWNUM과 서브쿼리를 활용한 이메일 조회 쿼리 -->
+<select id="selectEmailsByUserWithPaging" parameterType="map" resultMap="resultEmail">
+    SELECT * FROM (
+        SELECT e.*, emp1.emp_name AS sender_name, emp1.emp_email AS sender_email,
+               emp2.emp_name AS recipient_name, emp2.emp_email AS recipient_email,
+               ROWNUM AS row_number
+        FROM email e
+        LEFT JOIN employee emp1 ON e.sender_uuid = emp1.uuid
+        LEFT JOIN employee emp2 ON e.recipient_uuid = emp2.uuid
+        WHERE e.sender_uuid = #{userUUID} OR e.recipient_uuid = #{userUUID}
+        ORDER BY e.sent_date DESC
+    )
+    WHERE row_number BETWEEN #{offset} + 1 AND #{offset} + #{limit}
+</select>
+
+
+	<!-- 전체 이메일 수를 세는 쿼리 -->
+	<select id="countEmailsByUser" parameterType="string"
+		resultType="int">
+		SELECT COUNT(*) FROM email WHERE sender_uuid = #{userUUID} OR recipient_uuid
+		= #{userUUID}
+	</select>
+
 
 	<!-- 모든 이메일 조회 쿼리 (Employee 테이블과 조인하여 이름과 이메일 조회) -->
 	<select id="selectAllEmails" resultMap="resultEmail">
 		SELECT e.*,
-		emp1.emp_name AS sender_name,
+		emp1.emp_name
+		AS sender_name,
 		emp1.emp_email AS sender_email,
-		emp2.emp_name AS recipient_name,
+		emp2.emp_name AS
+		recipient_name,
 		emp2.emp_email AS recipient_email
 		FROM email e
-		LEFT JOIN employee emp1 ON e.sender_uuid = emp1.uuid
-		LEFT JOIN employee emp2 ON e.recipient_uuid = emp2.uuid
+		LEFT JOIN
+		employee emp1 ON e.sender_uuid = emp1.uuid
+		LEFT JOIN employee emp2 ON
+		e.recipient_uuid = emp2.uuid
 		ORDER BY e.sent_date DESC
 	</select>
 
@@ -46,13 +77,17 @@
 		resultMap="resultEmail">
 		SELECT e.*,
 		emp1.emp_name AS sender_name,
-		emp1.emp_email AS sender_email,
+		emp1.emp_email AS
+		sender_email,
 		emp2.emp_name AS recipient_name,
-		emp2.emp_email AS recipient_email
+		emp2.emp_email AS
+		recipient_email
 		FROM email e
-		LEFT JOIN employee emp1 ON e.sender_uuid = emp1.uuid
+		LEFT JOIN employee emp1 ON e.sender_uuid =
+		emp1.uuid
 		LEFT JOIN employee emp2 ON e.recipient_uuid = emp2.uuid
-		WHERE e.recipient_uuid = #{recipientUUID}
+		WHERE
+		e.recipient_uuid = #{recipientUUID}
 		ORDER BY e.sent_date DESC
 	</select>
 
@@ -61,13 +96,17 @@
 		resultMap="resultEmail">
 		SELECT e.*,
 		emp1.emp_name AS sender_name,
-		emp1.emp_email AS sender_email,
+		emp1.emp_email AS
+		sender_email,
 		emp2.emp_name AS recipient_name,
-		emp2.emp_email AS recipient_email
+		emp2.emp_email AS
+		recipient_email
 		FROM email e
-		LEFT JOIN employee emp1 ON e.sender_uuid = emp1.uuid
+		LEFT JOIN employee emp1 ON e.sender_uuid =
+		emp1.uuid
 		LEFT JOIN employee emp2 ON e.recipient_uuid = emp2.uuid
-		WHERE e.sender_uuid = #{senderUUID}  <!-- 로그인한 사용자의 UUID로 조회 -->
+		WHERE
+		e.sender_uuid = #{senderUUID}  <!-- 로그인한 사용자의 UUID로 조회 -->
 		ORDER BY e.sent_date DESC
 	</select>
 
@@ -76,14 +115,19 @@
 		resultMap="resultEmail">
 		SELECT e.*,
 		emp1.emp_name AS sender_name,
-		emp1.emp_email AS sender_email,
+		emp1.emp_email AS
+		sender_email,
 		emp2.emp_name AS recipient_name,
-		emp2.emp_email AS recipient_email
+		emp2.emp_email AS
+		recipient_email
 		FROM email e
-		LEFT JOIN employee emp1 ON e.sender_uuid = emp1.uuid
+		LEFT JOIN employee emp1 ON e.sender_uuid =
+		emp1.uuid
 		LEFT JOIN employee emp2 ON e.recipient_uuid = emp2.uuid
-		WHERE e.sender_uuid = #{userUUID} OR e.recipient_uuid = #{userUUID}
-		ORDER BY e.sent_date DESC
+		WHERE
+		e.sender_uuid = #{userUUID} OR e.recipient_uuid = #{userUUID}
+		ORDER BY
+		e.sent_date DESC
 	</select>
 
 	<!-- 이메일 ID로 이메일 조회 쿼리 (Employee 테이블과 조인하여 이름과 이메일 조회) -->
@@ -91,19 +135,24 @@
 		resultMap="resultEmail">
 		SELECT e.*,
 		emp1.emp_name AS sender_name,
-		emp1.emp_email AS sender_email,
+		emp1.emp_email AS
+		sender_email,
 		emp2.emp_name AS recipient_name,
-		emp2.emp_email AS recipient_email
+		emp2.emp_email AS
+		recipient_email
 		FROM email e
-		LEFT JOIN employee emp1 ON e.sender_uuid = emp1.uuid
+		LEFT JOIN employee emp1 ON e.sender_uuid =
+		emp1.uuid
 		LEFT JOIN employee emp2 ON e.recipient_uuid = emp2.uuid
-		WHERE e.email_id = #{emailId}
+		WHERE
+		e.email_id = #{emailId}
 	</select>
 
 	<!-- 개별 이메일 읽음 상태 업데이트 -->
 	<update id="updateReadStatus" parameterType="long">
 		UPDATE email
-		SET is_read = 'Y'
+		SET
+		is_read = 'Y'
 		WHERE email_id = #{emailId}
 	</update>
 

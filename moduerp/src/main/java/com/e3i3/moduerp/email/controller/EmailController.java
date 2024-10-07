@@ -60,22 +60,20 @@ public class EmailController {
 			// 사용자가 로그인하지 않은 경우, 로그인 페이지로 리다이렉트
 			return "redirect:/"; // 로그인 페이지 URL로 변경 필요
 		}
-	    String bizNumber = (String) session.getAttribute("biz_number");
+		String bizNumber = (String) session.getAttribute("biz_number");
 
-	    List<EmployeeBasicInfo> result = employeeService.selectEmployeesByEmailAndBizNumber(keyword, bizNumber).stream()
-	            .map(emp -> new EmployeeBasicInfo(emp.getEmpName(), emp.getEmpEmail()))
-	            .collect(Collectors.toList());
+		List<EmployeeBasicInfo> result = employeeService.selectEmployeesByEmailAndBizNumber(keyword, bizNumber).stream()
+				.map(emp -> new EmployeeBasicInfo(emp.getEmpName(), emp.getEmpEmail())).collect(Collectors.toList());
 
-	    // ObjectMapper를 사용하여 리스트를 JSON 문자열로 변환
-	    ObjectMapper objectMapper = new ObjectMapper();
-	    try {
-	        return objectMapper.writeValueAsString(result);
-	    } catch (JsonProcessingException e) {
-	        e.printStackTrace();
-	        return "[]"; // 예외 발생 시 빈 배열 반환
-	    }
+		// ObjectMapper를 사용하여 리스트를 JSON 문자열로 변환
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			return objectMapper.writeValueAsString(result);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return "[]"; // 예외 발생 시 빈 배열 반환
+		}
 	}
-
 
 	// 이메일 전송 처리
 	@PostMapping("/email/sending.do")
@@ -135,7 +133,7 @@ public class EmailController {
 
 				// 파일 저장 경로 설정 시 File.separator 사용
 				String uploadDir = this.uploadDir.replace("/", File.separator).replace("\\", File.separator);
-				
+
 				// 로그 추가 (디버깅용)
 				System.out.println("Upload Directory: " + uploadDir);
 
@@ -151,24 +149,23 @@ public class EmailController {
 
 				// 파일 저장 경로를 File 객체로 생성
 				File serverFile = new File(uploadDir + File.separator + newFilename);
-				
+
 				// 경로 로그 출력 (확인용)
 				System.out.println("통일된 파일 저장 경로: " + serverFile.getAbsolutePath());
-				
+
 				// 파일 저장
 				file.transferTo(serverFile);
 
 				// 파일 저장 경로 확인
 				if (serverFile.exists()) {
-				    System.out.println("파일이 성공적으로 저장되었습니다: " + serverFile.getAbsolutePath());
+					System.out.println("파일이 성공적으로 저장되었습니다: " + serverFile.getAbsolutePath());
 				} else {
-				    System.out.println("파일 저장에 실패했습니다.");
+					System.out.println("파일 저장에 실패했습니다.");
 				}
-				
+
 				// 파일 경로가 Windows 또는 Linux 환경에 따라 다르게 처리될 수 있으므로,
 				String normalizedPath = serverFile.getAbsolutePath().replace("\\", "/");
 				System.out.println("정규화된 파일 경로: " + normalizedPath);
-
 
 				// attachmentPath 설정 (파일명만 저장)
 				email.setAttachmentPath(newFilename);
@@ -283,15 +280,35 @@ public class EmailController {
 
 	// 이메일 전체 페이지
 	@GetMapping("/email/list.do")
-	public String emailListPage(HttpSession session, Model model) {
+	public String emailListPage(@RequestParam(value = "page", defaultValue = "1") int page, HttpSession session,
+			Model model) {
 		String loginUUID = (String) session.getAttribute("uuid");
 		if (loginUUID == null) {
-			// 사용자가 로그인하지 않은 경우, 로그인 페이지로 리다이렉트
-			return "redirect:/"; // 로그인 페이지 URL로 변경 필요
+			return "redirect:/";
 		}
-		List<Email> emails = emailService.selectEmailsByUser(loginUUID); // 로그인 세션의 UUID로 받은/보낸 이메일 조회
+
+		// 한 페이지당 표시할 이메일 수
+		int pageSize = 10;
+
+		// 페이징을 위한 offset 계산
+		int offset = (page - 1) * pageSize;
+
+		// 총 이메일 수 조회
+		int totalEmails = emailService.countEmailsByUser(loginUUID);
+
+		// 총 페이지 수 계산
+		int totalPages = (int) Math.ceil((double) totalEmails / pageSize);
+
+		// 해당 페이지의 이메일 목록 조회
+		List<Email> emails = emailService.selectEmailsByUserWithPaging(loginUUID, offset, pageSize);
+
 		model.addAttribute("emails", emails);
-		return "email/emailList"; // 이메일 목록을 보여주는 JSP 페이지 이름
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalEmails", totalEmails);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("totalPages", totalPages);
+		
+		return "email/emailList";
 	}
-	
+
 }

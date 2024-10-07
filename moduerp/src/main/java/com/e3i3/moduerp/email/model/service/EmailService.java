@@ -25,5 +25,11 @@ public interface EmailService {
 	
 	public void deleteEmailsBatch(List<Long> emailIds);
 	
+	  // 페이징 처리를 위한 메서드 추가
+    List<Email> selectEmailsByUserWithPaging(String userUUID, int offset, int limit);
 
+    // 총 이메일 수를 세기 위한 메서드 추가
+    int countEmailsByUser(String userUUID);
+
+    
 }

@@ -1,6 +1,8 @@
 package com.e3i3.moduerp.email.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,20 @@ public class EmailDao {
 		sqlSessionTemplate.insert("EmailMapper.insertEmail", email);
 	}
 
+	// 로그인 유저가 보낸 이메일과 받은 이메일 조회 (페이징 처리)
+	public List<Email> selectEmailsByUserWithPaging(String userUUID, int offset, int limit) {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("userUUID", userUUID);
+	    params.put("offset", offset);
+	    params.put("limit", limit);
+	    return sqlSessionTemplate.selectList("EmailMapper.selectEmailsByUserWithPaging", params);
+	}
+
+	// 전체 이메일 수를 세는 메서드
+	public int countEmailsByUser(String userUUID) {
+	    return sqlSessionTemplate.selectOne("EmailMapper.countEmailsByUser", userUUID);
+	}
+	
 	// 모든 이메일 조회
 	public List<Email> selectAllEmails() {
 		return sqlSessionTemplate.selectList("EmailMapper.selectAllEmails");
