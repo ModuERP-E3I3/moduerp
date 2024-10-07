@@ -162,7 +162,7 @@
 	    <ul id="menubar">
 	        <li><a href="attendance.do"><i class="fas fa-bullhorn"></i> 출퇴근</a></li>
 	        <li><a href="leave.do"><i class="fas fa-clipboard"></i> 휴 가</a></li> 
-	        <li><a href="inbox.do"><i class="fas fa-clipboard"></i> 이메일</a></li> 
+	          <li><a href="/email/inbox.do"><i class="fas fa-clipboard"></i> 이메일</a></li> 
 	    </ul>
 	</div>
 	

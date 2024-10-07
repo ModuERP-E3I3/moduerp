@@ -201,13 +201,13 @@
                 </tr>
             </thead>
             <tbody>
-			    <c:forEach var="BuyStockIn" items="${stockList}">
+			    <c:forEach var="buyStockIn" items="${stockList}">
 			        <tr>
 			            <td>${buyStockIn.bStockInId}</td>
 			            <td>${buyStockIn.bStockInId}</td>
 			            <td>${buyStockIn.itemCode}</td>
 			            <td>${buyStockIn.bStockInDate}</td>
-			            <td>${buyStockIn.bStockPlace}</td>
+			            <td>${buyStockIn.bStockInPlace}</td>
 			            <td>${buyStockIn.bStockInQty}</td>
 			            <td>${buyStockIn.bStockInId}</td>
 			            <td>${buyStockIn.empName}</td>

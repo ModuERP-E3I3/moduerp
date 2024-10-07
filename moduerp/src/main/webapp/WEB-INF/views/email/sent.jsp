@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" 
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -8,14 +8,12 @@
     <meta charset="UTF-8">
     <title>보낸 이메일</title>
     <style type="text/css">
-        /* 기존 CSS 스타일을 여기에 추가하세요. */
+        /* 상단 영역의 스타일 */
         .top-content-box {
             width: 96%;
             height: 6vh;
             background-color: white;
-            margin-left: 1%;
-            margin-right: 5%;
-            margin-top: 1.8%;
+            margin: 1.8% auto 0 auto;
             border: 1px solid #ccc;
             border-radius: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -27,6 +25,7 @@
             font-weight: bold;
         }
 
+        /* 상단 메뉴바 스타일링 */
         #menubar {
             list-style: none;
             padding: 0;
@@ -38,7 +37,7 @@
 
         #menubar li {
             margin: 0 40px;
-            position: relative; /* 드롭다운 메뉴를 위해 position 추가 */
+            position: relative;
         }
 
         #menubar li a {
@@ -50,17 +49,47 @@
             transition: background 0.3s ease;
         }
 
-        #menubar li a:hover, #menubar li a.active {
+        #menubar li a:hover,
+        #menubar li a.active {
             background-color: #f4f4f4;
             border-radius: 10px;
         }
 
+        /* 드롭다운 메뉴 스타일 */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            z-index: 1;
+            margin-top: 5px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            list-style: none;
+            padding: 0;
+            white-space: nowrap;
+        }
+
+        .dropdown-item {
+            padding: 10px 20px;
+            text-decoration: none;
+            color: black;
+            display: block;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f4f4f4;
+        }
+
+        .show {
+            display: block;
+        }
+
+        /* 이메일 목록 영역 스타일 */
         .content-box {
             width: 96%;
             background-color: white;
-            margin-left: 1%;
-            margin-right: 5%;
-            margin-top: 5%;
+            margin: 5% auto;
             border: 1px solid #ccc;
             border-radius: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -68,14 +97,50 @@
             padding: 20px;
         }
 
-        /* 제목 스타일 */
+        /* 보낸 이메일 제목 스타일 */
         .content-title {
             position: absolute;
             top: -40px;
             left: 20px;
             font-size: 24px;
-            color: white; 
+            color: white;
             font-weight: bold;
+        }
+
+        .no-email-message {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            font-size: 20px;
+            color: #333;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .no-email-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #5cb85c;
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .no-email-button:hover {
+            background-color: #4cae4c;
+        }
+
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
+            margin-bottom: 10px;
         }
 
         .email-list {
@@ -86,103 +151,190 @@
         .email-item {
             border-bottom: 1px solid #ccc;
             padding: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
         }
 
-        .email-item:last-child {
-            border-bottom: none;
+        .checkbox {
+            margin-left: 15px;
+            margin-right: 15px;
         }
 
-        /* 드롭다운 메뉴 스타일 */
-        .dropdown-menu {
-            display: none; /* 기본적으로 숨김 */
-            position: absolute; /* 위치 지정 */
-            background-color: white;
-            border: 1px solid #ccc;
-            z-index: 1;
-            margin-top: 5px; /* 상단 여백 */
-            border-radius: 5px; /* 둥근 모서리 */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-            list-style: none; /* 동그라미 제거 */
-            padding: 0; /* 여백 제거 */
-            white-space: nowrap; /* 한 줄로 표시 */
+        .read-status {
+            margin-right: 15px;
         }
 
-        /* 드롭다운 메뉴 항목 스타일 */
-        .dropdown-item {
-            padding: 10px 20px; /* 내부 여백 */
-            text-decoration: none; /* 밑줄 제거 */
-            color: black; /* 글자 색상 */
-            display: block; /* 블록 형태 */
+        .attach-icon {
+            margin-right: 15px;
         }
 
-        .dropdown-item:hover {
-            background-color: #f4f4f4; /* 호버 시 배경색 변경 */
+        .icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        .attachment-space {
+            display: inline-block;
+            width: 20px;
+            margin-right: 15px;
+        }
+
+        .recipient-name {
+            display: inline-block;
+            width: 150px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-right: 20px;
+        }
+
+        .date {
+            margin-left: auto;
+            margin-right: 10px;
         }
     </style>
 </head>
 
 <body>
-    <!-- 서브헤더 JSP 임포트 -->
+    <%-- 서브헤더 JSP 임포트 --%>
     <c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
-    <!-- 위에 하얀 박스  -->
+    <%-- 상단 메뉴바 --%>
     <div class="top-content-box">
         <ul id="menubar">
-            <li><a href="attendance.do"><i class="fas fa-bullhorn"></i> 출퇴근</a></li>
-            <li><a href="leave.do"><i class="fas fa-clipboard"></i> 휴 가</a></li>
-            <li>
-                <a href="javascript:void(0);" class="active" onclick="toggleDropdown(this);"><i class="fas fa-clipboard"></i> 이메일</a>
+            <li><a href="<c:url value='/attendance.do' />"><i class="fas fa-bullhorn"></i> 출퇴근</a></li>
+            <li><a href="<c:url value='/leave.do' />"><i class="fas fa-clipboard"></i> 휴가</a></li>
+            <li style="position: relative;">
+                <a href="javascript:void(0);" class="active" onclick="toggleDropdown(this);"><i class="fas fa-envelope"></i> 이메일</a>
                 <ul class="dropdown-menu">
-                    <li><a href="email/list.do" class="dropdown-item" onclick="hideDropdown()">전체 이메일</a></li>
-                    <li><a href="inbox.do" class="dropdown-item" onclick="hideDropdown()">받은 이메일</a></li>
-                    <li><a href="sent.do" class="dropdown-item" onclick="hideDropdown()">보낸 이메일</a></li>
+                    <li><a href="<c:url value='/email/send.do' />" class="dropdown-item" onclick="hideDropdown()">메일 쓰기</a></li>
+                    <li><a href="<c:url value='/email/list.do' />" class="dropdown-item" onclick="hideDropdown()">전체 이메일</a></li>
+                    <li><a href="<c:url value='/email/inbox.do' />" class="dropdown-item" onclick="hideDropdown()">받은 이메일</a></li>
+                    <li><a href="<c:url value='/email/sent.do' />" class="dropdown-item" onclick="hideDropdown()">보낸 이메일</a></li>
                 </ul>
             </li>
         </ul>
     </div>
 
-    <!-- 하얀 큰 박스 -->
+    <%-- 메인 콘텐츠 영역 --%>
     <div class="content-box">
         <div class="content-title">보낸 이메일</div>
 
-        <!-- 이메일 리스트 -->
-        <ul class="email-list">
-            <c:forEach var="email" items="${emails}">
-                <li class="email-item"><strong>수신자:</strong> ${email.recipientEmail} <br>
-                    <strong>제목:</strong> ${email.subject} <br>
-                    <strong>보낸 날짜:</strong> ${email.sentDate} <br>
-                    <a href="view.do?emailId=${email.emailId}">자세히 보기</a>
-                </li>
-            </c:forEach>
-        </ul>
+        <c:choose>
+            <%-- 이메일 리스트가 비어 있는 경우 --%>
+            <c:when test="${empty emails}">
+                <div class="no-email-message">
+                    보낸 이메일이 없습니다! 이메일을 보내 보세요☺️ <br><br>
+                    <a href="send.do" class="no-email-button">메일쓰기</a>
+                </div>
+            </c:when>
 
-        <!-- 메일쓰기 버튼 -->
-        <div class="btn-group" style="text-align: right; margin-top: 20px;">
-            <a href="send.do" class="btn blue">메일쓰기</a>
-        </div>
+            <%-- 이메일 리스트가 존재하는 경우 --%>
+            <c:otherwise>
+                <div class="action-buttons">
+                    <input type="checkbox" id="selectAll" onclick="selectAllEmails(this)">
+                    <span style="margin-left: 5px;">전체 선택</span>
+                    <button style="margin-left: 15px;" onclick="deleteSelected()">삭제</button>
+                    <button style="margin-left: 10px;" onclick="markAsRead()">읽음</button>
+                </div>
+
+                <%-- 이메일 리스트 --%>
+                <ul class="email-list">
+                    <c:forEach var="email" items="${emails}">
+                        <li class="email-item">
+                            <input type="checkbox" class="checkbox" name="emailCheckbox" value="${email.emailId}">
+                            <img class="read-status icon" src="<c:choose>
+                                <c:when test='${email.isRead.toString() eq "Y"}'>
+                                    <c:url value='/resources/icons/read.png'/>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:url value='/resources/icons/unread.png'/>
+                                </c:otherwise>
+                            </c:choose>" />
+                            <span class="attachment-space">
+                                <c:if test="${not empty email.attachmentPath}">
+                                    <img class="attach-icon icon" src="<c:url value='/resources/icons/attach.png' />" alt="첨부 파일">
+                                </c:if>
+                            </span>
+                            <span class="recipient-name">${email.recipientName}</span>
+                            <a href="view.do?emailId=${email.emailId}">${email.subject}</a> &nbsp;
+                            <span class="date">
+                                <fmt:setLocale value="ko_KR" />
+                                <fmt:formatDate value="${email.sentDate}" pattern="yyyy.MM.dd a hh:mm" />
+                            </span>
+                        </li>
+                    </c:forEach>
+                </ul>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <c:forEach begin="1" end="${totalPages}" var="i">
+                        <a href="sent.do?page=${i}" style="margin: 0 5px; text-decoration: none;
+                            ${i == currentPage ? 'font-weight: bold; color: blue;' : ''}">
+                            ${i}
+                        </a>
+                    </c:forEach>
+                </div>
+            </c:otherwise>
+        </c:choose>
     </div>
 
+    <%-- JavaScript 추가 --%>
     <script>
         function toggleDropdown(element) {
-            const dropdown = element.nextElementSibling; // 드롭다운 메뉴
-            if (dropdown.style.display === "block") {
-                dropdown.style.display = "none"; // 이미 열려있으면 닫기
-            } else {
-                dropdown.style.display = "block"; // 열기
-            }
+            const dropdownMenu = element.nextElementSibling;
+            dropdownMenu.classList.toggle('show');
         }
 
-        function hideDropdown() {
-            const dropdowns = document.querySelectorAll('.dropdown-menu');
-            dropdowns.forEach(dropdown => {
-                dropdown.style.display = "none"; // 모든 드롭다운 닫기
+        function selectAllEmails(selectAllCheckbox) {
+            const checkboxes = document.querySelectorAll('input[name="emailCheckbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAllCheckbox.checked;
             });
         }
 
-        // 페이지 로드 시 드롭다운을 자동으로 닫기
-        window.onclick = function(event) {
-            if (!event.target.matches('.active')) {
-                hideDropdown();
+        function deleteSelected() {
+            const selectedEmails = Array.from(document.querySelectorAll('input[name="emailCheckbox"]:checked'))
+                .map(checkbox => Number(checkbox.value));
+            if (selectedEmails.length > 0) {
+                fetch('<%=request.getContextPath()%>/email/deleteEmails.do', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(selectedEmails)
+                })
+                .then(response => response.text())
+                .then(result => {
+                    if (result === 'success') {
+                        alert("선택한 이메일이 삭제되었습니다.");
+                        location.reload();
+                    } else {
+                        alert("이메일 삭제에 실패했습니다.");
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            } else {
+                alert("삭제할 이메일을 선택하세요.");
+            }
+        }
+
+        function markAsRead() {
+            const selectedEmails = Array.from(document.querySelectorAll('input[name="emailCheckbox"]:checked'))
+                .map(checkbox => Number(checkbox.value));
+            if (selectedEmails.length > 0) {
+                fetch('<%=request.getContextPath()%>/email/markAsRead.do', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(selectedEmails)
+                })
+                .then(response => response.text())
+                .then(result => {
+                    if (result === 'success') {
+                        location.reload();
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            } else {
+                alert("읽음 처리할 이메일을 선택하세요.");
             }
         }
     </script>
