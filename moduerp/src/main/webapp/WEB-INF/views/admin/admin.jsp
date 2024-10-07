@@ -150,7 +150,7 @@
                 }
             }
         }
-    };
+    }; 
 
     // Render chart
     const memberChart = new Chart(
