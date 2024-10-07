@@ -8,4 +8,13 @@ public interface BuyStockInDao {
 
 	List<BuyStockInDTO> getAllBuyStockIn();
 
+	void insertBuyStockIn(BuyStockInDTO buyStockInDTO);
+
+	BuyStockInDTO selectBuyStockInByItemCode(String itemCode);
+
+	void updateBuyStockIn(BuyStockInDTO buyStockInDTO);
+
+	void deleteBuyStockInByItemCode(String itemCode);
+
+
 }

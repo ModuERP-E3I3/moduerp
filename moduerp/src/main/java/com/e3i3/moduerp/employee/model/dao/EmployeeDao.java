@@ -1,5 +1,6 @@
 package com.e3i3.moduerp.employee.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.e3i3.moduerp.employee.model.dto.Employee;
+import com.e3i3.moduerp.employee.model.dto.EmployeeBasicInfo;
 
 @Repository
 public class EmployeeDao {
@@ -49,4 +51,20 @@ public class EmployeeDao {
 	public List<Employee> selectAllEmployees() {
 		return sqlSessionTemplate.selectList("EmployeeMapper.selectAllEmployees");
 	}
+
+	public List<EmployeeBasicInfo> selectEmployeesByEmailAndBizNumber(String keyword, String bizNumber) {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("keyword", keyword);
+	    params.put("bizNumber", bizNumber);
+	    return sqlSessionTemplate.selectList("EmployeeMapper.selectEmployeesByEmailAndBizNumber", params);
+	}
+
+	
+	 // 이메일과 사업자번호로 직원 정보 조회
+    public Employee selectEmployeeByEmailAndBizNumber(String empEmail, String bizNumber) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("empEmail", empEmail);
+        params.put("bizNumber", bizNumber);
+        return sqlSessionTemplate.selectOne("EmployeeMapper.selectEmployeeByEmailAndBizNumber", params);
+    }
 }

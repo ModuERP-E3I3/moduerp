@@ -13,7 +13,6 @@
             font-family: 'Arial', sans-serif;
         }
 
-        /* 전체 헤더 스타일 */
         header {
             width: 100%;
             height: 60px;
@@ -139,21 +138,20 @@
         <div class="header-container">
             <a href="main.do" class="logo">ModuERP</a>
             <div class="signup-text">
-                사장님의 첫 방문이시라면?	 <a href="signup.do">회원가입하기</a>
+                사장님의 첫 방문이시라면? <a href="signup.do">회원가입하기</a>
             </div>
         </div>
     </header>
 
 <div class="container">
     <h1>로그인</h1>
-    
-    <!-- 로그인 실패 시 에러 메시지 표시 -->
+
     <% if (request.getAttribute("errorMessage") != null) { %>
         <div style="color: red; text-align: center; margin-bottom: 15px;">
             <%= request.getAttribute("errorMessage") %>
         </div>
     <% } %>
-    
+
     <form id="signinForm" action="login.do" method="POST">
         <div class="form-group">
             <label for="bizNumber" class="active">사업자번호</label>
@@ -175,58 +173,64 @@
             <input type="password" id="password" name="password" placeholder="암호 입력 (8자 이상)" minlength="8" required>
             <span id="passwordError" class="error"></span>
         </div>
-        <button type="submit" class="btn active" id="continueBtn">Continue</button>
     </form>
 </div>
 
+<script>
+    const bizNumberInput = document.getElementById("bizNumber");
+    const approvalCodeInput = document.getElementById("approvalCode");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const signinForm = document.getElementById("signinForm");
 
-    <script>
-        document.getElementById("bizNumber").oninput = function () {
-            const bizNumber = document.getElementById("bizNumber").value;
-            if (/^\d{10}$/.test(bizNumber)) {
-                document.getElementById("bizNumberError").textContent = "";
-                document.getElementById("approvalCode").classList.add("active");
-                document.querySelector("label[for='approvalCode']").classList.add("active");
-            } else {
-                document.getElementById("bizNumberError").textContent = "유효한 10자리 사업자번호를 입력하세요.";
-            }
-        };
-
-        document.getElementById("approvalCode").oninput = function () {
-            const approvalCode = document.getElementById("approvalCode").value;
-            if (/^\d{6}$/.test(approvalCode)) {
-                document.getElementById("approvalCodeError").textContent = "";
-                document.getElementById("email").classList.add("active");
-                document.querySelector("label[for='email']").classList.add("active");
-            } else {
-                document.getElementById("approvalCodeError").textContent = "유효한 6자리 승인코드를 입력하세요.";
-            }
-        };
-
-        document.getElementById("email").oninput = function () {
-            const email = document.getElementById("email").value;
-            if (validateEmail(email)) {
-                document.getElementById("emailError").textContent = "";
-                document.getElementById("password").classList.add("active");
-                document.querySelector("label[for='password']").classList.add("active");
-            } else {
-                document.getElementById("emailError").textContent = "유효한 이메일 주소를 입력하세요.";
-            }
-        };
-
-        document.getElementById("password").oninput = function () {
-            const password = document.getElementById("password").value;
-            if (password.length >= 8) {
-                document.getElementById("passwordError").textContent = "";
-            } else {
-                document.getElementById("passwordError").textContent = "암호는 최소 8자 이상이어야 합니다.";
-            }
-        };
-
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
+    bizNumberInput.oninput = function () {
+        if (/^\d{10}$/.test(bizNumberInput.value)) {
+            document.getElementById("bizNumberError").textContent = "";
+            approvalCodeInput.classList.add("active");
+            document.querySelector("label[for='approvalCode']").classList.add("active");
+            approvalCodeInput.focus();
+        } else {
+            document.getElementById("bizNumberError").textContent = "유효한 10자리 사업자번호를 입력하세요.";
         }
-    </script>
+    };
+
+    approvalCodeInput.oninput = function () {
+        if (/^\d{6}$/.test(approvalCodeInput.value)) {
+            document.getElementById("approvalCodeError").textContent = "";
+            emailInput.classList.add("active");
+            document.querySelector("label[for='email']").classList.add("active");
+            emailInput.focus();
+        } else {
+            document.getElementById("approvalCodeError").textContent = "유효한 6자리 승인코드를 입력하세요.";
+        }
+    };
+
+    emailInput.oninput = function () {
+        if (validateEmail(emailInput.value)) {
+            document.getElementById("emailError").textContent = "";
+            passwordInput.classList.add("active");
+            document.querySelector("label[for='password']").classList.add("active");
+            passwordInput.focus();
+        } else {
+            document.getElementById("emailError").textContent = "유효한 이메일 주소를 입력하세요.";
+        }
+    };
+
+    passwordInput.oninput = function () {
+        if (passwordInput.value.length >= 8) {
+            document.getElementById("passwordError").textContent = "";
+            signinForm.submit(); // 자동으로 폼 제출
+        } else {
+            document.getElementById("passwordError").textContent = "암호는 최소 8자 이상이어야 합니다.";
+        }
+    };
+
+ 	// 이메일 유효성 검사 함수
+    function validateEmail(email) {
+    	// 정규표현식: [앞부분]@[도메인].[최상위도메인](예: .com, .net 등)
+        const re = /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/;
+        return re.test(email);
+    }
+</script>
 </body>
 </html>

@@ -9,7 +9,6 @@
 		<result property="orderNumber" column="ORDER_NUMBER" />
 		<result property="itemCode" column="ITEM_CODE" />
 		<result property="uuid" column="UUID" />
-		<result property="departmentId" column="DEPARTMENT_ID" />
 		<result property="startDate" column="START_DATE" />
 		<result property="endDate" column="END_DATE" />
 		<result property="taskName" column="TASK_NAME" />
@@ -22,6 +21,7 @@
 		<result property="bizNumber" column="BIZ_NUMBER" />
 		<result property="itemName" column="ITEM_NAME" />
 		<result property="endExDate" column="END_EX_DATE" />
+		<result property="updateDate" column="UPDATE_DATE" />
 
 	</resultMap>
 
@@ -61,7 +61,6 @@
 		ORDER_NUMBER,
 		ITEM_CODE,
 		UUID,
-		DEPARTMENT_ID,
 		START_DATE,
 		END_DATE,
 		TASK_NAME,
@@ -78,7 +77,6 @@
 		#{orderNumber},
 		#{itemCode},
 		#{uuid},
-		#{departmentId},
 		#{startDate},
 		#{endDate},
 		#{taskName},
@@ -94,5 +92,40 @@
 		)
 	</insert>
 
+	<select id="getTotalQtyByItemCode" parameterType="String"
+		resultType="int">
+		SELECT NVL(SUM(QTY), 0)
+		FROM WORK_ORDER
+		WHERE ITEM_CODE = #{itemCode}
+	</select>
 
+
+	<update id="updateWorkOrder"
+		parameterType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		UPDATE WORK_ORDER
+		SET
+		TASK_NAME = #{taskName},
+		START_DATE =
+		#{startDate},
+		END_EX_DATE = #{endExDate},
+		QTY = #{qty},
+		PROGRESS_STATUS =
+		#{progressStatus},
+		WORKER_TEAM = #{workerTeam},
+		WORKER = #{worker},
+		WORK_PLACE = #{workPlace},
+		UPDATE_DATE = #{updateDate},
+		END_DATE = CASE
+		WHEN #{progressStatus} = '작업 완료' THEN #{endDate} ELSE NULL END
+		WHERE
+		ORDER_NUMBER = #{orderNumber}
+	</update>
+
+
+	<!-- 작업지시서 삭제 쿼리 -->
+	<delete id="deleteWorkOrder" parameterType="String">
+		DELETE FROM
+		WORK_ORDER
+		WHERE ORDER_NUMBER = #{orderNumber}
+	</delete>
 </mapper>

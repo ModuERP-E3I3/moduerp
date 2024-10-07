@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="EmployeeBuyMapper">
+
+	<!-- 직원 정보를 매핑하기 위한 resultMap -->
+	<resultMap id="resultEmployee"
+		type="com.e3i3.moduerp.employee.model.dto.Employee">
+		<id property="uuid" column="uuid" javaType="java.util.UUID"
+			typeHandler="com.e3i3.moduerp.common.handler.UUIDTypeHandler" />
+		<result property="bizNumber" column="biz_number" />
+		<result property="approvalCode" column="approval_code" />
+		<result property="departmentId" column="department_id" /> <!-- 수정됨 -->
+		<result property="jobId" column="job_id" />
+		<result property="privateAuthority" column="private_authority" />
+		<result property="empNo" column="emp_no" />
+		<result property="empName" column="emp_name" />
+		<result property="empEmail" column="emp_email" />
+		<result property="password" column="password" /> <!-- 추가 -->
+		<result property="userPhone" column="user_phone" />
+		<result property="registrationDate" column="registration_date" />
+		<result property="profileImg" column="profile_img" />
+		<result property="updatedAt" column="updated_at" />
+		<result property="isDeleted" column="is_deleted" />
+		<result property="lastLoginLocation"
+			column="last_login_location" />
+		<result property="deletedExcuse" column="deleted_excuse" />
+		<result property="deletedAt" column="deleted_at" />
+		<result property="hireDate" column="hire_date" />
+		<result property="quitDate" column="quit_date" />
+		<result property="reNum" column="re_num" />
+		<result property="address" column="address" />
+		<result property="isEmailChanged" column="is_email_changed" />
+		<result property="newEmpEmail" column="new_emp_email" />
+		<result property="remainingLeave" column="remaining_leave" />
+		<result property="contractStartTime"
+			column="contract_start_time" />
+		<result property="contractEndTime" column="contract_end_time" />
+		<result property="mgrUuid" column="mgr_uuid" />
+	</resultMap>
+
+	<select id="selectEmployeeNamesByBizNumber"
+		parameterType="String" resultType="String">
+		SELECT EMP_NAME
+		FROM EMPLOYEE
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+
+	<select id="selectEmployeeNameByUuid" parameterType="String"
+		resultType="String">
+		SELECT EMP_NAME
+		FROM EMPLOYEE
+		WHERE UUID = #{uuid}
+	</select>
+
+</mapper>

@@ -1,98 +1,105 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 
-  
-    <title>Map with Current Location and Directions</title>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2653d3c20cd9767e679feeb33da0120d&libraries=services"></script>
-    <style>
 
-        #map {
-            width: 90%;
-            height: 60vh;
-            margin: 20px auto;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+<title>Map with Current Location and Directions</title>
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2653d3c20cd9767e679feeb33da0120d&libraries=services"></script>
+<style>
+#map {
+	width: 55%;
+	height: 45vh;
+	margin: 20px auto;
+	border: 2px solid #ddd;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	margin-bottom: 2%;
+	position: relative;
+	margin-right: 22.5%;
+}
 
-        .controls {
-            text-align: center;
-            margin: 20px auto;
-        }
 
-        .controls input {
-            padding: 10px;
-            font-size: 16px;
-            margin: 0 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
 
-        .controls button {
-            background-color: #007aff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 12px 24px;
-            margin: 0 10px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
+.controls {
+	text-align: center;
+	margin: 20px auto;
+	overflow: hidden;
+}
 
-        .controls button:hover {
-            background-color: #005bb5;
-            transform: scale(1.05);
-        }
+.controls input {
+	padding: 10px;
+	font-size: 16px;
+	margin: 0 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
 
-        .controls button:disabled {
-            background-color: #ddd;
-            color: #666;
-            cursor: not-allowed;
-        }
+.controls button {
+	background-color: #007aff;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	padding: 12px 24px;
+	margin: 0 10px;
+	font-size: 16px;
+	cursor: pointer;
+	transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
-        #result {
-            margin: 20px auto;
-            padding: 15px;
-            max-width: 900px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            white-space: pre-wrap; /* Ensure JSON formatting is preserved */
-            font-family: monospace;
-            font-size: 14px;
-            color: #333;
-        }
-    </style>
+.controls button:hover {
+	background-color: #005bb5;
+	transform: scale(1.05);
+}
+
+.controls button:disabled {
+	background-color: #ddd;
+	color: #666;
+	cursor: not-allowed;
+}
+
+#result {
+	margin: 20px auto;
+	padding: 15px;
+	max-width: 900px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	background-color: #fff;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	white-space: pre-wrap; /* Ensure JSON formatting is preserved */
+	font-family: monospace;
+	font-size: 14px;
+	color: #333;
+	display: none;
+}
+#addcheck{
+	background-color : #008000;
+}
+
+
+</style>
 </head>
 <body>
-   
-
-
-
-        <div id="map"></div>
-        <div class="controls">
-            <!-- 주소 입력 필드 추가 -->
-            <div>
-                <label for="startAddress">start addr:</label>
-                <input type="text" id="startAddress" placeholder="start addr">
-                <button onclick="setStartPoint()">start Point</button>
-            </div>
-            <div style="margin-top: 10px;">
-                <label for="endAddress">end addr:</label>
-                <input type="text" id="endAddress" placeholder="end addr">
-                <button onclick="setEndPoint()">end point</button>
-            </div>
-            <div style="margin-top: 20px;">
-                <button onclick="getCarDirection()">select</button>
-            </div>
-        </div>
-        <pre id="result"></pre>
-
-        <script>
+	<div id="map"></div>
+	<div class="controls">
+		<!-- 주소 입력 필드 추가 -->
+		<div>
+			<label for="startAddress">출발지 입력:</label> <input type="text"
+				id="startAddress" placeholder="출발지 주소">
+			<button id="addcheck" onclick="setStartPoint()">출발지 설정</button>
+		</div>
+		<div style="margin-top: 10px;">
+			<label for="endAddress">목적지 입력:</label> <input type="text"
+				id="endAddress" placeholder="목적지 주소">
+			<button id="addcheck" onclick="setEndPoint()">목적지 설정</button>
+		</div>
+		<div style="margin-top: 20px;">
+			<button onclick="getCarDirection()">조회</button>
+		</div>
+	</div>
+	<pre id="result"></pre>
+	<script>
             var map;
             var startPointMarker = null;
             var endPointMarker = null;
@@ -165,7 +172,7 @@
                         map.setCenter(new kakao.maps.LatLng(lat, lng));
                         console.log(pointObj.startPoint.lng + "    " + pointObj.startPoint.lat)
                     } else {
-                        alert('출발지 주소를 찾을 수 없습니다.');
+                        alert('정확한 주소를 입력해주세요.');
                     }
                 });
             }
@@ -198,7 +205,7 @@
                         map.setCenter(new kakao.maps.LatLng(lat, lng));
                         console.log(pointObj.endPoint.lng + "    " + pointObj.endPoint.lat)
                     } else {
-                        alert('목적지 주소를 찾을 수 없습니다.');
+                        alert('정확한 주소를 입력해주세요.');
                     }
                 });
             }
@@ -248,8 +255,7 @@
                 document.getElementById('result').textContent = 'Error: ' + error;
             }
         }
-
-            // 경로 그리기 함수 (기존 코드 유지)
+            // 경로 그리기 함수
             function drawRouteOnMap(data) {
                 const linePath = [];
                 data.routes[0].sections[0].roads.forEach(road => {

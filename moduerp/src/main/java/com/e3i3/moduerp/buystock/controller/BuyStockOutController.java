@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.e3i3.moduerp.buystock.model.dto.BuyStockOutDTO;
-import com.e3i3.moduerp.buystock.service.BuyStockOutService;
+import com.e3i3.moduerp.buystock.model.service.BuyStockOutService;
 
 
 

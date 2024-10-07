@@ -220,39 +220,36 @@ th {
 
 		<div class="content-title">생산관리 | 작업지시서 |</div>
 
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-		</div>
+		
 
 		<!-- 테이블 -->
 		<table>
 			<thead>
 				<tr>
+					<th>제품명</th>
 					<th>작업명</th>
-					<th>시작날짜</th>
-					<th>종료날짜</th>
-					<th>작업수량</th>
-					<th>진행상태</th>
+					<th>시작 날짜</th>
+					<th>종료 예정 날짜</th>
+					<th>종료 날짜</th>
+					<th>작업 수량</th>
+					<th>진행 상태</th>
 					<th>작업팀</th>
 					<th>작업자</th>
-					<th>작업장소</th>
+					<th>작업 장소</th>
 					<th>지시자</th>
 
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
+					<td>${workOrderDetails.itemName}</td>
 					<td>${workOrderDetails.taskName}</td>
 					<td><fmt:formatDate value="${workOrderDetails.startDate}"
 							pattern="yyyy-MM-dd HH:mm:ss" /></td>
-					<td><fmt:formatDate value="${workOrderDetails.endDate}"
+					<td><fmt:formatDate value="${workOrderDetails.endExDate}"
 							pattern="yyyy-MM-dd HH:mm:ss" /></td>
+					<td><fmt:formatDate value="${workOrderDetails.endDate}"
+							pattern="yyyy-MM-dd " /></td>
 					<td>${workOrderDetails.qty}</td>
 					<td>${workOrderDetails.progressStatus}</td>
 					<td>${workOrderDetails.workerTeam}</td>
@@ -271,7 +268,7 @@ th {
 		<div class="btn-group">
 			<button class="btn red" onclick="openDeleteModal()">삭제</button>
 			<a
-				href="productionStockInDetailUpdate.do?itemCode=${itemDetails.itemCode}">
+				href="productionWorkOrderDetailUpdate.do?orderNumber=${workOrderDetails.orderNumber}">
 				<button class="btn green">수정</button>
 			</a>
 		</div>
@@ -285,8 +282,8 @@ th {
 			<h2>정말로 삭제하시겠습니까?</h2>
 			<p>삭제된 데이터는 복구할 수 없습니다.</p>
 			<!-- 삭제 버튼을 포함하는 폼 추가 -->
-			<form action="deleteProductionStockIn.do" method="POST">
-				<input type="hidden" name="itemCode" value="${itemDetails.itemCode}">
+			<form action="deleteProductionWorkOrder.do" method="POST">
+				<input type="hidden" name="orderNumber" value="${workOrderDetails.orderNumber}">
 				<!-- itemCode를 숨겨진 필드로 전달 -->
 				<button type="submit" class="go-delete">삭제</button>
 				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>

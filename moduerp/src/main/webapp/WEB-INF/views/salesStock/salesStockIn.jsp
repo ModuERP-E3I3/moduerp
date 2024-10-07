@@ -149,7 +149,7 @@ th {
 #pagebutton {
 	display: flex;
 	justify-content: center;
-	margin-top: 5%; /* 위쪽 여백 추가 */
+	margin-top: 2%; /* 위쪽 여백 추가 */
 }
 
 #pagebutton a {
@@ -162,6 +162,10 @@ th {
 #pagebutton strong {
 	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
 	color: black; /* 강조 색상 검은색 유지 */
+}
+
+tbody tr:hover {
+	cursor: pointer;
 }
 </style>
 

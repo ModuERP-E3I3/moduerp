@@ -2,15 +2,13 @@ package com.e3i3.moduerp.workorder.model.dto;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
-
 
 
 public class WorkOrderDTO {
 	private String orderNumber;
 	private String itemCode;
 	private String uuid;
-	private String departmentId;
+
 	private Timestamp startDate;
 	private Timestamp endDate;
 	private String taskName;
@@ -23,6 +21,7 @@ public class WorkOrderDTO {
 	private String bizNumber;
 	private String itemName;
 	private Date endExDate;
+	private Timestamp updateDate;
 
 	public String getOrderNumber() {
 		return orderNumber;
@@ -46,14 +45,6 @@ public class WorkOrderDTO {
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
-	}
-
-	public String getDepartmentId() {
-		return departmentId;
-	}
-
-	public void setDepartmentId(String departmentId) {
-		this.departmentId = departmentId;
 	}
 
 	public Date getStartDate() {
@@ -150,6 +141,14 @@ public class WorkOrderDTO {
 
 	public void setEndExDate(Date endExDate) {
 		this.endExDate = endExDate;
+	}
+
+	public Timestamp getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Timestamp updateDate) {
+		this.updateDate = updateDate;
 	}
 
 }
