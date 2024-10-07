@@ -14,7 +14,7 @@ public class ItemSalesStockDAOImpl implements ItemSalesStockDAO {
     @Autowired
     private SqlSession sqlSession;
 
-    private static final String namespace = "ItemMapper";
+    private static final String namespace = "ItemSalesMapper";
 
     @Override
     public List<String> selectItemNamesByBizNumber(String bizNumber) {
