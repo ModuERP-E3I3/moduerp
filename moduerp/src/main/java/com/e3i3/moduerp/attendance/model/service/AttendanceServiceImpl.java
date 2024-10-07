@@ -19,10 +19,10 @@ public class AttendanceServiceImpl implements AttendanceService {
         attendanceDao.insertAttendance(attendance);
     }
 
-    @Override
-    public Attendance getAttendanceById(String attendanceId) {
-        return attendanceDao.selectAttendanceById(attendanceId);
-    }
+	/*
+	 * @Override public Attendance getAttendanceById(String attendanceId) { return
+	 * attendanceDao.selectAttendanceById(attendanceId); }
+	 */
 
     @Override
     public List<Attendance> getAllAttendances() {
@@ -36,6 +36,12 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public void deleteAttendance(String attendanceId) {
-        attendanceDao.deleteAttendance(attendanceId);
+		/* attendanceDao.deleteAttendance(attendanceId); */
     }
+
+	@Override
+	public Attendance getAttendanceById(String attendanceId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
