@@ -23,7 +23,7 @@
 			typeHandler="com.e3i3.moduerp.handler.StringListTypeHandler" />
 	</resultMap>
 
-	<select id="getItemsByBizNumber" resultMap="itemBResultMap">
+	<select id="getItemsByBizNumber" resultMap="itemResultMap">
 		SELECT ITEM_NAME
 		FROM ITEM
 		WHERE BIZ_NUMBER = #{bizNumber}  AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
@@ -61,11 +61,6 @@
 			추가 -->
 	</insert>
 
-
-	<select id="getItemsByBizNumber" parameterType="String"
-		resultMap="itemResultMap">
-		SELECT * FROM ITEM WHERE BIZ_NUMBER = #{bizNumber}
-	</select>
 
 	<select id="selectItemByCode" parameterType="String"
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
