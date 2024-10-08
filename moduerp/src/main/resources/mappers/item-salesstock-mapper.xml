@@ -95,7 +95,7 @@
 	</delete>
 
 	<!-- ======================================= -->
-	<!-- productionOUT -->
+	<!-- salesOUT -->
 	<!-- BizNumber와 CREATED_OUT_AT이 있는 항목 조회 -->
 	<select id="getSalesItemsByBizNumberOutDate"
 		parameterType="String"

@@ -68,7 +68,7 @@ public class SalesStockInController {
 	}
 
 	@PostMapping("/salesStockInCreate.do")
-	public String createSalesStockIn(@RequestParam("pStockInDate") String stockInDateStr,
+	public String createSalesStockIn(@RequestParam("sStockInDate") String stockInDateStr,
 			@RequestParam("stockPlace") String stockPlace, @RequestParam("stockIn") int stockIn,
 			@RequestParam("itemName") String itemName, @RequestParam("itemDesc") String itemDesc,
 			@RequestParam("inPrice") double inPrice, @RequestParam("materialType") List<String> materialType, 
@@ -100,10 +100,10 @@ public class SalesStockInController {
 
 		itemSalesStockService.insertItem(itemDTO);
 
-		String pStockInId = "S" + bizNumber + currentTimestampKST.getTime();
+		String sStockInId = "S" + bizNumber + currentTimestampKST.getTime();
 
 		SalesStockInDTO salesStockInDTO = new SalesStockInDTO();
-		salesStockInDTO.setsStockInId(pStockInId);
+		salesStockInDTO.setsStockInId(sStockInId);
 		salesStockInDTO.setItemCode(itemCode);
 		salesStockInDTO.setsStockInDate(stockInDate);
 		salesStockInDTO.setsStockInPlace(stockPlace);
