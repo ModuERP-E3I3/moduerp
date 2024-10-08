@@ -19,4 +19,8 @@ public interface WorkOrderService {
 	void deleteWorkOrder(String orderNumber);
 
 	int getTotalQtyByItemCode(String itemCode);
+
+	// -------------------------------
+	// QC
+	List<WorkOrderDTO> getCompletedWorkOrders();
 }

@@ -15,7 +15,7 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    // account.jsp 夸没 贸府
+    // account.jsp 锟斤拷没 贸
     @RequestMapping("/account.do")
     public String showAccount(Model model) {
         List<AccountDTO> accountList = accountService.getAllAccounts();

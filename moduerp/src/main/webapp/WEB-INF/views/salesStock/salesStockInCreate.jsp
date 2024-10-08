@@ -189,6 +189,7 @@ th {
 						<th>품목 설명</th>
 						<th>입고 가격</th>
 						<th>자재 종류</th>
+						<th>담당자</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -217,7 +218,7 @@ th {
 						<!-- 가격 입력 칸 -->
 						<td><input type="number" name="inPrice" placeholder="가격 입력"
 							step="0.01" /></td>
-
+						
 						<!-- 자재 종류 선택 칸 -->
 						<td>
 							<!-- 자재 종류 입력 부분 -->
@@ -236,6 +237,13 @@ th {
 							</div>
 							<button type="button" onclick="addMaterialType()">자재 종류추가</button>
 						</td>
+						
+						<!--  <td><input type="number" name="iDirector" placeholder="담당자 입력"
+							step="0.01" /></td> -->
+						
+						<td> <input type="text" name="director" value="${directorName}" readonly="readonly">
+						</td>
+						
 					</tr>
 				</tbody>
 			</table>
