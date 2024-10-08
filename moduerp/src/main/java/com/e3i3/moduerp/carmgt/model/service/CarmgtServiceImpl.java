@@ -17,4 +17,10 @@ public class CarmgtServiceImpl implements CarmgtService{
 	public List<CarmgtDto> getAllCarmgt(){
 		return carmgtDao.getAllCarmgt();
 	}
+
+	/*
+	 * @Override public void deleteCarmgt(String carId) {
+	 * 
+	 * carmgtDao.deleteCarmgt(carId); }
+	 */
 }

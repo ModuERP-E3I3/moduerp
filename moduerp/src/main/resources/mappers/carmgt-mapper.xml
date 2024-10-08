@@ -33,4 +33,9 @@
  		</select>
 
  
+ 
+	<!-- <delete id="deleteCarmgt"
+		parameterType="String">
+		DELETE FROM CAR_MANAGEMENT WHERE CAR_ID = #{carId}
+	</delete> -->
  </mapper>

@@ -44,6 +44,11 @@ public class CarController {
 	@Autowired
 	private com.e3i3.moduerp.carres.model.service.CarresService CarresService;
 	
+	@Autowired
+	private com.e3i3.moduerp.carmgt.model.service.CarmgtService CarmgtService;
+	
+	
+	
 	@CrossOrigin(origins = "https://apis-navi.kakaomobility.com/v1/directions") // Ư�� �����θ� ���
 	@RequestMapping(value = "/carRes.do", method = RequestMethod.GET)
 	public String carListView(Model model) {
@@ -135,7 +140,18 @@ public class CarController {
 		  return "redirect:/carRes.do"; 
 	  }
 	 
-	
+	  @PostMapping("/deleteCar.do")
+	  public String deleteCar(@RequestParam("carId") String carId
+			) {
+		  
+		 CarDto carDto = new CarDto();
+		 
+		 carDto.setCarId(carId);
+		 
+		 CarService.deleteCar(carDto);
+		  
+		  return "redirect:/carRes.do";
+	  }
 	
 	 
 	 

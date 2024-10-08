@@ -236,14 +236,8 @@ th {
 		</table>
 
 		<!-- 버튼 그룹 -->
-		<%-- <div class="btn-group">
-			<button class="btn red" onclick="openDeleteModal()">삭제</button>
-			<a
-				href="productionStockInDetailUpdate.do?itemCode=${itemDetails.itemCode}">
-				<button class="btn green">수정</button>
-			</a>
-		</div> --%>
 		<div class="btn-group">
+			<button class="btn red" onclick="openDeleteModal()">삭제</button>
 			<a
 				href="carDetailUpdate.do?carId=${carDetail.carId}">
 				<button class="btn green">수정</button>
@@ -253,30 +247,30 @@ th {
 
 	</div>
 	<!-- 삭제 확인 모달 -->
-	<%-- <div id="delete-modal" style="display: none;">
+	<div id="delete-modal" style="display: none;">
 		<div class="modal-content">
 			<h2>정말로 삭제하시겠습니까?</h2>
 			<p>삭제된 데이터는 복구할 수 없습니다.</p>
 			<!-- 삭제 버튼을 포함하는 폼 추가 -->
-			<form action="deleteProductionStockIn.do" method="POST">
-				<input type="hidden" name="itemCode" value="${itemDetails.itemCode}">
+			<form action="deleteCar.do" method="POST">
+				<input type="hidden" name="carId" value="${carDetail.carId}">
 				<!-- itemCode를 숨겨진 필드로 전달 -->
 				<button type="submit" class="go-delete">삭제</button>
 				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>
 			</form>
 		</div>
-	</div> --%>
+	</div>
 
 </body>
 
 <script type="text/javascript">
-/* function openDeleteModal() {
+function openDeleteModal() {
     document.getElementById('delete-modal').style.display = 'block';
 }
 
 function closeDeleteModal() {
     document.getElementById('delete-modal').style.display = 'none';
-} */
+} 
 
 
 

@@ -6,6 +6,7 @@ public class CarDto {
 	private String ownershipStatus;
 	private String carNum;
 	private String bizNumber;
+	private String YN;
 	
 	public CarDto() {
 		super();
@@ -62,6 +63,14 @@ public class CarDto {
 
 	public void setBizNumber(String bizNumber) {
 		this.bizNumber = bizNumber;
+	}
+
+	public String getYN() {
+		return YN;
+	}
+
+	public void setYN(String yN) {
+		YN = yN;
 	}
 	
 	

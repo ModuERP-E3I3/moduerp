@@ -10,4 +10,5 @@ public interface CarDao{
 	void insertCar(CarDto carDto);
 	CarDto selectCarId(String carId);
 	void updateCar(CarDto carDto);
+	void deleteCar(CarDto carDto);
 }

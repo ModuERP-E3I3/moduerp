@@ -9,12 +9,14 @@
  		<result property="ownershipStatus" column="OWNERSHIP_STATUS" />
  		<result property="carNum" column="CAR_NUM" />
  		<result property="bizNumber" column="BIZ_NUMBER" />
+ 		<result property="YN" column="YN" />
  	</resultMap>
  	
  	
  	
  	<select id="getAllCar" resultMap="resultCar">
     	select * from CAR
+    	where YN = 'Y'
 	</select>
 	
 	<insert id="insertCar" parameterType="com.e3i3.moduerp.car.model.dto.CarDto">
@@ -36,5 +38,12 @@
 		OWNERSHIP_STATUS = #{ownershipStatus}
 		WHERE CAR_ID = #{carId}
 	</update>
+	
+	<delete id="deleteCar"
+		parameterType="String">
+		UPDATE CAR
+		SET YN = 'N'
+		WHERE CAR_ID = #{carId}
+	</delete>
 
  </mapper>
