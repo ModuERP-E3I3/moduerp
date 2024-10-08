@@ -161,10 +161,10 @@ public class BuyStockInController {
 			model.addAttribute("itemDetails", itemDetails);
 			model.addAttribute("BuyStockInDetails", BuyStockInDetails);
 
-			return "BuyStock/BuyStockInDetail"; // JSP 
+			return "buyStock/buyStockInDetail"; // JSP 
 		}
 		
-		@GetMapping("/BuyStockInDetailUpdate.do")
+		@GetMapping("/buyStockInDetailUpdate.do")
 		public String showUpdateForm(@RequestParam("itemCode") String itemCode, Model model, HttpSession session) {
 			// ITEM itemCode
 			ItemDTO itemDetails = itembuyStockService.getItemDetails(itemCode);
@@ -198,7 +198,7 @@ public class BuyStockInController {
 			model.addAttribute("itemNames", itemNames);
 
 			
-			return "BuyStock/BuyStockInDetailUpdate"; 
+			return "buyStock/buyStockInDetailUpdate"; 
 		}
 		
 		@PostMapping("/updateBuyStockIn.do")
@@ -242,7 +242,7 @@ public class BuyStockInController {
 			// BuyStockIn 테이블 업데이트
 			BuyStockInService.updateBuyStockIn(BuyStockInDTO);
 
-			return "redirect:/BuyStockIn.do";  // 업데이트 후 재고 목록 페이지로 리다이렉트
+			return "redirect:/buyStockIn.do";  // 업데이트 후 재고 목록 페이지로 리다이렉트
 		}
 
 		@PostMapping("/deleteBuyStockIn.do")
@@ -253,7 +253,7 @@ public class BuyStockInController {
 			// 2. ITEM 테이블에서 해당 아이템 삭제
 			itembuyStockService.deleteItemByCode(itemCode);
 
-			return "redirect:/BuyStockIn.do"; // 삭제 후 재고 목록 페이지로 리다이렉트
+			return "redirect:/buyStockIn.do"; // 삭제 후 재고 목록 페이지로 리다이렉트
 		}
 
 
