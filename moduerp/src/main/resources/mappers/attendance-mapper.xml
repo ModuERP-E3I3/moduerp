@@ -23,7 +23,6 @@
         VALUES (#{attendanceId}, #{uuid}, #{bizNumber}, #{attDate}, #{clockInTime}, #{clockOutTime}, #{totWorkHrs}, #{overtime})
     </insert>
 
-
     <!-- Select by ATTENDANCE_ID -->
     <select id="selectAttendanceByAttendanceId" parameterType="String" resultMap="AttendanceResultMap">
         SELECT ATTENDANCE_ID, UUID, BIZ_NUMBER, ATT_DATE, CLOCK_IN_TIME, CLOCK_OUT_TIME, TOT_WORK_HRS, OVERTIME

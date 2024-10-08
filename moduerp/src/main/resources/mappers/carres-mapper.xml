@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+ "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="CarresMapper">
+ 	<resultMap type="com.e3i3.moduerp.carres.model.dto.CarresDto" id="resultCarres">
+ 		<result property="carId" column="CAR_ID" />
+ 		<result property="departmentId" column="DEPARTMENT_ID" />
+ 		<result property="reserveStartDate" column="RESERVE_START_DATE" />
+ 		<result property="reserveEndDate" column="RESERVE_END_DATE" />
+ 		<result property="useReason" column="USE_REASON" />
+ 		<result property="uuid" column="UUID" />
+ 		<result property="empName" column="EMP_NAME" />
+ 	</resultMap>
+ 	
+ 	<!-- 차량 예약 전체 조회 쿼리 -->
+ 	<select id="getAllCarres" resultMap="resultCarres">
+ 			SELECT
+    			C.CAR_ID,
+   				E.EMP_NAME,
+    			E.DEPARTMENT_ID,
+    			C.RESERVE_START_DATE,
+    			C.RESERVE_END_DATE,
+    			C.USE_REASON
+			FROM
+    			CAR_RESERVE C
+			JOIN
+    			EMPLOYEE E ON C.UUID = E.UUID
+ 	</select>
+ </mapper>
