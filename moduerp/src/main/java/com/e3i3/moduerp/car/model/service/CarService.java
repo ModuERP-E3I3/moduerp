@@ -6,6 +6,7 @@ import com.e3i3.moduerp.car.model.dto.CarDto;
 
 public interface CarService{
 	List<CarDto> getAllCar();
+	void insertCar(CarDto carDto);
 }
     
 	

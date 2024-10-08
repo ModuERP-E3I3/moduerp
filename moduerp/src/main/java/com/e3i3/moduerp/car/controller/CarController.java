@@ -45,7 +45,19 @@ public class CarController {
 		model.addAttribute("carresList", carresList);
 		return "car/carRes";
 	}
-
+	
+	// 차량 추가 페이지로 이동
+    @RequestMapping(value = "/carCreate.do", method = RequestMethod.GET)
+    public String showCreateCarForm() {
+        return "car/carCreate";  // carCreate.jsp로 이동
+    }
+    
+    // 차량 추가 처리
+    @RequestMapping(value = "/insertCar.do", method = RequestMethod.POST)
+    public String insertCar(CarDto carDto) {
+        CarService.insertCar(carDto);  // Service 호출
+        return "redirect:/carRes.do";  // 차량 목록 페이지로 리다이렉트
+    }
 
 }
 

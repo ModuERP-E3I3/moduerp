@@ -14,5 +14,10 @@
  	<select id="getAllCar" resultMap="resultCar">
     	select * from CAR
 	</select>
+	
+	<insert id="insertCar" parameterType="com.e3i3.moduerp.car.model.dto.CarDto">
+    	INSERT INTO car (CAR_ID, CAR_MODEL, OWNERSHIP_STATUS)
+    	VALUES (#{carId}, #{carModel}, #{ownershipStatus})
+	</insert>
 
  </mapper>
