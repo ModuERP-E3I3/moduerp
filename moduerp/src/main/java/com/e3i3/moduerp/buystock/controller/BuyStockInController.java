@@ -247,14 +247,15 @@ public class BuyStockInController {
 
 		@PostMapping("/deleteBuyStockIn.do")
 		public String deleteBuyStockIn(@RequestParam("itemCode") String itemCode, HttpSession session) {
-			// 1. BuyStockIn 테이블에서 해당 아이템 삭제
-			BuyStockInService.deleteBuyStockInByItemCode(itemCode);
+		    // 1. 먼저 BuyStockIn 테이블에서 해당 아이템 삭제
+		    BuyStockInService.deleteBuyStockInByItemCode(itemCode);
 
-			// 2. ITEM 테이블에서 해당 아이템 삭제
-			itembuyStockService.deleteItemByCode(itemCode);
+		    // 2. 그 후 ITEM 테이블에서 해당 아이템 삭제
+		    itembuyStockService.deleteItemByCode(itemCode);
 
-			return "redirect:/buyStockIn.do"; // 삭제 후 재고 목록 페이지로 리다이렉트
+		    return "redirect:/buyStockIn.do"; // 삭제 후 재고 목록 페이지로 리다이렉트
 		}
+
 
 
 		

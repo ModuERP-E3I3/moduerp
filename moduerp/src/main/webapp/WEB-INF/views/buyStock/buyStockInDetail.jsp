@@ -226,7 +226,6 @@ th {
 		<table>
 			<thead>
 				<tr>
-					<th>순번</th>
                     <th>입고 날짜</th>
                     <th>재고명</th>
                     <th>거래처</th>
@@ -239,9 +238,7 @@ th {
 			</thead>
 			<tbody>
 
-				<tr>
-				 	 <td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-                  	 <!-- 순번 계산 -->           
+				<tr>           
 					 <td>${itemDetails.createdAt}</td>
                      <td>${itemDetails.itemName}</td>   
                      <td>${itemDetails.accountName}</td> <!-- account_no로 테이블 넘어가서 받아 와야함  -->

@@ -21,8 +21,7 @@
 		<result property="createdOutAt" column="CREATED_OUT_AT" />
 		<result property="accountName" column="ACCOUNT_NAME" />
 		<result property="iDirector" column="IDIRECTOR" />
-		<result property="itemList" column="ITEM_LIST"
-			typeHandler="com.e3i3.moduerp.handler.StringListTypeHandler" />
+		<result property="oDirector" column="ODIRECTOR" />
 	</resultMap>
 
 	<select id="getItemsByBizNumber" resultMap="itemResultMap">
@@ -114,7 +113,6 @@
 		STOCK_OUT_PLACE,
 		CREATED_OUT_AT,
 		UPDATE_OUT_AT,
-		IDIRECTOR
 		FROM ITEM
 		WHERE
 		BIZ_NUMBER = #{bizNumber}
