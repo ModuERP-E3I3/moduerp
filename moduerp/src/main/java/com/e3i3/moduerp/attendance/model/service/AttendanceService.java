@@ -6,15 +6,19 @@ import com.e3i3.moduerp.attendance.model.dto.Attendance;
 
 public interface AttendanceService {
     // Create
-    void addAttendance(Attendance attendance);
+    public void addAttendance(Attendance attendance);
 
     // Read
-    Attendance getAttendanceById(String attendanceId);
-    List<Attendance> getAllAttendances();
+    public Attendance getAttendanceById(String attendanceId);
+    public Attendance selectAttendanceByUuid(String uuid);
+    public List<Attendance> getAttendancesByBizNumber(String bizNumber);
+    public List<Attendance> getAllAttendances();
 
     // Update
-    void updateAttendance(Attendance attendance);
+    public int updateAttendance(Attendance attendance);
 
     // Delete
-    void deleteAttendance(String attendanceId);
+    public int deleteAttendance(String attendanceId);
+    public int deleteAttendanceByUuid(String uuid);
+    
 }

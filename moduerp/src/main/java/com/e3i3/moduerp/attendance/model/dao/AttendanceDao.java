@@ -2,21 +2,53 @@ package com.e3i3.moduerp.attendance.model.dao;
 
 import java.util.List;
 
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.e3i3.moduerp.attendance.model.dto.Attendance;
 
-public interface AttendanceDao {
-	   // Create
-    int insertAttendance(Attendance attendance);
+@Repository
+public class AttendanceDao {
+    
+    private static final String NAMESPACE = "AttendanceMapper.";
+    
+    @Autowired
+    private SqlSessionTemplate sqlSessionTemplate;
+    
+    // Create
+    public int insertAttendance(Attendance attendance) {
+        return sqlSessionTemplate.insert("AttendanceMapper.insertAttendance", attendance);
+    }
 
     // Read
-    Attendance selectAttendanceByUuid(String uuid); //uuid로 출퇴근 관리 
-    List<Attendance> selectAttendancesByBizNumber(String bizNumber); //사업자번호로 출퇴근 관리
-    List<Attendance> selectAllAttendances(); //전체 출퇴근 관리
+    public Attendance selectAttendanceByUuid(String uuid) {
+        return sqlSessionTemplate.selectOne("AttendanceMapper.selectAttendanceByUuid", uuid);
+    }
+    
+    public Attendance selectAttendanceById(String attendanceId) {
+        return sqlSessionTemplate.selectOne("AttendanceMapper.selectAttendanceByAttendanceId", attendanceId);
+    }
+    
+    public List<Attendance> selectAttendancesByBizNumber(String bizNumber) {
+        return sqlSessionTemplate.selectList("AttendanceMapper.selectAttendancesByBizNumber", bizNumber);
+    }
+    
+    public List<Attendance> selectAllAttendances() {
+        return sqlSessionTemplate.selectList("AttendanceMapper.selectAllAttendances");
+    }
 
     // Update
-    int updateAttendance(Attendance attendance); //출퇴근 수정
+    public int updateAttendance(Attendance attendance) {
+        return sqlSessionTemplate.update("AttendanceMapper.updateAttendance", attendance);
+    }
 
     // Delete
-    int deleteAttendanceByUuid(String uuid); //uuid로 내 출퇴근 모든 기록 삭제
-    int deleteAttendanceByAttendanceId(String attendanceId); //출퇴근 선택 삭제
+    public int deleteAttendanceByUuid(String uuid) {
+        return sqlSessionTemplate.delete("AttendanceMapper.deleteAttendanceByUuid", uuid);
+    }
+    
+    public int deleteAttendanceByAttendanceId(String attendanceId) {
+        return sqlSessionTemplate.delete("AttendanceMapper.deleteAttendanceByAttendanceId", attendanceId);
+    }
 }
