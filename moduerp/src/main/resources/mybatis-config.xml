@@ -71,7 +71,6 @@
 		<mapper resource="mappers/item-productionstock-mapper.xml" />
 		<mapper resource="mappers/employee-production-mapper.xml" />
 
-
 		<mapper resource="mappers/salesStockIn-mapper.xml" />
 		<mapper resource="mappers/salesStockOut-mapper.xml" />
 		<mapper resource="mappers/item-salesstock-mapper.xml" />
@@ -81,10 +80,6 @@
 		<mapper resource="mappers/admin-mapper.xml" />
 		<mapper resource="mappers/item-buystock-mapper.xml" />
 		<mapper resource="mappers/employee-buy-mapper.xml" />
-
-
-		<mapper resource="mappers/item-productionstock-mapper.xml" />
-		<mapper resource="mappers/employee-production-mapper.xml" />
 
 		<mapper resource="mappers/attendance-mapper.xml" />
 
