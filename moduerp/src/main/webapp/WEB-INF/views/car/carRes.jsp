@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -201,6 +202,33 @@
 			            <td>${ car.carModel }</td>
 			            <td>${ car.carId }</td>
 			            <td>${ car.ownershipStatus }</td>
+			        </tr>
+			    </c:forEach>
+			</tbody>
+
+        </table>
+        <br>
+        
+        <!-- 테이블 -->
+        <h3> 차량 예약 내역 </h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>사원명</th>
+                    <th>부서명</th>
+                    <th>차량 번호</th>
+                    <th>예약 일정</th>
+                    <th>예약 사유</th>
+                </tr>
+            </thead>
+            <tbody>
+			    <c:forEach var="carres" items="${carresList}">
+			        <tr>
+			            <td>${ carres.empName }</td>
+			            <td>${ carres.departmentId }</td>
+			            <td>${ carres.carId }</td>
+			            <td><fmt:formatDate value="${carres.reserveStartDate}" pattern="yyyy-MM-dd" /> ~ <fmt:formatDate value="${carres.reserveEndDate}" pattern="yyyy-MM-dd" /></td>
+			            <td>${ carres.useReason }</td>
 			        </tr>
 			    </c:forEach>
 			</tbody>

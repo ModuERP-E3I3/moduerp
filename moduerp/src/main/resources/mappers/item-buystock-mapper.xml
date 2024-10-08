@@ -23,12 +23,19 @@
 			typeHandler="com.e3i3.moduerp.handler.StringListTypeHandler" />
 	</resultMap>
 
+	<select id="getItemsByBizNumber" resultMap="itemResultMap">
+		SELECT ITEM_NAME
+		FROM ITEM
+		WHERE BIZ_NUMBER = #{bizNumber}  AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
+	</select>
+
 	<!-- 아이템 이름을 biz_number로 필터링해서 조회하는 쿼리 -->
 	<select id="selectItemNamesByBizNumber" parameterType="String"
 		resultType="String">
 		SELECT ITEM_NAME
 		FROM ITEM
-		WHERE BIZ_NUMBER = #{bizNumber}  AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
+		WHERE
+		BIZ_NUMBER = #{bizNumber}
 	</select>
 
 	<!-- biz_number로 필터링된 stock_place 리스트를 조회하는 쿼리 -->
@@ -54,11 +61,6 @@
 			추가 -->
 	</insert>
 
-
-	<select id="getItemsByBizNumber" parameterType="String"
-		resultMap="itemResultMap">
-		SELECT * FROM ITEM WHERE BIZ_NUMBER = #{bizNumber}
-	</select>
 
 	<select id="selectItemByCode" parameterType="String"
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">

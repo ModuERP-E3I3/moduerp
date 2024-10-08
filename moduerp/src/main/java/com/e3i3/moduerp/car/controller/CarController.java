@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.e3i3.moduerp.car.model.dto.CarDto;
+import com.e3i3.moduerp.carres.model.dto.CarresDto;
 
 @Controller
 @RequestMapping("/")
@@ -22,7 +23,7 @@ public class CarController {
 	
 
 	// map.jsp view
-	@CrossOrigin(origins = "https://apis-navi.kakaomobility.com/v1/directions") // Æ¯Á¤ µµ¸ÞÀÎ¸¸ Çã¿ë
+	@CrossOrigin(origins = "https://apis-navi.kakaomobility.com/v1/directions") // Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½
 	@RequestMapping(value = "/map.do", method = RequestMethod.GET)
 	public String forwardMap() {
 		return "car/map";
@@ -32,11 +33,16 @@ public class CarController {
 	@Autowired
 	private com.e3i3.moduerp.car.model.service.CarService CarService;
 	
-	@CrossOrigin(origins = "https://apis-navi.kakaomobility.com/v1/directions") // Æ¯Á¤ µµ¸ÞÀÎ¸¸ Çã¿ë
+	@Autowired
+	private com.e3i3.moduerp.carres.model.service.CarresService CarresService;
+	
+	@CrossOrigin(origins = "https://apis-navi.kakaomobility.com/v1/directions") // Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½
 	@RequestMapping(value = "/carRes.do", method = RequestMethod.GET)
 	public String carListView(Model model) {
 		List<CarDto> carList = CarService.getAllCar();
 		model.addAttribute("carList", carList);
+		List<CarresDto> carresList = CarresService.getAllCarres();
+		model.addAttribute("carresList", carresList);
 		return "car/carRes";
 	}
 
