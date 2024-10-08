@@ -208,10 +208,14 @@ public class ProductionstockInController {
 	}
 
 	@PostMapping("/updateProductionStockIn.do")
-	public String updateProductionStockIn(@RequestParam("itemCode") String itemCode,
-			@RequestParam("itemName") String itemName, @RequestParam("itemDesc") String itemDesc,
-			@RequestParam("stockIn") int stockIn, @RequestParam("inPrice") double inPrice,
-			@RequestParam("stockPlace") String stockPlace, @RequestParam("materialTypes") List<String> materialTypes) {
+	public String updateProductionStockIn(
+			@RequestParam("itemCode") String itemCode,
+			@RequestParam("itemName") String itemName,
+			@RequestParam("itemDesc") String itemDesc,
+			@RequestParam("stockIn") int stockIn,
+			@RequestParam("inPrice") double inPrice,
+			@RequestParam("stockPlace") String stockPlace,
+			@RequestParam("materialTypes") List<String> materialTypes) {
 
 		// 현재 타임스탬프 생성
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
