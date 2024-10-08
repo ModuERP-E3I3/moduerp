@@ -20,9 +20,25 @@ public class BuyStockInDaoImpl implements BuyStockInDao{
 	public List<BuyStockInDTO> getAllBuyStockIn() {
 		return sqlSession.selectList(namespace + ".getAllBuyStockIn");
 	}
+
+	@Override
+	public void insertBuyStockIn(BuyStockInDTO buyStockInDTO) {
+		sqlSession.insert(namespace + ".insertBuyStockIn", buyStockInDTO);
+	}
+
+	@Override
+	public BuyStockInDTO selectBuyStockInByItemCode(String itemCode) {
+		return sqlSession.selectOne(namespace + ".selectBuyStockInByItemCode", itemCode);
+	}
+
+	@Override
+	public void updateBuyStockIn(BuyStockInDTO buyStockInDTO) {
+		sqlSession.update(namespace + ".updateBuyStockIn", buyStockInDTO);
+	}
 	
-	public BuyStockInDTO getBuyStockInById(String bStockInId) {
-        return sqlSession.selectOne(namespace + ".getBuyStockInById", bStockInId);
-    }
+	@Override
+	public void deleteBuyStockInByItemCode(String itemCode) {
+		sqlSession.delete(namespace + ".deleteBuyStockInByItemCode", itemCode);
+	}
 
 }

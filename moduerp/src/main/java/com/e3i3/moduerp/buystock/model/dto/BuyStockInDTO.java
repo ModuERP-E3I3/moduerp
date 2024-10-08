@@ -1,20 +1,18 @@
 package com.e3i3.moduerp.buystock.model.dto;
 
+
+import java.sql.Timestamp;
+
 public class BuyStockInDTO {
     private String bStockInId;
     private String itemCode;
     private String uuid;
     private String accountNo;
-    private String bankId;
-    private String departmentId;
-    private String orderId;
-    private java.sql.Date bStockInDate;
+    private String accountName;
+    private Timestamp bStockInDate;
     private String bStockInPlace;
     private int bStockInQty;
-    private String empName;
-    private String mgrName;
-    
-    
+    private String empName; 
     
     
 	public String getbStockInId() {
@@ -41,29 +39,11 @@ public class BuyStockInDTO {
 	public void setAccountNo(String accountNo) {
 		this.accountNo = accountNo;
 	}
-	public String getBankId() {
-		return bankId;
-	}
-	public void setBankId(String bankId) {
-		this.bankId = bankId;
-	}
-	public String getDepartmentId() {
-		return departmentId;
-	}
-	public void setDepartmentId(String departmentId) {
-		this.departmentId = departmentId;
-	}
-	public String getOrderId() {
-		return orderId;
-	}
-	public void setOrderId(String orderId) {
-		this.orderId = orderId;
-	}
-	public java.sql.Date getbStockInDate() {
+	public Timestamp getbStockInDate() {
 		return bStockInDate;
 	}
-	public void setbStockInDate(java.sql.Date bStockInDate) {
-		this.bStockInDate = bStockInDate;
+	public void setbStockInDate(Timestamp stockInDate) {
+		this.bStockInDate = stockInDate;
 	}
 	public String getbStockInPlace() {
 		return bStockInPlace;
@@ -83,12 +63,14 @@ public class BuyStockInDTO {
 	public void setEmpName(String empName) {
 		this.empName = empName;
 	}
-	public String getMgrName() {
-		return mgrName;
+	public String getAccountName() {
+		return accountName;
 	}
-	public void setMgrName(String mgrName) {
-		this.mgrName = mgrName;
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
 	}
+
+
     
     
     
