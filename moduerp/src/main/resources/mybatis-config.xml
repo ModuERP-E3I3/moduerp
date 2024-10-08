@@ -66,7 +66,7 @@
 		<mapper resource="mappers/productionStockOut-mapper.xml" />
 
 		<mapper resource="mappers/workorder-mapper.xml" />
-		<mapper resource="mappers/productionQuality-mapper.xml" />
+		<mapper resource="mappers/productionquality-mapper.xml" />
 
 		<mapper resource="mappers/item-productionstock-mapper.xml" />
 		<mapper resource="mappers/employee-production-mapper.xml" />
@@ -88,10 +88,7 @@
 
 		<mapper resource="mappers/attendance-mapper.xml" />
 
-		
-
-		<mapper resource="mappers/workorder-mapper.xml" />
-		<mapper resource="mappers/productionQuality-mapper.xml" />
+	
 
 	</mappers>
 
