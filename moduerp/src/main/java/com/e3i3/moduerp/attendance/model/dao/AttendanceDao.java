@@ -1,6 +1,9 @@
 package com.e3i3.moduerp.attendance.model.dao;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,31 @@ public class AttendanceDao {
         return sqlSessionTemplate.selectOne("AttendanceMapper.selectTodayAttendanceByUuid", uuid);
     }
     
+    /**
+     * 특정 사용자(uuid)와 날짜(attDate)에 해당하는 출근 기록을 조회합니다.
+     * @param uuid
+     * @param attDate
+     * @return Attendance 객체 또는 null
+     */
+    public Attendance selectByUUIDAndDate(String uuid, Date attDate) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("uuid", uuid);
+        params.put("attDate", attDate);
+        return sqlSessionTemplate.selectOne("AttendanceMapper.selectByUUIDAndDate", params);
+    }
+    
+    /**
+     * 특정 사용자(uuid)와 날짜(attDate)에 해당하는 퇴근 시간이 없는 출근 기록을 조회합니다.
+     * @param uuid
+     * @param attDate
+     * @return Attendance 객체 또는 null
+     */
+    public Attendance selectByUUIDAndDateAndClockOutNull(String uuid, Date attDate) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("uuid", uuid);
+        params.put("attDate", attDate);
+        return sqlSessionTemplate.selectOne("AttendanceMapper.selectByUUIDAndDateAndClockOutNull", params);
+    }
     
     public Attendance selectAttendanceById(String attendanceId) {
         return sqlSessionTemplate.selectOne("AttendanceMapper.selectAttendanceByAttendanceId", attendanceId);
