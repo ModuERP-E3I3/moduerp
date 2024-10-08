@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -218,93 +220,152 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 작업지시서 | ${workOrderDetails.taskName}</div>
+		<div class="content-title">생산관리 | 품질관리 |</div>
 
-		
+		<form action="/moduerp/updateProductionQulityUpdateDo.do"
+			method="POST">
+			<input type="hidden" name="inspecCode"
+				value="${qualityControl.inspecCode}">
+				 <input type="hidden"
+				name="orderNumber" value="${workOrderDetails.orderNumber}">
+			<!-- 테이블 -->
+			<table>
+				<thead>
+					<tr>
+						<th>검사 항목 제품명</th>
+						<th>시작 날짜</th>
+						<th>종료 예정 날짜</th>
+						<th>검사 유형</th>
+						<th>진행 상태</th>
+						<th>검사 수량</th>
+						<th>검사자</th>
 
-		<!-- 테이블 -->
-		<table>
-			<thead>
-				<tr>
-					<th>제품명</th>
-					<th>작업명</th>
-					<th>시작 날짜</th>
-					<th>종료 예정 날짜</th>
-					<th>종료 날짜</th>
-					<th>작업 수량</th>
-					<th>진행 상태</th>
-					<th>작업팀</th>
-					<th>작업자</th>
-					<th>작업 장소</th>
-					<th>지시자</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
 
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>${workOrderDetails.itemName}</td>
-					<td>${workOrderDetails.taskName}</td>
-					<td><fmt:formatDate value="${workOrderDetails.startDate}"
-							pattern="yyyy-MM-dd HH:mm:ss" /></td>
-					<td><fmt:formatDate value="${workOrderDetails.endExDate}"
-							pattern="yyyy-MM-dd" /></td>
-					<td><fmt:formatDate value="${workOrderDetails.endDate}"
-							pattern="yyyy-MM-dd " /></td>
-					<td>${workOrderDetails.qty}</td>
-					<td>${workOrderDetails.progressStatus}</td>
-					<td>${workOrderDetails.workerTeam}</td>
-					<td>${workOrderDetails.worker}</td>
-					<td>${workOrderDetails.workPlace}</td>
-					<td>${workOrderDetails.wDirector}</td>
+						<td>${qualityControl.taskName}</td>
+
+						<td><input type="date" name="startDate"
+							value="<fmt:formatDate value='${qualityControl.startDate}' pattern='yyyy-MM-dd' />" /></td>
+						<td><input type="date" name="endExDate"
+							value="<fmt:formatDate value='${qualityControl.endExDate}' pattern='yyyy-MM-dd' />" /></td>
+						<td><select name="inspecType">
+								<option value="외관 검사"
+									${qualityControl.inspecType == '외관 검사' ? 'selected' : ''}>외관
+									검사</option>
+								<option value="기능 검사"
+									${qualityControl.inspecType == '기능 검사' ? 'selected' : ''}>기능
+									검사</option>
+
+						</select></td>
+
+						<td><select name="progressStatus">
+								<option value="검사 전"
+									${qualityControl.progressStatus == '검사 전' ? 'selected' : ''}>검사
+									전</option>
+								<option value="검사 중"
+									${qualityControl.progressStatus == '검사 중' ? 'selected' : ''}>검사
+									중</option>
+								<option value="검사 완료"
+									${qualityControl.progressStatus == '검사 완료' ? 'selected' : ''}>검사
+									완료</option>
+						</select></td>
+						<td><input type="number" name="inspecQty"
+							value="${qualityControl.inspecQty}" /></td>
+
+						<td>
+							<div id="1DirectorContainer">
+								<c:forEach var="qDirector"
+									items="${fn:split(qualityControl.qDirector, ', ') }">
+									<div class="qDirector-input">
+										<input list="qDirectorList" name="qDirector"
+											value="${qDirector}" placeholder="검사자 입력" required>
+										<datalist id="employeeNameList">
+											<!-- employeeNames 리스트에서 값 불러오기 -->
+											<c:forEach var="employee" items="${employeeNames}">
+												<option value="${employee}"></option>
+											</c:forEach>
+										</datalist>
+										<button type="button" class="remove-btn"
+											onclick="removeWorker(this)">삭제</button>
+									</div>
+								</c:forEach>
+							</div>
+							<button type="button" onclick="addqDirector()">작업자 추가</button>
+						</td>
+					</tr>
+				</tbody>
 
 
-				</tr>
+			</table>
 
-			</tbody>
-
-		</table>
-
-		<!-- 버튼 그룹 -->
-		<div class="btn-group">
-			<button class="btn red" onclick="openDeleteModal()">삭제</button>
-			<a
-				href="productionWorkOrderDetailUpdate.do?orderNumber=${workOrderDetails.orderNumber}">
-				<button class="btn green">수정</button>
-			</a>
-		</div>
-
+			<!-- 버튼 그룹 -->
+			<div class="btn-group">
+				<button type="submit" class="btn green">수정 완료</button>
+			</div>
+		</form>
 
 
 	</div>
-	<!-- 삭제 확인 모달 -->
-	<div id="delete-modal" style="display: none;">
-		<div class="modal-content">
-			<h2>정말로 삭제하시겠습니까?</h2>
-			<p>삭제된 데이터는 복구할 수 없습니다.</p>
-			<!-- 삭제 버튼을 포함하는 폼 추가 -->
-			<form action="deleteProductionWorkOrder.do" method="POST">
-				<input type="hidden" name="orderNumber" value="${workOrderDetails.orderNumber}">
-				<!-- itemCode를 숨겨진 필드로 전달 -->
-				<button type="submit" class="go-delete">삭제</button>
-				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>
-			</form>
-		</div>
-	</div>
+
 
 </body>
-
 <script type="text/javascript">
-function openDeleteModal() {
-    document.getElementById('delete-modal').style.display = 'block';
+function addqDirector() {
+    const container = document.getElementById('1DirectorContainer');
+    const newInputDiv = document.createElement('div');
+    newInputDiv.className = 'qDirector-input';
+    newInputDiv.innerHTML = `
+        <input list="employeeNamesList" name="qDirector" placeholder="검사자 입력" required />
+        <datalist id="employeeNamesList">
+            <c:forEach var="employee" items="${employeeNames}">
+                <option value="${employee}"></option>
+            </c:forEach>
+        </datalist>
+        <button type="button" class="remove-btn" onclick="removeWorker(this)">삭제</button>
+    `;
+    container.appendChild(newInputDiv);
 }
 
-function closeDeleteModal() {
-    document.getElementById('delete-modal').style.display = 'none';
+function removeWorker(button) {
+    const inputDiv = button.parentElement;
+    inputDiv.remove();
 }
-
 
 
 </script>
+
+<script type="text/javascript">
+function addWorker() {
+    const container = document.getElementById('workerContainer');
+    const newInputDiv = document.createElement('div');
+    newInputDiv.className = 'worker-input';
+    newInputDiv.innerHTML = `
+        <input list="employeeNamesList" name="worker" placeholder="작업자 입력" required />
+        <datalist id="employeeNamesList">
+            <c:forEach var="employee" items="${employeeNames}">
+                <option value="${employee}"></option>
+            </c:forEach>
+        </datalist>
+        <button type="button" class="remove-btn" onclick="removeWorker(this)">삭제</button>
+    `;
+    container.appendChild(newInputDiv);
+}
+
+function removeWorker(button) {
+    const inputDiv = button.parentElement;
+    inputDiv.remove();
+}
+
+
+</script>
+
+
+
+
+
 <script>
     const activeMenu = "productionStockIn";
 

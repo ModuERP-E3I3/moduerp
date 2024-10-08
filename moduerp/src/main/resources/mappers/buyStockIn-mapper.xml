@@ -13,45 +13,57 @@
         <result property="bStockInPlace" column="B_STOCK_IN_PLACE" />
         <result property="bStockInQty" column="B_STOCK_IN_QTY" />
         <result property="empName" column="EMP_NAME" /> 
+        <result property="accountName" column="ACCOUNT_NAME" /> <!-- ACCOUNT_NAME 추가 -->
     </resultMap>
     
-    <!-- 모든 구매 입고 데이터 조회용 쿼리 -->
-    <select id="getAllBuyStockIn" resultMap="resultBuyStockIn"> 
-        SELECT DISTINCT B_STOCK_IN_ID, ITEM_CODE, UUID, ACCOUNT_NO,
-            ORDER_ID, B_STOCK_IN_DATE, B_STOCK_IN_PLACE, B_STOCK_IN_QTY, EMP_NAME
-        FROM BUY_STOCK_IN
+    <!-- BUY_STOCK_IN에서 ITEM과 EMPLOYEE 테이블을 조인하여 필요한 데이터 가져오기 -->
+    <select id="getBuyStockInWithDetails" resultMap="resultBuyStockIn">
+       
     </select>
 
-   <!-- 새로운 구매 입고 데이터를 삽입하는 쿼리 -->
-	<insert id="insertBuyStockIn">
-		INSERT INTO BUY_STOCK_IN (B_STOCK_IN_ID,
-		ITEM_CODE, B_STOCK_IN_DATE,
-		B_STOCK_PLACE, B_STOCK_IN_QTY, UUID)
-		VALUES
-		(#{bStockInId}, #{itemCode}, #{bStockInDate}, #{bStockPlace},
-		#{bStockInQty}, #{uuid})
-	</insert>
+    <!-- 새로운 구매 입고 데이터를 삽입하는 쿼리 -->
+    <insert id="insertBuyStockIn">
+        INSERT INTO BUY_STOCK_IN (B_STOCK_IN_ID,
+        ITEM_CODE, B_STOCK_IN_DATE,
+        B_STOCK_IN_PLACE, B_STOCK_IN_QTY, UUID, ACCOUNT_NO)
+        VALUES
+        (#{bStockInId}, #{itemCode}, #{bStockInDate}, #{bStockInPlace},
+        #{bStockInQty}, #{uuid}, #{accountNo})
+    </insert>
 
-	<select id="selectBuyStockInByItemCode"
-		parameterType="String"
-		resultType="com.e3i3.moduerp.buystock.model.dto.BuyStockInDTO">
-		SELECT ITEM_NAME
-		FROM ITEM
-		WHERE BIZ_NUMBER = #{bizNumber}  AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
-	</select>
+    <select id="selectBuyStockInByItemCode"
+        parameterType="String"
+        resultType="com.e3i3.moduerp.buystock.model.dto.BuyStockInDTO">
+         SELECT 
+            BSI.B_STOCK_IN_ID,
+            BSI.ITEM_CODE,
+            BSI.UUID,
+            BSI.B_STOCK_IN_DATE,
+            BSI.B_STOCK_IN_PLACE,
+            BSI.B_STOCK_IN_QTY,
+            AC.ACCOUNT_NAME,
+            E.EMP_NAME
+        FROM 
+            BUY_STOCK_IN BSI
+        LEFT JOIN 
+            ITEM I ON BSI.ITEM_CODE = I.ITEM_CODE
+        LEFT JOIN 
+            ACCOUNT AC ON BSI.ACCOUNT_NO = AC.ACCOUNT_NO
+        LEFT JOIN 
+            EMPLOYEE E ON BSI.UUID = E.UUID
+           WHERE i.BIZ_NUMBER = #{bizNumber} AND I.ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
 
-	<update id="updateBuyStockIn"
-		parameterType="com.e3i3.moduerp.buystock.model.dto.BuyStockInDTO">
-		UPDATE BUY_STOCK_IN
-		SET b_STOCK_PLACE =
-		#{bStockPlace}, B_STOCK_IN_QTY = #{bStockInQty}
-		WHERE ITEM_CODE =
-		#{itemCode}
-	</update>
+    </select>
 
-	<delete id="deleteBuyStockInByItemCode"
-		parameterType="String">
-		DELETE FROM BUY_STOCK_IN WHERE ITEM_CODE =
-		#{itemCode}
-	</delete>
+    <update id="updateBuyStockIn"
+        parameterType="com.e3i3.moduerp.buystock.model.dto.BuyStockInDTO">
+        UPDATE BUY_STOCK_IN
+        SET B_STOCK_IN_PLACE = #{bStockInPlace}, B_STOCK_IN_QTY = #{bStockInQty}
+        WHERE ITEM_CODE = #{itemCode}
+    </update>
+
+    <delete id="deleteBuyStockInByItemCode"
+        parameterType="String">
+        DELETE FROM BUY_STOCK_IN WHERE ITEM_CODE = #{itemCode}
+    </delete>
 </mapper>

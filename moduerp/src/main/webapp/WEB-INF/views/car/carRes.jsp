@@ -198,15 +198,20 @@
             </thead>
             <tbody>
 			    <c:forEach var="car" items="${carList}">
-			        <tr>
+			        <tr onclick="window.location.href='getCarDetail.do?carId=${car.carId}' ">
 			            <td>${ car.carModel }</td>
 			            <td>${ car.carId }</td>
 			            <td>${ car.ownershipStatus }</td>
 			        </tr>
+			        
 			    </c:forEach>
 			</tbody>
 
         </table>
+        
+        <div class="btn-group">
+			<a href="carCreate.do"><button class="btn blue">등록</button></a>
+		</div>
         <br>
         
         <!-- 테이블 -->

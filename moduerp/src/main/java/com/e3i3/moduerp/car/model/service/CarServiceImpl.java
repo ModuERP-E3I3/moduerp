@@ -18,4 +18,14 @@ public class CarServiceImpl implements CarService{
 	public List<CarDto> getAllCar(){
 		return carDao.getAllCar();
 	}
+	
+	@Override
+    public void insertCar(CarDto carDto) {
+        carDao.insertCar(carDto);  // DAO 호출
+    }
+	
+	@Override
+	public CarDto getCarListDetail(String carId) {
+		return carDao.selectCarId(carId);
+	}
 }

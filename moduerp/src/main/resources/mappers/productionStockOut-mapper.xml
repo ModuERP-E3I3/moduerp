@@ -15,6 +15,7 @@
 		<result property="uuid" column="UUID" />
 		<result property="pStockOutPrice" column="P_STOCK_OUT_PRICE" />
 		<result property="pStockOutUpdate" column="P_STOCK_OUT_UPDATE" />
+		<result property="oDirector" column="ODIRECTOR" />
 	</resultMap>
 
 
@@ -28,13 +29,14 @@
 		INSERT INTO PRODUCTION_STOCK_OUT (
 		P_STOCK_OUT_ID,
 		ITEM_CODE, P_STOCK_OUT_DATE, P_STOCK_OUT_PLACE, P_STOCK_OUT_QTY, UUID,
-		P_STOCK_OUT_PRICE
+		P_STOCK_OUT_PRICE, ODIRECTOR
 		) VALUES (
 		#{pStockOutId}, #{itemCode},
 		#{pStockOutDate},
 		#{pStockOutPlace}, #{pStockOutQty},
 		#{uuid},
-		#{pStockOutPrice}
+		#{pStockOutPrice},
+		#{oDirector}
 		)
 	</insert>
 

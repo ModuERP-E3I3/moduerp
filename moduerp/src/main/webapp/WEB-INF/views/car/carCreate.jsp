@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -145,28 +144,6 @@ th {
 .top-content-box {
 	background-color: white;
 }
-
-#pagebutton {
-	display: flex;
-	justify-content: center;
-	margin-top: 2%; /* 위쪽 여백 추가 */
-}
-
-#pagebutton a {
-	color: black; /* 글자 색상 검은색 */
-	text-decoration: none; /* 밑줄 제거 */
-	font-size: 20px; /* 글자 크기 증가 */
-	margin: 0 10px; /* 페이지 버튼 간격 조정 */
-}
-
-#pagebutton strong {
-	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
-	color: black; /* 강조 색상 검은색 유지 */
-}
-
-tbody tr:hover {
-	cursor: pointer;
-}
 </style>
 
 </head>
@@ -178,116 +155,62 @@ tbody tr:hover {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
-	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
-	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
+	        <li><a href="carRes.do"><i class="fas fa-bullhorn"></i> 차량 예약</a></li>
+	        <li><a href="carMgt.do"><i class="fas fa-bullhorn"></i> 차량 결제 관리</a></li>
+	        <li><a href="map.do"><i class="fas fa-bullhorn"></i> 도로 교통 / 경로 조회</a></li>
+
 	    </ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업관리 | 영업입고</div>
+		<div class="content-title">차량관리 | 차량 예약 | 차량 등록</div>
 
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-		</div>
+	
 
 		<!-- 테이블 -->
-		<table>
-			<thead>
-				<tr>
-					<th>순번</th>
-					<th>제품명</th>
-					<th>생성일자</th>
-					<th>입고수량</th>
-					<th>입고장소</th>
-					<th>입고단가</th>
-					<th>담당자</th>
-				</tr>
-			</thead>
-
-			<tbody>
-				<c:forEach var="item" items="${itemList}" varStatus="status">
-					<tr
-						onclick="window.location.href='getSalesInDetails.do?itemCode=${item.itemCode}'">
-						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<!-- 순번 계산 -->
-						<td>${item.itemName}</td>
-						<td>${item.createdAt}</td>
-						<td>${item.stockIn}</td>
-						<td>${item.stockPlace}</td>
-						<td>${item.inPrice}</td>
-						<td>${item.iDirector}</td>
+		<!-- 테이블 -->
+		<form action="/moduerp/insertCar.do" method="POST">
+			<table>
+				<thead>
+					<tr>
+						<th>차종</th>
+						<th>차량 번호</th>
+						<th>소유 형태</th>
 						
 					</tr>
-				</c:forEach>
-			</tbody>
+				</thead>
+				<tbody>
+					<tr>
 
+						<!-- 차종 입력 칸 -->
+						<td><input type="text" name="carModel" placeholder="차종 입력" /></td>
 
+						<!-- 차량 번호 입력 칸 -->
+						<td><input type="text" name="carId" placeholder="차량 번호 입력" /></td>
 
-		</table>
+						<!-- 소유 형태 입력 칸 -->
+						<td><input type="text" name="ownershipStatus" placeholder="소유 형태 입력" /></td>
+						
+					</tr>
+				</tbody>
+			</table>
 
-		<!-- 페이지 버튼 -->
-		<div id="pagebutton">
-			<c:if test="${totalPages > 1}">
-				<c:forEach var="i" begin="1" end="${totalPages}">
-					<c:choose>
-						<c:when test="${i == currentPage}">
-							<strong>${i}</strong>
-							<!-- 현재 페이지는 강조 -->
-						</c:when>
-						<c:otherwise>
-							<a href="salesStockIn.do?page=${i}">${i}</a>
-							<!-- 페이지 링크 -->
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-			</c:if>
-		</div>
+			<!-- 버튼 그룹 -->
+			<div class="btn-group">
+				<button type="submit" class="btn blue">등록 완료</button>
+			</div>
+		</form>
 
-
-
-		<!-- 버튼 그룹 -->
-		<div class="btn-group">
-			<a href="salesInCreate.do"><button class="btn blue">등록</button></a>
-		</div>
 
 	</div>
 </body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- jQuery 추가 -->
-
-<script>
-    function getItemCode(itemCode) {
-        console.log("클릭한 item_code: " + itemCode);
-
-        $.ajax({
-        	url: '/moduerp/getSalesInDetails.do', // URL을 수정
-            type: 'GET',
-            data: { itemCode: itemCode },
-            success: function(response) {
-                console.log("데이터 가져오기 성공:", response);
-                // 필요한 작업 수행
-            },
-            error: function(xhr, status, error) {
-                console.error("데이터 가져오기 실패:", error);
-            }
-        });
-
-    }
-</script>
 
 
 
 <script>
-    const activeMenu = "account";
+    const activeMenu = "carRes";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

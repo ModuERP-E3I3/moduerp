@@ -226,28 +226,29 @@ th {
 		<table>
 			<thead>
 				<tr>
-					<th>제품명</th>
-					<th>제품 설명</th>
-					<th>입고날짜</th>
-					<th>수정날짜</th>
-					<th>입고수량</th>
-					<th>입고가격</th>
-					<th>입고장소</th>
-					<th>자재 종류</th>
+					<th>순번</th>
+                    <th>입고 날짜</th>
+                    <th>재고명</th>
+                    <th>거래처</th>
+                    <th>입고 수량</th>
+                    <th>입고 장소</th>
+                    <th>입고 단가</th>
+                    <th>직원명</th> 
 
 				</tr>
 			</thead>
 			<tbody>
 
 				<tr>
-					<td>${itemDetails.itemName}</td>
-					<td>${itemDetails.itemDesc}</td>
-					<td>${itemDetails.createdAt}</td>
-					<td>${itemDetails.updatedAt}</td>
-					<td>${itemDetails.stockIn}</td>
-					<td>${itemDetails.inPrice}</td>
-					<td>${itemDetails.stockPlace}</td>
-					<td>${itemDetails.itemList}</td>
+				 	 <td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
+                  	 <!-- 순번 계산 -->           
+					 <td>${itemDetails.createdAt}</td>
+                     <td>${itemDetails.itemName}</td>   
+                     <td>${itemDetails.accountName}</td> <!-- account_no로 테이블 넘어가서 받아 와야함  -->
+                     <td>${itemDetails.stockIn}</td>
+                     <td>${itemDetails.stockPlace}</td>  
+                     <td>${itemDetails.inPrice}</td>
+                     <td>${itemDetails.iDirector}</td>
 
 
 				</tr>

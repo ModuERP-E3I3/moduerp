@@ -28,7 +28,7 @@ public interface ItemProductionstockService {
 
 	List<ItemDTO> getItemsByBizNumberStartingWith(String bizNumber);
 
-	void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut, double outPrice);
+	void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut, double outPrice, String oDirector);
 
 	// STOCK_OUT 업데이트
 	void updateItemStockOutTotal(String itemCode, int totalStockOut);

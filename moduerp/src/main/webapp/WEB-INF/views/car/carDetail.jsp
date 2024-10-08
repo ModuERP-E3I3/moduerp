@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -146,26 +145,50 @@ th {
 	background-color: white;
 }
 
-#pagebutton {
-	display: flex;
-	justify-content: center;
-	margin-top: 2%; /* 위쪽 여백 추가 */
+/* Modal Styles */
+#delete-modal {
+	display: none; /* 초기에는 보이지 않도록 설정 */
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%; /* 전체 화면 너비 */
+	height: 100%; /* 전체 화면 높이 */
+	background-color: rgba(0, 0, 0, 0.5); /* 배경 반투명 */
+	display: flex; /* 플렉스 박스를 사용하여 중앙 정렬 */
 }
 
-#pagebutton a {
-	color: black; /* 글자 색상 검은색 */
-	text-decoration: none; /* 밑줄 제거 */
-	font-size: 20px; /* 글자 크기 증가 */
-	margin: 0 10px; /* 페이지 버튼 간격 조정 */
+.modal-content {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	text-align: center;
+	width: 300px; /* 원하는 너비 */
+	position: relative;
+	margin: auto; /* 중앙 정렬을 위한 마진 */
+	margin-top: 20%;
 }
 
-#pagebutton strong {
-	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
-	color: black; /* 강조 색상 검은색 유지 */
+.modal-content h2 {
+	margin-bottom: 20px;
 }
 
-tbody tr:hover {
+.modal-content button {
+	padding: 10px 20px;
+	margin: 10px;
+	border: none;
+	border-radius: 5px;
 	cursor: pointer;
+}
+
+.modal-content .go-delete {
+	background-color: red;
+	color: #fff;
+}
+
+.modal-content .stay-page {
+	background-color: gray;
+	color: #fff;
 }
 </style>
 
@@ -178,116 +201,83 @@ tbody tr:hover {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
-	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
-	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
+	        <li><a href="carRes.do"><i class="fas fa-bullhorn"></i> 차량 예약</a></li>
+	        <li><a href="carMgt.do"><i class="fas fa-bullhorn"></i> 차량 결제 관리</a></li>
+	        <li><a href="map.do"><i class="fas fa-bullhorn"></i> 도로 교통 / 경로 조회</a></li>
 	    </ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업관리 | 영업입고</div>
+		<div class="content-title">차량관리 | 차량 예약 | 차량 정보</div>
 
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-		</div>
+		
 
 		<!-- 테이블 -->
 		<table>
 			<thead>
-				<tr>
-					<th>순번</th>
-					<th>제품명</th>
-					<th>생성일자</th>
-					<th>입고수량</th>
-					<th>입고장소</th>
-					<th>입고단가</th>
-					<th>담당자</th>
-				</tr>
-			</thead>
-
+                <tr>
+                    <th>차종</th>
+                    <th>차량 번호</th>
+                    <th>소유 형태</th>
+                </tr>
+            </thead>
 			<tbody>
-				<c:forEach var="item" items="${itemList}" varStatus="status">
-					<tr
-						onclick="window.location.href='getSalesInDetails.do?itemCode=${item.itemCode}'">
-						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<!-- 순번 계산 -->
-						<td>${item.itemName}</td>
-						<td>${item.createdAt}</td>
-						<td>${item.stockIn}</td>
-						<td>${item.stockPlace}</td>
-						<td>${item.inPrice}</td>
-						<td>${item.iDirector}</td>
-						
-					</tr>
-				</c:forEach>
+
+				<tr>
+					<td>${carDetail.carModel}</td>
+					<td>${carDetail.carId}</td>
+					<td>${carDetail.ownershipStatus}</td>
+				</tr>
+
 			</tbody>
-
-
 
 		</table>
 
-		<!-- 페이지 버튼 -->
-		<div id="pagebutton">
-			<c:if test="${totalPages > 1}">
-				<c:forEach var="i" begin="1" end="${totalPages}">
-					<c:choose>
-						<c:when test="${i == currentPage}">
-							<strong>${i}</strong>
-							<!-- 현재 페이지는 강조 -->
-						</c:when>
-						<c:otherwise>
-							<a href="salesStockIn.do?page=${i}">${i}</a>
-							<!-- 페이지 링크 -->
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-			</c:if>
-		</div>
-
-
-
 		<!-- 버튼 그룹 -->
-		<div class="btn-group">
-			<a href="salesInCreate.do"><button class="btn blue">등록</button></a>
-		</div>
+		<%-- <div class="btn-group">
+			<button class="btn red" onclick="openDeleteModal()">삭제</button>
+			<a
+				href="productionStockInDetailUpdate.do?itemCode=${itemDetails.itemCode}">
+				<button class="btn green">수정</button>
+			</a>
+		</div> --%>
+
+
 
 	</div>
+	<!-- 삭제 확인 모달 -->
+	<%-- <div id="delete-modal" style="display: none;">
+		<div class="modal-content">
+			<h2>정말로 삭제하시겠습니까?</h2>
+			<p>삭제된 데이터는 복구할 수 없습니다.</p>
+			<!-- 삭제 버튼을 포함하는 폼 추가 -->
+			<form action="deleteProductionStockIn.do" method="POST">
+				<input type="hidden" name="itemCode" value="${itemDetails.itemCode}">
+				<!-- itemCode를 숨겨진 필드로 전달 -->
+				<button type="submit" class="go-delete">삭제</button>
+				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>
+			</form>
+		</div>
+	</div> --%>
+
 </body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- jQuery 추가 -->
 
-<script>
-    function getItemCode(itemCode) {
-        console.log("클릭한 item_code: " + itemCode);
+<script type="text/javascript">
+/* function openDeleteModal() {
+    document.getElementById('delete-modal').style.display = 'block';
+}
 
-        $.ajax({
-        	url: '/moduerp/getSalesInDetails.do', // URL을 수정
-            type: 'GET',
-            data: { itemCode: itemCode },
-            success: function(response) {
-                console.log("데이터 가져오기 성공:", response);
-                // 필요한 작업 수행
-            },
-            error: function(xhr, status, error) {
-                console.error("데이터 가져오기 실패:", error);
-            }
-        });
+function closeDeleteModal() {
+    document.getElementById('delete-modal').style.display = 'none';
+} */
 
-    }
+
+
 </script>
-
-
-
 <script>
-    const activeMenu = "account";
+    const activeMenu = "productionStockIn";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

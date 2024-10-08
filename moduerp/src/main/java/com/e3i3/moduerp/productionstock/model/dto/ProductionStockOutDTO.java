@@ -11,10 +11,8 @@ public class ProductionStockOutDTO {
     private String uuid;
     private Double pStockOutPrice;
     private Date pStockOutUpdate;
+    private String oDirector;
     
-    
-   
-
 	// Getters and Setters
 	public String getpStockOutId() {
 		return pStockOutId;
@@ -63,6 +61,12 @@ public class ProductionStockOutDTO {
 	}
 	public void setpStockOutUpdate(Date pStockOutUpdate) {
 		this.pStockOutUpdate = pStockOutUpdate;
+	}
+	public String getoDirector() {
+		return oDirector;
+	}
+	public void setoDirector(String oDirector) {
+		this.oDirector = oDirector;
 	}
 
    

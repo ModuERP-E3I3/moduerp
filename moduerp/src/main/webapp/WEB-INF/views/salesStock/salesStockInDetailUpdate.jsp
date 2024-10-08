@@ -185,6 +185,7 @@ th {
 						<th>입고가격</th>
 						<th>입고장소</th>
 						<th>자재 종류</th>
+						<th>담당자</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -208,7 +209,6 @@ th {
 								</c:forEach>
 							</datalist></td>
 
-
 						<td>
 							<div id="materialTypeContainer">
 								<c:forEach var="materialType" items="${itemDetails.itemList}">
@@ -228,7 +228,7 @@ th {
 							<button type="button" onclick="addMaterialType()">자재 종류
 								추가</button>
 						</td>
-
+						<td>${itemDetails.iDirector}</td>
 
 
 					</tr>

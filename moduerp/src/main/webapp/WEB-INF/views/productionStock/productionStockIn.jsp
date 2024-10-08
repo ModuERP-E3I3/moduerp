@@ -217,6 +217,7 @@ tbody tr:hover {
 					<th>입고수량</th>
 					<th>입고장소</th>
 					<th>입고단가</th>
+					<th>담당자</th>
 				</tr>
 			</thead>
 
@@ -231,6 +232,7 @@ tbody tr:hover {
 						<td>${item.stockIn}</td>
 						<td>${item.stockPlace}</td>
 						<td>${item.inPrice}</td>
+						<td>${item.iDirector}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

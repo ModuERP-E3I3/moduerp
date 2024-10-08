@@ -54,4 +54,11 @@ public class WorkOrderDAOImpl implements WorkOrderDAO {
 	public int getTotalQtyByItemCode(String itemCode) {
 		return sqlSession.selectOne(namespace + ".getTotalQtyByItemCode", itemCode);
 	}
+
+	// -------------------------------
+	// QC
+	@Override
+	public List<WorkOrderDTO> findCompletedWorkOrders() {
+		return sqlSession.selectList(namespace + ".findCompletedWorkOrders");
+	}
 }
