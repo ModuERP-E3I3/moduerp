@@ -7,5 +7,8 @@ import com.e3i3.moduerp.notice.model.dto.Notice;
 public interface NoticeService {
     int getNoticeCount();
     List<Notice> getNoticeList(int page, int pageSize);
-    Notice getNoticeById(int noticeId); // 공지사항 상세 조회 메서드 추가
+    Notice getNoticeById(int noticeId);
+	void insertNotice(Notice notice);
+	void updateNotice(Notice notice);
+	void deleteNotice(int noticeId);
 }
