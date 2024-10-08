@@ -242,13 +242,13 @@ th {
 				<tr>
 				 	 <td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
                   	 <!-- 순번 계산 -->           
-					 <td>${item.createdAt}</td>
-                     <td>${item.itemName}</td>   
-                     <td>${item.accountName}</td> <!-- account_no로 테이블 넘어가서 받아 와야함  -->
-                     <td>${item.stockIn}</td>
-                     <td>${item.stockPlace}</td>  
-                     <td>${item.inPrice}</td>
-                     <td>${item.empName}</td>
+					 <td>${itemDetails.createdAt}</td>
+                     <td>${itemDetails.itemName}</td>   
+                     <td>${itemDetails.accountName}</td> <!-- account_no로 테이블 넘어가서 받아 와야함  -->
+                     <td>${itemDetails.stockIn}</td>
+                     <td>${itemDetails.stockPlace}</td>  
+                     <td>${itemDetails.inPrice}</td>
+                     <td>${itemDetails.iDirector}</td>
 
 
 				</tr>

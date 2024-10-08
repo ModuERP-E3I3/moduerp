@@ -142,8 +142,8 @@ public class BuyStockInController {
 
 			// CREATED_AT
 			Timestamp createdAt = itemDetails.getCreatedAt();
-			Timestamp adjustedCreatedAt = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000)); // 9�떆媛�
-																															// 異붽�
+			Timestamp adjustedCreatedAt = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000)); 
+																	
 			itemDetails.setCreatedAt(adjustedCreatedAt); // Timestamp
 
 			// UPDATED_AT
