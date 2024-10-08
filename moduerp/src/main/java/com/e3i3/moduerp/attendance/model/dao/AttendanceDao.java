@@ -25,6 +25,11 @@ public class AttendanceDao {
     public Attendance selectAttendanceByUuid(String uuid) {
         return sqlSessionTemplate.selectOne("AttendanceMapper.selectAttendanceByUuid", uuid);
     }
+    // 새로운 메서드: 오늘의 출퇴근 기록 조회
+    public Attendance selectTodayAttendanceByUuid(String uuid) {
+        return sqlSessionTemplate.selectOne("AttendanceMapper.selectTodayAttendanceByUuid", uuid);
+    }
+    
     
     public Attendance selectAttendanceById(String attendanceId) {
         return sqlSessionTemplate.selectOne("AttendanceMapper.selectAttendanceByAttendanceId", attendanceId);

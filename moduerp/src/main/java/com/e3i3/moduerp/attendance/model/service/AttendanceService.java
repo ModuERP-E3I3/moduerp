@@ -14,6 +14,9 @@ public interface AttendanceService {
     public List<Attendance> getAttendancesByBizNumber(String bizNumber);
     public List<Attendance> getAllAttendances();
 
+    // 새로운 메서드: 오늘의 출퇴근 기록 조회
+    public Attendance getTodayAttendance(String uuid);
+    
     // Update
     public int updateAttendance(Attendance attendance);
 
