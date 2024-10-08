@@ -24,7 +24,7 @@
 	</resultMap>
 
 	<select id="getItemsByBizNumber" resultMap="itemResultMap">
-		SELECT ITEM_NAME
+		SELECT *
 		FROM ITEM
 		WHERE BIZ_NUMBER = #{bizNumber}  AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
 	</select>
