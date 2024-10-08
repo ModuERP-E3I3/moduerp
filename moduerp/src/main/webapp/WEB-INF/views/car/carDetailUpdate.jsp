@@ -145,50 +145,8 @@ th {
 	background-color: white;
 }
 
-/* Modal Styles */
-#delete-modal {
-	display: none; /* 초기에는 보이지 않도록 설정 */
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%; /* 전체 화면 너비 */
-	height: 100%; /* 전체 화면 높이 */
-	background-color: rgba(0, 0, 0, 0.5); /* 배경 반투명 */
-	display: flex; /* 플렉스 박스를 사용하여 중앙 정렬 */
-}
-
-.modal-content {
-	background-color: #fff;
-	padding: 20px;
-	border-radius: 5px;
-	text-align: center;
-	width: 300px; /* 원하는 너비 */
-	position: relative;
-	margin: auto; /* 중앙 정렬을 위한 마진 */
-	margin-top: 20%;
-}
-
-.modal-content h2 {
-	margin-bottom: 20px;
-}
-
-.modal-content button {
-	padding: 10px 20px;
-	margin: 10px;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-}
-
-.modal-content .go-delete {
-	background-color: red;
-	color: #fff;
-}
-
-.modal-content .stay-page {
-	background-color: gray;
-	color: #fff;
+.material-type-input {
+	margin-bottom: 10px;
 }
 </style>
 
@@ -207,80 +165,41 @@ th {
 	    </ul>
 	</div>
 
-	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
+		<div class="content-title">차량관리 | 차량 예약 | 차량 정보 수정
+			수정하기</div>
 
-		<div class="content-title">차량관리 | 차량 예약 | 차량 정보</div>
+		<form action="/moduerp/updateCar.do" method="POST">
+			<input type="hidden" name="carId" value="${carDetail.carId}" />
+			<table>
+				<thead>
+					<tr>
+						<th>차종</th>
+                    	<th>차량 번호</th>
+                    	<th>소유 형태</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input type="text" name="carModel"
+							value="${carDetail.carModel}" required /></td>
+						<td><input type="text" name="carNum"
+							value="${carDetail.carNum}" required /></td>
+						<td><input type="text" name="ownershipStatus"
+							value="${carDetail.ownershipStatus}" required /></td>
 
-		
+					</tr>
+				</tbody>
+			</table>
 
-		<!-- 테이블 -->
-		<table>
-			<thead>
-                <tr>
-                    <th>차종</th>
-                    <th>차량 번호</th>
-                    <th>소유 형태</th>
-                </tr>
-            </thead>
-			<tbody>
-
-				<tr>
-					<td>${carDetail.carModel}</td>
-					<td>${carDetail.carNum}</td>
-					<td>${carDetail.ownershipStatus}</td>
-				</tr>
-
-			</tbody>
-
-		</table>
-
-		<!-- 버튼 그룹 -->
-		<%-- <div class="btn-group">
-			<button class="btn red" onclick="openDeleteModal()">삭제</button>
-			<a
-				href="productionStockInDetailUpdate.do?itemCode=${itemDetails.itemCode}">
-				<button class="btn green">수정</button>
-			</a>
-		</div> --%>
-		<div class="btn-group">
-			<a
-				href="carDetailUpdate.do?carId=${carDetail.carId}">
-				<button class="btn green">수정</button>
-			</a>
-		</div>
-
-
+			<div class="btn-group">
+				<button type="submit" class="btn green">수정 완료</button>
+			</div>
+		</form>
 	</div>
-	<!-- 삭제 확인 모달 -->
-	<%-- <div id="delete-modal" style="display: none;">
-		<div class="modal-content">
-			<h2>정말로 삭제하시겠습니까?</h2>
-			<p>삭제된 데이터는 복구할 수 없습니다.</p>
-			<!-- 삭제 버튼을 포함하는 폼 추가 -->
-			<form action="deleteProductionStockIn.do" method="POST">
-				<input type="hidden" name="itemCode" value="${itemDetails.itemCode}">
-				<!-- itemCode를 숨겨진 필드로 전달 -->
-				<button type="submit" class="go-delete">삭제</button>
-				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>
-			</form>
-		</div>
-	</div> --%>
-
 </body>
 
-<script type="text/javascript">
-/* function openDeleteModal() {
-    document.getElementById('delete-modal').style.display = 'block';
-}
 
-function closeDeleteModal() {
-    document.getElementById('delete-modal').style.display = 'none';
-} */
-
-
-
-</script>
 <script>
     const activeMenu = "carRes";
 

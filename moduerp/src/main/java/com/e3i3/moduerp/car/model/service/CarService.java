@@ -8,6 +8,7 @@ public interface CarService{
 	List<CarDto> getAllCar();
 	void insertCar(CarDto carDto);
 	CarDto getCarListDetail(String carId);
+	void updateCar(CarDto carDto);
 }
     
 	

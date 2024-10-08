@@ -4,16 +4,19 @@ public class CarDto {
 	private String carId;
 	private String carModel;
 	private String ownershipStatus;
+	private String carNum;
+	private String bizNumber;
 	
 	public CarDto() {
 		super();
 	}
 
-	public CarDto(String carId, String carModel, String ownershipStatus) {
+	public CarDto(String carId, String carModel, String ownershipStatus, String carNum) {
 		super();
 		this.carId = carId;
 		this.carModel = carModel;
 		this.ownershipStatus = ownershipStatus;
+		this.carNum = carNum;
 	}
 
 	public String getCarId() {
@@ -44,6 +47,23 @@ public class CarDto {
 	public String toString() {
 		return "Car [carId=" + carId + ", carModel=" + carModel + ", ownershipStatus=" + ownershipStatus + "]";
 	}
+
+	public String getCarNum() {
+		return carNum;
+	}
+
+	public void setCarNum(String carNum) {
+		this.carNum = carNum;
+	}
+
+	public String getBizNumber() {
+		return bizNumber;
+	}
+
+	public void setBizNumber(String bizNumber) {
+		this.bizNumber = bizNumber;
+	}
+	
 	
 	
 	
