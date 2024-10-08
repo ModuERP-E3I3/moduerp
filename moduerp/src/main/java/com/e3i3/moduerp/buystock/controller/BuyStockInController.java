@@ -36,53 +36,52 @@ public class BuyStockInController {
 
 		@RequestMapping(value = "/buyStockIn.do", method = RequestMethod.GET)
 		public String forwardBuyIn(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
-				HttpSession session) {
-			String bizNumber = (String) session.getAttribute("biz_number");
-			List<ItemDTO> itemList = itembuyStockService.getItemsByBizNumber(bizNumber);
+		        HttpSession session) {
+		    String bizNumber = (String) session.getAttribute("biz_number");
+		    if (bizNumber == null) {
+		        // bizNumber가 null인 경우 처리
+		        model.addAttribute("error", "Business number is not available in session.");
+		        return "main.do"; // 에러 페이지로 리다이렉트
+		    }
 
-			// CREATED_AT
-			for (ItemDTO item : itemList) {
-				// CREATED_AT샂
-				Timestamp createdAt = item.getCreatedAt();
+		    List<ItemDTO> itemList = itembuyStockService.getItemsByBizNumber(bizNumber);
+		    if (itemList == null) {
+		        // itemList가 null인 경우 처리
+		        model.addAttribute("error", "No items found for the given business number.");
+		        return "main.do"; // 에러 페이지로 리다이렉트
+		    }
 
-				// 
-				Timestamp adjustedTimestamp = Timestamp
-						.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000));
+		    for (ItemDTO item : itemList) {
+		        if (item.getCreatedAt() != null) {
+		            Timestamp createdAt = item.getCreatedAt();
+		            Timestamp adjustedTimestamp = Timestamp
+		                    .from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000));
+		            item.setCreatedAt(adjustedTimestamp);
+		        }
+		    }
 
-				// 
-				item.setCreatedAt(adjustedTimestamp); // 
-			}
+		    int itemsPerPage = 10;
+		    int totalItems = itemList.size();
+		    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+		    int startIndex = (page - 1) * itemsPerPage;
+		    int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+		    List<ItemDTO> paginatedList = itemList.subList(startIndex, endIndex);
 
-			// 
-			int itemsPerPage = 10;
+		    model.addAttribute("itemList", paginatedList);
+		    model.addAttribute("totalPages", totalPages);
+		    model.addAttribute("currentPage", page);
 
-			//
-			int totalItems = itemList.size();
-
-			// 
-			int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
-
-			// 꾩궛
-			int startIndex = (page - 1) * itemsPerPage;
-			int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-
-			// 꽦
-			List<ItemDTO> paginatedList = itemList.subList(startIndex, endIndex);
-
-			// 
-			model.addAttribute("itemList", paginatedList);
-			model.addAttribute("totalPages", totalPages);
-			model.addAttribute("currentPage", page);
-
-			return "buyStock/buyStockIn"; // JSP
+		    return "buyStock/buyStockIn"; // JSP
 		}
+
 		
 		@PostMapping("/buyStockInCreate.do")
 		public String createBuyStockIn(@RequestParam("bStockInDate") String stockInDateStr,
 				@RequestParam("stockPlace") String stockPlace, @RequestParam("stockIn") int stockIn,
 				@RequestParam("itemName") String itemName, @RequestParam("itemDesc") String itemDesc,
-				@RequestParam("inPrice") double inPrice, @RequestParam("materialType") List<String> materialType, HttpSession session) {
-
+				@RequestParam("inPrice") 
+				double inPrice,@RequestParam("accountNo") String accountNo, HttpSession session) {
+			
 			// 샂
 			String bizNumber = (String) session.getAttribute("biz_number");
 			String userUuid = (String) session.getAttribute("uuid");
@@ -104,13 +103,14 @@ public class BuyStockInController {
 			itemDTO.setItemCode(itemCode);
 			itemDTO.setItemName(itemName);
 			itemDTO.setItemDesc(itemDesc);
-			itemDTO.setCreatedAt(stockInDate); // 
+			itemDTO.setCreatedAt(stockInDate);
 			itemDTO.setStockPlace(stockPlace);
 			itemDTO.setInPrice(inPrice);
 			itemDTO.setBizNumber(bizNumber);
-			itemDTO.setItemList(materialType); // 젙
 			itemDTO.setStockIn(stockIn);
 			itemDTO.setStock(stockIn);
+			itemDTO.setStockPlace(accountNo);
+			
 
 			// ITEM
 			itembuyStockService.insertItem(itemDTO);
@@ -125,6 +125,7 @@ public class BuyStockInController {
 			buyStockInDTO.setbStockInDate(stockInDate); // Timestamp
 			buyStockInDTO.setbStockInQty(stockIn);
 			buyStockInDTO.setUuid(userUuid);
+			buyStockInDTO.setAccountNo(accountNo);
 
 			//  
 			BuyStockInService.insertBuyStockIn(buyStockInDTO);

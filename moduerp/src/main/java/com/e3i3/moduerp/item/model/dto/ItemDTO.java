@@ -24,6 +24,26 @@ public class ItemDTO implements Serializable {
 	private String stockOutPlace; // 추가된 필드
 	private Timestamp createdOutAt; // 추가된 필드
 	private Timestamp updateOutAt; // 추가된 필드
+	private String accountName; // 거래처명 buystock에서 사용
+	private String empName; // 직원명 buystock에서 사용
+
+	
+	
+	public String getAccountName() {
+		return accountName;
+	}
+
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
+
+	public String getEmpName() {
+		return empName;
+	}
+
+	public void setEmpName(String empName) {
+		this.empName = empName;
+	}
 
 	public String getItemCode() {
 		return itemCode;
