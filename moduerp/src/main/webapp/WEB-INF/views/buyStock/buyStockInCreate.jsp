@@ -189,7 +189,7 @@ th {
                     <th>제품명</th>
                     <th>제품 설명</th>
                     <th>입고 단가</th>
-                    <th>거래처account_no</th>   
+                   <th>거래처account_no</th>
 					</tr>
 				</thead>
 				<tbody>

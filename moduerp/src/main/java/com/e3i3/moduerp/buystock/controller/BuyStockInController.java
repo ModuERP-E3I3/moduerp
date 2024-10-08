@@ -205,7 +205,7 @@ public class BuyStockInController {
 		public String updateBuyStockIn(@RequestParam("itemCode") String itemCode,
 				@RequestParam("itemName") String itemName, @RequestParam("itemDesc") String itemDesc,
 				@RequestParam("stockIn") int stockIn, @RequestParam("inPrice") double inPrice,
-				@RequestParam("stockPlace") String stockPlace, @RequestParam("materialTypes") List<String> materialTypes) {
+				@RequestParam("stockPlace") String stockPlace) {
 
 			
 			Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
@@ -228,7 +228,6 @@ public class BuyStockInController {
 			itemDTO.setStock(stock); // 현재 재고 설정
 			itemDTO.setInPrice(inPrice);
 			itemDTO.setStockPlace(stockPlace);
-			itemDTO.setItemList(materialTypes); // List 설정
 			itemDTO.setUpdatedAt(currentTimestamp);   // 현재 타임스탬프 설정
 
 			// ITEM 테이블 업데이트
