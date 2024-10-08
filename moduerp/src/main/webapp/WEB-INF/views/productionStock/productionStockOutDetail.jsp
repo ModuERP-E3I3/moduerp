@@ -188,6 +188,7 @@ th {
 					<th>출고 장소</th>
 					<th>출고 수량</th>
 					<th>출고 가격</th>
+					<th>출고 담당자</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -199,6 +200,7 @@ th {
 						<td>${stockOut.pStockOutPlace}</td>
 						<td>${stockOut.pStockOutQty}</td>
 						<td>${stockOut.pStockOutPrice}</td>
+						<td>${stockOut.oDirector}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
