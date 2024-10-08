@@ -218,46 +218,35 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 작업지시서 | ${workOrderDetails.taskName}</div>
+		<div class="content-title">생산관리 | 품질관리 |
+			${workOrderDetails.taskName}</div>
 
-		
+
 
 		<!-- 테이블 -->
 		<table>
 			<thead>
 				<tr>
-					<th>제품명</th>
-					<th>작업명</th>
+					<th>검사 항목 제품명</th>
 					<th>시작 날짜</th>
 					<th>종료 예정 날짜</th>
-					<th>종료 날짜</th>
-					<th>작업 수량</th>
+					<th>검사 유형</th>
 					<th>진행 상태</th>
-					<th>작업팀</th>
-					<th>작업자</th>
-					<th>작업 장소</th>
-					<th>지시자</th>
+					<th>검사 수량</th>
+					<th>검사자</th>
 
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td>${workOrderDetails.itemName}</td>
-					<td>${workOrderDetails.taskName}</td>
-					<td><fmt:formatDate value="${workOrderDetails.startDate}"
-							pattern="yyyy-MM-dd HH:mm:ss" /></td>
-					<td><fmt:formatDate value="${workOrderDetails.endExDate}"
+					<td>${qualityControl.taskName}</td>
+					<td>${qualityControl.startDate}</td>
+					<td><fmt:formatDate value="${qualityControl.endExDate}"
 							pattern="yyyy-MM-dd" /></td>
-					<td><fmt:formatDate value="${workOrderDetails.endDate}"
-							pattern="yyyy-MM-dd " /></td>
-					<td>${workOrderDetails.qty}</td>
-					<td>${workOrderDetails.progressStatus}</td>
-					<td>${workOrderDetails.workerTeam}</td>
-					<td>${workOrderDetails.worker}</td>
-					<td>${workOrderDetails.workPlace}</td>
-					<td>${workOrderDetails.wDirector}</td>
-
-
+					<td>${qualityControl.inspecType}</td>
+					<td>${qualityControl.progressStatus}</td>
+					<td>${qualityControl.inspecQty}</td>
+					<td>${qualityControl.qDirector}</td>
 				</tr>
 
 			</tbody>
@@ -268,7 +257,7 @@ th {
 		<div class="btn-group">
 			<button class="btn red" onclick="openDeleteModal()">삭제</button>
 			<a
-				href="productionWorkOrderDetailUpdate.do?orderNumber=${workOrderDetails.orderNumber}">
+				href="productionQulityDetailUpdate.do?inspecCode=${qualityControl.inspecCode}">
 				<button class="btn green">수정</button>
 			</a>
 		</div>
@@ -282,9 +271,10 @@ th {
 			<h2>정말로 삭제하시겠습니까?</h2>
 			<p>삭제된 데이터는 복구할 수 없습니다.</p>
 			<!-- 삭제 버튼을 포함하는 폼 추가 -->
-			<form action="deleteProductionWorkOrder.do" method="POST">
-				<input type="hidden" name="orderNumber" value="${workOrderDetails.orderNumber}">
-				<!-- itemCode를 숨겨진 필드로 전달 -->
+			<form action="deleteProductionQuality.do" method="POST">
+				<input type="hidden" name="orderNumber"
+					value="${qualityControl.inspecCode}">
+				<!-- inspecCode를 숨겨진 필드로 전달 -->
 				<button type="submit" class="go-delete">삭제</button>
 				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>
 			</form>
