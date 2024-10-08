@@ -45,34 +45,34 @@ public class WorkOrderController {
 	@RequestMapping(value = "/productionWorkorder.do", method = RequestMethod.GET)
 	public String showWorkOrders(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
 			HttpSession session) {
-		// ?„¸?…˜?—?„œ biz_number êº¼ë‚´ê¸?
+		// ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ biz_number êº¼ë‚´ï¿½?
 		String bizNumber = (String) session.getAttribute("biz_number");
 
-		// DB?—?„œ biz_number?— ?•´?‹¹?•˜?Š” WorkOrder ëª©ë¡ ê°?? ¸?˜¤ê¸?
+		// DB?ï¿½ï¿½?ï¿½ï¿½ biz_number?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ WorkOrder ëª©ë¡ ï¿½??ï¿½ï¿½?ï¿½ï¿½ï¿½?
 		List<WorkOrderDTO> workOrderList = workOrderService.getWorkOrdersByBizNumber(bizNumber);
 
-		// ?˜?´ì§??‹¹ ?•­ëª? ?ˆ˜ ?„¤? •
+		// ?ï¿½ï¿½?ï¿½ï¿½ï¿½??ï¿½ï¿½ ?ï¿½ï¿½ï¿½? ?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½
 		int itemsPerPage = 10;
 
-		// ì´? ?•­ëª? ?ˆ˜ ê³„ì‚°
+		// ï¿½? ?ï¿½ï¿½ï¿½? ?ï¿½ï¿½ ê³„ì‚°
 		int totalItems = workOrderList.size();
 
-		// ì´? ?˜?´ì§? ?ˆ˜ ê³„ì‚°
+		// ï¿½? ?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½ ê³„ì‚°
 		int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
 
-		// ?‹œ?‘ ?¸?±?Š¤ ê³„ì‚°
+		// ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ê³„ì‚°
 		int startIndex = (page - 1) * itemsPerPage;
 		int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
 
-		// ?„œë¸Œë¦¬?Š¤?Š¸ ?ƒ?„± (?•´?‹¹ ?˜?´ì§??˜ ?•­ëª©ë“¤ë§? ì¶”ì¶œ)
+		// ?ï¿½ï¿½ë¸Œë¦¬?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ (?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ï¿½??ï¿½ï¿½ ?ï¿½ï¿½ëª©ë“¤ï¿½? ì¶”ì¶œ)
 		List<WorkOrderDTO> paginatedList = workOrderList.subList(startIndex, endIndex);
 
-		// ëª¨ë¸?— WorkOrder ëª©ë¡, ì´? ?˜?´ì§? ?ˆ˜, ?˜„?¬ ?˜?´ì§? ì¶”ê?
+		// ëª¨ë¸?ï¿½ï¿½ WorkOrder ëª©ë¡, ï¿½? ?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½, ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ï¿½? ì¶”ï¿½?
 		model.addAttribute("workOrderList", paginatedList);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("currentPage", page);
 
-		return "productionStock/productionWorkorder"; // JSP ?ŒŒ?¼ ê²½ë¡œ ë°˜í™˜
+		return "productionStock/productionWorkorder"; // JSP ?ï¿½ï¿½?ï¿½ï¿½ ê²½ë¡œ ë°˜í™˜
 	}
 
 	@RequestMapping(value = "/productionWorkOrderCreate.do", method = RequestMethod.GET)
@@ -80,61 +80,61 @@ public class WorkOrderController {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String uuid = (String) session.getAttribute("uuid");
 
-		// ITEM_CODEê°? biz_number + "P"ë¡? ?‹œ?‘?•˜?Š” ?•„?´?…œ ëª©ë¡ê³? stock ì»¬ëŸ¼ ê°?? ¸?˜¤ê¸?
+		// ITEM_CODEï¿½? biz_number + "P"ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ëª©ë¡ï¿½? stock ì»¬ëŸ¼ ï¿½??ï¿½ï¿½?ï¿½ï¿½ï¿½?
 		List<ItemDTO> itemList = itemProductionstockService.getItemNamesAndStockByBizNumberStartingWith(bizNumber);
 		
-		// ê°? item?— ???•œ QTY?˜ ?•©ê³„ë?? ê³„ì‚°?•˜ê³? ì¶”ê?
+		// ï¿½? item?ï¿½ï¿½ ???ï¿½ï¿½ QTY?ï¿½ï¿½ ?ï¿½ï¿½ê³„ï¿½?? ê³„ì‚°?ï¿½ï¿½ï¿½? ì¶”ï¿½?
 		Map<String, Integer> itemQtyMap = new HashMap<>();
 		for (ItemDTO item : itemList) {
 			int totalQty = workOrderService.getTotalQtyByItemCode(item.getItemCode());
 			itemQtyMap.put(item.getItemCode(), totalQty);
 		}
-		// WORKER_TEAM ëª©ë¡ ê°?? ¸?˜¤ê¸?
+		// WORKER_TEAM ëª©ë¡ ï¿½??ï¿½ï¿½?ï¿½ï¿½ï¿½?
 		List<String> workerTeams = workOrderService.getWorkerTeamsByBizNumber(bizNumber);
 
-		// EMP_NAME ëª©ë¡ ê°?? ¸?˜¤ê¸?
+		// EMP_NAME ëª©ë¡ ï¿½??ï¿½ï¿½?ï¿½ï¿½ï¿½?
 		List<String> employeeNames = employeeProductionService.getEmployeeNamesByBizNumber(bizNumber);
 
-		// WORK_PLACE ëª©ë¡ ê°?? ¸?˜¤ê¸?
+		// WORK_PLACE ëª©ë¡ ï¿½??ï¿½ï¿½?ï¿½ï¿½ï¿½?
 		List<String> workPlaces = workOrderService.getWorkPlacesByBizNumber(bizNumber);
 
-		// ?˜„?¬ ë¡œê·¸?¸?•œ ?‚¬?š©??˜ EMP_NAME ê°?? ¸?˜¤ê¸?
+		// ?ï¿½ï¿½?ï¿½ï¿½ ë¡œê·¸?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ EMP_NAME ï¿½??ï¿½ï¿½?ï¿½ï¿½ï¿½?
 		String directorName = employeeProductionService.getEmployeeNameByUuid(uuid);
 
-		model.addAttribute("itemList", itemList); // stock ì»¬ëŸ¼?„ ?¬?•¨?•œ ?•„?´?…œ ëª©ë¡
+		model.addAttribute("itemList", itemList); // stock ì»¬ëŸ¼?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ëª©ë¡
 		model.addAttribute("itemQtyMap", itemQtyMap);
 		model.addAttribute("workerTeams", workerTeams);
 		model.addAttribute("employeeNames", employeeNames);
 		model.addAttribute("workPlaces", workPlaces);
 		model.addAttribute("directorName", directorName);
 
-		return "productionStock/productionWorkOrderCreate"; // JSP ?ŒŒ?¼ ê²½ë¡œ
+		return "productionStock/productionWorkOrderCreate"; // JSP ?ï¿½ï¿½?ï¿½ï¿½ ê²½ë¡œ
 	}
 
 	@RequestMapping(value = "/productionWorkOrderInsert.do", method = RequestMethod.POST)
 	public String insertWorkOrder(@RequestParam("itemName") String itemName, @RequestParam("itemCode") String itemCode,
-			@RequestParam("taskName") String taskName, @RequestParam("startDate") String startDateStr, // ?‚ ì§œë§Œ ?…? ¥ë°›ìŒ
-			@RequestParam("endExDate") String endExDateStr, // ?‚ ì§œë§Œ ?…? ¥ë°›ìŒ
+			@RequestParam("taskName") String taskName, @RequestParam("startDate") String startDateStr, // ?ï¿½ï¿½ì§œë§Œ ?ï¿½ï¿½?ï¿½ï¿½ë°›ìŒ
+			@RequestParam("endExDate") String endExDateStr, // ?ï¿½ï¿½ì§œë§Œ ?ï¿½ï¿½?ï¿½ï¿½ë°›ìŒ
 			@RequestParam("qty") int qty, @RequestParam("progressStatus") String progressStatus,
 			@RequestParam("workerTeam") String workerTeam, @RequestParam("worker") String worker,
 			@RequestParam("workPlace") String workPlace, @RequestParam("wDirector") String wDirector,
 			HttpSession session) throws Exception {
 		
-		if (itemName.contains(" ?¬ê³? :")) {
-	        itemName = itemName.split(" ?¬ê³? :")[0];  // "?’ˆëª? A" ë¶?ë¶„ë§Œ ì¶”ì¶œ
+		if (itemName.contains(" ?ï¿½ï¿½ï¿½? :")) {
+	        itemName = itemName.split(" ?ï¿½ï¿½ï¿½? :")[0];  // "?ï¿½ï¿½ï¿½? A" ï¿½?ë¶„ë§Œ ì¶”ì¶œ
 	    }
-		// ?„¸?…˜?—?„œ biz_number?? uuid ê°?? ¸?˜¤ê¸?
+		// ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ biz_number?? uuid ï¿½??ï¿½ï¿½?ï¿½ï¿½ï¿½?
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String uuid = (String) session.getAttribute("uuid");
 
-		// ORDER_NUMBER ?ƒ?„±: biz_number + 'W' + ?˜„?¬ ???„?Š¤?ƒ¬?”„
+		// ORDER_NUMBER ?ï¿½ï¿½?ï¿½ï¿½: biz_number + 'W' + ?ï¿½ï¿½?ï¿½ï¿½ ???ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
 		String orderNumber = bizNumber + "W" + System.currentTimeMillis();
 
-		// startDate?? endExDateë¥? Timestampë¡? ë³??™˜?•˜ë©? ?˜„?¬ ?‹œê°„ì„ ì¶”ê?
+		// startDate?? endExDateï¿½? Timestampï¿½? ï¿½??ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ê°„ì„ ì¶”ï¿½?
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date parsedStartDate = dateFormat.parse(startDateStr);
 
-		// ?˜„?¬ ?‹œê°„ì„ ê°?? ¸???„œ ?„¤? •
+		// ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ê°„ì„ ï¿½??ï¿½ï¿½???ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(parsedStartDate);
 		calendar.set(Calendar.HOUR_OF_DAY, Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
@@ -143,18 +143,22 @@ public class WorkOrderController {
 
 		Timestamp startDate = new Timestamp(calendar.getTimeInMillis());
 
-		// endExDate ì²˜ë¦¬ (?˜„?¬ ?‹œê°„ì„ ì¶”ê??•˜ì§? ?•Šê³? ê¸°ë³¸ ?‹œê°? 00:00:00?œ¼ë¡? ?„¤? •)
+		// endExDate ì²˜ë¦¬ (?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ê°„ì„ ì¶”ï¿½??ï¿½ï¿½ï¿½? ?ï¿½ï¿½ï¿½? ê¸°ë³¸ ?ï¿½ï¿½ï¿½? 00:00:00?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½)
 		Date parsedEndExDate = dateFormat.parse(endExDateStr);
 		Timestamp endExDate = new Timestamp(parsedEndExDate.getTime());
 
-		// WorkOrderDTO ê°ì²´ ?ƒ?„± ë°? ?°?´?„° ?„¤? •
+		
+		String SitemName = itemName.split("\\|")[0].trim();
+		System.out.println(SitemName);
+		
+		// WorkOrderDTO ê°ì²´ ?ï¿½ï¿½?ï¿½ï¿½ ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½
 		WorkOrderDTO workOrderDTO = new WorkOrderDTO();
 		workOrderDTO.setOrderNumber(orderNumber);
-		workOrderDTO.setItemName(itemName);
+		workOrderDTO.setItemName(SitemName);
 		workOrderDTO.setItemCode(itemCode);
 		workOrderDTO.setTaskName(taskName);
-		workOrderDTO.setStartDate(startDate); // ë³??™˜?œ Timestamp ?„¤? •
-		workOrderDTO.setEndExDate(endExDate); // ë³??™˜?œ Timestamp ?„¤? •
+		workOrderDTO.setStartDate(startDate); // ï¿½??ï¿½ï¿½?ï¿½ï¿½ Timestamp ?ï¿½ï¿½?ï¿½ï¿½
+		workOrderDTO.setEndExDate(endExDate); // ï¿½??ï¿½ï¿½?ï¿½ï¿½ Timestamp ?ï¿½ï¿½?ï¿½ï¿½
 		workOrderDTO.setQty(qty);
 		workOrderDTO.setProgressStatus(progressStatus);
 		workOrderDTO.setWorkerTeam(workerTeam);
@@ -164,63 +168,67 @@ public class WorkOrderController {
 		workOrderDTO.setBizNumber(bizNumber);
 		workOrderDTO.setUuid(uuid);
 
-		// ?‘?—…ì§??‹œ?„œ ?°?´?„° ???¥
+		// ?ï¿½ï¿½?ï¿½ï¿½ï¿½??ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ???ï¿½ï¿½
 		workOrderService.insertWorkOrder(workOrderDTO);
 
-		// ???¥ ?›„ ?‘?—…ì§??‹œ?„œ ë¦¬ìŠ¤?Š¸ ?˜?´ì§?ë¡? ë¦¬ë‹¤?´? ‰?Š¸
+		// ???ï¿½ï¿½ ?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ï¿½??ï¿½ï¿½?ï¿½ï¿½ ë¦¬ìŠ¤?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ï¿½?ï¿½? ë¦¬ë‹¤?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
 		return "redirect:/productionWorkorder.do";
 	}
 
-	// ?‘?—… ì§??‹œ?„œ ?ƒ?„¸ë³´ê¸° ë©”ì„œ?“œ
+	// ?ï¿½ï¿½?ï¿½ï¿½ ï¿½??ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ë³´ê¸° ë©”ì„œ?ï¿½ï¿½
 	@RequestMapping(value = "/getProductionWorkOrderDetails.do", method = RequestMethod.GET)
 	public String getProductionWorkOrderDetails(@RequestParam("orderNumber") String orderNumber, Model model) {
 
-		// orderNumberë¡? ?‘?—… ì§??‹œ?„œ ì¡°íšŒ
+		// orderNumberï¿½? ?ï¿½ï¿½?ï¿½ï¿½ ï¿½??ï¿½ï¿½?ï¿½ï¿½ ì¡°íšŒ
 		WorkOrderDTO workOrderDetails = workOrderService.getWorkOrderByOrderNumber(orderNumber);
 
-		// ì¡°íšŒ?œ ?‘?—… ì§??‹œ?„œë¥? ëª¨ë¸?— ì¶”ê??•˜?—¬ JSPë¡? ? „?‹¬
+		// ì¡°íšŒ?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ ï¿½??ï¿½ï¿½?ï¿½ï¿½ï¿½? ëª¨ë¸?ï¿½ï¿½ ì¶”ï¿½??ï¿½ï¿½?ï¿½ï¿½ JSPï¿½? ?ï¿½ï¿½?ï¿½ï¿½
 		model.addAttribute("workOrderDetails", workOrderDetails);
 
-		// ?ƒ?„¸ ? •ë³? ?˜?´ì§?ë¡? ?´?™
+		// ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½ï¿½?ï¿½? ?ï¿½ï¿½?ï¿½ï¿½
 		return "productionStock/productionWorkOrderDetail";
 	}
 
-	// ?‘?—… ì§??‹œ?„œ ?ˆ˜? • ?˜?´ì§?ë¡? ?´?™
+	// ?ï¿½ï¿½?ï¿½ï¿½ ï¿½??ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ï¿½?ï¿½? ?ï¿½ï¿½?ï¿½ï¿½
 	@RequestMapping(value = "/productionWorkOrderDetailUpdate.do", method = RequestMethod.GET)
 	public String updateProductionWorkOrderDetails(@RequestParam("orderNumber") String orderNumber, Model model,
 			HttpSession session) {
-		// ?„¸?…˜?—?„œ biz_number?? uuid ê°?? ¸?˜¤ê¸?
+		// ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ biz_number?? uuid ï¿½??ï¿½ï¿½?ï¿½ï¿½ï¿½?
 		String bizNumber = (String) session.getAttribute("biz_number");
 
-		// orderNumberë¡? ?‘?—… ì§??‹œ?„œ ì¡°íšŒ
+		// orderNumberï¿½? ?ï¿½ï¿½?ï¿½ï¿½ ï¿½??ï¿½ï¿½?ï¿½ï¿½ ì¡°íšŒ
 		WorkOrderDTO workOrderDetails = workOrderService.getWorkOrderByOrderNumber(orderNumber);
 
 		List<String> employeeNames = employeeProductionService.getEmployeeNamesByBizNumber(bizNumber);
 
-		// ì¡°íšŒ?œ ?‘?—… ì§??‹œ?„œë¥? ëª¨ë¸?— ì¶”ê??•˜?—¬ ?ˆ˜? • ?˜?´ì§?ë¡? ? „?‹¬
+		// ì¡°íšŒ?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ ï¿½??ï¿½ï¿½?ï¿½ï¿½ï¿½? ëª¨ë¸?ï¿½ï¿½ ì¶”ï¿½??ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ï¿½?ï¿½? ?ï¿½ï¿½?ï¿½ï¿½
 		model.addAttribute("workOrderDetails", workOrderDetails);
 		model.addAttribute("employeeNames", employeeNames);
 
-		// ?ˆ˜? • ?˜?´ì§?ë¡? ?´?™
+		// ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ï¿½?ï¿½? ?ï¿½ï¿½?ï¿½ï¿½
 		return "productionStock/productionWorkOrderDetailUpdate";
 
 	}
 
-	// ?‘?—… ì§??‹œ?„œ ?ˆ˜? • ?™„ë£? ì²˜ë¦¬
+	// ?ï¿½ï¿½?ï¿½ï¿½ ï¿½??ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½? ì²˜ë¦¬
 	@RequestMapping(value = "/updateProductionWorkOrderUpdateDo.do", method = RequestMethod.POST)
-	public String insertWorkOrder(@RequestParam("taskName") String taskName,
-			@RequestParam("startDate") String startDateStr, // ?‚ ì§œë§Œ ?…? ¥ë°›ìŒ
-			@RequestParam("endExDate") String endExDateStr, // ?‚ ì§œë§Œ ?…? ¥ë°›ìŒ
-			@RequestParam("qty") int qty, @RequestParam("progressStatus") String progressStatus,
-			@RequestParam("workerTeam") String workerTeam, @RequestParam("worker") List<String> workerList,
-			@RequestParam("workPlace") String workPlace, @RequestParam("orderNumber") String orderNumber,
+	public String insertWorkOrder(
+			@RequestParam("taskName") String taskName,
+			@RequestParam("startDate") String startDateStr, // ?ï¿½ï¿½ì§œë§Œ ?ï¿½ï¿½?ï¿½ï¿½ë°›ìŒ
+			@RequestParam("endExDate") String endExDateStr, // ?ï¿½ï¿½ì§œë§Œ ?ï¿½ï¿½?ï¿½ï¿½ë°›ìŒ
+			@RequestParam("qty") int qty, 
+			@RequestParam("progressStatus") String progressStatus,
+			@RequestParam("workerTeam") String workerTeam,
+			@RequestParam("worker") List<String> workerList,
+			@RequestParam("workPlace") String workPlace,
+			@RequestParam("orderNumber") String orderNumber,
 			HttpSession session) throws Exception {
 
-		// startDateë¥? Timestampë¡? ë³??™˜?•˜ë©? ?˜„?¬ ?‹œê°„ì„ ì¶”ê?
+		// startDateï¿½? Timestampï¿½? ï¿½??ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ê°„ì„ ì¶”ï¿½?
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date parsedStartDate = dateFormat.parse(startDateStr);
 
-		// ?˜„?¬ ?‹œê°? ?„¤? •
+		// ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½
 		Calendar startCalendar = Calendar.getInstance();
 		startCalendar.setTime(parsedStartDate);
 		startCalendar.set(Calendar.HOUR_OF_DAY, Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
@@ -232,11 +240,13 @@ public class WorkOrderController {
 		SimpleDateFormat enddateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date parsedEndExDate = enddateFormat.parse(endExDateStr);
 
-		// WorkOrderDTO ê°ì²´ ?ƒ?„± ë°? ?°?´?„° ?„¤? •
+		
+		
+		// WorkOrderDTO ê°ì²´ ?ï¿½ï¿½?ï¿½ï¿½ ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½
 		WorkOrderDTO workOrderDTO = new WorkOrderDTO();
 		workOrderDTO.setOrderNumber(orderNumber);
 		workOrderDTO.setTaskName(taskName);
-		workOrderDTO.setStartDate(startDate); // ë³??™˜?œ Timestamp ?„¤? •
+		workOrderDTO.setStartDate(startDate);
 		workOrderDTO.setEndExDate(parsedEndExDate);
 		workOrderDTO.setQty(qty);
 		workOrderDTO.setProgressStatus(progressStatus);
@@ -247,33 +257,33 @@ public class WorkOrderController {
 
 		workOrderDTO.setWorkPlace(workPlace);
 
-		// ?˜„?¬ ?‹œê°„ì„ ???„?Š¤?ƒ¬?”„ë¡? ?„¤? •
+		// ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ê°„ì„ ???ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½
 		Timestamp updateDate = new Timestamp(System.currentTimeMillis());
 		workOrderDTO.setUpdateDate(updateDate);
 
-		// progressStatusê°? "?‘?—… ?™„ë£?"?´ë©? endDate?— ?˜„?¬ ?‹œê°„ì„ ?„£ê³?, ê·¸ë ‡ì§? ?•Š?œ¼ë©? nullë¡? ?„¤? •
-		if ("?‘?—… ?™„ë£?".equals(progressStatus)) {
+		// progressStatusï¿½? "?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½?"?ï¿½ï¿½ï¿½? endDate?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ê°„ì„ ?ï¿½ï¿½ï¿½?, ê·¸ë ‡ï¿½? ?ï¿½ï¿½?ï¿½ï¿½ï¿½? nullï¿½? ?ï¿½ï¿½?ï¿½ï¿½
+		if ("?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½?".equals(progressStatus)) {
 			Timestamp endDate = new Timestamp(System.currentTimeMillis());
 			workOrderDTO.setEndDate(endDate);
 		} else {
 			workOrderDTO.setEndDate(null);
 		}
 
-		// ?‘?—…ì§??‹œ?„œ ?°?´?„° ?—…?°?´?Š¸
+		// ?ï¿½ï¿½?ï¿½ï¿½ï¿½??ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
 		workOrderService.updateWorkOrder(workOrderDTO);
 
-		// ???¥ ?›„ ?‘?—…ì§??‹œ?„œ ë¦¬ìŠ¤?Š¸ ?˜?´ì§?ë¡? ë¦¬ë‹¤?´? ‰?Š¸
+		// ???ï¿½ï¿½ ?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ï¿½??ï¿½ï¿½?ï¿½ï¿½ ë¦¬ìŠ¤?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ï¿½?ï¿½? ë¦¬ë‹¤?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
 		return "redirect:/productionWorkorder.do";
 	}
 
-	// ?‘?—…ì§??‹œ?„œ ?‚­? œ ì²˜ë¦¬ ë©”ì„œ?“œ
+	// ?ï¿½ï¿½?ï¿½ï¿½ï¿½??ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ ì²˜ë¦¬ ë©”ì„œ?ï¿½ï¿½
 	@PostMapping("/deleteProductionWorkOrder.do")
 	public String deleteProductionWorkOrder(@RequestParam("orderNumber") String orderNumber, HttpSession session) {
 
-		// ?•´?‹¹ orderNumber?— ?•´?‹¹?•˜?Š” ?‘?—…ì§??‹œ?„œë¥? ?‚­? œ
+		// ?ï¿½ï¿½?ï¿½ï¿½ orderNumber?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ï¿½??ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½
 		workOrderService.deleteWorkOrder(orderNumber);
 
-		// ?‚­? œ ?›„ ?‘?—…ì§??‹œ?„œ ë¦¬ìŠ¤?Š¸ ?˜?´ì§?ë¡? ë¦¬ë‹¤?´? ‰?Š¸
+		// ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ï¿½??ï¿½ï¿½?ï¿½ï¿½ ë¦¬ìŠ¤?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ï¿½?ï¿½? ë¦¬ë‹¤?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
 		return "redirect:/productionWorkorder.do";
 	}
 }

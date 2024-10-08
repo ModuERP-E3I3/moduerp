@@ -144,6 +144,10 @@ th {
 .top-content-box {
 	background-color: white;
 }
+
+tbody tr:hover {
+	cursor: pointer;
+}
 </style>
 
 </head>
