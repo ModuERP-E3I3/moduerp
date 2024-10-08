@@ -1,4 +1,4 @@
-package com.e3i3.moduerp.attendance.controller;
+package com.e3i3.moduerp.attendancemanagement.controller;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.e3i3.moduerp.attendance.model.dto.Attendance;
-import com.e3i3.moduerp.attendance.model.service.AttendanceService;
+import com.e3i3.moduerp.attendancemanagement.model.dto.Attendance;
+import com.e3i3.moduerp.attendancemanagement.model.service.AttendanceService;
 
 @Controller
 public class AttendanceController {
@@ -43,7 +43,7 @@ public class AttendanceController {
 		/*오늘의 출퇴근 기록을 가져와 attendace라는 이름으로 모델에 추가했음*/
 		model.addAttribute("attendance", todayAttendance);
 
-		return "attendance/attendance";
+		return "attendance/attendanceManagement";
 	}
 
 	/*

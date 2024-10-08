@@ -34,9 +34,6 @@
 			type="com.e3i3.moduerp.productionstock.model.dto.ProductionStockOutDTO"
 			alias="ProductionStockOutDTO" /> <!-- 추가된 부분 --> 
 
-		<typeAlias
-			type="com.e3i3.moduerp.attendance.model.dto.Attendance"
-			alias="Attendance" />
 	</typeAliases>
 
 	<typeHandlers>
@@ -82,7 +79,7 @@
 		<mapper resource="mappers/employee-buy-mapper.xml" />
 
 		<mapper resource="mappers/attendance-mapper.xml" />
-
+		<mapper resource="mappers/attendancerequest-mapper.xml"/>
 	
 
 	</mappers>

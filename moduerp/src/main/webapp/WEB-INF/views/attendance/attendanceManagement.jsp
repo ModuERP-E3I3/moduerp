@@ -256,7 +256,7 @@
 			<li><a href="<c:url value='/attendance.do' />"><i
 					class="fas fa-bullhorn"></i> 출퇴근</a></li>
 			<li><a href="<c:url value='/leave.do' />"><i
-					class="fas fa-clipboard"></i> 휴 가</a></li>
+					class="fas fa-clipboard"></i> 통합문서</a></li>
 			<li><a href="<c:url value='/email/inbox.do' />"> <i
 					class="fas fa-envelope"></i> 이메일
 			</a></li>
@@ -342,19 +342,19 @@
 				<div class="info-box">
 					<div class="info-label">남은 연차</div>
 					<div class="info-value">12/15</div>
-					<a href="<c:url value='/leave/apply.do' />" class="info-link">신청하기</a>
+					<a href="<c:url value='/leave/leaveRequest.do' />" class="info-link">신청하기</a>
 				</div>
 				<!-- 결재 대기 -->
 				<div class="info-box">
 					<div class="info-label">결재 대기</div>
 					<div class="info-value">5건</div>
-					<a href="<c:url value='/approval/waiting.do' />" class="info-link">결재하기</a>
+					<a href="<c:url value='/approval/approvalInbox.do' />" class="info-link">결재하기</a>
 				</div>
 				<!-- 근태 신청 -->
 				<div class="info-box">
 					<div class="info-label">근태 신청</div>
 					<div class="info-value">-</div>
-					<a href="<c:url value='/attendance/apply.do' />" class="info-link">신청하기</a>
+					<a href="<c:url value='/attendanceRequest/send.do' />" class="info-link">신청하기</a>
 				</div>
 			</div>
 
