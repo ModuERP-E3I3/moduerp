@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.e3i3.moduerp.car.model.dto.CarDto;
 import com.e3i3.moduerp.carres.model.dto.CarresDto;
@@ -45,7 +47,29 @@ public class CarController {
 		model.addAttribute("carresList", carresList);
 		return "car/carRes";
 	}
-
+	
+	// 차량 추가 페이지로 이동
+    @RequestMapping(value = "/carCreate.do", method = RequestMethod.GET)
+    public String showCreateCarForm() {
+        return "car/carCreate";  // carCreate.jsp로 이동
+    }
+    
+    // 차량 추가 처리
+    @RequestMapping(value = "/insertCar.do", method = RequestMethod.POST)
+    public String insertCar(CarDto carDto) {
+        CarService.insertCar(carDto);  // Service 호출
+        return "redirect:/carRes.do";  // 차량 목록 페이지로 리다이렉트
+    }
+    
+    // 차량 상세 페이지
+    @GetMapping("/getCarDetail.do")
+    public String getCarDetail(@RequestParam("carId") String carId, Model model) {
+    	CarDto carDetail = CarService.getCarListDetail(carId);
+    	
+    	model.addAttribute("carDetail", carDetail);
+    	
+    	return "car/carDetail";
+    }
 
 }
 

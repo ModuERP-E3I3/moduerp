@@ -223,11 +223,11 @@ tbody tr:hover {
                   <!-- 순번 계산 -->           
                      <td>${item.createdAt}</td>
                      <td>${item.itemName}</td>   
-                     <td>${item.stockIn}</td><!-- account_no로 테이블 넘어가서 받아 와야함  -->
+                     <td>${item.accountName}</td> <!-- account_no로 테이블 넘어가서 받아 와야함  -->
                      <td>${item.stockIn}</td>
                      <td>${item.stockPlace}</td>  
                      <td>${item.inPrice}</td>
-                     <td>${item.itemName}</td><!--  맞다 직원명도 -->
+                     <td>${item.empName}</td>
                  </tr>
 
 				</c:forEach>

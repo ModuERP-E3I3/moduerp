@@ -1,6 +1,6 @@
 package com.e3i3.moduerp.buystock.model.dto;
 
-import java.sql.Date;
+
 import java.sql.Timestamp;
 
 public class BuyStockInDTO {
@@ -8,15 +8,11 @@ public class BuyStockInDTO {
     private String itemCode;
     private String uuid;
     private String accountNo;
-    private String orderId;
+    private String accountName;
     private Timestamp bStockInDate;
     private String bStockInPlace;
     private int bStockInQty;
-    private String empName;
-    private String mgrName;
-    
-    
-    
+    private String empName; 
     
     
 	public String getbStockInId() {
@@ -43,12 +39,6 @@ public class BuyStockInDTO {
 	public void setAccountNo(String accountNo) {
 		this.accountNo = accountNo;
 	}
-	public String getOrderId() {
-		return orderId;
-	}
-	public void setOrderId(String orderId) {
-		this.orderId = orderId;
-	}
 	public Timestamp getbStockInDate() {
 		return bStockInDate;
 	}
@@ -73,12 +63,13 @@ public class BuyStockInDTO {
 	public void setEmpName(String empName) {
 		this.empName = empName;
 	}
-	public String getMgrName() {
-		return mgrName;
+	public String getAccountName() {
+		return accountName;
 	}
-	public void setMgrName(String mgrName) {
-		this.mgrName = mgrName;
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
 	}
+
 
     
     

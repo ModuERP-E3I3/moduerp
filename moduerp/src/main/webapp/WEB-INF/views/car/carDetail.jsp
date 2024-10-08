@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -200,64 +200,35 @@ th {
 
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-		<ul id="menubar">
-			<li><a href="productionStockIn.do"><i
-					class="fas fa-bullhorn"></i> 생산 입고</a></li>
-			<li><a href="productionStockOut.do"><i
-					class="fas fa-clipboard"></i> 생산 출고</a></li>
-			<!-- 수정 -->
-			<li><a href="productionWorkorder.do"><i class="fas fa-code"></i>
-					작업지시서</a></li>
-			<!-- 수정 -->
-			<li><a href="productionQuality.do"><i class="fas fa-plug"></i>
-					품질관리</a></li>
-			<!-- 수정 -->
-		</ul>
+	    <ul id="menubar">
+	        <li><a href="carRes.do"><i class="fas fa-bullhorn"></i> 차량 예약</a></li>
+	        <li><a href="carMgt.do"><i class="fas fa-bullhorn"></i> 차량 결제 관리</a></li>
+	        <li><a href="map.do"><i class="fas fa-bullhorn"></i> 도로 교통 / 경로 조회</a></li>
+	    </ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 작업지시서 | ${workOrderDetails.taskName}</div>
+		<div class="content-title">차량관리 | 차량 예약 | 차량 정보</div>
 
 		
 
 		<!-- 테이블 -->
 		<table>
 			<thead>
-				<tr>
-					<th>제품명</th>
-					<th>작업명</th>
-					<th>시작 날짜</th>
-					<th>종료 예정 날짜</th>
-					<th>종료 날짜</th>
-					<th>작업 수량</th>
-					<th>진행 상태</th>
-					<th>작업팀</th>
-					<th>작업자</th>
-					<th>작업 장소</th>
-					<th>지시자</th>
-
-				</tr>
-			</thead>
+                <tr>
+                    <th>차종</th>
+                    <th>차량 번호</th>
+                    <th>소유 형태</th>
+                </tr>
+            </thead>
 			<tbody>
+
 				<tr>
-					<td>${workOrderDetails.itemName}</td>
-					<td>${workOrderDetails.taskName}</td>
-					<td><fmt:formatDate value="${workOrderDetails.startDate}"
-							pattern="yyyy-MM-dd HH:mm:ss" /></td>
-					<td><fmt:formatDate value="${workOrderDetails.endExDate}"
-							pattern="yyyy-MM-dd" /></td>
-					<td><fmt:formatDate value="${workOrderDetails.endDate}"
-							pattern="yyyy-MM-dd " /></td>
-					<td>${workOrderDetails.qty}</td>
-					<td>${workOrderDetails.progressStatus}</td>
-					<td>${workOrderDetails.workerTeam}</td>
-					<td>${workOrderDetails.worker}</td>
-					<td>${workOrderDetails.workPlace}</td>
-					<td>${workOrderDetails.wDirector}</td>
-
-
+					<td>${carDetail.carModel}</td>
+					<td>${carDetail.carId}</td>
+					<td>${carDetail.ownershipStatus}</td>
 				</tr>
 
 			</tbody>
@@ -265,42 +236,42 @@ th {
 		</table>
 
 		<!-- 버튼 그룹 -->
-		<div class="btn-group">
+		<%-- <div class="btn-group">
 			<button class="btn red" onclick="openDeleteModal()">삭제</button>
 			<a
-				href="productionWorkOrderDetailUpdate.do?orderNumber=${workOrderDetails.orderNumber}">
+				href="productionStockInDetailUpdate.do?itemCode=${itemDetails.itemCode}">
 				<button class="btn green">수정</button>
 			</a>
-		</div>
+		</div> --%>
 
 
 
 	</div>
 	<!-- 삭제 확인 모달 -->
-	<div id="delete-modal" style="display: none;">
+	<%-- <div id="delete-modal" style="display: none;">
 		<div class="modal-content">
 			<h2>정말로 삭제하시겠습니까?</h2>
 			<p>삭제된 데이터는 복구할 수 없습니다.</p>
 			<!-- 삭제 버튼을 포함하는 폼 추가 -->
-			<form action="deleteProductionWorkOrder.do" method="POST">
-				<input type="hidden" name="orderNumber" value="${workOrderDetails.orderNumber}">
+			<form action="deleteProductionStockIn.do" method="POST">
+				<input type="hidden" name="itemCode" value="${itemDetails.itemCode}">
 				<!-- itemCode를 숨겨진 필드로 전달 -->
 				<button type="submit" class="go-delete">삭제</button>
 				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>
 			</form>
 		</div>
-	</div>
+	</div> --%>
 
 </body>
 
 <script type="text/javascript">
-function openDeleteModal() {
+/* function openDeleteModal() {
     document.getElementById('delete-modal').style.display = 'block';
 }
 
 function closeDeleteModal() {
     document.getElementById('delete-modal').style.display = 'none';
-}
+} */
 
 
 

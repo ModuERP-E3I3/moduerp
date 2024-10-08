@@ -259,7 +259,7 @@ public class ProductionstockOutController {
 	    if (recentStockOut != null) {
 	        // 최근 출고 내역이 있을 경우
 	        // Date를 Timestamp로 변환 (필요한 경우)
-	        Timestamp latestOutDate = new Timestamp(recentStockOut.getpStockOutDate().getTime());
+	    	Timestamp latestOutDate = new Timestamp(recentStockOut.getpStockOutDate().getTime());
 
 	        // 6. ITEM 테이블의 CREATED_OUT_AT, OUT_PRICE, STOCK_OUT_PLACE 업데이트
 	        itemProductionstockService.updateItemWithLatestStockOut(itemCode, latestOutDate,
