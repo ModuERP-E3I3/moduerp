@@ -28,7 +28,7 @@ public class ItemSalesStockController {
         
         if (bizNumber != null) {
             // biz_number로 item_name 목록을 가져옴
-            List<String> itemNames = itemService.getItemNamesByBizNumber(bizNumber);
+            List<String> itemNames = itemService.getSalesItemNamesByBizNumber(bizNumber);
             // biz_number로 stock_place 목록을 가져옴
             List<String> stockPlaces = itemService.getStockPlacesByBizNumber(bizNumber);
 

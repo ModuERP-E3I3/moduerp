@@ -17,8 +17,8 @@ public class ItemSalesStockDAOImpl implements ItemSalesStockDAO {
     private static final String namespace = "ItemSalesMapper";
 
     @Override
-    public List<String> selectItemNamesByBizNumber(String bizNumber) {
-        return sqlSession.selectList(namespace + ".selectItemNamesByBizNumber", bizNumber);
+    public List<String> selectSalesItemNamesByBizNumber(String bizNumber) {
+        return sqlSession.selectList(namespace + ".selectSalesItemNamesByBizNumber", bizNumber);
     }
 
     @Override
