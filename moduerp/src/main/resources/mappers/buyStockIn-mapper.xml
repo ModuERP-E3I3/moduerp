@@ -58,7 +58,7 @@
     <update id="updateBuyStockIn"
         parameterType="com.e3i3.moduerp.buystock.model.dto.BuyStockInDTO">
         UPDATE BUY_STOCK_IN
-        SET B_STOCK_IN_PLACE = #{bStockPlace}, B_STOCK_IN_QTY = #{bStockInQty}
+        SET B_STOCK_IN_PLACE = #{bStockInPlace}, B_STOCK_IN_QTY = #{bStockInQty}
         WHERE ITEM_CODE = #{itemCode}
     </update>
 
