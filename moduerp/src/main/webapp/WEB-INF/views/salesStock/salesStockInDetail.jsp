@@ -234,6 +234,7 @@ th {
 					<th>입고가격</th>
 					<th>입고장소</th>
 					<th>자재 종류</th>
+					<th>담당자</th>
 
 				</tr>
 			</thead>
@@ -248,6 +249,7 @@ th {
 					<td>${itemDetails.inPrice}</td>
 					<td>${itemDetails.stockPlace}</td>
 					<td>${itemDetails.itemList}</td>
+					<td>${itemDetails.iDirector}</td>
 
 				</tr>
 

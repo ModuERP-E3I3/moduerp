@@ -30,5 +30,14 @@ public class CarDaoImpl implements CarDao {
 		return sqlSession.selectOne(namespace + ".selectCarId", carId);
 	}
 	
+	@Override
+	public void updateCar(CarDto carDto) {
+		sqlSession.update(namespace + ".updateCar", carDto);
+	}
+
+	@Override
+	public void deleteCar(CarDto carDto) {
+		sqlSession.update(namespace + ".deleteCar", carDto);
+	}
 	
 }

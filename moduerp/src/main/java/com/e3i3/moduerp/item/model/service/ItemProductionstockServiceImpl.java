@@ -64,7 +64,7 @@ public class ItemProductionstockServiceImpl implements ItemProductionstockServic
 
 	@Override
 	public void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut,
-			double outPrice) {
+			double outPrice, String oDirector) {
 		// 기존 재고 가져오기
 		Integer currentStock = itemProductionstockDAO.getStockByItemCode(itemCode);
 
@@ -74,7 +74,7 @@ public class ItemProductionstockServiceImpl implements ItemProductionstockServic
 		System.out.println("Updating item stock: " + updatedStock); // 이 부분 추가
 		// DB 업데이트
 		itemProductionstockDAO.updateItemStockOut(itemCode, createdOutAt, stockOutPlace, stockOut, outPrice,
-				updatedStock);
+				updatedStock, oDirector);
 	}
 
 	@Override

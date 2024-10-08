@@ -28,4 +28,14 @@ public class CarServiceImpl implements CarService{
 	public CarDto getCarListDetail(String carId) {
 		return carDao.selectCarId(carId);
 	}
+	
+	@Override
+	public void updateCar(CarDto carDto) {
+		carDao.updateCar(carDto);
+	}
+	
+	@Override
+	public void deleteCar(CarDto carDto) {
+		carDao.deleteCar(carDto);
+	}
 }

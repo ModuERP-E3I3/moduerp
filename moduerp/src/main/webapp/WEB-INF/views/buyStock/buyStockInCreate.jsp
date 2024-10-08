@@ -189,7 +189,8 @@ th {
                     <th>제품명</th>
                     <th>제품 설명</th>
                     <th>입고 단가</th>
-                   <th>거래처account_no</th>
+                    <th>거래처account_no</th>
+                    <th>담당자</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -220,6 +221,9 @@ th {
 							step="0.01" /></td>
 						<td><input type="text" name="accountNo" placeholder="거래처 번호 입력"
 							 /></td>
+						<td>
+							<input type="text" name="iDirrector" value="${directorName}" readonly>
+						</td>
 
 						
 					</tr>

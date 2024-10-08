@@ -77,10 +77,14 @@ public class BuyStockInController {
 		
 		@PostMapping("/buyStockInCreate.do")
 		public String createBuyStockIn(@RequestParam("bStockInDate") String stockInDateStr,
-				@RequestParam("stockPlace") String stockPlace, @RequestParam("stockIn") int stockIn,
-				@RequestParam("itemName") String itemName, @RequestParam("itemDesc") String itemDesc,
-				@RequestParam("inPrice") 
-				double inPrice,@RequestParam("accountNo") String accountNo, HttpSession session) {
+				@RequestParam("stockPlace") String stockPlace, 
+				@RequestParam("stockIn") int stockIn,
+				@RequestParam("itemName") String itemName, 
+				@RequestParam("itemDesc") String itemDesc,
+				@RequestParam("inPrice") double inPrice,
+				@RequestParam("accountNo") String accountNo,
+				@RequestParam("iDirrector") String iDirrector,
+				HttpSession session) {
 			
 			// 샂
 			String bizNumber = (String) session.getAttribute("biz_number");
@@ -91,14 +95,14 @@ public class BuyStockInController {
 			LocalDateTime localDateTime = localDate.atStartOfDay(); // 
 			Timestamp stockInDate = Timestamp.valueOf(localDateTime);
 
-			// 
+			// 한국 시간대의 현재 타임스탬프를 사용
 			ZonedDateTime nowKST = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
 			Timestamp currentTimestampKST = Timestamp.valueOf(nowKST.toLocalDateTime());
 
-			// I
+			// ITEM_CODE 생성: biz_number + "B" + 현재 타임스탬프
 			String itemCode = bizNumber + "B" + currentTimestampKST.getTime();
 
-			// ITEM
+			// ITEM 테이블에 저장할 데이터 설정
 			ItemDTO itemDTO = new ItemDTO();
 			itemDTO.setItemCode(itemCode);
 			itemDTO.setItemName(itemName);
@@ -108,8 +112,8 @@ public class BuyStockInController {
 			itemDTO.setInPrice(inPrice);
 			itemDTO.setBizNumber(bizNumber);
 			itemDTO.setStockIn(stockIn);
-			itemDTO.setStock(stockIn);
-			itemDTO.setStockPlace(accountNo);
+			itemDTO.setAccountName(accountNo);
+			itemDTO.setiDirector(iDirrector);
 			
 
 			// ITEM
@@ -118,11 +122,12 @@ public class BuyStockInController {
 			// B_STOCK_IN_ID: "B" + biz_number 
 			String bStockInId = "B" + bizNumber + currentTimestampKST.getTime();
 
-			//  
+			//  테이블에 저장할 데이터 설정
 			BuyStockInDTO buyStockInDTO = new BuyStockInDTO();
 			buyStockInDTO.setbStockInId(bStockInId); // 맂 B_STOCK_IN_ID 
 			buyStockInDTO.setItemCode(itemCode);
 			buyStockInDTO.setbStockInDate(stockInDate); // Timestamp
+			buyStockInDTO.setAccountNo(stockPlace);
 			buyStockInDTO.setbStockInQty(stockIn);
 			buyStockInDTO.setUuid(userUuid);
 			buyStockInDTO.setAccountNo(accountNo);
@@ -142,8 +147,8 @@ public class BuyStockInController {
 
 			// CREATED_AT
 			Timestamp createdAt = itemDetails.getCreatedAt();
-			Timestamp adjustedCreatedAt = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000)); // 9�떆媛�
-																															// 異붽�
+			Timestamp adjustedCreatedAt = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000)); 
+																	
 			itemDetails.setCreatedAt(adjustedCreatedAt); // Timestamp
 
 			// UPDATED_AT
@@ -247,14 +252,15 @@ public class BuyStockInController {
 
 		@PostMapping("/deleteBuyStockIn.do")
 		public String deleteBuyStockIn(@RequestParam("itemCode") String itemCode, HttpSession session) {
-			// 1. BuyStockIn 테이블에서 해당 아이템 삭제
-			BuyStockInService.deleteBuyStockInByItemCode(itemCode);
+		    // 1. 먼저 BuyStockIn 테이블에서 해당 아이템 삭제
+		    BuyStockInService.deleteBuyStockInByItemCode(itemCode);
 
-			// 2. ITEM 테이블에서 해당 아이템 삭제
-			itembuyStockService.deleteItemByCode(itemCode);
+		    // 2. 그 후 ITEM 테이블에서 해당 아이템 삭제
+		    itembuyStockService.deleteItemByCode(itemCode);
 
-			return "redirect:/buyStockIn.do"; // 삭제 후 재고 목록 페이지로 리다이렉트
+		    return "redirect:/buyStockIn.do"; // 삭제 후 재고 목록 페이지로 리다이렉트
 		}
+
 
 
 		

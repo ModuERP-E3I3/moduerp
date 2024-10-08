@@ -74,7 +74,7 @@ public class ItemProductionstockDAOImpl implements ItemProductionstockDAO {
 
 	@Override
 	public void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut,
-			double outPrice, int updatedStock) {
+			double outPrice, int updatedStock, String oDirector) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("itemCode", itemCode);
 		params.put("createdOutAt", createdOutAt);
@@ -82,6 +82,7 @@ public class ItemProductionstockDAOImpl implements ItemProductionstockDAO {
 		params.put("stockOut", stockOut);
 		params.put("outPrice", outPrice);
 		params.put("updatedStock", updatedStock);
+		params.put("oDirector", oDirector);
 
 		sqlSession.update(namespace + ".updateItemForProductionOut", params);
 	}

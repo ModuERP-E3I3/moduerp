@@ -10,36 +10,42 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.e3i3.moduerp.employee.model.service.EmployeeProductionService;
 import com.e3i3.moduerp.item.model.service.ItemSalesStockService;
 
 @Controller
 @RequestMapping("/")
 public class ItemSalesStockController {
 
-    @Autowired
-    private ItemSalesStockService itemService;
+	@Autowired
+	private ItemSalesStockService itemService;
+	@Autowired
+	private EmployeeProductionService employeeProductionService;
 
-    @RequestMapping(value = "/salesInCreate.do", method = RequestMethod.GET)
-    public String showSalesStockInCreatePage(HttpSession session, Model model) {
-        String bizNumber = (String) session.getAttribute("biz_number");
-        
-        // ¼¼¼Ç¿¡ ÀúÀåµÈ »ç¾÷ÀÚ¹øÈ£ ·Î±× Ãâ·Â
-        System.out.println("·Î±×ÀÎÇÑ »ç¿ëÀÚÀÇ »ç¾÷ÀÚ¹øÈ£: " + bizNumber);
-        
-        if (bizNumber != null) {
-            // biz_number·Î item_name ¸ñ·ÏÀ» °¡Á®¿È
-            List<String> itemNames = itemService.getSalesItemNamesByBizNumber(bizNumber);
-            // biz_number·Î stock_place ¸ñ·ÏÀ» °¡Á®¿È
-            List<String> stockPlaces = itemService.getStockPlacesByBizNumber(bizNumber);
+	@RequestMapping(value = "/salesInCreate.do", method = RequestMethod.GET)
+	public String showSalesStockInCreatePage(HttpSession session, Model model) {
+		String bizNumber = (String) session.getAttribute("biz_number");
+		String userUuid = (String) session.getAttribute("uuid");
 
-            // Äõ¸® °á°ú ·Î±× Ãâ·Â
-            System.out.println("Á¶È¸µÈ itemNames: " + itemNames);
-            System.out.println("Á¶È¸µÈ stockPlaces: " + stockPlaces);
-            
-            // JSP·Î Àü´ÞÇÒ ¸ðµ¨ Ãß°¡
-            model.addAttribute("itemNames", itemNames);
-            model.addAttribute("stockPlaces", stockPlaces);
-        }
-        return "salesStock/salesStockInCreate"; // JSP 
-    }
+		String directorName = employeeProductionService.getEmployeeNameByUuid(userUuid);
+		// ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú¹ï¿½È£ ï¿½Î±ï¿½ ï¿½ï¿½ï¿½
+		System.out.println("ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú¹ï¿½È£: " + bizNumber);
+
+		if (bizNumber != null) {
+			// biz_numberï¿½ï¿½ item_name ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			List<String> itemNames = itemService.getSalesItemNamesByBizNumber(bizNumber);
+			// biz_numberï¿½ï¿½ stock_place ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			List<String> stockPlaces = itemService.getStockPlacesByBizNumber(bizNumber);
+
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ ï¿½ï¿½ï¿½
+			System.out.println("ï¿½ï¿½È¸ï¿½ï¿½ itemNames: " + itemNames);
+			System.out.println("ï¿½ï¿½È¸ï¿½ï¿½ stockPlaces: " + stockPlaces);
+
+			// JSPï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ß°ï¿½
+			model.addAttribute("itemNames", itemNames);
+			model.addAttribute("stockPlaces", stockPlaces);
+			model.addAttribute("directorName", directorName);
+		}
+		return "salesStock/salesStockInCreate"; // JSP
+	}
 }

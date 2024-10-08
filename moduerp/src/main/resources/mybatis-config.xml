@@ -33,7 +33,7 @@
 		<typeAlias
 			type="com.e3i3.moduerp.productionstock.model.dto.ProductionStockOutDTO"
 			alias="ProductionStockOutDTO" /> <!-- 추가된 부분 --> 
-
+		
 	</typeAliases>
 
 	<typeHandlers>
@@ -63,7 +63,7 @@
 		<mapper resource="mappers/productionStockOut-mapper.xml" />
 
 		<mapper resource="mappers/workorder-mapper.xml" />
-		<mapper resource="mappers/productionquality-mapper.xml" />
+		<mapper resource="mappers/productionQuality-mapper.xml" />
 
 		<mapper resource="mappers/item-productionstock-mapper.xml" />
 		<mapper resource="mappers/employee-production-mapper.xml" />

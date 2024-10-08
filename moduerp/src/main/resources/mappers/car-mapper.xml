@@ -7,22 +7,43 @@
  		<result property="carId" column="CAR_ID" />
  		<result property="carModel" column="CAR_MODEL" />
  		<result property="ownershipStatus" column="OWNERSHIP_STATUS" />
+ 		<result property="carNum" column="CAR_NUM" />
+ 		<result property="bizNumber" column="BIZ_NUMBER" />
+ 		<result property="YN" column="YN" />
  	</resultMap>
  	
  	
  	
  	<select id="getAllCar" resultMap="resultCar">
     	select * from CAR
+    	where YN = 'Y'
 	</select>
 	
 	<insert id="insertCar" parameterType="com.e3i3.moduerp.car.model.dto.CarDto">
-    	INSERT INTO car (CAR_ID, CAR_MODEL, OWNERSHIP_STATUS)
-    	VALUES (#{carId}, #{carModel}, #{ownershipStatus})
+    	INSERT INTO car (CAR_ID, CAR_NUM, CAR_MODEL, OWNERSHIP_STATUS, BIZ_NUMBER)
+    	VALUES (#{carId}, #{carNum}, #{carModel}, #{ownershipStatus}, #{bizNumber})
 	</insert>
 	
 	<select id="selectCarId" parameterType="String" 
 		resultType="com.e3i3.moduerp.car.model.dto.CarDto">
-		SELECT * FROM CAR WHERE CAR_ID = #{carId}
+		SELECT *
+		FROM CAR WHERE CAR_ID = #{carId}
 	</select>
+	
+	<update id="updateCar"
+		parameterType="com.e3i3.moduerp.car.model.dto.CarDto">
+		UPDATE CAR
+		SET CAR_NUM = #{carNum},
+		CAR_MODEL = #{carModel},
+		OWNERSHIP_STATUS = #{ownershipStatus}
+		WHERE CAR_ID = #{carId}
+	</update>
+	
+	<delete id="deleteCar"
+		parameterType="String">
+		UPDATE CAR
+		SET YN = 'N'
+		WHERE CAR_ID = #{carId}
+	</delete>
 
  </mapper>

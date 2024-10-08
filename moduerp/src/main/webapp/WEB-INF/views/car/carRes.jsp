@@ -198,10 +198,11 @@
             </thead>
             <tbody>
 			    <c:forEach var="car" items="${carList}">
-			        <tr onclick="window.location.href='getCarDetail.do?carId=${car.carId}' ">
+			        <tr onclick="window.location.href='getCarDetail.do?carId=${ car.carId }' ">
 			            <td>${ car.carModel }</td>
-			            <td>${ car.carId }</td>
+			            <td>${ car.carNum }</td>
 			            <td>${ car.ownershipStatus }</td>
+			            
 			        </tr>
 			        
 			    </c:forEach>
