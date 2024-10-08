@@ -130,7 +130,7 @@ public class EmployeeController {
 	public ResponseEntity<String> updateEmployee(@PathVariable("uuid") UUID uuid, @RequestBody Employee employee) {
 		employee.setUuid(uuid);
 		employeeService.updateEmployee(employee);
-		return ResponseEntity.ok(uuid + "직원 수정 성공했습니다..");
+		return ResponseEntity.ok(uuid + "직원 수정 성공했 습니다..");
 	}
 
 	// uuid로 직원 삭제

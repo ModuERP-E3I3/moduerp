@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AttendanceMapper">
+
+    <!-- Result Map -->
+    <resultMap id="AttendanceResultMap" type="com.e3i3.moduerp.attendance.model.dto.Attendance">
+        <id property="attendanceId" column="ATTENDANCE_ID" />
+        <result property="uuid" column="UUID" />
+        <result property="bizNumber" column="BIZ_NUMBER" />
+        <result property="attDate" column="ATT_DATE" />
+        <result property="clockInTime" column="CLOCK_IN_TIME" />
+        <result property="clockOutTime" column="CLOCK_OUT_TIME" />
+        <result property="totWorkHrs" column="TOT_WORK_HRS" />
+        <result property="overtime" column="OVERTIME" />
+    </resultMap>
+
+   
+    <!-- Insert -->
+    <insert id="insertAttendance" parameterType="com.e3i3.moduerp.attendance.model.dto.Attendance">
+        INSERT INTO ATTENDANCE (ATTENDANCE_ID, UUID, BIZ_NUMBER, ATT_DATE, CLOCK_IN_TIME, CLOCK_OUT_TIME, TOT_WORK_HRS, OVERTIME)
+        VALUES (#{attendanceId}, #{uuid}, #{bizNumber}, #{attDate}, #{clockInTime}, #{clockOutTime}, #{totWorkHrs}, #{overtime})
+    </insert>
+3.
+
+    <!-- Select by ATTENDANCE_ID -->
+    <select id="selectAttendanceByAttendanceId" parameterType="String" resultMap="AttendanceResultMap">
+        SELECT ATTENDANCE_ID, UUID, BIZ_NUMBER, ATT_DATE, CLOCK_IN_TIME, CLOCK_OUT_TIME, TOT_WORK_HRS, OVERTIME
+        FROM ATTENDANCE
+        WHERE ATTENDANCE_ID = #{attendanceId}
+    </select>
+
+    <!-- Select by UUID -->
+    <select id="selectAttendanceByUuid" parameterType="String" resultMap="AttendanceResultMap">
+        SELECT ATTENDANCE_ID, UUID, BIZ_NUMBER, ATT_DATE, CLOCK_IN_TIME, CLOCK_OUT_TIME, TOT_WORK_HRS, OVERTIME
+        FROM ATTENDANCE
+        WHERE UUID = #{uuid}
+    </select>
+
+    <!-- Select by BizNumber -->
+    <select id="selectAttendancesByBizNumber" parameterType="String" resultMap="AttendanceResultMap">
+        SELECT ATTENDANCE_ID, UUID, BIZ_NUMBER, ATT_DATE, CLOCK_IN_TIME, CLOCK_OUT_TIME, TOT_WORK_HRS, OVERTIME
+        FROM ATTENDANCE
+        WHERE BIZ_NUMBER = #{bizNumber}
+    </select>
+
+    <!-- Select All -->
+    <select id="selectAllAttendances" resultMap="AttendanceResultMap">
+        SELECT ATTENDANCE_ID, UUID, BIZ_NUMBER, ATT_DATE, CLOCK_IN_TIME, CLOCK_OUT_TIME, TOT_WORK_HRS, OVERTIME
+        FROM ATTENDANCE
+    </select>
+
+    <!-- Update -->
+    <update id="updateAttendance" parameterType="com.e3i3.moduerp.attendance.model.dto.Attendance">
+        UPDATE ATTENDANCE
+        SET UUID = #{uuid},
+            BIZ_NUMBER = #{bizNumber},
+            ATT_DATE = #{attDate},
+            CLOCK_IN_TIME = #{clockInTime},
+            CLOCK_OUT_TIME = #{clockOutTime},
+            TOT_WORK_HRS = #{totWorkHrs},
+            OVERTIME = #{overtime}
+        WHERE ATTENDANCE_ID = #{attendanceId}
+    </update>
+
+    <!-- Delete by UUID -->
+    <delete id="deleteAttendanceByUuid" parameterType="String">
+        DELETE FROM ATTENDANCE
+        WHERE UUID = #{uuid}
+    </delete>
+
+    <!-- Delete by ATTENDANCE_ID -->
+    <delete id="deleteAttendanceByAttendanceId" parameterType="String">
+        DELETE FROM ATTENDANCE
+        WHERE ATTENDANCE_ID = #{attendanceId}
+    </delete>
+</mapper>

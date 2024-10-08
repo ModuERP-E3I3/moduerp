@@ -28,7 +28,7 @@
 		resultType="String">
 		SELECT ITEM_NAME
 		FROM ITEM
-		WHERE BIZ_NUMBER = #{bizNumber}
+		WHERE BIZ_NUMBER = #{bizNumber}  AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
 	</select>
 
 	<!-- biz_number로 필터링된 stock_place 리스트를 조회하는 쿼리 -->

@@ -35,8 +35,9 @@
 	<select id="selectBuyStockInByItemCode"
 		parameterType="String"
 		resultType="com.e3i3.moduerp.buystock.model.dto.BuyStockInDTO">
-		SELECT * FROM Buy_STOCK_IN WHERE ITEM_CODE =
-		#{itemCode}
+		SELECT ITEM_NAME
+		FROM ITEM
+		WHERE BIZ_NUMBER = #{bizNumber}  AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
 	</select>
 
 	<update id="updateBuyStockIn"

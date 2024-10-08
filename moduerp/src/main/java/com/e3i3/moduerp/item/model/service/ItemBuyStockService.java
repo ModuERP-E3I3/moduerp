@@ -8,6 +8,7 @@ import com.e3i3.moduerp.item.model.dto.ItemDTO;
 
 
 public interface ItemBuyStockService {
+	
 	List<String> getItemNamesByBizNumber(String bizNumber);
 
 	List<String> getStockPlacesByBizNumber(String bizNumber); 
