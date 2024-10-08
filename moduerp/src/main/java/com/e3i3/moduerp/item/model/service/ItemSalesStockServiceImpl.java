@@ -15,8 +15,8 @@ public class ItemSalesStockServiceImpl implements ItemSalesStockService {
     private ItemSalesStockDAO itemSalesStockDAO;
 
     @Override
-    public List<String> getItemNamesByBizNumber(String bizNumber) {
-        return itemSalesStockDAO.selectItemNamesByBizNumber(bizNumber);
+    public List<String> getSalesItemNamesByBizNumber(String bizNumber) {
+        return itemSalesStockDAO.selectSalesItemNamesByBizNumber(bizNumber);
     }
 
     @Override

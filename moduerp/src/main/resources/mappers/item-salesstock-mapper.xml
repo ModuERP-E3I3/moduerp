@@ -38,7 +38,7 @@
 	</select>
 
 	<!-- biz_number로 필터링된 stock_place 리스트를 조회하는 쿼리 -->
-	<select id="selectSalesStockPlacesByBizNumber"
+	<select id="selectStockPlacesByBizNumber"
 		parameterType="String" resultType="String">
 		SELECT DISTINCT STOCK_PLACE
 		FROM ITEM
