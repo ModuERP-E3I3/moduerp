@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.e3i3.moduerp.employee.model.service.EmployeeProductionService;
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 import com.e3i3.moduerp.item.model.service.ItemSalesStockService;
 import com.e3i3.moduerp.salesstock.model.dto.SalesStockInDTO;
@@ -37,6 +38,8 @@ public class SalesStockInController {
 
 	@Autowired
 	private ItemSalesStockService itemSalesStockService;
+	@Autowired
+	private EmployeeProductionService employeeProductionService;
 
 	// Sales Stock In GET method
 	@RequestMapping(value = "/salesStockIn.do", method = RequestMethod.GET)
@@ -71,11 +74,13 @@ public class SalesStockInController {
 	public String createSalesStockIn(@RequestParam("sStockInDate") String stockInDateStr,
 			@RequestParam("stockPlace") String stockPlace, @RequestParam("stockIn") int stockIn,
 			@RequestParam("itemName") String itemName, @RequestParam("itemDesc") String itemDesc,
-			@RequestParam("inPrice") double inPrice, @RequestParam("materialType") List<String> materialType, 
+			@RequestParam("inPrice") double inPrice, @RequestParam("materialType") List<String> materialType,
+			@RequestParam("director") String iDirector,
 			HttpSession session) {
 
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String userUuid = (String) session.getAttribute("uuid");
+		
 
 		LocalDate localDate = LocalDate.parse(stockInDateStr);
 		LocalDateTime localDateTime = localDate.atStartOfDay();
@@ -97,6 +102,7 @@ public class SalesStockInController {
 		itemDTO.setItemList(materialType);
 		itemDTO.setStockIn(stockIn);
 		itemDTO.setStock(stockIn);
+		itemDTO.setiDirector(iDirector);
 
 		itemSalesStockService.insertItem(itemDTO);
 
@@ -109,6 +115,7 @@ public class SalesStockInController {
 		salesStockInDTO.setsStockInPlace(stockPlace);
 		salesStockInDTO.setsStockInQty(stockIn);
 		salesStockInDTO.setUuid(userUuid);
+		
 
 		salesStockInService.insertSalesStockIn(salesStockInDTO);
 

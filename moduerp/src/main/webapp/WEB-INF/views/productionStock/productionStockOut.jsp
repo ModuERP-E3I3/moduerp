@@ -218,6 +218,7 @@ tbody tr:hover {
 					<th>재고 수량</th>
 					<th>최종 출고 장소</th>
 					<th>최종 출고 단가</th>
+					<th>최종 출고 단가</th>
 				</tr>
 			</thead>
 			<tbody>

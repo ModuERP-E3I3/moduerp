@@ -26,6 +26,7 @@ public class ItemDTO implements Serializable {
 	private Timestamp updateOutAt; // 추가된 필드
 	private String accountName; // 거래처명 buystock에서 사용
 	private String iDirector;
+	private String oDirector;
 	
 	
 	public String getAccountName() {
@@ -174,6 +175,14 @@ public class ItemDTO implements Serializable {
 
 	public void setiDirector(String iDirector) {
 		this.iDirector = iDirector;
+	}
+
+	public String getoDirector() {
+		return oDirector;
+	}
+
+	public void setoDirector(String oDirector) {
+		this.oDirector = oDirector;
 	}
 
 }
