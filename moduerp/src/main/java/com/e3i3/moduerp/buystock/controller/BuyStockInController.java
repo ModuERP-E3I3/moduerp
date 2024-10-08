@@ -77,10 +77,14 @@ public class BuyStockInController {
 		
 		@PostMapping("/buyStockInCreate.do")
 		public String createBuyStockIn(@RequestParam("bStockInDate") String stockInDateStr,
-				@RequestParam("stockPlace") String stockPlace, @RequestParam("stockIn") int stockIn,
-				@RequestParam("itemName") String itemName, @RequestParam("itemDesc") String itemDesc,
-				@RequestParam("inPrice") 
-				double inPrice,@RequestParam("accountNo") String accountNo, HttpSession session) {
+				@RequestParam("stockPlace") String stockPlace, 
+				@RequestParam("stockIn") int stockIn,
+				@RequestParam("itemName") String itemName, 
+				@RequestParam("itemDesc") String itemDesc,
+				@RequestParam("inPrice") double inPrice,
+				@RequestParam("accountNo") String accountNo,
+				@RequestParam("iDirrector") String iDirrector,
+				HttpSession session) {
 			
 			// 샂
 			String bizNumber = (String) session.getAttribute("biz_number");
@@ -91,14 +95,14 @@ public class BuyStockInController {
 			LocalDateTime localDateTime = localDate.atStartOfDay(); // 
 			Timestamp stockInDate = Timestamp.valueOf(localDateTime);
 
-			// 
+			// 한국 시간대의 현재 타임스탬프를 사용
 			ZonedDateTime nowKST = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
 			Timestamp currentTimestampKST = Timestamp.valueOf(nowKST.toLocalDateTime());
 
-			// I
+			// ITEM_CODE 생성: biz_number + "B" + 현재 타임스탬프
 			String itemCode = bizNumber + "B" + currentTimestampKST.getTime();
 
-			// ITEM
+			// ITEM 테이블에 저장할 데이터 설정
 			ItemDTO itemDTO = new ItemDTO();
 			itemDTO.setItemCode(itemCode);
 			itemDTO.setItemName(itemName);
@@ -108,8 +112,8 @@ public class BuyStockInController {
 			itemDTO.setInPrice(inPrice);
 			itemDTO.setBizNumber(bizNumber);
 			itemDTO.setStockIn(stockIn);
-			itemDTO.setStock(stockIn);
-			itemDTO.setStockPlace(accountNo);
+			itemDTO.setAccountName(accountNo);
+			itemDTO.setiDirector(iDirrector);
 			
 
 			// ITEM
@@ -118,11 +122,12 @@ public class BuyStockInController {
 			// B_STOCK_IN_ID: "B" + biz_number 
 			String bStockInId = "B" + bizNumber + currentTimestampKST.getTime();
 
-			//  
+			//  테이블에 저장할 데이터 설정
 			BuyStockInDTO buyStockInDTO = new BuyStockInDTO();
 			buyStockInDTO.setbStockInId(bStockInId); // 맂 B_STOCK_IN_ID 
 			buyStockInDTO.setItemCode(itemCode);
 			buyStockInDTO.setbStockInDate(stockInDate); // Timestamp
+			buyStockInDTO.setAccountNo(stockPlace);
 			buyStockInDTO.setbStockInQty(stockIn);
 			buyStockInDTO.setUuid(userUuid);
 			buyStockInDTO.setAccountNo(accountNo);

@@ -53,12 +53,13 @@
 		INSERT INTO ITEM (ITEM_CODE, ITEM_NAME, ITEM_DESC,
 		STOCK_IN, STOCK,  <!-- 
 			STOCK 컬럼 추가 -->
-		CREATED_AT, STOCK_PLACE, IN_PRICE, BIZ_NUMBER, ITEM_LIST)
+		CREATED_AT, STOCK_PLACE, IN_PRICE, BIZ_NUMBER, ITEM_LIST,IDIRECTOR)
 		VALUES
 		(#{itemCode}, #{itemName}, #{itemDesc}, #{stockIn}, #{stockIn},  <!-- STOCK에 
 			stockIn 값 사용 -->
 		SYSDATE, #{stockPlace}, #{inPrice}, #{bizNumber}, #{itemList,
-		typeHandler=com.e3i3.moduerp.handler.StringListTypeHandler}) <!-- typeHandler 
+		typeHandler=com.e3i3.moduerp.handler.StringListTypeHandler},
+		#{iDirector}) <!-- typeHandler 
 			추가 -->
 	</insert>
 
