@@ -36,6 +36,10 @@
 			
 		<typeAlias type="com.e3i3.moduerp.attendance.model.dto.Attendance"
 			alias="Attendance" />
+			
+		<typeAlias type="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg"
+			alias="Bankmg" />
+		
 	</typeAliases>
 
 	<typeHandlers>
@@ -86,6 +90,8 @@
 
 		<mapper resource="mappers/workorder-mapper.xml" />
 		<mapper resource="mappers/productionquality-mapper.xml" />
+		
+		<mapper resource="mappers/bankmg-mapper.xml" />
 
 	</mappers>
 

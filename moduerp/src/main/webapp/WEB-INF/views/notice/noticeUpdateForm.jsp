@@ -96,7 +96,7 @@
 <body>
 
 <div class="container">
-    <div class="notice-form">
+    <div class="bankmg-form">
         <div class="box">
             <h2>공지사항 수정</h2>
 

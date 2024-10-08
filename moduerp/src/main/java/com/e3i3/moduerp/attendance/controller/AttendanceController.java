@@ -98,11 +98,13 @@ public class AttendanceController {
 	}
 
 //<<<<<<< HEAD
-    // attendance.jsp ��û ó��
-    @RequestMapping(value = "/attendance.do", method = RequestMethod.GET)
-    public String forwardAttendance() {
-        return "attendance/attendance";  // JSP ���� ��� 
-    }
+	/*
+	 * // attendance.jsp ��û ó��
+	 * 
+	 * @RequestMapping(value = "/attendance.do", method = RequestMethod.GET) public
+	 * String forwardAttendance() { return "attendance/attendance"; // JSP ���� ���
+	 * }
+	 */
 //=======
 //>>>>>>> 7276e8c1dcae2edc6ee7ce84c3d08a306ee6c588
 }
