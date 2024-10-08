@@ -27,6 +27,7 @@ public class ItemDTO implements Serializable {
 	private String accountName; // 거래처명 buystock에서 사용
 	private String empName; // 직원명 buystock에서 사용
 	private String iDirector;
+	private String oDirector;
 	
 	
 	public String getAccountName() {
@@ -183,6 +184,14 @@ public class ItemDTO implements Serializable {
 
 	public void setiDirector(String iDirector) {
 		this.iDirector = iDirector;
+	}
+
+	public String getoDirector() {
+		return oDirector;
+	}
+
+	public void setoDirector(String oDirector) {
+		this.oDirector = oDirector;
 	}
 
 }
