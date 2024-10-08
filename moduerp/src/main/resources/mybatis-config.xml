@@ -54,6 +54,8 @@
 		<mapper resource="mappers/email-mapper.xml" />
 		<mapper resource="mappers/car-mapper.xml" />
 		<mapper resource="mappers/carmgt-mapper.xml" />
+		<mapper resource="mappers/carres-mapper.xml" />
+		
 		<mapper resource="mappers/notice-mapper.xml" />
 
 		<mapper resource="mappers/buyStockIn-mapper.xml" />
