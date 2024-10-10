@@ -200,7 +200,7 @@ tbody tr:hover {
 					<option disabled selected>옵션 선택</option>
 					<option value="itemName">제품명</option>
 					<option value="stockPlace">출고 장소</option>
-					<option value="ODirector">담당자</option>
+					<option value="oDirector">담당자</option>
 				</select> <input type="date" name="startDate" id="startDate" /> <input
 					type="date" name="endDate" id="endDate" /> <input type="text"
 					name="filterText" id="filterText" placeholder="내용 입력" />
