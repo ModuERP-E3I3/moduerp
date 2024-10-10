@@ -23,4 +23,9 @@ public class CarmgtController {
 			model.addAttribute("carmgtList", carmgtList);
 			return "car/carMgt";
 		}
+		
+		@RequestMapping(value = "/carmgtCreate.do", method = RequestMethod.GET)
+		public String showCreateCarmgtForm() {
+			return "car/carMgtCreate";
+		}
 }

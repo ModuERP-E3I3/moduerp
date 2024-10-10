@@ -10,7 +10,7 @@ public interface ItemSalesStockDAO {
 
 	List<String> selectStockPlacesByBizNumber(String bizNumber);
 
-	// biz_number·Î ÆÇ¸Å Ç×¸ñÀ» °¡Á®¿À´Â ¸Þ¼Òµå
+	// biz_numberï¿½ï¿½ ï¿½Ç¸ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 	List<ItemDTO> getItemsByBizNumber(String bizNumber);
 
 	void insertItem(ItemDTO itemDTO);
@@ -28,17 +28,17 @@ public interface ItemSalesStockDAO {
 	List<ItemDTO> selectItemsByBizNumberStartingWith(String bizNumber);
 
 	void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut, double outPrice,
-			int updatedStock);
+			int updatedStock, String oDirector);
 
 	int getStockByItemCode(String itemCode);
 
-	// STOCK_OUT ¾÷µ¥ÀÌÆ®
+	// STOCK_OUT ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 	void updateStockOutByItemCode(String itemCode, int totalStockOut);
 
-	// STOCK_IN °ª °¡Á®¿À±â
+	// STOCK_IN ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	int getStockInByItemCode(String itemCode);
 
-	// STOCK ¾÷µ¥ÀÌÆ®
+	// STOCK ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 	void updateStockByItemCode(String itemCode, int updatedStock);
 
 	public void updateItemCreatedOutAt(String itemCode, Timestamp createdOutAt);

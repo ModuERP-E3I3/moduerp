@@ -189,22 +189,27 @@ tbody tr:hover {
 
 		<div class="content-title">영업관리 | 영업출고</div>
 		<form action="/moduerp/salesStockOutFilter.do">
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select name="filterOption" id="filterOption">
-				<option disabled selected>옵션 선택</option>
-				<option value="itemName">제품명</option>
-				<option value="stockPlace">출고 장소</option>
-				<option value="ODirector">담당자</option>
-			</select> <input type="date" name="startDate" id="startDate" /> <input
-				type="date" name="endDate" id="endDate" /> <input type="text"
-				name="filterText" id="filterText" placeholder="내용 입력" />
-			<button type="submit" class="btn">조회</button>
-			<button type="button" class="btn"
-				onclick="window.location.href='salesStockOut.do';">초기화</button>
-		</div>
-	</form>
+			<!-- 필터 박스 -->
+			<div class="filter-box">
+				<select name="filterOption" id="filterOption">
+					<option disabled selected>옵션 선택</option>
+					<option value="itemName" ${option == 'itemName' ? 'selected' : ''}>제품명</option>
+					<option value="stockPlace"
+						${option == 'stockPlace' ? 'selected' : ''}>입고 장소</option>
+					<option value="ODirector"
+						${option == 'ODirector' ? 'selected' : ''}>담당자</option>
+				</select> <input type="date" name="startDate" id="startDate"
+					value="${startDate != null ? startDate : ''}" /> <input
+					type="date" name="endDate" id="endDate"
+					value="${endDate != null ? endDate : ''}" /> <input type="text"
+					name="filterText" id="filterText" placeholder="내용 입력"
+					value="${filterText != null ? filterText : ''}" />
 
+				<button type="submit" class="btn">조회</button>
+				<button type="button" class="btn"
+					onclick="window.location.href='salesStockOut.do';">초기화</button>
+			</div>
+		</form>
 		<!-- 테이블 -->
 		<table>
 			<thead>
@@ -216,7 +221,7 @@ tbody tr:hover {
 					<th>재고 수량</th>
 					<th>최종 출고 장소</th>
 					<th>최종 출고 단가</th>
-					<th>담당자</th>
+					<th>최종 출고 담당자</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -248,7 +253,9 @@ tbody tr:hover {
 							<!-- 현재 페이지는 강조 -->
 						</c:when>
 						<c:otherwise>
-							<a href="salesStockOut.do?page=${i}">${i}</a>
+							<a
+								href="salesStockOutFilter.do?page=${i}&filterOption=${option}&filterText=${filterText}&startDate=${startDate}&endDate=${endDate}">
+								${i} </a>
 							<!-- 페이지 링크 -->
 						</c:otherwise>
 					</c:choose>

@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -146,36 +145,18 @@ th {
 	background-color: white;
 }
 
-#pagebutton {
-	display: flex;
-	justify-content: center;
-	margin-top: 2%; /* 위쪽 여백 추가 */
+.material-type-input {
+	margin-bottom: 10px;
 }
 
-#pagebutton a {
-	color: black; /* 글자 색상 검은색 */
-	text-decoration: none; /* 밑줄 제거 */
-	font-size: 20px; /* 글자 크기 증가 */
-	margin: 0 10px; /* 페이지 버튼 간격 조정 */
-}
 
-#pagebutton strong {
-	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
-	color: black; /* 강조 색상 검은색 유지 */
-}
-
-tbody tr:hover {
-	cursor: pointer;
-}
 </style>
 
 </head>
 
 <body>
-	<!-- 서브헤더 JSP 임포트 -->
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
-	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
 	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
@@ -184,85 +165,65 @@ tbody tr:hover {
 	    </ul>
 	</div>
 
-	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
+		<div class="content-title">영업관리 | 영업입고 | ${itemDetails.itemName}
+			수정하기</div>
 
-		<div class="content-title">영업관리 | 영업출고</div>
-		<form action="/moduerp/salesStockOutFilter.do">
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select name="filterOption" id="filterOption">
-				<option disabled selected>옵션 선택</option>
-				<option value="itemName">제품명</option>
-				<option value="stockPlace">출고 장소</option>
-				<option value="ODirector">담당자</option>
-			</select> <input type="date" name="startDate" id="startDate" /> <input
-				type="date" name="endDate" id="endDate" /> <input type="text"
-				name="filterText" id="filterText" placeholder="내용 입력" />
-			<button type="submit" class="btn">조회</button>
-			<button type="button" class="btn"
-				onclick="window.location.href='salesStockOut.do';">초기화</button>
-		</div>
-	</form>
-
-		<!-- 테이블 -->
-		<table>
-			<thead>
-				<tr>
-					<th>순번</th>
-					<th>제품명</th>
-					<th>최종 출고 일자</th>
-					<th>총 출고 수량</th>
-					<th>재고 수량</th>
-					<th>최종 출고 장소</th>
-					<th>최종 출고 단가</th>
-					<th>담당자</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="item" items="${itemList}" varStatus="status">
-					<tr
-						onclick="window.location.href='getSalesOutDetails.do?itemCode=${item.itemCode}'">
-						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<td>${item.itemName}</td>
-						<td><fmt:formatDate value="${item.createdOutAt}"
-								pattern="yyyy-MM-dd" /></td>
-						<td>${item.stockOut}</td>
-						<td>${item.stock}</td>
-						<td>${item.stockOutPlace}</td>
-						<td>${item.outPrice}</td>
-						<td>${item.oDirector}</td>
+		<form action="/moduerp/updateSalesStockSubOut.do" method="POST">
+			<input type="hidden" name="itemCode" value="${itemDetails.itemCode}" />
+			<input type="hidden" name="sStockOutId"
+				value="${salesStockOutDetails.sStockOutId}" />
+			<table>
+				<thead>
+					<tr>
+						<th>제품명</th>
+						<th>제품 설명</th>
+						<th>출고 날짜</th>
+						<th>수정 날짜</th>
+						<th>출고 수량</th>
+						<th>출고 가격</th>
+						<th>출고 장소</th>
+						<th>자재 종류</th>
+						<th>출고 담당자</th>
 					</tr>
-				</c:forEach>
-			</tbody>
+				</thead>
+				<tbody>
+					<tr>
+						<td>${itemDetails.itemName}</td>
+						<td>${itemDetails.itemDesc}</td>
+						<td><fmt:formatDate
+								value="${salesStockOutDetails.sStockOutDate}"
+								pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td><fmt:formatDate
+								value="${salesStockOutDetails.sStockOutUpdate}"
+								pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td><input type="number" name="stockIn"
+							value="${salesStockOutDetails.sStockOutQty}" required /></td>
+						<td><input type="number" name="inPrice"
+							value="${salesStockOutDetails.sStockOutPrice}" step="0.01"
+							required /></td>
 
+						<td><input list="stockPlaces" name="stockPlace"
+							value="${salesStockOutDetails.sStockOutPlace}"
+							placeholder="보관장소 선택" required /> <datalist id="stockPlaces">
+								<c:forEach var="stockPlace" items="${stockPlaces}">
+									<option value="${stockPlace}"></option>
+								</c:forEach>
+							</datalist></td>
+						<td>${itemDetails.itemList}</td>
+						<td>${salesStockOutDetails.oDirector}</td>
+					</tr>
+				</tbody>
+			</table>
 
-		</table>
-		<!-- 페이지 버튼 -->
-		<div id="pagebutton">
-			<c:if test="${totalPages > 1}">
-				<c:forEach var="i" begin="1" end="${totalPages}">
-					<c:choose>
-						<c:when test="${i == currentPage}">
-							<strong>${i}</strong>
-							<!-- 현재 페이지는 강조 -->
-						</c:when>
-						<c:otherwise>
-							<a href="salesStockOut.do?page=${i}">${i}</a>
-							<!-- 페이지 링크 -->
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-			</c:if>
-		</div>
-
-		<!-- 버튼 그룹 -->
-		<div class="btn-group">
-			<a href="salesStockOutCreate.do"><button class="btn blue">등록</button></a>
-		</div>
-
+			<div class="btn-group">
+				<button type="submit" class="btn green">수정 완료</button>
+			</div>
+		</form>
 	</div>
 </body>
+
+
 <script>
     const activeMenu = "account";
 
@@ -275,4 +236,6 @@ tbody tr:hover {
         });
     });
 </script>
+
+
 </html>
