@@ -19,16 +19,33 @@
 		<result property="updatedAt" column="UPDATED_AT" />
 		<result property="bizNumber" column="BIZ_NUMBER" />
 		<result property="createdOutAt" column="CREATED_OUT_AT" />
-		<result property="itemList" column="ITEM_LIST"
-			typeHandler="com.e3i3.moduerp.handler.StringListTypeHandler" />
+		<result property="accountName" column="ACCOUNT_NAME" />
+		<result property="iDirector" column="IDIRECTOR" />
+		<result property="oDirector" column="ODIRECTOR" />
 	</resultMap>
+
+	<select id="getItemsByBizNumber" resultMap="itemResultMap">
+		SELECT 
+   			 i.*,                
+    		 b.*,                 
+   			 a.ACCOUNT_NAME       
+		FROM 
+    	item i
+		JOIN 
+   		     BUY_STOCK_IN b ON i.item_code = b.item_code
+		JOIN 
+    	     ACCOUNT a ON b.account_no = a.account_no
+
+		WHERE i.BIZ_NUMBER = #{bizNumber}  AND i.ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
+	</select>
 
 	<!-- 아이템 이름을 biz_number로 필터링해서 조회하는 쿼리 -->
 	<select id="selectItemNamesByBizNumber" parameterType="String"
 		resultType="String">
 		SELECT ITEM_NAME
 		FROM ITEM
-		WHERE BIZ_NUMBER = #{bizNumber}  AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
+		WHERE
+		BIZ_NUMBER = #{bizNumber}
 	</select>
 
 	<!-- biz_number로 필터링된 stock_place 리스트를 조회하는 쿼리 -->
@@ -45,20 +62,16 @@
 		INSERT INTO ITEM (ITEM_CODE, ITEM_NAME, ITEM_DESC,
 		STOCK_IN, STOCK,  <!-- 
 			STOCK 컬럼 추가 -->
-		CREATED_AT, STOCK_PLACE, IN_PRICE, BIZ_NUMBER, ITEM_LIST)
+		CREATED_AT, STOCK_PLACE, IN_PRICE, BIZ_NUMBER, ITEM_LIST,IDIRECTOR)
 		VALUES
 		(#{itemCode}, #{itemName}, #{itemDesc}, #{stockIn}, #{stockIn},  <!-- STOCK에 
 			stockIn 값 사용 -->
 		SYSDATE, #{stockPlace}, #{inPrice}, #{bizNumber}, #{itemList,
-		typeHandler=com.e3i3.moduerp.handler.StringListTypeHandler}) <!-- typeHandler 
+		typeHandler=com.e3i3.moduerp.handler.StringListTypeHandler},
+		#{iDirector}) <!-- typeHandler 
 			추가 -->
 	</insert>
 
-
-	<select id="getItemsByBizNumber" parameterType="String"
-		resultMap="itemResultMap">
-		SELECT * FROM ITEM WHERE BIZ_NUMBER = #{bizNumber}
-	</select>
 
 	<select id="selectItemByCode" parameterType="String"
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
@@ -93,27 +106,19 @@
 	<!-- BizNumber와 CREATED_OUT_AT이 있는 항목 조회 -->
 	<select id="getItemsByBizNumberOutDate" parameterType="String"
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
-		SELECT
-		ITEM_CODE,
-		ITEM_NAME,
-		ITEM_DESC,
-		CREATED_AT,
-		UPDATED_AT,
-		STOCK_IN,
-		STOCK_OUT,
-		STOCK,
-		STOCK_PLACE,
-		IN_PRICE,
-		ITEM_LIST,
-		BIZ_NUMBER,
-		OUT_PRICE,
-		STOCK_OUT_PLACE,
-		CREATED_OUT_AT,
-		UPDATE_OUT_AT
+		<!--SELECT
+		*
 		FROM ITEM
 		WHERE
 		BIZ_NUMBER = #{bizNumber}
 		AND CREATED_OUT_AT IS NOT NULL
+		AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')-->
+		SELECT 
+			*      
+		FROM 
+    	ITEM
+		WHERE BIZ_NUMBER = #{bizNumber}  
+        AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
 	</select>
 
 	<!-- BizNumber와 item_code가 biz_number + "B"로 시작하는 품목을 조회하는 쿼리 -->
@@ -126,6 +131,7 @@
 		BIZ_NUMBER = #{bizNumber}
 		AND ITEM_CODE
 		LIKE CONCAT(#{bizNumber}, 'B%')
+		
 	</select>
 
 	<update id="updateItemForBuyOut" parameterType="map">
@@ -138,7 +144,9 @@
 		STOCK_OUT_PLACE = #{stockOutPlace},
 		STOCK =
 		COALESCE(STOCK, 0) - #{stockOut} <!-- STOCK 업데이트 로직도 동일하게 적용 -->
-		WHERE ITEM_CODE = #{itemCode}
+		ODIRECTOR = #{oDirector}
+		WHERE 
+		ITEM_CODE = #{itemCode}
 	</update>
 
 
@@ -201,17 +209,7 @@
 		#{itemCode}
 	</update>
 
-	<!-- =============================================== -->
-	<!-- workorder 
 
-	<select id="selectItemNamesAndStockByBizNumberStartingWith"
-		parameterType="String" resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
-		SELECT ITEM_CODE, ITEM_NAME, STOCK
-		FROM ITEM
-		WHERE BIZ_NUMBER = #{bizNumber}
-		AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
-	</select>
-		-->
 
 
 </mapper>

@@ -234,6 +234,7 @@ th {
 					<th>출고 가격</th>
 					<th>출고 장소</th>
 					<th>자재 종류</th>
+					<th>출고 담당자</th>
 
 				</tr>
 			</thead>
@@ -253,6 +254,7 @@ th {
 					<td>${productionStockOutDetailsSub.pStockOutPrice}</td>
 					<td>${productionStockOutDetailsSub.pStockOutPlace}</td>
 					<td>${itemDetailsSub.itemList}</td>
+					<td>${productionStockOutDetailsSub.oDirector}</td>
 
 
 				</tr>

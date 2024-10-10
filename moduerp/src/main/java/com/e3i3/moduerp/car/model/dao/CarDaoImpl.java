@@ -20,7 +20,24 @@ public class CarDaoImpl implements CarDao {
 		return sqlSession.selectList(namespace + ".getAllCar");
 	}
 	
-	public CarDto getCarId(String carId) {
-        return sqlSession.selectOne(namespace + ".getCarId", carId);
+	@Override
+    public void insertCar(CarDto carDto) {
+        sqlSession.insert(namespace + ".insertCar", carDto);  // MyBatis 호출
     }
+	
+	@Override
+	public CarDto selectCarId(String carId) {
+		return sqlSession.selectOne(namespace + ".selectCarId", carId);
+	}
+	
+	@Override
+	public void updateCar(CarDto carDto) {
+		sqlSession.update(namespace + ".updateCar", carDto);
+	}
+
+	@Override
+	public void deleteCar(CarDto carDto) {
+		sqlSession.update(namespace + ".deleteCar", carDto);
+	}
+	
 }

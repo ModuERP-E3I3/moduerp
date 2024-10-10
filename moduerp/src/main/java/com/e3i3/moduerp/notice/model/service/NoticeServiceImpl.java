@@ -1,6 +1,6 @@
 package com.e3i3.moduerp.notice.model.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,12 +20,28 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public ArrayList<Notice> getNoticeList(int page, int pageSize) {
+    public List<Notice> getNoticeList(int page, int pageSize) {
         return NoticeDao.getNoticeList(page, pageSize);
     }
 
     @Override
     public Notice getNoticeById(int noticeId) {
-        return NoticeDao.getNoticeById(noticeId); // 공지사항 상세 조회 DAO 호출
+        return NoticeDao.getNoticeById(noticeId);
     }
+    
+    @Override
+    public void insertNotice(Notice notice) {
+        NoticeDao.insertNotice(notice);
+    }
+
+    @Override
+    public void updateNotice(Notice notice) {
+        NoticeDao.updateNotice(notice);
+    }
+
+    @Override
+    public void deleteNotice(int noticeId) {
+        NoticeDao.deleteNotice(noticeId);
+    }
+    
 }

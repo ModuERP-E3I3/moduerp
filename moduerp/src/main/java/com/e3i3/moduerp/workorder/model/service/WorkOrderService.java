@@ -19,4 +19,15 @@ public interface WorkOrderService {
 	void deleteWorkOrder(String orderNumber);
 
 	int getTotalQtyByItemCode(String itemCode);
+
+	// -------------------------------
+	// QC
+	List<WorkOrderDTO> getCompletedWorkOrders();
+
+	// -------------------------------
+
+	List<WorkOrderDTO> getWorkOrderByFilterDate(String bizNumber, String option, String filterText, String startDate,
+			String endDate);
+
+	List<WorkOrderDTO> getWorkOrderByFilter(String bizNumber, String option, String filterText);
 }

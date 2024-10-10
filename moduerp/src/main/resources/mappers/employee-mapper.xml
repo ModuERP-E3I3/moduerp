@@ -5,8 +5,7 @@
 	<!-- 직원 정보를 매핑하기 위한 resultMap -->
 	<resultMap id="resultEmployee"
 		type="com.e3i3.moduerp.employee.model.dto.Employee">
-		<id property="uuid" column="uuid" javaType="java.util.UUID"
-			typeHandler="com.e3i3.moduerp.common.handler.UUIDTypeHandler" />
+		<id property="uuid" column="uuid"  />
 		<result property="bizNumber" column="biz_number" />
 		<result property="approvalCode" column="approval_code" />
 		<result property="departmentId" column="department_id" /> <!-- 수정됨 -->
@@ -52,9 +51,7 @@
 		re_num, address, is_email_changed,
 		new_emp_email, remaining_leave,
 		contract_start_time, contract_end_time, mgr_uuid)
-		VALUES (#{uuid,
-		javaType=java.util.UUID, jdbcType=VARCHAR,
-		typeHandler=com.e3i3.moduerp.common.handler.UUIDTypeHandler},
+		VALUES (#{uuid},
 		#{bizNumber},
 		#{approvalCode},
 		CASE WHEN #{departmentId} IS NULL OR
@@ -87,6 +84,15 @@
 		#{contractEndTime, jdbcType=DATE}, <!-- null -->
 		#{mgrUuid, jdbcType=VARCHAR})<!-- null -->
 	</insert>
+
+	<!-- 같은 사업자 번호와 부서 ID를 가진 직원 조회용 쿼리 (본인 제외) -->
+	<select id="selectEmployeesByBizAndDepartment"
+		parameterType="map" resultMap="resultEmployee">
+		SELECT * FROM employee
+		WHERE biz_number = #{bizNumber}
+		AND department_id = #{departmentId}
+	</select>
+
 
 
 	<!-- 직원 정보 수정용 쿼리 -->
@@ -140,9 +146,11 @@
 		parameterType="map"
 		resultType="com.e3i3.moduerp.employee.model.dto.EmployeeBasicInfo">
 		SELECT emp_name AS empName, emp_email AS empEmail
-		FROM employee
+		FROM
+		employee
 		WHERE biz_number = #{bizNumber}
-		AND emp_email LIKE '%' || #{keyword} || '%'
+		AND emp_email LIKE '%' ||
+		#{keyword} || '%'
 	</select>
 
 

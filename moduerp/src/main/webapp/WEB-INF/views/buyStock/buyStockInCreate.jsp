@@ -157,7 +157,7 @@ th {
 		<ul id="menubar">
 			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
 			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
-			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 배송 조회</a></li>
+			<li><a href="buyStockIn.do"><i class="fa-solid fa-truck"></i></i> 배송 조회</a></li>
 
 		</ul>
 	</div>
@@ -167,15 +167,7 @@ th {
 
 		<div class="content-title">구매관리 | 구매입고 | 신규 등록</div>
 
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-		</div>
+		
 
 		<!-- 테이블 -->
 		<!-- 테이블 -->
@@ -184,12 +176,13 @@ th {
 				<thead>
 					<tr>
 					<th>입고 날짜</th>
-                    <th>제품명</th>
-                    <th>거래처</th>
-                    <th>입고 수량</th>
                     <th>입고 장소</th>
+                    <th>입고 수량</th>
+                    <th>제품명</th>
+                    <th>제품 설명</th>
                     <th>입고 단가</th>
-                    <th>직원명</th>    
+                    <th>거래처</th>
+                    <th>담당자</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -218,8 +211,16 @@ th {
 						<!-- 가격 입력 칸 -->
 						<td><input type="number" name="inPrice" placeholder="가격 입력"
 							step="0.01" /></td>
+						<td><input list="accountNo" name="accountNo"
+							placeholder="거래처" /> <datalist id="accountNo">
+								<c:forEach var="accountNo" items="${accountNo}">
+									<option value="${accountNo}"></option>
+								</c:forEach>
+							</datalist></td>
+						<td>
+							<input type="text" name="iDirrector" value="${directorName}" readonly>
+						</td>
 
-						<!-- 자재 종류 선택 칸 -->
 						
 					</tr>
 				</tbody>

@@ -96,7 +96,8 @@
 		resultType="int">
 		SELECT NVL(SUM(QTY), 0)
 		FROM WORK_ORDER
-		WHERE ITEM_CODE = #{itemCode}
+		WHERE ITEM_CODE =
+		#{itemCode}
 	</select>
 
 
@@ -128,4 +129,104 @@
 		WORK_ORDER
 		WHERE ORDER_NUMBER = #{orderNumber}
 	</delete>
+
+
+	<!-- ======================= -->
+	<!-- QC -->
+	<select id="findCompletedWorkOrders"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE PROGRESS_STATUS = '작업 완료'
+	</select>
+	<!-- ======================= -->
+
+	<select id="selectWorkOrderItemNameByFilterDate" parameterType="map"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		ITEM_NAME LIKE '%' || #{filterText} || '%'
+		AND START_DATE BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+	</select>
+	
+	<select id="selectWorkOrdertaskNameByFilterDate" parameterType="map"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		TASK_NAME LIKE '%' || #{filterText} || '%'
+		AND START_DATE BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+	</select>
+	
+	<select id="selectWorkOrderworkerByFilterDate" parameterType="map"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		WORKER LIKE '%' || #{filterText} || '%'
+		AND START_DATE BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+	</select>
+	
+	<select id="selectWorkOrderwDirectorByFilterDate" parameterType="map"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		W_DIRECTOR LIKE '%' || #{filterText} || '%'
+		AND START_DATE BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+	</select>
+	
+	<select id="selectWorkOrderItemNameByFilter" parameterType="map"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		ITEM_NAME LIKE '%' || #{filterText} || '%'
+	</select>
+	
+	<select id="selectWorkOrdertaskNameByFilter" parameterType="map"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		TASK_NAME LIKE '%' || #{filterText} || '%'
+	</select>
+	
+	<select id="selectWorkOrderworkerByFilter" parameterType="map"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		WORKER LIKE '%' || #{filterText} || '%'
+	</select>
+	
+	<select id="selectWorkOrderwDirectorByFilter" parameterType="map"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		W_DIRECTOR LIKE '%' || #{filterText} || '%'
+	</select>
+
 </mapper>

@@ -28,7 +28,7 @@ public interface ItemProductionstockDAO {
 	List<ItemDTO> selectItemsByBizNumberStartingWith(String bizNumber);
 
 	void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut, double outPrice,
-			int updatedStock);
+			int updatedStock, String oDirector);
 
 	int getStockByItemCode(String itemCode);
 
@@ -55,4 +55,35 @@ public interface ItemProductionstockDAO {
 	// -----------------------------------------------------
 	// workorder
 	List<ItemDTO> selectItemNamesAndStockByBizNumberStartingWith(String bizNumber);
+
+	// -----------------------------------------------
+	// production in filter
+
+	// 필터링된 항목 가져오는 메서드
+	List<ItemDTO> getItemByItemNameDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<ItemDTO> getItemByStockPlaceDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<ItemDTO> getItemByiDirectorDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<ItemDTO> getItemByItemName(String bizNumber, String filterText);
+
+	List<ItemDTO> getItemByStockPlace(String bizNumber, String filterText);
+
+	List<ItemDTO> getItemByiDirector(String bizNumber, String filterText);
+	
+	// -----------------------------------------------
+	// productionOut in filter
+	List<ItemDTO> getItemOutByItemNameDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<ItemDTO> getItemOutByStockOutPlaceDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<ItemDTO> getItemOutByODirectorDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<ItemDTO> getOutItemByItemName(String bizNumber, String filterText);
+
+	List<ItemDTO> getOutItemByStockOutPlace(String bizNumber, String filterText);
+
+	List<ItemDTO> getOutItemByODirector(String bizNumber, String filterText);
+
 }

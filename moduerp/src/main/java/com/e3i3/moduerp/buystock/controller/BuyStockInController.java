@@ -36,53 +36,49 @@ public class BuyStockInController {
 
 		@RequestMapping(value = "/buyStockIn.do", method = RequestMethod.GET)
 		public String forwardBuyIn(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
-				HttpSession session) {
-			String bizNumber = (String) session.getAttribute("biz_number");
-			List<ItemDTO> itemList = itembuyStockService.getItemsByBizNumber(bizNumber);
+		        HttpSession session) {
+		    String bizNumber = (String) session.getAttribute("biz_number");
+		   
 
-			// CREATED_AT
-			for (ItemDTO item : itemList) {
-				// CREATED_AT샂
-				Timestamp createdAt = item.getCreatedAt();
+		    List<ItemDTO> itemList = itembuyStockService.getItemsByBizNumber(bizNumber);
+		   
+		    
 
-				// 
-				Timestamp adjustedTimestamp = Timestamp
-						.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000));
+		    for (ItemDTO item : itemList) {
+		        if (item.getCreatedAt() != null) {
+		            Timestamp createdAt = item.getCreatedAt();
+		            Timestamp adjustedTimestamp = Timestamp
+		                    .from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000));
+		            item.setCreatedAt(adjustedTimestamp);
+		        }
+		    }
 
-				// 
-				item.setCreatedAt(adjustedTimestamp); // 
-			}
+		    int itemsPerPage = 10;
+		    int totalItems = itemList.size();
+		    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+		    int startIndex = (page - 1) * itemsPerPage;
+		    int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+		    List<ItemDTO> paginatedList = itemList.subList(startIndex, endIndex);
 
-			// 
-			int itemsPerPage = 10;
+		    model.addAttribute("itemList", paginatedList);
+		    model.addAttribute("totalPages", totalPages);
+		    model.addAttribute("currentPage", page);
 
-			//
-			int totalItems = itemList.size();
-
-			// 
-			int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
-
-			// 꾩궛
-			int startIndex = (page - 1) * itemsPerPage;
-			int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-
-			// 꽦
-			List<ItemDTO> paginatedList = itemList.subList(startIndex, endIndex);
-
-			// 
-			model.addAttribute("itemList", paginatedList);
-			model.addAttribute("totalPages", totalPages);
-			model.addAttribute("currentPage", page);
-
-			return "buyStock/buyStockIn"; // JSP
+		    return "buyStock/buyStockIn"; // JSP
 		}
+
 		
 		@PostMapping("/buyStockInCreate.do")
 		public String createBuyStockIn(@RequestParam("bStockInDate") String stockInDateStr,
-				@RequestParam("stockPlace") String stockPlace, @RequestParam("stockIn") int stockIn,
-				@RequestParam("itemName") String itemName, @RequestParam("itemDesc") String itemDesc,
-				@RequestParam("inPrice") double inPrice, @RequestParam("materialType") List<String> materialType, HttpSession session) {
-
+				@RequestParam("stockPlace") String stockPlace, 
+				@RequestParam("stockIn") int stockIn,
+				@RequestParam("itemName") String itemName, 
+				@RequestParam("itemDesc") String itemDesc,
+				@RequestParam("inPrice") double inPrice,
+				@RequestParam("accountNo") String accountNo,
+				@RequestParam("iDirrector") String iDirrector,
+				HttpSession session) {
+			
 			// 샂
 			String bizNumber = (String) session.getAttribute("biz_number");
 			String userUuid = (String) session.getAttribute("uuid");
@@ -92,25 +88,26 @@ public class BuyStockInController {
 			LocalDateTime localDateTime = localDate.atStartOfDay(); // 
 			Timestamp stockInDate = Timestamp.valueOf(localDateTime);
 
-			// 
+			// 한국 시간대의 현재 타임스탬프를 사용
 			ZonedDateTime nowKST = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
 			Timestamp currentTimestampKST = Timestamp.valueOf(nowKST.toLocalDateTime());
 
-			// I
+			// ITEM_CODE 생성: biz_number + "B" + 현재 타임스탬프
 			String itemCode = bizNumber + "B" + currentTimestampKST.getTime();
 
-			// ITEM
+			// ITEM 테이블에 저장할 데이터 설정
 			ItemDTO itemDTO = new ItemDTO();
 			itemDTO.setItemCode(itemCode);
 			itemDTO.setItemName(itemName);
 			itemDTO.setItemDesc(itemDesc);
-			itemDTO.setCreatedAt(stockInDate); // 
+			itemDTO.setCreatedAt(stockInDate);
 			itemDTO.setStockPlace(stockPlace);
 			itemDTO.setInPrice(inPrice);
 			itemDTO.setBizNumber(bizNumber);
-			itemDTO.setItemList(materialType); // 젙
 			itemDTO.setStockIn(stockIn);
-			itemDTO.setStock(stockIn);
+			itemDTO.setAccountName(accountNo);
+			itemDTO.setiDirector(iDirrector);
+			
 
 			// ITEM
 			itembuyStockService.insertItem(itemDTO);
@@ -118,13 +115,15 @@ public class BuyStockInController {
 			// B_STOCK_IN_ID: "B" + biz_number 
 			String bStockInId = "B" + bizNumber + currentTimestampKST.getTime();
 
-			//  
+			//  테이블에 저장할 데이터 설정
 			BuyStockInDTO buyStockInDTO = new BuyStockInDTO();
 			buyStockInDTO.setbStockInId(bStockInId); // 맂 B_STOCK_IN_ID 
 			buyStockInDTO.setItemCode(itemCode);
 			buyStockInDTO.setbStockInDate(stockInDate); // Timestamp
+			buyStockInDTO.setAccountNo(stockPlace);
 			buyStockInDTO.setbStockInQty(stockIn);
 			buyStockInDTO.setUuid(userUuid);
+			buyStockInDTO.setAccountNo(accountNo);
 
 			//  
 			BuyStockInService.insertBuyStockIn(buyStockInDTO);
@@ -141,8 +140,8 @@ public class BuyStockInController {
 
 			// CREATED_AT
 			Timestamp createdAt = itemDetails.getCreatedAt();
-			Timestamp adjustedCreatedAt = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000)); // 9�떆媛�
-																															// 異붽�
+			Timestamp adjustedCreatedAt = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000)); 
+																	
 			itemDetails.setCreatedAt(adjustedCreatedAt); // Timestamp
 
 			// UPDATED_AT
@@ -160,10 +159,10 @@ public class BuyStockInController {
 			model.addAttribute("itemDetails", itemDetails);
 			model.addAttribute("BuyStockInDetails", BuyStockInDetails);
 
-			return "BuyStock/BuyStockInDetail"; // JSP 
+			return "buyStock/buyStockInDetail"; // JSP 
 		}
 		
-		@GetMapping("/BuyStockInDetailUpdate.do")
+		@GetMapping("/buyStockInDetailUpdate.do")
 		public String showUpdateForm(@RequestParam("itemCode") String itemCode, Model model, HttpSession session) {
 			// ITEM itemCode
 			ItemDTO itemDetails = itembuyStockService.getItemDetails(itemCode);
@@ -197,14 +196,14 @@ public class BuyStockInController {
 			model.addAttribute("itemNames", itemNames);
 
 			
-			return "BuyStock/BuyStockInDetailUpdate"; 
+			return "buyStock/buyStockInDetailUpdate"; 
 		}
 		
 		@PostMapping("/updateBuyStockIn.do")
 		public String updateBuyStockIn(@RequestParam("itemCode") String itemCode,
 				@RequestParam("itemName") String itemName, @RequestParam("itemDesc") String itemDesc,
 				@RequestParam("stockIn") int stockIn, @RequestParam("inPrice") double inPrice,
-				@RequestParam("stockPlace") String stockPlace, @RequestParam("materialTypes") List<String> materialTypes) {
+				@RequestParam("stockPlace") String stockPlace) {
 
 			
 			Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
@@ -227,7 +226,6 @@ public class BuyStockInController {
 			itemDTO.setStock(stock); // 현재 재고 설정
 			itemDTO.setInPrice(inPrice);
 			itemDTO.setStockPlace(stockPlace);
-			itemDTO.setItemList(materialTypes); // List 설정
 			itemDTO.setUpdatedAt(currentTimestamp);   // 현재 타임스탬프 설정
 
 			// ITEM 테이블 업데이트
@@ -242,19 +240,20 @@ public class BuyStockInController {
 			// BuyStockIn 테이블 업데이트
 			BuyStockInService.updateBuyStockIn(BuyStockInDTO);
 
-			return "redirect:/BuyStockIn.do";  // 업데이트 후 재고 목록 페이지로 리다이렉트
+			return "redirect:/buyStockIn.do";  // 업데이트 후 재고 목록 페이지로 리다이렉트
 		}
 
 		@PostMapping("/deleteBuyStockIn.do")
 		public String deleteBuyStockIn(@RequestParam("itemCode") String itemCode, HttpSession session) {
-			// 1. BuyStockIn 테이블에서 해당 아이템 삭제
-			BuyStockInService.deleteBuyStockInByItemCode(itemCode);
+		    // 1. 먼저 BuyStockIn 테이블에서 해당 아이템 삭제
+		    BuyStockInService.deleteBuyStockInByItemCode(itemCode);
 
-			// 2. ITEM 테이블에서 해당 아이템 삭제
-			itembuyStockService.deleteItemByCode(itemCode);
+		    // 2. 그 후 ITEM 테이블에서 해당 아이템 삭제
+		    itembuyStockService.deleteItemByCode(itemCode);
 
-			return "redirect:/BuyStockIn.do"; // 삭제 후 재고 목록 페이지로 리다이렉트
+		    return "redirect:/buyStockIn.do"; // 삭제 후 재고 목록 페이지로 리다이렉트
 		}
+
 
 
 		

@@ -24,6 +24,24 @@ public class ItemDTO implements Serializable {
 	private String stockOutPlace; // 추가된 필드
 	private Timestamp createdOutAt; // 추가된 필드
 	private Timestamp updateOutAt; // 추가된 필드
+	private String accountName; // 거래처명 buystock에서 사용
+	private String iDirector;
+	private String oDirector;
+	
+	
+//	sales - - - - - - - - - -
+    private String sStockOutStatus;
+    private String paymentStatus;
+	
+	
+	
+	public String getAccountName() {
+		return accountName;
+	}
+
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
 
 	public String getItemCode() {
 		return itemCode;
@@ -157,4 +175,42 @@ public class ItemDTO implements Serializable {
 		return serialVersionUID;
 	}
 
+	public String getiDirector() {
+		return iDirector;
+	}
+
+	public void setiDirector(String iDirector) {
+		this.iDirector = iDirector;
+	}
+
+	public String getoDirector() {
+		return oDirector;
+	}
+
+	public void setoDirector(String oDirector) {
+		this.oDirector = oDirector;
+	}
+
+	
+//	Sales  - - - - - - - - - - - - - - -
+    public String getsStockOutStatus() {
+        return sStockOutStatus;
+    }
+
+    public void setsStockOutStatus(String sStockOutStatus) {
+        this.sStockOutStatus = sStockOutStatus;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+	
+	
+	
+	
 }

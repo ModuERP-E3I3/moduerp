@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -193,6 +194,8 @@
                     <th>차종</th>
                     <th>차량 번호</th>
                     <th>소유 형태</th>
+                    <th>사원명</th>
+                    <th>부서명</th>
                     <th>사용처</th>
                     <th>내역</th>
                     <th>금액</th>
@@ -201,15 +204,16 @@
             </thead>
             <tbody>
 			    <c:forEach var="carmgt" items="${carmgtList}">
-			        <tr>
+			        <tr onclick="window.location.href='getCarmgtDetail.do?paymentHistoryCode=${ carmgt.paymentHistoryCode }' ">
 			            <td>${ carmgt.carModel }</td>
-			            <td>${ carmgt.carId }</td>
+			            <td>${ carmgt.carNum }</td>
 			            <td>${ carmgt.ownershipStatus }</td>
+			            <td>${ carmgt.empName }</td>
+			            <td>${ carmgt.departmentId }</td>
 			            <td>${ carmgt.paymentPlace } </td>
 			            <td>${ carmgt.paymentHistory } </td>
 			            <td>${ carmgt.paymentPrice }</td>
-			            <td>${ carmgt.paymentDate }</td>
-			            
+			            <td><fmt:formatDate value="${carmgt.paymentDate}" pattern="yyyy-MM-dd" /></td>
 			        </tr>
 			    </c:forEach>
 			</tbody>
@@ -218,10 +222,8 @@
 
         <!-- 버튼 그룹 -->
         <div class="btn-group">
-            <button class="btn red">삭제</button>
-            <button class="btn green">수정</button>
-            <button class="btn blue">등록</button>
-        </div>
+			<a href="carmgtCreate.do"><button class="btn blue">등록</button></a>
+		</div>
 
     </div>
 </body>

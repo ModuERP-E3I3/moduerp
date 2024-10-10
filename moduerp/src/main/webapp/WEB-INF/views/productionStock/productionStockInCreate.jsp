@@ -173,10 +173,6 @@ th {
 	<div class="content-box">
 
 		<div class="content-title">생산관리 | 생산입고 | 신규 등록</div>
-
-	
-
-		<!-- 테이블 -->
 		<!-- 테이블 -->
 		<form action="/moduerp/productionStockInCreate.do" method="POST">
 			<table>
@@ -189,6 +185,7 @@ th {
 						<th>품목 설명</th>
 						<th>입고 가격</th>
 						<th>자재 종류</th>
+						<th>담당자</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -235,6 +232,9 @@ th {
 								</div>
 							</div>
 							<button type="button" onclick="addMaterialType()">자재 종류추가</button>
+						</td>
+						<td>
+							<input type="text" name="iDirector" value="${directorName}" readonly>
 						</td>
 					</tr>
 				</tbody>

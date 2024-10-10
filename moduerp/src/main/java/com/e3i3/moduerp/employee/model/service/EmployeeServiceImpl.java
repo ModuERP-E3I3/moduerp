@@ -30,13 +30,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	// 직원 삭제
-	public void deleteEmployee(UUID uuid) {
+	public void deleteEmployee(String uuid) {
 		employeeDao.deleteEmployee(uuid);
 	}
 
 	// uuid로 직원 조회
-	public Employee selectEmployeeByUuid(UUID uuid) {
-		return selectEmployeeByUuid(uuid);
+	public Employee selectEmployeeByUuid(String uuid) {
+		return employeeDao.selectEmployeeByUuid(uuid);
 	}
 
 	// 전체 직원 조회
@@ -78,6 +78,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 			}
 		}
 		return null; // 일치하지 않으면 null 반환
+	}
+
+	@Override
+	public List<Employee> selectEmployeesByBizAndDepartment(String bizNumber, String departmentId) {
+		return employeeDao.selectEmployeesByBizAndDepartment(bizNumber, departmentId);
 	}
 
 }
