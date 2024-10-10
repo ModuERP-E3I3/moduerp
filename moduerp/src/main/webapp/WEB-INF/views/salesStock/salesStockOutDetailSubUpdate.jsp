@@ -202,9 +202,9 @@ th {
 						<td><fmt:formatDate
 								value="${salesStockOutDetails.sStockOutUpdate}"
 								pattern="yyyy-MM-dd HH:mm:ss" /></td>
-						<td><input type="number" name="stockIn"
+						<td><input type="number" name="stockOut"
 							value="${salesStockOutDetails.sStockOutQty}" required /></td>
-						<td><input type="number" name="inPrice"
+						<td><input type="number" name="outPrice"
 							value="${salesStockOutDetails.sStockOutPrice}" step="0.01"
 							required /></td>
 						<td><input list="stockPlaces" name="stockPlace"
