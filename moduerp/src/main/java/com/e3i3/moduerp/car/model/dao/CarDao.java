@@ -9,4 +9,6 @@ public interface CarDao{
 	List<CarDto> getAllCar();
 	void insertCar(CarDto carDto);
 	CarDto selectCarId(String carId);
+	void updateCar(CarDto carDto);
+	void deleteCar(CarDto carDto);
 }

@@ -8,11 +8,9 @@
         <result property="itemCode" column="ITEM_CODE" />
         <result property="uuid" column="UUID" />
         <result property="accountNo" column="ACCOUNT_NO" />
-        <result property="orderId" column="ORDER_ID" />
         <result property="bStockInDate" column="B_STOCK_IN_DATE" />
         <result property="bStockInPlace" column="B_STOCK_IN_PLACE" />
         <result property="bStockInQty" column="B_STOCK_IN_QTY" />
-        <result property="empName" column="EMP_NAME" /> 
         <result property="accountName" column="ACCOUNT_NAME" /> <!-- ACCOUNT_NAME 추가 -->
     </resultMap>
     
@@ -35,14 +33,9 @@
         parameterType="String"
         resultType="com.e3i3.moduerp.buystock.model.dto.BuyStockInDTO">
          SELECT 
-            BSI.B_STOCK_IN_ID,
-            BSI.ITEM_CODE,
-            BSI.UUID,
-            BSI.B_STOCK_IN_DATE,
-            BSI.B_STOCK_IN_PLACE,
-            BSI.B_STOCK_IN_QTY,
-            AC.ACCOUNT_NAME,
-            E.EMP_NAME
+         	I.*,
+            BSI.*,
+            AC.*
         FROM 
             BUY_STOCK_IN BSI
         LEFT JOIN 

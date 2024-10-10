@@ -23,4 +23,11 @@ public class CarmgtDaoImpl implements CarmgtDao {
 	public CarmgtDto getCarmgtId(String carmgtId) {
 		return sqlSession.selectOne(namespace + ".getCarmgtId", carmgtId);
 	}
+
+	/*
+	 * @Override public void deleteCarmgt(String carId) {
+	 * sqlSession.delete(namespace + ".deleteCarmgt", carId);
+	 * 
+	 * }
+	 */
 }

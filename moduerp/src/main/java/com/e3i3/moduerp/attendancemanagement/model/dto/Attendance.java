@@ -1,4 +1,4 @@
-package com.e3i3.moduerp.attendance.model.dto;
+package com.e3i3.moduerp.attendancemanagement.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

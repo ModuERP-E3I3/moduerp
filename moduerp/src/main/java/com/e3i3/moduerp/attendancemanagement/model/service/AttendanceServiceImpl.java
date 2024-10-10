@@ -1,4 +1,4 @@
-package com.e3i3.moduerp.attendance.model.service;
+package com.e3i3.moduerp.attendancemanagement.model.service;
 
 import java.util.Date;
 import java.util.List;
@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.e3i3.moduerp.attendance.model.dao.AttendanceDao;
-import com.e3i3.moduerp.attendance.model.dto.Attendance;
+import com.e3i3.moduerp.attendancemanagement.model.dao.AttendanceDao;
+import com.e3i3.moduerp.attendancemanagement.model.dto.Attendance;
 
 @Service
 public class AttendanceServiceImpl implements AttendanceService {

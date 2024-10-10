@@ -6,7 +6,7 @@
 
 	<!-- Result Map -->
 	<resultMap id="AttendanceResultMap"
-		type="com.e3i3.moduerp.attendance.model.dto.Attendance">
+		type="com.e3i3.moduerp.attendancemanagement.model.dto.Attendance">
 		<id property="attendanceId" column="ATTENDANCE_ID" />
 		<result property="uuid" column="UUID" />
 		<result property="bizNumber" column="BIZ_NUMBER" />
@@ -20,7 +20,7 @@
 
 	<!-- Insert -->
 	<insert id="insertAttendance"
-		parameterType="com.e3i3.moduerp.attendance.model.dto.Attendance">
+		parameterType="com.e3i3.moduerp.attendancemanagement.model.dto.Attendance">
 		INSERT INTO ATTENDANCE (ATTENDANCE_ID, UUID, BIZ_NUMBER, ATT_DATE,
 		CLOCK_IN_TIME, CLOCK_OUT_TIME, TOT_WORK_HRS, OVERTIME)
 		VALUES (#{attendanceId}, #{uuid}, #{bizNumber}, #{attDate}, #{clockInTime},
@@ -97,7 +97,7 @@
 
 	<!-- Update -->
 	<update id="updateAttendance"
-		parameterType="com.e3i3.moduerp.attendance.model.dto.Attendance">
+		parameterType="com.e3i3.moduerp.attendancemanagement.model.dto.Attendance">
 		UPDATE ATTENDANCE
 		SET UUID = #{uuid},
 		BIZ_NUMBER = #{bizNumber},

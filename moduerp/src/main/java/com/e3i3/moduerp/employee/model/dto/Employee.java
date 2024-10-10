@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 public class Employee implements Serializable{
    private static final long serialVersionUID = -3562883942862635847L;
    
-   private UUID uuid; // uuid
+   private UUID uuid; // uuid (PK)
    private String bizNumber; // 사업자번호
    private String approvalCode; // 승인코드
    private String departmentId; // 부서 ID
