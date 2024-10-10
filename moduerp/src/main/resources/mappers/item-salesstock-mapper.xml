@@ -21,11 +21,11 @@
 		<result property="createdOutAt" column="CREATED_OUT_AT" />
 		<result property="itemList" column="ITEM_LIST"
 			typeHandler="com.e3i3.moduerp.handler.StringListTypeHandler" />
-
 		<result property="iDirector" column="IDIRECTOR" />
-
+		<result property="oDirector" column="ODIRECTOR" />
 	</resultMap>
-
+	
+	
 	<select id="getItemsByBizNumber" resultMap="itemSResultMap">
 		SELECT * FROM ITEM
 		WHERE BIZ_NUMBER = #{bizNumber} AND ITEM_CODE LIKE
@@ -61,7 +61,7 @@
 			STOCK에 stockIn 값 사용 -->
 		SYSDATE, #{stockPlace}, #{inPrice}, #{bizNumber}, #{itemList,
 		typeHandler=com.e3i3.moduerp.handler.StringListTypeHandler},#{iDirector}
-		) <!-- typeHandler 추가 -->
+		)
 	</insert>
 
 
@@ -93,6 +93,7 @@
 		WHERE ITEM_CODE = #{itemCode}
 	</update>
 
+
 	<delete id="deleteItemByCode" parameterType="String">
 		DELETE FROM
 		ITEM
@@ -102,7 +103,7 @@
 	<!-- ======================================= -->
 	<!-- salesOUT -->
 	<!-- BizNumber와 CREATED_OUT_AT이 있는 항목 조회 -->
-	<select id="getSalesItemsByBizNumberOutDate"
+	<select id="getItemsByBizNumberOutDate"
 		parameterType="String"
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
 		SELECT
@@ -125,10 +126,13 @@
 		FROM ITEM
 		WHERE
 		BIZ_NUMBER = #{bizNumber}
-		AND CREATED_OUT_AT IS NOT NULL
+	    AND CREATED_OUT_AT IS NOT NULL
+	    AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'S%')
 	</select>
 
-	<select id="selectSalesItemsByBizNumberStartingWith"
+	
+	<!-- BizNumber와 item_code가 biz_number + "S"로 시작하는 품목을 조회하는 쿼리 -->
+	<select id="selectItemsByBizNumberStartingWith"
 		parameterType="map" resultMap="itemSResultMap">
 		SELECT ITEM_NAME, STOCK_OUT_PLACE,
 		STOCK, ITEM_CODE
@@ -139,7 +143,7 @@
 		LIKE CONCAT(#{bizNumber}, 'S%')
 	</select>
 
-	<update id="updateSalesItemForSalesOut" parameterType="map">
+	<update id="updateItemForSalesOut" parameterType="map">
 		UPDATE
 		ITEM
 		SET
@@ -154,32 +158,32 @@
 		WHERE ITEM_CODE = #{itemCode}
 	</update>
 
-	<select id="getSalesStockByItemCode" parameterType="String"
+	<select id="getStockByItemCode" parameterType="String"
 		resultType="int">
 		SELECT STOCK FROM ITEM WHERE ITEM_CODE = #{itemCode}
 	</select>
 
-	<update id="updateSalesStockOut">
+	<update id="updateStockOut">
 		UPDATE ITEM
 		SET STOCK_OUT = #{totalStockOut}
 		WHERE
 		ITEM_CODE = #{itemCode}
 	</update>
 
-	<select id="getSalesStockInByItemCode" resultType="int">
+	<select id="getStockInByItemCode" resultType="int">
 		SELECT
 		STOCK_IN
 		FROM ITEM WHERE ITEM_CODE = #{itemCode}
 	</select>
 
-	<update id="updateSalesStock">
+	<update id="updateStock">
 		UPDATE ITEM
 		SET STOCK = #{updatedStock}
 		WHERE ITEM_CODE
 		= #{itemCode}
 	</update>
 
-	<update id="updateSalesItemWithLatestStockOut"
+	<update id="updateItemWithLatestStockOut"
 		parameterType="map">
 		UPDATE ITEM
 		SET CREATED_OUT_AT = #{latestOutDate},
@@ -188,7 +192,7 @@
 		WHERE ITEM_CODE = #{itemCode}
 	</update>
 
-	<update id="resetSalesItemStockOutDetails"
+	<update id="resetItemStockOutDetails"
 		parameterType="String">
 		UPDATE ITEM
 		SET CREATED_OUT_AT = NULL,
@@ -197,7 +201,7 @@
 		WHERE ITEM_CODE = #{itemCode}
 	</update>
 
-	<update id="updateSalesItemStockOutToNull">
+	<update id="updateItemStockOutToNull">
 		UPDATE ITEM
 		SET STOCK_OUT = 0,
 		OUT_PRICE = NULL,
