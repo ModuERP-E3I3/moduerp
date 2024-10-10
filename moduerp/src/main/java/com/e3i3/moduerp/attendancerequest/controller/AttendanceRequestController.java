@@ -47,18 +47,28 @@ public class AttendanceRequestController {
 		// 디버깅을 위해 approver 값 출력
 		System.out.println("Approver: " + request.getApprover());
 
+		// 결재자 조회
 		Employee approver = employeeService.selectEmployeeByUuid(request.getApprover());
+
+		if (approver == null) {
+			model.addAttribute("message", "유효하지 않은 결재자입니다.");
+			return "attendance/send"; // 신청 폼 페이지로 이동
+		}
+
 		System.out.println("*********결재자 이름: " + approver.getEmpName());
 
 		request.setAttendancerequestId(UUID.randomUUID().toString());
+		request.setApproverName(approver.getEmpName()); // 결재자 이름을 DTO에 저장
 		request.setUuid((String) session.getAttribute("uuid"));
+		// 요청자 조회
+		Employee requester = employeeService.selectEmployeeByUuid(request.getUuid());
+		request.setRequesterName(requester.getEmpName()); // 요청자 이름을 DTO에 저장
 		request.setBizNumber((String) session.getAttribute("biz_number"));
 		int result = attendanceRequestService.insertAttendanceRequest(request);
 
 		// 근태 신청이 성공적으로 등록되었으면 바로 /attendanceRequest/mylist.do 로 리다이렉트
 		if (result > 0) {
 			redirectAttributes.addFlashAttribute("message", "근태신청의 제출을 성공했습니다.");
-			redirectAttributes.addFlashAttribute("approverName", approver.getEmpName()); // 승인자의 이름을 FlashAttribute에 등록
 			return "redirect:/attendanceRequest/mylist.do"; // 바로 근태 리스트 페이지로 리다이렉트
 		} else {
 			// 실패 시 다시 신청 폼 페이지로 이동
@@ -76,25 +86,28 @@ public class AttendanceRequestController {
 			return "attendance/send"; // 신청 폼 페이지로 이동
 		}
 
-		 // 결재자 조회
-	    Employee approver = employeeService.selectEmployeeByUuid(request.getApprover());
-	    if (approver == null) {
-	        model.addAttribute("message", "유효하지 않은 결재자입니다.");
-	        return "attendance/send"; // 신청 폼 페이지로 이동
-	    }
-	    
-	    System.out.println("***********결재자 이름: " + approver.getEmpName());
-	    
-	    // 기본 정보 설정
-	    request.setApproverName(approver.getEmpName()); //결재자 이름을 DTO에 저장
+		// 결재자 조회
+		Employee approver = employeeService.selectEmployeeByUuid(request.getApprover());
+		if (approver == null) {
+			model.addAttribute("message", "유효하지 않은 결재자입니다.");
+			return "attendance/send"; // 신청 폼 페이지로 이동
+		}
+
+		System.out.println("***********결재자 이름: " + approver.getEmpName());
+
+		// 기본 정보 설정
+		request.setApproverName(approver.getEmpName()); // 결재자 이름을 DTO에 저장
 		request.setAttendancerequestId(UUID.randomUUID().toString());
 		request.setUuid((String) session.getAttribute("uuid"));
+		// 요청자 조회
+		Employee requester = employeeService.selectEmployeeByUuid(request.getUuid());
+		request.setRequesterName(requester.getEmpName()); // 요청자 이름을 DTO에 저장
+		request.setRequesterName(requester.getEmpName()); // 요청자 이름을 DTO에 저장
 		request.setBizNumber((String) session.getAttribute("biz_number"));
-		
 
-		   // 근태 신청 저장
-	    int result = attendanceRequestService.insertSavedAttendanceRequest(request);
-	  
+		// 근태 신청 저장
+		int result = attendanceRequestService.insertSavedAttendanceRequest(request);
+
 		if (result > 0) {
 			redirectAttributes.addFlashAttribute("message", "근태신청의 임시저장을 성공했습니다.");
 			return "redirect:/attendanceRequest/mylist.do"; // 바로 근태 리스트 페이지로 리다이렉트

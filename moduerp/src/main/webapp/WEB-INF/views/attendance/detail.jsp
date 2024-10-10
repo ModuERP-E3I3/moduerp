@@ -177,12 +177,8 @@ tr:nth-child(even) {
 				<td>${request.applicationType}</td>
 			</tr>
 			<tr>
-				<th>신청자 UUID</th>
-				<td>${request.uuid}</td>
-			</tr>
-			<tr>
-				<th>사업자 번호</th>
-				<td>${request.bizNumber}</td>
+				<th>신청자</th>
+				<td>${request.requesterName}</td>
 			</tr>
 			<tr>
 				<th>시작 날짜</th>
@@ -194,24 +190,29 @@ tr:nth-child(even) {
 				<td><fmt:formatDate value="${request.endDate}"
 						pattern="yyyy-MM-dd" /></td>
 			</tr>
-			<tr>
-				<th>시작 시간</th>
-				<td><c:choose>
-						<c:when test="${request.startTime != null}">
-							<fmt:formatDate value="${request.startTime}" pattern="HH:mm" />
-						</c:when>
-						<c:otherwise>없음</c:otherwise>
-					</c:choose></td>
-			</tr>
-			<tr>
-				<th>종료 시간</th>
-				<td><c:choose>
-						<c:when test="${request.endTime != null}">
-							<fmt:formatDate value="${request.endTime}" pattern="HH:mm" />
-						</c:when>
-						<c:otherwise>없음</c:otherwise>
-					</c:choose></td>
-			</tr>
+		<tr>
+    <th>시작 시간</th>
+    <td>
+        <c:choose>
+            <c:when test="${request.startTime != null}">
+                <fmt:formatDate value="${request.startTimeAsDate}" pattern="HH:mm" />
+            </c:when>
+            <c:otherwise>없음</c:otherwise>
+        </c:choose>
+    </td>
+</tr>
+<tr>
+    <th>종료 시간</th>
+    <td>
+        <c:choose>
+            <c:when test="${request.endTime != null}">
+                <fmt:formatDate value="${request.endTimeAsDate}" pattern="HH:mm" />
+            </c:when>
+            <c:otherwise>없음</c:otherwise>
+        </c:choose>
+    </td>
+</tr>
+
 			<tr>
 				<th>근태 사유</th>
 				<td>${request.reason}</td>
@@ -227,7 +228,7 @@ tr:nth-child(even) {
 			</tr>
 			<tr>
 				<th>결재자</th>
-				<td>${request.approver}</td>
+				<td>${request.approverName}</td>
 			</tr>
 			<tr>
 				<th>비고</th>
