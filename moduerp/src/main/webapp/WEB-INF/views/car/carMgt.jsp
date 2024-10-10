@@ -204,7 +204,7 @@
             </thead>
             <tbody>
 			    <c:forEach var="carmgt" items="${carmgtList}">
-			        <tr>
+			        <tr onclick="window.location.href='getCarmgtDetail.do?paymentHistoryCode=${ carmgt.paymentHistoryCode }' ">
 			            <td>${ carmgt.carModel }</td>
 			            <td>${ carmgt.carNum }</td>
 			            <td>${ carmgt.ownershipStatus }</td>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.e3i3.moduerp.carmgt.model.dto.CarmgtDto;
+import com.e3i3.moduerp.employee.model.dto.Employee;
 
 @Repository
 public class CarmgtDaoImpl implements CarmgtDao {
@@ -50,6 +51,16 @@ public class CarmgtDaoImpl implements CarmgtDao {
     public List<CarmgtDto> getCarsByBizNumber(String bizNumber) {
         return sqlSession.selectList(namespace + ".getCarsByBizNumber", bizNumber);
     }
+
+	@Override
+	public List<Employee> getEmpNameDepart(String bizNumber) {
+		return sqlSession.selectList(namespace + ".getEmpNameDepart" , bizNumber);
+	}
+
+	@Override
+	public CarmgtDto selectpaymentHistoryCode(String paymentHistoryCode) {
+		return sqlSession.selectOne(namespace + ".selectpaymentHistoryCode", paymentHistoryCode);
+	}
 
     
 }

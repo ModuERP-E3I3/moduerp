@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.e3i3.moduerp.carmgt.model.dao.CarmgtDao;
 import com.e3i3.moduerp.carmgt.model.dto.CarmgtDto;
+import com.e3i3.moduerp.employee.model.dto.Employee;
 
 @Service
 public class CarmgtServiceImpl implements CarmgtService {
@@ -36,6 +37,16 @@ public class CarmgtServiceImpl implements CarmgtService {
 	@Override
 	public List<CarmgtDto> getCarsByBizNumber(String bizNumber) {
 		return carmgtDao.getCarsByBizNumber(bizNumber);
+	}
+
+	@Override
+	public List<Employee> getEmpNameDepart(String bizNumber) {
+		return carmgtDao.getEmpNameDepart(bizNumber);
+	}
+
+	@Override
+	public CarmgtDto getCarmgtListDetail(String paymentHistoryCode) {
+		return carmgtDao.selectpaymentHistoryCode(paymentHistoryCode);
 	}
 
 	/*

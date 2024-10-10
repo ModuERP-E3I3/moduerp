@@ -154,12 +154,15 @@ th {
 
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-	    <ul id="menubar">
-	        <li><a href="carRes.do"><i class="fas fa-bullhorn"></i> 차량 예약</a></li>
-	        <li><a href="carMgt.do"><i class="fas fa-bullhorn"></i> 차량 결제 관리</a></li>
-	        <li><a href="map.do"><i class="fas fa-bullhorn"></i> 도로 교통 / 경로 조회</a></li>
+		<ul id="menubar">
+			<li><a href="carRes.do"><i class="fas fa-bullhorn"></i> 차량
+					예약</a></li>
+			<li><a href="carMgt.do"><i class="fas fa-bullhorn"></i> 차량
+					결제 관리</a></li>
+			<li><a href="map.do"><i class="fas fa-bullhorn"></i> 도로 교통 /
+					경로 조회</a></li>
 
-	    </ul>
+		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
@@ -167,7 +170,7 @@ th {
 
 		<div class="content-title">차량관리 | 차량 결제 관리 | 차량 결제 관리 등록</div>
 
-	
+
 
 		<!-- 테이블 -->
 		<!-- 테이블 -->
@@ -176,58 +179,55 @@ th {
 				<thead>
 					<tr>
 						<th>차종</th>
-                    	<th>차량 번호</th>
-                    	<th>사원명</th>
-                    	<th>부서명</th>
-                    	<th>사용처</th>
-                    	<th>내역</th>
-                    	<th>금액</th>
-                    	<th>일자</th>
+						<th>차량 번호</th>
+						<th>사원명</th>
+						<th>부서명</th>
+						<th>사용처</th>
+						<th>내역</th>
+						<th>금액</th>
+						<th>일자</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 
+
 						<!-- 차종 입력 칸 -->
-						<td>
-							<input list="carModels" name="carModel" placeholder="차종 입력" /> 
-                            <datalist id="carModels">
-                                <c:forEach var="carModel" items="${carModels}">
-                                    <option value="${carModel}" />
-                                </c:forEach>
-                            </datalist>
-						</td>
+						<td><input list="carModels" name="carModel"
+							id="carModelInput" placeholder="차종 입력" oninput="updateCarNum()" />
+							<datalist id="carModels">
+								<c:forEach var="cars" items="${cars}">
+									<option value="${cars.carModel} | ${cars.carNum}" />
+								</c:forEach>
+							</datalist></td>
 						<!-- 차량 번호 입력 칸 -->
-						<td>
-							<input list="carNums" name="carNum" placeholder="차량 번호 입력" /> 
-                            <datalist id="carNums">
-                                <c:forEach var="carNum" items="${carNums}">
-                                    <option value="${carNum}" />
-                                </c:forEach>
-                            </datalist>
-						</td>
-						<!-- 사원 이름 -->
-						<td>
-							<input list="empNames" name="empName" placeholder="사원명" /> 
-                            <datalist id="empNames">
-                                <c:forEach var="empName" items="${empNames}">
-                                    <option value="${empName}" />
-                                </c:forEach>
-                            </datalist>
-						</td>
-						<td>
-							<input list="departmentIds" name="departmentId" placeholder="부서명" /> 
-                            <datalist id="departmentIds">
-                                <c:forEach var="departmentId" items="${departmentIds}">
-                                    <option value="${departmentId}" />
-                                </c:forEach>
-                            </datalist>
-						</td>
-						<td><input type="text" name="paymentPlace" placeholder="사용처 입력" /></td>
-						<td><input type="text" name="paymentHistory" placeholder="내역 입력" /></td>
-						<td><input type="text" name="paymentPrice" placeholder="금액 입력" /></td>
+						<td><input type="text" id="carNumInput" name="carNum"
+							placeholder="차량 번호 입력" readonly="readonly" /></td>
+						<!-- 사원 이름 입력 칸 -->
+						<td><input list="empNames" name="empName" id="empNameInput"
+							placeholder="사원명" oninput="updateDepartmentId()" /> <datalist
+								id="empNames">
+								<c:forEach var="empNameDepart" items="${empNameDepart}">
+									<option
+										value="${empNameDepart.empName} | ${empNameDepart.departmentId}" />
+								</c:forEach>
+							</datalist></td>
+						<!-- 부서명 입력 칸 -->
+						<td><input type="text" id="departmentIdInput"
+							name="departmentId" placeholder="부서명" readonly="readonly"/> <datalist
+								id="departmentIds">
+								<c:forEach var="departmentId" items="${departmentIds}">
+									<option value="${departmentId}" />
+								</c:forEach>
+							</datalist></td>
+						<td><input type="text" name="paymentPlace"
+							placeholder="사용처 입력" /></td>
+						<td><input type="text" name="paymentHistory"
+							placeholder="내역 입력" /></td>
+						<td><input type="text" name="paymentPrice"
+							placeholder="금액 입력" /></td>
 						<td><input type="date" id="paymentDate" name="paymentDate" /></td>
-						
+
 					</tr>
 				</tbody>
 			</table>
@@ -242,7 +242,45 @@ th {
 	</div>
 </body>
 
+<script>
+function updateDepartmentId() {
+    const empNameInput = document.getElementById('empNameInput');
+    const departmentIdInput = document.getElementById('departmentIdInput');
+    const selectedValue = empNameInput.value;
 
+    // 선택된 값을 "|"로 분리
+    const parts = selectedValue.split(' | ');
+
+    if (parts.length === 2) {
+        // 첫 번째 부분은 empName, 두 번째 부분은 departmentId
+        empNameInput.value = parts[0]; // 사원명
+        departmentIdInput.value = parts[1]; // 부서명
+    } else {
+        // 부서명 입력란 초기화
+        departmentIdInput.value = '';
+    }
+}
+</script>
+
+<script>
+function updateCarNum() {
+    const carModelInput = document.getElementById('carModelInput');
+    const carNumInput = document.getElementById('carNumInput');
+    const selectedValue = carModelInput.value;
+
+    // 선택된 값을 "|"로 분리
+    const parts = selectedValue.split(' | ');
+
+    if (parts.length === 2) {
+        // 첫 번째 부분은 carModel, 두 번째 부분은 carNum
+        carModelInput.value = parts[0]; // 차량 모델
+        carNumInput.value = parts[1]; // 차량 번호
+    } else {
+        // 두 입력란을 초기화
+        carNumInput.value = '';
+    }
+}
+</script>
 
 <script>
     const activeMenu = "carRes";
