@@ -50,6 +50,7 @@ public class EmployeeController {
 	    params.put("empEmail", empEmail);
 	    params.put("password", password);
 
+	    UUID uuid; //차량의 고유한 UUID (PK)직원 테이블의 FK가 아닌  ///// CAR 테이블의 PK
 	    Employee employee = employeeService.validateLogin(params); //로그인처리하는 서비스 메소드 
 
 	    if (employee != null) {
@@ -59,6 +60,7 @@ public class EmployeeController {
 	        session.setAttribute("biz_number", employee.getBizNumber());
 	        session.setAttribute("email", employee.getEmpEmail());
 	        session.setAttribute("name", employee.getEmpName());
+	        session.setAttribute("departmentId", employee.getDepartmentId());
 	        
 	        // 콘솔에 로그인 세션 정보 출력
 	        System.out.println("로그인한 사용자의 UUID: " + session.getAttribute("uuid"));

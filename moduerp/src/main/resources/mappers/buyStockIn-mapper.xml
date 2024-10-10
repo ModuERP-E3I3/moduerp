@@ -8,11 +8,10 @@
         <result property="itemCode" column="ITEM_CODE" />
         <result property="uuid" column="UUID" />
         <result property="accountNo" column="ACCOUNT_NO" />
-        <result property="orderId" column="ORDER_ID" />
         <result property="bStockInDate" column="B_STOCK_IN_DATE" />
         <result property="bStockInPlace" column="B_STOCK_IN_PLACE" />
         <result property="bStockInQty" column="B_STOCK_IN_QTY" />
-        <result property="empName" column="EMP_NAME" /> 
+        <result property="accountName" column="ACCOUNT_NAME" /> <!-- ACCOUNT_NAME 추가 -->
     </resultMap>
     
     <!-- 모든 구매 입고 데이터 조회용 쿼리 -->
@@ -32,13 +31,22 @@
 		#{bStockInQty}, #{uuid})
 	</insert>
 
-	<select id="selectBuyStockInByItemCode"
-		parameterType="String"
-		resultType="com.e3i3.moduerp.buystock.model.dto.BuyStockInDTO">
-		SELECT ITEM_NAME
-		FROM ITEM
-		WHERE BIZ_NUMBER = #{bizNumber}  AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
-	</select>
+    <select id="selectBuyStockInByItemCode"
+        parameterType="String"
+        resultType="com.e3i3.moduerp.buystock.model.dto.BuyStockInDTO">
+         SELECT 
+         	I.*,
+            BSI.*,
+            AC.*
+        FROM 
+            BUY_STOCK_IN BSI
+        LEFT JOIN 
+            ITEM I ON BSI.ITEM_CODE = I.ITEM_CODE
+        LEFT JOIN 
+            ACCOUNT AC ON BSI.ACCOUNT_NO = AC.ACCOUNT_NO
+        LEFT JOIN 
+            EMPLOYEE E ON BSI.UUID = E.UUID
+           WHERE i.BIZ_NUMBER = #{bizNumber} AND I.ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
 
 	<update id="updateBuyStockIn"
 		parameterType="com.e3i3.moduerp.buystock.model.dto.BuyStockInDTO">

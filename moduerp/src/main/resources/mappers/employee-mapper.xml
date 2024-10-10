@@ -88,6 +88,15 @@
 		#{mgrUuid, jdbcType=VARCHAR})<!-- null -->
 	</insert>
 
+	<!-- 같은 사업자 번호와 부서 ID를 가진 직원 조회용 쿼리 (본인 제외) -->
+	<select id="selectEmployeesByBizAndDepartment"
+		parameterType="map" resultMap="resultEmployee">
+		SELECT * FROM employee
+		WHERE biz_number = #{bizNumber}
+		AND department_id = #{departmentId}
+	</select>
+
+
 
 	<!-- 직원 정보 수정용 쿼리 -->
 	<update id="updateEmployee"
@@ -140,9 +149,11 @@
 		parameterType="map"
 		resultType="com.e3i3.moduerp.employee.model.dto.EmployeeBasicInfo">
 		SELECT emp_name AS empName, emp_email AS empEmail
-		FROM employee
+		FROM
+		employee
 		WHERE biz_number = #{bizNumber}
-		AND emp_email LIKE '%' || #{keyword} || '%'
+		AND emp_email LIKE '%' ||
+		#{keyword} || '%'
 	</select>
 
 

@@ -1,4 +1,4 @@
-package com.e3i3.moduerp.attendance.model.dao;
+package com.e3i3.moduerp.attendancemanagement.model.dao;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.e3i3.moduerp.attendance.model.dto.Attendance;
+import com.e3i3.moduerp.attendancemanagement.model.dto.Attendance;
 
 @Repository
 public class AttendanceDao {

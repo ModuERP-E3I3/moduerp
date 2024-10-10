@@ -1,8 +1,8 @@
-package com.e3i3.moduerp.attendance.model.service;
+package com.e3i3.moduerp.attendancemanagement.model.service;
 
 import java.util.List;
 
-import com.e3i3.moduerp.attendance.model.dto.Attendance;
+import com.e3i3.moduerp.attendancemanagement.model.dto.Attendance;
 
 public interface AttendanceService {
     // Create

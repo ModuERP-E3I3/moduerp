@@ -189,7 +189,8 @@ th {
                     <th>입고 수량</th>
                     <th>입고 장소</th>
                     <th>입고 단가</th>
-                    <th>직원명</th>    
+                    <th>거래처account_no</th>
+                    <th>담당자</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -218,6 +219,11 @@ th {
 						<!-- 가격 입력 칸 -->
 						<td><input type="number" name="inPrice" placeholder="가격 입력"
 							step="0.01" /></td>
+						<td><input type="text" name="accountNo" placeholder="거래처 번호 입력"
+							 /></td>
+						<td>
+							<input type="text" name="iDirrector" value="${directorName}" readonly>
+						</td>
 
 						<!-- 자재 종류 선택 칸 -->
 						

@@ -80,4 +80,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return null; // 일치하지 않으면 null 반환
 	}
 
+	@Override
+	public List<Employee> selectEmployeesByBizAndDepartment(String bizNumber, String departmentId) {
+		return employeeDao.selectEmployeesByBizAndDepartment(bizNumber, departmentId);
+	}
+
 }

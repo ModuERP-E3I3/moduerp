@@ -34,4 +34,129 @@
 		from QUALITY_CONTROL
 	</select>
 
+	<!-- inspecCode로 품질 관리 데이터를 조회하는 쿼리 -->
+	<select id="getQualityControlByInspecCode"
+		parameterType="String"
+		resultType="com.e3i3.moduerp.quality.model.dto.QualityControlDTO">
+		SELECT *
+		FROM QUALITY_CONTROL
+		WHERE INSPEC_CODE =
+		#{inspecCode}
+	</select>
+
+	<!-- 품질 관리 데이터 업데이트 쿼리 -->
+	<update id="updateQualityControl"
+		parameterType="com.e3i3.moduerp.quality.model.dto.QualityControlDTO">
+		UPDATE QUALITY_CONTROL
+		SET
+		START_DATE = #{startDate},
+		END_EX_DATE = #{endExDate},
+		INSPEC_TYPE = #{inspecType},
+		PROGRESS_STATUS = #{progressStatus},
+		INSPEC_QTY = #{inspecQty},
+		Q_DIRECTOR = #{qDirector},
+		UPDATE_DATE = #{updateDate},
+		END_DATE = CASE
+		WHEN #{progressStatus} = '검사 완료' THEN #{endDate}
+		ELSE NULL
+		END
+		WHERE
+		INSPEC_CODE = #{inspecCode}
+	</update>
+
+	<!-- inspecCode가 일치하는 품질 관리 데이터를 삭제하는 쿼리 -->
+	<delete id="deleteQualityControlByInspecCode"
+		parameterType="String">
+		DELETE FROM QUALITY_CONTROL WHERE INSPEC_CODE = #{inspecCode}
+	</delete>
+	
+	<select id="selectQualityItemNameByFilterDate" parameterType="map"
+		resultType="com.e3i3.moduerp.quality.model.dto.QualityControlDTO">
+		SELECT *
+		FROM QUALITY_CONTROL
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		TASK_NAME LIKE '%' || #{filterText} || '%'
+		AND START_DATE BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+	</select>
+	
+	<select id="selectQualityinspecTypeByFilterDate" parameterType="map"
+		resultType="com.e3i3.moduerp.quality.model.dto.QualityControlDTO">
+		SELECT *
+		FROM QUALITY_CONTROL
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		INSPEC_TYPE LIKE '%' || #{filterText} || '%'
+		AND START_DATE BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+	</select>
+	
+	<select id="selectQualityprogressStatusByFilterDate" parameterType="map"
+		resultType="com.e3i3.moduerp.quality.model.dto.QualityControlDTO">
+		SELECT *
+		FROM QUALITY_CONTROL
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		PROGRESS_STATUS LIKE '%' || #{filterText} || '%'
+		AND START_DATE BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+	</select>
+	
+	<select id="selectQualityqDirectorByFilterDate" parameterType="map"
+		resultType="com.e3i3.moduerp.quality.model.dto.QualityControlDTO">
+		SELECT *
+		FROM QUALITY_CONTROL
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		Q_DIRECTOR LIKE '%' || #{filterText} || '%'
+		AND START_DATE BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+	</select>
+	
+	<select id="selectQualityItemNameByFilter" parameterType="map"
+		resultType="com.e3i3.moduerp.quality.model.dto.QualityControlDTO">
+		SELECT *
+		FROM QUALITY_CONTROL
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		TASK_NAME LIKE '%' || #{filterText} || '%'
+	</select>
+	
+	<select id="selectQualityinspecTypeByFilter" parameterType="map"
+		resultType="com.e3i3.moduerp.quality.model.dto.QualityControlDTO">
+		SELECT *
+		FROM QUALITY_CONTROL
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		INSPEC_TYPE LIKE '%' || #{filterText} || '%'
+	</select>
+	
+	<select id="selectQualityprogressStatusByFilter" parameterType="map"
+		resultType="com.e3i3.moduerp.quality.model.dto.QualityControlDTO">
+		SELECT *
+		FROM QUALITY_CONTROL
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		PROGRESS_STATUS LIKE '%' || #{filterText} || '%'
+	</select>
+	
+	<select id="selectQualityqDirectorByFilter" parameterType="map"
+		resultType="com.e3i3.moduerp.quality.model.dto.QualityControlDTO">
+		SELECT *
+		FROM QUALITY_CONTROL
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		Q_DIRECTOR LIKE '%' || #{filterText} || '%'
+	</select>
+	
+	
 </mapper>

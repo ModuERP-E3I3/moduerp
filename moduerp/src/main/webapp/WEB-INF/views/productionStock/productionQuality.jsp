@@ -148,6 +148,27 @@
     	
     }
 
+#pagebutton {
+	display: flex;
+	justify-content: center;
+	margin-top: 2%; /* 위쪽 여백 추가 */
+}
+
+#pagebutton a {
+	color: black; /* 글자 색상 검은색 */
+	text-decoration: none; /* 밑줄 제거 */
+	font-size: 20px; /* 글자 크기 증가 */
+	margin: 0 10px; /* 페이지 버튼 간격 조정 */
+}
+
+#pagebutton strong {
+	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
+	color: black; /* 강조 색상 검은색 유지 */
+}
+
+tbody tr:hover {
+	cursor: pointer;
+}
 </style>
 
 </head>
@@ -186,21 +207,39 @@
             <button class="btn">조회</button>
         </div>
 
-        <!-- 테이블 -->
-        <table>
-            <thead>
-                <tr>
-                    <th>검사코드</th>
-                    <th>지시서번호</th>
-                    <th>관리자ID</th>
-                    <th>시작날짜</th>
-                    <th>종료날짜</th>
-                    <th>검사유형</th>
-                    <th>진행상태</th>
-                    <th>검사결과</th>
-                    <th>검사수량</th>
-                </tr>
-            </thead>
+		<form action="/moduerp/productionQualityFilter.do">
+			<!-- 필터 박스 -->
+			<div class="filter-box">
+				<select name="filterOption" id="filterOption">
+					<option disabled selected>옵션 선택</option>
+					<option value="itemName">검사 제품명</option>
+					<option value="inspecType">검사 유형</option>
+					<option value="progressStatus">진행 상태 </option>
+					<option value="qDirector">검사자</option>
+				</select> <input type="date" name="startDate" id="startDate" /> <input
+					type="date" name="endDate" id="endDate" /> <input type="text"
+					name="filterText" id="filterText" placeholder="내용 입력" />
+				<button type="submit" class="btn">조회</button>
+				<button type="button" class="btn"
+					onclick="window.location.href='productionQuality.do';">초기화</button>
+			</div>
+		</form>
+
+		<!-- 테이블 -->
+		<table>
+			<thead>
+				<tr>
+					<th>순번</th>
+					<th>검사 항목 제품명</th>
+					<th>시작 날짜</th>
+					<th>종료 예정 날짜</th>
+					<th>종료 날짜</th>
+					<th>검사 유형</th>
+					<th>진행 상태</th>
+					<th>검사 수량</th>
+					<th>검사자</th>
+				</tr>
+			</thead>
 			<tbody>
 
 				<c:forEach var="qualityControl" items="${qualityControlList}" varStatus="status">
@@ -223,12 +262,28 @@
 
 		</table>
 
-        <!-- 버튼 그룹 -->
-        <div class="btn-group">
-            <button class="btn red">삭제</button>
-            <button class="btn green">수정</button>
-            <button class="btn blue">등록</button>
-        </div>
+		<!-- 페이지 버튼 -->
+		<div id="pagebutton">
+			<c:if test="${totalPages > 1}">
+				<c:forEach var="i" begin="1" end="${totalPages}">
+					<c:choose>
+						<c:when test="${i == currentPage}">
+							<strong>${i}</strong>
+							<!-- 현재 페이지는 강조 -->
+						</c:when>
+						<c:otherwise>
+							<a href="productionWorkorder.do?page=${i}">${i}</a>
+							<!-- 페이지 링크 -->
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</c:if>
+		</div>
+
+		<!-- 버튼 그룹 -->
+		<div class="btn-group">
+			<a href="productionQqualityCreate.do"><button class="btn blue">등록</button></a>
+		</div>
 
     </div>
 </body>

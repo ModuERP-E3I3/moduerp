@@ -1,10 +1,10 @@
-package com.e3i3.moduerp.attendance.model.service;
+package com.e3i3.moduerp.attendancemanagement.model.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.e3i3.moduerp.attendance.model.dao.AttendanceDao;
-import com.e3i3.moduerp.attendance.model.dto.Attendance;
+import com.e3i3.moduerp.attendancemanagement.model.dao.AttendanceDao;
+import com.e3i3.moduerp.attendancemanagement.model.dto.Attendance;
 
 import java.util.List;
 

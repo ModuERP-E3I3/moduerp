@@ -47,6 +47,25 @@ public class EmployeeDao {
 		return sqlSessionTemplate.selectList("EmployeeMapper.selectEmployeesByBizNum", bizNumber);
 	}
 	
+	 /**
+     * 같은 사업자 번호와 부서 ID를 가진 직원 목록 조회
+     * 
+     * @param bizNumber 사업자 번호
+     * @param departmentId 부서 ID
+     * @return List<Employee> 같은 사업자 번호와 부서 ID를 가진 직원 목록
+     */
+    public List<Employee> selectEmployeesByBizAndDepartment(String bizNumber, String departmentId) {
+        // 파라미터를 맵 형태로 준비
+        Map<String, Object> params = new HashMap<>();
+        params.put("bizNumber", bizNumber);
+        params.put("departmentId", departmentId);
+        
+        // MyBatis 쿼리 실행
+        return sqlSessionTemplate.selectList("EmployeeMapper.selectEmployeesByBizAndDepartment", params);
+    }
+    
+    
+    
 	// 존재하는 모든 직원 조회(필요성 검토)
 	public List<Employee> selectAllEmployees() {
 		return sqlSessionTemplate.selectList("EmployeeMapper.selectAllEmployees");

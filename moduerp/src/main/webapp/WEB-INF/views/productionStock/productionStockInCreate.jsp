@@ -236,6 +236,9 @@ th {
 							</div>
 							<button type="button" onclick="addMaterialType()">자재 종류추가</button>
 						</td>
+						<td>
+							<input type="text" name="iDirector" value="${directorName}" readonly>
+						</td>
 					</tr>
 				</tbody>
 			</table>
