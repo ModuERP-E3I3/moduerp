@@ -288,7 +288,7 @@ function updateItemCode() {
 
 </script>
 <script>
-    const activeMenu = "salesStockIn";
+    const activeMenu = "account";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');
