@@ -13,8 +13,8 @@ public class SalesStockOutDTO {
     private Date sStockOutUpdate;
     private String oDirector;
     
-    private String sStockOutStatus; // S_STOCK_OUT_STATUS
-    private String panningStatus;   // PANNINT_STATUS
+    private String sStockOutStatus;
+    private String paymentStatus;  
 
     
     
@@ -81,10 +81,10 @@ public class SalesStockOutDTO {
     public void setsStockOutStatus(String sStockOutStatus) {
         this.sStockOutStatus = sStockOutStatus;
     }
-    public String getPanningStatus() {
-        return panningStatus;
+    public String getPaymentStatus() {
+        return paymentStatus;
     }
-    public void setPanningStatus(String panningStatus) {
-        this.panningStatus = panningStatus;
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 }

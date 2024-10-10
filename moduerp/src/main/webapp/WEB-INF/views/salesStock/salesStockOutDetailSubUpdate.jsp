@@ -189,9 +189,7 @@ th {
 						<th>자재 종류</th>
 						<th>출고 담당자</th>
 						<th>출고 상태</th>
-						<!-- S_STOCK_OUT_STATUS -->
 						<th>지급 상태</th>
-						<!-- PANNINT_STATUS -->
 					</tr>
 				</thead>
 				<tbody>
@@ -204,9 +202,9 @@ th {
 						<td><fmt:formatDate
 								value="${salesStockOutDetails.sStockOutUpdate}"
 								pattern="yyyy-MM-dd HH:mm:ss" /></td>
-						<td><input type="number" name="stockIn"
+						<td><input type="number" name="stockOut"
 							value="${salesStockOutDetails.sStockOutQty}" required /></td>
-						<td><input type="number" name="inPrice"
+						<td><input type="number" name="outPrice"
 							value="${salesStockOutDetails.sStockOutPrice}" step="0.01"
 							required /></td>
 						<td><input list="stockPlaces" name="stockPlace"
@@ -226,11 +224,11 @@ th {
 									<c:if test="${salesStockOutDetails.sStockOutStatus == 'N'}">selected</c:if>>No</option>
 						</select></td>
 						
-						<td><select name="panningStatus">
+						<td><select name="paymentStatus">
 								<option value="Y"
-									<c:if test="${salesStockOutDetails.panningStatus == 'Y'}">selected</c:if>>Yes</option>
+									<c:if test="${salesStockOutDetails.paymentStatus == 'Y'}">selected</c:if>>Yes</option>
 								<option value="N"
-									<c:if test="${salesStockOutDetails.panningStatus == 'N'}">selected</c:if>>No</option>
+									<c:if test="${salesStockOutDetails.paymentStatus == 'N'}">selected</c:if>>No</option>
 						</select></td>
 						
 						

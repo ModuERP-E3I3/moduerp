@@ -232,9 +232,7 @@ th {
 					<th>자재 종류</th>
 					<th>출고 담당자</th>
 					<th>출고 상태</th>
-					<!-- S_STOCK_OUT_STATUS -->
 					<th>지급 상태</th>
-					<!-- PANNINT_STATUS -->
 				</tr>
 			</thead>
 			<tbody>
@@ -258,7 +256,7 @@ th {
 						</c:choose></td>
 					<!-- S_STOCK_OUT_STATUS 표시 -->
 					<td><c:choose>
-							<c:when test="${salesStockOutDetailsSub.panningStatus == 'Y'}">Yes</c:when>
+							<c:when test="${salesStockOutDetailsSub.paymentStatus == 'Y'}">Yes</c:when>
 							<c:otherwise>No</c:otherwise>
 						</c:choose></td>
 					<!-- PANNINT_STATUS 표시 -->

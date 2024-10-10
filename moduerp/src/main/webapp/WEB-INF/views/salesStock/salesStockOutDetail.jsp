@@ -208,7 +208,7 @@ th {
 							</c:choose></td>
 						<!-- S_STOCK_OUT_STATUS 표시 -->
 						<td><c:choose>
-								<c:when test="${stockOut.panningStatus == 'Y'}">Yes</c:when>
+								<c:when test="${stockOut.paymentStatus == 'Y'}">Yes</c:when>
 								<c:otherwise>No</c:otherwise>
 							</c:choose></td>
 						<!-- PANNINT_STATUS 표시 -->
