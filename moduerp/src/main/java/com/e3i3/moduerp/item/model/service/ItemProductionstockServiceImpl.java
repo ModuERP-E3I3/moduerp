@@ -161,12 +161,11 @@ public class ItemProductionstockServiceImpl implements ItemProductionstockServic
 	@Override
 	public List<ItemDTO> getItemOutByFilterDate(String bizNumber, String option, String filterText, String startDate,
 			String endDate) {
-		System.out.println("서비스 실행");
 		if (option.equals("itemName")) {
 			return itemProductionstockDAO.getItemOutByItemNameDate(bizNumber, filterText, startDate, endDate);
 		} else if (option.equals("stockPlace")) {
 			return itemProductionstockDAO.getItemOutByStockOutPlaceDate(bizNumber, filterText, startDate, endDate);
-		} else if (option.equals("iDirector")) {
+		} else if (option.equals("ODirector")) {
 			return itemProductionstockDAO.getItemOutByODirectorDate(bizNumber, filterText, startDate, endDate);
 		}
 

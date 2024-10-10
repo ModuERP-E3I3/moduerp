@@ -17,4 +17,24 @@ public interface QualityControlDAO {
 
 	void deleteQualityControlByInspecCode(String inspecCode);
 
+	List<QualityControlDTO> getQualityItemNameByFilterDate(String bizNumber, String filterText, String startDate,
+			String endDate);
+
+	List<QualityControlDTO> getQualityinspecTypeByFilterDate(String bizNumber, String filterText, String startDate,
+			String endDate);
+
+	List<QualityControlDTO> getQualityrprogressStatusByFilterDate(String bizNumber, String filterText, String startDate,
+			String endDate);
+
+	List<QualityControlDTO> getQualityqDirectorByFilterDate(String bizNumber, String filterText, String startDate,
+			String endDate);
+
+	List<QualityControlDTO> getQualityItemNameByFilter(String bizNumber, String filterText);
+
+	List<QualityControlDTO> getQualityinspecTypeByFilter(String bizNumber, String filterText);
+
+	List<QualityControlDTO> getQualityrprogressStatusByFilter(String bizNumber, String filterText);
+
+	List<QualityControlDTO> getQualityqDirectorByFilter(String bizNumber, String filterText);
+
 }
