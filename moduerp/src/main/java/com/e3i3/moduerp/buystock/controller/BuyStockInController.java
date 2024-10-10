@@ -38,18 +38,11 @@ public class BuyStockInController {
 		public String forwardBuyIn(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
 		        HttpSession session) {
 		    String bizNumber = (String) session.getAttribute("biz_number");
-		    if (bizNumber == null) {
-		        // bizNumber가 null인 경우 처리
-		        model.addAttribute("error", "Business number is not available in session.");
-		        return "main.do"; // 에러 페이지로 리다이렉트
-		    }
+		   
 
 		    List<ItemDTO> itemList = itembuyStockService.getItemsByBizNumber(bizNumber);
-		    if (itemList == null) {
-		        // itemList가 null인 경우 처리
-		        model.addAttribute("error", "No items found for the given business number.");
-		        return "main.do"; // 에러 페이지로 리다이렉트
-		    }
+		   
+		    
 
 		    for (ItemDTO item : itemList) {
 		        if (item.getCreatedAt() != null) {

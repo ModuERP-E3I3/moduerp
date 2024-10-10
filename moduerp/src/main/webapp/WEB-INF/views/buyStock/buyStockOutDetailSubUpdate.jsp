@@ -148,6 +148,8 @@ th {
 .material-type-input {
 	margin-bottom: 10px;
 }
+
+
 </style>
 
 </head>
@@ -157,24 +159,20 @@ th {
 
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="productionStockIn.do"><i
-					class="fas fa-bullhorn"></i> 생산 입고</a></li>
-			<li><a href="productionStockOut.do"><i
-					class="fas fa-clipboard"></i> 생산 출고</a></li>
-			<li><a href="productionWorkorder.do"><i class="fas fa-code"></i>
-					작업지시서</a></li>
-			<li><a href="productionQuality.do"><i class="fas fa-plug"></i>
-					품질관리</a></li>
-		</ul>
+	        <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
+			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
+			<li><a href="buyStockIn.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
+	    </ul>
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">생산관리 | 생산입고 | ${itemDetails.itemName}
+		<div class="content-title">구매관리 | 구매 출고| ${itemDetails.itemName}
 			수정하기</div>
 
-		<form action="/moduerp/updateProductionStockSubOut.do" method="POST">
+		<form action="/moduerp/updateBuyStockSubOut.do" method="POST">
 			<input type="hidden" name="itemCode" value="${itemDetails.itemCode}" />
-			<input type="hidden" name="pStockOutId" value="${productionStockOutDetails.pStockOutId}" />
+			<input type="hidden" name="bStockOutId"
+				value="${buyStockOutDetails.bStockOutId}" />
 			<table>
 				<thead>
 					<tr>
@@ -185,7 +183,7 @@ th {
 						<th>출고 수량</th>
 						<th>출고 가격</th>
 						<th>출고 장소</th>
-						<th>자재 종류</th>
+						<th>담당자</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -193,25 +191,26 @@ th {
 						<td>${itemDetails.itemName}</td>
 						<td>${itemDetails.itemDesc}</td>
 						<td><fmt:formatDate
-								value="${productionStockOutDetails.pStockOutDate}"
+								value="${buyStockOutDetails.bStockOutDate}"
 								pattern="yyyy-MM-dd HH:mm:ss" /></td>
 						<td><fmt:formatDate
-								value="${productionStockOutDetails.pStockOutUpdate}"
+								value="${buyStockOutDetails.bStockOutUpdate}"
 								pattern="yyyy-MM-dd HH:mm:ss" /></td>
 						<td><input type="number" name="stockIn"
-							value="${productionStockOutDetails.pStockOutQty}" required /></td>
+							value="${buyStockOutDetails.bStockOutQty}" required /></td>
 						<td><input type="number" name="inPrice"
-							value="${productionStockOutDetails.pStockOutPrice}" step="0.01"
+							value="${buyStockOutDetails.bStockOutPrice}" step="0.01"
 							required /></td>
 
 						<td><input list="stockPlaces" name="stockPlace"
-							value="${productionStockOutDetails.pStockOutPlace}"
+							value="${buyStockOutDetails.bStockOutPlace}"
 							placeholder="보관장소 선택" required /> <datalist id="stockPlaces">
 								<c:forEach var="stockPlace" items="${stockPlaces}">
 									<option value="${stockPlace}"></option>
 								</c:forEach>
 							</datalist></td>
 						<td>${itemDetails.itemList}</td>
+						<td>${buyStockOutDetails.oDirector}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -225,7 +224,7 @@ th {
 
 
 <script>
-    const activeMenu = "productionStockIn";
+    const activeMenu = "buyStockIn";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

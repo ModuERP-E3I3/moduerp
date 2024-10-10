@@ -62,5 +62,15 @@ public class CarmgtDaoImpl implements CarmgtDao {
 		return sqlSession.selectOne(namespace + ".selectpaymentHistoryCode", paymentHistoryCode);
 	}
 
+	@Override
+	public void updateCarmgt(CarmgtDto carmgtDto) {
+		sqlSession.update(namespace + ".updateCarmgt", carmgtDto);	
+	}
+
+	@Override
+	public void deleteCarmgt(String paymentHistoryCode) {
+		sqlSession.delete(namespace + ".deleteCarmgt", paymentHistoryCode);
+	}
+
     
 }

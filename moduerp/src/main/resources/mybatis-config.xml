@@ -40,6 +40,9 @@
 			
 			<typeAlias type="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg"
 			alias="Bankmg" />
+		<typeAlias type="com.e3i3.moduerp.buystock.model.dto.BuyStockOutDTO" 
+			alias="BuyStockOutDTO" />
+		
 
 	</typeAliases>
 

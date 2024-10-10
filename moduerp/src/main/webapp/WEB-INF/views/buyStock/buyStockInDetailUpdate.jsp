@@ -161,8 +161,7 @@ th {
 					class="fas fa-bullhorn"></i> 구매 입고</a></li>
 			<li><a href="buyStockOut.do"><i
 					class="fas fa-clipboard"></i> 구매 출고</a></li>
-			<li><a href="buyStockIn.do"><i
-					class="fas fa-clipboard"></i> 딜리버리</a></li>
+			<li><a href="buyStockIn.do"><i class="fa-solid fa-truck"></i></i> 배송 조회 </a></li>
 
 		</ul>
 	</div>
