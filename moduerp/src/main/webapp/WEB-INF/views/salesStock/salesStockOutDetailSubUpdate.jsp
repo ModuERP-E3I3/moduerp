@@ -148,8 +148,6 @@ th {
 .material-type-input {
 	margin-bottom: 10px;
 }
-
-
 </style>
 
 </head>
@@ -158,11 +156,16 @@ th {
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
 	<div class="top-content-box">
-	    <ul id="menubar">
-	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
-	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
-	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
-	    </ul>
+		<ul id="menubar">
+			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
+					거래처관리</a></li>
+			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
+					영업 입고</a></li>
+			<!-- 수정 -->
+			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
+					영업 출고</a></li>
+			<!-- 수정 -->
+		</ul>
 	</div>
 
 	<div class="content-box">
@@ -185,6 +188,10 @@ th {
 						<th>출고 장소</th>
 						<th>자재 종류</th>
 						<th>출고 담당자</th>
+						<th>출고 상태</th>
+						<!-- S_STOCK_OUT_STATUS -->
+						<th>판닝 상태</th>
+						<!-- PANNINT_STATUS -->
 					</tr>
 				</thead>
 				<tbody>
@@ -202,7 +209,6 @@ th {
 						<td><input type="number" name="inPrice"
 							value="${salesStockOutDetails.sStockOutPrice}" step="0.01"
 							required /></td>
-
 						<td><input list="stockPlaces" name="stockPlace"
 							value="${salesStockOutDetails.sStockOutPlace}"
 							placeholder="보관장소 선택" required /> <datalist id="stockPlaces">
@@ -212,6 +218,22 @@ th {
 							</datalist></td>
 						<td>${itemDetails.itemList}</td>
 						<td>${salesStockOutDetails.oDirector}</td>
+						
+						<td><select name="sStockOutStatus">
+								<option value="Y"
+									<c:if test="${salesStockOutDetails.sStockOutStatus == 'Y'}">selected</c:if>>Yes</option>
+								<option value="N"
+									<c:if test="${salesStockOutDetails.sStockOutStatus == 'N'}">selected</c:if>>No</option>
+						</select></td>
+						
+						<td><select name="panningStatus">
+								<option value="Y"
+									<c:if test="${salesStockOutDetails.panningStatus == 'Y'}">selected</c:if>>Yes</option>
+								<option value="N"
+									<c:if test="${salesStockOutDetails.panningStatus == 'N'}">selected</c:if>>No</option>
+						</select></td>
+						
+						
 					</tr>
 				</tbody>
 			</table>
@@ -220,6 +242,7 @@ th {
 				<button type="submit" class="btn green">수정 완료</button>
 			</div>
 		</form>
+
 	</div>
 </body>
 

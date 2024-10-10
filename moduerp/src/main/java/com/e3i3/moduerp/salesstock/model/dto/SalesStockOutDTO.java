@@ -13,6 +13,11 @@ public class SalesStockOutDTO {
     private Date sStockOutUpdate;
     private String oDirector;
     
+    private String sStockOutStatus; // S_STOCK_OUT_STATUS
+    private String panningStatus;   // PANNINT_STATUS
+
+    
+    
     // Getters and Setters
     public String getsStockOutId() {
         return sStockOutId;
@@ -69,4 +74,17 @@ public class SalesStockOutDTO {
         this.oDirector = oDirector;
     }
 
+//    STATUS - - - - - - - - - - - - - - - - - - - - - - - - - -
+    public String getsStockOutStatus() {
+        return sStockOutStatus;
+    }
+    public void setsStockOutStatus(String sStockOutStatus) {
+        this.sStockOutStatus = sStockOutStatus;
+    }
+    public String getPanningStatus() {
+        return panningStatus;
+    }
+    public void setPanningStatus(String panningStatus) {
+        this.panningStatus = panningStatus;
+    }
 }

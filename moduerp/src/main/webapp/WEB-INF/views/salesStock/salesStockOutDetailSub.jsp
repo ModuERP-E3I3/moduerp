@@ -190,8 +190,6 @@ th {
 	background-color: gray;
 	color: #fff;
 }
-
-
 </style>
 
 </head>
@@ -202,17 +200,23 @@ th {
 
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-	    <ul id="menubar">
-	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
-	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
-	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
-	    </ul>
+		<ul id="menubar">
+			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
+					거래처관리</a></li>
+			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
+					영업 입고</a></li>
+			<!-- 수정 -->
+			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
+					영업 출고</a></li>
+			<!-- 수정 -->
+		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업관리 | 영업출고 | ${itemDetailsSub.itemName}</div>
+		<div class="content-title">영업관리 | 영업출고 |
+			${itemDetailsSub.itemName}</div>
 
 		<!-- 테이블 -->
 		<table>
@@ -227,13 +231,14 @@ th {
 					<th>출고 장소</th>
 					<th>자재 종류</th>
 					<th>출고 담당자</th>
-
+					<th>출고 상태</th>
+					<!-- S_STOCK_OUT_STATUS -->
+					<th>판닝 상태</th>
+					<!-- PANNINT_STATUS -->
 				</tr>
 			</thead>
 			<tbody>
-
 				<tr>
-
 					<td>${itemDetailsSub.itemName}</td>
 					<td>${itemDetailsSub.itemDesc}</td>
 					<td><fmt:formatDate
@@ -247,13 +252,20 @@ th {
 					<td>${salesStockOutDetailsSub.sStockOutPlace}</td>
 					<td>${itemDetailsSub.itemList}</td>
 					<td>${salesStockOutDetailsSub.oDirector}</td>
-
-
+					<td><c:choose>
+							<c:when test="${salesStockOutDetailsSub.sStockOutStatus == 'Y'}">Yes</c:when>
+							<c:otherwise>No</c:otherwise>
+						</c:choose></td>
+					<!-- S_STOCK_OUT_STATUS 표시 -->
+					<td><c:choose>
+							<c:when test="${salesStockOutDetailsSub.panningStatus == 'Y'}">Yes</c:when>
+							<c:otherwise>No</c:otherwise>
+						</c:choose></td>
+					<!-- PANNINT_STATUS 표시 -->
 				</tr>
-
 			</tbody>
-
 		</table>
+
 
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
@@ -276,8 +288,7 @@ th {
 			<form action="deleteSalesStockOut.do" method="POST">
 				<input type="hidden" name="itemCode"
 					value="${itemDetailsSub.itemCode}"> <input type="hidden"
-					name="sStockOutId"
-					value="${salesStockOutDetailsSub.sStockOutId}">
+					name="sStockOutId" value="${salesStockOutDetailsSub.sStockOutId}">
 				<!-- itemCode를 숨겨진 필드로 전달 -->
 				<button type="submit" class="go-delete">삭제</button>
 				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>

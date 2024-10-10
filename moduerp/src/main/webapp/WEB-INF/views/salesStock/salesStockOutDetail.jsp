@@ -129,11 +129,16 @@ th {
 
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-	    <ul id="menubar">
-	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
-	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
-	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
-	    </ul>
+		<ul id="menubar">
+			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
+					거래처관리</a></li>
+			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
+					영업 입고</a></li>
+			<!-- 수정 -->
+			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
+					영업 출고</a></li>
+			<!-- 수정 -->
+		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
@@ -142,7 +147,7 @@ th {
 		<div class="content-title">영업관리 | 영업출고 | ${itemDetails.itemName}
 			출고 정보</div>
 
-		
+
 
 		<!-- 테이블 -->
 		<!-- 아이템 관련 데이터 테이블 -->
@@ -172,7 +177,7 @@ th {
 			</tbody>
 		</table>
 
-		<!-- 생산 출고 관련 데이터 테이블 -->
+		<!-- 영업 출고 관련 데이터 테이블 -->
 		<table>
 			<thead>
 				<tr>
@@ -181,6 +186,10 @@ th {
 					<th>출고 수량</th>
 					<th>출고 가격</th>
 					<th>출고 담당자</th>
+					<th>출고 상태</th>
+					<!-- S_STOCK_OUT_STATUS -->
+					<th>판닝 상태</th>
+					<!-- PANNINT_STATUS -->
 				</tr>
 			</thead>
 			<tbody>
@@ -193,10 +202,21 @@ th {
 						<td>${stockOut.sStockOutQty}</td>
 						<td>${stockOut.sStockOutPrice}</td>
 						<td>${stockOut.oDirector}</td>
+						<td><c:choose>
+								<c:when test="${stockOut.sStockOutStatus == 'Y'}">Yes</c:when>
+								<c:otherwise>No</c:otherwise>
+							</c:choose></td>
+						<!-- S_STOCK_OUT_STATUS 표시 -->
+						<td><c:choose>
+								<c:when test="${stockOut.panningStatus == 'Y'}">Yes</c:when>
+								<c:otherwise>No</c:otherwise>
+							</c:choose></td>
+						<!-- PANNINT_STATUS 표시 -->
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
+
 
 
 
