@@ -21,8 +21,6 @@
 		<result property="createdOutAt" column="CREATED_OUT_AT" />
 		<result property="itemList" column="ITEM_LIST"
 			typeHandler="com.e3i3.moduerp.handler.StringListTypeHandler" />
-		<result property="iDirector" column="IDIRECTOR" />
-		<result property="oDirector" column="ODIRECTOR" />
 	</resultMap>
 
 	<!-- 아이템 이름을 biz_number로 필터링해서 조회하는 쿼리 -->
@@ -47,7 +45,7 @@
 		INSERT INTO ITEM (ITEM_CODE, ITEM_NAME, ITEM_DESC,
 		STOCK_IN, STOCK,  <!-- 
 			STOCK 컬럼 추가 -->
-		CREATED_AT, STOCK_PLACE, IN_PRICE, BIZ_NUMBER, ITEM_LIST,IDIRECTOR )
+		CREATED_AT, STOCK_PLACE, IN_PRICE, BIZ_NUMBER, ITEM_LIST)
 		VALUES
 		(#{itemCode}, #{itemName}, #{itemDesc}, #{stockIn}, #{stockIn},  <!-- 
 			STOCK에 stockIn 값 사용 -->
@@ -60,8 +58,7 @@
 	<select id="getItemsByBizNumber" parameterType="String"
 		resultMap="itemResultMap">
 		SELECT * FROM ITEM WHERE BIZ_NUMBER = #{bizNumber}
-		AND
-		ITEM_CODE
+		AND ITEM_CODE
 		LIKE CONCAT(#{bizNumber}, 'P%')
 	</select>
 
@@ -214,12 +211,10 @@
 	<!-- workorder -->
 
 	<select id="selectItemNamesAndStockByBizNumberStartingWith"
-		parameterType="String"
-		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		parameterType="String" resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
 		SELECT ITEM_CODE, ITEM_NAME, STOCK
 		FROM ITEM
-		WHERE BIZ_NUMBER
-		= #{bizNumber}
+		WHERE BIZ_NUMBER = #{bizNumber}
 		AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'P%')
 	</select>
 

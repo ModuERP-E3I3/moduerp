@@ -157,21 +157,22 @@ th {
 
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="buyStockIn.do"><i
-					class="fas fa-bullhorn"></i> 구매 입고</a></li>
-			<li><a href="buyStockOut.do"><i
-					class="fas fa-clipboard"></i> 구매 출고</a></li>
-			<li><a href="buyStockIn.do"><i
-					class="fas fa-clipboard"></i> 딜리버리</a></li>
-
+			<li><a href="productionStockIn.do"><i
+					class="fas fa-bullhorn"></i> 생산 입고</a></li>
+			<li><a href="productionStockOut.do"><i
+					class="fas fa-clipboard"></i> 생산 출고</a></li>
+			<li><a href="productionWorkorder.do"><i class="fas fa-code"></i>
+					작업지시서</a></li>
+			<li><a href="productionQuality.do"><i class="fas fa-plug"></i>
+					품질관리</a></li>
 		</ul>
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">구매관리 | 구매입고 | ${itemDetails.itemName}
+		<div class="content-title">생산관리 | 생산입고 | ${itemDetails.itemName}
 			수정하기</div>
 
-		<form action="/moduerp/updateBuyStockIn.do" method="POST">
+		<form action="/moduerp/updateProductionStockIn.do" method="POST">
 			<input type="hidden" name="itemCode" value="${itemDetails.itemCode}" />
 			<table>
 				<thead>
@@ -183,6 +184,7 @@ th {
 						<th>입고수량</th>
 						<th>입고가격</th>
 						<th>입고장소</th>
+						<th>자재 종류</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -205,6 +207,30 @@ th {
 									<option value="${stockPlace}"></option>
 								</c:forEach>
 							</datalist></td>
+
+
+						<td>
+							<div id="materialTypeContainer">
+								<c:forEach var="materialType" items="${itemDetails.itemList}">
+									<div class="material-type-input">
+										<input list="materialTypes" name="materialTypes"
+											value="${materialType}" placeholder="자재 종류 입력" required />
+										<datalist id="materialTypes">
+											<c:forEach var="itemName" items="${itemNames}">
+												<option value="${itemName}"></option>
+											</c:forEach>
+										</datalist>
+										<button type="button" class="remove-btn"
+											onclick="removeMaterialType(this)">삭제</button>
+									</div>
+								</c:forEach>
+							</div>
+							<button type="button" onclick="addMaterialType()">자재 종류
+								추가</button>
+						</td>
+
+
+
 					</tr>
 				</tbody>
 			</table>
@@ -215,9 +241,30 @@ th {
 		</form>
 	</div>
 </body>
+<script>
+    function addMaterialType() {
+        const container = document.getElementById("materialTypeContainer");
+        const newInput = document.createElement("div");
+        newInput.classList.add("material-type-input");
+        newInput.innerHTML = `
+            <input list="materialTypes" name="materialTypes" placeholder="자재 종류 입력" required/>
+            <datalist id="materialTypes">
+                <c:forEach var="itemName" items="${itemNames}">
+                    <option value="${itemName}"></option>
+                </c:forEach>
+            </datalist>
+            <button type="button" class="remove-btn" onclick="removeMaterialType(this)">삭제</button>`;
+        container.appendChild(newInput);
+    }
+
+    function removeMaterialType(button) {
+        const inputContainer = button.parentElement;
+        inputContainer.remove();
+    }
+</script>
 
 <script>
-    const activeMenu = "buyStockIn";
+    const activeMenu = "productionStockIn";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

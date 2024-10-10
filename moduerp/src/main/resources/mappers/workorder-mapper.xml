@@ -96,8 +96,7 @@
 		resultType="int">
 		SELECT NVL(SUM(QTY), 0)
 		FROM WORK_ORDER
-		WHERE ITEM_CODE =
-		#{itemCode}
+		WHERE ITEM_CODE = #{itemCode}
 	</select>
 
 

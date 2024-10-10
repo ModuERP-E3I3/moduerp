@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.e3i3.moduerp.employee.model.service.EmployeeProductionService;
 import com.e3i3.moduerp.item.model.service.ItemProductionstockService;
 
 @Controller
@@ -19,34 +18,28 @@ public class ItemProductionstockController {
 
     @Autowired
     private ItemProductionstockService itemService;
-    
-	@Autowired
-	private EmployeeProductionService employeeProductionService;
 
     @RequestMapping(value = "/productionInCreate.do", method = RequestMethod.GET)
     public String showProductionStockInCreatePage(HttpSession session, Model model) {
         String bizNumber = (String) session.getAttribute("biz_number");
-        String uuid = (String) session.getAttribute("uuid");
         
-        // ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú¹ï¿½È£ ï¿½Î±ï¿½ ï¿½ï¿½ï¿½
-        System.out.println("ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú¹ï¿½È£: " + bizNumber);
+        // ¼¼¼Ç¿¡ ÀúÀåµÈ »ç¾÷ÀÚ¹øÈ£ ·Î±× Ãâ·Â
+        System.out.println("·Î±×ÀÎÇÑ »ç¿ëÀÚÀÇ »ç¾÷ÀÚ¹øÈ£: " + bizNumber);
         
         if (bizNumber != null) {
-            // biz_numberï¿½ï¿½ item_name ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            // biz_number·Î item_name ¸ñ·ÏÀ» °¡Á®¿È
             List<String> itemNames = itemService.getItemNamesByBizNumber(bizNumber);
-            // biz_numberï¿½ï¿½ stock_place ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            // biz_number·Î stock_place ¸ñ·ÏÀ» °¡Á®¿È
             List<String> stockPlaces = itemService.getStockPlacesByBizNumber(bizNumber);
 
-            String directorName = employeeProductionService.getEmployeeNameByUuid(uuid);
-            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ ï¿½ï¿½ï¿½
-            System.out.println("ï¿½ï¿½È¸ï¿½ï¿½ itemNames: " + itemNames);
-            System.out.println("ï¿½ï¿½È¸ï¿½ï¿½ stockPlaces: " + stockPlaces);
+            // Äõ¸® °á°ú ·Î±× Ãâ·Â
+            System.out.println("Á¶È¸µÈ itemNames: " + itemNames);
+            System.out.println("Á¶È¸µÈ stockPlaces: " + stockPlaces);
             
-            // JSPï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ß°ï¿½
+            // JSP·Î Àü´ÞÇÒ ¸ðµ¨ Ãß°¡
             model.addAttribute("itemNames", itemNames);
             model.addAttribute("stockPlaces", stockPlaces);
-            model.addAttribute("directorName", directorName);
         }
-        return "productionStock/productionStockInCreate"; // JSP ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+        return "productionStock/productionStockInCreate"; // JSP ÆÄÀÏ ÀÌ¸§
     }
 }

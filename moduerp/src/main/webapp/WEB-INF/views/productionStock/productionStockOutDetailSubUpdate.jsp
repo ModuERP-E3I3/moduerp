@@ -189,7 +189,6 @@ th {
 						<th>출고 가격</th>
 						<th>출고 장소</th>
 						<th>자재 종류</th>
-						<th>출고 담당자</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -216,7 +215,6 @@ th {
 								</c:forEach>
 							</datalist></td>
 						<td>${itemDetails.itemList}</td>
-						<td>${productionStockOutDetails.oDirector}</td>
 					</tr>
 				</tbody>
 			</table>

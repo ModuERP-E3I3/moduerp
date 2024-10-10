@@ -209,7 +209,7 @@
 	<div class="top-content-box">
 		<ul id="menubar">
 			<li><a href="<c:url value='/attendance.do' />"><i class="fas fa-bullhorn"></i> 출퇴근</a></li>
-			<li><a href="<c:url value='/leave.do' />"><i class="fas fa-clipboard"></i> 휴 가</a></li>
+			<li><a href="<c:url value='/leave.do' />"><i class="fas fa-clipboard"></i> 휴가</a></li>
 			<li style="position: relative;"><a href="javascript:void(0);" class="active" onclick="toggleDropdown(this);"><i class="fas fa-envelope"></i> 이메일</a>
 				<ul class="dropdown-menu">
 					<li><a href="<c:url value='/email//send.do' />" class="dropdown-item" onclick="hideDropdown()">메일 쓰기</a></li>

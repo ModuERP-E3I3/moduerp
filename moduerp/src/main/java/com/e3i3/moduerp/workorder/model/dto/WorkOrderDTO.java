@@ -22,7 +22,6 @@ public class WorkOrderDTO {
 	private String itemName;
 	private Date endExDate;
 	private Timestamp updateDate;
-	
 
 	public String getOrderNumber() {
 		return orderNumber;

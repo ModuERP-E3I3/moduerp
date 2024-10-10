@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,7 +61,7 @@
 	background-color: white;
 	margin-left: 1%;
 	margin-right: 5%;
-	margin-top: 3%;
+	margin-top: 5%;
 	border: 1px solid #ccc;
 	border-radius: 20px; /* 박스 둥글게 */
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -97,6 +97,35 @@ th {
 	font-weight: bold;
 }
 
+/* 버튼 스타일 */
+.btn-group {
+	margin-top: 20px;
+	text-align: right;
+}
+
+.btn {
+	padding: 8px 16px;
+	margin-left: 5px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.btn.red {
+	background-color: red;
+	color: white;
+}
+
+.btn.green {
+	background-color: green;
+	color: white;
+}
+
+.btn.blue {
+	background-color: blue;
+	color: white;
+}
+
 .filter-box {
 	margin-bottom: 20px;
 }
@@ -115,14 +144,9 @@ th {
 .top-content-box {
 	background-color: white;
 }
-
-#tbpt:hover {
-	cursor: pointer;
-}
 </style>
 
 </head>
-
 <body>
 	<!-- 서브헤더 JSP 임포트 -->
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
@@ -130,95 +154,72 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="productionStockIn.do"><i
-					class="fas fa-bullhorn"></i> 생산 입고</a></li>
-			<li><a href="productionStockOut.do"><i
-					class="fas fa-clipboard"></i> 생산 출고</a></li>
+			<li><a href="bankmg.do"><i class="fas fa-bullhorn"></i> 은행
+					계좌 관리</a></li>
+			<li><a href="financialClosing.do"><i
+					class="fas fa-clipboard"></i> 결산 관리</a></li>
 			<!-- 수정 -->
-			<li><a href="productionWorkorder.do"><i class="fas fa-code"></i>
-					작업지시서</a></li>
-			<!-- 수정 -->
-			<li><a href="productionQuality.do"><i class="fas fa-plug"></i>
-					품질관리</a></li>
-			<!-- 수정 -->
+			<!-- <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> 수정
+	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> 수정 -->
 		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 생산출고 | ${itemDetails.itemName}
-			출고 정보</div>
-
-		
-
-		<!-- 테이블 -->
-		<!-- 아이템 관련 데이터 테이블 -->
-		<table>
-			<thead>
-				<tr>
-					<th>제품명</th>
-					<th>제품 설명</th>
-					<th>최종 출고 날짜</th>
-					<th>총 출고 수량</th>
-					<th>최종 출고 가격</th>
-					<th>최종 출고 장소</th>
-					<th>자재 종류</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>${itemDetails.itemName}</td>
-					<td>${itemDetails.itemDesc}</td>
-					<td><fmt:formatDate value="${itemDetails.createdOutAt}"
-							pattern="yyyy-MM-dd" /></td>
-					<td>${itemDetails.stockOut}</td>
-					<td>${itemDetails.outPrice}</td>
-					<td>${itemDetails.stockOutPlace}</td>
-					<td>${itemDetails.itemList}</td>
-				</tr>
-			</tbody>
+		<div class="content-title">결산 관리</div>
+		<h2>결산 상세 정보</h2>
+		<table border="1">
+			<tr>
+				<th>부서 ID</th>
+				<td>${finClose.departmentId}</td>
+			</tr>
+			<tr>
+				<th>시작 날짜</th>
+				<td>${finClose.startDate}</td>
+			</tr>
+			<tr>
+				<th>종료 날짜</th>
+				<td>${finClose.endDate}</td>
+			</tr>
+			<tr>
+				<th>총 매출</th>
+				<td>${finClose.totalSales}</td>
+			</tr>
+			<tr>
+				<th>총 비용</th>
+				<td>${finClose.totalExpenses}</td>
+			</tr>
+			<tr>
+				<th>순이익</th>
+				<td>${finClose.netProfit}</td>
+			</tr>
+			<tr>
+				<th>승인 상태</th>
+				<td>${finClose.approvalStatus}</td>
+			</tr>
+			<tr>
+				<th>결산 날짜</th>
+				<td>${finClose.closingDate}</td>
+			</tr>
+			<tr>
+				<th>결산 유형</th>
+				<td>${finClose.closingType}</td>
+			</tr>
 		</table>
 
-		<!-- 생산 출고 관련 데이터 테이블 -->
-		<table>
-			<thead>
-				<tr>
-					<th>출고 날짜</th>
-					<th>출고 장소</th>
-					<th>출고 수량</th>
-					<th>출고 가격</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="stockOut" items="${productionStockOutDetails}">
-					<tr id="tbpt"
-						onclick="window.location.href='getProductionOutDetailsSub.do?pStockOutId=${stockOut.pStockOutId}&itemCode=${itemDetails.itemCode }'">
-						<td><fmt:formatDate value="${stockOut.pStockOutDate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
-						<td>${stockOut.pStockOutPlace}</td>
-						<td>${stockOut.pStockOutQty}</td>
-						<td>${stockOut.pStockOutPrice}</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-
-
-
-
-
-
-
+		<!-- 수정 및 삭제 버튼 -->
+		<div class="btn-group">
+			<button class="btn green"
+				onclick="location.href='${pageContext.request.contextPath}/finCloseUpdateForm.do?closingId=${finClose.closingId}'">수정</button>
+			<button class="btn red"
+				onclick="if(confirm('정말로 삭제하시겠습니까?')) location.href='${pageContext.request.contextPath}/finCloseDelete.do?closingId=${finClose.closingId}'">삭제</button>
+		</div>
 	</div>
-
 </body>
 
-
-
-
 <script>
-    const activeMenu = "productionStockIn";
+    const activeMenu = "bankmg";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');
@@ -229,6 +230,5 @@ th {
         });
     });
 </script>
-
 
 </html>

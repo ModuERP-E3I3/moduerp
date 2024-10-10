@@ -41,8 +41,7 @@
 
 
 	<select id="getItemsByBizNumber" resultMap="itemSResultMap">
-		SELECT * FROM ITEM
-		WHERE BIZ_NUMBER = #{bizNumber} AND ITEM_CODE LIKE
+		SELECT * FROM ITEM WHERE BIZ_NUMBER = #{bizNumber} AND ITEM_CODE LIKE
 		CONCAT(#{bizNumber}, 'S%')
 	</select>
 
@@ -56,16 +55,15 @@
 	</select>
 
 	<!-- biz_number로 필터링된 stock_place 리스트를 조회하는 쿼리 -->
-	<select id="selectStockPlacesByBizNumber" parameterType="String"
-		resultType="String">
+	<select id="selectSalesStockPlacesByBizNumber"
+		parameterType="String" resultType="String">
 		SELECT DISTINCT STOCK_PLACE
 		FROM ITEM
-		WHERE BIZ_NUMBER =
-		#{bizNumber}
+		WHERE BIZ_NUMBER = #{bizNumber}
 	</select>
 
 	<!-- 아이템을 삽입하는 쿼리 -->
-	<insert id="insertItem">
+	<insert id="insertSalesItem">
 		INSERT INTO ITEM (ITEM_CODE, ITEM_NAME, ITEM_DESC,
 		STOCK_IN, STOCK, CREATED_AT, STOCK_PLACE, IN_PRICE, BIZ_NUMBER,
 		ITEM_LIST, IDIRECTOR, S_STOCK_OUT_STATUS, PANNINT_STATUS)
@@ -90,7 +88,7 @@
 		SELECT * FROM ITEM WHERE ITEM_CODE = #{itemCode}
 	</select>
 
-	<update id="updateItem"
+	<update id="updateSalesItem"
 		parameterType="com.e3i3.moduerp.item.model.dto.ItemDTO">
 		UPDATE ITEM
 		SET ITEM_NAME = #{itemName},
@@ -117,7 +115,7 @@
 	</delete>
 
 	<!-- ======================================= -->
-	<!-- salesOUT -->
+	<!-- productionOUT -->
 	<!-- BizNumber와 CREATED_OUT_AT이 있는 항목 조회 -->
 	<select id="getItemsByBizNumberOutDate" parameterType="String"
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">

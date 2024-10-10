@@ -1,23 +1,22 @@
 package com.e3i3.moduerp.item.model.dao;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 
 public interface ItemSalesStockDAO {
-	List<String> selectSalesItemNamesByBizNumber(String bizNumber);
+    List<String> selectItemNamesByBizNumber(String bizNumber);
 
-	List<String> selectStockPlacesByBizNumber(String bizNumber);
+    List<String> selectStockPlacesByBizNumber(String bizNumber); // ���� �޼���
 
 	// biz_number�� �Ǹ� �׸��� �������� �޼ҵ�
 	List<ItemDTO> getItemsByBizNumber(String bizNumber);
 
-	void insertItem(ItemDTO itemDTO);
+    void insertItem(ItemDTO itemDTO);
 
-	ItemDTO selectItemByCode(String itemCode);
+    ItemDTO selectItemByCode(String itemCode);
 
-	void updateItem(ItemDTO itemDTO);
+    void updateItem(ItemDTO itemDTO);
 
 	void deleteItemByCode(String itemCode);
 

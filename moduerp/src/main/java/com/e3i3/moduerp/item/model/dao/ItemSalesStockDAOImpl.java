@@ -1,9 +1,6 @@
 package com.e3i3.moduerp.item.model.dao;
 
-import java.sql.Timestamp;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +17,8 @@ public class ItemSalesStockDAOImpl implements ItemSalesStockDAO {
     private static final String namespace = "ItemSalesMapper";
 
     @Override
-    public List<String> selectSalesItemNamesByBizNumber(String bizNumber) {
-        return sqlSession.selectList(namespace + ".selectSalesItemNamesByBizNumber", bizNumber);
+    public List<String> selectItemNamesByBizNumber(String bizNumber) {
+        return sqlSession.selectList(namespace + ".selectItemNamesByBizNumber", bizNumber);
     }
 
     @Override

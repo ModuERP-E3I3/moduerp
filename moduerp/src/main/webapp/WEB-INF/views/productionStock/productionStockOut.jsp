@@ -223,7 +223,6 @@ tbody tr:hover {
 					<th>재고 수량</th>
 					<th>최종 출고 장소</th>
 					<th>최종 출고 단가</th>
-					<th>최종 출고 담당자</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -238,7 +237,6 @@ tbody tr:hover {
 						<td>${item.stock}</td>
 						<td>${item.stockOutPlace}</td>
 						<td>${item.outPrice}</td>
-						<td>${item.oDirector}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
