@@ -1,23 +1,37 @@
 package com.e3i3.moduerp.quality.model.dto;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 public class QualityControlDTO {
-
 	private String inspecCode;
 	private String orderNumber;
 	private String uuid;
-	private String bizNumber;
-	private Timestamp startDate;
-	private Timestamp endDate;
+	private String departmentId;
+	private Date startDate;
+	private Date endDate;
 	private String inspecType;
 	private String progressStatus;
+	private String inspecResult;
 	private int inspecQty;
-	private Date endExDate;
-	private String qDirector;
-	private String taskName;
-	private Timestamp updateDate;
+
+	public QualityControlDTO() {
+		super();
+	}
+
+	public QualityControlDTO(String inspecCode, String orderNumber, String uuid, String departmentId, Date startDate,
+			Date endDate, String inspecType, String progressStatus, String inspecResult, int inspecQty) {
+		super();
+		this.inspecCode = inspecCode;
+		this.orderNumber = orderNumber;
+		this.uuid = uuid;
+		this.departmentId = departmentId;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.inspecType = inspecType;
+		this.progressStatus = progressStatus;
+		this.inspecResult = inspecResult;
+		this.inspecQty = inspecQty;
+	}
 
 	public String getInspecCode() {
 		return inspecCode;
@@ -43,27 +57,27 @@ public class QualityControlDTO {
 		this.uuid = uuid;
 	}
 
-	public String getBizNumber() {
-		return bizNumber;
+	public String getDepartmentId() {
+		return departmentId;
 	}
 
-	public void setBizNumber(String bizNumber) {
-		this.bizNumber = bizNumber;
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 
-	public Timestamp getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Timestamp startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
-	public Timestamp getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Timestamp endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 
@@ -83,6 +97,14 @@ public class QualityControlDTO {
 		this.progressStatus = progressStatus;
 	}
 
+	public String getInspecResult() {
+		return inspecResult;
+	}
+
+	public void setInspecResult(String inspecResult) {
+		this.inspecResult = inspecResult;
+	}
+
 	public int getInspecQty() {
 		return inspecQty;
 	}
@@ -90,37 +112,4 @@ public class QualityControlDTO {
 	public void setInspecQty(int inspecQty) {
 		this.inspecQty = inspecQty;
 	}
-
-	public Date getEndExDate() {
-		return endExDate;
-	}
-
-	public void setEndExDate(Date endExDate) {
-		this.endExDate = endExDate;
-	}
-
-	public String getqDirector() {
-		return qDirector;
-	}
-
-	public void setqDirector(String qDirector) {
-		this.qDirector = qDirector;
-	}
-
-	public String getTaskName() {
-		return taskName;
-	}
-
-	public void setTaskName(String taskName) {
-		this.taskName = taskName;
-	}
-
-	public Timestamp getUpdateDate() {
-		return updateDate;
-	}
-
-	public void setUpdateDate(Timestamp updateDate) {
-		this.updateDate = updateDate;
-	}
-
 }

@@ -145,6 +145,24 @@ th {
 	background-color: white;
 }
 
+#pagebutton {
+	display: flex;
+	justify-content: center;
+	margin-top: 2%; /* 위쪽 여백 추가 */
+}
+
+#pagebutton a {
+	color: black; /* 글자 색상 검은색 */
+	text-decoration: none; /* 밑줄 제거 */
+	font-size: 20px; /* 글자 크기 증가 */
+	margin: 0 10px; /* 페이지 버튼 간격 조정 */
+}
+
+#pagebutton strong {
+	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
+	color: black; /* 강조 색상 검은색 유지 */
+}
+
 tbody tr:hover {
 	cursor: pointer;
 }
@@ -178,15 +196,23 @@ tbody tr:hover {
 
 		<div class="content-title">생산관리 | 작업지시서</div>
 
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-		</div>
+		<form action="/moduerp/productionWorkOrderFilter.do">
+			<!-- 필터 박스 -->
+			<div class="filter-box">
+				<select name="filterOption" id="filterOption">
+					<option disabled selected>옵션 선택</option>
+					<option value="itemName">제품명</option>
+					<option value="taskName">작업명</option>
+					<option value="worker">작업자</option>
+					<option value="wDirector">지시자</option>
+				</select> <input type="date" name="startDate" id="startDate" /> <input
+					type="date" name="endDate" id="endDate" /> <input type="text"
+					name="filterText" id="filterText" placeholder="내용 입력" />
+				<button type="submit" class="btn">조회</button>
+				<button type="button" class="btn"
+					onclick="window.location.href='productionWorkorder.do';">초기화</button>
+			</div>
+		</form>
 
 		<!-- 테이블 -->
 		<table>
@@ -235,6 +261,24 @@ tbody tr:hover {
 			</tbody>
 
 		</table>
+
+		<!-- 페이지 버튼 -->
+		<div id="pagebutton">
+			<c:if test="${totalPages > 1}">
+				<c:forEach var="i" begin="1" end="${totalPages}">
+					<c:choose>
+						<c:when test="${i == currentPage}">
+							<strong>${i}</strong>
+							<!-- 현재 페이지는 강조 -->
+						</c:when>
+						<c:otherwise>
+							<a href="productionWorkorder.do?page=${i}">${i}</a>
+							<!-- 페이지 링크 -->
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</c:if>
+		</div>
 
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">

@@ -1,19 +1,14 @@
 package com.e3i3.moduerp.productionstock.controller;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.HashMap;
+import java.time.LocalTime;
 import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 import com.e3i3.moduerp.item.model.service.ItemProductionstockService;
 import com.e3i3.moduerp.productionstock.model.dto.ProductionStockInDTO;
@@ -39,24 +32,12 @@ public class ProductionstockInController {
 	private ItemProductionstockService itemProductionstockService;
 
 	// 기존 GET 메서드
+	// 기존 GET 메서드
 	@RequestMapping(value = "/productionStockIn.do", method = RequestMethod.GET)
 	public String forwardProductionIn(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
 			HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		List<ItemDTO> itemList = itemProductionstockService.getItemsByBizNumber(bizNumber);
-
-		// CREATED_AT에 9시간 추가하는 로직
-		for (ItemDTO item : itemList) {
-			// CREATED_AT 필드에서 Timestamp 값을 가져옴
-			Timestamp createdAt = item.getCreatedAt();
-
-			// 9시간 추가
-			Timestamp adjustedTimestamp = Timestamp
-					.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000));
-
-			// Timestamp를 ItemDTO에 설정
-			item.setCreatedAt(adjustedTimestamp); // 조정된 Timestamp 설정
-		}
 
 		// 페이지당 항목 수
 		int itemsPerPage = 10;
@@ -82,30 +63,78 @@ public class ProductionstockInController {
 		return "productionStock/productionStockIn"; // JSP 파일 경로 반환
 	}
 
+	@RequestMapping(value = "/productionStockInFilter.do", method = RequestMethod.GET)
+	public String forwardProductionInFilter(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "filterOption", required = false) String option,
+			@RequestParam(value = "filterText", required = false) String filterText,
+			@RequestParam(value = "startDate", required = false) String startDate,
+			@RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
+		String bizNumber = (String) session.getAttribute("biz_number");
+		List<ItemDTO> itemList;
+
+		// 필터링 로직 추가
+		if (option != null && filterText != null) {
+			if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+				System.out.println("날짜있는거 실행");
+				itemList = itemProductionstockService.getItemByFilterDate(bizNumber, option, filterText, startDate,
+						endDate);
+			} else if (startDate == null || startDate.isEmpty()) {
+				System.out.println("날짜없는거 실행");
+				itemList = itemProductionstockService.getItemsByFilter(bizNumber, option, filterText);
+			} else {
+				System.out.println("실행 못함");
+				itemList = itemProductionstockService.getItemsByBizNumber(bizNumber);
+			}
+		} else {
+			itemList = itemProductionstockService.getItemsByBizNumber(bizNumber);
+		}
+
+		// 페이지네이션 처리
+		int itemsPerPage = 10;
+		int totalItems = itemList.size();
+		int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+		int startIndex = (page - 1) * itemsPerPage;
+		int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+		List<ItemDTO> paginatedList = itemList.subList(startIndex, endIndex);
+
+		// 모델에 추가
+		model.addAttribute("itemList", paginatedList);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("option", option);
+		model.addAttribute("filterText", filterText);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
+
+		return "productionStock/productionStockInFilter"; // JSP 파일 경로 반환
+	}
+
 	@PostMapping("/productionStockInCreate.do")
 	public String createProductionStockIn(@RequestParam("pStockInDate") String stockInDateStr,
 			@RequestParam("stockPlace") String stockPlace, @RequestParam("stockIn") int stockIn,
 			@RequestParam("itemName") String itemName, @RequestParam("itemDesc") String itemDesc,
-			@RequestParam("inPrice") double inPrice, 
-			@RequestParam("materialType") List<String> materialType, // 수정된 부분
-			@RequestParam("iDirrector") String iDirrector,
-			HttpSession session) {
+			@RequestParam("inPrice") double inPrice, @RequestParam("materialType") List<String> materialType,
+			@RequestParam("iDirector") String iDirector, HttpSession session) throws ParseException {
 
 		// 세션에서 biz_number와 uuid를 가져옴
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String userUuid = (String) session.getAttribute("uuid");
-		
-		// stockInDateStr를 LocalDate로 변환한 후 LocalDateTime으로 변환 (자정 시간 추가)
-		LocalDate localDate = LocalDate.parse(stockInDateStr);
-		LocalDateTime localDateTime = localDate.atStartOfDay(); // 자정 시간 추가
-		Timestamp stockInDate = Timestamp.valueOf(localDateTime);
-
-		// 한국 시간대의 현재 타임스탬프를 사용
-		ZonedDateTime nowKST = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
-		Timestamp currentTimestampKST = Timestamp.valueOf(nowKST.toLocalDateTime());
 
 		// ITEM_CODE 생성: biz_number + "P" + 현재 타임스탬프
-		String itemCode = bizNumber + "P" + currentTimestampKST.getTime();
+		String itemCode = bizNumber + "P" + System.currentTimeMillis();
+
+		// stockInDateStr를 LocalDate로 변환 (연월일만)
+		LocalDate parsedDate = LocalDate.parse(stockInDateStr);
+
+		// 현재 시간을 LocalTime으로 가져옴
+		LocalTime currentTime = LocalTime.now();
+
+		// LocalDate와 LocalTime을 합쳐 LocalDateTime을 만듦 (연월일 + 현재 시간)
+		LocalDateTime combinedDateTime = LocalDateTime.of(parsedDate, currentTime);
+
+		// LocalDateTime을 Timestamp로 변환
+		Timestamp stockInDate = Timestamp.valueOf(combinedDateTime);
 
 		// ITEM 테이블에 저장할 데이터 설정
 		ItemDTO itemDTO = new ItemDTO();
@@ -119,13 +148,13 @@ public class ProductionstockInController {
 		itemDTO.setItemList(materialType); // List 형태로 설정
 		itemDTO.setStockIn(stockIn);
 		itemDTO.setStock(stockIn);
-		itemDTO.setiDirector(iDirrector);
+		itemDTO.setiDirector(iDirector);
 
 		// ITEM 테이블에 데이터 저장
 		itemProductionstockService.insertItem(itemDTO);
 
 		// P_STOCK_IN_ID 생성: "P" + biz_number + 타임스탬프
-		String pStockInId = "P" + bizNumber + currentTimestampKST.getTime();
+		String pStockInId = "P" + bizNumber + System.currentTimeMillis();
 
 		// PRODUCTION_STOCK_IN 테이블에 저장할 데이터 설정
 		ProductionStockInDTO productionStockInDTO = new ProductionStockInDTO();
@@ -211,14 +240,10 @@ public class ProductionstockInController {
 	}
 
 	@PostMapping("/updateProductionStockIn.do")
-	public String updateProductionStockIn(
-			@RequestParam("itemCode") String itemCode,
-			@RequestParam("itemName") String itemName,
-			@RequestParam("itemDesc") String itemDesc,
-			@RequestParam("stockIn") int stockIn,
-			@RequestParam("inPrice") double inPrice,
-			@RequestParam("stockPlace") String stockPlace,
-			@RequestParam("materialTypes") List<String> materialTypes) {
+	public String updateProductionStockIn(@RequestParam("itemCode") String itemCode,
+			@RequestParam("itemName") String itemName, @RequestParam("itemDesc") String itemDesc,
+			@RequestParam("stockIn") int stockIn, @RequestParam("inPrice") double inPrice,
+			@RequestParam("stockPlace") String stockPlace, @RequestParam("materialTypes") List<String> materialTypes) {
 
 		// 현재 타임스탬프 생성
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());

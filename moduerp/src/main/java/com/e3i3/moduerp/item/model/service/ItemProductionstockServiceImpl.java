@@ -64,7 +64,7 @@ public class ItemProductionstockServiceImpl implements ItemProductionstockServic
 
 	@Override
 	public void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut,
-			double outPrice, String oDirector) {
+			double outPrice) {
 		// 기존 재고 가져오기
 		Integer currentStock = itemProductionstockDAO.getStockByItemCode(itemCode);
 
@@ -74,7 +74,7 @@ public class ItemProductionstockServiceImpl implements ItemProductionstockServic
 		System.out.println("Updating item stock: " + updatedStock); // 이 부분 추가
 		// DB 업데이트
 		itemProductionstockDAO.updateItemStockOut(itemCode, createdOutAt, stockOutPlace, stockOut, outPrice,
-				updatedStock, oDirector);
+				updatedStock);
 	}
 
 	@Override
@@ -125,5 +125,62 @@ public class ItemProductionstockServiceImpl implements ItemProductionstockServic
 	@Override
 	public List<ItemDTO> getItemNamesAndStockByBizNumberStartingWith(String bizNumber) {
 		return itemProductionstockDAO.selectItemNamesAndStockByBizNumberStartingWith(bizNumber);
+	}
+
+	// -----------------------------------------------
+	// production in filter
+	@Override
+	public List<ItemDTO> getItemByFilterDate(String bizNumber, String option, String filterText, String startDate,
+			String endDate) {
+		if (option.equals("itemName")) {
+			return itemProductionstockDAO.getItemByItemNameDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("stockPlace")) {
+			return itemProductionstockDAO.getItemByStockPlaceDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("iDirector")) {
+			return itemProductionstockDAO.getItemByiDirectorDate(bizNumber, filterText, startDate, endDate);
+		}
+
+		return null;
+
+	}
+
+	@Override
+	public List<ItemDTO> getItemsByFilter(String bizNumber, String option, String filterText) {
+		if (option.equals("itemName")) {
+			return itemProductionstockDAO.getItemByItemName(bizNumber, filterText);
+		} else if (option.equals("stockPlace")) {
+			return itemProductionstockDAO.getItemByStockPlace(bizNumber, filterText);
+		} else if (option.equals("iDirector")) {
+			return itemProductionstockDAO.getItemByiDirector(bizNumber, filterText);
+		}
+		return null;
+	}
+
+	// -----------------------------------------------
+	// productionOut in filter
+	@Override
+	public List<ItemDTO> getItemOutByFilterDate(String bizNumber, String option, String filterText, String startDate,
+			String endDate) {
+		if (option.equals("itemName")) {
+			return itemProductionstockDAO.getItemOutByItemNameDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("stockPlace")) {
+			return itemProductionstockDAO.getItemOutByStockOutPlaceDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("ODirector")) {
+			return itemProductionstockDAO.getItemOutByODirectorDate(bizNumber, filterText, startDate, endDate);
+		}
+
+		return null;
+	}
+
+	@Override
+	public List<ItemDTO> getItemOutByFilter(String bizNumber, String option, String filterText) {
+		if (option.equals("itemName")) {
+			return itemProductionstockDAO.getOutItemByItemName(bizNumber, filterText);
+		} else if (option.equals("stockPlace")) {
+			return itemProductionstockDAO.getOutItemByStockOutPlace(bizNumber, filterText);
+		} else if (option.equals("ODirector")) {
+			return itemProductionstockDAO.getOutItemByODirector(bizNumber, filterText);
+		}
+		return null;
 	}
 }

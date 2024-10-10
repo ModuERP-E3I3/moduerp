@@ -43,29 +43,37 @@ public class BuyStockInController {
 		    List<ItemDTO> itemList = itembuyStockService.getItemsByBizNumber(bizNumber);
 		   
 
-		    for (ItemDTO item : itemList) {
-		        if (item.getCreatedAt() != null) {
-		            Timestamp createdAt = item.getCreatedAt();
-		            Timestamp adjustedTimestamp = Timestamp
-		                    .from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000));
-		            item.setCreatedAt(adjustedTimestamp);
-		        }
-		    }
+				// 
+				Timestamp adjustedTimestamp = Timestamp
+						.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000));
 
-		    int itemsPerPage = 10;
-		    int totalItems = itemList.size();
-		    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
-		    int startIndex = (page - 1) * itemsPerPage;
-		    int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-		    List<ItemDTO> paginatedList = itemList.subList(startIndex, endIndex);
+				// 
+				item.setCreatedAt(adjustedTimestamp); // 
+			}
 
-		    model.addAttribute("itemList", paginatedList);
-		    model.addAttribute("totalPages", totalPages);
-		    model.addAttribute("currentPage", page);
+			// 
+			int itemsPerPage = 10;
 
-		    return "buyStock/buyStockIn"; // JSP
+			//
+			int totalItems = itemList.size();
+
+			// 
+			int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+
+			// 꾩궛
+			int startIndex = (page - 1) * itemsPerPage;
+			int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+			// 꽦
+			List<ItemDTO> paginatedList = itemList.subList(startIndex, endIndex);
+
+			// 
+			model.addAttribute("itemList", paginatedList);
+			model.addAttribute("totalPages", totalPages);
+			model.addAttribute("currentPage", page);
+
+			return "buyStock/buyStockIn"; // JSP
 		}
-
 		
 		@PostMapping("/buyStockInCreate.do")
 		public String createBuyStockIn(@RequestParam("bStockInDate") String stockInDateStr,
@@ -99,10 +107,11 @@ public class BuyStockInController {
 			itemDTO.setItemCode(itemCode);
 			itemDTO.setItemName(itemName);
 			itemDTO.setItemDesc(itemDesc);
-			itemDTO.setCreatedAt(stockInDate);
+			itemDTO.setCreatedAt(stockInDate); // 
 			itemDTO.setStockPlace(stockPlace);
 			itemDTO.setInPrice(inPrice);
 			itemDTO.setBizNumber(bizNumber);
+			itemDTO.setItemList(materialType); // 젙
 			itemDTO.setStockIn(stockIn);
 			itemDTO.setAccountName(accountNo);
 			itemDTO.setiDirector(iDirrector);
@@ -122,7 +131,6 @@ public class BuyStockInController {
 			buyStockInDTO.setAccountNo(stockPlace);
 			buyStockInDTO.setbStockInQty(stockIn);
 			buyStockInDTO.setUuid(userUuid);
-			buyStockInDTO.setAccountNo(accountNo);
 
 			//  
 			BuyStockInService.insertBuyStockIn(buyStockInDTO);
@@ -139,8 +147,8 @@ public class BuyStockInController {
 
 			// CREATED_AT
 			Timestamp createdAt = itemDetails.getCreatedAt();
-			Timestamp adjustedCreatedAt = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000)); 
-																	
+			Timestamp adjustedCreatedAt = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000)); // 9�떆媛�
+																															// 異붽�
 			itemDetails.setCreatedAt(adjustedCreatedAt); // Timestamp
 
 			// UPDATED_AT
@@ -158,10 +166,10 @@ public class BuyStockInController {
 			model.addAttribute("itemDetails", itemDetails);
 			model.addAttribute("BuyStockInDetails", BuyStockInDetails);
 
-			return "buyStock/buyStockInDetail"; // JSP 
+			return "BuyStock/BuyStockInDetail"; // JSP 
 		}
 		
-		@GetMapping("/buyStockInDetailUpdate.do")
+		@GetMapping("/BuyStockInDetailUpdate.do")
 		public String showUpdateForm(@RequestParam("itemCode") String itemCode, Model model, HttpSession session) {
 			// ITEM itemCode
 			ItemDTO itemDetails = itembuyStockService.getItemDetails(itemCode);
@@ -195,14 +203,14 @@ public class BuyStockInController {
 			model.addAttribute("itemNames", itemNames);
 
 			
-			return "buyStock/buyStockInDetailUpdate"; 
+			return "BuyStock/BuyStockInDetailUpdate"; 
 		}
 		
 		@PostMapping("/updateBuyStockIn.do")
 		public String updateBuyStockIn(@RequestParam("itemCode") String itemCode,
 				@RequestParam("itemName") String itemName, @RequestParam("itemDesc") String itemDesc,
 				@RequestParam("stockIn") int stockIn, @RequestParam("inPrice") double inPrice,
-				@RequestParam("stockPlace") String stockPlace) {
+				@RequestParam("stockPlace") String stockPlace, @RequestParam("materialTypes") List<String> materialTypes) {
 
 			
 			Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
@@ -225,6 +233,7 @@ public class BuyStockInController {
 			itemDTO.setStock(stock); // 현재 재고 설정
 			itemDTO.setInPrice(inPrice);
 			itemDTO.setStockPlace(stockPlace);
+			itemDTO.setItemList(materialTypes); // List 설정
 			itemDTO.setUpdatedAt(currentTimestamp);   // 현재 타임스탬프 설정
 
 			// ITEM 테이블 업데이트
@@ -239,7 +248,7 @@ public class BuyStockInController {
 			// BuyStockIn 테이블 업데이트
 			BuyStockInService.updateBuyStockIn(BuyStockInDTO);
 
-			return "redirect:/buyStockIn.do";  // 업데이트 후 재고 목록 페이지로 리다이렉트
+			return "redirect:/BuyStockIn.do";  // 업데이트 후 재고 목록 페이지로 리다이렉트
 		}
 
 		@PostMapping("/deleteBuyStockIn.do")

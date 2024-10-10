@@ -1,28 +1,14 @@
 package com.e3i3.moduerp.quality.controller;
 
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.e3i3.moduerp.employee.model.service.EmployeeProductionService;
 import com.e3i3.moduerp.quality.model.dto.QualityControlDTO;
 import com.e3i3.moduerp.quality.model.service.QualityControlService;
-import com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO;
-import com.e3i3.moduerp.workorder.model.service.WorkOrderService;
 
 @Controller
 @RequestMapping("/")
@@ -31,15 +17,19 @@ public class QualityControlController {
 	@Autowired
 	private QualityControlService qualityControlService;
 
-	@Autowired
-	private WorkOrderService workOrderService;
+	@RequestMapping(value ="/productionQuality.do", method = RequestMethod.GET)
+	public String getAllQualityControls(Model model) {
+		List<QualityControlDTO> qualityControlList = qualityControlService.getAllQualityControls();
+		model.addAttribute("qualityControlList", qualityControlList);
+		return "productionStock/productionQuality";
+	}
 
-	@Autowired
-	private EmployeeProductionService employeeProductionService;
-
-	@RequestMapping(value = "/productionQuality.do", method = RequestMethod.GET)
-	public String getAllQualityControls(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
-			HttpSession session) {
+	@RequestMapping(value = "/productionQualityFilter.do", method = RequestMethod.GET)
+	public String getAllQualityControlsFilter(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "filterOption", required = false) String option,
+			@RequestParam(value = "filterText", required = false) String filterText,
+			@RequestParam(value = "startDate", required = false) String startDate,
+			@RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
 		// 세션에서 biz_number 가져오기
 		String bizNumber = (String) session.getAttribute("biz_number");
 
@@ -51,18 +41,37 @@ public class QualityControlController {
 		// 서비스 호출하여 biz_number에 해당하는 품질 관리 데이터 가져오기
 		List<QualityControlDTO> qualityControlList = qualityControlService.getQualityControlsByBizNumber(bizNumber);
 
-		// 페이지당 항목 수
+		// 필터링 로직 추가
+		if (option != null && filterText != null) {
+			if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+				System.out.println("날짜있는거 실행");
+				qualityControlList = qualityControlService.getQualityByFilterDate(bizNumber, option, filterText,
+						startDate, endDate);
+			} else if (startDate == null || startDate.isEmpty()) {
+				System.out.println("날짜없는거 실행");
+				qualityControlList = qualityControlService.getQualityByFilter(bizNumber, option, filterText);
+			} else {
+				System.out.println("실행 못함");
+				qualityControlList = qualityControlService.getQualityControlsByBizNumber(bizNumber);
+			}
+		} else {
+			qualityControlList = qualityControlService.getQualityControlsByBizNumber(bizNumber);
+		}
+
+		// 페이지당 아이템 수 설정
 		int itemsPerPage = 10;
 
-		// 총 항목 수
+		// 총 아이템 수 계산
 		int totalItems = qualityControlList.size();
 
-		// 총 페이지 수
+		// 총 페이지 수 계산
 		int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
 
-		// 시작 인덱스 계산
+		// 시작 인덱스와 종료 인덱스 계산
 		int startIndex = (page - 1) * itemsPerPage;
 		int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+		// 서브리스트로 페이지네이션된 항목들 추출
 
 		// 서브리스트 생성
 		List<QualityControlDTO> paginatedList = qualityControlList.subList(startIndex, endIndex);
@@ -71,9 +80,13 @@ public class QualityControlController {
 		model.addAttribute("qualityControlList", paginatedList);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("currentPage", page);
+		model.addAttribute("option", option);
+		model.addAttribute("filterText", filterText);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
 
 		// 품질 관리 JSP 페이지로 이동
-		return "productionStock/productionQuality";
+		return "productionStock/productionQualityFilter";
 	}
 
 	// 품질 관리 등록 페이지로 이동하는 메서드
@@ -193,7 +206,8 @@ public class QualityControlController {
 	public String updateQualityControl(@RequestParam("inspecCode") String inspecCode,
 			@RequestParam("startDate") String startDate, @RequestParam("endExDate") String endExDate,
 			@RequestParam("inspecType") String inspecType, @RequestParam("progressStatus") String progressStatus,
-			@RequestParam("inspecQty") int inspecQty, @RequestParam("qDirector") String qDirector) throws ParseException {
+			@RequestParam("inspecQty") int inspecQty, @RequestParam("qDirector") String qDirector)
+			throws ParseException {
 
 		// startDate를 Timestamp로 변환하며 현재 시간을 추가
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -226,11 +240,11 @@ public class QualityControlController {
 		qualityControlDTO.setqDirector(qDirector);
 
 		// progressStatus가 '검사 완료'인 경우, endDate에 현재 시간 설정, 그렇지 않으면 null 설정
-	    if ("검사 완료".equals(progressStatus)) {
-	        qualityControlDTO.setEndDate(currentTimestamp); // 검사 완료 시 현재 시간 설정
-	    } else {
-	        qualityControlDTO.setEndDate(null); // 검사 완료가 아닐 경우 null 설정
-	    }
+		if ("검사 완료".equals(progressStatus)) {
+			qualityControlDTO.setEndDate(currentTimestamp); // 검사 완료 시 현재 시간 설정
+		} else {
+			qualityControlDTO.setEndDate(null); // 검사 완료가 아닐 경우 null 설정
+		}
 
 		// 서비스 메서드를 호출하여 품질 관리 데이터 업데이트
 		qualityControlService.updateQualityControl(qualityControlDTO);
@@ -238,15 +252,14 @@ public class QualityControlController {
 		// 업데이트 후 다시 품질 관리 목록 페이지로 리다이렉트
 		return "redirect:/productionQuality.do";
 	}
-	
+
 	@RequestMapping(value = "/deleteProductionQuality.do", method = RequestMethod.POST)
-    public String deleteProductionQuality(
-            @RequestParam("orderNumber") String inspecCode) {
+	public String deleteProductionQuality(@RequestParam("orderNumber") String inspecCode) {
 
-        // 품질관리 데이터 삭제
-        qualityControlService.deleteQualityControlByInspecCode(inspecCode);
+		// 품질관리 데이터 삭제
+		qualityControlService.deleteQualityControlByInspecCode(inspecCode);
 
-        // 삭제 후 다시 품질관리 목록 페이지로 리다이렉트
-        return "redirect:/productionQuality.do";
-    }
+		// 삭제 후 다시 품질관리 목록 페이지로 리다이렉트
+		return "redirect:/productionQuality.do";
+	}
 }

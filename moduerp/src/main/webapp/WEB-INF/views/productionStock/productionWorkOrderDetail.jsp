@@ -218,7 +218,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 작업지시서 | ${workOrderDetails.taskName}</div>
+		<div class="content-title">생산관리 | 작업지시서 |</div>
 
 		
 
@@ -247,7 +247,7 @@ th {
 					<td><fmt:formatDate value="${workOrderDetails.startDate}"
 							pattern="yyyy-MM-dd HH:mm:ss" /></td>
 					<td><fmt:formatDate value="${workOrderDetails.endExDate}"
-							pattern="yyyy-MM-dd" /></td>
+							pattern="yyyy-MM-dd HH:mm:ss" /></td>
 					<td><fmt:formatDate value="${workOrderDetails.endDate}"
 							pattern="yyyy-MM-dd " /></td>
 					<td>${workOrderDetails.qty}</td>

@@ -36,7 +36,7 @@
         WHERE BANK_ID = #{bankId}
     </update>
 
-    <delete id="deletemg" parameterType="int">
+    <delete id="deletemg" parameterType="String">
         DELETE FROM BANK_ACCOUNT_MANAGEMENT WHERE BANK_ID = #{bankId}
     </delete>
     

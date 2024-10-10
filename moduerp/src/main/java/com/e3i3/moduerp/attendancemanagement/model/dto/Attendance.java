@@ -24,9 +24,4 @@ public class Attendance implements Serializable {
     private Timestamp clockOutTime; // CLOCK_OUT_TIME
     private Double totWorkHrs;      // TOT_WORK_HRS
     private Double overtime;        // OVERTIME
-    
-    // 추가된 필드
-    private String formattedTotWorkHrs;   // "00h 00m" 형식
-    private String formattedOvertime;     // "O시간 O분" 형식
-    
 }

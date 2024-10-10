@@ -13,33 +13,39 @@ public class QualityControlServiceImpl implements QualityControlService {
 	private QualityControlDAO qualityControlDAO;
 
 	@Override
-	public List<QualityControlDTO> getQualityControlsByBizNumber(String bizNumber) {
-		return qualityControlDAO.findByBizNumber(bizNumber);
+	public List<QualityControlDTO> getAllQualityControls() {
+		return qualityControlDAO.selectAllQualityControls();
 	}
 
 	@Override
-	public void insertQulityControl(QualityControlDTO qulityDTO) {
-		qualityControlDAO.insertQulityControl(qulityDTO);
+	public List<QualityControlDTO> getQualityByFilterDate(String bizNumber, String option, String filterText,
+			String startDate, String endDate) {
+
+		if (option.equals("itemName")) {
+			return qualityControlDAO.getQualityItemNameByFilterDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("inspecType")) {
+			return qualityControlDAO.getQualityinspecTypeByFilterDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("progressStatus")) {
+			return qualityControlDAO.getQualityrprogressStatusByFilterDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("qDirector")) {
+			return qualityControlDAO.getQualityqDirectorByFilterDate(bizNumber, filterText, startDate, endDate);
+		}
+
+		return null;
 	}
 
 	@Override
-	public int getTotalInspecQtyByOrderNumber(String orderNumber) {
-		return qualityControlDAO.getTotalInspecQtyByOrderNumber(orderNumber);
-	}
+	public List<QualityControlDTO> getQualityByFilter(String bizNumber, String option, String filterText) {
+		if (option.equals("itemName")) {
+			return qualityControlDAO.getQualityItemNameByFilter(bizNumber, filterText);
+		} else if (option.equals("inspecType")) {
+			return qualityControlDAO.getQualityinspecTypeByFilter(bizNumber, filterText);
+		} else if (option.equals("progressStatus")) {
+			return qualityControlDAO.getQualityrprogressStatusByFilter(bizNumber, filterText);
+		} else if (option.equals("qDirector")) {
+			return qualityControlDAO.getQualityqDirectorByFilter(bizNumber, filterText);
+		}
 
-	@Override
-	public QualityControlDTO getQualityControlByInspecCode(String inspecCode) {
-		return qualityControlDAO.getQualityControlByInspecCode(inspecCode);
-	}
-
-	@Override
-	public void updateQualityControl(QualityControlDTO qualityControlDTO) {
-		qualityControlDAO.updateQualityControl(qualityControlDTO);
-	}
-
-	@Override
-	public void deleteQualityControlByInspecCode(String inspecCode) {
-		// DAO를 호출하여 데이터 삭제
-		qualityControlDAO.deleteQualityControlByInspecCode(inspecCode);
+		return null;
 	}
 }
