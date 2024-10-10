@@ -185,9 +185,8 @@ th {
 						<th>출고단가</th>
 						<th>담당자</th>
 						<th>출고 상태</th>
-						<!-- S_STOCK_OUT_STATUS 추가 -->
 						<th>지급 상태</th>
-						<!-- PANNINT_STATUS 추가 -->
+
 					</tr>
 				</thead>
 				<tbody>
@@ -220,7 +219,7 @@ th {
 								<option value="N">No</option>
 						</select></td>
 						<!-- S_STOCK_OUT_STATUS 추가 -->
-						<td><select name="panningStatus" required>
+						<td><select name="paymentStatus" required>
 								<option value="Y">Yes</option>
 								<option value="N">No</option>
 						</select></td>
