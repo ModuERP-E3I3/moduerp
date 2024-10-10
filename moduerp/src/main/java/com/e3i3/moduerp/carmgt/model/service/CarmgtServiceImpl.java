@@ -49,6 +49,16 @@ public class CarmgtServiceImpl implements CarmgtService {
 		return carmgtDao.selectpaymentHistoryCode(paymentHistoryCode);
 	}
 
+	@Override
+	public void updateCarmgt(CarmgtDto carmgtDto) {
+		carmgtDao.updateCarmgt(carmgtDto);
+	}
+
+	@Override
+	public void deleteCarmgt(String paymentHistoryCode) {
+		carmgtDao.deleteCarmgt(paymentHistoryCode);
+	}
+
 	/*
 	 * @Override public void deleteCarmgt(String carId) {
 	 * 

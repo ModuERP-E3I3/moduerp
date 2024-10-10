@@ -16,4 +16,6 @@ public interface CarmgtDao {
     
 	List<Employee> getEmpNameDepart(String bizNumber);
 	CarmgtDto selectpaymentHistoryCode(String paymentHistoryCode);
+	void updateCarmgt(CarmgtDto carmgtDto);
+	void deleteCarmgt(String paymentHistoryCode);
 }
