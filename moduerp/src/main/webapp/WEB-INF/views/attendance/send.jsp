@@ -163,86 +163,88 @@ function toggleTimeFields() {
 	<div class="content-box">
 		<div class="content-title">근태신청</div>
 		<!-- 근태 요청서 작성 폼 -->
-		<form:form method="post" action="${submitUrl}"
-			modelAttribute="attendanceRequest" oninput="toggleTimeFields()">
-			<table>
-				<tr>
-					<td>*신청 유형:</td>
-					<td><form:select path="applicationType" id="applicationType"
-							onchange="toggleTimeFields()">
-							<form:option value="">신청 유형을 선택하세요</form:option>
-							<!-- 기본 선택 옵션 추가 -->
-							<form:option value="연차">연차</form:option>
-							<form:option value="병가">병가</form:option>
-							<form:option value="조퇴">조퇴</form:option>
-							<form:option value="반차">반차</form:option>
-							<form:option value="외근">외근</form:option>
-							<form:option value="출장">출장</form:option>
-						</form:select></td>
-				</tr>
-				<tr>
-					<td>*시작 날짜:</td>
-					<td><form:input path="startDate" type="date" id="startDate" /></td>
-				</tr>
-				<tr>
-					<td>*종료 날짜:</td>
-					<td><form:input path="endDate" type="date" id="endDate" /></td>
-				</tr>
-				<tr>
-					<td>시작 시간 (선택 사항):</td>
-					<td><form:input path="startTime" type="time" id="startTime" /></td>
-				</tr>
-				<tr>
-					<td>종료 시간 (선택 사항):</td>
-					<td><form:input path="endTime" type="time" id="endTime" /></td>
-				</tr>
-				<tr>
-					<td>근태 사유:</td>
-					<td><form:textarea path="reason" rows="4" cols="50"></form:textarea></td>
-				</tr>
-				<tr>
-					<td>첨부 파일:</td>
-					<td><input type="file" name="attachment" /></td>
-				</tr>
+		
+		<form:form method="post" action="${submitUrl}" modelAttribute="attendanceRequest" oninput="toggleTimeFields()">
+		<!-- JSP의 숨겨진 필드로 attendancerequestId 전달 -->
+		<form:input path="attendancerequestId" type="hidden" />
+    <table>
+        <tr>
+            <td>*신청 유형:</td>
+            <td>
+                <form:select path="applicationType" id="applicationType" onchange="toggleTimeFields()">
+                    <form:option value="">신청 유형을 선택하세요</form:option>
+                    <!-- 기본 선택 옵션 추가 -->
+                    <form:option value="연차">연차</form:option>
+                    <form:option value="병가">병가</form:option>
+                    <form:option value="조퇴">조퇴</form:option>
+                    <form:option value="반차">반차</form:option>
+                    <form:option value="외근">외근</form:option>
+                    <form:option value="출장">출장</form:option>
+                </form:select>
+            </td>
+        </tr>
+<tr>
+    <td>*시작 날짜:</td>
+    <td><form:input path="startDate" type="date" id="startDate" /></td>
+</tr>
+<tr>
+    <td>*종료 날짜:</td>
+    <td><form:input path="endDate" type="date" id="endDate" /></td>
+</tr>
 
-				<!-- 결재자 선택 드롭다운 -->
-				<tr>
-					<td>*결재자:</td>
-					<td>
-						<!-- 결재자 드롭다운 메뉴 생성 --> <select id="approverSelect">
-							<option value="">결재자를 선택하세요</option>
-							<c:forEach var="employee" items="${employees}">
-								<!-- 직원 이름과 직책을 결합하여 표시 -->
-								<option value="${employee.uuid}">${employee.empName}(${employee.jobId})</option>
-							</c:forEach>
-					</select> <!-- 숨겨진 approver 필드 추가 --> <input type="hidden" id="approver"
-						name="approver" />
-					</td>
-				</tr>
+        <tr>
+            <td>시작 시간 (선택 사항):</td>
+            <td><form:input path="startTime" type="time" id="startTime" /></td>
+        </tr>
+        <tr>
+            <td>종료 시간 (선택 사항):</td>
+            <td><form:input path="endTime" type="time" id="endTime" /></td>
+        </tr>
+        <tr>
+            <td>근태 사유:</td>
+            <td><form:textarea path="reason" rows="4" cols="50"></form:textarea></td>
+        </tr>
+        <tr>
+            <td>첨부 파일:</td>
+            <td><input type="file" name="attachment" /></td>
+        </tr>
 
-				<tr>
-					<td>비고:</td>
-					<td><form:textarea path="remarks" rows="2" cols="50"></form:textarea></td>
-				</tr>
-				<tr>
-					<td>연락처:</td>
-					<td><form:input path="contact" /></td>
-				</tr>
-				<tr>
-					<td colspan="2" align="center">
-						<input type="submit" value="제출" id="submitBtn" />
-						 <button type="button" id="saveBtn">임시 저장</button>
-						 
-				   </td>
-				</tr>
-			</table>
+        <!-- 결재자 선택 드롭다운 -->
+        <tr>
+            <td>*결재자:</td>
+            <td>
+                <!-- 결재자 드롭다운 메뉴 생성 -->
+                <form:select path="approver" id="approverSelect" onchange="updateApproverHiddenField()">
+                    <form:option value="">결재자를 선택하세요</form:option>
+                    <c:forEach var="employee" items="${employees}">
+                        <!-- 직원 이름과 직책을 결합하여 표시 -->
+                        <form:option value="${employee.uuid}">${employee.empName}(${employee.jobId})</form:option>
+                    </c:forEach>
+                </form:select>
+            </td>
+        </tr>
 
-			<!-- 숨겨진 status와 isApproved 필드 추가 -->
-			<input type="hidden" id="status" name="status" value="제출완료" />
-			<input type="hidden" id="isApproved" name="isApproved" value="N" />
+        <tr>
+            <td>비고:</td>
+            <td><form:textarea path="remarks" rows="2" cols="50"></form:textarea></td>
+        </tr>
+        <tr>
+            <td>연락처:</td>
+            <td><form:input path="contact" /></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit" value="제출" id="submitBtn" />
+                <button type="button" id="saveBtn" onclick="setStatusAndSubmit('saved')">임시 저장</button>
+            </td>
+        </tr>
+    </table>
 
-		</form:form>
+    <!-- 숨겨진 status와 isApproved 필드 추가 -->
+    <input type="hidden" id="status" name="status" value="제출완료" />
+    <input type="hidden" id="isApproved" name="isApproved" value="N" />
 
+</form:form>
 	</div>
 </body>
 

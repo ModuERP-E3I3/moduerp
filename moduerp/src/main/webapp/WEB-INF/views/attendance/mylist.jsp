@@ -223,8 +223,9 @@
                 <c:forEach var="request" items="${requests}">
                     <tr>
                         <td>${request.applicationType}</td>
-                        <td><fmt:formatDate value="${request.startDate}" pattern="yyyy-MM-dd" /></td>
-                        <td><fmt:formatDate value="${request.endDate}" pattern="yyyy-MM-dd" /></td>
+                        <td>${request.startDate.split(" ")[0]}</td>
+<td>${request.endDate.split(" ")[0]}</td>
+
                         <td>${request.status}</td>
                         <td>${request.approverName}</td>
                         <td>

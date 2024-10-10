@@ -160,7 +160,7 @@ tr:nth-child(even) {
 		<ul id="menubar">
 			<li><a href="<c:url value='/attendance.do' />"><i
 					class="fas fa-bullhorn"></i> 출퇴근</a></li>
-			<li><a href="<c:url value='/leave.do' />"><i
+			<li><a href="<c:url value='/attendanceRequest/mylist.do' />"><i
 					class="fas fa-clipboard"></i> 근태문서</a></li>
 			<li><a href="<c:url value='/email/inbox.do' />"> <i
 					class="fas fa-envelope"></i> 이메일
@@ -170,7 +170,10 @@ tr:nth-child(even) {
 
 	<!-- 메인 콘텐츠 박스 -->
 	<div class="content-box">
-		<div class="content-title">근태</div>
+		<div class="content-title">
+   				${request.startDate.substring(0, 10)} ~ ${request.endDate.substring(0, 10)} 상세보기
+</div>
+
 		<table>
 			<tr>
 				<th>신청 유형</th>
@@ -180,16 +183,15 @@ tr:nth-child(even) {
 				<th>신청자</th>
 				<td>${request.requesterName}</td>
 			</tr>
-			<tr>
-				<th>시작 날짜</th>
-				<td><fmt:formatDate value="${request.startDate}"
-						pattern="yyyy-MM-dd" /></td>
-			</tr>
-			<tr>
-				<th>종료 날짜</th>
-				<td><fmt:formatDate value="${request.endDate}"
-						pattern="yyyy-MM-dd" /></td>
-			</tr>
+		<tr>
+    <th>시작 날짜</th>
+    <td>${request.startDate.substring(0, 10)}</td>
+</tr>
+<tr>
+    <th>종료 날짜</th>
+    <td>${request.endDate.substring(0, 10)}</td>
+</tr>
+
 		<tr>
     <th>시작 시간</th>
     <td>
@@ -252,14 +254,9 @@ tr:nth-child(even) {
 		</table>
 
 		<div class="button-container">
-			<button class="edit-button"
-				onclick="location.href='<c:url value="/attendanceRequest/edit/${request.attendancerequestId}.do"/>'">수정하기</button>
-			<button class="cancel-button"
-				onclick="location.href='<c:url value="/attendanceRequest/cancel/${request.attendancerequestId}.do"/>'">신청
-				취소</button>
-			<button class="back-button"
-				onclick="location.href='<c:url value="/attendanceRequest/mylist.do"/>'">목록으로
-				돌아가기</button>
+			<button class="edit-button"onclick="location.href='<c:url value='/attendanceRequest/send.do?attendancerequestId=${request.attendancerequestId}'/>'">수정하기</button>
+			<button class="cancel-button" onclick="location.href='<c:url value="/attendanceRequest/cancel.do?attendancerequestId=${request.attendancerequestId}"/>'">신청취소</button>
+			<button class="back-button" onclick="location.href='<c:url value="/attendanceRequest/mylist.do"/>'">목록으로 돌아가기</button>
 		</div>
 
 

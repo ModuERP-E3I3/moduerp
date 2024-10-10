@@ -30,9 +30,29 @@ public class AttendanceRequestController {
 
 	// /attendance/send 경로로 근태 요청 JSP 페이지 연결
 	@GetMapping("/attendanceRequest/send.do")
-	public String showAttendanceRequestForm(Model model, HttpSession session) {
-		// 필요한 데이터를 모델에 추가 (예: 드롭다운에 사용할 값들)
-		model.addAttribute("attendanceRequest", new AttendanceRequest());
+	public String showAttendanceRequestForm(
+			@RequestParam(value = "attendancerequestId", required = false) String attendancerequestId, Model model,
+			HttpSession session) {
+		// 새로운 신청일 경우
+		AttendanceRequest attendanceRequest = new AttendanceRequest();
+
+		if (attendancerequestId != null && !attendancerequestId.isEmpty()) {
+			// 기존 근태 신청을 수정할 경우, 해당 ID로 데이터 조회
+			attendanceRequest = attendanceRequestService.selectAttendanceRequestById(attendancerequestId);
+		}
+		
+
+        // 날짜 포맷 맞추기 (yyyy-MM-dd 형식으로 변환)
+        if (attendanceRequest.getStartDate() != null && attendanceRequest.getStartDate().length() > 10) {
+            attendanceRequest.setStartDate(attendanceRequest.getStartDate().substring(0, 10));
+        }
+        if (attendanceRequest.getEndDate() != null && attendanceRequest.getEndDate().length() > 10) {
+            attendanceRequest.setEndDate(attendanceRequest.getEndDate().substring(0, 10));
+        }
+        
+
+		// 기본 데이터 설정
+	    model.addAttribute("attendanceRequest", attendanceRequest);
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String departmentId = (String) session.getAttribute("departmentId");
 		List<Employee> employees = employeeService.selectEmployeesByBizAndDepartment(bizNumber, departmentId);
@@ -80,42 +100,53 @@ public class AttendanceRequestController {
 	// 2. 근태 신청 임시 저장
 	@PostMapping("/attendanceRequest/save.do")
 	public String saveAttendanceRequest(HttpSession session, @ModelAttribute AttendanceRequest request, Model model,
-			RedirectAttributes redirectAttributes) {
-		if (request.getApplicationType() == null || request.getApplicationType().isEmpty()) {
-			model.addAttribute("message", "신청 유형이 누락되었습니다.");
-			return "attendance/send"; // 신청 폼 페이지로 이동
-		}
+	                                    RedirectAttributes redirectAttributes) {
+	    if (request.getApplicationType() == null || request.getApplicationType().isEmpty()) {
+	        model.addAttribute("message", "신청 유형이 누락되었습니다.");
+	        return "attendance/send"; // 신청 폼 페이지로 이동
+	    }
 
-		// 결재자 조회
-		Employee approver = employeeService.selectEmployeeByUuid(request.getApprover());
-		if (approver == null) {
-			model.addAttribute("message", "유효하지 않은 결재자입니다.");
-			return "attendance/send"; // 신청 폼 페이지로 이동
-		}
+	    // 결재자 조회
+	    Employee approver = employeeService.selectEmployeeByUuid(request.getApprover());
+	    if (approver == null) {
+	        model.addAttribute("message", "유효하지 않은 결재자입니다.");
+	        return "attendance/send"; // 신청 폼 페이지로 이동
+	    }
 
-		System.out.println("***********결재자 이름: " + approver.getEmpName());
+	    System.out.println("***********결재자 이름: " + approver.getEmpName());
 
-		// 기본 정보 설정
-		request.setApproverName(approver.getEmpName()); // 결재자 이름을 DTO에 저장
-		request.setAttendancerequestId(UUID.randomUUID().toString());
-		request.setUuid((String) session.getAttribute("uuid"));
-		// 요청자 조회
-		Employee requester = employeeService.selectEmployeeByUuid(request.getUuid());
-		request.setRequesterName(requester.getEmpName()); // 요청자 이름을 DTO에 저장
-		request.setRequesterName(requester.getEmpName()); // 요청자 이름을 DTO에 저장
-		request.setBizNumber((String) session.getAttribute("biz_number"));
+	    // 기본 정보 설정
+	    request.setApproverName(approver.getEmpName()); // 결재자 이름을 DTO에 저장
+	    request.setBizNumber((String) session.getAttribute("biz_number"));
+	    request.setUuid((String) session.getAttribute("uuid"));
 
-		// 근태 신청 저장
-		int result = attendanceRequestService.insertSavedAttendanceRequest(request);
+	    // 요청자 조회
+	    Employee requester = employeeService.selectEmployeeByUuid(request.getUuid());
+	    request.setRequesterName(requester.getEmpName()); // 요청자 이름을 DTO에 저장
 
-		if (result > 0) {
-			redirectAttributes.addFlashAttribute("message", "근태신청의 임시저장을 성공했습니다.");
-			return "redirect:/attendanceRequest/mylist.do"; // 바로 근태 리스트 페이지로 리다이렉트
-		} else {
-			// 실패 시 다시 신청 폼 페이지로 이동
-			model.addAttribute("message", "근태신청의 임시저장을 실패했습니다.");
-			return "attendance/send"; // 신청 폼 페이지로 이동
-		}
+	    System.out.println("AttendancerequestId: " + request.getAttendancerequestId());
+	    
+	    // 기존 객체인지 확인: attendancerequestId가 있으면 update, 없으면 insert
+	    int result;
+	    if (request.getAttendancerequestId() != null && !request.getAttendancerequestId().isEmpty()) {
+	        // Update 메소드 호출
+	    	
+	        result = attendanceRequestService.updateAttendanceRequest(request);
+	        redirectAttributes.addFlashAttribute("message", "근태신청이 성공적으로 수정되었습니다.");
+	    } else {
+	        // attendancerequestId가 비어있다면 새로 생성
+	        request.setAttendancerequestId(UUID.randomUUID().toString());
+	        result = attendanceRequestService.insertSavedAttendanceRequest(request); // Insert 메소드 호출
+	        redirectAttributes.addFlashAttribute("message", "근태신청이 성공적으로 저장되었습니다.");
+	    }
+
+	    if (result > 0) {
+	        return "redirect:/attendanceRequest/mylist.do"; // 성공 시 리스트 페이지로 리다이렉트
+	    } else {
+	        // 실패 시 다시 신청 폼 페이지로 이동
+	        model.addAttribute("message", "근태신청의 임시저장을 실패했습니다.");
+	        return "attendance/send"; // 신청 폼 페이지로 이동
+	    }
 	}
 
 	// 3. 상태 업데이트 (임시 저장에서 최종 제출로 변경)
@@ -214,10 +245,11 @@ public class AttendanceRequestController {
 	}
 
 	// 13. 특정 근태 관리 요청 ID로 삭제
-	@PostMapping("/attendanceRequest/delete/{id}")
-	public String deleteAttendanceRequestById(@PathVariable("id") String attendanceRequestId, Model model) {
-		int result = attendanceRequestService.deleteAttendanceRequestById(attendanceRequestId);
-		model.addAttribute("message", result > 0 ? "Request deleted successfully!" : "Delete failed.");
-		return "attendance/deleteResult";
+	@GetMapping("/attendanceRequest/cancel.do")
+	public String deleteAttendanceRequestById(@RequestParam("attendancerequestId") String attendanceRequestId, Model model) {
+	    int result = attendanceRequestService.deleteAttendanceRequestById(attendanceRequestId);
+	    model.addAttribute("message", result > 0 ? "성공적으로 삭제되었습니다!" : "삭제 실패했습니다.");
+	    return "redirect:/attendanceRequest/mylist.do";
 	}
+
 }
