@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -145,28 +144,6 @@ th {
 .top-content-box {
 	background-color: white;
 }
-
-#pagebutton {
-	display: flex;
-	justify-content: center;
-	margin-top: 2%; /* 위쪽 여백 추가 */
-}
-
-#pagebutton a {
-	color: black; /* 글자 색상 검은색 */
-	text-decoration: none; /* 밑줄 제거 */
-	font-size: 20px; /* 글자 크기 증가 */
-	margin: 0 10px; /* 페이지 버튼 간격 조정 */
-}
-
-#pagebutton strong {
-	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
-	color: black; /* 강조 색상 검은색 유지 */
-}
-
-tbody tr:hover {
-	cursor: pointer;
-}
 </style>
 
 </head>
@@ -178,93 +155,69 @@ tbody tr:hover {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
-	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
-	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
+	        <li><a href="carRes.do"><i class="fas fa-bullhorn"></i> 차량 예약</a></li>
+	        <li><a href="carMgt.do"><i class="fas fa-bullhorn"></i> 차량 결제 관리</a></li>
+	        <li><a href="map.do"><i class="fas fa-bullhorn"></i> 도로 교통 / 경로 조회</a></li>
+
 	    </ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업관리 | 영업출고</div>
-		<form action="/moduerp/salesStockOutFilter.do">
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select name="filterOption" id="filterOption">
-				<option disabled selected>옵션 선택</option>
-				<option value="itemName">제품명</option>
-				<option value="stockPlace">출고 장소</option>
-				<option value="ODirector">담당자</option>
-			</select> <input type="date" name="startDate" id="startDate" /> <input
-				type="date" name="endDate" id="endDate" /> <input type="text"
-				name="filterText" id="filterText" placeholder="내용 입력" />
-			<button type="submit" class="btn">조회</button>
-			<button type="button" class="btn"
-				onclick="window.location.href='salesStockOut.do';">초기화</button>
-		</div>
-	</form>
+		<div class="content-title">차량관리 | 차량 결제 관리 | 차량 결제 관리 등록</div>
+
+	
 
 		<!-- 테이블 -->
-		<table>
-			<thead>
-				<tr>
-					<th>순번</th>
-					<th>제품명</th>
-					<th>최종 출고 일자</th>
-					<th>총 출고 수량</th>
-					<th>재고 수량</th>
-					<th>최종 출고 장소</th>
-					<th>최종 출고 단가</th>
-					<th>담당자</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="item" items="${itemList}" varStatus="status">
-					<tr
-						onclick="window.location.href='getSalesOutDetails.do?itemCode=${item.itemCode}'">
-						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<td>${item.itemName}</td>
-						<td><fmt:formatDate value="${item.createdOutAt}"
-								pattern="yyyy-MM-dd" /></td>
-						<td>${item.stockOut}</td>
-						<td>${item.stock}</td>
-						<td>${item.stockOutPlace}</td>
-						<td>${item.outPrice}</td>
-						<td>${item.oDirector}</td>
+		<!-- 테이블 -->
+		<form action="/moduerp/insertCarmgt.do" method="POST">
+			<table>
+				<thead>
+					<tr>
+						<th>차종</th>
+                    	<th>차량 번호</th>
+                    	<th>소유 형태</th>
+                    	<th>사용처</th>
+                    	<th>내역</th>
+                    	<th>금액</th>
+                    	<th>일자</th>
 					</tr>
-				</c:forEach>
-			</tbody>
+				</thead>
+				<tbody>
+					<tr>
 
+						<!-- 차종 입력 칸 -->
+						<td><input type="text" name="carModel" placeholder="차종 입력" /></td>
 
-		</table>
-		<!-- 페이지 버튼 -->
-		<div id="pagebutton">
-			<c:if test="${totalPages > 1}">
-				<c:forEach var="i" begin="1" end="${totalPages}">
-					<c:choose>
-						<c:when test="${i == currentPage}">
-							<strong>${i}</strong>
-							<!-- 현재 페이지는 강조 -->
-						</c:when>
-						<c:otherwise>
-							<a href="salesStockOut.do?page=${i}">${i}</a>
-							<!-- 페이지 링크 -->
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-			</c:if>
-		</div>
+						<!-- 차량 번호 입력 칸 -->
+						<td><input type="text" name="carNum" placeholder="차량 번호 입력" /></td>
 
-		<!-- 버튼 그룹 -->
-		<div class="btn-group">
-			<a href="salesStockOutCreate.do"><button class="btn blue">등록</button></a>
-		</div>
+						<!-- 소유 형태 입력 칸 -->
+						<td><input type="text" name="ownershipStatus" placeholder="소유 형태 입력" /></td>
+						<td><input type="text" name="paymentPlace" placeholder="사용처 입력" /></td>
+						<td><input type="text" name="paymentHistory" placeholder="내역 입력" /></td>
+						<td><input type="text" name="paymentPrice" placeholder="금액 입력" /></td>
+						<td><input type="text" name="paymentDate" placeholder="" /></td>
+						
+					</tr>
+				</tbody>
+			</table>
+
+			<!-- 버튼 그룹 -->
+			<div class="btn-group">
+				<button type="submit" class="btn blue">등록 완료</button>
+			</div>
+		</form>
+
 
 	</div>
 </body>
+
+
+
 <script>
-    const activeMenu = "account";
+    const activeMenu = "carRes";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');
@@ -275,4 +228,6 @@ tbody tr:hover {
         });
     });
 </script>
+
+
 </html>

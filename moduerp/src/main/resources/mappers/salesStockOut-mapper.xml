@@ -5,19 +5,90 @@
 
 <mapper namespace="SalesStockOutMapper">
 
-	<resultMap id="salesStockOutResult"
-		type="com.e3i3.moduerp.salesstock.model.dto.SalesStockOutDTO">
-		<result property="sStockOutId" column="S_STOCK_OUT_ID" />
-		<result property="itemCode" column="ITEM_CODE" />
-		<result property="sStockOutDate" column="S_STOCK_OUT_DATE" />
-		<result property="sStockOutPlace" column="S_STOCK_OUT_PLACE" />
-		<result property="sStockOutQty" column="S_STOCK_OUT_QTY" />
-		<result property="uuid" column="UUID" />
-	</resultMap>
+    <resultMap id="salesStockOutResult"
+        type="com.e3i3.moduerp.salesstock.model.dto.SalesStockOutDTO">
+        <result property="sStockOutId" column="S_STOCK_OUT_ID" />
+        <result property="itemCode" column="ITEM_CODE" />
+        <result property="sStockOutDate" column="S_STOCK_OUT_DATE" />
+        <result property="sStockOutPlace" column="S_STOCK_OUT_PLACE" />
+        <result property="sStockOutQty" column="S_STOCK_OUT_QTY" />
+        <result property="uuid" column="UUID" />
+        <result property="sStockOutPrice" column="S_STOCK_OUT_PRICE" />
+        <result property="sStockOutUpdate" column="S_STOCK_OUT_UPDATE" />
+        <result property="oDirector" column="ODIRECTOR" />
+    </resultMap>
 
-	<select id="selectAllSalesStockOuts"
-		resultMap="salesStockOutResult">
-		SELECT * FROM SALES_STOCK_OUT
-	</select>
+    <select id="selectAllSalesStockOuts"
+        resultMap="salesStockOutResult">
+        SELECT * FROM SALES_STOCK_OUT
+    </select>
+
+    <insert id="insertSalesStockOut"
+        parameterType="SalesStockOutDTO">
+        INSERT INTO SALES_STOCK_OUT (
+        S_STOCK_OUT_ID,
+        ITEM_CODE, S_STOCK_OUT_DATE, S_STOCK_OUT_PLACE, S_STOCK_OUT_QTY, UUID,
+        S_STOCK_OUT_PRICE, ODIRECTOR
+        ) VALUES (
+        #{sStockOutId}, #{itemCode},
+        #{sStockOutDate},
+        #{sStockOutPlace}, #{sStockOutQty},
+        #{uuid},
+        #{sStockOutPrice},
+        #{oDirector}
+        )
+    </insert>
+
+    <select id="selectSalesStockOutByItemCode"
+        parameterType="String"
+        resultType="com.e3i3.moduerp.salesstock.model.dto.SalesStockOutDTO">
+        SELECT * FROM SALES_STOCK_OUT WHERE ITEM_CODE =
+        #{itemCode}
+    </select>
+
+    <select id="selectSalesStockOutBySStockId"
+        parameterType="String" resultMap="salesStockOutResult">
+        SELECT * FROM SALES_STOCK_OUT
+        WHERE S_STOCK_OUT_ID = #{sStockOutId}
+    </select>
+
+    <!-- 출고 정보를 업데이트하는 쿼리 -->
+    <update id="updateSalesStockOut"
+        parameterType="com.e3i3.moduerp.salesstock.model.dto.SalesStockOutDTO">
+        UPDATE SALES_STOCK_OUT
+        SET S_STOCK_OUT_UPDATE =
+        #{sStockOutUpdate},
+        S_STOCK_OUT_PLACE = #{sStockOutPlace},
+        S_STOCK_OUT_QTY = #{sStockOutQty},
+        S_STOCK_OUT_PRICE =
+        #{sStockOutPrice},
+        UUID = #{uuid}
+        WHERE S_STOCK_OUT_ID = #{sStockOutId}
+    </update>
+
+    <!-- 특정 itemCode의 출고 총합 계산 (S_STOCK_OUT_QTY 합계) -->
+    <select id="getTotalStockOutByItemCode" parameterType="String"
+        resultType="int">
+        SELECT SUM(S_STOCK_OUT_QTY)
+        FROM SALES_STOCK_OUT
+        WHERE
+        ITEM_CODE = #{itemCode}
+    </select>
+
+    <!-- 삭제 -->
+    <delete id="deleteSalesStockOut" parameterType="String">
+        DELETE FROM
+        SALES_STOCK_OUT WHERE S_STOCK_OUT_ID = #{sStockOutId}
+    </delete>
+
+    <!-- 가장 최근의 출고 기록을 조회하는 쿼리 -->
+    <select id="selectMostRecentStockOutDetails"
+        parameterType="String" resultMap="salesStockOutResult">
+        SELECT *
+        FROM SALES_STOCK_OUT
+        WHERE ITEM_CODE = #{itemCode}
+        ORDER BY S_STOCK_OUT_DATE DESC
+        FETCH FIRST 1 ROWS ONLY
+    </select>
 
 </mapper>
