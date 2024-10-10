@@ -206,10 +206,13 @@ tbody tr:hover {
 						${option == 'stockPlace' ? 'selected' : ''}>입고 장소</option>
 					<option value="ODirector"
 						${option == 'ODirector' ? 'selected' : ''}>담당자</option>
-				</select> <input type="date" name="startDate" id="startDate"
-					value="${startDate != null ? startDate : ''}" /> <input
+				</select> 
+				<input type="date" name="startDate" id="startDate"
+					value="${startDate != null ? startDate : ''}" /> 
+					<input
 					type="date" name="endDate" id="endDate"
-					value="${endDate != null ? endDate : ''}" /> <input type="text"
+					value="${endDate != null ? endDate : ''}" /> 
+					<input type="text"
 					name="filterText" id="filterText" placeholder="내용 입력"
 					value="${filterText != null ? filterText : ''}" />
 

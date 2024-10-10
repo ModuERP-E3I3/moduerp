@@ -75,6 +75,63 @@ public class WorkOrderController {
 		return "productionStock/productionWorkorder"; // JSP 파일 경로 반환
 	}
 
+	@RequestMapping(value = "/productionWorkOrderFilter.do", method = RequestMethod.GET)
+	public String showWorkOrdersFilter(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "filterOption", required = false) String option,
+			@RequestParam(value = "filterText", required = false) String filterText,
+			@RequestParam(value = "startDate", required = false) String startDate,
+			@RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
+		// 세션에서 biz_number 가져오기
+		String bizNumber = (String) session.getAttribute("biz_number");
+
+		// DB에서 biz_number로 해당하는 WorkOrder 목록 가져오기
+		List<WorkOrderDTO> workOrderList = workOrderService.getWorkOrdersByBizNumber(bizNumber);
+
+		// 필터링 로직 추가
+		if (option != null && filterText != null) {
+			if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+				System.out.println("날짜있는거 실행");
+				workOrderList = workOrderService.getWorkOrderByFilterDate(bizNumber, option, filterText, startDate,
+						endDate);
+			} else if (startDate == null || startDate.isEmpty()) {
+				System.out.println("날짜없는거 실행");
+				workOrderList = workOrderService.getWorkOrderByFilter(bizNumber, option, filterText);
+			} else {
+				System.out.println("실행 못함");
+				workOrderList = workOrderService.getWorkOrdersByBizNumber(bizNumber);
+			}
+		} else {
+			workOrderList = workOrderService.getWorkOrdersByBizNumber(bizNumber);
+		}
+
+		// 페이지당 아이템 수 설정
+		int itemsPerPage = 10;
+
+		// 총 아이템 수 계산
+		int totalItems = workOrderList.size();
+
+		// 총 페이지 수 계산
+		int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+
+		// 시작 인덱스와 종료 인덱스 계산
+		int startIndex = (page - 1) * itemsPerPage;
+		int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+		// 서브리스트로 페이지네이션된 항목들 추출
+		List<WorkOrderDTO> paginatedList = workOrderList.subList(startIndex, endIndex);
+
+		// 모델에 WorkOrder 목록, 총 페이지 수, 현재 페이지 추가
+		model.addAttribute("workOrderList", paginatedList);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("option", option);
+		model.addAttribute("filterText", filterText);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
+
+		return "productionStock/productionWorkorderFilter"; // JSP 파일 경로 반환
+	}
+
 	@RequestMapping(value = "/productionWorkOrderCreate.do", method = RequestMethod.GET)
 	public String showWorkOrderCreatePage(Model model, HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
