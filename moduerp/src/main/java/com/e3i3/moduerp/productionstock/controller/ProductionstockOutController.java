@@ -66,7 +66,7 @@ public class ProductionstockOutController {
 
 		return "productionStock/productionStockOut"; // JSP 파일 경로 반환
 	}
-	
+
 	@RequestMapping(value = "/productionStockOutFilter.do", method = RequestMethod.GET)
 	public String forwardProductionInFilter(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "filterOption", required = false) String option,
@@ -76,11 +76,6 @@ public class ProductionstockOutController {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		List<ItemDTO> itemList;
 
-		System.out.println(option);
-		System.out.println(filterText);
-		System.out.println(startDate);
-		System.out.println(endDate);
-		
 		// 필터링 로직 추가
 		if (option != null && filterText != null) {
 			if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {

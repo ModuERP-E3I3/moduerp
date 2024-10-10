@@ -97,6 +97,35 @@ th {
 	font-weight: bold;
 }
 
+/* 버튼 스타일 */
+.btn-group {
+	margin-top: 20px;
+	text-align: right;
+}
+
+.btn {
+	padding: 8px 16px;
+	margin-left: 5px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.btn.red {
+	background-color: red;
+	color: white;
+}
+
+.btn.green {
+	background-color: green;
+	color: white;
+}
+
+.btn.blue {
+	background-color: blue;
+	color: white;
+}
+
 .filter-box {
 	margin-bottom: 20px;
 }
@@ -116,18 +145,16 @@ th {
 	background-color: white;
 }
 
-#tbpt:hover {
-	cursor: pointer;
+.material-type-input {
+	margin-bottom: 10px;
 }
 </style>
 
 </head>
 
 <body>
-	<!-- 서브헤더 JSP 임포트 -->
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
-	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
 			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
@@ -141,94 +168,81 @@ th {
 		</ul>
 	</div>
 
-	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
+		<div class="content-title">영업관리 | 영업입고 | ${itemDetails.itemName}
+			수정하기</div>
 
-		<div class="content-title">영업관리 | 영업출고 | ${itemDetails.itemName}
-			출고 정보</div>
-
-
-
-		<!-- 테이블 -->
-		<!-- 아이템 관련 데이터 테이블 -->
-		<table>
-			<thead>
-				<tr>
-					<th>제품명</th>
-					<th>제품 설명</th>
-					<th>최종 출고 날짜</th>
-					<th>총 출고 수량</th>
-					<th>최종 출고 가격</th>
-					<th>최종 출고 장소</th>
-					<th>자재 종류</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>${itemDetails.itemName}</td>
-					<td>${itemDetails.itemDesc}</td>
-					<td><fmt:formatDate value="${itemDetails.createdOutAt}"
-							pattern="yyyy-MM-dd" /></td>
-					<td>${itemDetails.stockOut}</td>
-					<td>${itemDetails.outPrice}</td>
-					<td>${itemDetails.stockOutPlace}</td>
-					<td>${itemDetails.itemList}</td>
-				</tr>
-			</tbody>
-		</table>
-
-		<!-- 영업 출고 관련 데이터 테이블 -->
-		<table>
-			<thead>
-				<tr>
-					<th>출고 날짜</th>
-					<th>출고 장소</th>
-					<th>출고 수량</th>
-					<th>출고 가격</th>
-					<th>출고 담당자</th>
-					<th>출고 상태</th>
-					<!-- S_STOCK_OUT_STATUS -->
-					<th>지급 상태</th>
-					<!-- PANNINT_STATUS -->
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="stockOut" items="${salesStockOutDetails}">
-					<tr id="tbpt"
-						onclick="window.location.href='getSalesOutDetailsSub.do?sStockOutId=${stockOut.sStockOutId}&itemCode=${itemDetails.itemCode }'">
-						<td><fmt:formatDate value="${stockOut.sStockOutDate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
-						<td>${stockOut.sStockOutPlace}</td>
-						<td>${stockOut.sStockOutQty}</td>
-						<td>${stockOut.sStockOutPrice}</td>
-						<td>${stockOut.oDirector}</td>
-						<td><c:choose>
-								<c:when test="${stockOut.sStockOutStatus == 'Y'}">Yes</c:when>
-								<c:otherwise>No</c:otherwise>
-							</c:choose></td>
-						<!-- S_STOCK_OUT_STATUS 표시 -->
-						<td><c:choose>
-								<c:when test="${stockOut.paymentStatus == 'Y'}">Yes</c:when>
-								<c:otherwise>No</c:otherwise>
-							</c:choose></td>
-						<!-- PANNINT_STATUS 표시 -->
+		<form action="/moduerp/updateSalesStockSubOut.do" method="POST">
+			<input type="hidden" name="itemCode" value="${itemDetails.itemCode}" />
+			<input type="hidden" name="sStockOutId"
+				value="${salesStockOutDetails.sStockOutId}" />
+			<table>
+				<thead>
+					<tr>
+						<th>제품명</th>
+						<th>제품 설명</th>
+						<th>출고 날짜</th>
+						<th>수정 날짜</th>
+						<th>출고 수량</th>
+						<th>출고 가격</th>
+						<th>출고 장소</th>
+						<th>자재 종류</th>
+						<th>출고 담당자</th>
+						<th>출고 상태</th>
+						<th>지급 상태</th>
 					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<tr>
+						<td>${itemDetails.itemName}</td>
+						<td>${itemDetails.itemDesc}</td>
+						<td><fmt:formatDate
+								value="${salesStockOutDetails.sStockOutDate}"
+								pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td><fmt:formatDate
+								value="${salesStockOutDetails.sStockOutUpdate}"
+								pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td><input type="number" name="stockOut"
+							value="${salesStockOutDetails.sStockOutQty}" required /></td>
+						<td><input type="number" name="outPrice"
+							value="${salesStockOutDetails.sStockOutPrice}" step="0.01"
+							required /></td>
+						<td><input list="stockPlaces" name="stockPlace"
+							value="${salesStockOutDetails.sStockOutPlace}"
+							placeholder="보관장소 선택" required /> <datalist id="stockPlaces">
+								<c:forEach var="stockPlace" items="${stockPlaces}">
+									<option value="${stockPlace}"></option>
+								</c:forEach>
+							</datalist></td>
+						<td>${itemDetails.itemList}</td>
+						<td>${salesStockOutDetails.oDirector}</td>
+						
+						<td><select name="sStockOutStatus">
+								<option value="Y"
+									<c:if test="${salesStockOutDetails.sStockOutStatus == 'Y'}">selected</c:if>>Yes</option>
+								<option value="N"
+									<c:if test="${salesStockOutDetails.sStockOutStatus == 'N'}">selected</c:if>>No</option>
+						</select></td>
+						
+						<td><select name="paymentStatus">
+								<option value="Y"
+									<c:if test="${salesStockOutDetails.paymentStatus == 'Y'}">selected</c:if>>Yes</option>
+								<option value="N"
+									<c:if test="${salesStockOutDetails.paymentStatus == 'N'}">selected</c:if>>No</option>
+						</select></td>
+						
+						
+					</tr>
+				</tbody>
+			</table>
 
-
-
-
-
-
-
+			<div class="btn-group">
+				<button type="submit" class="btn green">수정 완료</button>
+			</div>
+		</form>
 
 	</div>
-
 </body>
-
-
 
 
 <script>

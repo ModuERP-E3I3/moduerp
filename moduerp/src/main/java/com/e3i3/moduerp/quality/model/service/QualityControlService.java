@@ -17,4 +17,9 @@ public interface QualityControlService {
 
 	void deleteQualityControlByInspecCode(String inspecCode);
 
+	List<QualityControlDTO> getQualityByFilterDate(String bizNumber, String option, String filterText, String startDate,
+			String endDate);
+
+	List<QualityControlDTO> getQualityByFilter(String bizNumber, String option, String filterText);
+
 }

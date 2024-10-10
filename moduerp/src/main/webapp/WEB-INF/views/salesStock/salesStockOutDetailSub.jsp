@@ -97,6 +97,35 @@ th {
 	font-weight: bold;
 }
 
+/* 버튼 스타일 */
+.btn-group {
+	margin-top: 20px;
+	text-align: right;
+}
+
+.btn {
+	padding: 8px 16px;
+	margin-left: 5px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.btn.red {
+	background-color: red;
+	color: white;
+}
+
+.btn.green {
+	background-color: green;
+	color: white;
+}
+
+.btn.blue {
+	background-color: blue;
+	color: white;
+}
+
 .filter-box {
 	margin-bottom: 20px;
 }
@@ -116,8 +145,50 @@ th {
 	background-color: white;
 }
 
-#tbpt:hover {
+/* Modal Styles */
+#delete-modal {
+	display: none; /* 초기에는 보이지 않도록 설정 */
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%; /* 전체 화면 너비 */
+	height: 100%; /* 전체 화면 높이 */
+	background-color: rgba(0, 0, 0, 0.5); /* 배경 반투명 */
+	display: flex; /* 플렉스 박스를 사용하여 중앙 정렬 */
+}
+
+.modal-content {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	text-align: center;
+	width: 300px; /* 원하는 너비 */
+	position: relative;
+	margin: auto; /* 중앙 정렬을 위한 마진 */
+	margin-top: 20%;
+}
+
+.modal-content h2 {
+	margin-bottom: 20px;
+}
+
+.modal-content button {
+	padding: 10px 20px;
+	margin: 10px;
+	border: none;
+	border-radius: 5px;
 	cursor: pointer;
+}
+
+.modal-content .go-delete {
+	background-color: red;
+	color: #fff;
+}
+
+.modal-content .stay-page {
+	background-color: gray;
+	color: #fff;
 }
 </style>
 
@@ -144,93 +215,99 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업관리 | 영업출고 | ${itemDetails.itemName}
-			출고 정보</div>
-
-
+		<div class="content-title">영업관리 | 영업출고 |
+			${itemDetailsSub.itemName}</div>
 
 		<!-- 테이블 -->
-		<!-- 아이템 관련 데이터 테이블 -->
 		<table>
 			<thead>
 				<tr>
 					<th>제품명</th>
 					<th>제품 설명</th>
-					<th>최종 출고 날짜</th>
-					<th>총 출고 수량</th>
-					<th>최종 출고 가격</th>
-					<th>최종 출고 장소</th>
-					<th>자재 종류</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>${itemDetails.itemName}</td>
-					<td>${itemDetails.itemDesc}</td>
-					<td><fmt:formatDate value="${itemDetails.createdOutAt}"
-							pattern="yyyy-MM-dd" /></td>
-					<td>${itemDetails.stockOut}</td>
-					<td>${itemDetails.outPrice}</td>
-					<td>${itemDetails.stockOutPlace}</td>
-					<td>${itemDetails.itemList}</td>
-				</tr>
-			</tbody>
-		</table>
-
-		<!-- 영업 출고 관련 데이터 테이블 -->
-		<table>
-			<thead>
-				<tr>
 					<th>출고 날짜</th>
-					<th>출고 장소</th>
+					<th>수정 날짜</th>
 					<th>출고 수량</th>
 					<th>출고 가격</th>
+					<th>출고 장소</th>
+					<th>자재 종류</th>
 					<th>출고 담당자</th>
 					<th>출고 상태</th>
-					<!-- S_STOCK_OUT_STATUS -->
 					<th>지급 상태</th>
-					<!-- PANNINT_STATUS -->
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="stockOut" items="${salesStockOutDetails}">
-					<tr id="tbpt"
-						onclick="window.location.href='getSalesOutDetailsSub.do?sStockOutId=${stockOut.sStockOutId}&itemCode=${itemDetails.itemCode }'">
-						<td><fmt:formatDate value="${stockOut.sStockOutDate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
-						<td>${stockOut.sStockOutPlace}</td>
-						<td>${stockOut.sStockOutQty}</td>
-						<td>${stockOut.sStockOutPrice}</td>
-						<td>${stockOut.oDirector}</td>
-						<td><c:choose>
-								<c:when test="${stockOut.sStockOutStatus == 'Y'}">Yes</c:when>
-								<c:otherwise>No</c:otherwise>
-							</c:choose></td>
-						<!-- S_STOCK_OUT_STATUS 표시 -->
-						<td><c:choose>
-								<c:when test="${stockOut.paymentStatus == 'Y'}">Yes</c:when>
-								<c:otherwise>No</c:otherwise>
-							</c:choose></td>
-						<!-- PANNINT_STATUS 표시 -->
-					</tr>
-				</c:forEach>
+				<tr>
+					<td>${itemDetailsSub.itemName}</td>
+					<td>${itemDetailsSub.itemDesc}</td>
+					<td><fmt:formatDate
+							value="${salesStockOutDetailsSub.sStockOutDate}"
+							pattern="yyyy-MM-dd HH:mm:ss" /></td>
+					<td><fmt:formatDate
+							value="${salesStockOutDetailsSub.sStockOutUpdate}"
+							pattern="yyyy-MM-dd HH:mm:ss" /></td>
+					<td>${salesStockOutDetailsSub.sStockOutQty}</td>
+					<td>${salesStockOutDetailsSub.sStockOutPrice}</td>
+					<td>${salesStockOutDetailsSub.sStockOutPlace}</td>
+					<td>${itemDetailsSub.itemList}</td>
+					<td>${salesStockOutDetailsSub.oDirector}</td>
+					<td><c:choose>
+							<c:when test="${salesStockOutDetailsSub.sStockOutStatus == 'Y'}">Yes</c:when>
+							<c:otherwise>No</c:otherwise>
+						</c:choose></td>
+					<!-- S_STOCK_OUT_STATUS 표시 -->
+					<td><c:choose>
+							<c:when test="${salesStockOutDetailsSub.paymentStatus == 'Y'}">Yes</c:when>
+							<c:otherwise>No</c:otherwise>
+						</c:choose></td>
+					<!-- PANNINT_STATUS 표시 -->
+				</tr>
 			</tbody>
 		</table>
 
 
-
-
-
+		<!-- 버튼 그룹 -->
+		<div class="btn-group">
+			<button class="btn red" onclick="openDeleteModal()">삭제</button>
+			<a
+				href="salesStockOutDetailSubUpdate.do?itemCode=${itemDetailsSub.itemCode}&sStockId=${salesStockOutDetailsSub.sStockOutId}">
+				<button class="btn green">수정</button>
+			</a>
+		</div>
 
 
 
 	</div>
+	<!-- 삭제 확인 모달 -->
+	<div id="delete-modal" style="display: none;">
+		<div class="modal-content">
+			<h2>정말로 삭제하시겠습니까?</h2>
+			<p>삭제된 데이터는 복구할 수 없습니다.</p>
+			<!-- 삭제 버튼을 포함하는 폼 추가 -->
+			<form action="deleteSalesStockOut.do" method="POST">
+				<input type="hidden" name="itemCode"
+					value="${itemDetailsSub.itemCode}"> <input type="hidden"
+					name="sStockOutId" value="${salesStockOutDetailsSub.sStockOutId}">
+				<!-- itemCode를 숨겨진 필드로 전달 -->
+				<button type="submit" class="go-delete">삭제</button>
+				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>
+			</form>
+		</div>
+	</div>
 
 </body>
 
+<script type="text/javascript">
+function openDeleteModal() {
+    document.getElementById('delete-modal').style.display = 'block';
+}
+
+function closeDeleteModal() {
+    document.getElementById('delete-modal').style.display = 'none';
+}
 
 
 
+</script>
 <script>
     const activeMenu = "account";
 

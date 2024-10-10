@@ -2,11 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ERP Main | 작업지시서</title>
+<title>erpMain</title>
 
 <style type="text/css">
 .top-content-box {
@@ -176,92 +177,72 @@ tbody tr:hover {
 
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-		<ul id="menubar">
-			<li><a href="productionStockIn.do"><i
-					class="fas fa-bullhorn"></i> 생산 입고</a></li>
-			<li><a href="productionStockOut.do"><i
-					class="fas fa-clipboard"></i> 생산 출고</a></li>
-			<!-- 수정 -->
-			<li><a href="productionWorkorder.do"><i class="fas fa-code"></i>
-					작업지시서</a></li>
-			<!-- 수정 -->
-			<li><a href="productionQuality.do"><i class="fas fa-plug"></i>
-					품질관리</a></li>
-			<!-- 수정 -->
-		</ul>
+	    <ul id="menubar">
+	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
+	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
+	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
+	    </ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 작업지시서</div>
-
-		<form action="/moduerp/productionWorkOrderFilter.do">
+		<div class="content-title">영업관리 | 영업출고</div>
+		<form action="/moduerp/salesStockOutFilter.do">
 			<!-- 필터 박스 -->
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
 					<option disabled selected>옵션 선택</option>
-					<option value="itemName">제품명</option>
-					<option value="taskName">작업명</option>
-					<option value="worker">작업자</option>
-					<option value="wDirector">지시자</option>
-				</select> <input type="date" name="startDate" id="startDate" /> <input
-					type="date" name="endDate" id="endDate" /> <input type="text"
-					name="filterText" id="filterText" placeholder="내용 입력" />
+					<option value="itemName" ${option == 'itemName' ? 'selected' : ''}>제품명</option>
+					<option value="stockPlace"
+						${option == 'stockPlace' ? 'selected' : ''}>입고 장소</option>
+					<option value="ODirector"
+						${option == 'ODirector' ? 'selected' : ''}>담당자</option>
+				</select> <input type="date" name="startDate" id="startDate"
+					value="${startDate != null ? startDate : ''}" /> <input
+					type="date" name="endDate" id="endDate"
+					value="${endDate != null ? endDate : ''}" /> <input type="text"
+					name="filterText" id="filterText" placeholder="내용 입력"
+					value="${filterText != null ? filterText : ''}" />
+
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
-					onclick="window.location.href='productionWorkorder.do';">초기화</button>
+					onclick="window.location.href='salesStockOut.do';">초기화</button>
 			</div>
 		</form>
-
 		<!-- 테이블 -->
 		<table>
 			<thead>
 				<tr>
-					<th>지시서 번호</th>
+					<th>순번</th>
 					<th>제품명</th>
-					<th>작업명</th>
-					<th>시작 날짜</th>
-					<th>종료 예정 날짜</th>
-					<th>종료 날짜</th>
-					<th>작업 수량</th>
-					<th>진행 상태</th>
-					<th>작업팀</th>
-					<th>작업자</th>
-					<th>작업 장소</th>
-					<th>지시자</th>
+					<th>최종 출고 일자</th>
+					<th>총 출고 수량</th>
+					<th>재고 수량</th>
+					<th>최종 출고 장소</th>
+					<th>최종 출고 단가</th>
+					<th>최종 출고 담당자</th>
 				</tr>
 			</thead>
 			<tbody>
-
-
-
-				<c:forEach var="workOrder" items="${workOrderList}"
-					varStatus="status">
+				<c:forEach var="item" items="${itemList}" varStatus="status">
 					<tr
-						onclick="window.location.href='getProductionWorkOrderDetails.do?orderNumber=${workOrder.orderNumber}'">
+						onclick="window.location.href='getSalesOutDetails.do?itemCode=${item.itemCode}'">
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<td>${workOrder.itemName}</td>
-						<td>${workOrder.taskName}</td>
-						<td><fmt:formatDate value="${workOrder.startDate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
-						<td><fmt:formatDate value="${workOrder.endExDate}"
+						<td>${item.itemName}</td>
+						<td><fmt:formatDate value="${item.createdOutAt}"
 								pattern="yyyy-MM-dd" /></td>
-						<td><fmt:formatDate value="${workOrder.endDate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
-						<td>${workOrder.qty}</td>
-						<td>${workOrder.progressStatus}</td>
-						<td>${workOrder.workerTeam}</td>
-						<td>${workOrder.worker}</td>
-						<td>${workOrder.workPlace}</td>
-						<td>${workOrder.wDirector}</td>
+						<td>${item.stockOut}</td>
+						<td>${item.stock}</td>
+						<td>${item.stockOutPlace}</td>
+						<td>${item.outPrice}</td>
+						<td>${item.oDirector}</td>
 					</tr>
-
 				</c:forEach>
 			</tbody>
 
-		</table>
 
+		</table>
 		<!-- 페이지 버튼 -->
 		<div id="pagebutton">
 			<c:if test="${totalPages > 1}">
@@ -272,7 +253,9 @@ tbody tr:hover {
 							<!-- 현재 페이지는 강조 -->
 						</c:when>
 						<c:otherwise>
-							<a href="productionWorkorder.do?page=${i}">${i}</a>
+							<a
+								href="salesStockOutFilter.do?page=${i}&filterOption=${option}&filterText=${filterText}&startDate=${startDate}&endDate=${endDate}">
+								${i} </a>
 							<!-- 페이지 링크 -->
 						</c:otherwise>
 					</c:choose>
@@ -282,13 +265,13 @@ tbody tr:hover {
 
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
-			<a href="productionWorkOrderCreate.do"><button class="btn blue">등록</button></a>
+			<a href="salesStockOutCreate.do"><button class="btn blue">등록</button></a>
 		</div>
 
 	</div>
 </body>
 <script>
-    const activeMenu = "productionStockIn";
+    const activeMenu = "account";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

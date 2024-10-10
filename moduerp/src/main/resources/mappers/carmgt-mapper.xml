@@ -2,40 +2,101 @@
 <!DOCTYPE mapper PUBLIC
  "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="CarmgtMapper">
- 	<resultMap id="resultCarmgt" type="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
- 		<result property="carId"  column="CAR_ID" />
- 		<result property="departmentId"  column="DEPARTMENT_ID" />
- 		<result property="paymentHistory"  column="PAYMENT_HISTORY" />
- 		<result property="paymentPrice"  column="PAYMENT_PRICE" />
- 		<result property="paymentDate"  column="PAYMENT_DATE" />
- 		<result property="paymentPlace"  column="PAYMENT_PLACE" />
- 		<result property="uuid"  column="UUID" />
- 		<result property="carModel" column="CAR_MODEL" />
-        <result property="ownershipStatus" column="OWNERSHIP_STATUS" />
- 	</resultMap>
- 		
- 		<!-- 차량결제관리 전체 조회 쿼리 -->
- 		<select id="getAllCarmgt" resultMap="resultCarmgt">
- 			SELECT 
-    			CM.CAR_ID,            
-    			CM.DEPARTMENT_ID, 
-    			CM.PAYMENT_HISTORY, 
-    			CM.PAYMENT_PRICE, 
-    			CM.PAYMENT_DATE, 
-    			CM.PAYMENT_PLACE,
-   	 			C.CAR_MODEL,         
-    			C.OWNERSHIP_STATUS   
-			FROM 
-    			CAR_MANAGEMENT CM
-			JOIN 
-    			CAR C ON CM.CAR_ID = C.CAR_ID 
- 		</select>
+<mapper namespace="CarmgtMapper">
+	<resultMap id="resultCarmgt"
+		type="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
+		<result property="paymentHistoryCode"
+			column="PAYMENT_HISTORY_CODE" />
+		<result property="carId" column="CAR_ID" />
+		<result property="departmentId" column="DEPARTMENT_ID" />
+		<result property="empName" column="EMP_NAME" />
+		<result property="paymentHistory" column="PAYMENT_HISTORY" />
+		<result property="paymentPrice" column="PAYMENT_PRICE" />
+		<result property="paymentDate" column="PAYMENT_DATE" />
+		<result property="paymentPlace" column="PAYMENT_PLACE" />
+		<result property="uuid" column="UUID" />
+		<result property="carModel" column="CAR_MODEL" />
+		<result property="carNum" column="CAR_NUM" />
+		<result property="ownershipStatus" column="OWNERSHIP_STATUS" />
+		<result property="bizNumber" column="BIZ_NUMBER" />
+	</resultMap>
 
- 
- 
-	<!-- <delete id="deleteCarmgt"
-		parameterType="String">
-		DELETE FROM CAR_MANAGEMENT WHERE CAR_ID = #{carId}
-	</delete> -->
- </mapper>
+	<!-- 차량결제관리 전체 조회 쿼리 -->
+	<select id="getAllCarmgt" resultMap="resultCarmgt">
+		SELECT *
+		FROM CAR_MANAGEMENT CM
+		JOIN CAR C ON CM.CAR_ID = C.CAR_ID
+	</select>
+
+	<!-- 사원명 조회 쿼리 -->
+	<select id="getEmpNamesByBizNumber" resultType="string">
+		SELECT EMP_NAME
+		FROM EMPLOYEE
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+
+	<!-- 부서명 조회 쿼리 -->
+	<select id="getDepartmentIdsByBizNumber" resultType="string">
+		SELECT DEPARTMENT_ID
+		FROM EMPLOYEE
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+
+	<!-- 차량 정보 조회 쿼리 -->
+	<select id="getCarsByBizNumber"
+		resultType="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
+		SELECT CAR_MODEL, CAR_NUM
+		FROM CAR
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+	
+	
+
+	<insert id="insertCarmgt"
+		parameterType="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
+		INSERT INTO CAR_MANAGEMENT (
+		PAYMENT_HISTORY_CODE,
+		CAR_ID,
+		CAR_NUM,
+		CAR_MODEL,
+		DEPARTMENT_ID,
+		EMP_NAME,
+		PAYMENT_HISTORY,
+		PAYMENT_PRICE,
+		PAYMENT_DATE,
+		PAYMENT_PLACE,
+		UUID,
+		BIZ_NUMBER
+		)
+		VALUES (
+		#{paymentHistoryCode},
+		(SELECT CAR_ID FROM CAR WHERE CAR_MODEL = #{carModel} AND CAR_NUM = #{carNum}
+		AND ROWNUM = 1),
+		#{carNum},
+		#{carModel},
+		#{departmentId},
+		#{empName},
+		#{paymentHistory},
+		#{paymentPrice},
+		#{paymentDate},
+		#{paymentPlace},
+		(SELECT UUID FROM EMPLOYEE WHERE EMP_NAME = #{empName} AND DEPARTMENT_ID =
+		#{departmentId} AND ROWNUM = 1),
+		#{bizNumber}
+		)
+	</insert>
+	
+	<select id="getEmpNameDepart" parameterType="map"
+		resultType="com.e3i3.moduerp.employee.model.dto.Employee">
+		SELECT *
+		FROM EMPLOYEE
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+	
+	<!-- 상세 페이지로 이동 쿼리 -->
+	<select id="selectpaymentHistoryCode" parameterType="map" resultType="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
+		SELECT *
+		FROM CAR_MANAGEMENT WHERE PAYMENT_HISTORY_CODE = #{paymentHistoryCode}
+	</select>
+
+</mapper>

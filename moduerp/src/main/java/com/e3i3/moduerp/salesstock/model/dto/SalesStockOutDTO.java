@@ -13,6 +13,11 @@ public class SalesStockOutDTO {
     private Date sStockOutUpdate;
     private String oDirector;
     
+    private String sStockOutStatus;
+    private String paymentStatus;  
+
+    
+    
     // Getters and Setters
     public String getsStockOutId() {
         return sStockOutId;
@@ -69,4 +74,17 @@ public class SalesStockOutDTO {
         this.oDirector = oDirector;
     }
 
+//    STATUS - - - - - - - - - - - - - - - - - - - - - - - - - -
+    public String getsStockOutStatus() {
+        return sStockOutStatus;
+    }
+    public void setsStockOutStatus(String sStockOutStatus) {
+        this.sStockOutStatus = sStockOutStatus;
+    }
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
 }

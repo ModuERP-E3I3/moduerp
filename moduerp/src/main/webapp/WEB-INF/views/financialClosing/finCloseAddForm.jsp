@@ -61,7 +61,7 @@
 	background-color: white;
 	margin-left: 1%;
 	margin-right: 5%;
-	margin-top: 3%;
+	margin-top: 5%;
 	border: 1px solid #ccc;
 	border-radius: 20px; /* 박스 둥글게 */
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -144,90 +144,10 @@ th {
 .top-content-box {
 	background-color: white;
 }
-
-.material-type-input {
-	margin-bottom: 10px;
-}
 </style>
 
 </head>
-
 <body>
-	<!-- 서브헤더 JSP 임포트 -->
-	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
-	<!-- 위에 하얀 박스  -->
-	<div class="top-content-box">
-		<ul id="menubar">
-			<li><a href="carRes.do"><i class="fas fa-bullhorn"></i> 차량
-					예약</a></li>
-			<li><a href="carMgt.do"><i class="fas fa-bullhorn"></i> 차량
-					결제 관리</a></li>
-			<li><a href="map.do"><i class="fas fa-bullhorn"></i> 도로 교통 /
-					경로 조회</a></li>
-		</ul>
-	</div>
-
-	<div class="content-box">
-		<div class="content-title">차량관리 | 차량 예약 | 차량 정보 수정 수정하기</div>
-
-		<form action="/moduerp/updateCar.do" method="POST">
-			<input type="hidden" name="carId" value="${carDetail.carId}" />
-			<table>
-				<thead>
-					<tr>
-						<th>차종</th>
-						<th>차량 번호</th>
-						<th>사원명</th>
-						<th>부서명</th>
-						<th>사용처</th>
-						<th>내역</th>
-						<th>금액</th>
-						<th>일자</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><input type="text" name="carModel"
-							value="${carDetail.carModel}" required /></td>
-						<td><input type="text" name="carNum"
-							value="${carDetail.carNum}" required /></td>
-						<td><input type="text" name="empName"
-							value="${carDetail.empName}" required /></td>
-						<td><input type="text" name="departmentId"
-							value="${carDetail.departmentId}" required /></td>
-						<td><input type="text" name="paymentPlace" value="${paymentPlace}"
-							placeholder="사용처 입력" /></td>
-						<td><input type="text" name="paymentHistory" value="${paymentHistory}"
-							placeholder="내역 입력" /></td>
-						<td><input type="text" name="paymentPrice" value="${paymentPrice}"
-							placeholder="금액 입력" /></td>
-						<td><input type="date" id="paymentDate" name="paymentDate" /></td>
-
-					</tr>
-				</tbody>
-			</table>
-
-			<div class="btn-group">
-				<button type="submit" class="btn green">수정 완료</button>
-			</div>
-		</form>
-	</div>
 </body>
-
-
-<script>
-    const activeMenu = "carRes";
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuItems = document.querySelectorAll('nav.side ul li a');
-        menuItems.forEach(item => {
-            if (item.href.includes(activeMenu)) {
-                item.classList.add('active');
-            }
-        });
-    });
-</script>
-
-
 </html>

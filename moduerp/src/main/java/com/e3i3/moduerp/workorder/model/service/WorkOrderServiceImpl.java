@@ -59,4 +59,36 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 	public List<WorkOrderDTO> getCompletedWorkOrders() {
 		return workOrderDAO.findCompletedWorkOrders();
 	}
+
+	// -------------------------------
+
+	@Override
+	public List<WorkOrderDTO> getWorkOrderByFilterDate(String bizNumber, String option, String filterText,
+			String startDate, String endDate) {
+		if (option.equals("itemName")) {
+			return workOrderDAO.getWorkOrderItemNameByFilterDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("taskName")) {
+			return workOrderDAO.getWorkOrdertaskNameByFilterDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("worker")) {
+			return workOrderDAO.getWorkOrderworkerByFilterDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("wDirector")) {
+			return workOrderDAO.getWorkOrderwDirectorByFilterDate(bizNumber, filterText, startDate, endDate);
+		}
+
+		return null;
+	}
+
+	@Override
+	public List<WorkOrderDTO> getWorkOrderByFilter(String bizNumber, String option, String filterText) {
+		if (option.equals("itemName")) {
+			return workOrderDAO.getWorkOrderItemNameByFilter(bizNumber, filterText);
+		} else if (option.equals("taskName")) {
+			return workOrderDAO.getWorkOrdertaskNameByFilter(bizNumber, filterText);
+		} else if (option.equals("worker")) {
+			return workOrderDAO.getWorkOrderworkerByFilter(bizNumber, filterText);
+		}else if (option.equals("wDirector")) {
+			return workOrderDAO.getWorkOrderwDirectorByFilter(bizNumber, filterText);
+		}
+		return null;
+	}
 }
