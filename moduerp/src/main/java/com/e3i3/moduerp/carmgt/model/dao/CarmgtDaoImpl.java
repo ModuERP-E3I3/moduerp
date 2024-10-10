@@ -20,6 +20,11 @@ public class CarmgtDaoImpl implements CarmgtDao {
 		return sqlSession.selectList(namespace +  ".getAllCarmgt");
 	}
 	
+	@Override
+	public void insertCarmgt(CarmgtDto carmgtDto) {
+		sqlSession.insert(namespace + ".insertCarmgt", carmgtDto);
+	}
+	
 	public CarmgtDto getCarmgtId(String carmgtId) {
 		return sqlSession.selectOne(namespace + ".getCarmgtId", carmgtId);
 	}
@@ -30,4 +35,21 @@ public class CarmgtDaoImpl implements CarmgtDao {
 	 * 
 	 * }
 	 */
+	
+	@Override
+    public List<String> getEmpNamesByBizNumber(String bizNumber) {
+        return sqlSession.selectList(namespace + ".getEmpNamesByBizNumber", bizNumber);
+    }
+
+    @Override
+    public List<String> getDepartmentIdsByBizNumber(String bizNumber) {
+        return sqlSession.selectList(namespace + ".getDepartmentIdsByBizNumber", bizNumber);
+    }
+
+    @Override
+    public List<CarmgtDto> getCarsByBizNumber(String bizNumber) {
+        return sqlSession.selectList(namespace + ".getCarsByBizNumber", bizNumber);
+    }
+
+    
 }

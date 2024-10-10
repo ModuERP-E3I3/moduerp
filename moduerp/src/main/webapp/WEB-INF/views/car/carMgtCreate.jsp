@@ -177,7 +177,8 @@ th {
 					<tr>
 						<th>차종</th>
                     	<th>차량 번호</th>
-                    	<th>소유 형태</th>
+                    	<th>사원명</th>
+                    	<th>부서명</th>
                     	<th>사용처</th>
                     	<th>내역</th>
                     	<th>금액</th>
@@ -188,17 +189,44 @@ th {
 					<tr>
 
 						<!-- 차종 입력 칸 -->
-						<td><input type="text" name="carModel" placeholder="차종 입력" /></td>
-
+						<td>
+							<input list="carModels" name="carModel" placeholder="차종 입력" /> 
+                            <datalist id="carModels">
+                                <c:forEach var="carModel" items="${carModels}">
+                                    <option value="${carModel}" />
+                                </c:forEach>
+                            </datalist>
+						</td>
 						<!-- 차량 번호 입력 칸 -->
-						<td><input type="text" name="carNum" placeholder="차량 번호 입력" /></td>
-
-						<!-- 소유 형태 입력 칸 -->
-						<td><input type="text" name="ownershipStatus" placeholder="소유 형태 입력" /></td>
+						<td>
+							<input list="carNums" name="carNum" placeholder="차량 번호 입력" /> 
+                            <datalist id="carNums">
+                                <c:forEach var="carNum" items="${carNums}">
+                                    <option value="${carNum}" />
+                                </c:forEach>
+                            </datalist>
+						</td>
+						<!-- 사원 이름 -->
+						<td>
+							<input list="empNames" name="empName" placeholder="사원명" /> 
+                            <datalist id="empNames">
+                                <c:forEach var="empName" items="${empNames}">
+                                    <option value="${empName}" />
+                                </c:forEach>
+                            </datalist>
+						</td>
+						<td>
+							<input list="departmentIds" name="departmentId" placeholder="부서명" /> 
+                            <datalist id="departmentIds">
+                                <c:forEach var="departmentId" items="${departmentIds}">
+                                    <option value="${departmentId}" />
+                                </c:forEach>
+                            </datalist>
+						</td>
 						<td><input type="text" name="paymentPlace" placeholder="사용처 입력" /></td>
 						<td><input type="text" name="paymentHistory" placeholder="내역 입력" /></td>
 						<td><input type="text" name="paymentPrice" placeholder="금액 입력" /></td>
-						<td><input type="text" name="paymentDate" placeholder="" /></td>
+						<td><input type="date" id="paymentDate" name="paymentDate" /></td>
 						
 					</tr>
 				</tbody>

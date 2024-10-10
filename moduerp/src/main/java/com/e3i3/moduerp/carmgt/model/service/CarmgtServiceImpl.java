@@ -9,13 +9,33 @@ import com.e3i3.moduerp.carmgt.model.dao.CarmgtDao;
 import com.e3i3.moduerp.carmgt.model.dto.CarmgtDto;
 
 @Service
-public class CarmgtServiceImpl implements CarmgtService{
+public class CarmgtServiceImpl implements CarmgtService {
 	@Autowired
 	private CarmgtDao carmgtDao;
-	
+
 	@Override
-	public List<CarmgtDto> getAllCarmgt(){
+	public List<CarmgtDto> getAllCarmgt() {
 		return carmgtDao.getAllCarmgt();
+	}
+
+	@Override
+	public void insertCarmgt(CarmgtDto carmgtDto) {
+		carmgtDao.insertCarmgt(carmgtDto);
+	}
+
+	@Override
+	public List<String> getEmpNamesByBizNumber(String bizNumber) {
+		return carmgtDao.getEmpNamesByBizNumber(bizNumber);
+	}
+
+	@Override
+	public List<String> getDepartmentIdsByBizNumber(String bizNumber) {
+		return carmgtDao.getDepartmentIdsByBizNumber(bizNumber);
+	}
+
+	@Override
+	public List<CarmgtDto> getCarsByBizNumber(String bizNumber) {
+		return carmgtDao.getCarsByBizNumber(bizNumber);
 	}
 
 	/*
