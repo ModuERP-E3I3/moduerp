@@ -153,11 +153,16 @@ th {
 
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-	    <ul id="menubar">
-	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
-	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
-	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
-	    </ul>
+		<ul id="menubar">
+			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
+					거래처관리</a></li>
+			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
+					영업 입고</a></li>
+			<!-- 수정 -->
+			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
+					영업 출고</a></li>
+			<!-- 수정 -->
+		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
@@ -167,7 +172,7 @@ th {
 
 		<!-- 폼 시작 -->
 		<form action="/moduerp/salesStockOutCreate.do" method="POST">
-			
+
 
 			<!-- 테이블 -->
 			<table>
@@ -179,6 +184,10 @@ th {
 						<th>출고수량</th>
 						<th>출고단가</th>
 						<th>담당자</th>
+						<th>출고 상태</th>
+						<!-- S_STOCK_OUT_STATUS 추가 -->
+						<th>지급 상태</th>
+						<!-- PANNINT_STATUS 추가 -->
 					</tr>
 				</thead>
 				<tbody>
@@ -187,20 +196,14 @@ th {
 							id="itemNameInput" placeholder="품목 이름 선택" required
 							onchange="updateItemCode()" /> <datalist id="itemNames">
 								<option value="==========">==========</option>
-
 								<c:forEach var="item" items="${itemList}">
 									<c:if test="${item.stock > 0}">
 										<option value="${item.itemName} 재고 : ${item.stock}"
 											data-item-code="${item.itemCode}"></option>
 									</c:if>
 								</c:forEach>
-
 								<option value="==========">==========</option>
-							</datalist> <input type="hidden" name="itemCode" id="itemCodeInput" /> <!-- itemCode를 담을 숨겨진 입력 필드 -->
-						</td>
-
-
-
+							</datalist> <input type="hidden" name="itemCode" id="itemCodeInput" /></td>
 						<td><input type="date" name="createdOutAt" required /></td>
 						<td><input list="stockOutPlaces" name="stockOutPlace"
 							placeholder="출고 장소 선택" required /> <datalist id="stockOutPlaces">
@@ -210,9 +213,21 @@ th {
 							</datalist></td>
 						<td><input type="number" name="stockOut" required /></td>
 						<td><input type="number" name="outPrice" step="0.01" required /></td>
-						<td><input type="text" name="oDirector" value="${directorName}" readonly /></td>
+						<td><input type="text" name="oDirector"
+							value="${directorName}" readonly /></td>
+						<td><select name="sStockOutStatus" required>
+								<option value="Y">Yes</option>
+								<option value="N">No</option>
+						</select></td>
+						<!-- S_STOCK_OUT_STATUS 추가 -->
+						<td><select name="panningStatus" required>
+								<option value="Y">Yes</option>
+								<option value="N">No</option>
+						</select></td>
+
 					</tr>
 				</tbody>
+
 			</table>
 
 			<!-- 버튼 그룹 -->

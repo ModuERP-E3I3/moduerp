@@ -190,7 +190,7 @@ th {
 						<th>출고 담당자</th>
 						<th>출고 상태</th>
 						<!-- S_STOCK_OUT_STATUS -->
-						<th>판닝 상태</th>
+						<th>지급 상태</th>
 						<!-- PANNINT_STATUS -->
 					</tr>
 				</thead>
