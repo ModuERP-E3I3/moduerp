@@ -25,10 +25,18 @@
 	</resultMap>
 
 	<select id="getItemsByBizNumber" resultMap="itemResultMap">
-		SELECT * FROM ITEM WHERE BIZ_NUMBER = #{bizNumber}
-		AND
-		ITEM_CODE
-		LIKE CONCAT(#{bizNumber}, 'B%')
+		SELECT 
+   			 i.*,                
+    		 b.*,                 
+   			 a.ACCOUNT_NAME       
+		FROM 
+    	item i
+		JOIN 
+   		     BUY_STOCK_IN b ON i.item_code = b.item_code
+		JOIN 
+    	     ACCOUNT a ON b.account_no = a.account_no
+
+		WHERE i.BIZ_NUMBER = #{bizNumber}  AND i.ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
 	</select>
 
 	<!-- 아이템 이름을 biz_number로 필터링해서 조회하는 쿼리 -->
@@ -114,7 +122,7 @@
 		OUT_PRICE,
 		STOCK_OUT_PLACE,
 		CREATED_OUT_AT,
-		UPDATE_OUT_AT
+		UPDATE_OUT_AT,
 		FROM ITEM
 		WHERE
 		BIZ_NUMBER = #{bizNumber}
@@ -205,5 +213,18 @@
 		WHERE ITEM_CODE =
 		#{itemCode}
 	</update>
+
+	<!-- =============================================== -->
+	<!-- workorder 
+
+	<select id="selectItemNamesAndStockByBizNumberStartingWith"
+		parameterType="String" resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT ITEM_CODE, ITEM_NAME, STOCK
+		FROM ITEM
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
+	</select>
+		-->
+
 
 </mapper>

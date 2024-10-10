@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>휴가</title>
+<title>erpMain</title>
 
 <style type="text/css">
 
@@ -160,22 +160,60 @@
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	     	<li><a href="<c:url value='/attendance.do' />"><i
-					class="fas fa-bullhorn"></i> 출퇴근</a></li>
-			<li><a href="<c:url value='/leave.do' />"><i
-					class="fas fa-clipboard"></i> 휴 가</a></li>
-			<li><a href="<c:url value='/email/inbox.do' />"> <i
-					class="fas fa-envelope"></i> 이메일
-			</a></li>
+	        <li><a href="bankmg.do"><i class="fas fa-bullhorn"></i> 은행 계좌 관리</a></li>
+	        <li><a href="leave.do"><i class="fas fa-clipboard"></i> 결산 관리</a></li> <!-- 수정 -->
+	        <!-- <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> 수정
+	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> 수정 -->
 	    </ul>
 	</div>
 	
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">휴 가</div>
+        <div class="content-title">결산 관리</div>
 
-    
+        <!-- 필터 박스 -->
+        <div class="filter-box">
+            <select>
+                <option>조회기간</option>
+            </select>
+            <input type="date" />
+            <input type="date" />
+            <select>
+                <option>상태 선택</option>
+            </select>
+            <input type="text" placeholder="내용 입력" />
+            <button class="btn">조회</button>
+        </div>
+
+        <!-- 테이블 -->
+        <table>
+            <thead>
+                <tr>
+                    <th>순번</th>
+                    <th>시작일</th>
+                    <th>종료일</th>
+                    <th>총 매출</th>
+                    <th>총 비용</th>
+                    <th>순이익</th>
+                    <th>결산유형</th>
+                    <th>결산일</th>
+                    <th>승인여부</th>
+                </tr>
+            </thead>
+            <tbody>
+			    <c:forEach var="productionStockIn" items="${stockList}">
+			        <tr>
+			            <td>${productionStockIn.pStockInId}</td>
+			            <td>${productionStockIn.itemCode}</td>
+			            <td>${productionStockIn.pStockInDate}</td>
+			            <td>${productionStockIn.pStockPlace}</td>
+			            <td>${productionStockIn.pStockInQty}</td>
+			        </tr>
+			    </c:forEach>
+			</tbody>
+
+        </table>
 
         <!-- 버튼 그룹 -->
         <div class="btn-group">
@@ -188,7 +226,7 @@
 </body>
 
 <script>
-    const activeMenu = "attendance";
+    const activeMenu = "bankmg";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

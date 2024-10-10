@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.e3i3.moduerp.employee.model.service.EmployeeProductionService;
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 import com.e3i3.moduerp.item.model.service.ItemProductionstockService;
 
@@ -32,6 +33,9 @@ public class ProductionstockOutController {
 	private ItemProductionstockService itemProductionstockService;
 	@Autowired
 	private ProductionStockOutService productionStockOutService;
+
+	@Autowired
+	private EmployeeProductionService employeeProductionService;
 
 	@RequestMapping(value = "/productionStockOut.do", method = RequestMethod.GET)
 	public String showProductionStockOut(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
@@ -114,11 +118,16 @@ public class ProductionstockOutController {
 	// 등록 페이지로 이동
 	@RequestMapping(value = "/productionStockOutCreate.do", method = RequestMethod.GET)
 	public String showCreateForm(HttpSession session, Model model) {
+
 		String bizNumber = (String) session.getAttribute("biz_number");
+		String uuid = (String) session.getAttribute("uuid");
+
+		String directorName = employeeProductionService.getEmployeeNameByUuid(uuid);
 
 		// item_code가 biz_number + "P"로 시작하는 데이터 가져오기
 		List<ItemDTO> items = itemProductionstockService.getItemsByBizNumberStartingWith(bizNumber);
 		model.addAttribute("itemList", items); // item_name을 포함한 리스트
+		model.addAttribute("directorName", directorName);
 
 		return "productionStock/productionStockOutCreate"; // JSP 파일 경로 반환
 	}
@@ -127,13 +136,15 @@ public class ProductionstockOutController {
 	public String createProductionStockOut(@RequestParam("itemName") String itemName,
 			@RequestParam("createdOutAt") String createdOutAt, @RequestParam("stockOutPlace") String stockOutPlace,
 			@RequestParam("stockOut") int stockOut, @RequestParam("outPrice") double outPrice,
-			@RequestParam("itemCode") String itemCode, HttpSession session) {
+			@RequestParam("itemCode") String itemCode, @RequestParam("oDirector") String oDirector,
+			HttpSession session) {
 		// 세션에서 biz_number와 uuid를 가져옴
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String userUuid = (String) session.getAttribute("uuid");
 
 		// ITEM 테이블 업데이트 로직
-		itemProductionstockService.updateItemStockOut(itemCode, createdOutAt, stockOutPlace, stockOut, outPrice);
+		itemProductionstockService.updateItemStockOut(itemCode, createdOutAt, stockOutPlace, stockOut, outPrice,
+				oDirector);
 
 		// createdOutAt를 LocalDate로 변환 (연월일만)
 		LocalDate parsedDate = LocalDate.parse(createdOutAt);
@@ -159,6 +170,7 @@ public class ProductionstockOutController {
 		productionStockOutDTO.setpStockOutQty(stockOut);
 		productionStockOutDTO.setUuid(userUuid);
 		productionStockOutDTO.setpStockOutPrice(outPrice);
+		productionStockOutDTO.setoDirector(oDirector);
 
 		// PRODUCTION_STOCK_OUT 테이블에 데이터 저장
 		productionStockOutService.insertProductionStockOut(productionStockOutDTO);
@@ -278,41 +290,41 @@ public class ProductionstockOutController {
 
 	@PostMapping("/deleteProductionStockOut.do")
 	public String deleteProductionStockOut(@RequestParam("pStockOutId") String pStockOutId,
-	                                      @RequestParam("itemCode") String itemCode) {
-	    // 1. PRODUCTION_STOCK_OUT 테이블에서 pStockOutId에 맞는 데이터 삭제
-	    productionStockOutService.deleteProductionStockOut(pStockOutId);
+			@RequestParam("itemCode") String itemCode) {
+		// 1. PRODUCTION_STOCK_OUT 테이블에서 pStockOutId에 맞는 데이터 삭제
+		productionStockOutService.deleteProductionStockOut(pStockOutId);
 
-	    // 2. PRODUCTION_STOCK_OUT 테이블에서 동일한 itemCode에 대한 P_STOCK_OUT_QTY 합계 구하기
-	    int totalStockOut = productionStockOutService.getTotalStockOutByItemCode(itemCode);
+		// 2. PRODUCTION_STOCK_OUT 테이블에서 동일한 itemCode에 대한 P_STOCK_OUT_QTY 합계 구하기
+		int totalStockOut = productionStockOutService.getTotalStockOutByItemCode(itemCode);
 
-	    // 3. ITEM 테이블의 STOCK_OUT 컬럼 업데이트
-	    itemProductionstockService.updateItemStockOutTotal(itemCode, totalStockOut);
+		// 3. ITEM 테이블의 STOCK_OUT 컬럼 업데이트
+		itemProductionstockService.updateItemStockOutTotal(itemCode, totalStockOut);
 
-	    // 4. ITEM 테이블에서 STOCK_IN - STOCK_OUT 계산 후 STOCK 업데이트
-	    int stockIn = itemProductionstockService.getStockInByItemCode(itemCode);
-	    int updatedStock = stockIn - totalStockOut;
-	    itemProductionstockService.updateItemStock(itemCode, updatedStock);
+		// 4. ITEM 테이블에서 STOCK_IN - STOCK_OUT 계산 후 STOCK 업데이트
+		int stockIn = itemProductionstockService.getStockInByItemCode(itemCode);
+		int updatedStock = stockIn - totalStockOut;
+		itemProductionstockService.updateItemStock(itemCode, updatedStock);
 
-	    // 5. PRODUCTION_STOCK_OUT 테이블에서 가장 최근의 P_STOCK_OUT_DATE, P_STOCK_OUT_PRICE, P_STOCK_OUT_PLACE 가져오기
-	    ProductionStockOutDTO recentStockOut = productionStockOutService.getMostRecentStockOutDetails(itemCode);
+		// 5. PRODUCTION_STOCK_OUT 테이블에서 가장 최근의 P_STOCK_OUT_DATE, P_STOCK_OUT_PRICE,
+		// P_STOCK_OUT_PLACE 가져오기
+		ProductionStockOutDTO recentStockOut = productionStockOutService.getMostRecentStockOutDetails(itemCode);
 
-	    if (recentStockOut != null) {
-	        // 최근 출고 내역이 있을 경우
-	        // Date를 Timestamp로 변환 (필요한 경우)
-	        Timestamp latestOutDate = new Timestamp(recentStockOut.getpStockOutDate().getTime());
+		if (recentStockOut != null) {
+			// 최근 출고 내역이 있을 경우
+			// Date를 Timestamp로 변환 (필요한 경우)
+			Timestamp latestOutDate = new Timestamp(recentStockOut.getpStockOutDate().getTime());
 
-	        // 6. ITEM 테이블의 CREATED_OUT_AT, OUT_PRICE, STOCK_OUT_PLACE 업데이트
-	        itemProductionstockService.updateItemWithLatestStockOut(itemCode, latestOutDate,
-	                recentStockOut.getpStockOutPrice(), recentStockOut.getpStockOutPlace());
-	    } else {
-	        // 7. PRODUCTION_STOCK_OUT 테이블에 데이터가 없으면 ITEM 테이블의 STOCK_OUT, OUT_PRICE, STOCK_OUT_PLACE, CREATED_OUT_AT 컬럼을 초기화
-	        itemProductionstockService.resetItemStockOut(itemCode);
-	    }
+			// 6. ITEM 테이블의 CREATED_OUT_AT, OUT_PRICE, STOCK_OUT_PLACE 업데이트
+			itemProductionstockService.updateItemWithLatestStockOut(itemCode, latestOutDate,
+					recentStockOut.getpStockOutPrice(), recentStockOut.getpStockOutPlace());
+		} else {
+			// 7. PRODUCTION_STOCK_OUT 테이블에 데이터가 없으면 ITEM 테이블의 STOCK_OUT, OUT_PRICE,
+			// STOCK_OUT_PLACE, CREATED_OUT_AT 컬럼을 초기화
+			itemProductionstockService.resetItemStockOut(itemCode);
+		}
 
-	    // 8. 수정이 완료된 후 출고 목록 페이지로 리다이렉트
-	    return "redirect:/productionStockOut.do";
+		// 8. 수정이 완료된 후 출고 목록 페이지로 리다이렉트
+		return "redirect:/productionStockOut.do";
 	}
-
-
 
 }

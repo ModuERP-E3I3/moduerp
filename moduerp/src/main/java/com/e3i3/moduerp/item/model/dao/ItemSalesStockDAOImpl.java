@@ -1,6 +1,9 @@
 package com.e3i3.moduerp.item.model.dao;
 
+import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +20,8 @@ public class ItemSalesStockDAOImpl implements ItemSalesStockDAO {
     private static final String namespace = "ItemSalesMapper";
 
     @Override
-    public List<String> selectItemNamesByBizNumber(String bizNumber) {
-        return sqlSession.selectList(namespace + ".selectItemNamesByBizNumber", bizNumber);
+    public List<String> selectSalesItemNamesByBizNumber(String bizNumber) {
+        return sqlSession.selectList(namespace + ".selectSalesItemNamesByBizNumber", bizNumber);
     }
 
     @Override
@@ -43,7 +46,7 @@ public class ItemSalesStockDAOImpl implements ItemSalesStockDAO {
 
     @Override
     public void updateItem(ItemDTO itemDTO) {
-        // ï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½Ì½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        // µ¥ÀÌÅÍº£ÀÌ½º ¾÷µ¥ÀÌÆ® Äõ¸® ½ÇÇà
         sqlSession.update(namespace + ".updateItem", itemDTO);
     }
 
@@ -72,7 +75,7 @@ public class ItemSalesStockDAOImpl implements ItemSalesStockDAO {
 
 	@Override
 	public void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut,
-			double outPrice, int updatedStock, String oDirector) {
+			double outPrice, int updatedStock) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("itemCode", itemCode);
 		params.put("createdOutAt", createdOutAt);
@@ -81,7 +84,7 @@ public class ItemSalesStockDAOImpl implements ItemSalesStockDAO {
 		params.put("outPrice", outPrice);
 		params.put("updatedStock", updatedStock);
 
-		sqlSession.update(namespace + ".updateItemForSalesOut", params);
+		sqlSession.update(namespace + ".updateItemForProductionOut", params);
 	}
 
 	@Override

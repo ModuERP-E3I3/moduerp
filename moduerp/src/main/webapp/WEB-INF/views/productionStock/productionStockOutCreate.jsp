@@ -186,6 +186,7 @@ th {
 						<th>출고장소</th>
 						<th>출고수량</th>
 						<th>출고단가</th>
+						<th>담당자</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -217,6 +218,7 @@ th {
 							</datalist></td>
 						<td><input type="number" name="stockOut" required /></td>
 						<td><input type="number" name="outPrice" step="0.01" required /></td>
+						<td><input type="text" name="oDirector" value="${directorName}" readonly /></td>
 					</tr>
 				</tbody>
 			</table>

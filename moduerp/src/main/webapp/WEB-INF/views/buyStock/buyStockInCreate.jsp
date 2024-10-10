@@ -184,10 +184,10 @@ th {
 				<thead>
 					<tr>
 					<th>입고 날짜</th>
-                    <th>제품명</th>
-                    <th>거래처</th>
-                    <th>입고 수량</th>
                     <th>입고 장소</th>
+                    <th>입고 수량</th>
+                    <th>제품명</th>
+                    <th>제품 설명</th>
                     <th>입고 단가</th>
                     <th>거래처account_no</th>
                     <th>담당자</th>
@@ -225,7 +225,6 @@ th {
 							<input type="text" name="iDirrector" value="${directorName}" readonly>
 						</td>
 
-						<!-- 자재 종류 선택 칸 -->
 						
 					</tr>
 				</tbody>

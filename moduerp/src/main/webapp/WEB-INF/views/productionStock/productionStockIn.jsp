@@ -237,6 +237,7 @@ tbody tr:hover {
 						<td>${item.stockIn}</td>
 						<td>${item.stockPlace}</td>
 						<td>${item.inPrice}</td>
+						<td>${item.iDirector}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

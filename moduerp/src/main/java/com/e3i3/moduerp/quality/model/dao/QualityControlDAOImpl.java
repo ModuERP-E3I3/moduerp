@@ -14,12 +14,11 @@ public class QualityControlDAOImpl implements QualityControlDAO {
 	@Autowired
 	private SqlSession sqlSession;
 
-	private static final String namespace = "QualityControlMapper.";
+	private static final String namespace = "QualityControlMapper";
 
 	@Override
-	public List<QualityControlDTO> selectAllQualityControls() {
-		return sqlSession.selectList(namespace + "selectAllQualityControls");
-
+	public List<QualityControlDTO> findByBizNumber(String bizNumber) {
+		return sqlSession.selectList(namespace + ".findByBizNumber", bizNumber);
 	}
 
 	@Override

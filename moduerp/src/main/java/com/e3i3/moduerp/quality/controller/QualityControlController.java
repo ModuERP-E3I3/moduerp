@@ -1,14 +1,28 @@
 package com.e3i3.moduerp.quality.controller;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.e3i3.moduerp.employee.model.service.EmployeeProductionService;
 import com.e3i3.moduerp.quality.model.dto.QualityControlDTO;
 import com.e3i3.moduerp.quality.model.service.QualityControlService;
+import com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO;
+import com.e3i3.moduerp.workorder.model.service.WorkOrderService;
 
 @Controller
 @RequestMapping("/")
@@ -17,10 +31,48 @@ public class QualityControlController {
 	@Autowired
 	private QualityControlService qualityControlService;
 
-	@RequestMapping(value ="/productionQuality.do", method = RequestMethod.GET)
-	public String getAllQualityControls(Model model) {
-		List<QualityControlDTO> qualityControlList = qualityControlService.getAllQualityControls();
-		model.addAttribute("qualityControlList", qualityControlList);
+	@Autowired
+	private WorkOrderService workOrderService;
+
+	@Autowired
+	private EmployeeProductionService employeeProductionService;
+
+	@RequestMapping(value = "/productionQuality.do", method = RequestMethod.GET)
+	public String getAllQualityControls(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
+			HttpSession session) {
+		// 세션에서 biz_number 가져오기
+		String bizNumber = (String) session.getAttribute("biz_number");
+
+		// 만약 biz_number가 세션에 없다면 로그인 페이지로 리다이렉트
+		if (bizNumber == null) {
+			return "redirect:/login.do";
+		}
+
+		// 서비스 호출하여 biz_number에 해당하는 품질 관리 데이터 가져오기
+		List<QualityControlDTO> qualityControlList = qualityControlService.getQualityControlsByBizNumber(bizNumber);
+
+		// 페이지당 항목 수
+		int itemsPerPage = 10;
+
+		// 총 항목 수
+		int totalItems = qualityControlList.size();
+
+		// 총 페이지 수
+		int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+
+		// 시작 인덱스 계산
+		int startIndex = (page - 1) * itemsPerPage;
+		int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+		// 서브리스트 생성
+		List<QualityControlDTO> paginatedList = qualityControlList.subList(startIndex, endIndex);
+
+		// 모델에 추가
+		model.addAttribute("qualityControlList", paginatedList);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", page);
+
+		// 품질 관리 JSP 페이지로 이동
 		return "productionStock/productionQuality";
 	}
 

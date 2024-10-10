@@ -68,17 +68,16 @@ public class BankmgController {
 	}
 
 	// 계좌 수정 폼 이동
-	@RequestMapping("/bankmgUpdateForm.do")
-	public String bankmgUpdateForm(@RequestParam("bankId") String bankId, Model model) {
+	@RequestMapping("/bankUpdateForm.do")
+	public String updateForm(@RequestParam("bankId") String bankId, Model model) {
 		Bankmg bankmg = bankmgService.getmgById(bankId);
 		model.addAttribute("bankmg", bankmg);
 		return "bankmg/bankmgUpdateForm";
 	}
 
 	// 계좌 수정 처리
-	@RequestMapping(value = "bankmgUpdateForm.do", method = RequestMethod.POST)
+	@RequestMapping("/bankmgUpdate.do")
 	public String bankmgUpdate(Bankmg bankmg) {
-		
 		bankmgService.updatemg(bankmg);
 		return "redirect:/bankmg.do";
 	}

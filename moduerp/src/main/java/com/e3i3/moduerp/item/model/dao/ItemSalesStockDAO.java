@@ -1,22 +1,23 @@
 package com.e3i3.moduerp.item.model.dao;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 
 public interface ItemSalesStockDAO {
-    List<String> selectItemNamesByBizNumber(String bizNumber);
+	List<String> selectSalesItemNamesByBizNumber(String bizNumber);
 
-    List<String> selectStockPlacesByBizNumber(String bizNumber); // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
+	List<String> selectStockPlacesByBizNumber(String bizNumber);
 
-	// biz_numberï¿½ï¿½ ï¿½Ç¸ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½
+	// biz_number·Î ÆÇ¸Å Ç×¸ñÀ» °¡Á®¿À´Â ¸Þ¼Òµå
 	List<ItemDTO> getItemsByBizNumber(String bizNumber);
 
-    void insertItem(ItemDTO itemDTO);
+	void insertItem(ItemDTO itemDTO);
 
-    ItemDTO selectItemByCode(String itemCode);
+	ItemDTO selectItemByCode(String itemCode);
 
-    void updateItem(ItemDTO itemDTO);
+	void updateItem(ItemDTO itemDTO);
 
 	void deleteItemByCode(String itemCode);
 
@@ -27,17 +28,17 @@ public interface ItemSalesStockDAO {
 	List<ItemDTO> selectItemsByBizNumberStartingWith(String bizNumber);
 
 	void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut, double outPrice,
-			int updatedStock, String oDirector);
+			int updatedStock);
 
 	int getStockByItemCode(String itemCode);
 
-	// STOCK_OUT ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+	// STOCK_OUT ¾÷µ¥ÀÌÆ®
 	void updateStockOutByItemCode(String itemCode, int totalStockOut);
 
-	// STOCK_IN ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// STOCK_IN °ª °¡Á®¿À±â
 	int getStockInByItemCode(String itemCode);
 
-	// STOCK ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+	// STOCK ¾÷µ¥ÀÌÆ®
 	void updateStockByItemCode(String itemCode, int updatedStock);
 
 	public void updateItemCreatedOutAt(String itemCode, Timestamp createdOutAt);

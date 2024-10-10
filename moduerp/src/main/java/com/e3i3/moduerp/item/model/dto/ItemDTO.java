@@ -29,12 +29,6 @@ public class ItemDTO implements Serializable {
 	private String oDirector;
 	
 	
-//	sales - - - - - - - - - -
-    private String sStockOutStatus;
-    private String panningStatus;
-	
-	
-	
 	public String getAccountName() {
 		return accountName;
 	}
@@ -191,26 +185,4 @@ public class ItemDTO implements Serializable {
 		this.oDirector = oDirector;
 	}
 
-	
-//	Sales  - - - - - - - - - - - - - - -
-    public String getsStockOutStatus() {
-        return sStockOutStatus;
-    }
-
-    public void setsStockOutStatus(String sStockOutStatus) {
-        this.sStockOutStatus = sStockOutStatus;
-    }
-
-    public String getPanningStatus() {
-        return panningStatus;
-    }
-
-    public void setPanningStatus(String panningStatus) {
-        this.panningStatus = panningStatus;
-    }
-
-	
-	
-	
-	
 }

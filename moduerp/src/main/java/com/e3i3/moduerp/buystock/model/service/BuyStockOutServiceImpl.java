@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.e3i3.moduerp.buystock.model.dao.BuyStockOutDao;
 import com.e3i3.moduerp.buystock.model.dto.BuyStockOutDTO;
@@ -24,39 +23,44 @@ public class BuyStockOutServiceImpl implements BuyStockOutService{
 
 	@Override
 	public void insertBuyStockOut(BuyStockOutDTO buyStockOutDTO) {
-		BuyStockOutDao.insertBuyStockOut(buyStockOutDTO);
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public List<BuyStockOutDTO> getBuyStockOutDetails(String itemCode) {
-		return BuyStockOutDao.selectBuyStockOutByItemCode(itemCode);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public BuyStockOutDTO getBuyStockOutDetailssSub(String bStockOutId) {
-		return BuyStockOutDao.SelectBuyStockOutByBStockId(bStockOutId);
+	public BuyStockOutDTO getBuyStockOutDetailssSub(String pStockOutId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	@Override // DAO 호출하여 출고 정보 업데이트
-	@Transactional
+	@Override
 	public void updateBuyStockOut(BuyStockOutDTO buyStockOutDTO) {
-		BuyStockOutDao.updateBuyStockOut(buyStockOutDTO);		
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public int getTotalStockOutByItemCode(String itemCode) {
-		return BuyStockOutDao.selectTotalStockOutByItemCode(itemCode);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
-	public void deleteBuyStockOut(String bStockOutId) {
-		BuyStockOutDao.deleteBuyStockOut(bStockOutId);
+	public void deleteBuyStockOut(String pStockOutId) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public BuyStockOutDTO getMostRecentStockOutDetails(String itemCode) {
-		return BuyStockOutDao.selectMostRecentStockOutDetails(itemCode);
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

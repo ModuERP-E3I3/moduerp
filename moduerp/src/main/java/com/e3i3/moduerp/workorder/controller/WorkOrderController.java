@@ -213,7 +213,7 @@ public class WorkOrderController {
 		// WorkOrderDTO 객체 생성 및 데이터 설정
 		WorkOrderDTO workOrderDTO = new WorkOrderDTO();
 		workOrderDTO.setOrderNumber(orderNumber);
-		workOrderDTO.setItemName(itemName);
+		workOrderDTO.setItemName(SitemName);
 		workOrderDTO.setItemCode(itemCode);
 		workOrderDTO.setTaskName(taskName);
 		workOrderDTO.setStartDate(startDate); // 시작일을 Timestamp로 설정
@@ -299,7 +299,7 @@ public class WorkOrderController {
 		WorkOrderDTO workOrderDTO = new WorkOrderDTO();
 		workOrderDTO.setOrderNumber(orderNumber);
 		workOrderDTO.setTaskName(taskName);
-		workOrderDTO.setStartDate(startDate); // �??��?�� Timestamp ?��?��
+		workOrderDTO.setStartDate(startDate);
 		workOrderDTO.setEndExDate(parsedEndExDate);
 		workOrderDTO.setQty(qty);
 		workOrderDTO.setProgressStatus(progressStatus);
