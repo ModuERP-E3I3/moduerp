@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.e3i3.moduerp.attendancerequest.model.dto.AttendanceRequest;
 import com.e3i3.moduerp.attendancerequest.model.service.AttendanceRequestService;
@@ -41,32 +42,67 @@ public class AttendanceRequestController {
 
 	// 1. 근태 관리 요청 제출 (임시 저장 없이 바로 제출)
 	@PostMapping("/attendanceRequest/submit.do")
-	public String submitAttendanceRequest(HttpSession session, @ModelAttribute AttendanceRequest request, Model model) {
+	public String submitAttendanceRequest(HttpSession session, @ModelAttribute AttendanceRequest request, Model model,
+			RedirectAttributes redirectAttributes) {
 		// 디버깅을 위해 approver 값 출력
 		System.out.println("Approver: " + request.getApprover());
+
+		Employee approver = employeeService.selectEmployeeByUuid(request.getApprover());
+		System.out.println("*********결재자 이름: " + approver.getEmpName());
 
 		request.setAttendancerequestId(UUID.randomUUID().toString());
 		request.setUuid((String) session.getAttribute("uuid"));
 		request.setBizNumber((String) session.getAttribute("biz_number"));
 		int result = attendanceRequestService.insertAttendanceRequest(request);
 
+		// 근태 신청이 성공적으로 등록되었으면 바로 /attendanceRequest/mylist.do 로 리다이렉트
 		if (result > 0) {
-			model.addAttribute("message", "근태신청이 성공적으로 등록되었습니다!");
-			model.addAttribute("redirectUrl", "/attendanceRequest/mylist.do"); // 본인이 신청한 근태 리스트로 이동하는 url 
+			redirectAttributes.addFlashAttribute("message", "근태신청의 제출을 성공했습니다.");
+			redirectAttributes.addFlashAttribute("approverName", approver.getEmpName()); // 승인자의 이름을 FlashAttribute에 등록
+			return "redirect:/attendanceRequest/mylist.do"; // 바로 근태 리스트 페이지로 리다이렉트
 		} else {
+			// 실패 시 다시 신청 폼 페이지로 이동
 			model.addAttribute("message", "근태신청의 제출을 실패했습니다.");
-			model.addAttribute("redirectUrl", "/attendanceRequest/send.do"); // 실패 시 다시 폼 페이지로
+			return "attendance/send"; // 신청 폼 페이지로 이동
 		}
-
-		return "attendance/submitResult";
 	}
 
-	// 2. 근태 관리 요청 임시 저장
-	@PostMapping("/attendanceRequest/save")
-	public String saveAttendanceRequest(@ModelAttribute AttendanceRequest request, Model model) {
-		int result = attendanceRequestService.insertSavedAttendanceRequest(request);
-		model.addAttribute("message", result > 0 ? "Request saved successfully!" : "Save failed.");
-		return "attendance/saveResult";
+	// 2. 근태 신청 임시 저장
+	@PostMapping("/attendanceRequest/save.do")
+	public String saveAttendanceRequest(HttpSession session, @ModelAttribute AttendanceRequest request, Model model,
+			RedirectAttributes redirectAttributes) {
+		if (request.getApplicationType() == null || request.getApplicationType().isEmpty()) {
+			model.addAttribute("message", "신청 유형이 누락되었습니다.");
+			return "attendance/send"; // 신청 폼 페이지로 이동
+		}
+
+		 // 결재자 조회
+	    Employee approver = employeeService.selectEmployeeByUuid(request.getApprover());
+	    if (approver == null) {
+	        model.addAttribute("message", "유효하지 않은 결재자입니다.");
+	        return "attendance/send"; // 신청 폼 페이지로 이동
+	    }
+	    
+	    System.out.println("***********결재자 이름: " + approver.getEmpName());
+	    
+	    // 기본 정보 설정
+	    request.setApproverName(approver.getEmpName()); //결재자 이름을 DTO에 저장
+		request.setAttendancerequestId(UUID.randomUUID().toString());
+		request.setUuid((String) session.getAttribute("uuid"));
+		request.setBizNumber((String) session.getAttribute("biz_number"));
+		
+
+		   // 근태 신청 저장
+	    int result = attendanceRequestService.insertSavedAttendanceRequest(request);
+	  
+		if (result > 0) {
+			redirectAttributes.addFlashAttribute("message", "근태신청의 임시저장을 성공했습니다.");
+			return "redirect:/attendanceRequest/mylist.do"; // 바로 근태 리스트 페이지로 리다이렉트
+		} else {
+			// 실패 시 다시 신청 폼 페이지로 이동
+			model.addAttribute("message", "근태신청의 임시저장을 실패했습니다.");
+			return "attendance/send"; // 신청 폼 페이지로 이동
+		}
 	}
 
 	// 3. 상태 업데이트 (임시 저장에서 최종 제출로 변경)
@@ -81,18 +117,19 @@ public class AttendanceRequestController {
 		return ResponseEntity.ok(result > 0 ? "Status updated successfully." : "Status update failed.");
 	}
 
-	// 4. 특정 근태 관리 요청 ID로 조회
-	@GetMapping("/attendanceRequest/view/{id}")
-	public String viewAttendanceRequestById(@PathVariable("id") String attendanceRequestId, Model model) {
-		AttendanceRequest request = attendanceRequestService.selectAttendanceRequestById(attendanceRequestId);
+	// 4. 특정 근태 신청서의 상세 보기
+	@GetMapping("/attendanceRequest/detail/{attendancerequestId}.do")
+	public String getAttendanceRequestDetail(@PathVariable("attendancerequestId") String attendancerequestId,
+			Model model) {
+		AttendanceRequest request = attendanceRequestService.selectAttendanceRequestById(attendancerequestId);
 		model.addAttribute("request", request);
-		return "attendanc/view";
+		return "attendance/detail";
 	}
 
-	// 5. 특정 사용자 UUID로 근태 관리 요청 조회
+	// 5. 특정 사용자 UUID로 근태 목록 조회
 	@GetMapping("/attendanceRequest/mylist.do")
 	public String getAttendanceRequestsByUuid(HttpSession session, Model model) {
-		 String uuid = (String) session.getAttribute("uuid");
+		String uuid = (String) session.getAttribute("uuid");
 		List<AttendanceRequest> requests = attendanceRequestService.selectAttendanceRequestByUuid(uuid);
 		model.addAttribute("requests", requests);
 		return "attendance/mylist";

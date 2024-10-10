@@ -1,164 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="AttendanceRequestMapper">
 
-	<!-- Result Map -->
-	<resultMap id="AttendanceRequestResultMap"
-		type="com.e3i3.moduerp.attendancerequest.model.dto.AttendanceRequest">
-		<id property="attendancerequestId" column="ATTENDANCEREQUEST_ID" />
-		<result property="uuid" column="UUID" />
-		<result property="bizNumber" column="BIZ_NUMBER" />
-		<result property="applicationType" column="APPLICATION_TYPE" />
-		<result property="startDate" column="START_DATE" />
-		<result property="endDate" column="END_DATE" />
-		<result property="startTime" column="START_TIME" />
-		<result property="endTime" column="END_TIME" />
-		<result property="reason" column="REASON" />
-		<result property="attachment" column="ATTACHMENT" />
-		<result property="approver" column="APPROVER" />
-		<result property="remarks" column="REMARKS" />
-		<result property="contact" column="CONTACT" />
-	</resultMap>
+    <!-- Result Map -->
+    <resultMap id="AttendanceRequestResultMap" type="com.e3i3.moduerp.attendancerequest.model.dto.AttendanceRequest">
+        <id property="attendancerequestId" column="ATTENDANCEREQUEST_ID" />
+        <result property="uuid" column="UUID" />
+        <result property="bizNumber" column="BIZ_NUMBER" />
+        <result property="applicationType" column="APPLICATION_TYPE" />
+        <result property="startDate" column="START_DATE" />
+        <result property="endDate" column="END_DATE" />
+        <result property="status" column="STATUS" /> <!-- 임시저장 또는 제출완료 -->
+        <result property="isApproved" column="IS_APPROVED" /> <!-- 승인여부 ('Y', 'N') -->
+        <result property="startTime" column="START_TIME" />
+        <result property="endTime" column="END_TIME" />
+        <result property="reason" column="REASON" />
+        <result property="attachment" column="ATTACHMENT" />
+        <result property="approver" column="APPROVER" />
+        <result property="approverName" column="APPROVER_NAME" />
+        <result property="remarks" column="REMARKS" />
+        <result property="contact" column="CONTACT" />
+    </resultMap>
 
 
+    <!-- 임시 저장 안하고 바로 제출 -->
+    <insert id="insertAttendanceRequest"
+            parameterType="com.e3i3.moduerp.attendancerequest.model.dto.AttendanceRequest">
+        INSERT INTO C##PROJECT3TEAM.ATTENDANCEREQUEST (
+            attendancerequest_id, uuid, biz_number, application_type, start_date, end_date,
+            start_time, end_time, reason, attachment, approver, approver_name, remarks, contact, status, is_approved
+        )
+        VALUES (
+            #{attendancerequestId, javaType=String, jdbcType=VARCHAR}, #{uuid}, #{bizNumber}, #{applicationType}, #{startDate}, #{endDate},
+            #{startTime}, #{endTime}, #{reason}, #{attachment}, #{approver}, #{approverName}, #{remarks}, #{contact}, #{status}, 'N'
+        )
+    </insert>
+
+    <!-- 임시 저장 메소드 -->
+    <insert id="insertSavedAttendanceRequest"
+            parameterType="com.e3i3.moduerp.attendancerequest.model.dto.AttendanceRequest">
+        INSERT INTO C##PROJECT3TEAM.ATTENDANCEREQUEST (
+            attendancerequest_id, uuid, biz_number, application_type, start_date, end_date, start_time,
+            end_time, reason, attachment, approver, approver_name, remarks, contact, status, is_approved
+        )
+        VALUES (
+            #{attendancerequestId, javaType=String, jdbcType=VARCHAR}, #{uuid}, #{bizNumber}, #{applicationType}, #{startDate}, #{endDate},
+            #{startTime}, #{endTime}, #{reason}, #{attachment}, #{approver}, #{approverName}, #{remarks}, #{contact}, #{status}, 'N'
+        )
+    </insert>
+
+    <!-- 최종 제출 업데이트 메서드 -->
+    <update id="updateRequestStatus" parameterType="map">
+        UPDATE C##PROJECT3TEAM.ATTENDANCEREQUEST
+        SET status = #{status}
+        WHERE attendancerequest_id = #{attendancerequestId};
+    </update>
 
 
-	<!-- 임시 저장 안하고 바로 제출 -->
-	<insert id="insertAttendanceRequest"
-		parameterType="com.e3i3.moduerp.attendancerequest.model.dto.AttendanceRequest">
-		INSERT INTO C##PROJECT3TEAM.ATTENDANCEREQUEST (
-		attendancerequest_id, uuid, biz_number, application_type, start_date, end_date,
-		start_time, end_time, reason, attachment, approver, remarks, contact, status
-		)
-		VALUES (
-		#{attendancerequestId, javaType=String, jdbcType=VARCHAR}, #{uuid}, #{bizNumber}, #{applicationType}, #{startDate}, #{endDate},
-		#{startTime}, #{endTime}, #{reason}, #{attachment}, #{approver},
-		#{remarks}, #{contact}, 'SUBMITTED'
-		)
-	</insert>
+    <!-- Select by ATTENDANCEREQUEST_ID -->
+    <select id="selectAttendanceRequestById" parameterType="String" resultMap="AttendanceRequestResultMap">
+        SELECT *
+        FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
+        WHERE ATTENDANCEREQUEST_ID = #{attendancerequestId}
+    </select>
 
+    <!-- Select by UUID -->
+    <select id="selectAttendanceRequestByUuid" parameterType="String" resultMap="AttendanceRequestResultMap">
+        SELECT *
+        FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
+        WHERE UUID = #{uuid}
+    </select>
 
-	<!-- 임시 저장 메소드 -->
-	<insert id="insertSavedAttendanceRequest"
-		parameterType="com.e3i3.moduerp.attendancerequest.model.dto.AttendanceRequest">
-		INSERT INTO ATTENDANCEREQUEST (
-		attendancerequest_id,
-		uuid, biz_number, application_type, start_date,
-		end_date, start_time,
-		end_time, reason, attachment, approver, remarks,
-		contact, status
-		)
-		VALUES (
-		#{attendancerequestId, javaType=String, jdbcType=VARCHAR}, #{uuid}, #{bizNumber},
-		#{applicationType}, #{startDate}, #{endDate},
-		#{startTime}, #{endTime},
-		#{reason}, #{attachment}, #{approver},
-		#{remarks}, #{contact}, 'SAVED'
-		);
-	</insert>
+    <!-- Select All for a given BIZ_NUMBER -->
+    <select id="selectAttendanceRequestsByBizNumber" parameterType="String" resultMap="AttendanceRequestResultMap">
+        SELECT *
+        FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
+        WHERE BIZ_NUMBER = #{bizNumber}
+    </select>
 
-	<!-- 최종 제출 업데이트 메서드 -->
-	<update id="updateRequestStatus" parameterType="map">
-		UPDATE
-		ATTENDANCEREQUEST
-		SET status = #{status}
-		WHERE attendancerequest_id =
-		#{attendancerequestId};
-	</update>
+    <!-- Select by UUID and Application Type -->
+    <select id="selectByUUIDAndApplicationType" parameterType="map" resultMap="AttendanceRequestResultMap">
+        SELECT *
+        FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
+        WHERE UUID = #{uuid} AND APPLICATION_TYPE = #{applicationType}
+    </select>
 
+    <!-- Select Pending Requests by Approver -->
+    <select id="selectPendingRequestsByApprover" parameterType="String" resultMap="AttendanceRequestResultMap">
+        SELECT *
+        FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
+        WHERE APPROVER = #{approver} AND END_DATE >= CURRENT_DATE
+    </select>
 
+    <!-- Select Requests by UUID and Date Range -->
+    <select id="selectByUUIDAndDateRange" parameterType="map" resultMap="AttendanceRequestResultMap">
+        SELECT *
+        FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
+        WHERE UUID = #{uuid} AND START_DATE BETWEEN #{startDate} AND #{endDate}
+    </select>
 
-	<!-- Select by ATTENDANCEREQUEST_ID -->
-	<select id="selectAttendanceRequestById" parameterType="String"
-		resultMap="AttendanceRequestResultMap">
-		SELECT *
-		FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
-		WHERE
-		ATTENDANCEREQUEST_ID = #{attendancerequestId}
-	</select>
+    <!-- Update AttendanceRequest -->
+    <update id="updateAttendanceRequest" parameterType="com.e3i3.moduerp.attendancerequest.model.dto.AttendanceRequest">
+        UPDATE C##PROJECT3TEAM.ATTENDANCEREQUEST
+        SET UUID = #{uuid}, BIZ_NUMBER = #{bizNumber}, APPLICATION_TYPE = #{applicationType},
+            START_DATE = #{startDate}, END_DATE = #{endDate}, START_TIME = #{startTime}, END_TIME = #{endTime},
+            REASON = #{reason}, ATTACHMENT = #{attachment}, APPROVER = #{approver}, APPROVER_NAME = #{approverName}, REMARKS = #{remarks},
+            CONTACT = #{contact}, STATUS = #{status}, IS_APPROVED = #{isApproved}
+        WHERE ATTENDANCEREQUEST_ID = #{attendancerequestId}
+    </update>
 
-	<!-- Select by UUID -->
-	<select id="selectAttendanceRequestByUuid"
-		parameterType="String" resultMap="AttendanceRequestResultMap">
-		SELECT *
-		FROM
-		C##PROJECT3TEAM.ATTENDANCEREQUEST
-		WHERE UUID = #{uuid}
-	</select>
+    <!-- Delete by UUID -->
+    <delete id="deleteAttendanceRequestByUuid" parameterType="String">
+        DELETE FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
+        WHERE UUID = #{uuid}
+    </delete>
 
-	<!-- Select All for a given BIZ_NUMBER -->
-	<select id="selectAttendanceRequestsByBizNumber"
-		parameterType="String" resultMap="AttendanceRequestResultMap">
-		SELECT *
-		FROM
-		C##PROJECT3TEAM.ATTENDANCEREQUEST
-		WHERE BIZ_NUMBER = #{bizNumber}
-	</select>
-
-	<!-- Select by UUID and Application Type -->
-	<select id="selectByUUIDAndApplicationType" parameterType="map"
-		resultMap="AttendanceRequestResultMap">
-		SELECT *
-		FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
-		WHERE UUID =
-		#{uuid} AND APPLICATION_TYPE = #{applicationType}
-	</select>
-
-	<!-- Select Pending Requests by Approver -->
-	<select id="selectPendingRequestsByApprover"
-		parameterType="String" resultMap="AttendanceRequestResultMap">
-		SELECT *
-		FROM
-		C##PROJECT3TEAM.ATTENDANCEREQUEST
-		WHERE APPROVER = #{approver} AND
-		END_DATE >= CURRENT_DATE
-	</select>
-
-	<!-- Select Requests by UUID and Date Range -->
-	<select id="selectByUUIDAndDateRange" parameterType="map"
-		resultMap="AttendanceRequestResultMap">
-		SELECT *
-		FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
-		WHERE UUID =
-		#{uuid}
-		AND START_DATE BETWEEN #{startDate} AND #{endDate}
-	</select>
-
-	<!-- Update -->
-	<update id="updateAttendanceRequest"
-		parameterType="com.e3i3.moduerp.attendancerequest.model.dto.AttendanceRequest">
-		UPDATE C##PROJECT3TEAM.ATTENDANCEREQUEST
-		SET UUID =
-		#{uuid}, BIZ_NUMBER = #{bizNumber},
-		APPLICATION_TYPE =
-		#{applicationType},
-		START_DATE = #{startDate}, END_DATE = #{endDate},
-		START_TIME = #{startTime}, END_TIME = #{endTime},
-		REASON = #{reason},
-		ATTACHMENT = #{attachment},
-		APPROVER = #{approver}, REMARKS =
-		#{remarks},
-		CONTACT = #{contact}
-		WHERE ATTENDANCEREQUEST_ID =
-		#{attendancerequestId}
-	</update>
-
-	<!-- Delete by UUID -->
-	<delete id="deleteAttendanceRequestByUuid"
-		parameterType="String">
-		DELETE FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
-		WHERE UUID
-		= #{uuid}
-	</delete>
-
-	<!-- Delete by ATTENDANCEREQUEST_ID -->
-	<delete id="deleteAttendanceRequestById" parameterType="String">
-		DELETE
-		FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
-		WHERE ATTENDANCEREQUEST_ID =
-		#{attendancerequestId}
-	</delete>
+    <!-- Delete by ATTENDANCEREQUEST_ID -->
+    <delete id="deleteAttendanceRequestById" parameterType="String">
+        DELETE FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
+        WHERE ATTENDANCEREQUEST_ID = #{attendancerequestId}
+    </delete>
 
 </mapper>
