@@ -19,8 +19,4 @@ public interface WorkOrderDAO {
 	void deleteWorkOrder(String orderNumber);
 
 	int getTotalQtyByItemCode(String itemCode);
-
-	// -------------------------------
-	// QC
-	List<WorkOrderDTO> findCompletedWorkOrders();
 }

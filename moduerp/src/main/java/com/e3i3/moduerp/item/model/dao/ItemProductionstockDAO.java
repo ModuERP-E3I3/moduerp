@@ -28,7 +28,7 @@ public interface ItemProductionstockDAO {
 	List<ItemDTO> selectItemsByBizNumberStartingWith(String bizNumber);
 
 	void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut, double outPrice,
-			int updatedStock, String oDirector);
+			int updatedStock);
 
 	int getStockByItemCode(String itemCode);
 

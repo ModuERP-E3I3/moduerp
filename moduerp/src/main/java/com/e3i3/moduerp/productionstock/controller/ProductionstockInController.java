@@ -86,9 +86,7 @@ public class ProductionstockInController {
 	public String createProductionStockIn(@RequestParam("pStockInDate") String stockInDateStr,
 			@RequestParam("stockPlace") String stockPlace, @RequestParam("stockIn") int stockIn,
 			@RequestParam("itemName") String itemName, @RequestParam("itemDesc") String itemDesc,
-			@RequestParam("inPrice") double inPrice, 
-			@RequestParam("materialType") List<String> materialType, // 수정된 부분
-			@RequestParam("iDirrector") String iDirrector,
+			@RequestParam("inPrice") double inPrice, @RequestParam("materialType") List<String> materialType, // 수정된 부분
 			HttpSession session) {
 
 		// 세션에서 biz_number와 uuid를 가져옴
@@ -119,7 +117,6 @@ public class ProductionstockInController {
 		itemDTO.setItemList(materialType); // List 형태로 설정
 		itemDTO.setStockIn(stockIn);
 		itemDTO.setStock(stockIn);
-		itemDTO.setiDirector(iDirrector);
 
 		// ITEM 테이블에 데이터 저장
 		itemProductionstockService.insertItem(itemDTO);
@@ -211,14 +208,10 @@ public class ProductionstockInController {
 	}
 
 	@PostMapping("/updateProductionStockIn.do")
-	public String updateProductionStockIn(
-			@RequestParam("itemCode") String itemCode,
-			@RequestParam("itemName") String itemName,
-			@RequestParam("itemDesc") String itemDesc,
-			@RequestParam("stockIn") int stockIn,
-			@RequestParam("inPrice") double inPrice,
-			@RequestParam("stockPlace") String stockPlace,
-			@RequestParam("materialTypes") List<String> materialTypes) {
+	public String updateProductionStockIn(@RequestParam("itemCode") String itemCode,
+			@RequestParam("itemName") String itemName, @RequestParam("itemDesc") String itemDesc,
+			@RequestParam("stockIn") int stockIn, @RequestParam("inPrice") double inPrice,
+			@RequestParam("stockPlace") String stockPlace, @RequestParam("materialTypes") List<String> materialTypes) {
 
 		// 현재 타임스탬프 생성
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());

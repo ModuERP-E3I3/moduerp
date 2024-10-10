@@ -157,8 +157,8 @@ th {
 		<ul id="menubar">
 			<li><a href="bankmg.do"><i class="fas fa-bullhorn"></i> 은행
 					계좌 관리</a></li>
-			<li><a href="financialClosing.do"><i
-					class="fas fa-clipboard"></i> 결산 관리</a></li>
+			<li><a href="finClose.do"><i class="fas fa-clipboard"></i>
+					결산 관리</a></li>
 			<!-- 수정 -->
 			<!-- <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> 수정
 	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> 수정 -->
@@ -197,11 +197,10 @@ th {
 			<tbody>
 				<c:forEach var="bankmg" items="${bankmg}">
 					<tr>
-						<td>${bankmg.bankId}</td>
+						<td onclick="window.location.href='bankmgDetail.do?bankId=${bankmg.bankId}'">
+						${bankmg.bankId}</td>
 						<td>${bankmg.transactionType}</td>
-						<td
-							onclick="window.location.href='bankmgDetail.do?bankId=${bankmg.bankId}'" >
-							${bankmg.bankName}</td>
+						<td>${bankmg.bankName}</td>
 						<!-- 은행명을 클릭하면 상세 페이지로 이동 -->
 						<td>${bankmg.bankNumber}</td>
 						<td>${bankmg.bankHolder}</td>
@@ -221,6 +220,7 @@ th {
 			<button class="btn blue"
 				onclick="location.href='${pageContext.request.contextPath}/bankmgAddForm.do'">등록</button>
 		</div>
+	</div>
 </body>
 
 <script>

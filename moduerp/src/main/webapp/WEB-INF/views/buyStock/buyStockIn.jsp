@@ -207,6 +207,7 @@ tbody tr:hover {
 					<th>순번</th>
                     <th>입고 날짜</th>
                     <th>재고명</th>
+                    <th>거래처</th>
                     <th>입고 수량</th>
                     <th>입고 장소</th>
                     <th>입고 단가</th>
@@ -222,10 +223,11 @@ tbody tr:hover {
                   <!-- 순번 계산 -->           
                      <td>${item.createdAt}</td>
                      <td>${item.itemName}</td>   
+                     <td>${item.stockIn}</td><!-- account_no로 테이블 넘어가서 받아 와야함  -->
                      <td>${item.stockIn}</td>
                      <td>${item.stockPlace}</td>  
                      <td>${item.inPrice}</td>
-                     <td>${item.iDirector}</td>
+                     <td>${item.itemName}</td><!--  맞다 직원명도 -->
                  </tr>
 
 				</c:forEach>

@@ -96,8 +96,7 @@
 		resultType="int">
 		SELECT NVL(SUM(QTY), 0)
 		FROM WORK_ORDER
-		WHERE ITEM_CODE =
-		#{itemCode}
+		WHERE ITEM_CODE = #{itemCode}
 	</select>
 
 
@@ -129,15 +128,4 @@
 		WORK_ORDER
 		WHERE ORDER_NUMBER = #{orderNumber}
 	</delete>
-
-
-	<!-- ======================= -->
-	<!-- QC -->
-	<select id="findCompletedWorkOrders"
-		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
-		SELECT *
-		FROM WORK_ORDER
-		WHERE PROGRESS_STATUS = '작업 완료'
-	</select>
-
 </mapper>

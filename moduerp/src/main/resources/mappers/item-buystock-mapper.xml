@@ -19,14 +19,12 @@
 		<result property="updatedAt" column="UPDATED_AT" />
 		<result property="bizNumber" column="BIZ_NUMBER" />
 		<result property="createdOutAt" column="CREATED_OUT_AT" />
-		<result property="accountName" column="ACCOUNT_NAME" />
-		<result property="iDirector" column="IDIRECTOR" />
 		<result property="itemList" column="ITEM_LIST"
 			typeHandler="com.e3i3.moduerp.handler.StringListTypeHandler" />
 	</resultMap>
 
 	<select id="getItemsByBizNumber" resultMap="itemResultMap">
-		SELECT *
+		SELECT ITEM_NAME
 		FROM ITEM
 		WHERE BIZ_NUMBER = #{bizNumber}  AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
 	</select>
@@ -113,8 +111,7 @@
 		OUT_PRICE,
 		STOCK_OUT_PLACE,
 		CREATED_OUT_AT,
-		UPDATE_OUT_AT,
-		IDIRECTOR
+		UPDATE_OUT_AT
 		FROM ITEM
 		WHERE
 		BIZ_NUMBER = #{bizNumber}

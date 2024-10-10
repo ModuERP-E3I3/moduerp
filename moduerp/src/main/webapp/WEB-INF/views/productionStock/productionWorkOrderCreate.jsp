@@ -197,7 +197,7 @@ th {
 									<c:set var="availableStock"
 										value="${item.stock - itemQtyMap[item.itemCode]}" />
 									<c:if test="${availableStock > 0}">
-										<option value="${item.itemName} | 재고 : ${availableStock}"
+										<option value="${item.itemName} 재고 : ${availableStock}"
 											data-item-code="${item.itemCode}"
 											data-available-stock="${availableStock}"></option>
 									</c:if>

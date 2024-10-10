@@ -52,11 +52,4 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 	public int getTotalQtyByItemCode(String itemCode) {
 		return workOrderDAO.getTotalQtyByItemCode(itemCode);
 	}
-
-	// -------------------------------
-	// QC
-	@Override
-	public List<WorkOrderDTO> getCompletedWorkOrders() {
-		return workOrderDAO.findCompletedWorkOrders();
-	}
 }
