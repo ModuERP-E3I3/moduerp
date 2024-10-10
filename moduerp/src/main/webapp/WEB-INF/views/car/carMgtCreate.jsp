@@ -154,88 +154,52 @@ th {
 
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-		<ul id="menubar">
-			<li><a href="productionStockIn.do"><i
-					class="fas fa-bullhorn"></i> 생산 입고</a></li>
-			<li><a href="productionStockOut.do"><i
-					class="fas fa-clipboard"></i> 생산 출고</a></li>
-			<!-- 수정 -->
-			<li><a href="productionWorkorder.do"><i class="fas fa-code"></i>
-					작업지시서</a></li>
-			<!-- 수정 -->
-			<li><a href="productionQuality.do"><i class="fas fa-plug"></i>
-					품질관리</a></li>
-			<!-- 수정 -->
-		</ul>
+	    <ul id="menubar">
+	        <li><a href="carRes.do"><i class="fas fa-bullhorn"></i> 차량 예약</a></li>
+	        <li><a href="carMgt.do"><i class="fas fa-bullhorn"></i> 차량 결제 관리</a></li>
+	        <li><a href="map.do"><i class="fas fa-bullhorn"></i> 도로 교통 / 경로 조회</a></li>
+
+	    </ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 생산입고 | 신규 등록</div>
+		<div class="content-title">차량관리 | 차량 결제 관리 | 차량 결제 관리 등록</div>
+
+	
+
 		<!-- 테이블 -->
-		<form action="/moduerp/productionStockInCreate.do" method="POST">
+		<!-- 테이블 -->
+		<form action="/moduerp/insertCarmgt.do" method="POST">
 			<table>
 				<thead>
 					<tr>
-						<th>입고날짜</th>
-						<th>보관장소</th>
-						<th>입고수량</th>
-						<th>품목 이름</th>
-						<th>품목 설명</th>
-						<th>입고 가격</th>
-						<th>자재 종류</th>
-						<th>담당자</th>
+						<th>차종</th>
+                    	<th>차량 번호</th>
+                    	<th>소유 형태</th>
+                    	<th>사용처</th>
+                    	<th>내역</th>
+                    	<th>금액</th>
+                    	<th>일자</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<!-- 날짜 선택하는 칸 -->
-						<td><input type="date" id="pStockInDate" name="pStockInDate">
-						</td>
 
-						<!-- 보관장소 선택 칸 -->
-						<td><input list="stockPlaces" name="stockPlace"
-							placeholder="보관장소 선택" /> <datalist id="stockPlaces">
-								<c:forEach var="stockPlace" items="${stockPlaces}">
-									<option value="${stockPlace}"></option>
-								</c:forEach>
-							</datalist></td>
+						<!-- 차종 입력 칸 -->
+						<td><input type="text" name="carModel" placeholder="차종 입력" /></td>
 
-						<!-- 입고수량 칸 -->
-						<td><input type="number" name="stockIn" placeholder="수량 입력" /></td>
+						<!-- 차량 번호 입력 칸 -->
+						<td><input type="text" name="carNum" placeholder="차량 번호 입력" /></td>
 
-						<!-- 품목 이름 칸 -->
-						<td><input type="text" name="itemName" placeholder="품목 이름 입력" /></td>
-
-						<!-- 품목 설명 칸 -->
-						<td><input type="text" name="itemDesc" placeholder="품목 설명 입력" /></td>
-
-						<!-- 가격 입력 칸 -->
-						<td><input type="number" name="inPrice" placeholder="가격 입력"
-							step="0.01" /></td>
-
-						<!-- 자재 종류 선택 칸 -->
-						<td>
-							<!-- 자재 종류 입력 부분 -->
-							<div id="materialTypeContainer">
-								<div class="material-type-input">
-									<input list="materialTypes" name="materialType"
-										placeholder="자재 종류 입력" />
-									<datalist id="materialTypes">
-										<c:forEach var="itemName" items="${itemNames}">
-											<option value="${itemName}"></option>
-										</c:forEach>
-									</datalist>
-									<button type="button" class="remove-btn"
-										onclick="removeMaterialType(this)">삭제</button>
-								</div>
-							</div>
-							<button type="button" onclick="addMaterialType()">자재 종류추가</button>
-						</td>
-						<td>
-							<input type="text" name="iDirector" value="${directorName}" readonly>
-						</td>
+						<!-- 소유 형태 입력 칸 -->
+						<td><input type="text" name="ownershipStatus" placeholder="소유 형태 입력" /></td>
+						<td><input type="text" name="paymentPlace" placeholder="사용처 입력" /></td>
+						<td><input type="text" name="paymentHistory" placeholder="내역 입력" /></td>
+						<td><input type="text" name="paymentPrice" placeholder="금액 입력" /></td>
+						<td><input type="text" name="paymentDate" placeholder="" /></td>
+						
 					</tr>
 				</tbody>
 			</table>
@@ -249,32 +213,11 @@ th {
 
 	</div>
 </body>
-<script>
-function addMaterialType() {
-    const container = document.getElementById('materialTypeContainer');
-    const newInputDiv = document.createElement('div');
-    newInputDiv.className = 'material-type-input';
-    newInputDiv.innerHTML = `
-        <input list="materialTypes" name="materialType" placeholder="자재 종류 입력" />
-        <datalist id="materialTypes">
-            <c:forEach var="itemName" items="${itemNames}">
-                <option value="${itemName}"></option>
-            </c:forEach>
-        </datalist>
-        <button type="button" class="remove-btn" onclick="removeMaterialType(this)">삭제</button>
-    `;
-    container.appendChild(newInputDiv);
-}
 
-function removeMaterialType(button) {
-    const inputDiv = button.parentElement;
-    inputDiv.remove();
-}
-</script>
 
 
 <script>
-    const activeMenu = "productionStockIn";
+    const activeMenu = "carRes";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

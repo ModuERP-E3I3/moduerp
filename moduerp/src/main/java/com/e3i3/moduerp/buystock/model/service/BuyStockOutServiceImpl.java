@@ -20,5 +20,47 @@ public class BuyStockOutServiceImpl implements BuyStockOutService{
     public List<BuyStockOutDTO> getAllBuyStockOuts() {
         return BuyStockOutDao.selectAllBuyStockOuts();
     }
+
+	@Override
+	public void insertBuyStockOut(BuyStockOutDTO buyStockOutDTO) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<BuyStockOutDTO> getBuyStockOutDetails(String itemCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BuyStockOutDTO getBuyStockOutDetailssSub(String pStockOutId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateBuyStockOut(BuyStockOutDTO buyStockOutDTO) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getTotalStockOutByItemCode(String itemCode) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void deleteBuyStockOut(String pStockOutId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public BuyStockOutDTO getMostRecentStockOutDetails(String itemCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
