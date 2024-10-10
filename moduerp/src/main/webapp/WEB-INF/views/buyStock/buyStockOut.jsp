@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 
 <!DOCTYPE html>
 <html>
@@ -162,70 +164,93 @@
 	    <ul id="menubar">
 	        <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
 			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
-			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 배송 조회</a></li>
+			<li><a href="buyStockIn.do"><i class="fa-solid fa-truck"></i></i> 배송 조회</a></li>
 	    </ul>
 	</div>
 	
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">구매관리</div>
-
-        <!-- 필터 박스 -->
-        <div class="filter-box">
-            <select>
-                <option>조회기간</option>
-            </select>
-            <input type="date" />
-            <input type="date" />
-            <select>
-                <option>품목 선택</option>
-            </select>
-            <input type="text" placeholder="내용 입력" />
-            <button class="btn">조회</button>
-        </div>
-
+        <div class="content-title">구매관리 | 구매출고</div>
+		<form action="/moduerp/buyStockOutFilter.do">
+			<!-- 필터 박스 -->
+			<div class="filter-box">
+				<select name="filterOption" id="filterOption">
+					<option disabled selected>옵션 선택</option>
+					<option value="itemName">제품명</option>
+					<option value="stockPlace">출고 장소</option>
+					<option value="ODirector">담당자</option>
+				</select> <input type="date" name="startDate" id="startDate" /> <input
+					type="date" name="endDate" id="endDate" /> <input type="text"
+					name="filterText" id="filterText" placeholder="내용 입력" />
+				<button type="submit" class="btn">조회</button>
+				<button type="button" class="btn"
+					onclick="window.location.href='buyStockOut.do';">초기화</button>
+			</div>
+		</form>
         <!-- 테이블 -->
         <table>
             <thead>
                 <tr>
-                    <th>id</th>
-                    <th>아이템코드</th>
-                    <th>UUID</th>
-                    <th>NO</th>
-                    <th>ID</th>
+                    <th>순번</th>
+                    <th>출고 날짜</th>
+                    <th>제품명</th>
+                    <th>총출고 수량</th>
                     <th>재고 수량</th>
-                    <th>단가</th>
-                    <th>직원명</th>
+                    <th>출고 장소</th>
+                    <th>출고 단가</th>
+                    <th>출고 담당자</th> 
                 </tr>
             </thead>
             <tbody>
-			    <c:forEach var="BuyStockIn" items="${stockList}">
-			        <tr>
-			            <td>${buyStockout.bStockOutId}</td>
-			            <td>${buyStockout.itemCode}</td>
-			            <td>${buyStockout.uuid}</td>
-			            <td>${buyStockout.accountNo}</td>
-			            <td>${buyStockout.bankId}</td>
-			            <td>${buyStockout.bStockOutDate}</td>
-			            <td>${buyStockout.bStockOutPlace}</td>
-			            <td>${buyStockout.bStockOutQty}</td>
-			        </tr>
-			    </c:forEach>
+			    <c:forEach var="item" items="${itemList}" varStatus="status">
+				<tr onclick="window.location.href='getBuyOutDetails.do?itemCode=${item.itemCode}'">
+                  	 <td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
+                  			<!-- 순번 계산 -->           
+                     <td><fmt:formatDate value="${item.createdOutAt}"
+								pattern="yyyy-MM-dd" /></td>
+                     <td>${item.itemName}</td> 
+                     <td>${item.stockOut}</td>
+                     <td>${item.stock}</td>
+                     <td>${item.stockOutPlace}</td>  
+                     <td>${item.outPrice}</td>
+                     <td>${item.oDirector}</td>
+                 </tr>
+
+				</c:forEach>
 			</tbody>
 
         </table>
+        
+        <!-- 페이지 버튼 -->
+		<div id="pagebutton">
+			<c:if test="${totalPages > 1}">
+				<c:forEach var="i" begin="1" end="${totalPages}">
+					<c:choose>
+						<c:when test="${i == currentPage}">
+							<strong>${i}</strong>
+							<!-- 현재 페이지는 강조 -->
+						</c:when>
+						<c:otherwise>
+							<a href="buyStockOut.do?page=${i}">${i}</a>
+							<!-- 페이지 링크 -->
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</c:if>
+		</div>
+        
 
         <!-- 버튼 그룹 -->
         <div class="btn-group">
-            <button class="btn blue">등록</button>
-        </div>
+			<a href="buyStockOutCreate.do"><button class="btn blue">등록</button></a>
+		</div>
 
     </div>
 </body>
 
 <script>
-    const activeMenu = "buyStockOut";
+    const activeMenu = "buyStockIn";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -145,50 +146,26 @@ th {
 	background-color: white;
 }
 
-/* Modal Styles */
-#delete-modal {
-	display: none; /* 초기에는 보이지 않도록 설정 */
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%; /* 전체 화면 너비 */
-	height: 100%; /* 전체 화면 높이 */
-	background-color: rgba(0, 0, 0, 0.5); /* 배경 반투명 */
-	display: flex; /* 플렉스 박스를 사용하여 중앙 정렬 */
+#pagebutton {
+	display: flex;
+	justify-content: center;
+	margin-top: 2%; /* 위쪽 여백 추가 */
 }
 
-.modal-content {
-	background-color: #fff;
-	padding: 20px;
-	border-radius: 5px;
-	text-align: center;
-	width: 300px; /* 원하는 너비 */
-	position: relative;
-	margin: auto; /* 중앙 정렬을 위한 마진 */
-	margin-top: 20%;
+#pagebutton a {
+	color: black; /* 글자 색상 검은색 */
+	text-decoration: none; /* 밑줄 제거 */
+	font-size: 20px; /* 글자 크기 증가 */
+	margin: 0 10px; /* 페이지 버튼 간격 조정 */
 }
 
-.modal-content h2 {
-	margin-bottom: 20px;
+#pagebutton strong {
+	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
+	color: black; /* 강조 색상 검은색 유지 */
 }
 
-.modal-content button {
-	padding: 10px 20px;
-	margin: 10px;
-	border: none;
-	border-radius: 5px;
+tbody tr:hover {
 	cursor: pointer;
-}
-
-.modal-content .go-delete {
-	background-color: red;
-	color: #fff;
-}
-
-.modal-content .stay-page {
-	background-color: gray;
-	color: #fff;
 }
 </style>
 
@@ -200,101 +177,102 @@ th {
 
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-		<ul id="menubar">
-			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
+		 <ul id="menubar">
+	        <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
 			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
-			<li><a href="buyStockIn.do"><i class="fa-solid fa-truck"></i></i> 배송 조회</a></li>
-		</ul>
+			<li><a href="buyStockIn.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
+	    </ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">구매관리 | 구매입고 | ${itemDetails.itemName}</div>
+		<div class="content-title">구매관리 | 구매출고</div>
+		<form action="/moduerp/buyStockOutFilter.do">
+			<!-- 필터 박스 -->
+			<div class="filter-box">
+				<select name="filterOption" id="filterOption">
+					<option disabled selected>옵션 선택</option>
+					<option value="itemName" ${option == 'itemName' ? 'selected' : ''}>제품명</option>
+					<option value="stockPlace"
+						${option == 'stockPlace' ? 'selected' : ''}>입고 장소</option>
+					<option value="ODirector"
+						${option == 'ODirector' ? 'selected' : ''}>담당자</option>
+				</select> 
+				<input type="date" name="startDate" id="startDate"
+					value="${startDate != null ? startDate : ''}" /> 
+					<input
+					type="date" name="endDate" id="endDate"
+					value="${endDate != null ? endDate : ''}" /> 
+					<input type="text"
+					name="filterText" id="filterText" placeholder="내용 입력"
+					value="${filterText != null ? filterText : ''}" />
 
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-		</div>
-
+				<button type="submit" class="btn">조회</button>
+				<button type="button" class="btn"
+					onclick="window.location.href='buyStockOut.do';">초기화</button>
+			</div>
+		</form>
 		<!-- 테이블 -->
 		<table>
 			<thead>
 				<tr>
-                    <th>입고 날짜</th>
-                    <th>재고명</th>
-                    <th>거래처</th>
-                    <th>입고 수량</th>
-                    <th>입고 장소</th>
-                    <th>입고 단가</th>
-                    <th>직원명</th> 
-
+					<th>순번</th>
+					<th>제품명</th>
+					<th>출고 일자</th>
+					<th>총 출고 수량</th>
+					<th>재고 수량</th>
+					<th>출고 장소</th>
+					<th>출고 단가</th>
+					<th>담당자</th>
 				</tr>
 			</thead>
 			<tbody>
-
-				<tr>           
-					 <td>${itemDetails.createdAt}</td>
-                     <td>${itemDetails.itemName}</td>   
-                     <td>${itemDetails.accountName}</td> <!-- account_no로 테이블 넘어가서 받아 와야함  -->
-                     <td>${itemDetails.stockIn}</td>
-                     <td>${itemDetails.stockPlace}</td>  
-                     <td>${itemDetails.inPrice}</td>
-                     <td>${itemDetails.iDirector}</td>
-
-
-				</tr>
-
+				<c:forEach var="item" items="${itemList}" varStatus="status">
+					<tr
+						onclick="window.location.href='getBuyOutDetails.do?itemCode=${item.itemCode}'">
+						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
+						<td>${item.itemName}</td>
+						<td><fmt:formatDate value="${item.createdOutAt}"
+								pattern="yyyy-MM-dd" /></td>
+						<td>${item.stockOut}</td>
+						<td>${item.stock}</td>
+						<td>${item.stockOutPlace}</td>
+						<td>${item.outPrice}</td>
+						<td>${item.oDirector}</td>
+					</tr>
+				</c:forEach>
 			</tbody>
 
+
 		</table>
+		<!-- 페이지 버튼 -->
+		<div id="pagebutton">
+			<c:if test="${totalPages > 1}">
+				<c:forEach var="i" begin="1" end="${totalPages}">
+					<c:choose>
+						<c:when test="${i == currentPage}">
+							<strong>${i}</strong>
+							<!-- 현재 페이지는 강조 -->
+						</c:when>
+						<c:otherwise>
+							<a
+								href="buyStockOutFilter.do?page=${i}&filterOption=${option}&filterText=${filterText}&startDate=${startDate}&endDate=${endDate}">
+								${i} </a>
+							<!-- 페이지 링크 -->
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</c:if>
+		</div>
 
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
-			<button class="btn red" onclick="openDeleteModal()">삭제</button>
-			<a
-				href="buyStockInDetailUpdate.do?itemCode=${itemDetails.itemCode}">
-				<button class="btn green">수정</button>
-			</a>
+			<a href="buyStockOutCreate.do"><button class="btn blue">등록</button></a>
 		</div>
 
-
-
 	</div>
-	<!-- 삭제 확인 모달 -->
-	<div id="delete-modal" style="display: none;">
-		<div class="modal-content">
-			<h2>정말로 삭제하시겠습니까?</h2>
-			<p>삭제된 데이터는 복구할 수 없습니다.</p>
-			<!-- 삭제 버튼을 포함하는 폼 추가 -->
-			<form action="deleteBuyStockIn.do" method="POST">
-				<input type="hidden" name="itemCode" value="${itemDetails.itemCode}">
-				<!-- itemCode를 숨겨진 필드로 전달 -->
-				<button type="submit" class="go-delete">삭제</button>
-				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>
-			</form>
-		</div>
-	</div>
-
 </body>
-
-<script type="text/javascript">
-function openDeleteModal() {
-    document.getElementById('delete-modal').style.display = 'block';
-}
-
-function closeDeleteModal() {
-    document.getElementById('delete-modal').style.display = 'none';
-}
-
-
-
-</script>
 <script>
     const activeMenu = "buyStockIn";
 
@@ -307,6 +285,4 @@ function closeDeleteModal() {
         });
     });
 </script>
-
-
 </html>

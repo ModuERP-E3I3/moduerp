@@ -62,7 +62,7 @@ public class ItemBuyStockServiceImpl implements ItemBuyStockService {
 
 	@Override
 	public void updateItemStockOut(String itemCode, String createdOutAt, String StockOutPlace, int StockOut,
-			double outPrice) {
+			double outPrice, String oDirector) {
 
 		Integer currentStock = itemBuyStockDAO.getStockByItemCode(itemCode);
 
@@ -113,5 +113,7 @@ public class ItemBuyStockServiceImpl implements ItemBuyStockService {
 	public void resetItemStockOut(String itemCode) {
 		itemBuyStockDAO.updateItemStockOutToNull(itemCode);
 	}
+
+
 
 }

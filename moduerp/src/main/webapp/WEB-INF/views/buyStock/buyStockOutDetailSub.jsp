@@ -190,6 +190,8 @@ th {
 	background-color: gray;
 	color: #fff;
 }
+
+
 </style>
 
 </head>
@@ -201,34 +203,16 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="productionStockIn.do"><i
-					class="fas fa-bullhorn"></i> 생산 입고</a></li>
-			<li><a href="productionStockOut.do"><i
-					class="fas fa-clipboard"></i> 생산 출고</a></li>
-			<!-- 수정 -->
-			<li><a href="productionWorkorder.do"><i class="fas fa-code"></i>
-					작업지시서</a></li>
-			<!-- 수정 -->
-			<li><a href="productionQuality.do"><i class="fas fa-plug"></i>
-					품질관리</a></li>
-			<!-- 수정 -->
-		</ul>
+	        <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
+			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
+			<li><a href="buyStockIn.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
+	    </ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 생산입고 | ${itemDetails.itemName}</div>
-
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-		</div>
+		<div class="content-title">구매관리 | 구매출고 | ${itemDetailsSub.itemName}</div>
 
 		<!-- 테이블 -->
 		<table>
@@ -241,7 +225,7 @@ th {
 					<th>출고 수량</th>
 					<th>출고 가격</th>
 					<th>출고 장소</th>
-					<th>자재 종류</th>
+					<th>담당자</th>
 
 				</tr>
 			</thead>
@@ -252,15 +236,15 @@ th {
 					<td>${itemDetailsSub.itemName}</td>
 					<td>${itemDetailsSub.itemDesc}</td>
 					<td><fmt:formatDate
-							value="${productionStockOutDetailsSub.pStockOutDate}"
+							value="${buyStockOutDetailsSub.bStockOutDate}"
 							pattern="yyyy-MM-dd HH:mm:ss" /></td>
 					<td><fmt:formatDate
-							value="${productionStockOutDetailsSub.pStockOutUpdate}"
+							value="${buyStockOutDetailsSub.bStockOutUpdate}"
 							pattern="yyyy-MM-dd HH:mm:ss" /></td>
-					<td>${productionStockOutDetailsSub.pStockOutQty}</td>
-					<td>${productionStockOutDetailsSub.pStockOutPrice}</td>
-					<td>${productionStockOutDetailsSub.pStockOutPlace}</td>
-					<td>${itemDetailsSub.itemList}</td>
+					<td>${buyStockOutDetailsSub.bStockOutQty}</td>
+					<td>${buyStockOutDetailsSub.bStockOutPrice}</td>
+					<td>${buyStockOutDetailsSub.bStockOutPlace}</td>
+					<td>${buyStockOutDetailsSub.oDirector}</td>
 
 
 				</tr>
@@ -273,7 +257,7 @@ th {
 		<div class="btn-group">
 			<button class="btn red" onclick="openDeleteModal()">삭제</button>
 			<a
-				href="productionStockOutDetailSubUpdate.do?itemCode=${itemDetailsSub.itemCode}&pStockId=${productionStockOutDetailsSub.pStockOutId}">
+				href="buyStockOutDetailSubUpdate.do?itemCode=${itemDetailsSub.itemCode}&pStockId=${buyStockOutDetailsSub.bStockOutId}">
 				<button class="btn green">수정</button>
 			</a>
 		</div>
@@ -287,10 +271,11 @@ th {
 			<h2>정말로 삭제하시겠습니까?</h2>
 			<p>삭제된 데이터는 복구할 수 없습니다.</p>
 			<!-- 삭제 버튼을 포함하는 폼 추가 -->
-			<form action="deleteProductionStockOut.do" method="POST">
-				<input type="hidden" name="itemCode" value="${itemDetailsSub.itemCode}">
-				<input type="hidden" name="pStockOutId"
-					value="${productionStockOutDetailsSub.pStockOutId}">
+			<form action="deleteBuyStockOut.do" method="POST">
+				<input type="hidden" name="itemCode"
+					value="${itemDetailsSub.itemCode}"> <input type="hidden"
+					name="bStockOutId"
+					value="${buyStockOutDetailsSub.bStockOutId}">
 				<!-- itemCode를 숨겨진 필드로 전달 -->
 				<button type="submit" class="go-delete">삭제</button>
 				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>
@@ -313,7 +298,7 @@ function closeDeleteModal() {
 
 </script>
 <script>
-    const activeMenu = "productionStockIn";
+    const activeMenu = "buyStockIn";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');
