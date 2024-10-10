@@ -196,27 +196,32 @@ tbody tr:hover {
 	<div class="content-box">
 
 		<div class="content-title">생산관리 | 생산입고</div>
-
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-		</div>
-
+		<form action="/moduerp/productionStockInFilter.do">
+			<!-- 필터 박스 -->
+			<div class="filter-box">
+				<select name="filterOption" id="filterOption">
+					<option disabled selected>옵션 선택</option>
+					<option value="itemName">제품명</option>
+					<option value="stockPlace">입고 장소</option>
+					<option value="iDirector">담당자</option>
+				</select> <input type="date" name="startDate" id="startDate" /> <input
+					type="date" name="endDate" id="endDate" /> <input type="text"
+					name="filterText" id="filterText" placeholder="내용 입력" />
+				<button type="submit" class="btn">조회</button>
+				<button type="button" class="btn"
+					onclick="window.location.href='productionStockIn.do';">초기화</button>
+			</div>
+		</form>
 		<!-- 테이블 -->
 		<table>
 			<thead>
 				<tr>
 					<th>순번</th>
 					<th>제품명</th>
-					<th>생성일자</th>
-					<th>입고수량</th>
-					<th>입고장소</th>
-					<th>입고단가</th>
+					<th>입고 일자</th>
+					<th>입고 수량</th>
+					<th>입고 장소</th>
+					<th>입고 단가</th>
 					<th>담당자</th>
 				</tr>
 			</thead>
@@ -268,8 +273,12 @@ tbody tr:hover {
 
 	</div>
 </body>
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- jQuery 추가 -->
+
+
 
 <script>
     function getItemCode(itemCode) {

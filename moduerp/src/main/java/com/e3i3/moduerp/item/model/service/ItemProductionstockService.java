@@ -28,7 +28,8 @@ public interface ItemProductionstockService {
 
 	List<ItemDTO> getItemsByBizNumberStartingWith(String bizNumber);
 
-	void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut, double outPrice, String oDirector);
+	void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut, double outPrice,
+			String oDirector);
 
 	// STOCK_OUT 업데이트
 	void updateItemStockOutTotal(String itemCode, int totalStockOut);
@@ -53,4 +54,20 @@ public interface ItemProductionstockService {
 	// --------------------------------------------
 	// workorder
 	List<ItemDTO> getItemNamesAndStockByBizNumberStartingWith(String bizNumber);
+
+	// -----------------------------------------------
+	// production in filter
+
+	List<ItemDTO> getItemByFilterDate(String bizNumber, String option, String filterText, String startDate,
+			String endDate);
+
+	List<ItemDTO> getItemsByFilter(String bizNumber, String option, String filterText);
+
+	// -----------------------------------------------
+	// productionOut in filter
+	List<ItemDTO> getItemOutByFilterDate(String bizNumber, String option, String filterText, String startDate,
+			String endDate);
+
+	List<ItemDTO> getItemOutByFilter(String bizNumber, String option, String filterText);
+
 }
