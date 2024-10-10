@@ -222,10 +222,8 @@
 
         <!-- 버튼 그룹 -->
         <div class="btn-group">
-            <button class="btn red">삭제</button>
-            <button class="btn green">수정</button>
-            <button class="btn blue">등록</button>
-        </div>
+			<a href="carmgtCreate.do"><button class="btn blue">등록</button></a>
+		</div>
 
     </div>
 </body>
