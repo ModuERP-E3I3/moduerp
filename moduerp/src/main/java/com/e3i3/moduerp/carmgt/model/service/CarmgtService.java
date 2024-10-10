@@ -13,6 +13,8 @@ public interface CarmgtService {
     List<CarmgtDto> getCarsByBizNumber(String bizNumber);
 	List<Employee> getEmpNameDepart(String bizNumber);
 	CarmgtDto getCarmgtListDetail(String paymentHistoryCode);
+	void updateCarmgt(CarmgtDto carmgtDto);
+	void deleteCarmgt(String paymentHistoryCode);
 	
 	/* void deleteCarmgt(String carId); */
 }

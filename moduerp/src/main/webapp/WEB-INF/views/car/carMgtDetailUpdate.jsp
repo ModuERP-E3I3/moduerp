@@ -171,8 +171,10 @@ th {
 	<div class="content-box">
 		<div class="content-title">차량관리 | 차량 예약 | 차량 정보 수정 수정하기</div>
 
-		<form action="/moduerp/updateCar.do" method="POST">
-			<input type="hidden" name="carId" value="${carDetail.carId}" />
+		<form action="/moduerp/updateCarmgt.do" method="POST">
+			<input type="hidden" name="paymentHistoryCode" value="${carmgtDetail.paymentHistoryCode}" />
+			<input type="hidden" name="carId" value="${carmgtDetail.carId}" />
+			<input type="hidden" name="uuid" value="${carmgtDetail.uuid}" />
 			<table>
 				<thead>
 					<tr>
@@ -188,19 +190,38 @@ th {
 				</thead>
 				<tbody>
 					<tr>
-						<td><input type="text" name="carModel"
-							value="${carDetail.carModel}" required /></td>
-						<td><input type="text" name="carNum"
-							value="${carDetail.carNum}" required /></td>
-						<td><input type="text" name="empName"
-							value="${carDetail.empName}" required /></td>
-						<td><input type="text" name="departmentId"
-							value="${carDetail.departmentId}" required /></td>
-						<td><input type="text" name="paymentPlace" value="${paymentPlace}"
+						<td><input list="carModels" name="carModel"
+							id="carModelInput" placeholder="차종 입력" oninput="updateCarNum()" value="${carmgtDetail.carModel}" />
+							<datalist id="carModels">
+								<c:forEach var="cars" items="${cars}">
+									<option value="${cars.carModel} | ${cars.carNum}" />
+								</c:forEach>
+							</datalist></td>
+						<!-- 차량 번호 입력 칸 -->
+						<td><input type="text" id="carNumInput" name="carNum"
+							placeholder="차량 번호 입력" value="${carmgtDetail.carNum}"  readonly="readonly" /></td>
+						<!-- 사원 이름 입력 칸 -->
+						<td><input list="empNames" name="empName" id="empNameInput"
+							placeholder="사원명" oninput="updateDepartmentId()" value="${carmgtDetail.empName}"  /> <datalist
+								id="empNames">
+								<c:forEach var="empNameDepart" items="${empNameDepart}">
+									<option
+										value="${empNameDepart.empName} | ${empNameDepart.departmentId}" />
+								</c:forEach>
+							</datalist></td>
+						<!-- 부서명 입력 칸 -->
+						<td><input type="text" id="departmentIdInput"
+							name="departmentId" placeholder="부서명" value="${carmgtDetail.departmentId}" readonly="readonly"/> <datalist
+								id="departmentIds">
+								<c:forEach var="departmentId" items="${departmentIds}">
+									<option value="${departmentId}" />
+								</c:forEach>
+							</datalist></td>
+						<td><input type="text" name="paymentPlace" value="${carmgtDetail.paymentPlace}"
 							placeholder="사용처 입력" /></td>
-						<td><input type="text" name="paymentHistory" value="${paymentHistory}"
+						<td><input type="text" name="paymentHistory" value="${carmgtDetail.paymentHistory}"
 							placeholder="내역 입력" /></td>
-						<td><input type="text" name="paymentPrice" value="${paymentPrice}"
+						<td><input type="text" name="paymentPrice" value="${carmgtDetail.paymentPrice}"
 							placeholder="금액 입력" /></td>
 						<td><input type="date" id="paymentDate" name="paymentDate" /></td>
 
@@ -214,6 +235,45 @@ th {
 		</form>
 	</div>
 </body>
+<script>
+function updateDepartmentId() {
+    const empNameInput = document.getElementById('empNameInput');
+    const departmentIdInput = document.getElementById('departmentIdInput');
+    const selectedValue = empNameInput.value;
+
+    // 선택된 값을 "|"로 분리
+    const parts = selectedValue.split(' | ');
+
+    if (parts.length === 2) {
+        // 첫 번째 부분은 empName, 두 번째 부분은 departmentId
+        empNameInput.value = parts[0]; // 사원명
+        departmentIdInput.value = parts[1]; // 부서명
+    } else {
+        // 부서명 입력란 초기화
+        departmentIdInput.value = '';
+    }
+}
+</script>
+
+<script>
+function updateCarNum() {
+    const carModelInput = document.getElementById('carModelInput');
+    const carNumInput = document.getElementById('carNumInput');
+    const selectedValue = carModelInput.value;
+
+    // 선택된 값을 "|"로 분리
+    const parts = selectedValue.split(' | ');
+
+    if (parts.length === 2) {
+        // 첫 번째 부분은 carModel, 두 번째 부분은 carNum
+        carModelInput.value = parts[0]; // 차량 모델
+        carNumInput.value = parts[1]; // 차량 번호
+    } else {
+        // 두 입력란을 초기화
+        carNumInput.value = '';
+    }
+}
+</script>
 
 
 <script>

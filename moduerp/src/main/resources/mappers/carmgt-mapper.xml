@@ -98,5 +98,25 @@
 		SELECT *
 		FROM CAR_MANAGEMENT WHERE PAYMENT_HISTORY_CODE = #{paymentHistoryCode}
 	</select>
+	
+	<update id="updateCarmgt"
+		parameterType="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
+		UPDATE CAR_MANAGEMENT
+		SET CAR_ID = (SELECT CAR_ID FROM CAR WHERE CAR_MODEL = #{carModel} AND CAR_NUM = #{carNum}
+		AND ROWNUM = 1),
+		CAR_NUM = #{carNum},
+		CAR_MODEL = #{carModel},
+		DEPARTMENT_ID = #{departmentId},
+		EMP_NAME = #{empName},
+		PAYMENT_HISTORY = #{paymentHistory},
+		PAYMENT_PRICE = #{paymentPrice},
+		PAYMENT_DATE = #{paymentDate},
+		PAYMENT_PLACE = #{paymentPlace},
+		UUID = (SELECT UUID FROM EMPLOYEE WHERE EMP_NAME = #{empName} AND DEPARTMENT_ID = #{departmentId} AND ROWNUM = 1)
+		WHERE PAYMENT_HISTORY_CODE = #{paymentHistoryCode}
+	</update>
 
+	<delete id="deleteCarmgt" parameterType="String">
+		DELETE FROM CAR_MANAGEMENT WHERE PAYMENT_HISTORY_CODE = #{paymentHistoryCode}
+	</delete>
 </mapper>
