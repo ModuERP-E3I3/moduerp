@@ -27,7 +27,7 @@ public interface ItemBuyStockService {
 
 	List<ItemDTO> getItemsByBizNumberStartingWith(String bizNumber);
 
-	void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut, double outPrice);
+	void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut, double outPrice, String oDirector);
 	
 	void updateItemStockOutTotal(String itemCode, int totalStockOut);
 	
@@ -39,10 +39,14 @@ public interface ItemBuyStockService {
 
 	public void updateItemOutPrice(String itemCode, double outPrice);
 
-	void updateItemWithLatestStockOut(String itemCode, Timestamp latestOutDate, double latestOutPrice,
-			String latestOutPlace);
-
 	void resetItemStockOutDetails(String itemCode);
 
 	void resetItemStockOut(String itemCode);
+
+	void updateItemWithLatestStockOut(String itemCode, Timestamp latestOutDate, double latestOutPrice,
+			String latestOutPlace);
+
+
+	
+	
 }

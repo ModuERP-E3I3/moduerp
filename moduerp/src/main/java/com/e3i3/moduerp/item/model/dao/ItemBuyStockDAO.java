@@ -28,7 +28,7 @@ public interface ItemBuyStockDAO {
 	int getStockByItemCode(String itemCode);
 
 	void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut, double outPrice,
-			int updatedStock);
+			int updatedStock, String oDirector);
 
 	void updateStockOutByItemCode(String itemCode, int totalStockOut);
 
@@ -46,5 +46,8 @@ public interface ItemBuyStockDAO {
 	void resetItemStockOutDetails(String itemCode);
 
 	void updateItemStockOutToNull(String itemCode);
+
+
+
 
 }

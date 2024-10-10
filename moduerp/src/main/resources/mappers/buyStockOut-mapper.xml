@@ -3,22 +3,75 @@
 <mapper namespace="BuyStockOutMapper">
 
     <!-- BuyStockOut에 대한 resultMap -->
-    <resultMap id="resultBuyStockOut" type="com.e3i3.moduerp.buystock.model.dto.BuyStockOutDTO">
-    	<result property="bStockOutId" column="B_STOCK_OUT_ID" />
-    	<result property="itemCode" column="ITEM_CODE" />
-    	<result property="uuid" column="UUID" />
-    	<result property="accountNo" column="ACCOUNT_NO" />
-    	<result property="bankId" column="BANK_ID" />
-    	<result property="bStockOutDate" column="B_STOCK_OUT_DATE" />
-    	<result property="bStockOutPlace" column="B_STOCK_OUT_PLACE" />
-   	 	<result property="bStockOutQty" column="B_STOCK_OUT_QTY" />
-	</resultMap>
+    <resultMap id="resultBuyStockOut"
+        type="com.e3i3.moduerp.buystock.model.dto.BuyStockOutDTO">
+        <result property="bStockOutId" column="B_STOCK_OUT_ID" />
+        <result property="itemCode" column="ITEM_CODE" />
+        <result property="uuid" column="UUID" />
+        <result property="bStockOutDate" column="B_STOCK_OUT_DATE" />
+        <result property="bStockOutPlace" column="B_STOCK_OUT_PLACE" />
+        <result property="bStockOutQty" column="B_STOCK_OUT_QTY" />
+        <result property="bStockOutUpdate" column="B_STOCK_OUT_UPDATE" />
+        <result property="bStockOutPrice" column="B_STOCK_OUT_PRICE" />
+        <result property="oDirector" column="ODIRECTOR" />
+    </resultMap>
 
-    
-	<select id="selectAllBuyStockOuts"
-		resultMap="resultBuyStockOut">
-		SELECT DISTINCT * FROM BUY_STOCK_OUT
-	</select>
-	
-	
+    <!-- 출고 ID로 BuyStockOut 조회 -->
+    <select id="selectBuyStockOutByBStockId" parameterType="String"
+        resultMap="resultBuyStockOut">
+        SELECT * FROM BUY_STOCK_OUT
+        WHERE B_STOCK_OUT_ID = #{bStockOutId}
+    </select>
+
+    <!-- 출고 정보 삽입 -->
+    <insert id="insertBuyStockOut" parameterType="BuyStockOutDTO">
+        INSERT INTO BUY_STOCK_OUT (
+            B_STOCK_OUT_ID,
+            ITEM_CODE, B_STOCK_OUT_DATE,
+            B_STOCK_OUT_PLACE, B_STOCK_OUT_QTY, UUID,
+            B_STOCK_OUT_PRICE, ODIRECTOR
+        ) VALUES (
+            #{bStockOutId}, #{itemCode},
+            #{bStockOutDate},
+            #{bStockOutPlace}, #{bStockOutQty},
+            #{uuid},
+            #{bStockOutPrice},
+            #{oDirector}
+        )
+    </insert>
+
+    <!-- 아이템 코드로 출고 정보 조회 -->
+    <select id="selectProductionStockOutByItemCode"
+        parameterType="String"
+        resultType="com.e3i3.moduerp.buystock.model.dto.BuyStockOutDTO">
+        SELECT * FROM BUY_STOCK_OUT WHERE ITEM_CODE = #{itemCode}
+    </select>
+
+    <!-- 출고 정보 업데이트 -->
+    <update id="updateBuyStockOut"
+        parameterType="com.e3i3.moduerp.buystock.model.dto.BuyStockOutDTO">
+        UPDATE BUY_STOCK_OUT
+        SET B_STOCK_OUT_UPDATE = #{bStockOutUpdate},
+            B_STOCK_OUT_PLACE = #{bStockOutPlace},
+            B_STOCK_OUT_QTY = #{bStockOutQty},
+            B_STOCK_OUT_PRICE = #{bStockOutPrice},
+            UUID = #{uuid}
+        WHERE B_STOCK_OUT_ID = #{bStockOutId}
+    </update>
+
+    <!-- 출고 정보 삭제 -->
+    <delete id="deleteBuyStockOut" parameterType="String">
+        DELETE FROM BUY_STOCK_OUT WHERE B_STOCK_OUT_ID = #{bStockOutId}
+    </delete>
+
+    <!-- 가장 최근의 출고 정보 조회 -->
+    <select id="selectMostRecentStockOutDetails"
+        parameterType="String" resultMap="resultBuyStockOut">
+        SELECT *
+        FROM BUY_STOCK_OUT
+        WHERE ITEM_CODE = #{itemCode}
+        ORDER BY B_STOCK_OUT_DATE DESC
+        FETCH FIRST 1 ROWS ONLY
+    </select>
+
 </mapper>
