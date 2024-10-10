@@ -204,7 +204,7 @@ public class SalesStockOutController {
         model.addAttribute("salesStockOutDetails", salesStockOutDetails);
 
         // 수정 페이지로 이동
-        return "salesStock/salesStockOutDetailSubUpdate"; // 수정 JSP 파일 경로
+        return "salesStock/salesStockOutDetailSubUpdate"; 
     }
 
     @PostMapping("/updateSalesStockSubOut.do")
