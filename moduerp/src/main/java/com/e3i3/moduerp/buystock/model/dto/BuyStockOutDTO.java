@@ -8,33 +8,13 @@ public class BuyStockOutDTO {
     private String itemCode;
     private String uuid;
     private String accountNo;
-    private String bankId;
     private java.sql.Date bStockOutDate;
     private String bStockOutPlace;
     private int bStockOutQty;
     
     
     
-    
-	public BuyStockOutDTO() {
-		super();
-	}
-	
-	
-	
-	public BuyStockOutDTO(String bStockOutId, String itemCode, String uuid, String accountNo, String bankId,
-			Date bStockOutDate, String bStockOutPlace, int bStockOutQty) {
-		super();
-		this.bStockOutId = bStockOutId;
-		this.itemCode = itemCode;
-		this.uuid = uuid;
-		this.accountNo = accountNo;
-		this.bankId = bankId;
-		this.bStockOutDate = bStockOutDate;
-		this.bStockOutPlace = bStockOutPlace;
-		this.bStockOutQty = bStockOutQty;
-	}
-
+  
 
 
 	public String getbStockOutId() {
@@ -60,12 +40,6 @@ public class BuyStockOutDTO {
 	}
 	public void setAccountNo(String accountNo) {
 		this.accountNo = accountNo;
-	}
-	public String getBankId() {
-		return bankId;
-	}
-	public void setBankId(String bankId) {
-		this.bankId = bankId;
 	}
 	public java.sql.Date getbStockOutDate() {
 		return bStockOutDate;
