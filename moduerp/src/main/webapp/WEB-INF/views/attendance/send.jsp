@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<c:url value="/attendanceRequest/submit.do" var="submitUrl" />
 
 <!DOCTYPE html>
 <html>
@@ -129,7 +130,8 @@ function toggleTimeFields() {
 	<div class="content-box">
 		<div class="content-title">근태신청</div>
 <!-- 근태 요청서 작성 폼 -->
-<form:form method="post" action="/attendanceRequest/submit" modelAttribute="attendanceRequest" oninput="toggleTimeFields()">
+<form:form method="post" action="${submitUrl}" modelAttribute="attendanceRequest" oninput="toggleTimeFields()">
+
     <table>
         <tr>
             <td>신청 유형:</td>
@@ -168,6 +170,8 @@ function toggleTimeFields() {
             <td>첨부 파일:</td>
             <td><input type="file" name="attachment" /></td>
         </tr>
+        
+        
         <!-- 결재자 선택 드롭다운 -->
 <tr>
     <td>결재자:</td>
@@ -177,9 +181,11 @@ function toggleTimeFields() {
             <option value="">결재자를 선택하세요</option>
             <c:forEach var="employee" items="${employees}">
                 <!-- 직원 이름과 직책을 결합하여 표시 -->
-                <option value="${employee.empName}(${employee.jobId})">${employee.empName}(${employee.jobId})</option>
+                <option value="${employee.uuid}">${employee.empName}(${employee.jobId})</option>
             </c:forEach>
         </select>
+        <!-- 숨겨진 approver 필드 추가 -->
+        <input type="hidden" id="approver" name="approver" />
     </td>
 </tr>
 

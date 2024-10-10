@@ -33,7 +33,7 @@
 		start_time, end_time, reason, attachment, approver, remarks, contact, status
 		)
 		VALUES (
-		#{attendancerequestId}, #{uuid}, #{bizNumber}, #{applicationType}, #{startDate}, #{endDate},
+		#{attendancerequestId, javaType=String, jdbcType=VARCHAR}, #{uuid}, #{bizNumber}, #{applicationType}, #{startDate}, #{endDate},
 		#{startTime}, #{endTime}, #{reason}, #{attachment}, #{approver},
 		#{remarks}, #{contact}, 'SUBMITTED'
 		)
@@ -51,7 +51,7 @@
 		contact, status
 		)
 		VALUES (
-		#{attendancerequestId}, #{uuid}, #{bizNumber},
+		#{attendancerequestId, javaType=String, jdbcType=VARCHAR}, #{uuid}, #{bizNumber},
 		#{applicationType}, #{startDate}, #{endDate},
 		#{startTime}, #{endTime},
 		#{reason}, #{attachment}, #{approver},
