@@ -224,9 +224,8 @@ tbody tr:hover {
 					<th>최종 출고 단가</th>
 					<th>담당자</th>
 					<th>판매 상태</th>
-					<!-- S_STOCK_OUT_STATUS -->
 					<th>지급 상태</th>
-					<!-- PANNINT_STATUS -->
+
 				</tr>
 			</thead>
 			<tbody>
@@ -249,7 +248,7 @@ tbody tr:hover {
 							</c:choose></td>
 						
 						<td><c:choose>
-								<c:when test="${item.panningStatus == 'Y'}">Yes</c:when>
+								<c:when test="${item.paymentStatus == 'Y'}">Yes</c:when>
 								<c:otherwise>No</c:otherwise>
 							</c:choose></td>
 						
