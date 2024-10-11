@@ -90,4 +90,60 @@ public class CarresController {
 		return "car/carResListDetail";
 	}
 	
+	// 차량 예약 수정 페이지로 이동
+	@GetMapping("carresDetailUpdate.do")
+	public String carresDetailUpdate(@RequestParam("carReserveCode") String carReserveCode, Model model,
+			HttpSession session) {
+		CarresDto carresDetail = CarresService.getCarresListDetail(carReserveCode);
+		String bizNumber = (String) session.getAttribute("biz_number");
+		
+		// 사원 정보 조회
+		List<Employee> empNameDepart = CarresService.getEmpNameDepart(bizNumber);
+
+		// 차량 정보 조회
+		List<CarresDto> cars = CarresService.getCarsbyBizNumber(bizNumber);
+		
+		model.addAttribute("cars", cars); // Collectors.toList()로 변경
+		model.addAttribute("empNameDepart", empNameDepart);
+		model.addAttribute("carresDetail", carresDetail);
+		
+		return "car/carResListDetailUpdate";
+	}
+	
+	// 차량 예약 수정
+	@PostMapping("/updateCarres.do")
+	public String updateCarres(@RequestParam("carId") String carId, @RequestParam("uuid") String uuid,
+			@RequestParam("carModel") String carModel,
+			@RequestParam("carNum") String carNum,
+			@RequestParam("empName") String empName,
+			@RequestParam("departmentId") String departmentId,
+			@RequestParam("reserveStartDate") String reserveStartDateStr,
+			@RequestParam("reserveEndDate") String reserveEndDateStr,
+			@RequestParam("useReason") String useReason,
+			@RequestParam("drivingStatus") String drivingStatus,
+			@RequestParam("carReserveCode") String carReserveCode) {
+		LocalDateTime parseStartDate = LocalDateTime.parse(reserveStartDateStr);
+		LocalDateTime parseEndDate = LocalDateTime.parse(reserveEndDateStr);
+		Timestamp reserveStartDate = Timestamp.valueOf(parseStartDate);
+		Timestamp reserveEndDate = Timestamp.valueOf(parseEndDate);
+		
+		CarresDto carresDto = new CarresDto();
+		carresDto.setCarId(carId);
+		carresDto.setUuid(uuid);
+		carresDto.setCarNum(carNum);
+		carresDto.setCarModel(carModel);
+		carresDto.setEmpName(empName);
+		carresDto.setDepartmentId(departmentId);
+		carresDto.setReserveStartDate(reserveStartDate);
+		carresDto.setReserveEndDate(reserveEndDate);
+		carresDto.setUseReason(useReason);
+		carresDto.setCarReserveCode(carReserveCode);
+		carresDto.setDrivingStatus(drivingStatus);
+		
+		CarresService.updateCarres(carresDto);
+		
+		return "redirect:/carresListCreate.do";
+	}
+	
+	
 }

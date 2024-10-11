@@ -169,12 +169,12 @@ th {
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">차량관리 | 차량 결제 관리 | 차량 결제 리스트 수정하기</div>
+		<div class="content-title">차량관리 | 차량 예약 | 차량 예약 내역 수정하기</div>
 
-		<form action="/moduerp/updateCarmgt.do" method="POST">
-			<input type="hidden" name="paymentHistoryCode" value="${carmgtDetail.paymentHistoryCode}" />
-			<input type="hidden" name="carId" value="${carmgtDetail.carId}" />
-			<input type="hidden" name="uuid" value="${carmgtDetail.uuid}" />
+		<form action="/moduerp/updateCarres.do" method="POST">
+			<input type="hidden" name="carReserveCode" value="${carresDetail.carReserveCode}" />
+			<input type="hidden" name="carId" value="${carresDetail.carId}" />
+			<input type="hidden" name="uuid" value="${carresDetail.uuid}" />
 			<table>
 				<thead>
 					<tr>
@@ -182,16 +182,15 @@ th {
 						<th>차량 번호</th>
 						<th>사원명</th>
 						<th>부서명</th>
-						<th>사용처</th>
-						<th>내역</th>
-						<th>금액</th>
-						<th>일자</th>
+						<th>예약 일정</th>
+						<th>예약 사유</th>
+						<th>운행 여부</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td><input list="carModels" name="carModel"
-							id="carModelInput" placeholder="차종 입력" oninput="updateCarNum()" value="${carmgtDetail.carModel}" />
+							id="carModelInput" placeholder="차종 입력" oninput="updateCarNum()" value="${carresDetail.carModel}" />
 							<datalist id="carModels">
 								<c:forEach var="cars" items="${cars}">
 									<option value="${cars.carModel} | ${cars.carNum}" />
@@ -199,10 +198,10 @@ th {
 							</datalist></td>
 						<!-- 차량 번호 입력 칸 -->
 						<td><input type="text" id="carNumInput" name="carNum"
-							placeholder="차량 번호 입력" value="${carmgtDetail.carNum}"  readonly="readonly" /></td>
+							placeholder="차량 번호 입력" value="${carresDetail.carNum}"  readonly="readonly" /></td>
 						<!-- 사원 이름 입력 칸 -->
 						<td><input list="empNames" name="empName" id="empNameInput"
-							placeholder="사원명" oninput="updateDepartmentId()" value="${carmgtDetail.empName}"  /> <datalist
+							placeholder="사원명" oninput="updateDepartmentId()" value="${carresDetail.empName}"  /> <datalist
 								id="empNames">
 								<c:forEach var="empNameDepart" items="${empNameDepart}">
 									<option
@@ -211,19 +210,29 @@ th {
 							</datalist></td>
 						<!-- 부서명 입력 칸 -->
 						<td><input type="text" id="departmentIdInput"
-							name="departmentId" placeholder="부서명" value="${carmgtDetail.departmentId}" readonly="readonly"/> <datalist
+							name="departmentId" placeholder="부서명" value="${carresDetail.departmentId}" readonly="readonly"/> <datalist
 								id="departmentIds">
 								<c:forEach var="departmentId" items="${departmentIds}">
 									<option value="${departmentId}" />
 								</c:forEach>
-							</datalist></td>
-						<td><input type="text" name="paymentPlace" value="${carmgtDetail.paymentPlace}"
-							placeholder="사용처 입력" /></td>
-						<td><input type="text" name="paymentHistory" value="${carmgtDetail.paymentHistory}"
-							placeholder="내역 입력" /></td>
-						<td><input type="text" name="paymentPrice" value="${carmgtDetail.paymentPrice}"
-							placeholder="금액 입력" /></td>
-						<td><input type="date" id="paymentDate" name="paymentDate" /></td>
+							</datalist>
+						</td>
+						<td>
+							<input type="datetime-local" id="reserveStartDate" name="reserveStartDate" /> ~ 
+    						<input type="datetime-local" id="reserveEndDate" name="reserveEndDate" />
+						</td>
+						<td><input type="text" name="useReason" value="${carresDetail.useReason}"
+							placeholder="예약 사유 입력" /></td>
+						<td>
+							<input list="drivingStatus" name="drivingStatus" id="drivingStatusInput" 
+							value="${carresDetail.drivingStatus}"
+							placeholder="운행 상태 입력" />
+							<datalist id="drivingStatus">
+        						<option value="운행 전">운행 전</option>
+        						<option value="운행 중">운행 중</option>
+        						<option value="운행 완료">운행 완료</option>
+   							</datalist>
+						</td>
 
 					</tr>
 				</tbody>

@@ -16,4 +16,6 @@ public interface CarresDao {
 
 	CarresDto selectcarReserveCode(String carReserveCode);
 
+	void updateCarres(CarresDto carresDto);
+
 }

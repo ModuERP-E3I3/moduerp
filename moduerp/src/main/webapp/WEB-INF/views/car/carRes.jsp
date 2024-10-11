@@ -202,7 +202,6 @@
 			            <td>${ car.carModel }</td>
 			            <td>${ car.carNum }</td>
 			            <td>${ car.ownershipStatus }</td>
-			            
 			        </tr>
 			        
 			    </c:forEach>
