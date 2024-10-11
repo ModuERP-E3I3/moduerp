@@ -1,9 +1,7 @@
 package com.e3i3.moduerp.account.controller;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.Instant;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -28,9 +26,24 @@ public class AccountController {
     private com.e3i3.moduerp.account.service.AccountService accountService;
 
     @RequestMapping(value = "/account.do", method = RequestMethod.GET)
-    public String forwardAccount(Model model) {
+    public String forwardAccount(@RequestParam(value = "page", defaultValue = "1") int page, Model model, HttpSession session) {
+        String bizNumber = (String) session.getAttribute("biz_number");
+        
+        // Fetch all accounts
         List<AccountDTO> accountList = accountService.getAllAccounts();
-        model.addAttribute("accountList", accountList);
+        
+        // Pagination logic
+        int accountsPerPage = 10;
+        int totalAccounts = accountList.size();
+        int totalPages = (int) Math.ceil((double) totalAccounts / accountsPerPage);
+        int startIndex = (page - 1) * accountsPerPage;
+        int endIndex = Math.min(startIndex + accountsPerPage, totalAccounts);
+        List<AccountDTO> paginatedList = accountList.subList(startIndex, endIndex);
+
+        model.addAttribute("accountList", paginatedList);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", page);
+        
         return "account/account";
     }
 
@@ -58,7 +71,6 @@ public class AccountController {
     public String accountCreate(@RequestParam("accountName") String accountName, 
                                 @RequestParam("businessType") String businessType,
                                 @RequestParam("bossName") String bossName,
-                                /*@RequestParam("creditLimit") Double creditLimit, */ 
                                 @RequestParam("businessNumber") String businessNumber, 
                                 @RequestParam("accountAddress") String accountAddress,
                                 @RequestParam("accountPhone") String accountPhone, 
@@ -136,3 +148,5 @@ public class AccountController {
         return "redirect:/account.do";
     }
 }
+
+
