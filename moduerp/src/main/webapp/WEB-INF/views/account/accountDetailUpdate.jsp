@@ -184,11 +184,12 @@ tbody tr:hover {
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">계정 관리 | 계정 수정</div>
+		<div class="content-title">영업/판매 관리 | 거래처관리 </div>
 
 		<form action="/moduerp/updateAccount.do" method="POST">
 			<input type="hidden" name="accountNo" value="${accountDetail.accountNo}" />
 			
+			<!-- 테이블 -->
 			<table>
 				<thead>
 					<tr>
