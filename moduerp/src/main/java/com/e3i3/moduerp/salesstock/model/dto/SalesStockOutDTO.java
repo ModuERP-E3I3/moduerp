@@ -12,10 +12,8 @@ public class SalesStockOutDTO {
     private Double sStockOutPrice;
     private Date sStockOutUpdate;
     private String oDirector;
-    
-    private String sStockOutStatus;
     private String paymentStatus;  
-
+    
     
     
     // Getters and Setters
@@ -75,12 +73,7 @@ public class SalesStockOutDTO {
     }
 
 //    STATUS - - - - - - - - - - - - - - - - - - - - - - - - - -
-    public String getsStockOutStatus() {
-        return sStockOutStatus;
-    }
-    public void setsStockOutStatus(String sStockOutStatus) {
-        this.sStockOutStatus = sStockOutStatus;
-    }
+
     public String getPaymentStatus() {
         return paymentStatus;
     }

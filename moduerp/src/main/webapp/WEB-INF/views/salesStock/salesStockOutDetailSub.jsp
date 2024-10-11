@@ -231,7 +231,6 @@ th {
 					<th>출고 장소</th>
 					<th>자재 종류</th>
 					<th>출고 담당자</th>
-					<th>출고 상태</th>
 					<th>지급 상태</th>
 				</tr>
 			</thead>
@@ -239,27 +238,27 @@ th {
 				<tr>
 					<td>${itemDetailsSub.itemName}</td>
 					<td>${itemDetailsSub.itemDesc}</td>
+					
 					<td><fmt:formatDate
 							value="${salesStockOutDetailsSub.sStockOutDate}"
 							pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							
 					<td><fmt:formatDate
 							value="${salesStockOutDetailsSub.sStockOutUpdate}"
 							pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							
 					<td>${salesStockOutDetailsSub.sStockOutQty}</td>
 					<td>${salesStockOutDetailsSub.sStockOutPrice}</td>
 					<td>${salesStockOutDetailsSub.sStockOutPlace}</td>
 					<td>${itemDetailsSub.itemList}</td>
 					<td>${salesStockOutDetailsSub.oDirector}</td>
-					<td><c:choose>
-							<c:when test="${salesStockOutDetailsSub.sStockOutStatus == 'Y'}">Yes</c:when>
-							<c:otherwise>No</c:otherwise>
-						</c:choose></td>
-					<!-- S_STOCK_OUT_STATUS 표시 -->
+
+					<!-- paymentStatus -->
 					<td><c:choose>
 							<c:when test="${salesStockOutDetailsSub.paymentStatus == 'Y'}">Yes</c:when>
 							<c:otherwise>No</c:otherwise>
 						</c:choose></td>
-					<!-- PANNINT_STATUS 표시 -->
+
 				</tr>
 			</tbody>
 		</table>
