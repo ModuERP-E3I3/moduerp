@@ -263,7 +263,7 @@ th {
             </thead>
             <tbody>
 			    <c:forEach var="carres" items="${carresList}">
-			        <tr>
+			        <tr onclick="window.location.href='getCarresDetail.do?carReserveCode=${ carres.carReserveCode }' ">
 			            <td>${ carres.carModel }</td>
 			            <td>${ carres.carNum }</td>
 			            <td>${ carres.empName }</td>

@@ -1,9 +1,7 @@
 package com.e3i3.moduerp.carres.controller;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -11,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -79,6 +78,16 @@ public class CarresController {
 		CarresService.insertCarres(carresDto);
 		
 		return "redirect:/carresListCreate.do";
+	}
+	
+	// 차량 예약 상세 페이지
+	@GetMapping("getCarresDetail.do")
+	public String getCarresDetail(@RequestParam("carReserveCode") String carReserveCode, Model model) {
+		CarresDto carresDetail = CarresService.getCarresListDetail(carReserveCode);
+		
+		model.addAttribute("carresDetail", carresDetail);
+		
+		return "car/carResListDetail";
 	}
 	
 }

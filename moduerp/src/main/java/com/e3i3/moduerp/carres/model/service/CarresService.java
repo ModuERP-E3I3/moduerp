@@ -14,4 +14,6 @@ public interface CarresService {
 
 	void insertCarres(CarresDto carresDto);
 
+	CarresDto getCarresListDetail(String carReserveCode);
+
 }

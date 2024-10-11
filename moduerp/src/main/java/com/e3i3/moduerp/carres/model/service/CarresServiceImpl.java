@@ -33,4 +33,9 @@ public class CarresServiceImpl implements CarresService{
 	public void insertCarres(CarresDto carresDto) {
 		carresDao.insertCarres(carresDto);
 	}
+
+	@Override
+	public CarresDto getCarresListDetail(String carReserveCode) {
+		return carresDao.selectcarReserveCode(carReserveCode);
+	}
 }

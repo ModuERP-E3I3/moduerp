@@ -14,4 +14,6 @@ public interface CarresDao {
 
 	void insertCarres(CarresDto carresDto);
 
+	CarresDto selectcarReserveCode(String carReserveCode);
+
 }
