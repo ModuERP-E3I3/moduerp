@@ -157,7 +157,7 @@ th {
 		<ul id="menubar">
 			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
 			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
-			<li><a href="buyStockIn.do"><i class="fa-solid fa-truck"></i></i> 배송 조회</a></li>
+			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
 
 		</ul>
 	</div>
@@ -211,10 +211,10 @@ th {
 						<!-- 가격 입력 칸 -->
 						<td><input type="number" name="inPrice" placeholder="가격 입력"
 							step="0.01" /></td>
-						<td><input list="accountNo" name="accountNo"
-							placeholder="거래처" /> <datalist id="accountNo">
-								<c:forEach var="accountNo" items="${accountNo}">
-									<option value="${accountNo}"></option>
+						<td><input list="accountName" name="accountName"
+							placeholder="거래처" /> <datalist id="accountName">
+								<c:forEach var="accountName" items="${accountName}">
+									<option value="${accountName}"></option>
 								</c:forEach>
 							</datalist></td>
 
