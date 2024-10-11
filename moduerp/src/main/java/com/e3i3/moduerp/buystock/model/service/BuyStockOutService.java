@@ -11,14 +11,14 @@ public interface BuyStockOutService {
 
 	List<BuyStockOutDTO> getBuyStockOutDetails(String itemCode);
 
-	BuyStockOutDTO getBuyStockOutDetailssSub(String pStockOutId);
+	BuyStockOutDTO getBuyStockOutDetailssSub(String bStockOutId);
 
 	void updateBuyStockOut(BuyStockOutDTO buyStockOutDTO);
 
 	// itemCode에 따른 총 출고 수량 구하기
 	int getTotalStockOutByItemCode(String itemCode);
 
-	void deleteBuyStockOut(String pStockOutId);
+	void deleteBuyStockOut(String bStockOutId);
 
 	BuyStockOutDTO getMostRecentStockOutDetails(String itemCode);
 

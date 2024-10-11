@@ -40,11 +40,13 @@ public interface ItemBuyStockDAO {
 
 	void updateItemOutPrice(String itemCode, double outPrice);
 
-	void updateItemWithLatestStockOut(String itemCode, Timestamp latestOutDate, double latestOutPrice,
-			String latestOutPlace);
 
 	void resetItemStockOutDetails(String itemCode);
 
 	void updateItemStockOutToNull(String itemCode);
+
+
+	void updateItemWithLatestStockOut(String itemCode, Timestamp latestOutDate, double latestOutPrice,
+			String latestOutPlace);
 
 }

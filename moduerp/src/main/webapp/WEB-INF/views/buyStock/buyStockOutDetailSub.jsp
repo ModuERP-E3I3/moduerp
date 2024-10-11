@@ -257,7 +257,7 @@ th {
 		<div class="btn-group">
 			<button class="btn red" onclick="openDeleteModal()">삭제</button>
 			<a
-				href="buyStockOutDetailSubUpdate.do?itemCode=${itemDetailsSub.itemCode}&pStockId=${buyStockOutDetailsSub.bStockOutId}">
+				href="buyStockOutDetailSubUpdate.do?itemCode=${itemDetailsSub.itemCode}&bStockId=${buyStockOutDetailsSub.bStockOutId}">
 				<button class="btn green">수정</button>
 			</a>
 		</div>
