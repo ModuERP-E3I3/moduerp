@@ -41,7 +41,6 @@ public class AccountController {
         // 사원명과 부서명 조회
         List<String> empNames = accountService.getEmpNamesByBizNumber(bizNumber);
         List<String> departmentIds = accountService.getDepartmentIdsByBizNumber(bizNumber);
-
         List<Employee> empNameDepart = accountService.getEmpNameDepart(bizNumber);
 
         // 계정 정보 조회
@@ -55,32 +54,25 @@ public class AccountController {
         return "account/accountCreate";
     }
 
-    @PostMapping("/insertAccount.do")
-    public String insertAccount(@RequestParam("accountName") String accountName, @RequestParam("businessType") String businessType,
-            @RequestParam("bossName") String bossName, @RequestParam("creditLimit") Double creditLimit,
-            @RequestParam("businessNumber") String businessNumber, @RequestParam("accountAddress") String accountAddress,
-            @RequestParam("accountPhone") String accountPhone, @RequestParam("postalCode") String postalCode,
-            @RequestParam("email") String email, @RequestParam("fax") String fax, @RequestParam("paymentDate") String paymentDateStr,
-            Model model, HttpSession session) {
-        String paymentHistoryCode = businessNumber + "AC" + System.currentTimeMillis();
-        LocalDate parsedDate = LocalDate.parse(paymentDateStr);
-        LocalTime currentTime = LocalTime.now();
-        LocalDateTime combinedDateTime = LocalDateTime.of(parsedDate, currentTime);
-        Timestamp paymentDate = Timestamp.valueOf(combinedDateTime);
+    @PostMapping("/accountCreate.do")
+    public String accountCreate(@RequestParam("accountName") String accountName, 
+                                @RequestParam("businessType") String businessType,
+                                @RequestParam("bossName") String bossName,
+                                /*@RequestParam("creditLimit") Double creditLimit, */ 
+                                @RequestParam("businessNumber") String businessNumber, 
+                                @RequestParam("accountAddress") String accountAddress,
+                                @RequestParam("accountPhone") String accountPhone, 
+                                Model model, HttpSession session) {
 
         AccountDTO accountDto = new AccountDTO();
         accountDto.setAccountName(accountName);
         accountDto.setBusinessType(businessType);
         accountDto.setBossName(bossName);
-        accountDto.setCreditLimit(creditLimit);
         accountDto.setBusinessNumber(businessNumber);
         accountDto.setAccountAddress(accountAddress);
         accountDto.setAccountPhone(accountPhone);
-        accountDto.setPostalCode(postalCode);
-        accountDto.setEmail(email);
-        accountDto.setFax(fax);
 
-        accountService.insertAccount(accountDto);
+        accountService.accountCreate(accountDto);
 
         return "redirect:/account.do";
     }
@@ -88,22 +80,16 @@ public class AccountController {
     @GetMapping("getAccountDetail.do")
     public String getAccountDetail(@RequestParam("businessNumber") String businessNumber, Model model) {
         AccountDTO accountDetail = accountService.getAccountListDetail(businessNumber);
-
         model.addAttribute("accountDetail", accountDetail);
-
         return "account/accountDetail";
     }
 
     @GetMapping("accountDetailUpdate.do")
-    public String accountDetailUpdate(@RequestParam("businessNumber") String businessNumber, Model model,
-            HttpSession session) {
+    public String accountDetailUpdate(@RequestParam("businessNumber") String businessNumber, Model model, HttpSession session) {
         AccountDTO accountDetail = accountService.getAccountListDetail(businessNumber);
-
         String bizNumber = (String) session.getAttribute("biz_number");
 
         List<Employee> empNameDepart = accountService.getEmpNameDepart(bizNumber);
-
-        // 계정 정보 조회
         List<AccountDTO> accounts = accountService.getAccountsByBizNumber(bizNumber);
 
         model.addAttribute("accounts", accounts);
@@ -114,17 +100,17 @@ public class AccountController {
     }
 
     @PostMapping("/updateAccount.do")
-    public String updateAccount(@RequestParam("accountNo") String accountNo, @RequestParam("accountName") String accountName,
-            @RequestParam("businessType") String businessType, @RequestParam("bossName") String bossName,
-            @RequestParam("creditLimit") Double creditLimit, @RequestParam("businessNumber") String businessNumber,
-            @RequestParam("accountAddress") String accountAddress, @RequestParam("accountPhone") String accountPhone,
-            @RequestParam("postalCode") String postalCode, @RequestParam("email") String email,
-            @RequestParam("fax") String fax, @RequestParam("paymentDate") String paymentDateStr,
-            @RequestParam("paymentHistoryCode") String paymentHistoryCode) {
-        LocalDate parsedDate = LocalDate.parse(paymentDateStr);
-        LocalTime currentTime = LocalTime.now();
-        LocalDateTime combinedDateTime = LocalDateTime.of(parsedDate, currentTime);
-        Timestamp paymentDate = Timestamp.valueOf(combinedDateTime);
+    public String updateAccount(@RequestParam("accountNo") String accountNo, 
+                                @RequestParam("accountName") String accountName,
+                                @RequestParam("businessType") String businessType, 
+                                @RequestParam("bossName") String bossName,
+                                @RequestParam("creditLimit") Double creditLimit, 
+                                @RequestParam("businessNumber") String businessNumber,
+                                @RequestParam("accountAddress") String accountAddress, 
+                                @RequestParam("accountPhone") String accountPhone,
+                                @RequestParam("postalCode") String postalCode, 
+                                @RequestParam("email") String email,
+                                @RequestParam("fax") String fax) {
 
         AccountDTO accountDto = new AccountDTO();
         accountDto.setAccountNo(accountNo);
@@ -147,7 +133,6 @@ public class AccountController {
     @PostMapping("/deleteAccount.do")
     public String deleteAccount(@RequestParam("businessNumber") String businessNumber, HttpSession session) {
         accountService.deleteAccountByBusinessNumber(businessNumber);
-
         return "redirect:/account.do";
     }
 }

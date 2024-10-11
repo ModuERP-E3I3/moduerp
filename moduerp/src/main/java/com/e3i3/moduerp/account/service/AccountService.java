@@ -7,7 +7,7 @@ import com.e3i3.moduerp.employee.model.dto.Employee;
 
 public interface AccountService {
     List<AccountDTO> getAllAccounts();
-    void insertAccount(AccountDTO accountDto);
+    void accountCreate(AccountDTO accountDto);
     List<String> getEmpNamesByBizNumber(String bizNumber);
     List<String> getDepartmentIdsByBizNumber(String bizNumber);
     List<AccountDTO> getAccountsByBizNumber(String bizNumber);
