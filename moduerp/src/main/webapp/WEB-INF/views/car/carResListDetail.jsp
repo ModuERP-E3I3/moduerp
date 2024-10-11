@@ -202,9 +202,9 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	        <li><a href="carRes.do"><i class="fas fa-bullhorn"></i> 차량 예약</a></li>
-	        <li><a href="carMgt.do"><i class="fas fa-bullhorn"></i> 차량 결제 관리</a></li>
-	        <li><a href="map.do"><i class="fas fa-bullhorn"></i> 도로 교통 / 경로 조회</a></li>
+	        <li><a href="carRes.do"><i class="fa-solid fa-car-side"></i> 차량 예약</a></li>
+	        <li><a href="carMgt.do"><i class="fa-solid fa-list-check"></i> 차량 결제 관리</a></li>
+	        <li><a href="map.do"><i class="fa-solid fa-signs-post"></i> 도로 교통 / 경로 조회</a></li>
 	    </ul>
 	</div>
 
@@ -266,7 +266,7 @@ th {
 			<p>삭제된 데이터는 복구할 수 없습니다.</p>
 			<!-- 삭제 버튼을 포함하는 폼 추가 -->
 			<form action="deleteCarres.do" method="POST">
-				<input type="hidden" name="paymentHistoryCode" value="${carmgtDetail.paymentHistoryCode}">
+				<input type="hidden" name="carReserveCode" value="${carresDetail.carReserveCode}">
 				<!-- itemCode를 숨겨진 필드로 전달 -->
 				<button type="submit" class="go-delete">삭제</button>
 				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>

@@ -6,7 +6,7 @@ import com.e3i3.moduerp.carres.model.dto.CarresDto;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 
 public interface CarresDao {
-	List<CarresDto> getAllCarres();
+	List<CarresDto> getAllCarres(String bizNumber);
 
 	List<Employee> getEmpNameDepart(String bizNumber);
 
@@ -15,5 +15,9 @@ public interface CarresDao {
 	void insertCarres(CarresDto carresDto);
 
 	CarresDto selectcarReserveCode(String carReserveCode);
+
+	void updateCarres(CarresDto carresDto);
+
+	void deleteCarres(String carReserveCode);
 
 }

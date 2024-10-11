@@ -169,6 +169,7 @@ tbody tr:hover {
 }
 </style>
 
+
 </head>
 
 <body>
@@ -177,16 +178,11 @@ tbody tr:hover {
 
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-		<ul id="menubar">
-			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
-					거래처관리</a></li>
-			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
-					영업 입고</a></li>
-			<!-- 수정 -->
-			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
-					영업 출고</a></li>
-			<!-- 수정 -->
-		</ul>
+	    <ul id="menubar">
+	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
+	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
+	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
+	    </ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
@@ -234,19 +230,19 @@ tbody tr:hover {
 						
 						<td>${item.itemName}</td>
 						
-						<td><fmt:formatDate value="${item.createdOutAt}"
+						<td><fmt:formatDate value="${item.createdAt}"
 								pattern="yyyy-MM-dd" /></td>
-								
-						<td>${item.itemName}</td>
-						<td>${item.createdAt}</td>
+						
 						<td>${item.stockIn}</td>
 						<td>${item.stockPlace}</td>
 						<td>${item.inPrice}</td>
 						<td>${item.iDirector}</td>
-
+						
 					</tr>
 				</c:forEach>
 			</tbody>
+
+
 
 		</table>
 

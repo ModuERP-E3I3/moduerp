@@ -26,6 +26,8 @@
 		SELECT *
 		FROM CAR_MANAGEMENT CM
 		JOIN CAR C ON CM.CAR_ID = C.CAR_ID
+		WHERE CM.BIZ_NUMBER = #{bizNumber}
+		ORDER BY CM.PAYMENT_DATE DESC
 	</select>
 
 	<!-- 사원명 조회 쿼리 -->

@@ -23,6 +23,8 @@
  			SELECT *
 			FROM CAR_RESERVE C
 			JOIN EMPLOYEE E ON C.UUID = E.UUID
+			WHERE C.BIZ_NUMBER = #{bizNumber}
+			ORDER BY C.RESERVE_END_DATE DESC
  	</select>
  	
  	<!-- bizNumber와 일치하는 사원명/부서명 list 조회 쿼리-->
@@ -82,5 +84,29 @@
 		FROM CAR_RESERVE
 		WHERE CAR_RESERVE_CODE = #{carReserveCode}
 	</select>
+	
+	<!-- 차량 예약 수정 쿼리 -->
+	<update id="updateCarres"
+		parameterType="com.e3i3.moduerp.carres.model.dto.CarresDto">
+		UPDATE CAR_RESERVE
+		SET CAR_ID = (SELECT CAR_ID FROM CAR WHERE CAR_MODEL = #{carModel} AND CAR_NUM = #{carNum}
+		AND ROWNUM = 1),
+		UUID = (SELECT UUID FROM EMPLOYEE WHERE EMP_NAME = #{empName} AND DEPARTMENT_ID = #{departmentId} AND ROWNUM = 1),
+		CAR_MODEL = #{carModel},
+		CAR_NUM = #{carNum},
+		EMP_NAME = #{empName},
+		DEPARTMENT_ID = #{departmentId},
+		RESERVE_START_DATE = #{reserveStartDate},
+		RESERVE_END_DATE = #{reserveEndDate},
+		USE_REASON = #{useReason},
+		DRIVING_STATUS = #{drivingStatus}
+		WHERE CAR_RESERVE_CODE = #{carReserveCode}
+	</update>
 
+
+	<!-- 차량 예약 삭제 쿼리 -->
+	<delete id="deleteCarres" parameterType="String">
+		DELETE FROM CAR_RESERVE
+		WHERE CAR_RESERVE_CODE = #{carReserveCode}
+	</delete>
  </mapper>

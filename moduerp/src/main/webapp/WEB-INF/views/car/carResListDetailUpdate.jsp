@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 
 <!DOCTYPE html>
 <html>
@@ -146,6 +144,10 @@ th {
 .top-content-box {
 	background-color: white;
 }
+
+.material-type-input {
+	margin-bottom: 10px;
+}
 </style>
 
 </head>
@@ -163,16 +165,13 @@ th {
 		</ul>
 	</div>
 
-	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
+		<div class="content-title">차량관리 | 차량 예약 | 차량 예약 내역 수정하기</div>
 
-		<div class="content-title">차량관리 | 차량 예약 | 차량 예약 등록 및 예약 내역</div>
-
-
-
-		<!-- 테이블 -->
-		<!-- 테이블 -->
-		<form action="/moduerp/insertCarres.do" method="POST">
+		<form action="/moduerp/updateCarres.do" method="POST">
+			<input type="hidden" name="carReserveCode" value="${carresDetail.carReserveCode}" />
+			<input type="hidden" name="carId" value="${carresDetail.carId}" />
+			<input type="hidden" name="uuid" value="${carresDetail.uuid}" />
 			<table>
 				<thead>
 					<tr>
@@ -187,11 +186,8 @@ th {
 				</thead>
 				<tbody>
 					<tr>
-
-
-						<!-- 차종 입력 칸 -->
 						<td><input list="carModels" name="carModel"
-							id="carModelInput" placeholder="차종 입력" oninput="updateCarNum()" />
+							id="carModelInput" placeholder="차종 입력" oninput="updateCarNum()" value="${carresDetail.carModel}" />
 							<datalist id="carModels">
 								<c:forEach var="cars" items="${cars}">
 									<option value="${cars.carModel} | ${cars.carNum}" />
@@ -199,10 +195,10 @@ th {
 							</datalist></td>
 						<!-- 차량 번호 입력 칸 -->
 						<td><input type="text" id="carNumInput" name="carNum"
-							placeholder="차량 번호 입력" readonly="readonly" /></td>
+							placeholder="차량 번호 입력" value="${carresDetail.carNum}"  readonly="readonly" /></td>
 						<!-- 사원 이름 입력 칸 -->
 						<td><input list="empNames" name="empName" id="empNameInput"
-							placeholder="사원명" oninput="updateDepartmentId()" /> <datalist
+							placeholder="사원명" oninput="updateDepartmentId()" value="${carresDetail.empName}"  /> <datalist
 								id="empNames">
 								<c:forEach var="empNameDepart" items="${empNameDepart}">
 									<option
@@ -211,75 +207,40 @@ th {
 							</datalist></td>
 						<!-- 부서명 입력 칸 -->
 						<td><input type="text" id="departmentIdInput"
-							name="departmentId" placeholder="부서명" readonly="readonly"/> <datalist
+							name="departmentId" placeholder="부서명" value="${carresDetail.departmentId}" readonly="readonly"/> <datalist
 								id="departmentIds">
 								<c:forEach var="departmentId" items="${departmentIds}">
 									<option value="${departmentId}" />
 								</c:forEach>
-							</datalist></td>
-						<td>
-							<input type="datetime-local" id="reserveStartDate" name="reserveStartDate" /> ~ 
-    						<input type="datetime-local" id="reserveEndDate" name="reserveEndDate" />
+							</datalist>
 						</td>
-						<td><input type="text" name="useReason"
+						<td>
+							<input type="datetime-local" id="reserveStartDate" name="reserveStartDate" value="${carresDetail.reserveStartDate}" /> ~ 
+    						<input type="datetime-local" id="reserveEndDate" name="reserveEndDate" value="${carresDetail.reserveEndDate}" />
+						</td>
+						<td><input type="text" name="useReason" value="${carresDetail.useReason}"
 							placeholder="예약 사유 입력" /></td>
 						<td>
-							<input list="drivingStatus" name="drivingStatus" id="drivingStatusInput" placeholder="운행 상태 입력" />
+							<input list="drivingStatus" name="drivingStatus" id="drivingStatusInput" 
+							value="${carresDetail.drivingStatus}"
+							placeholder="운행 상태 입력" />
 							<datalist id="drivingStatus">
         						<option value="운행 전">운행 전</option>
         						<option value="운행 중">운행 중</option>
         						<option value="운행 완료">운행 완료</option>
    							</datalist>
 						</td>
-						
-						
+
 					</tr>
 				</tbody>
 			</table>
 
-			<!-- 버튼 그룹 -->
 			<div class="btn-group">
-				<button type="submit" class="btn blue">등록 완료</button>
+				<button type="submit" class="btn green">수정 완료</button>
 			</div>
 		</form>
-		
-		<!-- 테이블 -->
-        <h3> 차량 예약 내역 </h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>차종</th>
-                    <th>차량 번호</th>
-                    <th>사원명</th>
-                    <th>부서명</th>
-                    <th>예약 일정</th>
-                    <th>예약 사유</th>
-                    <th>운행 여부</th>
-                </tr>
-            </thead>
-            <tbody>
-			    <c:forEach var="carres" items="${carresList}">
-			        <tr onclick="window.location.href='getCarresDetail.do?carReserveCode=${ carres.carReserveCode }' ">
-			            <td>${ carres.carModel }</td>
-			            <td>${ carres.carNum }</td>
-			            <td>${ carres.empName }</td>
-			            <td>${ carres.departmentId }</td>
-			            <td>
-    						<fmt:formatDate value="${carres.reserveStartDate}" pattern="yyyy-MM-dd HH:mm:ss" /> ~ 
-    						<fmt:formatDate value="${carres.reserveEndDate}" pattern="yyyy-MM-dd HH:mm:ss" />
-						</td>
-			            <td>${ carres.useReason }</td>
-			            <td>${ carres.drivingStatus }</td>
-			        </tr>
-			    </c:forEach>
-			</tbody>
-
-        </table>
-
-
 	</div>
 </body>
-
 <script>
 function updateDepartmentId() {
     const empNameInput = document.getElementById('empNameInput');
@@ -319,6 +280,7 @@ function updateCarNum() {
     }
 }
 </script>
+
 
 <script>
     const activeMenu = "carRes";

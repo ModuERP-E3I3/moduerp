@@ -70,7 +70,7 @@ public class ItemBuyStockServiceImpl implements ItemBuyStockService {
 
 		System.out.println("Updating item Stock: " + updatedStock);
 		itemBuyStockDAO.updateItemStockOut(itemCode, createdOutAt, StockOutPlace, StockOut, outPrice,
-				updatedStock);
+				updatedStock, oDirector);
 	}
 
 	@Override
@@ -113,6 +113,59 @@ public class ItemBuyStockServiceImpl implements ItemBuyStockService {
 	public void resetItemStockOut(String itemCode) {
 		itemBuyStockDAO.updateItemStockOutToNull(itemCode);
 	}
+
+	@Override
+	public List<ItemDTO> getItemByFilterDate(String bizNumber, String option, String filterText, String startDate,
+	        String endDate) {
+	    if (option.equals("itemName")) {
+	        return itemBuyStockDAO.getItemByItemNameDate(bizNumber, filterText, startDate, endDate);
+	    } else if (option.equals("stockPlace")) {
+	        return itemBuyStockDAO.getItemByStockPlaceDate(bizNumber, filterText, startDate, endDate);
+	    } else if (option.equals("iDirector")) {
+	        return itemBuyStockDAO.getItemByiDirectorDate(bizNumber, filterText, startDate, endDate);
+	    }
+
+	    return null;
+	}
+
+	@Override
+	public List<ItemDTO> getItemsByFilter(String bizNumber, String option, String filterText) {
+	    if (option.equals("itemName")) {
+	        return itemBuyStockDAO.getOutItemByItemName(bizNumber, filterText);
+	    } else if (option.equals("stockPlace")) {
+	        return itemBuyStockDAO.getOutItemByStockOutPlace(bizNumber, filterText);
+	    } else if (option.equals("ODirector")) {
+	        return itemBuyStockDAO.getOutItemByODirector(bizNumber, filterText);
+	    }
+	    return null;
+	}
+
+	@Override
+	public List<ItemDTO> getItemOutByFilterDate(String bizNumber, String option, String filterText, String startDate,
+	        String endDate) {
+	    if (option.equals("itemName")) {
+	        return itemBuyStockDAO.getItemOutByItemNameDate(bizNumber, filterText, startDate, endDate);
+	    } else if (option.equals("stockPlace")) {
+	        return itemBuyStockDAO.getItemOutByStockOutPlaceDate(bizNumber, filterText, startDate, endDate);
+	    } else if (option.equals("ODirector")) {
+	        return itemBuyStockDAO.getItemOutByODirectorDate(bizNumber, filterText, startDate, endDate);
+	    }
+
+	    return null;
+	}
+
+	@Override
+	public List<ItemDTO> getItemOutByFilter(String bizNumber, String option, String filterText) {
+	    if (option.equals("itemName")) {
+	        return itemBuyStockDAO.getOutItemByItemName(bizNumber, filterText);
+	    } else if (option.equals("stockPlace")) {
+	        return itemBuyStockDAO.getOutItemByStockOutPlace(bizNumber, filterText);
+	    } else if (option.equals("ODirector")) {
+	        return itemBuyStockDAO.getOutItemByODirector(bizNumber, filterText);
+	    }
+	    return null;
+	}
+
 
 
 

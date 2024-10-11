@@ -14,10 +14,7 @@ public class CarresServiceImpl implements CarresService{
 	@Autowired
 	private CarresDao carresDao;
 	
-	@Override
-	public List<CarresDto> getAllCarres(){
-		return carresDao.getAllCarres();
-	}
+	
 
 	@Override
 	public List<Employee> getEmpNameDepart(String bizNumber) {
@@ -37,5 +34,23 @@ public class CarresServiceImpl implements CarresService{
 	@Override
 	public CarresDto getCarresListDetail(String carReserveCode) {
 		return carresDao.selectcarReserveCode(carReserveCode);
+	}
+
+	@Override
+	public void updateCarres(CarresDto carresDto) {
+		carresDao.updateCarres(carresDto);
+		
+	}
+
+	@Override
+	public void deleteCarres(String carReserveCode) {
+		carresDao.deleteCarres(carReserveCode);
+		
+	}
+
+	@Override
+	public List<CarresDto> getAllCarres(String bizNumber) {
+		// TODO Auto-generated method stub
+		return carresDao.getAllCarres(bizNumber);
 	}
 }
