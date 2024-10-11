@@ -182,7 +182,7 @@ th {
                     <th>제품 설명</th>
                     <th>입고 단가</th>
                     <th>거래처</th>
-
+					<th>직원명</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -217,6 +217,9 @@ th {
 									<option value="${accountName}"></option>
 								</c:forEach>
 							</datalist></td>
+						<td>
+							<input type="text" name="iDirector" value="${directorName}" readonly>
+						</td>
 
 
 						

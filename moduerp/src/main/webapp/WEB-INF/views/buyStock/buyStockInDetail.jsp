@@ -228,7 +228,6 @@ th {
 				<tr>
                     <th>입고 날짜</th>
                     <th>재고명</th>
-                    <th>거래처</th>
                     <th>입고 수량</th>
                     <th>입고 장소</th>
                     <th>입고 단가</th>
@@ -241,7 +240,6 @@ th {
 				<tr>           
 					 <td>${itemDetails.createdAt}</td>
                      <td>${itemDetails.itemName}</td>   
-                     <td>${itemDetails.accountName}</td> <!-- account_no로 테이블 넘어가서 받아 와야함  -->
                      <td>${itemDetails.stockIn}</td>
                      <td>${itemDetails.stockPlace}</td>  
                      <td>${itemDetails.inPrice}</td>

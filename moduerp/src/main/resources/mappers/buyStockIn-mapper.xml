@@ -23,10 +23,10 @@
     <insert id="insertBuyStockIn">
         INSERT INTO BUY_STOCK_IN (B_STOCK_IN_ID,
         ITEM_CODE, B_STOCK_IN_DATE,
-        B_STOCK_IN_PLACE, B_STOCK_IN_QTY, UUID, ACCOUNT_NO)
+        B_STOCK_IN_PLACE, B_STOCK_IN_QTY, UUID, ACCOUNT_NAME)
         VALUES
         (#{bStockInId}, #{itemCode}, #{bStockInDate}, #{bStockInPlace},
-        #{bStockInQty}, #{uuid}, #{accountNo})
+        #{bStockInQty}, #{uuid}, #{accountName})
     </insert>
 
     <select id="selectBuyStockInByItemCode"
