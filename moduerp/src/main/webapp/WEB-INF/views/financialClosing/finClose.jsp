@@ -61,7 +61,7 @@
 	background-color: white;
 	margin-left: 1%;
 	margin-right: 5%;
-	margin-top: 5%;
+	margin-top: 3%;
 	border: 1px solid #ccc;
 	border-radius: 20px; /* 박스 둥글게 */
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -155,9 +155,9 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="bankmg.do"><i class="fas fa-bullhorn"></i> 은행
+			<li><a href="bankmg.do"><i class="fa-solid fa-money-check-dollar"></i> 은행
 					계좌 관리</a></li>
-			<li><a href="finClose.do"><i class="fas fa-clipboard"></i>
+			<li><a href="finClose.do"><i class="fa-solid fa-calendar-days"></i>
 					결산 관리</a></li>
 			<!-- 수정 -->
 			<!-- <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> 수정
@@ -168,14 +168,14 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">결산 관리</div>
+		<div class="content-title">회계 관리 | 결산 관리</div>
 
 		<!-- 필터 박스 -->
 		<div class="filter-box">
 			<select>
 				<option>조회기간</option>
 			</select> <input type="date" /> <input type="date" /> <select>
-				<option>상태 선택</option>
+				<option>유형 선택</option>
 			</select> <input type="text" placeholder="내용 입력" />
 			<button class="btn">조회</button>
 		</div>
@@ -192,15 +192,13 @@ th {
 					<th>순이익</th>
 					<th>결산유형</th>
 					<th>결산일</th>
-					<th>승인여부</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="finClose" items="${finClose}">
-					<tr>
-						<td
-							onclick="window.location.href='finCloseDetail.do?closingId=${finClose.closingId}'">
-							${finClose.closingId}</td>
+					<tr
+						onclick="window.location.href='finCloseDetail.do?closingId=${finClose.closingId}'">
+						<td>${finClose.closingId}</td>
 						<td>${finClose.startDate}</td>
 						<td>${finClose.endDate}</td>
 						<td>${finClose.totalSales}</td>
@@ -208,7 +206,6 @@ th {
 						<td>${finClose.netProfit}</td>
 						<td>${finClose.closingType}</td>
 						<td>${finClose.closingDate}</td>
-						<td>${finClose.approvalStatus}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

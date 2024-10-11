@@ -61,7 +61,7 @@
 	background-color: white;
 	margin-left: 1%;
 	margin-right: 5%;
-	margin-top: 5%;
+	margin-top: 3%;
 	border: 1px solid #ccc;
 	border-radius: 20px; /* 박스 둥글게 */
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -154,10 +154,10 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="bankmg.do"><i class="fas fa-bullhorn"></i> 은행
+			<li><a href="bankmg.do"><i class="fa-solid fa-money-check-dollar"></i> 은행
 					계좌 관리</a></li>
-			<li><a href="financialClosing.do"><i
-					class="fas fa-clipboard"></i> 결산 관리</a></li>
+			<li><a href="finClose.do"><i class="fa-solid fa-calendar-days"></i>
+					결산 관리</a></li>
 			<!-- 수정 -->
 			<!-- <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> 수정
 	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> 수정 -->
@@ -167,45 +167,30 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">결산 관리</div>
-		<h2>결산 상세 정보</h2>
-		<table border="1">
-			<tr>
-				<th>부서 ID</th>
-				<td>${finClose.departmentId}</td>
-			</tr>
-			<tr>
-				<th>시작 날짜</th>
-				<td>${finClose.startDate}</td>
-			</tr>
-			<tr>
-				<th>종료 날짜</th>
-				<td>${finClose.endDate}</td>
-			</tr>
-			<tr>
-				<th>총 매출</th>
-				<td>${finClose.totalSales}</td>
-			</tr>
-			<tr>
-				<th>총 비용</th>
-				<td>${finClose.totalExpenses}</td>
-			</tr>
-			<tr>
-				<th>순이익</th>
-				<td>${finClose.netProfit}</td>
-			</tr>
-			<tr>
-				<th>승인 상태</th>
-				<td>${finClose.approvalStatus}</td>
-			</tr>
-			<tr>
-				<th>결산 날짜</th>
-				<td>${finClose.closingDate}</td>
-			</tr>
-			<tr>
-				<th>결산 유형</th>
-				<td>${finClose.closingType}</td>
-			</tr>
+		<div class="content-title">회계 관리 | 결산 관리 | 상세 정보</div>
+		<table>
+			<thead>
+				<tr>
+					<th>시작 날짜</th>
+					<th>종료 날짜</th>
+					<th>총 매출</th>
+					<th>총 비용</th>
+					<th>순이익</th>
+					<th>결산 유형</th>
+					<th>결산 날짜</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>${finClose.startDate}</td>
+					<td>${finClose.endDate}</td>
+					<td>${finClose.totalSales}</td>
+					<td>${finClose.totalExpenses}</td>
+					<td>${finClose.netProfit}</td>
+					<td>${finClose.closingType}</td>
+					<td>${finClose.closingDate}</td>
+				</tr>
+			</tbody>
 		</table>
 
 		<!-- 수정 및 삭제 버튼 -->

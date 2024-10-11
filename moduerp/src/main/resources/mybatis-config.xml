@@ -37,6 +37,9 @@
 		<typeAlias
 			type="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg"
 			alias="Bankmg" />
+		<typeAlias
+			type="com.e3i3.moduerp.financialclosing.model.dto.FinClose"
+			alias="FinClose" />
 
 	</typeAliases>
 
@@ -85,6 +88,7 @@
 		<mapper resource="mappers/attendance-mapper.xml" />
 		<mapper resource="mappers/attendancerequest-mapper.xml" />
 		<mapper resource="mappers/bankmg-mapper.xml" />
+		<mapper resource="mappers/finClose-mapper.xml" />
 
 	</mappers>
 
