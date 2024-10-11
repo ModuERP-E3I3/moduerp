@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html>
 <html>
@@ -237,7 +238,6 @@ ul.nav {
 		</ul>
 	</div>
 
-
 <ul class="nav nav-tabs" style="margin-top: 0.9%; margin-left: 1%; width: 97%; position: relative; z-index: 10;">
     <!-- 결재 요청 드롭다운 -->
     <li class="nav-item dropdown">
@@ -268,11 +268,12 @@ ul.nav {
     <div class="tab-pane fade show active" id="req-waiting">
         <div class="content-box">
             <c:choose>
-                <c:when test="${empty requests}">
+                <c:when test="${empty notyet_r}">
                     <div class="empty-message-box" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-                        <p style="font-size: 24px; color: #333; font-weight: bold;">결재할 문서가 없습니다.</p>
+                        <p style="font-size: 24px; color: #333; font-weight: bold;">조회할 결재 요청이 없습니다.</p>
                     </div>
                 </c:when>
+                
                 <c:otherwise>
                     <table class="attendance-table">
                         <thead>
@@ -286,7 +287,7 @@ ul.nav {
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="request" items="${requests}">
+                            <c:forEach var="request" items="${notyet_r}">
                                 <tr>
                                     <td>${request.applicationType}</td>
                                     <td>${request.startDate.split(" ")[0]}</td>
@@ -294,13 +295,16 @@ ul.nav {
                                     <td>${request.status}</td>
                                     <td>${request.approverName}</td>
                                     <td>
-                                        <a href="<c:url value='/attendanceRequest/detail/${request.attendancerequestId}.do' />" class="button">상세보기</a>
+                                        <a href="<c:url value='/attendanceDocument/detail/${request.attendancerequestId}.do' />" class="button">상세보기</a>
                                     </td>
                                 </tr>
                             </c:forEach>
                         </tbody>
                     </table>
                 </c:otherwise>
+                
+                
+                
             </c:choose>
         </div>
     </div>
@@ -309,9 +313,9 @@ ul.nav {
     <div class="tab-pane fade" id="req-completed">
         <div class="content-box">
             <c:choose>
-                <c:when test="${empty requests}">
+                <c:when test="${empty approved_r}">
                     <div class="empty-message-box" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-                        <p style="font-size: 24px; color: #333; font-weight: bold;">결재한 문서가 없습니다.</p>
+                        <p style="font-size: 24px; color: #333; font-weight: bold;">완료된 결재 요청이 없습니다.</p>
                     </div>
                 </c:when>
                 <c:otherwise>
@@ -327,7 +331,7 @@ ul.nav {
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="request" items="${requests}">
+                            <c:forEach var="request" items="${approved_r}">
                                 <tr>
                                     <td>${request.applicationType}</td>
                                     <td>${request.startDate.split(" ")[0]}</td>
@@ -335,7 +339,7 @@ ul.nav {
                                     <td>${request.status}</td>
                                     <td>${request.approverName}</td>
                                     <td>
-                                        <a href="<c:url value='/attendanceRequest/detail/${request.attendancerequestId}.do' />" class="button">상세보기</a>
+                                        <a href="<c:url value='/attendanceDocument/detail/${request.attendancerequestId}.do' />" class="button">상세보기</a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -349,84 +353,91 @@ ul.nav {
     <!-- 결재 문서 대기 -->
     <div class="tab-pane fade" id="doc-waiting">
         <div class="content-box">
-            <c:choose>
-                <c:when test="${empty requests}">
-                    <div class="empty-message-box" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-                        <p style="font-size: 24px; color: #333; font-weight: bold;">결재받을 문서가 없습니다.</p>
-                        <button class="apply-button" onclick="location.href='<c:url value='/attendanceRequest/send.do' />'" style="margin-top: 20px; padding: 10px 20px; font-size: 16px; border: none; background-color: #4CAF50; color: white; border-radius: 5px; cursor: pointer;">
-                            결재 신청하기
-                        </button>
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <table class="attendance-table">
-                        <thead>
-                            <tr>
-                                <th>문서 유형</th>
-                                <th>문서 생성 날짜</th>
-                                <th>상태</th>
-                                <th>결재자</th>
-                                <th>상세보기</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="document" items="${documents}">
-                                <tr>
-                                    <td>${document.documentType}</td>
-                                    <td>${document.createdDate.split(" ")[0]}</td>
-                                    <td>${document.status}</td>
-                                    <td>${document.approverName}</td>
-                                    <td>
-                                        <a href="<c:url value='/document/detail/${document.documentId}.do' />" class="button">상세보기</a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </c:otherwise>
-            </c:choose>
+<c:choose>
+    <c:when test="${notyet == null || empty notyet}">
+        <div class="empty-message-box" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+            <p style="font-size: 24px; color: #333; font-weight: bold;">결재받을 근태 문서가 없습니다.</p>
+            <button class="apply-button" onclick="location.href='<c:url value='/attendanceDocument/send.do' />'" style="margin-top: 20px; padding: 10px 20px; font-size: 16px; border: none; background-color: #4CAF50; color: white; border-radius: 5px; cursor: pointer;">
+                근태 신청하기
+            </button>
+        </div>
+    </c:when>
+    <c:otherwise>
+        <table class="attendance-table">
+            <thead>
+                <tr>
+                    <th>신청 유형</th>
+                    <th>시작 날짜</th>
+                    <th>종료 날짜</th>
+                    <th>상태</th>
+                    <th>결재자</th>
+                    <th>상세보기</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="document" items="${notyet}">
+                        <tr>
+                            <td>${document.applicationType}</td>
+                            <td>${document.startDate.split(" ")[0]}</td>
+                            <td>${document.endDate.split(" ")[0]}</td>
+                            <td>${document.status}</td>
+                            <td>${document.approverName}</td>
+                            <td>
+                                <a href="<c:url value='/attendanceDocument/detail/${document.attendancerequestId}.do' />" class="button">상세보기</a>
+                            </td>
+                        </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </c:otherwise>
+</c:choose>
+
         </div>
     </div>
 
     <!-- 결재 문서 완료 -->
     <div class="tab-pane fade" id="doc-completed">
-        <div class="content-box">
-            <c:choose>
-                <c:when test="${empty requests}">
-                   <div class="empty-message-box" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-                        <p style="font-size: 24px; color: #333; font-weight: bold;">결재받은 문서가 없습니다.</p>
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <table class="attendance-table">
-                        <thead>
-                            <tr>
-                                <th>문서 유형</th>
-                                <th>문서 생성 날짜</th>
-                                <th>상태</th>
-                                <th>결재자</th>
-                                <th>상세보기</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="document" items="${documents}">
+    <div class="content-box">
+        <c:choose>
+            <c:when test="${approved == null || empty approved}">
+                <div class="empty-message-box" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                    <p style="font-size: 24px; color: #333; font-weight: bold;">결재받은 근태 문서가 없습니다.</p>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <table class="attendance-table">
+                    <thead>
+                        <tr>
+                            <th>신청 유형</th>
+                            <th>시작 날짜</th>
+                            <th>종료 날짜</th>
+                            <th>상태</th>
+                            <th>결재자</th>
+                            <th>상세보기</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="document" items="${approved}">
                                 <tr>
-                                    <td>${document.documentType}</td>
-                                    <td>${document.createdDate.split(" ")[0]}</td>
+                                    <td>${document.applicationType}</td>
+                                    <td>${document.startDate.split(" ")[0]}</td>
+                                    <td>${document.endDate.split(" ")[0]}</td>
                                     <td>${document.status}</td>
                                     <td>${document.approverName}</td>
                                     <td>
-                                        <a href="<c:url value='/document/detail/${document.documentId}.do' />" class="button">상세보기</a>
+                                        <a href="<c:url value='/attendanceDocument/detail/${document.attendancerequestId}.do' />" class="button">상세보기</a>
                                     </td>
                                 </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </c:otherwise>
-            </c:choose>
-        </div>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </c:otherwise>
+        </c:choose>
     </div>
 </div>
+
+</div>
+
 
 <script>
 document.querySelectorAll('.dropdown-item').forEach(item => {
