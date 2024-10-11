@@ -74,15 +74,15 @@ public class ItemBuyStockDAOImpl implements ItemBuyStockDAO{
 	@Override
 	public void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut,
 			double outPrice, int updatedStock) {
-		Map<String, Object> params = new HashMap<>();
-		params.put("itemCode", itemCode);
-		params.put("createdOutAt", createdOutAt);
-		params.put("stockOutPlace", stockOutPlace);
-		params.put("stockOut", stockOut);
-		params.put("outPrice", outPrice);
-		params.put("updatedStock", updatedStock);
+		Map<String, Object> barams = new HashMap<>();
+		barams.put("itemCode", itemCode);
+		barams.put("createdOutAt", createdOutAt);
+		barams.put("stockOutPlace", stockOutPlace);
+		barams.put("stockOut", stockOut);
+		barams.put("outPrice", outPrice);
+		barams.put("updatedStock", updatedStock);
 
-		sqlSession.update(namespace + ".updateItemForBuyOut", params);
+		sqlSession.update(namespace + ".updateItemForBuyOut", barams);
 	}
 
 	@Override
@@ -133,5 +133,7 @@ public class ItemBuyStockDAOImpl implements ItemBuyStockDAO{
 	public void updateItemStockOutToNull(String itemCode) {
 		sqlSession.update(namespace + ".updateItemStockOutToNull", itemCode);
 	}
+
+
 
 }

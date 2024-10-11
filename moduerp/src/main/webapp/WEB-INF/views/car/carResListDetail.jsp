@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -146,26 +146,50 @@ th {
 	background-color: white;
 }
 
-#pagebutton {
-	display: flex;
-	justify-content: center;
-	margin-top: 2%; /* 위쪽 여백 추가 */
+/* Modal Styles */
+#delete-modal {
+	display: none; /* 초기에는 보이지 않도록 설정 */
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%; /* 전체 화면 너비 */
+	height: 100%; /* 전체 화면 높이 */
+	background-color: rgba(0, 0, 0, 0.5); /* 배경 반투명 */
+	display: flex; /* 플렉스 박스를 사용하여 중앙 정렬 */
 }
 
-#pagebutton a {
-	color: black; /* 글자 색상 검은색 */
-	text-decoration: none; /* 밑줄 제거 */
-	font-size: 20px; /* 글자 크기 증가 */
-	margin: 0 10px; /* 페이지 버튼 간격 조정 */
+.modal-content {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	text-align: center;
+	width: 300px; /* 원하는 너비 */
+	position: relative;
+	margin: auto; /* 중앙 정렬을 위한 마진 */
+	margin-top: 20%;
 }
 
-#pagebutton strong {
-	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
-	color: black; /* 강조 색상 검은색 유지 */
+.modal-content h2 {
+	margin-bottom: 20px;
 }
 
-tbody tr:hover {
+.modal-content button {
+	padding: 10px 20px;
+	margin: 10px;
+	border: none;
+	border-radius: 5px;
 	cursor: pointer;
+}
+
+.modal-content .go-delete {
+	background-color: red;
+	color: #fff;
+}
+
+.modal-content .stay-page {
+	background-color: gray;
+	color: #fff;
 }
 </style>
 
@@ -177,112 +201,95 @@ tbody tr:hover {
 
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-		<ul id="menubar">
-			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
-					거래처관리</a></li>
-			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
-					영업 입고</a></li>
-			<!-- 수정 -->
-			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
-					영업 출고</a></li>
-			<!-- 수정 -->
-		</ul>
+	    <ul id="menubar">
+	        <li><a href="carRes.do"><i class="fas fa-bullhorn"></i> 차량 예약</a></li>
+	        <li><a href="carMgt.do"><i class="fas fa-bullhorn"></i> 차량 결제 관리</a></li>
+	        <li><a href="map.do"><i class="fas fa-bullhorn"></i> 도로 교통 / 경로 조회</a></li>
+	    </ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업관리 | 영업출고</div>
-		<form action="/moduerp/salesStockOutFilter.do">
-			<!-- 필터 박스 -->
-			<div class="filter-box">
-				<select name="filterOption" id="filterOption">
-					<option disabled selected>옵션 선택</option>
-					<option value="itemName">제품명</option>
-					<option value="stockPlace">출고 장소</option>
-					<option value="oDirector">담당자</option>
-				</select> <input type="date" name="startDate" id="startDate" /> <input
-					type="date" name="endDate" id="endDate" /> <input type="text"
-					name="filterText" id="filterText" placeholder="내용 입력" />
-				<button type="submit" class="btn">조회</button>
-				<button type="button" class="btn"
-					onclick="window.location.href='salesStockOut.do';">초기화</button>
-			</div>
-		</form>
+		<div class="content-title">차량관리 | 차량 예약 | 차량 예약 상세보기</div>
 
+		
 
 		<!-- 테이블 -->
 		<table>
 			<thead>
-				<tr>
-					<th>순번</th>
-					<th>제품명</th>
-					<th>최종 출고 일자</th>
-					<th>총 출고 수량</th>
-					<th>재고 수량</th>
-					<th>최종 출고 장소</th>
-					<th>최종 출고 단가</th>
-					<th>담당자</th>
-					<th>지급 상태</th>
-
-				</tr>
-			</thead>
+                <tr>
+                    <th>차종</th>
+					<th>차량 번호</th>
+					<th>사원명</th>
+					<th>부서명</th>
+					<th>예약 일정</th>
+					<th>예약 사유</th>
+					<th>운행 여부</th>
+                </tr>
+            </thead>
 			<tbody>
-				<c:forEach var="item" items="${itemList}" varStatus="status">
-					<tr
-						onclick="window.location.href='getSalesOutDetails.do?itemCode=${item.itemCode}'">
-						
-						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						
-						<td>${item.itemName}</td>
-						
-						<td><fmt:formatDate value="${item.createdOutAt}"
-								pattern="yyyy-MM-dd" /></td>
-								
-						<td>${item.stockOut}</td>
-						<td>${item.stock}</td>
-						<td>${item.stockOutPlace}</td>
-						<td>${item.outPrice}</td>
-						<td>${item.oDirector}</td>
-						
-						<td><c:choose>
-								<c:when test="${item.paymentStatus == 'Y'}">Yes</c:when>
-								<c:otherwise>No</c:otherwise>
-							</c:choose></td>
-						
-					</tr>
-				</c:forEach>
+
+				<tr>
+					<td>${carresDetail.carModel}</td>
+					<td>${carresDetail.carNum}</td>
+					<td>${carresDetail.empName}</td>
+					<td>${carresDetail.departmentId}</td>
+					<td>
+    					<fmt:formatDate value="${carresDetail.reserveStartDate}" pattern="yyyy-MM-dd HH:mm:ss" /> ~ 
+    					<fmt:formatDate value="${carresDetail.reserveEndDate}" pattern="yyyy-MM-dd HH:mm:ss" />
+					</td>
+					<td>${carresDetail.useReason}</td>
+					<td>${carresDetail.drivingStatus}</td>
+				</tr>
+
 			</tbody>
+
 		</table>
-
-
-		<!-- 페이지 버튼 -->
-		<div id="pagebutton">
-			<c:if test="${totalPages > 1}">
-				<c:forEach var="i" begin="1" end="${totalPages}">
-					<c:choose>
-						<c:when test="${i == currentPage}">
-							<strong>${i}</strong>
-							<!-- 현재 페이지는 강조 -->
-						</c:when>
-						<c:otherwise>
-							<a href="salesStockOut.do?page=${i}">${i}</a>
-							<!-- 페이지 링크 -->
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-			</c:if>
-		</div>
 
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
-			<a href="salesStockOutCreate.do"><button class="btn blue">등록</button></a>
+		
+			<button class="btn red" onclick="openDeleteModal()">삭제</button>
+			<a
+				href="carresDetailUpdate.do?carReserveCode=${carresDetail.carReserveCode}">
+				<button class="btn green">수정</button>
+			</a>
 		</div>
 
+
 	</div>
+	<!-- 삭제 확인 모달 -->
+	<div id="delete-modal" style="display: none;">
+		<div class="modal-content">
+			<h2>정말로 삭제하시겠습니까?</h2>
+			<p>삭제된 데이터는 복구할 수 없습니다.</p>
+			<!-- 삭제 버튼을 포함하는 폼 추가 -->
+			<form action="deleteCarres.do" method="POST">
+				<input type="hidden" name="paymentHistoryCode" value="${carmgtDetail.paymentHistoryCode}">
+				<!-- itemCode를 숨겨진 필드로 전달 -->
+				<button type="submit" class="go-delete">삭제</button>
+				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>
+			</form>
+		</div>
+	</div>
+
 </body>
+
+<script type="text/javascript">
+function openDeleteModal() {
+    document.getElementById('delete-modal').style.display = 'block';
+}
+
+function closeDeleteModal() {
+    document.getElementById('delete-modal').style.display = 'none';
+}
+
+
+
+</script>
 <script>
-    const activeMenu = "account";
+    const activeMenu = "carRes";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');
@@ -293,4 +300,6 @@ tbody tr:hover {
         });
     });
 </script>
+
+
 </html>

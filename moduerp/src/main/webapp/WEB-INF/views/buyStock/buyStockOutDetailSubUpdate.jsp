@@ -209,7 +209,6 @@ th {
 									<option value="${stockPlace}"></option>
 								</c:forEach>
 							</datalist></td>
-						<td>${itemDetails.itemList}</td>
 						<td>${buyStockOutDetails.oDirector}</td>
 					</tr>
 				</tbody>
