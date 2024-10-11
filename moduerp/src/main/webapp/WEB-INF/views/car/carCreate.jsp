@@ -171,13 +171,14 @@ th {
 
 		<!-- 테이블 -->
 		<!-- 테이블 -->
-		<form action="/moduerp/insertCar.do" method="POST">
+		<form action="/moduerp/insertCar.do" method="POST" enctype="multipart/form-data">
 			<table>
 				<thead>
 					<tr>
 						<th>차종</th>
 						<th>차량 번호</th>
 						<th>소유 형태</th>
+						
 						
 					</tr>
 				</thead>
@@ -193,6 +194,7 @@ th {
 						<!-- 소유 형태 입력 칸 -->
 						<td><input type="text" name="ownershipStatus" placeholder="소유 형태 입력" /></td>
 						
+						<td><input type="file" id="image" name="image" accept="image/*" required><br></td>
 					</tr>
 				</tbody>
 			</table>

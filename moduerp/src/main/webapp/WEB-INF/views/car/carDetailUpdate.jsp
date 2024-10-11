@@ -173,7 +173,8 @@ th {
 			<input type="hidden" name="carId" value="${carDetail.carId}" />
 			<table>
 				<thead>
-					<tr>
+					<tr>		
+						<th>차량 이미지</th>
 						<th>차종</th>
                     	<th>차량 번호</th>
                     	<th>소유 형태</th>
@@ -181,6 +182,10 @@ th {
 				</thead>
 				<tbody>
 					<tr>
+						<td>
+							<img alt="${carDetail.carModel}" src="${pageContext.request.contextPath}/${carDetail.imagePath}" width="100">
+							<input type="file" id="image" name="image" accept="image/*" required><br>
+						</td>
 						<td><input type="text" name="carModel"
 							value="${carDetail.carModel}" required /></td>
 						<td><input type="text" name="carNum"

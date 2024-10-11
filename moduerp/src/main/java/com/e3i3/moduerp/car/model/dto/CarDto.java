@@ -7,7 +7,9 @@ public class CarDto {
 	private String carNum;
 	private String bizNumber;
 	private String YN;
+	private String imagePath;
 	
+
 	public CarDto() {
 		super();
 	}
@@ -71,6 +73,14 @@ public class CarDto {
 
 	public void setYN(String yN) {
 		YN = yN;
+	}
+	
+	public String getImagePath() {
+		return imagePath;
+	}
+	
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 	
 	

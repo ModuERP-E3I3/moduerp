@@ -218,6 +218,7 @@ th {
 		<table>
 			<thead>
                 <tr>
+                	<th>차량 이미지</th>
                     <th>차종</th>
                     <th>차량 번호</th>
                     <th>소유 형태</th>
@@ -226,6 +227,7 @@ th {
 			<tbody>
 
 				<tr>
+					<td><img alt="${carDetail.carModel}" src="${pageContext.request.contextPath}/${carDetail.imagePath}" width="100"></td>
 					<td>${carDetail.carModel}</td>
 					<td>${carDetail.carNum}</td>
 					<td>${carDetail.ownershipStatus}</td>
