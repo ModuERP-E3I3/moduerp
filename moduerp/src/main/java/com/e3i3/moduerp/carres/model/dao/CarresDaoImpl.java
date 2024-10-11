@@ -43,7 +43,11 @@ public class CarresDaoImpl implements CarresDao {
 
 	@Override
 	public CarresDto selectcarReserveCode(String carReserveCode) {
-		// TODO Auto-generated method stub
 		return sqlSession.selectOne(namespace + ".selectcarReserveCode", carReserveCode);
+	}
+
+	@Override
+	public void updateCarres(CarresDto carresDto) {
+		sqlSession.update(namespace + ".updateCarres", carresDto);
 	}
 }

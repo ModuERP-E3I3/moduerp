@@ -38,4 +38,10 @@ public class CarresServiceImpl implements CarresService{
 	public CarresDto getCarresListDetail(String carReserveCode) {
 		return carresDao.selectcarReserveCode(carReserveCode);
 	}
+
+	@Override
+	public void updateCarres(CarresDto carresDto) {
+		carresDao.updateCarres(carresDto);
+		
+	}
 }
