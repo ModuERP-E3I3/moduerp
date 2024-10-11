@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.e3i3.moduerp.carres.model.dto.CarresDto;
+import com.e3i3.moduerp.employee.model.dto.Employee;
 
 @Repository
 public class CarresDaoImpl implements CarresDao {
@@ -23,5 +24,30 @@ public class CarresDaoImpl implements CarresDao {
 	
 	public CarresDto getCarresId(String carId) {
 		return sqlSession.selectOne(namespace + ".getCarresId", carId);
+	}
+
+	@Override
+	public List<Employee> getEmpNameDepart(String bizNumber) {
+		return sqlSession.selectList(namespace + ".getEmpNameDepart" , bizNumber);
+	}
+
+	@Override
+	public List<CarresDto> getCarsByBizNumber(String bizNumber) {
+		return sqlSession.selectList(namespace + ".getCarsByBizNumber", bizNumber);
+	}
+
+	@Override
+	public void insertCarres(CarresDto carresDto) {
+		sqlSession.insert(namespace + ".insertCarres", carresDto);
+	}
+
+	@Override
+	public CarresDto selectcarReserveCode(String carReserveCode) {
+		return sqlSession.selectOne(namespace + ".selectcarReserveCode", carReserveCode);
+	}
+
+	@Override
+	public void updateCarres(CarresDto carresDto) {
+		sqlSession.update(namespace + ".updateCarres", carresDto);
 	}
 }

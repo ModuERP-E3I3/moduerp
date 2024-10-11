@@ -202,7 +202,6 @@
 			            <td>${ car.carModel }</td>
 			            <td>${ car.carNum }</td>
 			            <td>${ car.ownershipStatus }</td>
-			            
 			        </tr>
 			        
 			    </c:forEach>
@@ -211,12 +210,13 @@
         </table>
         
         <div class="btn-group">
+        	<a href="carresListCreate.do"><button class="btn green">예약하기</button></a>
 			<a href="carCreate.do"><button class="btn blue">등록</button></a>
 		</div>
         <br>
         
         <!-- 테이블 -->
-        <h3> 차량 예약 내역 </h3>
+        <%-- <h3> 차량 예약 내역 </h3>
         <table>
             <thead>
                 <tr>
@@ -239,7 +239,7 @@
 			    </c:forEach>
 			</tbody>
 
-        </table>
+        </table> --%>
 
         
 

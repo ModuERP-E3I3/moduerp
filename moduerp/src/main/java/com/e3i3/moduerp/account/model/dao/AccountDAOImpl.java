@@ -22,8 +22,8 @@ public class AccountDAOImpl implements AccountDAO {
     }
     
     @Override
-    public void insertAccount(AccountDTO accountDto) {
-        sqlSession.insert(namespace + ".insertAccount", accountDto);
+    public void accountCreate(AccountDTO accountDto) {
+        sqlSession.insert(namespace + ".accountCreate", accountDto);
     }
     
     public AccountDTO getAccountById(String accountId) {

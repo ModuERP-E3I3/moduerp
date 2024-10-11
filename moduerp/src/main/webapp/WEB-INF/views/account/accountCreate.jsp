@@ -154,11 +154,16 @@ th {
 
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-	    <ul id="menubar">
-	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
-	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
-	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
-	    </ul>
+		<ul id="menubar">
+			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
+					거래처관리</a></li>
+			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
+					영업 입고</a></li>
+			<!-- 수정 -->
+			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
+					영업 출고</a></li>
+			<!-- 수정 -->
+		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
@@ -181,34 +186,41 @@ th {
 			<table>
 				<thead>
 					<tr>
-						<th>입고날짜</th>
-						<th>보관장소</th>
-						<th>입고수량</th>
-						<th>품목 이름</th>
-						<th>품목 설명</th>
-						<th>입고 가격</th>
-						<th>자재 종류</th>
-						<th>담당자</th>
+						<th>거래처 이름</th>
+						<th>업태</th>
+						<th>종목</th>
+						<th>대표자 이름</th>
+						<th>사업자번호</th>
+						<th>거래처 주소</th>
+						<th>거래처 전화번호</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 
-						<!-- 입고수량 칸 -->
-						<td><input type="number" name="stockIn" placeholder="수량 입력" /></td>
+						<td><input type="text" name="accountName"
+							placeholder="거래처명 입력" /></td>
 
-						<!-- 품목 이름 칸 -->
-						<td><input type="text" name="itemName" placeholder="품목 이름 입력" /></td>
+						<td><input type="text" name="businessType"
+							placeholder="업태 입력" /></td>
 
-						<!-- 품목 설명 칸 -->
-						<td><input type="text" name="itemDesc" placeholder="품목 설명 입력" /></td>
+						<td><input type="text" name="items" placeholder="종목 입력" /></td>
 
-						<!-- 가격 입력 칸 -->
-						<td><input type="number" name="inPrice" placeholder="가격 입력"
-							step="0.01" /></td>
+						<td><input type="text" name="bossName"
+							placeholder="대표자 이름 입력" /></td>
 
+						<td><input type="text" name="businessNumber"
+							placeholder="사업자번호 입력" /></td>
+
+						<td><input type="text" name="accountAddress"
+							placeholder="거래처 주소 입력" /></td>
+
+						<td><input type="text" name="accountPhone"
+							placeholder="거래처 전화번호 입력" /></td>
 					</tr>
 				</tbody>
+			</table>
+
 			</table>
 
 			<!-- 버튼 그룹 -->
