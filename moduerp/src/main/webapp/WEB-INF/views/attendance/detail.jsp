@@ -253,11 +253,13 @@ tr:nth-child(even) {
 			</tr>
 		</table>
 
-		<div class="button-container">
-			<button class="edit-button"onclick="location.href='<c:url value='/attendanceRequest/send.do?attendancerequestId=${request.attendancerequestId}'/>'">수정하기</button>
-			<button class="cancel-button" onclick="location.href='<c:url value="/attendanceRequest/cancel.do?attendancerequestId=${request.attendancerequestId}"/>'">신청취소</button>
-			<button class="back-button" onclick="location.href='<c:url value="/attendanceRequest/mylist.do"/>'">목록으로 돌아가기</button>
-		</div>
+<div class="button-container">
+	<button class="edit-button" onclick="location.href='<c:url value='/attendanceRequest/send.do?attendancerequestId=${request.attendancerequestId}'/>'">수정하기</button>
+	<button class="cancel-button" 
+		onclick="if(confirm('정말로 삭제하시겠습니까? 복구할 수 없습니다.')) { location.href='<c:url value="/attendanceRequest/cancel.do?attendancerequestId=${request.attendancerequestId}"/>'; }">신청취소</button>
+	<button class="back-button" onclick="location.href='<c:url value="/attendanceRequest/mylist.do"/>'">목록으로 돌아가기</button>
+</div>
+
 
 
 
