@@ -41,21 +41,18 @@ public class CarController {
 	@Autowired
 	private com.e3i3.moduerp.car.model.service.CarService CarService;
 	
-	@Autowired
-	private com.e3i3.moduerp.carres.model.service.CarresService CarresService;
-	
-	@Autowired
-	private com.e3i3.moduerp.carmgt.model.service.CarmgtService CarmgtService;
-	
+	/*
+	 * @Autowired private com.e3i3.moduerp.carres.model.service.CarresService
+	 * CarresService;
+	 */
 	
 	
-	@CrossOrigin(origins = "https://apis-navi.kakaomobility.com/v1/directions") // Ư�� �����θ� ���
+	
+	@CrossOrigin(origins = "https://apis-navi.kakaomobility.com/v1/directions") // 
 	@RequestMapping(value = "/carRes.do", method = RequestMethod.GET)
 	public String carListView(Model model) {
 		List<CarDto> carList = CarService.getAllCar();
 		model.addAttribute("carList", carList);
-		List<CarresDto> carresList = CarresService.getAllCarres();
-		model.addAttribute("carresList", carresList);
 		return "car/carRes";
 	}
 	

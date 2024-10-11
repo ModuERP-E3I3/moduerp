@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -144,6 +145,52 @@ th {
 .top-content-box {
 	background-color: white;
 }
+
+/* Modal Styles */
+#delete-modal {
+	display: none; /* 초기에는 보이지 않도록 설정 */
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%; /* 전체 화면 너비 */
+	height: 100%; /* 전체 화면 높이 */
+	background-color: rgba(0, 0, 0, 0.5); /* 배경 반투명 */
+	display: flex; /* 플렉스 박스를 사용하여 중앙 정렬 */
+}
+
+.modal-content {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	text-align: center;
+	width: 300px; /* 원하는 너비 */
+	position: relative;
+	margin: auto; /* 중앙 정렬을 위한 마진 */
+	margin-top: 20%;
+}
+
+.modal-content h2 {
+	margin-bottom: 20px;
+}
+
+.modal-content button {
+	padding: 10px 20px;
+	margin: 10px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.modal-content .go-delete {
+	background-color: red;
+	color: #fff;
+}
+
+.modal-content .stay-page {
+	background-color: gray;
+	color: #fff;
+}
 </style>
 
 </head>
@@ -154,89 +201,94 @@ th {
 
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-		<ul id="menubar">
-			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
-			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
-			<li><a href="buyStockIn.do"><i class="fa-solid fa-truck"></i></i> 배송 조회</a></li>
-
-		</ul>
+	    <ul id="menubar">
+	        <li><a href="carRes.do"><i class="fas fa-bullhorn"></i> 차량 예약</a></li>
+	        <li><a href="carMgt.do"><i class="fas fa-bullhorn"></i> 차량 결제 관리</a></li>
+	        <li><a href="map.do"><i class="fas fa-bullhorn"></i> 도로 교통 / 경로 조회</a></li>
+	    </ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">구매관리 | 구매입고 | 신규 등록</div>
+		<div class="content-title">차량관리 | 차량 예약 | 차량 예약 상세보기</div>
 
 		
 
 		<!-- 테이블 -->
-		<!-- 테이블 -->
-		<form action="/moduerp/buyStockInCreate.do" method="POST">
-			<table>
-				<thead>
-					<tr>
-					<th>입고 날짜</th>
-                    <th>입고 장소</th>
-                    <th>입고 수량</th>
-                    <th>제품명</th>
-                    <th>제품 설명</th>
-                    <th>입고 단가</th>
-                    <th>거래처</th>
+		<table>
+			<thead>
+                <tr>
+                    <th>차종</th>
+					<th>차량 번호</th>
+					<th>사원명</th>
+					<th>부서명</th>
+					<th>사용처</th>
+					<th>내역</th>
+					<th>금액</th>
+					<th>일자</th>
+                </tr>
+            </thead>
+			<tbody>
 
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<!-- 날짜 선택하는 칸 -->
-						<td><input type="date" id="bStockInDate" name="bStockInDate">
-						</td>
+				<tr>
+					<td>${carmgtDetail.carModel}</td>
+					<td>${carmgtDetail.carNum}</td>
+					<td>${carmgtDetail.empName}</td>
+					<td>${carmgtDetail.departmentId}</td>
+					<td>${carmgtDetail.paymentPlace}</td>
+					<td>${carmgtDetail.paymentHistory}</td>
+					<td>${carmgtDetail.paymentPrice}</td>
+					<td>${carmgtDetail.paymentDate}</td>
+				</tr>
 
-						<!-- 보관장소 선택 칸 -->
-						<td><input list="stockPlaces" name="stockPlace"
-							placeholder="보관장소 선택" /> <datalist id="stockPlaces">
-								<c:forEach var="stockPlace" items="${stockPlaces}">
-									<option value="${stockPlace}"></option>
-								</c:forEach>
-							</datalist></td>
+			</tbody>
 
-						<!-- 입고수량 칸 -->
-						<td><input type="number" name="stockIn" placeholder="수량 입력" /></td>
+		</table>
 
-						<!-- 품목 이름 칸 -->
-						<td><input type="text" name="itemName" placeholder="품목 이름 입력" /></td>
-
-						<!-- 품목 설명 칸 -->
-						<td><input type="text" name="itemDesc" placeholder="품목 설명 입력" /></td>
-
-						<!-- 가격 입력 칸 -->
-						<td><input type="number" name="inPrice" placeholder="가격 입력"
-							step="0.01" /></td>
-						<td><input list="accountNo" name="accountNo"
-							placeholder="거래처" /> <datalist id="accountNo">
-								<c:forEach var="accountNo" items="${accountNo}">
-									<option value="${accountNo}"></option>
-								</c:forEach>
-							</datalist></td>
-
-
-						
-					</tr>
-				</tbody>
-			</table>
-
-			<!-- 버튼 그룹 -->
-			<div class="btn-group">
-				<button type="submit" class="btn blue">등록 완료</button>
-			</div>
-		</form>
+		<!-- 버튼 그룹 -->
+		<div class="btn-group">
+		
+			<button class="btn red" onclick="openDeleteModal()">삭제</button>
+			<a
+				href="carmgtDetailUpdate.do?paymentHistoryCode=${carmgtDetail.paymentHistoryCode}">
+				<button class="btn green">수정</button>
+			</a>
+		</div>
 
 
 	</div>
+	<!-- 삭제 확인 모달 -->
+	<div id="delete-modal" style="display: none;">
+		<div class="modal-content">
+			<h2>정말로 삭제하시겠습니까?</h2>
+			<p>삭제된 데이터는 복구할 수 없습니다.</p>
+			<!-- 삭제 버튼을 포함하는 폼 추가 -->
+			<form action="deleteCarmgt.do" method="POST">
+				<input type="hidden" name="paymentHistoryCode" value="${carmgtDetail.paymentHistoryCode}">
+				<!-- itemCode를 숨겨진 필드로 전달 -->
+				<button type="submit" class="go-delete">삭제</button>
+				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>
+			</form>
+		</div>
+	</div>
+
 </body>
 
+<script type="text/javascript">
+function openDeleteModal() {
+    document.getElementById('delete-modal').style.display = 'block';
+}
 
+function closeDeleteModal() {
+    document.getElementById('delete-modal').style.display = 'none';
+}
+
+
+
+</script>
 <script>
-    const activeMenu = "buyStockIn";
+    const activeMenu = "carRes";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

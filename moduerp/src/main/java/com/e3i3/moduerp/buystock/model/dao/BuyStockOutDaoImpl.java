@@ -34,7 +34,7 @@ public class BuyStockOutDaoImpl implements BuyStockOutDao{
 
 		@Override
 		public List<BuyStockOutDTO> selectBuyStockOutByItemCode(String itemCode) {
-			return sqlSession.selectList(namespace + ".selectAllBuyStockOuts");
+			return sqlSession.selectList(namespace + ".selectBuyStockOutByItemCode", itemCode);
 		}
 
 		@Override
