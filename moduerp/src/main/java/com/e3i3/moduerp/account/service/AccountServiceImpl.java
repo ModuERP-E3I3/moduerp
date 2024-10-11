@@ -46,8 +46,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountDTO getAccountListDetail(String businessNumber) {
-        return accountDao.selectAccountByBusinessNumber(businessNumber);
+    public AccountDTO getAccountListDetail(String accountNo) {
+        return accountDao.selectAccountByAccountNo(accountNo);
     }
 
     @Override
@@ -56,8 +56,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void deleteAccountByBusinessNumber(String businessNumber) {
-        accountDao.deleteAccountByBusinessNumber(businessNumber);
+    public void deleteAccountByAccountNo(String accountNo) {
+        accountDao.deleteAccountByAccountNo(accountNo);
     }
 
 }

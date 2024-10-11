@@ -12,8 +12,10 @@ public interface AccountService {
     List<String> getDepartmentIdsByBizNumber(String bizNumber);
     List<AccountDTO> getAccountsByBizNumber(String bizNumber);
     List<Employee> getEmpNameDepart(String bizNumber);
-    AccountDTO getAccountListDetail(String businessNumber);
+    
+//    AccountNo
+    AccountDTO getAccountListDetail(String accountNo);
     void updateAccount(AccountDTO accountDto);
-    void deleteAccountByBusinessNumber(String businessNumber);
+    void deleteAccountByAccountNo(String accountNo);
 
 }

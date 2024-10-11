@@ -1,11 +1,7 @@
 package com.e3i3.moduerp.account.controller;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.List;
-
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.e3i3.moduerp.account.model.dto.AccountDTO;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 
@@ -74,6 +69,7 @@ public class AccountController {
                                 @RequestParam("businessNumber") String businessNumber, 
                                 @RequestParam("accountAddress") String accountAddress,
                                 @RequestParam("accountPhone") String accountPhone, 
+                                @RequestParam("email") String email,
                                 Model model, HttpSession session) {
 
         AccountDTO accountDto = new AccountDTO();
@@ -83,22 +79,23 @@ public class AccountController {
         accountDto.setBusinessNumber(businessNumber);
         accountDto.setAccountAddress(accountAddress);
         accountDto.setAccountPhone(accountPhone);
+        accountDto.setEmail(email);  
 
         accountService.accountCreate(accountDto);
 
         return "redirect:/account.do";
     }
 
-    @GetMapping("getAccountDetail.do")
-    public String getAccountDetail(@RequestParam("businessNumber") String businessNumber, Model model) {
-        AccountDTO accountDetail = accountService.getAccountListDetail(businessNumber);
+    @GetMapping("getAccountDetails.do")
+    public String getAccountDetail(@RequestParam("accountNo") String accountNo, Model model) {
+        AccountDTO accountDetail = accountService.getAccountListDetail(accountNo);
         model.addAttribute("accountDetail", accountDetail);
         return "account/accountDetail";
     }
 
     @GetMapping("accountDetailUpdate.do")
-    public String accountDetailUpdate(@RequestParam("businessNumber") String businessNumber, Model model, HttpSession session) {
-        AccountDTO accountDetail = accountService.getAccountListDetail(businessNumber);
+    public String accountDetailUpdate(@RequestParam("accountNo") String accountNo, Model model, HttpSession session) {
+        AccountDTO accountDetail = accountService.getAccountListDetail(accountNo);
         String bizNumber = (String) session.getAttribute("biz_number");
 
         List<Employee> empNameDepart = accountService.getEmpNameDepart(bizNumber);
@@ -116,26 +113,20 @@ public class AccountController {
                                 @RequestParam("accountName") String accountName,
                                 @RequestParam("businessType") String businessType, 
                                 @RequestParam("bossName") String bossName,
-                                @RequestParam("creditLimit") Double creditLimit, 
                                 @RequestParam("businessNumber") String businessNumber,
                                 @RequestParam("accountAddress") String accountAddress, 
                                 @RequestParam("accountPhone") String accountPhone,
-                                @RequestParam("postalCode") String postalCode, 
-                                @RequestParam("email") String email,
-                                @RequestParam("fax") String fax) {
+                                @RequestParam("email") String email) {
 
         AccountDTO accountDto = new AccountDTO();
         accountDto.setAccountNo(accountNo);
         accountDto.setAccountName(accountName);
         accountDto.setBusinessType(businessType);
         accountDto.setBossName(bossName);
-        accountDto.setCreditLimit(creditLimit);
         accountDto.setBusinessNumber(businessNumber);
         accountDto.setAccountAddress(accountAddress);
         accountDto.setAccountPhone(accountPhone);
-        accountDto.setPostalCode(postalCode);
         accountDto.setEmail(email);
-        accountDto.setFax(fax);
 
         accountService.updateAccount(accountDto);
 
@@ -143,10 +134,8 @@ public class AccountController {
     }
 
     @PostMapping("/deleteAccount.do")
-    public String deleteAccount(@RequestParam("businessNumber") String businessNumber, HttpSession session) {
-        accountService.deleteAccountByBusinessNumber(businessNumber);
+    public String deleteAccount(@RequestParam("accountNo") String accountNo, HttpSession session) {
+        accountService.deleteAccountByAccountNo(accountNo);
         return "redirect:/account.do";
     }
 }
-
-

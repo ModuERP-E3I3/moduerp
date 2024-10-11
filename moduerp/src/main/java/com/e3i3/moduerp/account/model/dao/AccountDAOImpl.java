@@ -51,8 +51,8 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public AccountDTO selectAccountByBusinessNumber(String businessNumber) {
-        return sqlSession.selectOne(namespace + ".selectAccountByBusinessNumber", businessNumber);
+    public AccountDTO selectAccountByAccountNo(String accountNo) {
+        return sqlSession.selectOne(namespace + ".selectAccountByAccountNo", accountNo);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public void deleteAccountByBusinessNumber(String businessNumber) {
-        sqlSession.delete(namespace + ".deleteAccountByBusinessNumber", businessNumber);
+    public void deleteAccountByAccountNo(String accountNo) {
+        sqlSession.delete(namespace + ".deleteAccountByAccountNo", accountNo);
     }
 }

@@ -144,6 +144,28 @@ th {
 .top-content-box {
 	background-color: white;
 }
+
+#pagebutton {
+	display: flex;
+	justify-content: center;
+	margin-top: 2%; /* 위쪽 여백 추가 */
+}
+
+#pagebutton a {
+	color: black; /* 글자 색상 검은색 */
+	text-decoration: none; /* 밑줄 제거 */
+	font-size: 20px; /* 글자 크기 증가 */
+	margin: 0 10px; /* 페이지 버튼 간격 조정 */
+}
+
+#pagebutton strong {
+	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
+	color: black; /* 강조 색상 검은색 유지 */
+}
+
+tbody tr:hover {
+	cursor: pointer;
+}
 </style>
 
 </head>
@@ -188,11 +210,11 @@ th {
 					<tr>
 						<th>거래처 이름</th>
 						<th>업태</th>
-						<th>종목</th>
 						<th>대표자 이름</th>
 						<th>사업자번호</th>
 						<th>거래처 주소</th>
 						<th>거래처 전화번호</th>
+						<th>거래처 이메일</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -204,19 +226,22 @@ th {
 						<td><input type="text" name="businessType"
 							placeholder="업태 입력" /></td>
 
-						<td><input type="text" name="items" placeholder="종목 입력" /></td>
-
 						<td><input type="text" name="bossName"
-							placeholder="대표자 이름 입력" /></td>
+							placeholder="대표자명 입력" /></td>
 
 						<td><input type="text" name="businessNumber"
-							placeholder="사업자번호 입력" /></td>
+							placeholder="사업자번호" /></td>
 
 						<td><input type="text" name="accountAddress"
-							placeholder="거래처 주소 입력" /></td>
+							placeholder="주소 입력" /></td>
 
 						<td><input type="text" name="accountPhone"
-							placeholder="거래처 전화번호 입력" /></td>
+							placeholder="전화번호 입력" /></td>
+							
+						<td><input type="text" name="email"
+							placeholder="이메일 입력" /></td>
+							
+							
 					</tr>
 				</tbody>
 			</table>
