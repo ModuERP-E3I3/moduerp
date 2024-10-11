@@ -40,4 +40,10 @@ public class CarresDaoImpl implements CarresDao {
 	public void insertCarres(CarresDto carresDto) {
 		sqlSession.insert(namespace + ".insertCarres", carresDto);
 	}
+
+	@Override
+	public CarresDto selectcarReserveCode(String carReserveCode) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(namespace + ".selectcarReserveCode", carReserveCode);
+	}
 }

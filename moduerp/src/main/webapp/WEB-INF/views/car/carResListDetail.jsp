@@ -223,23 +223,24 @@ th {
 					<th>차량 번호</th>
 					<th>사원명</th>
 					<th>부서명</th>
-					<th>사용처</th>
-					<th>내역</th>
-					<th>금액</th>
-					<th>일자</th>
+					<th>예약 일정</th>
+					<th>예약 사유</th>
+					<th>운행 여부</th>
                 </tr>
             </thead>
 			<tbody>
 
 				<tr>
-					<td>${carmgtDetail.carModel}</td>
-					<td>${carmgtDetail.carNum}</td>
-					<td>${carmgtDetail.empName}</td>
-					<td>${carmgtDetail.departmentId}</td>
-					<td>${carmgtDetail.paymentPlace}</td>
-					<td>${carmgtDetail.paymentHistory}</td>
-					<td>${carmgtDetail.paymentPrice}</td>
-					<td>${carmgtDetail.paymentDate}</td>
+					<td>${carresDetail.carModel}</td>
+					<td>${carresDetail.carNum}</td>
+					<td>${carresDetail.empName}</td>
+					<td>${carresDetail.departmentId}</td>
+					<td>
+    					<fmt:formatDate value="${carresDetail.reserveStartDate}" pattern="yyyy-MM-dd HH:mm:ss" /> ~ 
+    					<fmt:formatDate value="${carresDetail.reserveEndDate}" pattern="yyyy-MM-dd HH:mm:ss" />
+					</td>
+					<td>${carresDetail.useReason}</td>
+					<td>${carresDetail.drivingStatus}</td>
 				</tr>
 
 			</tbody>
@@ -251,7 +252,7 @@ th {
 		
 			<button class="btn red" onclick="openDeleteModal()">삭제</button>
 			<a
-				href="carmgtDetailUpdate.do?paymentHistoryCode=${carmgtDetail.paymentHistoryCode}">
+				href="carresDetailUpdate.do?carReserveCode=${carresDetail.carReserveCode}">
 				<button class="btn green">수정</button>
 			</a>
 		</div>
@@ -264,7 +265,7 @@ th {
 			<h2>정말로 삭제하시겠습니까?</h2>
 			<p>삭제된 데이터는 복구할 수 없습니다.</p>
 			<!-- 삭제 버튼을 포함하는 폼 추가 -->
-			<form action="deleteCarmgt.do" method="POST">
+			<form action="deleteCarres.do" method="POST">
 				<input type="hidden" name="paymentHistoryCode" value="${carmgtDetail.paymentHistoryCode}">
 				<!-- itemCode를 숨겨진 필드로 전달 -->
 				<button type="submit" class="go-delete">삭제</button>

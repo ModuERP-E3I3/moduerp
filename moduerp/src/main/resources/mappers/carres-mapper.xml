@@ -76,8 +76,11 @@
 		)
 	</insert>
 	
-	
-	
-	
-	
+	<!-- 차량 예약 디테일 뷰 쿼리 -->
+	<select id="selectcarReserveCode" parameterType="map" resultType="com.e3i3.moduerp.carres.model.dto.CarresDto">
+		SELECT *
+		FROM CAR_RESERVE
+		WHERE CAR_RESERVE_CODE = #{carReserveCode}
+	</select>
+
  </mapper>
