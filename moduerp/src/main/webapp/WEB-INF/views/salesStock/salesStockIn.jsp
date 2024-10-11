@@ -177,11 +177,16 @@ tbody tr:hover {
 
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-	    <ul id="menubar">
-	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
-	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
-	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
-	    </ul>
+		<ul id="menubar">
+			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
+					거래처관리</a></li>
+			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
+					영업 입고</a></li>
+			<!-- 수정 -->
+			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
+					영업 출고</a></li>
+			<!-- 수정 -->
+		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
@@ -189,15 +194,22 @@ tbody tr:hover {
 
 		<div class="content-title">영업관리 | 영업입고</div>
 
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-		</div>
+		<form action="/moduerp/productionStockOutFilter.do">
+			<!-- 필터 박스 -->
+			<div class="filter-box">
+				<select name="filterOption" id="filterOption">
+					<option disabled selected>옵션 선택</option>
+					<option value="itemName">제품명</option>
+					<option value="stockPlace">출고 장소</option>
+					<option value="ODirector">담당자</option>
+				</select> <input type="date" name="startDate" id="startDate" /> <input
+					type="date" name="endDate" id="endDate" /> <input type="text"
+					name="filterText" id="filterText" placeholder="내용 입력" />
+				<button type="submit" class="btn">조회</button>
+				<button type="button" class="btn"
+					onclick="window.location.href='productionStockOut.do';">초기화</button>
+			</div>
+		</form>
 
 		<!-- 테이블 -->
 		<table>
@@ -217,20 +229,24 @@ tbody tr:hover {
 				<c:forEach var="item" items="${itemList}" varStatus="status">
 					<tr
 						onclick="window.location.href='getSalesInDetails.do?itemCode=${item.itemCode}'">
+						
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<!-- 순번 계산 -->
+						
+						<td>${item.itemName}</td>
+						
+						<td><fmt:formatDate value="${item.createdOutAt}"
+								pattern="yyyy-MM-dd" /></td>
+								
 						<td>${item.itemName}</td>
 						<td>${item.createdAt}</td>
 						<td>${item.stockIn}</td>
 						<td>${item.stockPlace}</td>
 						<td>${item.inPrice}</td>
 						<td>${item.iDirector}</td>
-						
+
 					</tr>
 				</c:forEach>
 			</tbody>
-
-
 
 		</table>
 
