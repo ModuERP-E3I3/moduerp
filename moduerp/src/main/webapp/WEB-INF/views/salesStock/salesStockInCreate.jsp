@@ -177,7 +177,6 @@ th {
 		</div>
 
 		<!-- 테이블 -->
-		<!-- 테이블 -->
 		<form action="/moduerp/salesStockInCreate.do" method="POST">
 			<table>
 				<thead>
