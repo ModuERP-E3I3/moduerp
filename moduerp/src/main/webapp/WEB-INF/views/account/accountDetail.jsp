@@ -200,17 +200,22 @@ th {
 
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-	    <ul id="menubar">
-	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
-	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
-	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
-	    </ul>
+		<ul id="menubar">
+			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
+					거래처관리</a></li>
+			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
+					영업 입고</a></li>
+			<!-- 수정 -->
+			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
+					영업 출고</a></li>
+			<!-- 수정 -->
+		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업/판매 관리 | 영업입고 | ${itemDetails.itemName}</div>
+		<div class="content-title">영업/판매 관리 | 영업입고 | </div>
 
 		<!-- 필터 박스 -->
 		<div class="filter-box">
@@ -239,21 +244,24 @@ th {
 				</tr>
 			</thead>
 			<tbody>
-
 				<tr>
-					<td>${itemDetails.itemName}</td>
-					<td>${itemDetails.itemDesc}</td>
-					<td>${itemDetails.createdAt}</td>
-					<td>${itemDetails.updatedAt}</td>
-					<td>${itemDetails.stockIn}</td>
-					<td>${itemDetails.inPrice}</td>
-					<td>${itemDetails.stockPlace}</td>
-					<td>${itemDetails.itemList}</td>
-					<td>${itemDetails.iDirector}</td>
-
+					<td>${accountDetail.accountNo}</td>
+					<!-- 거래처 이름 -->
+					<td>${accountDetail.accountName}</td>
+					<!-- 업태 -->
+					<td>${accountDetail.businessType}</td>
+					<!-- 입고날짜 -->
+					<td>${accountDetail.bossName}</td>
+					<!-- 수정날짜 -->
+					<td>${accountDetail.businessNumber}</td>
+					<!-- 입고수량 -->
+					<td>${accountDetail.accountAddress}</td>
+					<!-- 입고가격 -->
+					<td>${accountDetail.accountPhone}</td>
+					
 				</tr>
-
 			</tbody>
+
 
 		</table>
 
@@ -276,7 +284,7 @@ th {
 			<p>삭제된 데이터는 복구할 수 없습니다.</p>
 			<!-- 삭제 버튼을 포함하는 폼 추가 -->
 			<form action="deleteSalesStockIn.do" method="POST">
-				<input type="hidden" name="itemCode" value="${itemDetails.itemCode}">
+				<input type="hidden" name="itemCode" value="${accountDetails.itemCode}">
 				<!-- itemCode를 숨겨진 필드로 전달 -->
 				<button type="submit" class="go-delete">삭제</button>
 				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>

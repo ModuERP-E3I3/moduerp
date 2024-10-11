@@ -89,7 +89,7 @@ public class AccountController {
         return "redirect:/account.do";
     }
 
-    @GetMapping("getAccountDetail.do")
+    @GetMapping("getAccountDetails.do")
     public String getAccountDetail(@RequestParam("businessNumber") String businessNumber, Model model) {
         AccountDTO accountDetail = accountService.getAccountListDetail(businessNumber);
         model.addAttribute("accountDetail", accountDetail);

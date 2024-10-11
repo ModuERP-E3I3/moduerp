@@ -215,10 +215,10 @@ tbody tr:hover {
 		<table>
 			<thead>
 				<tr>
+					<th>순번</th>
 					<th>거래처 번호</th>
 					<th>거래처 이름</th>
 					<th>업태</th>
-					<th>종목</th>
 					<th>대표자 이름</th>
 					<th>사업자번호</th>
 					<th>거래처 주소</th>
@@ -228,7 +228,7 @@ tbody tr:hover {
 			<tbody>
 				<c:forEach var="account" items="${accountList}" varStatus="status">
 					<tr
-						onclick="window.location.href='getAccountDetails.do?accountNo=${account.accountNo}'">
+						onclick="window.location.href='getAccountDetails.do?businessNumber=${account.businessNumber}'">
 	
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
 						<td>${account.accountNo}</td>
