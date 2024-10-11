@@ -222,8 +222,8 @@ th {
 								</c:forEach>
 							</datalist></td>
 						<td>
-							<input type="date" id="reserveStartDate" name="reserveStartDate" /> ~ 
-							<input type="date" id="reserveEndDate" name="reserveEndDate" />	
+							<input type="datetime-local" id="reserveStartDate" name="reserveStartDate" /> ~ 
+    						<input type="datetime-local" id="reserveEndDate" name="reserveEndDate" />
 						</td>
 						<td><input type="text" name="useReason"
 							placeholder="예약 사유 입력" /></td>
@@ -269,9 +269,9 @@ th {
 			            <td>${ carres.empName }</td>
 			            <td>${ carres.departmentId }</td>
 			            <td>
-			            	<fmt:formatDate value="${carres.reserveStartDate}" pattern="yyyy-MM-dd" /> ~ 
-			            	<fmt:formatDate value="${carres.reserveEndDate}" pattern="yyyy-MM-dd" />
-			            </td>
+    						<fmt:formatDate value="${carres.reserveStartDate}" pattern="yyyy-MM-dd HH:mm:ss" /> ~ 
+    						<fmt:formatDate value="${carres.reserveEndDate}" pattern="yyyy-MM-dd HH:mm:ss" />
+						</td>
 			            <td>${ carres.useReason }</td>
 			            <td>${ carres.drivingStatus }</td>
 			        </tr>

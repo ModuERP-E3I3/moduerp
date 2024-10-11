@@ -58,13 +58,11 @@ public class CarresController {
 			Model model, HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String carReserveCode = bizNumber + "CR" + System.currentTimeMillis();
-		LocalDate parseStartDate = LocalDate.parse(reserveStartDateStr);
-		LocalDate parseEndDate = LocalDate.parse(reserveEndDateStr);
-		LocalTime currentTime = LocalTime.now();
-		LocalDateTime combinedStartDateTime = LocalDateTime.of(parseStartDate, currentTime);
-		LocalDateTime combinedEndDateTime = LocalDateTime.of(parseEndDate, currentTime);
-		Timestamp reserveStartDate = Timestamp.valueOf(combinedStartDateTime);
-		Timestamp reserveEndDate = Timestamp.valueOf(combinedEndDateTime);
+		
+		LocalDateTime parseStartDate = LocalDateTime.parse(reserveStartDateStr);
+		LocalDateTime parseEndDate = LocalDateTime.parse(reserveEndDateStr);
+		Timestamp reserveStartDate = Timestamp.valueOf(parseStartDate);
+		Timestamp reserveEndDate = Timestamp.valueOf(parseEndDate);
 		
 		CarresDto carresDto = new CarresDto();
 		carresDto.setCarNum(carNum);
