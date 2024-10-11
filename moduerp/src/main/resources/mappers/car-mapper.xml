@@ -16,7 +16,8 @@
  	
  	<select id="getAllCar" resultMap="resultCar">
     	select * from CAR
-    	where YN = 'Y'
+    	where YN = 'Y' AND BIZ_NUMBER = #{bizNumber}
+    	ORDER BY CAR_MODEL ASC
 	</select>
 	
 	<insert id="insertCar" parameterType="com.e3i3.moduerp.car.model.dto.CarDto">

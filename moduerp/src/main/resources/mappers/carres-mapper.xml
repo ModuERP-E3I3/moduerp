@@ -23,6 +23,8 @@
  			SELECT *
 			FROM CAR_RESERVE C
 			JOIN EMPLOYEE E ON C.UUID = E.UUID
+			WHERE C.BIZ_NUMBER = #{bizNumber}
+			ORDER BY C.RESERVE_END_DATE DESC
  	</select>
  	
  	<!-- bizNumber와 일치하는 사원명/부서명 list 조회 쿼리-->

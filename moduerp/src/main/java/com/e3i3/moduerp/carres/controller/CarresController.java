@@ -30,7 +30,7 @@ public class CarresController {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		
 		// 차량 예약 list
-		List<CarresDto> carresList = CarresService.getAllCarres();
+		List<CarresDto> carresList = CarresService.getAllCarres(bizNumber);
 		
 		// 회사 사업자번호(biznumber)가 일치하는 사원명과 부서명 조회
 		List<Employee> empNameDepart = CarresService.getEmpNameDepart(bizNumber);

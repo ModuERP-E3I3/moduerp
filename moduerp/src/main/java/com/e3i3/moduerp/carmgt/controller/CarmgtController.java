@@ -28,8 +28,10 @@ public class CarmgtController {
 	private com.e3i3.moduerp.carmgt.model.service.CarmgtService CarmgtService;
 
 	@RequestMapping(value = "/carMgt.do", method = RequestMethod.GET)
-	public String forwardCarMgt(Model model) {
-		List<CarmgtDto> carmgtList = CarmgtService.getAllCarmgt();
+	public String forwardCarMgt(Model model, HttpSession session) {
+		String bizNumber = (String) session.getAttribute("biz_number");
+		
+		List<CarmgtDto> carmgtList = CarmgtService.getAllCarmgt(bizNumber);
 		model.addAttribute("carmgtList", carmgtList);
 		return "car/carMgt";
 	}

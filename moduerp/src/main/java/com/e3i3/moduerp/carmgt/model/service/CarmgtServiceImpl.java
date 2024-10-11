@@ -15,8 +15,8 @@ public class CarmgtServiceImpl implements CarmgtService {
 	private CarmgtDao carmgtDao;
 
 	@Override
-	public List<CarmgtDto> getAllCarmgt() {
-		return carmgtDao.getAllCarmgt();
+	public List<CarmgtDto> getAllCarmgt(String bizNumber) {
+		return carmgtDao.getAllCarmgt(bizNumber);
 	}
 
 	@Override
