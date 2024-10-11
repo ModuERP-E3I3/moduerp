@@ -224,7 +224,7 @@ tbody tr:hover {
 					<th>재고 수량</th>
 					<th>출고 장소</th>
 					<th>출고 단가</th>
-					<th>담당자</th>
+					<th>출고 담당자</th>
 				</tr>
 			</thead>
 			<tbody>
