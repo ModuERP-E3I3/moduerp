@@ -32,6 +32,7 @@
 			alias="Notice" />
 		<typeAlias type="com.e3i3.moduerp.email.model.dto.Email"
 			alias="Email" />
+			
 		<typeAlias
 			type="com.e3i3.moduerp.productionstock.model.dto.ProductionStockOutDTO"
 			alias="ProductionStockOutDTO" /> <!-- 추가된 부분 --> 
@@ -87,6 +88,7 @@
 
 		<mapper resource="mappers/account-mapper.xml" />
 		<mapper resource="mappers/admin-mapper.xml" />
+		
 		<mapper resource="mappers/item-buystock-mapper.xml" />
 		<mapper resource="mappers/employee-buy-mapper.xml" />
 

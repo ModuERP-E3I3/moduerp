@@ -182,10 +182,8 @@ tbody tr:hover {
 					거래처관리</a></li>
 			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
 					영업 입고</a></li>
-			<!-- 수정 -->
 			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
 					영업 출고</a></li>
-			<!-- 수정 -->
 		</ul>
 	</div>
 
@@ -223,6 +221,7 @@ tbody tr:hover {
 					<th>사업자번호</th>
 					<th>거래처 주소</th>
 					<th>거래처 전화번호</th>
+					<th>거래처 이메일</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -238,6 +237,7 @@ tbody tr:hover {
 						<td>${account.businessNumber}</td>
 						<td>${account.accountAddress}</td>
 						<td>${account.accountPhone}</td>
+						<td>${account.email}</td>
 
 					</tr>
 				</c:forEach>

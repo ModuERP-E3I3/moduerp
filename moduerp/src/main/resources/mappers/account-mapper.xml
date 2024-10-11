@@ -10,13 +10,10 @@
 		<result property="businessType" column="BUSINESS_TYPE" />
 		<result property="items" column="ITEMS" />
 		<result property="bossName" column="BOSS_NAME" />
-		<result property="creditLimit" column="CREDIT_LIMIT" />
 		<result property="businessNumber" column="BUSINESS_NUMBER" />
 		<result property="accountAddress" column="ACCOUNT_ADDRESS" />
 		<result property="accountPhone" column="ACCOUNT_PHONE" />
-		<result property="postalCode" column="POSTAL_CODE" />
 		<result property="email" column="EMAIL" />
-		<result property="fax" column="FAX" />
 	</resultMap>
 
 	<!-- 모든 account 데이터 조회용 쿼리 -->
@@ -65,13 +62,14 @@
 		ACCOUNT_NO, ACCOUNT_NAME,
 		BUSINESS_TYPE, ITEMS,
 		BOSS_NAME, BUSINESS_NUMBER, ACCOUNT_ADDRESS,
-		ACCOUNT_PHONE
+		ACCOUNT_PHONE, EMAIL
 		)
 		VALUES (
 		LPAD(ACCOUNT_SEQ.NEXTVAL, 5, '0'),
 		#{accountName}, #{businessType}, #{items},
 		#{bossName},
-		#{businessNumber}, #{accountAddress}, #{accountPhone}
+		#{businessNumber}, #{accountAddress}, #{accountPhone},
+		#{email}
 		)
 	</insert>
 
@@ -89,12 +87,11 @@
 		SET ACCOUNT_NAME = #{accountName},
 		BUSINESS_TYPE = #{businessType}, ITEMS = #{items},
 		BOSS_NAME =
-		#{bossName}, CREDIT_LIMIT = #{creditLimit}, BUSINESS_NUMBER =
+		#{bossName}, BUSINESS_NUMBER =
 		#{businessNumber},
 		ACCOUNT_ADDRESS = #{accountAddress}, ACCOUNT_PHONE =
 		#{accountPhone},
-		POSTAL_CODE = #{postalCode}, EMAIL = #{email}, FAX =
-		#{fax}
+		EMAIL = #{email}
 		WHERE ACCOUNT_NO = #{accountNo}
 	</update>
 
