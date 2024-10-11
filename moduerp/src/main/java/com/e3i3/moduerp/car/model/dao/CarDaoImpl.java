@@ -16,8 +16,8 @@ public class CarDaoImpl implements CarDao {
 	private static final String namespace = "CarMapper";
 	
 	@Override
-	public List<CarDto> getAllCar() {
-		return sqlSession.selectList(namespace + ".getAllCar");
+	public List<CarDto> getAllCar(String bizNumber) {
+		return sqlSession.selectList(namespace + ".getAllCar", bizNumber);
 	}
 	
 	@Override

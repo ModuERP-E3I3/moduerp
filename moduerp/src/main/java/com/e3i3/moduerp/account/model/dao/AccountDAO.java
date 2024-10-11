@@ -14,7 +14,9 @@ public interface AccountDAO {
     List<AccountDTO> getAccountsByBizNumber(String bizNumber);
     
     List<Employee> getEmpNameDepart(String bizNumber);
-    AccountDTO selectAccountByBusinessNumber(String businessNumber);
+    
+//    AccountNo
+    AccountDTO selectAccountByAccountNo(String accountNo);
     void updateAccount(AccountDTO accountDto);
-    void deleteAccountByBusinessNumber(String businessNumber);
+    void deleteAccountByAccountNo(String accountNo);
 }
