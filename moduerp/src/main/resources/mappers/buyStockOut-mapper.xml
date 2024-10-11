@@ -19,8 +19,13 @@
 	<select id="selectAllBuyStockOuts"
 		resultMap="buyStockOutResult">
 		SELECT DISTINCT * FROM BUY_STOCK_OUT
-		WHERE ITEM_CODE = #{bizNumber}
+		
 	</select>
+	
+	<select id="selectBuyStockOutByBStockId" parameterType="String" resultType="com.e3i3.moduerp.buystock.model.dto.BuyStockOutDTO">
+    SELECT * FROM BUY_STOCK_OUT WHERE B_STOCK_OUT_ID = #{bStockOutId}
+</select>
+	
 
 	<insert id="insertBuyStockOut"
 		parameterType="BuyStockOutDTO">

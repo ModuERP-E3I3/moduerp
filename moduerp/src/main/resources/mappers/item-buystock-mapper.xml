@@ -143,7 +143,7 @@
 		OUT_PRICE = #{outPrice},
 		STOCK_OUT_PLACE = #{stockOutPlace},
 		STOCK =
-		COALESCE(STOCK, 0) - #{stockOut} <!-- STOCK 업데이트 로직도 동일하게 적용 -->
+		COALESCE(STOCK, 0) - #{stockOut}, <!-- STOCK 업데이트 로직도 동일하게 적용 -->
 		ODIRECTOR = #{oDirector}
 		WHERE 
 		ITEM_CODE = #{itemCode}
