@@ -45,4 +45,19 @@ public interface ItemBuyStockService {
 	void resetItemStockOutDetails(String itemCode);
 
 	void resetItemStockOut(String itemCode);
+	
+	//buy stock in filter
+
+	List<ItemDTO> getItemByFilterDate(String bizNumber, String option, String filterText, String startDate,
+			String endDate);
+
+	List<ItemDTO> getItemsByFilter(String bizNumber, String option, String filterText);
+	
+	//buy stock out filter
+	
+	List<ItemDTO> getItemOutByFilterDate(String bizNumber, String option, String filterText, String startDate,
+			String endDate);
+
+	List<ItemDTO> getItemOutByFilter(String bizNumber, String option, String filterText);
+	
 }
