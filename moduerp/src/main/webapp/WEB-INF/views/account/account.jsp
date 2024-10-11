@@ -228,7 +228,7 @@ tbody tr:hover {
 			<tbody>
 				<c:forEach var="account" items="${accountList}" varStatus="status">
 					<tr
-						onclick="window.location.href='getAccountDetails.do?businessNumber=${account.businessNumber}'">
+						onclick="window.location.href='getAccountDetails.do?accountNo=${account.accountNo}'">
 	
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
 						<td>${account.accountNo}</td>

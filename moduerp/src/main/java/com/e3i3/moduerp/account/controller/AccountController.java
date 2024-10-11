@@ -90,15 +90,15 @@ public class AccountController {
     }
 
     @GetMapping("getAccountDetails.do")
-    public String getAccountDetail(@RequestParam("businessNumber") String businessNumber, Model model) {
-        AccountDTO accountDetail = accountService.getAccountListDetail(businessNumber);
+    public String getAccountDetail(@RequestParam("accountNo") String accountNo, Model model) {
+        AccountDTO accountDetail = accountService.getAccountListDetail(accountNo);
         model.addAttribute("accountDetail", accountDetail);
         return "account/accountDetail";
     }
 
     @GetMapping("accountDetailUpdate.do")
-    public String accountDetailUpdate(@RequestParam("businessNumber") String businessNumber, Model model, HttpSession session) {
-        AccountDTO accountDetail = accountService.getAccountListDetail(businessNumber);
+    public String accountDetailUpdate(@RequestParam("accountNo") String accountNo, Model model, HttpSession session) {
+        AccountDTO accountDetail = accountService.getAccountListDetail(accountNo);
         String bizNumber = (String) session.getAttribute("biz_number");
 
         List<Employee> empNameDepart = accountService.getEmpNameDepart(bizNumber);
@@ -143,8 +143,8 @@ public class AccountController {
     }
 
     @PostMapping("/deleteAccount.do")
-    public String deleteAccount(@RequestParam("businessNumber") String businessNumber, HttpSession session) {
-        accountService.deleteAccountByBusinessNumber(businessNumber);
+    public String deleteAccount(@RequestParam("accountNo") String accountNo, HttpSession session) {
+        accountService.deleteAccountByAccountNo(accountNo);
         return "redirect:/account.do";
     }
 }

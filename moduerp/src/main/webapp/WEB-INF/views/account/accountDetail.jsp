@@ -201,13 +201,16 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
-					거래처관리</a></li>
-			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
-					영업 입고</a></li>
+			<li><a href="productionStockIn.do"><i
+					class="fas fa-bullhorn"></i> 생산 입고</a></li>
+			<li><a href="productionStockOut.do"><i
+					class="fas fa-clipboard"></i> 생산 출고</a></li>
 			<!-- 수정 -->
-			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
-					영업 출고</a></li>
+			<li><a href="productionWorkorder.do"><i class="fas fa-code"></i>
+					작업지시서</a></li>
+			<!-- 수정 -->
+			<li><a href="productionQuality.do"><i class="fas fa-plug"></i>
+					품질관리</a></li>
 			<!-- 수정 -->
 		</ul>
 	</div>
@@ -215,61 +218,42 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업/판매 관리 | 영업입고 | </div>
-
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-		</div>
+		<div class="content-title">생산관리 | 생산입고 | ${accountDetail.accountNo}</div>
 
 		<!-- 테이블 -->
 		<table>
 			<thead>
 				<tr>
-					<th>제품명</th>
-					<th>제품 설명</th>
-					<th>입고날짜</th>
-					<th>수정날짜</th>
-					<th>입고수량</th>
-					<th>입고가격</th>
-					<th>입고장소</th>
-					<th>자재 종류</th>
-					<th>담당자</th>
+					<th>거래처 번호</th>
+					<th>거래처 이름</th>
+					<th>업태</th>
+					<th>대표자 이름</th>
+					<th>사업자번호</th>
+					<th>거래처 주소</th>
+					<th>거래처 전화번호</th>
 
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<td>${accountDetail.accountNo}</td>
-					<!-- 거래처 이름 -->
 					<td>${accountDetail.accountName}</td>
-					<!-- 업태 -->
 					<td>${accountDetail.businessType}</td>
-					<!-- 입고날짜 -->
 					<td>${accountDetail.bossName}</td>
-					<!-- 수정날짜 -->
 					<td>${accountDetail.businessNumber}</td>
-					<!-- 입고수량 -->
 					<td>${accountDetail.accountAddress}</td>
-					<!-- 입고가격 -->
 					<td>${accountDetail.accountPhone}</td>
-					
+
 				</tr>
 			</tbody>
 
 
 		</table>
-
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
 			<button class="btn red" onclick="openDeleteModal()">삭제</button>
 			<a
-				href="salesStockInDetailUpdate.do?itemCode=${itemDetails.itemCode}">
+				href="accountDetailUpdate.do?accountNo=${accountDetail.accountNo}">
 				<button class="btn green">수정</button>
 			</a>
 		</div>
@@ -283,9 +267,9 @@ th {
 			<h2>정말로 삭제하시겠습니까?</h2>
 			<p>삭제된 데이터는 복구할 수 없습니다.</p>
 			<!-- 삭제 버튼을 포함하는 폼 추가 -->
-			<form action="deleteSalesStockIn.do" method="POST">
-				<input type="hidden" name="itemCode" value="${accountDetails.itemCode}">
-				<!-- itemCode를 숨겨진 필드로 전달 -->
+			<form action="deleteAccount.do" method="POST">
+				<input type="hidden" name="accountNo" value="${accountDetail.accountNo}">
+				<!-- accountNo를 숨겨진 필드로 전달 -->
 				<button type="submit" class="go-delete">삭제</button>
 				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>
 			</form>
