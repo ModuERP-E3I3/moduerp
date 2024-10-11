@@ -190,6 +190,7 @@
         <table>
             <thead>
                 <tr>
+                	<th>차량 이미지</th>
                     <th>차종</th>
                     <th>차량 번호</th>
                     <th>소유 형태</th>
@@ -198,6 +199,7 @@
             <tbody>
 			    <c:forEach var="car" items="${carList}">
 			        <tr onclick="window.location.href='getCarDetail.do?carId=${ car.carId }' ">
+			            <td><img alt="${car.carModel}" src="${pageContext.request.contextPath}/${car.imagePath}" width="100"></td>
 			            <td>${ car.carModel }</td>
 			            <td>${ car.carNum }</td>
 			            <td>${ car.ownershipStatus }</td>
