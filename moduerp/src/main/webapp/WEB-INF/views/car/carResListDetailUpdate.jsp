@@ -218,8 +218,8 @@ th {
 							</datalist>
 						</td>
 						<td>
-							<input type="datetime-local" id="reserveStartDate" name="reserveStartDate" /> ~ 
-    						<input type="datetime-local" id="reserveEndDate" name="reserveEndDate" />
+							<input type="datetime-local" id="reserveStartDate" name="reserveStartDate" value="${carresDetail.reserveStartDate}" /> ~ 
+    						<input type="datetime-local" id="reserveEndDate" name="reserveEndDate" value="${carresDetail.reserveEndDate}" />
 						</td>
 						<td><input type="text" name="useReason" value="${carresDetail.useReason}"
 							placeholder="예약 사유 입력" /></td>

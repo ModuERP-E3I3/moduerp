@@ -18,4 +18,6 @@ public interface CarresDao {
 
 	void updateCarres(CarresDto carresDto);
 
+	void deleteCarres(String carReserveCode);
+
 }

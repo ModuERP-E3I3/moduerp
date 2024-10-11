@@ -145,5 +145,11 @@ public class CarresController {
 		return "redirect:/carresListCreate.do";
 	}
 	
+	@PostMapping("/deleteCarres.do")
+	public String deleteCarres(@RequestParam("carReserveCode") String carReserveCode, HttpSession session) {
+		CarresService.deleteCarres(carReserveCode);
+		
+		return "redirect:/carresListCreate.do";
+	}
 	
 }

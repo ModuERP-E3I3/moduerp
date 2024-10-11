@@ -44,4 +44,10 @@ public class CarresServiceImpl implements CarresService{
 		carresDao.updateCarres(carresDto);
 		
 	}
+
+	@Override
+	public void deleteCarres(String carReserveCode) {
+		carresDao.deleteCarres(carReserveCode);
+		
+	}
 }

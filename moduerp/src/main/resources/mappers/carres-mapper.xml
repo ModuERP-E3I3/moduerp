@@ -102,4 +102,9 @@
 	</update>
 
 
+	<!-- 차량 예약 삭제 쿼리 -->
+	<delete id="deleteCarres" parameterType="String">
+		DELETE FROM CAR_RESERVE
+		WHERE CAR_RESERVE_CODE = #{carReserveCode}
+	</delete>
  </mapper>

@@ -50,4 +50,10 @@ public class CarresDaoImpl implements CarresDao {
 	public void updateCarres(CarresDto carresDto) {
 		sqlSession.update(namespace + ".updateCarres", carresDto);
 	}
+
+	@Override
+	public void deleteCarres(String carReserveCode) {
+		sqlSession.delete(namespace + ".deleteCarres", carReserveCode);
+		
+	}
 }

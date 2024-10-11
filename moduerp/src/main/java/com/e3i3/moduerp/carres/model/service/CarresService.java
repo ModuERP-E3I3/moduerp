@@ -17,6 +17,8 @@ public interface CarresService {
 	CarresDto getCarresListDetail(String carReserveCode);
 	
 	void updateCarres(CarresDto carresDto);
+
+	void deleteCarres(String carReserveCode);
 	
 
 }
