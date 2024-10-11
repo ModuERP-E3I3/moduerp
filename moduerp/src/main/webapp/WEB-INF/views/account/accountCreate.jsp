@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -144,105 +144,104 @@ th {
 .top-content-box {
 	background-color: white;
 }
-
-.material-type-input {
-	margin-bottom: 10px;
-}
 </style>
 
 </head>
 
 <body>
+	<!-- 서브헤더 JSP 임포트 -->
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
+	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-		<ul id="menubar">
-			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
-					거래처관리</a></li>
-			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
-					영업 입고</a></li>
-			<!-- 수정 -->
-			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
-					영업 출고</a></li>
-			<!-- 수정 -->
-		</ul>
+	    <ul id="menubar">
+	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
+	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
+	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
+	    </ul>
 	</div>
 
+	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
-		<div class="content-title">영업관리 | 영업입고 | ${itemDetails.itemName}
-			수정하기</div>
 
-		<form action="/moduerp/updateSalesStockSubOut.do" method="POST">
-			<input type="hidden" name="itemCode" value="${itemDetails.itemCode}" />
-			<input type="hidden" name="sStockOutId"
-				value="${salesStockOutDetails.sStockOutId}" />
+		<div class="content-title">영업/판매 관리 | 거래처관리 | 신규 등록</div>
+
+		<!-- 필터 박스 -->
+		<div class="filter-box">
+			<select>
+				<option>조회기간</option>
+			</select> <input type="date" /> <input type="date" /> <select>
+				<option>품목 선택</option>
+			</select> <input type="text" placeholder="내용 입력" />
+			<button class="btn">조회</button>
+		</div>
+
+		<!-- 테이블 -->
+		<form action="/moduerp/accountCreate.do" method="POST">
 			<table>
 				<thead>
 					<tr>
-						<th>제품명</th>
-						<th>제품 설명</th>
-						<th>출고 날짜</th>
-						<th>수정 날짜</th>
-						<th>출고 수량</th>
-						<th>출고 가격</th>
-						<th>출고 장소</th>
+						<th>입고날짜</th>
+						<th>보관장소</th>
+						<th>입고수량</th>
+						<th>품목 이름</th>
+						<th>품목 설명</th>
+						<th>입고 가격</th>
 						<th>자재 종류</th>
-						<th>출고 담당자</th>
-						<th>지급 상태</th>
+						<th>담당자</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td>${itemDetails.itemName}</td>
-						
-						<td>${itemDetails.itemDesc}</td>
-						
-						<td><fmt:formatDate
-								value="${salesStockOutDetails.sStockOutDate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
-								
-						<td><fmt:formatDate
-								value="${salesStockOutDetails.sStockOutUpdate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
-								
-						<td><input type="number" name="stockOut"
-							value="${salesStockOutDetails.sStockOutQty}" required /></td>
-							
-						<td><input type="number" name="outPrice"
-							value="${salesStockOutDetails.sStockOutPrice}" step="0.01"
-							required /></td>
-							
-						<td><input list="stockPlaces" name="stockPlace"
-							value="${salesStockOutDetails.sStockOutPlace}"
-							placeholder="보관장소 선택" required /> <datalist id="stockPlaces">
-								<c:forEach var="stockPlace" items="${stockPlaces}">
-									<option value="${stockPlace}"></option>
-								</c:forEach>
-							</datalist></td>
-							
-						<td>${itemDetails.itemList}</td>
-						
-						<td>${salesStockOutDetails.oDirector}</td>
-						
-						<td><select name="paymentStatus">
-								<option value="Y"
-									<c:if test="${salesStockOutDetails.paymentStatus == 'Y'}">selected</c:if>>Yes</option>
-								<option value="N"
-									<c:if test="${salesStockOutDetails.paymentStatus == 'N'}">selected</c:if>>No</option>
-						</select></td>
-						
-						
+
+						<!-- 입고수량 칸 -->
+						<td><input type="number" name="stockIn" placeholder="수량 입력" /></td>
+
+						<!-- 품목 이름 칸 -->
+						<td><input type="text" name="itemName" placeholder="품목 이름 입력" /></td>
+
+						<!-- 품목 설명 칸 -->
+						<td><input type="text" name="itemDesc" placeholder="품목 설명 입력" /></td>
+
+						<!-- 가격 입력 칸 -->
+						<td><input type="number" name="inPrice" placeholder="가격 입력"
+							step="0.01" /></td>
+
 					</tr>
 				</tbody>
 			</table>
 
+			<!-- 버튼 그룹 -->
 			<div class="btn-group">
-				<button type="submit" class="btn green">수정 완료</button>
+				<button type="submit" class="btn blue">등록 완료</button>
 			</div>
 		</form>
 
+
 	</div>
 </body>
+<script>
+function addMaterialType() {
+    const container = document.getElementById('materialTypeContainer');
+    const newInputDiv = document.createElement('div');
+    newInputDiv.className = 'material-type-input';
+    newInputDiv.innerHTML = `
+        <input list="materialTypes" name="materialType" placeholder="자재 종류 입력" />
+        <datalist id="materialTypes">
+            <c:forEach var="itemName" items="${itemNames}">
+                <option value="${itemName}"></option>
+            </c:forEach>
+        </datalist>
+        <button type="button" class="remove-btn" onclick="removeMaterialType(this)">삭제</button>
+    `;
+    container.appendChild(newInputDiv);
+}
+
+function removeMaterialType(button) {
+    const inputDiv = button.parentElement;
+    inputDiv.remove();
+}
+</script>
 
 
 <script>
