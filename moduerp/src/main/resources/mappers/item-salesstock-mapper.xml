@@ -162,7 +162,7 @@
 		LIKE CONCAT(#{bizNumber}, 'S%')
 	</select>
 
-	<update id="updateItemForSalesOut" parameterType="map">
+	<update id="updateItemStockOut" parameterType="map">
 		UPDATE
 		ITEM
 		SET
@@ -175,7 +175,8 @@
 		#{stockOutPlace},
 		STOCK =
 		COALESCE(STOCK, 0) -
-		#{stockOut}
+		#{stockOut},
+		ODIRECTOR = #{oDirector}
 		WHERE ITEM_CODE
 		= #{itemCode}
 	</update>

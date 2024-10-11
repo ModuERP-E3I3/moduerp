@@ -102,11 +102,14 @@ public class SalesStockOutController {
 			@RequestParam("createdOutAt") String createdOutAt, @RequestParam("stockOutPlace") String stockOutPlace,
 			@RequestParam("stockOut") int stockOut, @RequestParam("outPrice") double outPrice,
 			@RequestParam("itemCode") String itemCode, @RequestParam("oDirector") String oDirector,
+			
 			HttpSession session) {
 		// 세션에서 biz_number와 uuid를 가져옴
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String userUuid = (String) session.getAttribute("uuid");
-
+		
+		
+		
 		// ITEM 테이블 업데이트 로직
 		itemSalesStockService.updateItemStockOut(itemCode, createdOutAt, stockOutPlace, stockOut, outPrice, oDirector);
 
