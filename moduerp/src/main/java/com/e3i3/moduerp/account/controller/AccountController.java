@@ -69,7 +69,7 @@ public class AccountController {
                                 @RequestParam("businessNumber") String businessNumber, 
                                 @RequestParam("accountAddress") String accountAddress,
                                 @RequestParam("accountPhone") String accountPhone, 
-                                @RequestParam("email") String email, // 이메일 필드 추가
+                                @RequestParam("email") String email,
                                 Model model, HttpSession session) {
 
         AccountDTO accountDto = new AccountDTO();
@@ -79,7 +79,7 @@ public class AccountController {
         accountDto.setBusinessNumber(businessNumber);
         accountDto.setAccountAddress(accountAddress);
         accountDto.setAccountPhone(accountPhone);
-        accountDto.setEmail(email);  // 이메일 값 설정
+        accountDto.setEmail(email);  
 
         accountService.accountCreate(accountDto);
 
@@ -126,7 +126,7 @@ public class AccountController {
         accountDto.setBusinessNumber(businessNumber);
         accountDto.setAccountAddress(accountAddress);
         accountDto.setAccountPhone(accountPhone);
-        accountDto.setEmail(email);  // 이메일 값 설정
+        accountDto.setEmail(email);
 
         accountService.updateAccount(accountDto);
 
