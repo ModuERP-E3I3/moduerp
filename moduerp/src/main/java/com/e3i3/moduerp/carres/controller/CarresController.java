@@ -30,7 +30,7 @@ public class CarresController {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		
 		// 차량 예약 list
-		List<CarresDto> carresList = CarresService.getAllCarres();
+		List<CarresDto> carresList = CarresService.getAllCarres(bizNumber);
 		
 		// 회사 사업자번호(biznumber)가 일치하는 사원명과 부서명 조회
 		List<Employee> empNameDepart = CarresService.getEmpNameDepart(bizNumber);
@@ -145,5 +145,11 @@ public class CarresController {
 		return "redirect:/carresListCreate.do";
 	}
 	
+	@PostMapping("/deleteCarres.do")
+	public String deleteCarres(@RequestParam("carReserveCode") String carReserveCode, HttpSession session) {
+		CarresService.deleteCarres(carReserveCode);
+		
+		return "redirect:/carresListCreate.do";
+	}
 	
 }
