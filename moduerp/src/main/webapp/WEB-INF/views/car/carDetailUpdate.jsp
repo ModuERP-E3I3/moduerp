@@ -169,7 +169,7 @@ th {
 		<div class="content-title">차량관리 | 차량 예약 | 차량 정보 수정
 			수정하기</div>
 
-		<form action="/moduerp/updateCar.do" method="POST">
+		<form action="/moduerp/updateCar.do" method="POST" enctype="multipart/form-data">
 			<input type="hidden" name="carId" value="${carDetail.carId}" />
 			<table>
 				<thead>
@@ -183,8 +183,8 @@ th {
 				<tbody>
 					<tr>
 						<td>
-							<img alt="${carDetail.carModel}" src="${pageContext.request.contextPath}/${carDetail.imagePath}" width="100">
-							<input type="file" id="image" name="image" accept="image/*" required><br>
+    						<img id="previewImage" alt="${carDetail.carModel}" src="${pageContext.request.contextPath}/${carDetail.imagePath}" width="100">
+    						<input type="file" id="image" name="image" accept="image/*" onchange="previewFile()"><br>
 						</td>
 						<td><input type="text" name="carModel"
 							value="${carDetail.carModel}" required /></td>
@@ -204,7 +204,22 @@ th {
 	</div>
 </body>
 
+<script>
+    function previewFile() {
+        const preview = document.getElementById('previewImage');
+        const file = document.getElementById('image').files[0];
+        const reader = new FileReader();
 
+        reader.addEventListener("load", function () {
+            // 이미지 데이터를 src 속성에 설정
+            preview.src = reader.result;
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
 <script>
     const activeMenu = "carRes";
 

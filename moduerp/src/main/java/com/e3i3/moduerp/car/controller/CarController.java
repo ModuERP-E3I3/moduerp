@@ -23,6 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.e3i3.moduerp.car.model.dto.CarDto;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Controller
 @RequestMapping("/")
 public class CarController {
@@ -39,7 +42,8 @@ public class CarController {
 	public String forwardMap() {
 		return "car/map";
 	}
-
+	
+	private static final Logger logger = LoggerFactory.getLogger(CarController.class);
 	
 	@Autowired
 	private com.e3i3.moduerp.car.model.service.CarService CarService;
@@ -189,6 +193,12 @@ public class CarController {
             carDto.setImagePath(existingCar.getImagePath()); // 기존 이미지 경로를 설정
         }
 
+        // 로그 출력
+        logger.info("업데이트하려는 차량 ID: " + carId);
+        logger.info("업데이트하려는 차량 번호: " + carNum);
+        logger.info("업데이트하려는 차량 모델: " + carModel);
+        logger.info("업데이트하려는 이미지 경로: " + carDto.getImagePath());
+        
         CarService.updateCar(carDto);
         return "redirect:/carRes.do"; 
     }
