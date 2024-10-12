@@ -59,7 +59,7 @@ public class PurchaseOrdersController {
         model.addAttribute("purchaseOrders", purchaseOrders);
         model.addAttribute("empNameDepart", empNameDepart);
 
-        return "purchaseOrders/purchaseOrderCreate";
+        return "purchaseOrders/purchaseOrdersCreate";
     }
 
     @PostMapping("/purchaseOrderCreate.do")
@@ -88,7 +88,7 @@ public class PurchaseOrdersController {
     public String getPurchaseOrderDetail(@RequestParam("orderId") String orderId, Model model) {
         PurchaseOrdersDTO purchaseOrderDetail = purchaseOrdersService.getPurchaseOrderDetail(orderId);
         model.addAttribute("purchaseOrderDetail", purchaseOrderDetail);
-        return "purchaseOrders/purchaseOrderDetail";
+        return "purchaseOrders/purchaseOrdersDetail";
     }
 
     @GetMapping("purchaseOrderDetailUpdate.do")

@@ -177,19 +177,23 @@ tbody tr:hover {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
+
 			<li><a href="purchaseOrders.do"><i class="fas fa-bullhorn"></i>
 					발주서 관리</a></li>
-			<li><a href="buyStockIn.do"><i class="fas fa-clipboard"></i>
+			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i>
 					구매 입고</a></li>
-			<li><a href="buyStockOut.do"><i class="fas fa-code"></i>
+			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i>
 					구매 출고</a></li>
+			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i>
+					배송 조회</a></li>
+
 		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">구매관리 | 발주서관리 | 신규 등록</div>
+		<div class="content-title">구매 관리 | 발주서관리 | 신규 등록</div>
 
 		<!-- 필터 박스 -->
 		<div class="filter-box">
@@ -202,38 +206,45 @@ tbody tr:hover {
 		</div>
 
 		<!-- 테이블 -->
-		<form action="/moduerp/purchaseOrdersCreate.do" method="POST">
+		<form action="/moduerp/purchaseOrderCreate.do" method="POST">
 			<table>
 				<thead>
 					<tr>
-						<th>품목 코드</th>
-						<th>거래처 번호</th>
+						<th>순번</th>
+						<th>발주서코드</th>
+						<th>품목코드</th>
+						<th>거래처코드</th>
 						<th>수량</th>
-						<th>공급가</th>
+						<th>발주금액</th>
 						<th>납품일</th>
 						<th>담당자명</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
+
 						<td><input type="text" name="itemCode"
-							placeholder="품목 코드 입력" /></td>
+							placeholder="품목코드 입력" /></td>
 
 						<td><input type="text" name="accountNo"
-							placeholder="거래처 번호 입력" /></td>
+							placeholder="거래처코드 입력" /></td>
 
-						<td><input type="number" name="quantity"
+						<td><input type="text" name="quantity"
 							placeholder="수량 입력" /></td>
 
 						<td><input type="text" name="supplyPrice"
-							placeholder="공급가 입력" /></td>
+							placeholder="발주금액 입력" /></td>
 
-						<td><input type="date" name="deliveryDate" /></td>
+						<td><input type="text" name="deliveryDate"
+							placeholder="납품일 입력" /></td>
 
 						<td><input type="text" name="mgrName"
 							placeholder="담당자명 입력" /></td>
+
 					</tr>
 				</tbody>
+			</table>
+
 			</table>
 
 			<!-- 버튼 그룹 -->
@@ -241,9 +252,10 @@ tbody tr:hover {
 				<button type="submit" class="btn blue">등록 완료</button>
 			</div>
 		</form>
+
+
 	</div>
 </body>
-
 <script>
 function addMaterialType() {
     const container = document.getElementById('materialTypeContainer');
@@ -267,6 +279,7 @@ function removeMaterialType(button) {
 }
 </script>
 
+
 <script>
     const activeMenu = "purchaseOrders";
 
@@ -279,5 +292,6 @@ function removeMaterialType(button) {
         });
     });
 </script>
+
 
 </html>

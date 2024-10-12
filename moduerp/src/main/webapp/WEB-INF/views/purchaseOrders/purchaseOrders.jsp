@@ -226,7 +226,7 @@ tbody tr:hover {
 			<tbody>
 				<c:forEach var="purchaseOrders" items="${purchaseOrdersList}" varStatus="status">
 					<tr
-						onclick="window.location.href='getPurchaseOrdersDetails.do?orderId=${purchaseOrders.orderId}'">
+						onclick="window.location.href='getPurchaseOrderDetails.do?orderId=${purchaseOrders.orderId}'">
 
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
 						<td>${purchaseOrders.orderId}</td>
@@ -236,6 +236,7 @@ tbody tr:hover {
 						<td>${purchaseOrders.supplyPrice}</td>
 						<td>${purchaseOrders.deliveryDate}</td>
 						<td>${purchaseOrders.mgrName}</td>
+						
 
 					</tr>
 				</c:forEach>
@@ -263,7 +264,7 @@ tbody tr:hover {
 
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
-			<a href="purchaseOrdersCreate.do"><button class="btn blue">등록</button></a>
+			<a href="purchaseOrderCreate.do"><button class="btn blue">등록</button></a>
 		</div>
 
 	</div>

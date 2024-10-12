@@ -2,45 +2,76 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="PurchaseOrdersMapper">
 
-    <!-- PurchaseOrders에 대한 resultMap -->
-    <resultMap id="purchaseOrdersResult"
-        type="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO">
-        <result property="orderId" column="ORDER_ID" />
-        <result property="itemCode" column="ITEM_CODE" />
-        <result property="quantity" column="QUANTITY" />
-        <result property="supplyPrice" column="SUPPLY_PRICE" />
-        <result property="accountNo" column="ACCOUNT_NO" />
-        <result property="deliveryDate" column="DELIVERY_DATE" />
-        <result property="mgrName" column="MGR_NAME" />
-    </resultMap>
+	<!-- PurchaseOrders에 대한 resultMap -->
+	<resultMap id="purchaseOrdersResult"
+		type="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO">
+		<result property="orderId" column="ORDER_ID" />
+		<result property="itemCode" column="ITEM_CODE" />
+		<result property="quantity" column="QUANTITY" />
+		<result property="supplyPrice" column="SUPPLY_PRICE" />
+		<result property="accountNo" column="ACCOUNT_NO" />
+		<result property="deliveryDate" column="DELIVERY_DATE" />
+		<result property="mgrName" column="MGR_NAME" />
+	</resultMap>
 
-    <!-- 모든 purchase orders 데이터 조회용 쿼리 -->
-    <select id="getAllPurchaseOrders" resultMap="purchaseOrdersResult">
-        SELECT * FROM PURCHASE_ORDERS
-    </select>
 
-    <!-- 특정 주문 데이터를 ORDER_ID로 조회하는 쿼리 -->
-    <select id="selectPurchaseOrderByOrderId" parameterType="String"
-        resultMap="purchaseOrdersResult">
-        SELECT * FROM PURCHASE_ORDERS WHERE
-        ORDER_ID = #{orderId}
-    </select>
 
-    <!-- 특정 주문 데이터를 ORDER_ID로 업데이트하는 쿼리 -->
-    <update id="updatePurchaseOrder"
-        parameterType="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO">
-        UPDATE PURCHASE_ORDERS
-        SET ITEM_CODE = #{itemCode},
-        QUANTITY = #{quantity}, SUPPLY_PRICE = #{supplyPrice},
-        ACCOUNT_NO = #{accountNo}, DELIVERY_DATE = #{deliveryDate},
-        MGR_NAME = #{mgrName}
-        WHERE ORDER_ID = #{orderId}
-    </update>
 
-    <!-- 특정 ORDER_ID로 purchase order 데이터를 삭제하는 쿼리 -->
-    <delete id="deletePurchaseOrderByOrderId" parameterType="String">
-        DELETE FROM
-        PURCHASE_ORDERS WHERE ORDER_ID = #{orderId}
-    </delete>
+	<select id="getPurchaseOrdersByBizNumber"
+		resultType="PurchaseOrdersDTO" parameterType="string">
+		SELECT * FROM PURCHASE_ORDERS WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+
+	<select id="getEmpNameDepart" parameterType="map"
+		resultType="com.e3i3.moduerp.employee.model.dto.Employee">
+		SELECT *
+		FROM EMPLOYEE
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+
+	<!-- 사원명 조회 쿼리 -->
+	<select id="getEmpNamesByBizNumber" resultType="string">
+		SELECT EMP_NAME
+		FROM EMPLOYEE
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+
+	<!-- 부서명 조회 쿼리 -->
+	<select id="getDepartmentIdsByBizNumber" resultType="string">
+		SELECT
+		DEPARTMENT_ID
+		FROM EMPLOYEE
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+
+	<!-- 모든 purchase orders 데이터 조회용 쿼리 -->
+	<select id="getAllPurchaseOrders"
+		resultMap="purchaseOrdersResult">
+		SELECT * FROM PURCHASE_ORDERS
+	</select>
+
+	<!-- 특정 주문 데이터를 ORDER_ID로 조회하는 쿼리 -->
+	<select id="selectPurchaseOrderByOrderId" parameterType="String"
+		resultMap="purchaseOrdersResult">
+		SELECT * FROM PURCHASE_ORDERS WHERE
+		ORDER_ID = #{orderId}
+	</select>
+
+	<!-- 특정 주문 데이터를 ORDER_ID로 업데이트하는 쿼리 -->
+	<update id="updatePurchaseOrder"
+		parameterType="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO">
+		UPDATE PURCHASE_ORDERS
+		SET ITEM_CODE = #{itemCode},
+		QUANTITY = #{quantity}, SUPPLY_PRICE = #{supplyPrice},
+		ACCOUNT_NO = #{accountNo}, DELIVERY_DATE = #{deliveryDate},
+		MGR_NAME = #{mgrName}
+		WHERE ORDER_ID = #{orderId}
+	</update>
+
+	<!-- 특정 ORDER_ID로 purchase order 데이터를 삭제하는 쿼리 -->
+	<delete id="deletePurchaseOrderByOrderId" parameterType="String">
+		DELETE FROM
+		PURCHASE_ORDERS WHERE ORDER_ID = #{orderId}
+	</delete>
 
 </mapper>
