@@ -19,9 +19,9 @@ public interface PurchaseOrdersDAO {
     // accountNo 리스트 가져오기 !!!
     List<Map<String, Object>> getAllAccountNames();
     
-    
-    // OrderId
+    // !! 발주서 코드 !!
     PurchaseOrdersDTO selectPurchaseOrderByOrderId(String orderId);
     void updatePurchaseOrder(PurchaseOrdersDTO purchaseOrderDto);
     void deletePurchaseOrderByOrderId(String orderId);
+    
 }

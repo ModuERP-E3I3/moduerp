@@ -236,7 +236,7 @@ th {
 					<td>${purchaseOrderDetail.quantity}</td>
 					<td>${purchaseOrderDetail.supplyPrice}</td>
 					<td>${purchaseOrderDetail.deliveryDate}</td>
-					<td>${purchaseOrderDetail.mgrName}</td>
+					<td>${purchaseOrderDetail.oDirector}</td>
 				</tr>
 			</tbody>
 		</table>

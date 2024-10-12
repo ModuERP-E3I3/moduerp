@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -177,113 +178,133 @@ tbody tr:hover {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-
-			<li><a href="purchaseOrders.do"><i class="fas fa-bullhorn"></i>
-					발주서 관리</a></li>
-			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i>
-					구매 입고</a></li>
-			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i>
-					구매 출고</a></li>
-			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i>
-					배송 조회</a></li>
-
+			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
+			<li><a href="buyStockOut.do"><i class="fas fa-clipboard"></i> 구매 출고</a></li>
+			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
 		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">구매 관리 | 발주서관리 | 신규 등록</div>
+		<div class="content-title">구매관리 | 구매입고</div>
+		<form action="/moduerp/buyStockInFilter.do">
+			<!-- 필터 박스 -->
+			<div class="filter-box">
+				<select name="filterOption" id="filterOption">
+					<option disabled selected>옵션 선택</option>
+					<option value="itemName" ${option == 'itemName' ? 'selected' : ''}>제품명</option>
+					<option value="stockPlace"
+						${option == 'stockPlace' ? 'selected' : ''}>입고 장소</option>
+					<option value="iDirector"
+						${option == 'iDirector' ? 'selected' : ''}>담당자</option>
+				</select> <input type="date" name="startDate" id="startDate"
+					value="${startDate != null ? startDate : ''}" /> <input
+					type="date" name="endDate" id="endDate"
+					value="${endDate != null ? endDate : ''}" /> <input type="text"
+					name="filterText" id="filterText" placeholder="내용 입력"
+					value="${filterText != null ? filterText : ''}" />
 
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
+				<button type="submit" class="btn">조회</button>
+				<button type="button" class="btn" onclick="window.location.href='buyStockIn.do';">초기화</button>
+			</div>
+
+		</form>
+		<!-- 테이블 -->
+		<table>
+			<thead>
+				<tr>
+					<th>순번</th>
+					<th>제품명</th>
+					<th>입고 일자</th>
+					<th>입고 수량</th>
+					<th>입고 장소</th>
+					<th>입고 단가</th>
+					<th>직원명</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<c:forEach var="item" items="${itemList}" varStatus="status">
+					<tr
+						onclick="window.location.href='getProductionInDetails.do?itemCode=${item.itemCode}'">
+						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
+						<!-- 순번 계산 -->
+						<td>${item.itemName}</td>
+						<td>${item.createdAt}</td>
+						<td>${item.stockIn}</td>
+						<td>${item.stockPlace}</td>
+						<td>${item.inPrice}</td>
+						<td>${item.iDirector}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+
+
+
+		</table>
+
+		<!-- 페이지 버튼 -->
+		<div id="pagebutton">
+			<c:if test="${totalPages > 1}">
+				<c:forEach var="i" begin="1" end="${totalPages}">
+					<c:choose>
+						<c:when test="${i == currentPage}">
+							<strong>${i}</strong>
+							<!-- 현재 페이지는 강조 -->
+						</c:when>
+						<c:otherwise>
+							<a
+								href="buyStockInFilter.do?page=${i}&filterOption=${option}&filterText=${filterText}&startDate=${startDate}&endDate=${endDate}">
+								${i} </a>
+							<!-- 페이지 링크 -->
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</c:if>
 		</div>
 
-		<!-- 테이블 -->
-		<form action="/moduerp/purchaseOrderCreate.do" method="POST">
-			<table>
-				<thead>
-					<tr>
-						<th>품명</th>
-						<th>거래처명</th>
-						<th>수량</th>
-						<th>공급가</th>
-						<th>납품일</th>
-						<th>담당자명</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><input type="text" name="puItemName"
-							placeholder="발주할 품명 입력" /></td>
-					
-						<!-- 거래처 코드 드롭다운 리스트 !!!!! -->
-						<td><select name="accountNo" onchange="setAccountName(this)">
-								<option value="" disabled selected>거래처 선택</option>
-								<c:forEach var="account" items="${accountNames}">
-									<option value="${account.ACCOUNTNO}"
-										data-name="${account.ACCOUNTNAME}">${account.ACCOUNTNAME}</option>
-								</c:forEach>
-						</select> <input type="hidden" name="accountName" id="accountNameField" />
-						</td>			
-							
-						<td><input type="number" name="quantity" placeholder="수량 입력" /></td>
-						
-						<td><input type="number" name="supplyPrice"
-							placeholder="공급가 입력" /></td>
-							
-						<td><input type="date" name="deliveryDate" /></td>
-						
-						<td> <input type="text" name="oDirector" 
-							value="${directorName}" readonly="readonly">
-						</td>
-						
-					</tr>
-				</tbody>
-			</table>
-
-			<!-- 버튼 그룹 -->
-			<div class="btn-group">
-				<button type="submit" class="btn blue">등록 완료</button>
-			</div>
-		</form>
 
 
+
+		<!-- 버튼 그룹 -->
+		<div class="btn-group">
+			<a href="buyInCreate.do"><button class="btn blue">등록</button></a>
+		</div>
 
 	</div>
 </body>
-<script>
-function addMaterialType() {
-    const container = document.getElementById('materialTypeContainer');
-    const newInputDiv = document.createElement('div');
-    newInputDiv.className = 'material-type-input';
-    newInputDiv.innerHTML = `
-        <input list="materialTypes" name="materialType" placeholder="자재 종류 입력" />
-        <datalist id="materialTypes">
-            <c:forEach var="itemName" items="${itemNames}">
-                <option value="${itemName}"></option>
-            </c:forEach>
-        </datalist>
-        <button type="button" class="remove-btn" onclick="removeMaterialType(this)">삭제</button>
-    `;
-    container.appendChild(newInputDiv);
-}
 
-function removeMaterialType(button) {
-    const inputDiv = button.parentElement;
-    inputDiv.remove();
-}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- jQuery 추가 -->
+
+
+
+<script>
+    function getItemCode(itemCode) {
+        console.log("클릭한 item_code: " + itemCode);
+
+        $.ajax({
+        	url: '/moduerp/getBuyInDetails.do', // URL을 수정
+            type: 'GET',
+            data: { itemCode: itemCode },
+            success: function(response) {
+                console.log("데이터 가져오기 성공:", response);
+                // 필요한 작업 수행
+            },
+            error: function(xhr, status, error) {
+                console.error("데이터 가져오기 실패:", error);
+            }
+        });
+
+    }
 </script>
 
 
+
 <script>
-    const activeMenu = "purchaseOrders";
+    const activeMenu = "account";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');
@@ -294,16 +315,6 @@ function removeMaterialType(button) {
         });
     });
 </script>
-
-
-<!-- AccountName -->
-<script>
-function setAccountName(select) {
-    const accountName = select.options[select.selectedIndex].getAttribute('data-name');
-    document.getElementById('accountNameField').value = accountName;
-}
-</script>
-
 
 
 </html>
