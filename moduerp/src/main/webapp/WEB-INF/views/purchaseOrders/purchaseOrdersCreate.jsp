@@ -210,41 +210,32 @@ tbody tr:hover {
 			<table>
 				<thead>
 					<tr>
-						<th>순번</th>
-						<th>발주서코드</th>
-						<th>품목코드</th>
-						<th>거래처코드</th>
+						<th>거래처 코드</th>
+						<th>품목 코드</th>
 						<th>수량</th>
-						<th>발주금액</th>
+						<th>공급가</th>
 						<th>납품일</th>
 						<th>담당자명</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
+						<!-- 거래처 코드 드롭다운 리스트 -->
+						<td><select name="accountNo">
+								<option value="" disabled selected>거래처 선택</option>
+								<c:forEach var="accountNo" items="${accountNos}">
+									<option value="${accountNo}">${accountNo}</option>
+								</c:forEach>
+						</select></td>
 
-						<td><input type="text" name="itemCode"
-							placeholder="품목코드 입력" /></td>
-
-						<td><input type="text" name="accountNo"
-							placeholder="거래처코드 입력" /></td>
-
-						<td><input type="text" name="quantity"
-							placeholder="수량 입력" /></td>
-
-						<td><input type="text" name="supplyPrice"
-							placeholder="발주금액 입력" /></td>
-
-						<td><input type="text" name="deliveryDate"
-							placeholder="납품일 입력" /></td>
-
-						<td><input type="text" name="mgrName"
-							placeholder="담당자명 입력" /></td>
-
+						<td><input type="text" name="itemCode" placeholder="품목 코드 입력" /></td>
+						<td><input type="number" name="quantity" placeholder="수량 입력" /></td>
+						<td><input type="number" name="supplyPrice"
+							placeholder="공급가 입력" /></td>
+						<td><input type="date" name="deliveryDate" /></td>
+						<td><input type="text" name="mgrName" placeholder="담당자명 입력" /></td>
 					</tr>
 				</tbody>
-			</table>
-
 			</table>
 
 			<!-- 버튼 그룹 -->
@@ -252,6 +243,7 @@ tbody tr:hover {
 				<button type="submit" class="btn blue">등록 완료</button>
 			</div>
 		</form>
+
 
 
 	</div>

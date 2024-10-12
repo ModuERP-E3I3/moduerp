@@ -1,7 +1,6 @@
 package com.e3i3.moduerp.purchaseorders.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +10,7 @@ import com.e3i3.moduerp.employee.model.dto.Employee;
 
 @Service
 public class PurchaseOrdersServiceImpl implements PurchaseOrdersService {
+    
     @Autowired
     private PurchaseOrdersDAO purchaseOrdersDao;
    
@@ -57,5 +57,11 @@ public class PurchaseOrdersServiceImpl implements PurchaseOrdersService {
     @Override
     public void deletePurchaseOrderByOrderId(String orderId) {
         purchaseOrdersDao.deletePurchaseOrderByOrderId(orderId);
+    }
+
+    // accountNo 리스트 가져오기 !!!!
+    @Override
+    public List<String> getAllAccountNos() {
+        return purchaseOrdersDao.getAllAccountNos();
     }
 }

@@ -1,7 +1,6 @@
 package com.e3i3.moduerp.purchaseorders.model.dao;
 
 import java.util.List;
-
 import com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 
@@ -14,6 +13,9 @@ public interface PurchaseOrdersDAO {
     List<PurchaseOrdersDTO> getPurchaseOrdersByBizNumber(String bizNumber);
     
     List<Employee> getEmpNameDepart(String bizNumber);
+    
+    // accountNo 리스트 가져오기 !!!
+    List<String> getAllAccountNos();
     
     // OrderId
     PurchaseOrdersDTO selectPurchaseOrderByOrderId(String orderId);

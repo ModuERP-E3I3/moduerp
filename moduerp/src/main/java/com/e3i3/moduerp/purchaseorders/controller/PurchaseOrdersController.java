@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 
@@ -46,18 +47,21 @@ public class PurchaseOrdersController {
     public String showCreatePurchaseOrderForm(Model model, HttpSession session) {
         String bizNumber = (String) session.getAttribute("biz_number");
 
-        // Fetch employee names and department IDs
         List<String> empNames = purchaseOrdersService.getEmpNamesByBizNumber(bizNumber);
         List<String> departmentIds = purchaseOrdersService.getDepartmentIdsByBizNumber(bizNumber);
         List<Employee> empNameDepart = purchaseOrdersService.getEmpNameDepart(bizNumber);
 
-        // Fetch purchase orders
+        // Fetch accountNo list from AccountService !!!!
+        List<String> accountNos = purchaseOrdersService.getAllAccountNos();  
+
+        
         List<PurchaseOrdersDTO> purchaseOrders = purchaseOrdersService.getPurchaseOrdersByBizNumber(bizNumber);
 
         model.addAttribute("empNames", empNames);
         model.addAttribute("departmentIds", departmentIds);
         model.addAttribute("purchaseOrders", purchaseOrders);
         model.addAttribute("empNameDepart", empNameDepart);
+        model.addAttribute("accountNos", accountNos);  // Add accountNo list to model
 
         return "purchaseOrders/purchaseOrdersCreate";
     }
