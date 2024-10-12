@@ -230,7 +230,7 @@ ul.nav {
 		<ul id="menubar">
 			<li><a href="<c:url value='/attendance.do' />"><i
 					class="fas fa-bullhorn"></i> 출퇴근</a></li>
-			<li><a href="<c:url value='/leave.do' />"><i
+			<li><a href="<c:url value='/attendanceDocument/mylist.do' />"><i
 					class="fas fa-clipboard"></i> 근태문서</a></li>
 			<li><a href="<c:url value='/email/inbox.do' />"> <i
 					class="fas fa-envelope"></i> 이메일
@@ -270,7 +270,7 @@ ul.nav {
             <c:choose>
                 <c:when test="${empty notyet_r}">
                     <div class="empty-message-box" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-                        <p style="font-size: 24px; color: #333; font-weight: bold;">조회할 결재 요청이 없습니다.</p>
+                        <p style="font-size: 24px; color: #333; font-weight: bold;">승인할 결재 요청이 없습니다.</p>
                     </div>
                 </c:when>
                 
@@ -315,7 +315,7 @@ ul.nav {
             <c:choose>
                 <c:when test="${empty approved_r}">
                     <div class="empty-message-box" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-                        <p style="font-size: 24px; color: #333; font-weight: bold;">완료된 결재 요청이 없습니다.</p>
+                        <p style="font-size: 24px; color: #333; font-weight: bold;">승인한 결재 요청이 없습니다.</p>
                     </div>
                 </c:when>
                 <c:otherwise>
@@ -356,7 +356,7 @@ ul.nav {
 <c:choose>
     <c:when test="${notyet == null || empty notyet}">
         <div class="empty-message-box" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-            <p style="font-size: 24px; color: #333; font-weight: bold;">결재받을 근태 문서가 없습니다.</p>
+            <p style="font-size: 24px; color: #333; font-weight: bold;">승인받을 결재 문서가 없습니다.</p>
             <button class="apply-button" onclick="location.href='<c:url value='/attendanceDocument/send.do' />'" style="margin-top: 20px; padding: 10px 20px; font-size: 16px; border: none; background-color: #4CAF50; color: white; border-radius: 5px; cursor: pointer;">
                 근태 신청하기
             </button>
@@ -401,7 +401,7 @@ ul.nav {
         <c:choose>
             <c:when test="${approved == null || empty approved}">
                 <div class="empty-message-box" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-                    <p style="font-size: 24px; color: #333; font-weight: bold;">결재받은 근태 문서가 없습니다.</p>
+                    <p style="font-size: 24px; color: #333; font-weight: bold;">승인받은 결재 문서가 없습니다.</p>
                 </div>
             </c:when>
             <c:otherwise>

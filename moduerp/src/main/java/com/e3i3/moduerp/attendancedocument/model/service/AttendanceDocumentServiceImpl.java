@@ -94,5 +94,10 @@ public class AttendanceDocumentServiceImpl implements AttendanceDocumentService 
 		return attendanceRequestDao.deleteAttendanceRequestById(attendanceRequestId);
 	}
 
+	// 14. 특정 근태의 승인여부를 제출완료로 업데이트
+	@Override
+	public int updateApprovalStatus(String attendancerequestId) {
+		  return attendanceRequestDao.updateApprovalStatus(attendancerequestId);
+	  }
 
 }
