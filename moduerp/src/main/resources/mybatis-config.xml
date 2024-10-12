@@ -26,6 +26,8 @@
 			alias="Department" />
 		<typeAlias type="com.e3i3.moduerp.car.model.dto.CarDto"
 			alias="CarDto" />
+		<typeAlias type="com.e3i3.moduerp.carres.model.dto.CarresDto"
+			alias="CarresDto" />
 		<typeAlias type="com.e3i3.moduerp.account.model.dto.AccountDTO"
 			alias="AccountDTO" />
 		<typeAlias type="com.e3i3.moduerp.account.model.dto.AccountDTO"
