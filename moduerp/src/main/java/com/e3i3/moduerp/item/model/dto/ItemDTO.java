@@ -30,7 +30,6 @@ public class ItemDTO implements Serializable {
 	
 	
 //	sales - - - - - - - - - -
-    private String sStockOutStatus;
     private String paymentStatus;
 	
 	
@@ -193,13 +192,6 @@ public class ItemDTO implements Serializable {
 
 	
 //	Sales  - - - - - - - - - - - - - - -
-    public String getsStockOutStatus() {
-        return sStockOutStatus;
-    }
-
-    public void setsStockOutStatus(String sStockOutStatus) {
-        this.sStockOutStatus = sStockOutStatus;
-    }
 
     public String getPaymentStatus() {
         return paymentStatus;

@@ -28,6 +28,8 @@
 			alias="CarDto" />
 		<typeAlias type="com.e3i3.moduerp.account.model.dto.AccountDTO"
 			alias="AccountDTO" />
+		<typeAlias type="com.e3i3.moduerp.account.model.dto.AccountDTO"
+			alias="PurchaseOrdersDTO" />
 		<typeAlias type="com.e3i3.moduerp.notice.model.dto.Notice"
 			alias="Notice" />
 		<typeAlias type="com.e3i3.moduerp.email.model.dto.Email"

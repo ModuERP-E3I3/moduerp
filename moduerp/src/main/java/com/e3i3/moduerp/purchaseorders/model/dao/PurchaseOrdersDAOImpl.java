@@ -64,4 +64,10 @@ public class PurchaseOrdersDAOImpl implements PurchaseOrdersDAO {
     public void deletePurchaseOrderByOrderId(String orderId) {
         sqlSession.delete(namespace + ".deletePurchaseOrderByOrderId", orderId);
     }
+
+    // 추가된 메서드: accountNo 리스트 가져오기
+    @Override
+    public List<String> getAllAccountNames() {
+        return sqlSession.selectList(namespace + ".getAllAccountNames");
+    }
 }

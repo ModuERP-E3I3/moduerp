@@ -178,20 +178,20 @@ tbody tr:hover {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
-					거래처관리</a></li>
-			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
-					영업 입고</a></li>
-			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
-					영업 출고</a></li>
+		
+		 <li><a href="purchaseOrders.do"><i class="fas fa-bullhorn"></i> 발주서 관리</a></li>
+		 <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
+         <li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
+         <li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
+
 		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업관리 | 거래처관리</div>
-		<form action="/moduerp/accountFilter.do">
+		<div class="content-title">구매관리 | 발주서관리</div>
+		<form action="/moduerp/purchaseOrdersFilter.do">
 			<!-- 필터 박스 -->
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
@@ -226,7 +226,7 @@ tbody tr:hover {
 			<tbody>
 				<c:forEach var="purchaseOrders" items="${purchaseOrdersList}" varStatus="status">
 					<tr
-						onclick="window.location.href='getPurchaseOrdersDetails.do?orderId=${purchaseOrders.orderId}'">
+						onclick="window.location.href='getPurchaseOrderDetails.do?orderId=${purchaseOrders.orderId}'">
 
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
 						<td>${purchaseOrders.orderId}</td>
@@ -236,6 +236,7 @@ tbody tr:hover {
 						<td>${purchaseOrders.supplyPrice}</td>
 						<td>${purchaseOrders.deliveryDate}</td>
 						<td>${purchaseOrders.mgrName}</td>
+						
 
 					</tr>
 				</c:forEach>
@@ -263,7 +264,7 @@ tbody tr:hover {
 
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
-			<a href="purchaseOrdersCreate.do"><button class="btn blue">등록</button></a>
+			<a href="purchaseOrderCreate.do"><button class="btn blue">등록</button></a>
 		</div>
 
 	</div>
