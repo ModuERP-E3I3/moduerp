@@ -85,6 +85,7 @@
 		<mapper resource="mappers/attendance-mapper.xml" />
 		<mapper resource="mappers/attendancerequest-mapper.xml" />
 		<mapper resource="mappers/bankmg-mapper.xml" />
+		<mapper resource="mappers/module-mapper.xml" />
 
 	</mappers>
 

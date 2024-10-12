@@ -30,12 +30,14 @@
 		SELECT *
 		FROM WORK_ORDER
 		WHERE BIZ_NUMBER = #{bizNumber}
+		ORDER BY START_DATE ASC
 	</select>
 
 	<select id="getWorkOrderByOrderNumber" parameterType="String"
 		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
 		SELECT * FROM WORK_ORDER WHERE ORDER_NUMBER =
 		#{orderNumber}
+		ORDER BY START_DATE ASC
 	</select>
 
 	<!-- Worker Teams by Biz Number -->
@@ -44,6 +46,7 @@
 		DISTINCT WORKER_TEAM
 		FROM WORK_ORDER
 		WHERE BIZ_NUMBER = #{bizNumber}
+		ORDER BY START_DATE ASC
 	</select>
 
 	<!-- Work Places by Biz Number -->
@@ -52,6 +55,7 @@
 		WORK_PLACE
 		FROM WORK_ORDER
 		WHERE BIZ_NUMBER = #{bizNumber}
+		ORDER BY START_DATE ASC
 	</select>
 
 
@@ -152,6 +156,7 @@
 		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
 		TO_DATE(#{endDate},
 		'YYYY-MM-DD')
+		ORDER BY START_DATE ASC
 	</select>
 	
 	<select id="selectWorkOrdertaskNameByFilterDate" parameterType="map"
@@ -165,6 +170,7 @@
 		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
 		TO_DATE(#{endDate},
 		'YYYY-MM-DD')
+		ORDER BY START_DATE ASC
 	</select>
 	
 	<select id="selectWorkOrderworkerByFilterDate" parameterType="map"
@@ -178,6 +184,7 @@
 		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
 		TO_DATE(#{endDate},
 		'YYYY-MM-DD')
+		ORDER BY START_DATE ASC
 	</select>
 	
 	<select id="selectWorkOrderwDirectorByFilterDate" parameterType="map"
@@ -191,6 +198,7 @@
 		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
 		TO_DATE(#{endDate},
 		'YYYY-MM-DD')
+		ORDER BY START_DATE ASC
 	</select>
 	
 	<select id="selectWorkOrderItemNameByFilter" parameterType="map"
@@ -200,6 +208,7 @@
 		WHERE BIZ_NUMBER = #{bizNumber}
 		AND
 		ITEM_NAME LIKE '%' || #{filterText} || '%'
+		ORDER BY START_DATE ASC
 	</select>
 	
 	<select id="selectWorkOrdertaskNameByFilter" parameterType="map"
@@ -209,6 +218,7 @@
 		WHERE BIZ_NUMBER = #{bizNumber}
 		AND
 		TASK_NAME LIKE '%' || #{filterText} || '%'
+		ORDER BY START_DATE ASC
 	</select>
 	
 	<select id="selectWorkOrderworkerByFilter" parameterType="map"
@@ -218,6 +228,7 @@
 		WHERE BIZ_NUMBER = #{bizNumber}
 		AND
 		WORKER LIKE '%' || #{filterText} || '%'
+		ORDER BY START_DATE ASC
 	</select>
 	
 	<select id="selectWorkOrderwDirectorByFilter" parameterType="map"
@@ -227,6 +238,7 @@
 		WHERE BIZ_NUMBER = #{bizNumber}
 		AND
 		W_DIRECTOR LIKE '%' || #{filterText} || '%'
+		ORDER BY START_DATE ASC
 	</select>
 
 </mapper>
