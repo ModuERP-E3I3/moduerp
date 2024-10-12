@@ -108,7 +108,7 @@ public class EmployeeController {
 
 	// uuid로 직원 조회
 	@GetMapping("/view.do/{uuid}")
-	public String viewEmployee(@PathVariable("uuid") UUID uuid, Model model) {
+	public String viewEmployee(@PathVariable("uuid") String uuid, Model model) {
 		Employee employee = employeeService.selectEmployeeByUuid(uuid);
 		model.addAttribute("employee", employee);
 		return "employee/employeeDetail";
@@ -124,7 +124,7 @@ public class EmployeeController {
 
 	// 직원 수정
 	@PutMapping("/edit.do/{uuid}")
-	public ResponseEntity<String> updateEmployee(@PathVariable("uuid") UUID uuid, @RequestBody Employee employee) {
+	public ResponseEntity<String> updateEmployee(@PathVariable("uuid") String uuid, @RequestBody Employee employee) {
 		employee.setUuid(uuid);
 		employeeService.updateEmployee(employee);
 		return ResponseEntity.ok(uuid + "직원 수정 성공했 습니다..");
@@ -132,7 +132,7 @@ public class EmployeeController {
 
 	// uuid로 직원 삭제
 	@DeleteMapping("/delete.do/{uuid}")
-	public ResponseEntity<String> deleteEmployee(@PathVariable("uuid") UUID uuid) {
+	public ResponseEntity<String> deleteEmployee(@PathVariable("uuid") String uuid) {
 		employeeService.deleteEmployee(uuid);
 		return ResponseEntity.ok(uuid + "직원 삭제 성공했습니다..");
 	}

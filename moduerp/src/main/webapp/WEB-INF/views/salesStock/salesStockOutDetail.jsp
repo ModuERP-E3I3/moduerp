@@ -186,29 +186,25 @@ th {
 					<th>출고 수량</th>
 					<th>출고 가격</th>
 					<th>출고 담당자</th>
-					<th>출고 상태</th>
-					<!-- S_STOCK_OUT_STATUS -->
 					<th>지급 상태</th>
-					<!-- PANNINT_STATUS -->
+
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="stockOut" items="${salesStockOutDetails}">
 					<tr id="tbpt"
 						onclick="window.location.href='getSalesOutDetailsSub.do?sStockOutId=${stockOut.sStockOutId}&itemCode=${itemDetails.itemCode }'">
+						
 						<td><fmt:formatDate value="${stockOut.sStockOutDate}"
 								pattern="yyyy-MM-dd HH:mm:ss" /></td>
+								
 						<td>${stockOut.sStockOutPlace}</td>
 						<td>${stockOut.sStockOutQty}</td>
 						<td>${stockOut.sStockOutPrice}</td>
 						<td>${stockOut.oDirector}</td>
+
 						<td><c:choose>
-								<c:when test="${stockOut.sStockOutStatus == 'Y'}">Yes</c:when>
-								<c:otherwise>No</c:otherwise>
-							</c:choose></td>
-						<!-- S_STOCK_OUT_STATUS 표시 -->
-						<td><c:choose>
-								<c:when test="${stockOut.panningStatus == 'Y'}">Yes</c:when>
+								<c:when test="${stockOut.paymentStatus == 'Y'}">Yes</c:when>
 								<c:otherwise>No</c:otherwise>
 							</c:choose></td>
 						<!-- PANNINT_STATUS 표시 -->

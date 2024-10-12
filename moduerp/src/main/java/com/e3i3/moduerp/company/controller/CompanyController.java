@@ -77,7 +77,7 @@ public class CompanyController {
 
            // 6) 사장님 정보도 직원 테이블에 저장
            Employee ceo = new Employee()
-                   .setUuid(java.util.UUID.randomUUID())
+                   .setUuid(java.util.UUID.randomUUID().toString())
                    .setBizNumber(bizNumber)
                    .setApprovalCode(approvalCode)
                    .setDepartmentId("ceo-dpt")

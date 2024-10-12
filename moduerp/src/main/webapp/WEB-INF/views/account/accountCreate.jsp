@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -97,6 +97,35 @@ th {
 	font-weight: bold;
 }
 
+/* 버튼 스타일 */
+.btn-group {
+	margin-top: 20px;
+	text-align: right;
+}
+
+.btn {
+	padding: 8px 16px;
+	margin-left: 5px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.btn.red {
+	background-color: red;
+	color: white;
+}
+
+.btn.green {
+	background-color: green;
+	color: white;
+}
+
+.btn.blue {
+	background-color: blue;
+	color: white;
+}
+
 .filter-box {
 	margin-bottom: 20px;
 }
@@ -115,6 +144,28 @@ th {
 .top-content-box {
 	background-color: white;
 }
+
+#pagebutton {
+	display: flex;
+	justify-content: center;
+	margin-top: 2%; /* 위쪽 여백 추가 */
+}
+
+#pagebutton a {
+	color: black; /* 글자 색상 검은색 */
+	text-decoration: none; /* 밑줄 제거 */
+	font-size: 20px; /* 글자 크기 증가 */
+	margin: 0 10px; /* 페이지 버튼 간격 조정 */
+}
+
+#pagebutton strong {
+	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
+	color: black; /* 강조 색상 검은색 유지 */
+}
+
+tbody tr:hover {
+	cursor: pointer;
+}
 </style>
 
 </head>
@@ -126,16 +177,13 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="productionStockIn.do"><i
-					class="fas fa-bullhorn"></i> 생산 입고</a></li>
-			<li><a href="productionStockOut.do"><i
-					class="fas fa-clipboard"></i> 생산 출고</a></li>
+			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
+					거래처관리</a></li>
+			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
+					영업 입고</a></li>
 			<!-- 수정 -->
-			<li><a href="productionWorkorder.do"><i class="fas fa-code"></i>
-					작업지시서</a></li>
-			<!-- 수정 -->
-			<li><a href="productionQuality.do"><i class="fas fa-plug"></i>
-					품질관리</a></li>
+			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
+					영업 출고</a></li>
 			<!-- 수정 -->
 		</ul>
 	</div>
@@ -143,8 +191,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 생산출고 | ${itemDetails.itemName}
-			출고 정보</div>
+		<div class="content-title">영업/판매 관리 | 거래처관리 | 신규 등록</div>
 
 		<!-- 필터 박스 -->
 		<div class="filter-box">
@@ -157,72 +204,85 @@ th {
 		</div>
 
 		<!-- 테이블 -->
-		<!-- 아이템 관련 데이터 테이블 -->
-		<table>
-			<thead>
-				<tr>
-					<th>제품명</th>
-					<th>제품 설명</th>
-					<th>최종 출고 날짜</th>
-					<th>총 출고 수량</th>
-					<th>최종 출고 가격</th>
-					<th>최종 출고 장소</th>
-					<th>자재 종류</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>${itemDetails.itemName}</td>
-					<td>${itemDetails.itemDesc}</td>
-					<td><fmt:formatDate value="${itemDetails.createdOutAt}"
-							pattern="yyyy-MM-dd" /></td>
-					<td>${itemDetails.stockOut}</td>
-					<td>${itemDetails.outPrice}</td>
-					<td>${itemDetails.stockOutPlace}</td>
-					<td>${itemDetails.itemList}</td>
-				</tr>
-			</tbody>
-		</table>
-
-		<!-- 생산 출고 관련 데이터 테이블 -->
-		<table>
-			<thead>
-				<tr>
-					<th>출고 날짜</th>
-					<th>출고 장소</th>
-					<th>출고 수량</th>
-					<th>출고 가격</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="stockOut" items="${productionStockOutDetails}">
-					<tr
-						onclick="window.location.href='getProductionOutDetailsSub.do?pStockOutId=${stockOut.pStockOutId}&itemCode=${itemDetails.itemCode }'">
-						<td><fmt:formatDate value="${stockOut.pStockOutDate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
-						<td>${stockOut.pStockOutPlace}</td>
-						<td>${stockOut.pStockOutQty}</td>
-						<td>${stockOut.pStockOutPrice}</td>
+		<form action="/moduerp/accountCreate.do" method="POST">
+			<table>
+				<thead>
+					<tr>
+						<th>거래처 이름</th>
+						<th>업태</th>
+						<th>대표자 이름</th>
+						<th>사업자번호</th>
+						<th>거래처 주소</th>
+						<th>거래처 전화번호</th>
+						<th>거래처 이메일</th>
 					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<tr>
 
+						<td><input type="text" name="accountName"
+							placeholder="거래처명 입력" /></td>
 
+						<td><input type="text" name="businessType"
+							placeholder="업태 입력" /></td>
 
+						<td><input type="text" name="bossName"
+							placeholder="대표자명 입력" /></td>
 
+						<td><input type="text" name="businessNumber"
+							placeholder="사업자번호" /></td>
 
+						<td><input type="text" name="accountAddress"
+							placeholder="주소 입력" /></td>
+
+						<td><input type="text" name="accountPhone"
+							placeholder="전화번호 입력" /></td>
+							
+						<td><input type="text" name="email"
+							placeholder="이메일 입력" /></td>
+							
+							
+					</tr>
+				</tbody>
+			</table>
+
+			</table>
+
+			<!-- 버튼 그룹 -->
+			<div class="btn-group">
+				<button type="submit" class="btn blue">등록 완료</button>
+			</div>
+		</form>
 
 
 	</div>
-
 </body>
+<script>
+function addMaterialType() {
+    const container = document.getElementById('materialTypeContainer');
+    const newInputDiv = document.createElement('div');
+    newInputDiv.className = 'material-type-input';
+    newInputDiv.innerHTML = `
+        <input list="materialTypes" name="materialType" placeholder="자재 종류 입력" />
+        <datalist id="materialTypes">
+            <c:forEach var="itemName" items="${itemNames}">
+                <option value="${itemName}"></option>
+            </c:forEach>
+        </datalist>
+        <button type="button" class="remove-btn" onclick="removeMaterialType(this)">삭제</button>
+    `;
+    container.appendChild(newInputDiv);
+}
 
-
+function removeMaterialType(button) {
+    const inputDiv = button.parentElement;
+    inputDiv.remove();
+}
+</script>
 
 
 <script>
-    const activeMenu = "productionStockIn";
+    const activeMenu = "account";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

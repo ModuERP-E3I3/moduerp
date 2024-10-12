@@ -73,37 +73,39 @@ public class ItemBuyStockDAOImpl implements ItemBuyStockDAO{
 
 	@Override
 	public void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut,
-			double outPrice, int updatedStock) {
-		Map<String, Object> params = new HashMap<>();
-		params.put("itemCode", itemCode);
-		params.put("createdOutAt", createdOutAt);
-		params.put("stockOutPlace", stockOutPlace);
-		params.put("stockOut", stockOut);
-		params.put("outPrice", outPrice);
-		params.put("updatedStock", updatedStock);
+			double outPrice, int updatedStock, String oDirector) {
+		Map<String, Object> barams = new HashMap<>();
+		barams.put("itemCode", itemCode);
+		barams.put("createdOutAt", createdOutAt);
+		barams.put("stockOutPlace", stockOutPlace);
+		barams.put("stockOut", stockOut);
+		barams.put("outPrice", outPrice);
+		barams.put("updatedStock", updatedStock);
+		barams.put("oDirector", oDirector);
 
-		sqlSession.update(namespace + ".updateItemForBuyOut", params);
+		sqlSession.update(namespace + ".updateItemForBuyOut", barams);
 	}
 
 	@Override
 	public void updateStockOutByItemCode(String itemCode, int totalStockOut) {
-		Map<String, Object> params = new HashMap<>();
-		params.put("itemCode", itemCode);
-		params.put("totalStockOut", totalStockOut);
-		sqlSession.update(namespace + ".updateStockOut", params);
+		Map<String, Object> barams = new HashMap<>();
+		barams.put("itemCode", itemCode);
+		barams.put("totalStockOut", totalStockOut);
+		sqlSession.update(namespace + ".updateStockOut", barams);
 	}
 
-	@Override
-	public int getStockInByItemCode(String itemCode) {
-		return sqlSession.selectOne(namespace + ".getStockInByItemCode", itemCode);
-	}
 
 	@Override
 	public void updateStockByItemCode(String itemCode, int updatedStock) {
-		Map<String, Object> params = new HashMap<>();
-		params.put("itemCode", itemCode);
-		params.put("updatedStock", updatedStock);
-		sqlSession.update(namespace + ".updateStock", params);
+		Map<String, Object> barams = new HashMap<>();
+		barams.put("itemCode", itemCode);
+		barams.put("updatedStock", updatedStock);
+		sqlSession.update(namespace + ".updateStock", barams);
+	}
+	
+	@Override
+	public int getStockInByItemCode(String itemCode) {
+		return sqlSession.selectOne(namespace + ".getStockInByItemCode", itemCode);
 	}
 
 	@Override
@@ -133,5 +135,97 @@ public class ItemBuyStockDAOImpl implements ItemBuyStockDAO{
 	public void updateItemStockOutToNull(String itemCode) {
 		sqlSession.update(namespace + ".updateItemStockOutToNull", itemCode);
 	}
+
+	
+	// in filter
+	@Override
+	public List<ItemDTO> getItemByItemNameDate(String bizNumber, String filterText, String startDate, String endDate) {
+		return sqlSession.selectList(namespace + ".selectItemFilterByItemNameDate",
+				Map.of("bizNumber", bizNumber, "filterText", filterText, "startDate", startDate, "endDate", endDate));
+
+	}
+
+	@Override
+	public List<ItemDTO> getItemByStockPlaceDate(String bizNumber, String filterText, String startDate,
+			String endDate) {
+		return sqlSession.selectList(namespace + ".selectItemFilterByStockPlaceDate",
+				Map.of("bizNumber", bizNumber, "filterText", filterText, "startDate", startDate, "endDate", endDate));
+	}
+
+	@Override
+	public List<ItemDTO> getItemByiDirectorDate(String bizNumber, String filterText, String startDate, String endDate) {
+		return sqlSession.selectList(namespace + ".selectItemFilterByiDirectorDate",
+				Map.of("bizNumber", bizNumber, "filterText", filterText, "startDate", startDate, "endDate", endDate));
+	}
+
+	@Override
+	public List<ItemDTO> getItemByItemName(String bizNumber, String filterText) {
+		return sqlSession.selectList(namespace + ".selectItemFilterByItemName",
+				Map.of("bizNumber", bizNumber, "filterText", filterText));
+	}
+
+	@Override
+	public List<ItemDTO> getItemByStockPlace(String bizNumber, String filterText) {
+		return sqlSession.selectList(namespace + ".selectItemFilterByStockPlace",
+				Map.of("bizNumber", bizNumber, "filterText", filterText));
+	}
+
+	@Override
+	public List<ItemDTO> getItemByiDirector(String bizNumber, String filterText) {
+		return sqlSession.selectList(namespace + ".selectItemFilterByiDirector",
+				Map.of("bizNumber", bizNumber, "filterText", filterText));
+	}
+
+	// -----------------------------------------------
+	// Out filter
+
+	@Override
+	public List<ItemDTO> getItemOutByItemNameDate(String bizNumber, String filterText, String startDate,
+			String endDate) {
+		System.out.println("DAO 실행");
+		return sqlSession.selectList(namespace + ".selectItemOutFilterByItemNameDate",
+				Map.of("bizNumber", bizNumber, "filterText", filterText, "startDate", startDate, "endDate", endDate));
+
+	}
+
+	@Override
+	public List<ItemDTO> getItemOutByStockOutPlaceDate(String bizNumber, String filterText, String startDate,
+			String endDate) {
+		return sqlSession.selectList(namespace + ".selectItemOutFilterByStockOutPlaceDate",
+				Map.of("bizNumber", bizNumber, "filterText", filterText, "startDate", startDate, "endDate", endDate));
+
+	}
+
+	@Override
+	public List<ItemDTO> getItemOutByODirectorDate(String bizNumber, String filterText, String startDate,
+			String endDate) {
+		return sqlSession.selectList(namespace + ".selectItemOutFilterByODirectorDate",
+				Map.of("bizNumber", bizNumber, "filterText", filterText, "startDate", startDate, "endDate", endDate));
+
+	}
+
+	@Override
+	public List<ItemDTO> getOutItemByItemName(String bizNumber, String filterText) {
+		return sqlSession.selectList(namespace + ".selectItemOutFilterByItemName",
+				Map.of("bizNumber", bizNumber, "filterText", filterText));
+	}
+
+	@Override
+	public List<ItemDTO> getOutItemByStockOutPlace(String bizNumber, String filterText) {
+		return sqlSession.selectList(namespace + ".selectItemOutFilterByStockOutPlace",
+				Map.of("bizNumber", bizNumber, "filterText", filterText));
+
+	}
+
+	@Override
+	public List<ItemDTO> getOutItemByODirector(String bizNumber, String filterText) {
+		return sqlSession.selectList(namespace + ".selectItemOutFilterByODirector",
+				Map.of("bizNumber", bizNumber, "filterText", filterText));
+	}
+
+
+	
+
+
 
 }

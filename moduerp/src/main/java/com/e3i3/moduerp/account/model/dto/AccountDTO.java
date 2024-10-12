@@ -9,18 +9,27 @@ public class AccountDTO {
     private String businessType;
     private List<String> items;
     private String bossName;
-
+    private String businessNumber;
+    private String accountAddress;
+    private String accountPhone;  
+    private String email;         
+    
+    
     public AccountDTO() {
         super();
     }
 
-    public AccountDTO(String accountNo, String accountName, String businessType, List<String> items, String bossName) {
+    public AccountDTO(String accountNo, String accountName, String businessType, List<String> items, String bossName, String businessNumber, String accountAddress, String accountPhone, String email) {
         super();
         this.accountNo = accountNo;
         this.accountName = accountName;
         this.businessType = businessType;
         this.items = items;
         this.bossName = bossName;
+        this.businessNumber = businessNumber;
+        this.accountAddress = accountAddress;
+        this.accountPhone = accountPhone; 
+        this.email = email;                  
     }
 
     // Getters and Setters
@@ -63,4 +72,38 @@ public class AccountDTO {
     public void setBossName(String bossName) {
         this.bossName = bossName;
     }
+
+    public String getBusinessNumber() {
+        return businessNumber;
+    }
+
+    public void setBusinessNumber(String businessNumber) {
+        this.businessNumber = businessNumber;
+    }
+
+    public String getAccountAddress() {
+        return accountAddress;
+    }
+
+    public void setAccountAddress(String accountAddress) {
+        this.accountAddress = accountAddress;
+    }
+
+    public String getAccountPhone() {  // 추가
+        return accountPhone;
+    }
+
+    public void setAccountPhone(String accountPhone) {  // 추가
+        this.accountPhone = accountPhone;
+    }
+
+
+    public String getEmail() {  // 추가
+        return email;
+    }
+
+    public void setEmail(String email) {  // 추가
+        this.email = email;
+    }
+
 }

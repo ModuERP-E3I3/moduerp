@@ -154,36 +154,20 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="productionStockIn.do"><i
-					class="fas fa-bullhorn"></i> 생산 입고</a></li>
-			<li><a href="productionStockOut.do"><i
-					class="fas fa-clipboard"></i> 생산 출고</a></li>
-			<!-- 수정 -->
-			<li><a href="productionWorkorder.do"><i class="fas fa-code"></i>
-					작업지시서</a></li>
-			<!-- 수정 -->
-			<li><a href="productionQuality.do"><i class="fas fa-plug"></i>
-					품질관리</a></li>
-			<!-- 수정 -->
-		</ul>
+	        <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
+			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
+			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
+	    </ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 생산출고</div>
+		<div class="content-title">구매관리 | 구매출고</div>
 
 		<!-- 폼 시작 -->
-		<form action="/moduerp/productionStockOutCreate.do" method="POST">
-			<!-- 필터 박스 -->
-			<div class="filter-box">
-				<select>
-					<option>조회기간</option>
-				</select> <input type="date" /> <input type="date" /> <select>
-					<option>품목 선택</option>
-				</select> <input type="text" placeholder="내용 입력" />
-				<button class="btn">조회</button>
-			</div>
+		<form action="/moduerp/buyStockOutCreate.do" method="POST">
+			
 
 			<!-- 테이블 -->
 			<table>
@@ -194,6 +178,7 @@ th {
 						<th>출고장소</th>
 						<th>출고수량</th>
 						<th>출고단가</th>
+						<th>담당자</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -225,6 +210,7 @@ th {
 							</datalist></td>
 						<td><input type="number" name="stockOut" required /></td>
 						<td><input type="number" name="outPrice" step="0.01" required /></td>
+						<td><input type="text" name="oDirector" value="${directorName}" readonly /></td>
 					</tr>
 				</tbody>
 			</table>
@@ -302,7 +288,7 @@ function updateItemCode() {
 
 </script>
 <script>
-    const activeMenu = "productionStockIn";
+    const activeMenu = "buyStockIn";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

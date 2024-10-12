@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -145,73 +145,72 @@ th {
 	background-color: white;
 }
 
-.material-type-input {
-	margin-bottom: 10px;
+#pagebutton {
+	display: flex;
+	justify-content: center;
+	margin-top: 2%; /* 위쪽 여백 추가 */
+}
+
+#pagebutton a {
+	color: black; /* 글자 색상 검은색 */
+	text-decoration: none; /* 밑줄 제거 */
+	font-size: 20px; /* 글자 크기 증가 */
+	margin: 0 10px; /* 페이지 버튼 간격 조정 */
+}
+
+#pagebutton strong {
+	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
+	color: black; /* 강조 색상 검은색 유지 */
+}
+
+tbody tr:hover {
+	cursor: pointer;
 }
 </style>
 
 </head>
 
 <body>
+	<!-- 서브헤더 JSP 임포트 -->
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
+	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="productionStockIn.do"><i
-					class="fas fa-bullhorn"></i> 생산 입고</a></li>
-			<li><a href="productionStockOut.do"><i
-					class="fas fa-clipboard"></i> 생산 출고</a></li>
-			<li><a href="productionWorkorder.do"><i class="fas fa-code"></i>
-					작업지시서</a></li>
-			<li><a href="productionQuality.do"><i class="fas fa-plug"></i>
-					품질관리</a></li>
+			<li><a href="accountList.do"><i class="fa-solid fa-users"></i> 계정 목록</a></li>
+	        <li><a href="accountMgt.do"><i class="fa-solid fa-list-check"></i> 계정 관리</a></li>
+	        <li><a href="accountCreate.do"><i class="fa-solid fa-user-plus"></i> 계정 추가</a></li>
 		</ul>
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">생산관리 | 생산입고 | ${itemDetails.itemName}
-			수정하기</div>
+		<div class="content-title">영업/판매 관리 | 거래처관리 </div>
 
-		<form action="/moduerp/updateProductionStockSubOut.do" method="POST">
-			<input type="hidden" name="itemCode" value="${itemDetails.itemCode}" />
-			<input type="hidden" name="pStockOutId" value="${productionStockOutDetails.pStockOutId}" />
+		<form action="/moduerp/updateAccount.do" method="POST">
+			<input type="hidden" name="accountNo" value="${accountDetail.accountNo}" />
+			
+			<!-- 테이블 -->
 			<table>
 				<thead>
 					<tr>
-						<th>제품명</th>
-						<th>제품 설명</th>
-						<th>출고 날짜</th>
-						<th>수정 날짜</th>
-						<th>출고 수량</th>
-						<th>출고 가격</th>
-						<th>출고 장소</th>
-						<th>자재 종류</th>
+						<th>거래처명</th>
+						<th>사업 유형</th>
+						<th>사업자 번호</th>
+						<th>대표자명</th>
+						<th>주소</th>
+						<th>전화번호</th>
+						<th>이메일</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td>${itemDetails.itemName}</td>
-						<td>${itemDetails.itemDesc}</td>
-						<td><fmt:formatDate
-								value="${productionStockOutDetails.pStockOutDate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
-						<td><fmt:formatDate
-								value="${productionStockOutDetails.pStockOutUpdate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
-						<td><input type="number" name="stockIn"
-							value="${productionStockOutDetails.pStockOutQty}" required /></td>
-						<td><input type="number" name="inPrice"
-							value="${productionStockOutDetails.pStockOutPrice}" step="0.01"
-							required /></td>
-
-						<td><input list="stockPlaces" name="stockPlace"
-							value="${productionStockOutDetails.pStockOutPlace}"
-							placeholder="보관장소 선택" required /> <datalist id="stockPlaces">
-								<c:forEach var="stockPlace" items="${stockPlaces}">
-									<option value="${stockPlace}"></option>
-								</c:forEach>
-							</datalist></td>
-						<td>${itemDetails.itemList}</td>
+						<td><input type="text" name="accountName" placeholder="거래처명 입력" value="${accountDetail.accountName}" /></td>
+						<td><input type="text" name="businessType" placeholder="사업유형" value="${accountDetail.businessType}" /></td>
+						<td><input type="text" name="businessNumber" placeholder="사업자번호" value="${accountDetail.businessNumber}" /></td>
+						<td><input type="text" name="bossName" placeholder="대표자명" value="${accountDetail.bossName}" /></td>
+						<td><input type="text" name="accountAddress" placeholder="주소 입력" value="${accountDetail.accountAddress}" /></td>
+						<td><input type="text" name="accountPhone" placeholder="전화번호" value="${accountDetail.accountPhone}" /></td>
+						<td><input type="text" name="email" placeholder="이메일" value="${accountDetail.email}" /></td>
 					</tr>
 				</tbody>
 			</table>
@@ -222,20 +221,4 @@ th {
 		</form>
 	</div>
 </body>
-
-
-<script>
-    const activeMenu = "productionStockIn";
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuItems = document.querySelectorAll('nav.side ul li a');
-        menuItems.forEach(item => {
-            if (item.href.includes(activeMenu)) {
-                item.classList.add('active');
-            }
-        });
-    });
-</script>
-
-
 </html>

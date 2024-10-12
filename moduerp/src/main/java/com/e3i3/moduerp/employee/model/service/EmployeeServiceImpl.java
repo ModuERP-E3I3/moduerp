@@ -30,13 +30,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	// 직원 삭제
-	public void deleteEmployee(UUID uuid) {
+	public void deleteEmployee(String uuid) {
 		employeeDao.deleteEmployee(uuid);
 	}
 
 	// uuid로 직원 조회
-	public Employee selectEmployeeByUuid(UUID uuid) {
-		return selectEmployeeByUuid(uuid);
+	public Employee selectEmployeeByUuid(String uuid) {
+		return employeeDao.selectEmployeeByUuid(uuid);
 	}
 
 	// 전체 직원 조회

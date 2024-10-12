@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DeliveryMapper">
+
+	<!-- 아이템 정보를 매핑하기 위한 resultMap -->
+	<resultMap id="itemResultMap"
+		type="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		<id property="itemCode" column="ITEM_CODE" />
+		<result property="itemName" column="ITEM_NAME" />
+		<result property="itemDesc" column="ITEM_DESC" />
+		<result property="stockIn" column="STOCK_IN" />
+		<result property="stockOut" column="STOCK_OUT" />
+		<result property="stock" column="STOCK" />
+		<result property="stockPlace" column="STOCK_PLACE" />
+		<result property="inPrice" column="IN_PRICE" />
+		<result property="outPrice" column="OUT_PRICE" />
+		<result property="stockOutPlace" column="STOCK_OUT_PLACE" />
+		<result property="createdAt" column="CREATED_AT" />
+		<result property="updatedAt" column="UPDATED_AT" />
+		<result property="bizNumber" column="BIZ_NUMBER" />
+		<result property="createdOutAt" column="CREATED_OUT_AT" />
+		<result property="accountName" column="ACCOUNT_NAME" />
+		<result property="iDirector" column="IDIRECTOR" />
+		<result property="oDirector" column="ODIRECTOR" />
+	</resultMap>
+
+	<select id="getItemsByBizNumber" resultMap="itemResultMap">
+		SELECT
+		i.*,
+		b.*,
+		a.ACCOUNT_NAME
+		FROM
+		item i
+		JOIN
+		BUY_STOCK_IN b ON i.item_code = b.item_code
+		JOIN
+		ACCOUNT a ON b.account_no = a.account_no
+
+		WHERE i.BIZ_NUMBER = #{bizNumber} AND
+		i.ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
+	</select>
+
+	<!-- 아이템 이름을 biz_number로 필터링해서 조회하는 쿼리 -->
+	<select id="selectItemNamesByBizNumber" parameterType="String"
+		resultType="String">
+		SELECT ITEM_NAME
+		FROM ITEM
+		WHERE
+		BIZ_NUMBER = #{bizNumber}
+	</select>
+
+	<!-- biz_number로 필터링된 stock_place 리스트를 조회하는 쿼리 -->
+	<select id="selectStockPlacesByBizNumber" parameterType="String"
+		resultType="String">
+		SELECT DISTINCT STOCK_PLACE
+		FROM ITEM
+		WHERE BIZ_NUMBER =
+		#{bizNumber}
+	</select>
+
+	<!-- 아이템을 삽입하는 쿼리 -->
+	<insert id="insertItem">
+		INSERT INTO ITEM (ITEM_CODE, ITEM_NAME, ITEM_DESC,
+		STOCK_IN, STOCK,  <!-- 
+			STOCK 컬럼 추가 -->
+		CREATED_AT, STOCK_PLACE, IN_PRICE, BIZ_NUMBER, ITEM_LIST,IDIRECTOR)
+		VALUES
+		(#{itemCode}, #{itemName}, #{itemDesc}, #{stockIn}, #{stockIn},  <!-- 
+			STOCK에 stockIn 값 사용 -->
+		SYSDATE, #{stockPlace}, #{inPrice}, #{bizNumber}, #{itemList,
+		typeHandler=com.e3i3.moduerp.handler.StringListTypeHandler},
+		#{iDirector}) <!-- typeHandler 추가 -->
+	</insert>
+
+
+	<select id="selectItemByCode" parameterType="String"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT * FROM ITEM WHERE ITEM_CODE = #{itemCode}
+	</select>
+
+	<update id="updateItem"
+		parameterType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		UPDATE ITEM
+		SET ITEM_NAME = #{itemName},
+		ITEM_DESC = #{itemDesc},
+		STOCK_PLACE = #{stockPlace},
+		IN_PRICE = #{inPrice},
+		ITEM_LIST =
+		#{itemList},
+		STOCK_IN = #{stockIn},
+		STOCK = #{stock}, <!-- 계산된 STOCK 값 업데이트 -->
+		UPDATED_AT = SYSDATE  <!-- UPDATED_AT 컬럼 갱신 -->
+		WHERE ITEM_CODE = #{itemCode}
+	</update>
+
+
+
+
+	<delete id="deleteItemByCode" parameterType="String">
+		DELETE FROM ITEM
+		WHERE ITEM_CODE = #{itemCode}
+	</delete>
+
+	<!-- ======================================= -->
+	<!-- buyOUT -->
+	<!-- BizNumber와 CREATED_OUT_AT이 있는 항목 조회 -->
+	<select id="getItemsByBizNumberOutDate" parameterType="String"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		<!--SELECT * FROM ITEM WHERE BIZ_NUMBER = #{bizNumber} AND CREATED_OUT_AT 
+			IS NOT NULL AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%') -->
+		SELECT
+		*
+		FROM
+		ITEM
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
+	</select>
+
+	<!-- BizNumber와 item_code가 biz_number + "B"로 시작하는 품목을 조회하는 쿼리 -->
+	<select id="selectItemsByBizNumberStartingWith"
+		parameterType="map" resultMap="itemResultMap">
+		SELECT ITEM_NAME, STOCK_OUT_PLACE,
+		STOCK, ITEM_CODE
+		FROM ITEM
+		WHERE
+		BIZ_NUMBER = #{bizNumber}
+		AND ITEM_CODE
+		LIKE CONCAT(#{bizNumber}, 'B%')
+
+	</select>
+
+	<update id="updateItemForBuyOut" parameterType="map">
+		UPDATE ITEM
+		SET
+		CREATED_OUT_AT = #{createdOutAt},
+		STOCK_OUT =
+		COALESCE(STOCK_OUT, 0) + #{stockOut}, <!-- 기존 값에 더하는 로직 -->
+		OUT_PRICE = #{outPrice},
+		STOCK_OUT_PLACE = #{stockOutPlace},
+		STOCK =
+		COALESCE(STOCK, 0) - #{stockOut}, <!-- STOCK 업데이트 로직도 동일하게 적용 -->
+		ODIRECTOR = #{oDirector}
+		WHERE
+		ITEM_CODE = #{itemCode}
+	</update>
+
+
+	<select id="getStockByItemCode" parameterType="String"
+		resultType="int">
+		SELECT STOCK FROM ITEM WHERE ITEM_CODE = #{itemCode}
+	</select>
+
+
+	<!-- STOCK_OUT 업데이트 쿼리 -->
+	<update id="updateStockOut">
+		UPDATE ITEM
+		SET STOCK_OUT = #{totalStockOut}
+		WHERE
+		ITEM_CODE = #{itemCode}
+	</update>
+
+	<!-- STOCK_IN 값 가져오기 쿼리 -->
+	<select id="getStockInByItemCode" resultType="int">
+		SELECT STOCK_IN
+		FROM ITEM WHERE ITEM_CODE = #{itemCode}
+	</select>
+
+	<!-- STOCK 업데이트 쿼리 -->
+	<update id="updateStock">
+		UPDATE ITEM
+		SET STOCK = #{updatedStock}
+		WHERE ITEM_CODE
+		= #{itemCode}
+	</update>
+
+	<!-- ITEM 테이블의 CREATED_OUT_AT, OUT_PRICE, STOCK_OUT_PLACE 업데이트 -->
+	<update id="updateItemWithLatestStockOut" parameterType="map">
+		UPDATE
+		ITEM
+		SET CREATED_OUT_AT = #{latestOutDate},
+		OUT_PRICE =
+		#{latestOutPrice},
+		STOCK_OUT_PLACE = #{latestOutPlace}
+		WHERE ITEM_CODE =
+		#{itemCode}
+	</update>
+
+	<!-- 출고 기록이 없을 경우 null로 초기화하는 쿼리 -->
+	<update id="resetItemStockOutDetails" parameterType="String">
+		UPDATE ITEM
+		SET CREATED_OUT_AT = NULL,
+		OUT_PRICE = NULL,
+		STOCK_OUT_PLACE = NULL
+		WHERE ITEM_CODE = #{itemCode}
+	</update>
+
+	<update id="updateItemStockOutToNull">
+		UPDATE ITEM
+		SET STOCK_OUT = 0,
+		OUT_PRICE = NULL,
+		STOCK_OUT_PLACE = NULL,
+		CREATED_OUT_AT = NULL
+		WHERE ITEM_CODE =
+		#{itemCode}
+	</update>
+
+	<!-- BUY In filter -->
+	<select id="selectItemFilterByItemNameDate" parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'B%'
+		AND
+		ITEM_NAME LIKE '%' || #{filterText} || '%'
+		AND CREATED_AT BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+	</select>
+
+	<!-- BUY Out filter -->
+
+	<select id="selectItemOutFilterByItemNameDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'B%'
+		AND
+		ITEM_NAME LIKE '%' || #{filterText} || '%'
+		AND CREATED_OUT_AT
+		BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+	</select>
+
+	<select id="selectItemOutFilterByStockOutPlaceDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'B%'
+		AND
+		STOCK_OUT_PLACE LIKE '%' || #{filterText} || '%'
+		AND CREATED_OUT_AT
+		BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+	</select>
+
+	<select id="selectItemOutFilterByODirectorDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'B%'
+		AND
+		ODIRECTOR LIKE '%' || #{filterText} || '%'
+		AND CREATED_OUT_AT
+		BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+	</select>
+
+	<select id="selectItemOutFilterByItemName" parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'B%'
+		AND
+		ITEM_NAME LIKE '%' || #{filterText} || '%'
+		AND CREATED_OUT_AT IS NOT
+		NULL
+	</select>
+
+	<select id="selectItemOutFilterByStockOutPlace"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} ||
+		'B%'
+		AND
+		STOCK_OUT_PLACE LIKE '%' || #{filterText} || '%'
+		AND CREATED_OUT_AT
+		IS NOT NULL
+	</select>
+
+	<select id="selectItemOutFilterByODirector" parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'B%'
+		AND
+		ODIRECTOR LIKE '%' || #{filterText} || '%'
+		AND CREATED_OUT_AT IS NOT
+		NULL
+	</select>
+	
+	<select id="selectItemFilterByStockPlaceDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'B%'
+		AND
+		STOCK_PLACE LIKE '%' || #{filterText} || '%'
+		AND CREATED_AT BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+	</select>
+	
+		<select id="selectItemFilterByiDirectorDate" parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'B%'
+		AND
+		IDIRECTOR LIKE '%' || #{filterText} || '%'
+		AND CREATED_AT BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+	</select>
+
+
+
+
+</mapper>
