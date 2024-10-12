@@ -15,7 +15,7 @@ public interface PurchaseOrdersDAO {
     List<Employee> getEmpNameDepart(String bizNumber);
     
     // accountNo 리스트 가져오기 !!!
-    List<String> getAllAccountNos();
+    List<String> getAllAccountNames();
     
     // OrderId
     PurchaseOrdersDTO selectPurchaseOrderByOrderId(String orderId);

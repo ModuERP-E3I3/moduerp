@@ -14,12 +14,11 @@
 		<result property="mgrName" column="MGR_NAME" />
 	</resultMap>
 
-	<!-- accountNo 컬럼 가져오기 위해서 select함!!! -->
-	<select id="getAllAccountNos" resultType="string">
-		SELECT ACCOUNT_NO
+	<!-- accountName 컬럼 가져오기 위해서 select함!!! -->
+	<select id="getAllAccountNames" resultType="map">
+		SELECT ACCOUNT_NO as accountNo, ACCOUNT_NAME as accountName
 		FROM ACCOUNT
 	</select>
-
 
 	<!-- 모든 purchase orders 데이터 조회용 쿼리 -->
 	<select id="getAllPurchaseOrders"

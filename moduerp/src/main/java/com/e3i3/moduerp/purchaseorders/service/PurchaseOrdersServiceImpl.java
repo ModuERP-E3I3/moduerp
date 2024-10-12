@@ -61,7 +61,7 @@ public class PurchaseOrdersServiceImpl implements PurchaseOrdersService {
 
     // accountNo 리스트 가져오기 !!!!
     @Override
-    public List<String> getAllAccountNos() {
-        return purchaseOrdersDao.getAllAccountNos();
+    public List<String> getAllAccountNames() {
+        return purchaseOrdersDao.getAllAccountNames();
     }
 }

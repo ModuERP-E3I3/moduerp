@@ -220,15 +220,16 @@ tbody tr:hover {
 				</thead>
 				<tbody>
 					<tr>
+
 						<!-- 거래처 코드 드롭다운 리스트 -->
 						<td><select name="accountNo">
 								<option value="" disabled selected>거래처 선택</option>
-								<c:forEach var="accountNo" items="${accountNos}">
-									<option value="${accountNo}">${accountNo}</option>
+								<c:forEach var="account" items="${accountNames}">
+									<option value="${account.ACCOUNTNO}">${account.ACCOUNTNAME}</option>
 								</c:forEach>
 						</select></td>
 
-						<td><input type="text" name="itemCode" placeholder="품목 코드 입력" /></td>	
+						<td><input type="text" name="itemCode" placeholder="품목 코드 입력" /></td>
 						<td><input type="number" name="quantity" placeholder="수량 입력" /></td>
 						<td><input type="number" name="supplyPrice"
 							placeholder="공급가 입력" /></td>

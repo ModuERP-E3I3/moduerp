@@ -67,7 +67,7 @@ public class PurchaseOrdersDAOImpl implements PurchaseOrdersDAO {
 
     // 추가된 메서드: accountNo 리스트 가져오기
     @Override
-    public List<String> getAllAccountNos() {
-        return sqlSession.selectList(namespace + ".getAllAccountNos");
+    public List<String> getAllAccountNames() {
+        return sqlSession.selectList(namespace + ".getAllAccountNames");
     }
 }
