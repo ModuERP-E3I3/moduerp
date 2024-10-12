@@ -156,16 +156,11 @@ th {
 	<div class="top-content-box">
 		<ul id="menubar">
 			<li><a href="productionStockIn.do"><i
-					class="fas fa-bullhorn"></i> 생산 입고</a></li>
+					class="fa-solid fa-store"></i> 생산 입고</a></li>
 			<li><a href="productionStockOut.do"><i
-					class="fas fa-clipboard"></i> 생산 출고</a></li>
-			<!-- 수정 -->
-			<li><a href="productionWorkorder.do"><i class="fas fa-code"></i>
-					작업지시서</a></li>
-			<!-- 수정 -->
-			<li><a href="productionQuality.do"><i class="fas fa-plug"></i>
-					품질관리</a></li>
-			<!-- 수정 -->
+					class="fa-solid fa-store-slash"></i> 생산 출고</a></li>
+			<li><a href="productionWorkorder.do"><i class="fa-solid fa-paste"></i>작업지시서</a></li>
+			<li><a href="productionQuality.do"><i class="fa-solid fa-bars-progress"></i>품질관리</a></li>
 		</ul>
 	</div>
 
@@ -190,8 +185,8 @@ th {
 					<tr>
 						<td><input list="itemNames" name="itemName"
 							id="itemNameInput" placeholder="품목 이름 선택" required
-							onchange="updateItemCode()" /> <datalist id="itemNames">
-								<option value="==========">==========</option>
+							onchange="updateItemCode()"  /> <datalist id="itemNames">
+								<option value="====================">====================</option>
 
 								<c:forEach var="item" items="${itemList}">
 									<c:set var="availableStock"
@@ -203,7 +198,7 @@ th {
 									</c:if>
 								</c:forEach>
 
-								<option value="==========">==========</option>
+								<option value="====================">====================</option>
 							</datalist> <input type="hidden" name="itemCode" id="itemCodeInput" /> <!-- itemCode를 담을 숨겨진 입력 필드 -->
 						</td>
 
@@ -348,7 +343,7 @@ function removeWorker(button) {
 <script>
     document.getElementById('itemNameInput').addEventListener('input', function() {
         // "=========="가 선택된 경우 값을 비워서 선택되지 않게 함
-        if (this.value === '==========') {
+        if (this.value === '====================') {
             this.value = ''; // 선택을 방지하기 위해 값을 비움
         }
     });

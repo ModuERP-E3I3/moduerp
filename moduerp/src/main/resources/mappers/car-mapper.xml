@@ -10,6 +10,7 @@
  		<result property="carNum" column="CAR_NUM" />
  		<result property="bizNumber" column="BIZ_NUMBER" />
  		<result property="YN" column="YN" />
+ 		<result property="imagePath" column="IMAGE_PATH" />
  	</resultMap>
  	
  	
@@ -21,8 +22,8 @@
 	</select>
 	
 	<insert id="insertCar" parameterType="com.e3i3.moduerp.car.model.dto.CarDto">
-    	INSERT INTO car (CAR_ID, CAR_NUM, CAR_MODEL, OWNERSHIP_STATUS, BIZ_NUMBER)
-    	VALUES (#{carId}, #{carNum}, #{carModel}, #{ownershipStatus}, #{bizNumber})
+    	INSERT INTO car (CAR_ID, CAR_NUM, CAR_MODEL, OWNERSHIP_STATUS, BIZ_NUMBER, IMAGE_PATH)
+    	VALUES (#{carId}, #{carNum}, #{carModel}, #{ownershipStatus}, #{bizNumber}, #{imagePath})
 	</insert>
 	
 	<select id="selectCarId" parameterType="String" 
@@ -36,7 +37,8 @@
 		UPDATE CAR
 		SET CAR_NUM = #{carNum},
 		CAR_MODEL = #{carModel},
-		OWNERSHIP_STATUS = #{ownershipStatus}
+		OWNERSHIP_STATUS = #{ownershipStatus},
+		IMAGE_PATH = #{imagePath}
 		WHERE CAR_ID = #{carId}
 	</update>
 	
@@ -46,5 +48,35 @@
 		SET YN = 'N'
 		WHERE CAR_ID = #{carId}
 	</delete>
+	
+	<select id="selectCarByCarModel" parameterType="map"
+		resultType="com.e3i3.moduerp.car.model.dto.CarDto">
+		SELECT *
+		FROM CAR
+		WHERE CAR_ID LIKE #{bizNumber} || 'C%'
+		AND
+		CAR_MODEL LIKE '%' || #{filterText} || '%'
+		ORDER BY CAR_MODEL ASC
+	</select>
+	
+	<select id="selectCarByCarNum" parameterType="map"
+		resultType="com.e3i3.moduerp.car.model.dto.CarDto">
+		SELECT *
+		FROM CAR
+		WHERE CAR_ID LIKE #{bizNumber} || 'C%'
+		AND
+		CAR_NUM LIKE '%' || #{filterText} || '%'
+		ORDER BY CAR_MODEL ASC
+	</select>
+	
+	<select id="selectCarByOwnershipStatus" parameterType="map"
+		resultType="com.e3i3.moduerp.car.model.dto.CarDto">
+		SELECT *
+		FROM CAR
+		WHERE CAR_ID LIKE #{bizNumber} || 'C%'
+		AND
+		OWNERSHIP_STATUS LIKE '%' || #{filterText} || '%'
+		ORDER BY CAR_MODEL ASC
+	</select>
 
  </mapper>

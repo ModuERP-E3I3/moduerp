@@ -169,7 +169,7 @@ window.onclick = function(event) {
 		<a href="main.do" class="moduerp-logo">ModuERP</a>
 		<ul id="menubar">
 			<li><a href="noticeList.do"><i class="fas fa-bullhorn"></i>공지사항</a></li>
-			<li><a href="main.do"><i class="fas fa-clipboard"></i>구매</a></li>
+			<li><a href="buyModule.do"><i class="fas fa-clipboard"></i>구매</a></li>
 			<li><a href="main.do"><i class="fas fa-code"></i>체험페이지</a></li>
 			<li><a href="main.do"><i class="fas fa-plug"></i>고객서비스</a></li>
 			<li><a href="main.do"><i class="fas fa-plug"></i>회사소개</a></li>
@@ -177,6 +177,7 @@ window.onclick = function(event) {
 			<!-- !!!! 테스트용 경로 !!!! -->
 			<li><a href="admin.do"><i class="fas fa-plug"></i>관리자페이지 테스트용</a></li>
 			<li><a href="erpMain.do"><i class="fas fa-plug"></i>ERP 테스트용</a></li>
+			<li><a href="forwardCart.do"><i class="fas fa-plug"></i>장바구니</a></li>
 			
 		</ul>
 		<ul>

@@ -38,4 +38,16 @@ public class CarServiceImpl implements CarService{
 	public void deleteCar(CarDto carDto) {
 		carDao.deleteCar(carDto);
 	}
+
+	@Override
+	public List<CarDto> getCarByFilter(String bizNumber, String option, String filterText) {
+		if (option.equals("carModel")) {
+			return carDao.getCarByCarModel(bizNumber, filterText);
+		} else if (option.equals("carNum")) {
+			return carDao.getCarByCarNum(bizNumber, filterText);
+		} else if (option.equals("ownershipStatus")) {
+			return carDao.getCarByOwnershipStatus(bizNumber, filterText);
+		}
+		return null;
+	}
 }

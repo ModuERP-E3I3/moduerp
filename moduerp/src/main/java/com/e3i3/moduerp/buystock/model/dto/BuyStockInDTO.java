@@ -69,6 +69,8 @@ public class BuyStockInDTO {
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;
 	}
+                   
+
 
 
     

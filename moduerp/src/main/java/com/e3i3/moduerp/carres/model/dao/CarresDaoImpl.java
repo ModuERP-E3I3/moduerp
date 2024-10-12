@@ -1,6 +1,7 @@
 package com.e3i3.moduerp.carres.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,67 @@ public class CarresDaoImpl implements CarresDao {
 	public void deleteCarres(String carReserveCode) {
 		sqlSession.delete(namespace + ".deleteCarres", carReserveCode);
 		
+	}
+
+	@Override
+	public List<CarresDto> getCarByCarModelDate(String bizNumber, String filterText, String startDate, String endDate) {
+		return sqlSession.selectList(namespace + ".selectCarByCarModelDate",
+				Map.of("bizNumber", bizNumber, "filterText", filterText, "startDate", startDate, "endDate", endDate));
+	}
+
+	@Override
+	public List<CarresDto> getCarByCarNumDate(String bizNumber, String filterText, String startDate, String endDate) {
+		return sqlSession.selectList(namespace + ".selectCarByCarNumDate",
+				Map.of("bizNumber", bizNumber, "filterText", filterText, "startDate", startDate, "endDate", endDate));
+	}
+
+	@Override
+	public List<CarresDto> getCarByEmpNameDate(String bizNumber, String filterText, String startDate, String endDate) {
+		return sqlSession.selectList(namespace + ".selectCarByEmpNameDate",
+				Map.of("bizNumber", bizNumber, "filterText", filterText, "startDate", startDate, "endDate", endDate));
+	}
+
+	@Override
+	public List<CarresDto> getCarByDepartmentIdDate(String bizNumber, String filterText, String startDate,
+			String endDate) {
+		return sqlSession.selectList(namespace + ".selectCarByDepartmentIdDate",
+				Map.of("bizNumber", bizNumber, "filterText", filterText, "startDate", startDate, "endDate", endDate));
+	}
+
+	@Override
+	public List<CarresDto> getCarByDrivingStatusDate(String bizNumber, String filterText, String startDate,
+			String endDate) {
+		return sqlSession.selectList(namespace + ".selectCarByDrivingStatusDate",
+				Map.of("bizNumber", bizNumber, "filterText", filterText, "startDate", startDate, "endDate", endDate));
+	}
+
+	@Override
+	public List<CarresDto> getCarByCarModel(String bizNumber, String filterText) {
+		return sqlSession.selectList(namespace + ".selectCarByCarModel",
+				Map.of("bizNumber", bizNumber, "filterText", filterText));
+	}
+
+	@Override
+	public List<CarresDto> getCarByCarNum(String bizNumber, String filterText) {
+		return sqlSession.selectList(namespace + ".selectCarByCarNum",
+				Map.of("bizNumber", bizNumber, "filterText", filterText));
+	}
+
+	@Override
+	public List<CarresDto> getCarByEmpName(String bizNumber, String filterText) {
+		return sqlSession.selectList(namespace + ".selectCarByEmpName",
+				Map.of("bizNumber", bizNumber, "filterText", filterText));
+	}
+
+	@Override
+	public List<CarresDto> getCarByDepartmentId(String bizNumber, String filterText) {
+		return sqlSession.selectList(namespace + ".selectCarByDepartmentId",
+				Map.of("bizNumber", bizNumber, "filterText", filterText));
+	}
+
+	@Override
+	public List<CarresDto> getCarByDrivingStatus(String bizNumber, String filterText) {
+		return sqlSession.selectList(namespace + ".selectCarByDrivingStatus",
+				Map.of("bizNumber", bizNumber, "filterText", filterText));
 	}
 }

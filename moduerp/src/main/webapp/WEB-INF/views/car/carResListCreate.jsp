@@ -146,6 +146,28 @@ th {
 .top-content-box {
 	background-color: white;
 }
+
+#pagebutton {
+	display: flex;
+	justify-content: center;
+	margin-top: 2%; /* 위쪽 여백 추가 */
+}
+
+#pagebutton a {
+	color: black; /* 글자 색상 검은색 */
+	text-decoration: none; /* 밑줄 제거 */
+	font-size: 20px; /* 글자 크기 증가 */
+	margin: 0 10px; /* 페이지 버튼 간격 조정 */
+}
+
+#pagebutton strong {
+	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
+	color: black; /* 강조 색상 검은색 유지 */
+}
+
+tbody tr:hover {
+	cursor: pointer;
+}
 </style>
 
 </head>
@@ -237,14 +259,36 @@ th {
 				</tbody>
 			</table>
 
+			
+			
 			<!-- 버튼 그룹 -->
 			<div class="btn-group">
 				<button type="submit" class="btn blue">등록 완료</button>
 			</div>
 		</form>
 		
+		
+		
 		<!-- 테이블 -->
         <h3> 차량 예약 내역 </h3>
+		<!-- 필터 박스 -->
+        <form action="/moduerp/carresFilter.do">
+			<div class="filter-box">
+				<select name="filterOption" id="filterOption">
+					<option disabled selected>옵션 선택</option>
+					<option value="carModel">차종</option>
+					<option value="carNum">차량 번호</option>
+					<option value="empName">사원명</option>
+					<option value="departmentId">부서명</option>
+					<option value="drivingStatus">운행 여부</option>
+				</select> <input type="date" name="startDate" id="startDate" /> <input
+					type="date" name="endDate" id="endDate" /> <input type="text"
+					name="filterText" id="filterText" placeholder="내용 입력" />
+				<button type="submit" class="btn">조회</button>
+				<button type="button" class="btn"
+					onclick="window.location.href='carresListCreate.do';">초기화</button>
+			</div>
+		</form>
         <table>
             <thead>
                 <tr>
@@ -275,7 +319,24 @@ th {
 			</tbody>
 
         </table>
-
+		
+		<!-- 페이지 버튼 -->
+			<div id="pagebutton">
+				<c:if test="${totalPages > 1}">
+					<c:forEach var="i" begin="1" end="${totalPages}">
+						<c:choose>
+							<c:when test="${i == currentPage}">
+								<strong>${i}</strong>
+								<!-- 현재 페이지는 강조 -->
+							</c:when>
+							<c:otherwise>
+								<a href="carresListCreate.do?page=${i}">${i}</a>
+								<!-- 페이지 링크 -->
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</c:if>
+			</div>
 
 	</div>
 </body>

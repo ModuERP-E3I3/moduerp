@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 import com.e3i3.moduerp.carmgt.model.dto.CarmgtDto;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 
@@ -28,11 +29,27 @@ public class CarmgtController {
 	private com.e3i3.moduerp.carmgt.model.service.CarmgtService CarmgtService;
 
 	@RequestMapping(value = "/carMgt.do", method = RequestMethod.GET)
-	public String forwardCarMgt(Model model, HttpSession session) {
+	public String forwardCarMgt(@RequestParam(value = "page", defaultValue = "1") int page, Model model, HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		
 		List<CarmgtDto> carmgtList = CarmgtService.getAllCarmgt(bizNumber);
-		model.addAttribute("carmgtList", carmgtList);
+		
+		// 페이지당 항목 수
+		int carmgtPerPage = 5;
+		
+		int totalCarmgt = carmgtList.size();
+		
+		int totalPages = (int) Math.ceil((double) totalCarmgt / carmgtPerPage);
+		
+		int startIndex = (page - 1) * carmgtPerPage;
+		int endIndex = Math.min(startIndex + carmgtPerPage, totalCarmgt);
+		
+		List<CarmgtDto> paginatedList = carmgtList.subList(startIndex, endIndex);
+		
+		
+		model.addAttribute("carmgtList", paginatedList);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", page);
 		return "car/carMgt";
 	}
 

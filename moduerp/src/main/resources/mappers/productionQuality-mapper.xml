@@ -27,6 +27,7 @@
 	<select id="findByBizNumber" resultMap="qualityControlResultMap">
 		SELECT * FROM
 		QUALITY_CONTROL WHERE BIZ_NUMBER = #{bizNumber}
+		ORDER BY START_DATE ASC
 	</select>
 
 	<insert id="insertQulityControl"
@@ -66,6 +67,7 @@
 		FROM
 		QUALITY_CONTROL
 		WHERE ORDER_NUMBER = #{orderNumber}
+		ORDER BY START_DATE ASC
 	</select>
 
 	<!-- inspecCode로 품질 관리 데이터를 조회하는 쿼리 -->
@@ -76,6 +78,7 @@
 		FROM QUALITY_CONTROL
 		WHERE INSPEC_CODE =
 		#{inspecCode}
+		ORDER BY START_DATE ASC
 	</select>
 
 	<!-- 품질 관리 데이터 업데이트 쿼리 -->
@@ -115,6 +118,7 @@
 		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
 		TO_DATE(#{endDate},
 		'YYYY-MM-DD')
+		ORDER BY START_DATE ASC
 	</select>
 	
 	<select id="selectQualityinspecTypeByFilterDate" parameterType="map"
@@ -128,6 +132,7 @@
 		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
 		TO_DATE(#{endDate},
 		'YYYY-MM-DD')
+		ORDER BY START_DATE ASC
 	</select>
 	
 	<select id="selectQualityprogressStatusByFilterDate" parameterType="map"
@@ -141,6 +146,7 @@
 		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
 		TO_DATE(#{endDate},
 		'YYYY-MM-DD')
+		ORDER BY START_DATE ASC
 	</select>
 	
 	<select id="selectQualityqDirectorByFilterDate" parameterType="map"
@@ -154,6 +160,7 @@
 		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
 		TO_DATE(#{endDate},
 		'YYYY-MM-DD')
+		ORDER BY START_DATE ASC
 	</select>
 	
 	<select id="selectQualityItemNameByFilter" parameterType="map"
@@ -163,6 +170,7 @@
 		WHERE BIZ_NUMBER = #{bizNumber}
 		AND
 		TASK_NAME LIKE '%' || #{filterText} || '%'
+		ORDER BY START_DATE ASC
 	</select>
 	
 	<select id="selectQualityinspecTypeByFilter" parameterType="map"
@@ -172,6 +180,7 @@
 		WHERE BIZ_NUMBER = #{bizNumber}
 		AND
 		INSPEC_TYPE LIKE '%' || #{filterText} || '%'
+		ORDER BY START_DATE ASC
 	</select>
 	
 	<select id="selectQualityprogressStatusByFilter" parameterType="map"
@@ -181,6 +190,7 @@
 		WHERE BIZ_NUMBER = #{bizNumber}
 		AND
 		PROGRESS_STATUS LIKE '%' || #{filterText} || '%'
+		ORDER BY START_DATE ASC
 	</select>
 	
 	<select id="selectQualityqDirectorByFilter" parameterType="map"
@@ -190,6 +200,7 @@
 		WHERE BIZ_NUMBER = #{bizNumber}
 		AND
 		Q_DIRECTOR LIKE '%' || #{filterText} || '%'
+		ORDER BY START_DATE ASC
 	</select>
 	
 	

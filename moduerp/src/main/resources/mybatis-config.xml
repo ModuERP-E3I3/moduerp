@@ -26,16 +26,21 @@
 			alias="Department" />
 		<typeAlias type="com.e3i3.moduerp.car.model.dto.CarDto"
 			alias="CarDto" />
+		<typeAlias type="com.e3i3.moduerp.carres.model.dto.CarresDto"
+			alias="CarresDto" />
 		<typeAlias type="com.e3i3.moduerp.account.model.dto.AccountDTO"
 			alias="AccountDTO" />
+		<typeAlias type="com.e3i3.moduerp.account.model.dto.AccountDTO"
+			alias="PurchaseOrdersDTO" />
 		<typeAlias type="com.e3i3.moduerp.notice.model.dto.Notice"
 			alias="Notice" />
 		<typeAlias type="com.e3i3.moduerp.email.model.dto.Email"
 			alias="Email" />
 			
+			
 		<typeAlias
 			type="com.e3i3.moduerp.productionstock.model.dto.ProductionStockOutDTO"
-			alias="ProductionStockOutDTO" /> <!-- 추가된 부분 --> 
+			alias="ProductionStockOutDTO" />
 			
 		<typeAlias
 		type="com.e3i3.moduerp.salesstock.model.dto.SalesStockOutDTO"
@@ -90,15 +95,20 @@
 		<mapper resource="mappers/employee-sales-mapper.xml" />
 
 		<mapper resource="mappers/account-mapper.xml" />
+		<mapper resource="mappers/purchaseOrders-mapper.xml" />
 		<mapper resource="mappers/admin-mapper.xml" />
 		
 		<mapper resource="mappers/item-buystock-mapper.xml" />
 		<mapper resource="mappers/employee-buy-mapper.xml" />
 
 		<mapper resource="mappers/attendance-mapper.xml" />
-		<mapper resource="mappers/attendancerequest-mapper.xml" />
+		<mapper resource="mappers/attendancedocument-mapper.xml" />
 		<mapper resource="mappers/bankmg-mapper.xml" />
 		<mapper resource="mappers/finClose-mapper.xml" />
+		<mapper resource="mappers/module-mapper.xml" />
+		<mapper resource="mappers/item-delivery-mapper.xml" />
+		<mapper resource="mappers/delivery-mapper.xml" />
+		<mapper resource="mappers/cart-mapper.xml" />
 
 	</mappers>
 

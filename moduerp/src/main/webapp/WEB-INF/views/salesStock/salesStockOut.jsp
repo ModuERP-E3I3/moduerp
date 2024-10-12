@@ -224,7 +224,6 @@ tbody tr:hover {
 					<th>최종 출고 장소</th>
 					<th>최종 출고 단가</th>
 					<th>담당자</th>
-					<th>지급 상태</th>
 
 				</tr>
 			</thead>
@@ -244,12 +243,7 @@ tbody tr:hover {
 						<td>${item.stock}</td>
 						<td>${item.stockOutPlace}</td>
 						<td>${item.outPrice}</td>
-						<td>${item.oDirector}</td>
-						
-						<td><c:choose>
-								<c:when test="${item.paymentStatus == 'Y'}">Yes</c:when>
-								<c:otherwise>No</c:otherwise>
-							</c:choose></td>
+						<td>${item.oDirector}</td> 
 						
 					</tr>
 				</c:forEach>
