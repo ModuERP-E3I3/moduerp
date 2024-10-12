@@ -26,11 +26,21 @@ public class CarresController {
 	private com.e3i3.moduerp.carres.model.service.CarresService CarresService;
 	
 	@RequestMapping(value = "/carresListCreate.do", method = RequestMethod.GET)
-	public String carresListCreateView(Model model, HttpSession session) {
+	public String carresListCreateView(@RequestParam(value = "page", defaultValue = "1") int page, Model model, HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		
 		// 차량 예약 list
 		List<CarresDto> carresList = CarresService.getAllCarres(bizNumber);
+		
+		//페이지당 항목 수
+		int carresPerPage = 5;
+		
+		int totalCarres = carresList.size();
+		
+		int totalPages = (int) Math.ceil((double) totalCarres / carresPerPage);
+		
+		int startIndex = (page - 1) * carresPerPage;
+		int endIndex = Math.min(startIndex + carresPerPage, totalCarres);
 		
 		// 회사 사업자번호(biznumber)가 일치하는 사원명과 부서명 조회
 		List<Employee> empNameDepart = CarresService.getEmpNameDepart(bizNumber);
@@ -38,9 +48,13 @@ public class CarresController {
 		// 회사 사업자번호(biznumber)가 일치하는 차량 정보 조회
 		List<CarresDto> cars = CarresService.getCarsbyBizNumber(bizNumber);
 		
+		List<CarresDto> paginatedList = carresList.subList(startIndex, endIndex);
+		
 		model.addAttribute("empNameDepart", empNameDepart);
 		model.addAttribute("cars", cars);
-		model.addAttribute("carresList", carresList);
+		model.addAttribute("carresList", paginatedList);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", page);
 		
 		return "car/carResListCreate";
 	}
