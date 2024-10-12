@@ -228,7 +228,7 @@ tbody tr:hover {
 								</c:forEach>
 						</select></td>
 
-						<td><input type="text" name="itemCode" placeholder="품목 코드 입력" /></td>
+						<td><input type="text" name="itemCode" placeholder="품목 코드 입력" /></td>	
 						<td><input type="number" name="quantity" placeholder="수량 입력" /></td>
 						<td><input type="number" name="supplyPrice"
 							placeholder="공급가 입력" /></td>

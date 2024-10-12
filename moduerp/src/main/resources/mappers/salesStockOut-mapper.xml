@@ -28,14 +28,15 @@
         INSERT INTO SALES_STOCK_OUT (
         S_STOCK_OUT_ID,
         ITEM_CODE, S_STOCK_OUT_DATE, S_STOCK_OUT_PLACE, S_STOCK_OUT_QTY, UUID,
-        S_STOCK_OUT_PRICE, ODIRECTOR
+        S_STOCK_OUT_PRICE, ODIRECTOR, PAYMENT_STATUS
         ) VALUES (
         #{sStockOutId}, #{itemCode},
         #{sStockOutDate},
         #{sStockOutPlace}, #{sStockOutQty},
         #{uuid},
         #{sStockOutPrice},
-        #{oDirector}
+        #{oDirector},
+        #{paymentStatus}
         )
     </insert>
 
@@ -59,9 +60,11 @@
         SET S_STOCK_OUT_UPDATE =
         #{sStockOutUpdate},
         S_STOCK_OUT_PLACE = #{sStockOutPlace},
+        
         S_STOCK_OUT_QTY = #{sStockOutQty},
         S_STOCK_OUT_PRICE =
         #{sStockOutPrice},
+        PAYMENT_STATUS = #{paymentStatus},
         UUID = #{uuid}
         WHERE S_STOCK_OUT_ID = #{sStockOutId}
     </update>

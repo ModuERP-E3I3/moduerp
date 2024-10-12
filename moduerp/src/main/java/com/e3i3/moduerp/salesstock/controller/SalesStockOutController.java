@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.e3i3.moduerp.employee.model.service.EmployeeSalesService;
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 import com.e3i3.moduerp.item.model.service.ItemSalesStockService;
-
 import com.e3i3.moduerp.salesstock.model.dto.SalesStockOutDTO;
 import com.e3i3.moduerp.salesstock.service.SalesStockOutService;
 
@@ -31,6 +30,7 @@ public class SalesStockOutController {
 
 	@Autowired
 	private ItemSalesStockService itemSalesStockService;
+
 	@Autowired
 	private SalesStockOutService salesStockOutService;
 
@@ -45,34 +45,19 @@ public class SalesStockOutController {
 
 		// CREATED_AT에 9시간 추가하는 로직
 		for (ItemDTO item : itemList) {
-			// CREATED_AT 필드에서 Timestamp 값을 가져옴
 			Timestamp createdAt = item.getCreatedAt();
-
-			// 9시간 추가
 			Timestamp adjustedTimestamp = Timestamp
 					.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000));
-
-			// Timestamp를 ItemDTO에 설정
-			item.setCreatedAt(adjustedTimestamp); // 조정된 Timestamp 설정
+			item.setCreatedAt(adjustedTimestamp);
 		}
 
-		// 페이지당 항목 수
 		int itemsPerPage = 10;
-
-		// 총 항목 수
 		int totalItems = itemList.size();
-
-		// 총 페이지 수
 		int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
-
-		// 시작 인덱스 계산
 		int startIndex = (page - 1) * itemsPerPage;
 		int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-
-		// 서브리스트 생성
 		List<ItemDTO> paginatedList = itemList.subList(startIndex, endIndex);
 
-		// 모델에 추가
 		model.addAttribute("itemList", paginatedList);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("currentPage", page);
@@ -83,15 +68,12 @@ public class SalesStockOutController {
 	// 등록 페이지로 이동
 	@RequestMapping(value = "/salesStockOutCreate.do", method = RequestMethod.GET)
 	public String showCreateForm(HttpSession session, Model model) {
-
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String uuid = (String) session.getAttribute("uuid");
-
 		String directorName = employeeSalesService.getEmployeeNameByUuid(uuid);
-
-		// item_code가 biz_number + "S"로 시작하는 데이터 가져오기
 		List<ItemDTO> items = itemSalesStockService.getItemsByBizNumberStartingWith(bizNumber);
-		model.addAttribute("itemList", items); // item_name을 포함한 리스트
+
+		model.addAttribute("itemList", items);
 		model.addAttribute("directorName", directorName);
 
 		return "salesStock/salesStockOutCreate"; // JSP 파일 경로 반환
@@ -102,20 +84,19 @@ public class SalesStockOutController {
 			@RequestParam("createdOutAt") String createdOutAt, @RequestParam("stockOutPlace") String stockOutPlace,
 			@RequestParam("stockOut") int stockOut, @RequestParam("outPrice") double outPrice,
 			@RequestParam("itemCode") String itemCode, @RequestParam("oDirector") String oDirector,
-			
+			@RequestParam("paymentStatus") String paymentStatus, // paymentStatus 추가
 			HttpSession session) {
+
 		// 세션에서 biz_number와 uuid를 가져옴
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String userUuid = (String) session.getAttribute("uuid");
-		
-		
-		
+
 		// ITEM 테이블 업데이트 로직
 		itemSalesStockService.updateItemStockOut(itemCode, createdOutAt, stockOutPlace, stockOut, outPrice, oDirector);
 
 		// createdOutAt을 LocalDate로 변환한 후 현재 시간을 추가
 		LocalDate localDate = LocalDate.parse(createdOutAt);
-		LocalDateTime localDateTime = localDate.atTime(LocalTime.now()); // 현재 시간을 추가
+		LocalDateTime localDateTime = localDate.atTime(LocalTime.now());
 
 		// LocalDateTime을 Timestamp로 변환
 		Timestamp stockOutDate = Timestamp.valueOf(localDateTime);
@@ -125,14 +106,15 @@ public class SalesStockOutController {
 
 		// S_STOCK_OUT_ID 생성: "OUT" + biz_number + 현재 타임스탬프
 		String sStockOutId = bizNumber + System.currentTimeMillis() + "S"; // 타임스탬프 사용
-		salesStockOutDTO.setsStockOutId(sStockOutId); // 생성된 S_STOCK_OUT_ID 사용
+		salesStockOutDTO.setsStockOutId(sStockOutId);
 		salesStockOutDTO.setItemCode(itemCode);
-		salesStockOutDTO.setsStockOutDate(stockOutDate); // 변환된 Timestamp 사용
+		salesStockOutDTO.setsStockOutDate(stockOutDate);
 		salesStockOutDTO.setsStockOutPlace(stockOutPlace);
 		salesStockOutDTO.setsStockOutQty(stockOut);
 		salesStockOutDTO.setUuid(userUuid);
 		salesStockOutDTO.setsStockOutPrice(outPrice);
 		salesStockOutDTO.setoDirector(oDirector);
+		salesStockOutDTO.setPaymentStatus(paymentStatus); // 추가된 paymentStatus 설정
 
 		// SALES_STOCK_OUT 테이블에 데이터 저장
 		salesStockOutService.insertSalesStockOut(salesStockOutDTO);

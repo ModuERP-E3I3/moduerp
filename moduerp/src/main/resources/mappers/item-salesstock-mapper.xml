@@ -120,24 +120,7 @@
 	<!-- BizNumber와 CREATED_OUT_AT이 있는 항목 조회 -->
 	<select id="getItemsByBizNumberOutDate" parameterType="String"
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
-		SELECT
-		ITEM_CODE,
-		ITEM_NAME,
-		ITEM_DESC,
-		CREATED_AT,
-		UPDATED_AT,
-		STOCK_IN,
-		STOCK_OUT,
-		STOCK,
-		STOCK_PLACE,
-		IN_PRICE,
-		ITEM_LIST,
-		BIZ_NUMBER,
-		OUT_PRICE,
-		STOCK_OUT_PLACE,
-		CREATED_OUT_AT,
-		UPDATE_OUT_AT,
-		ODIRECTOR
+		SELECT *
 
 		FROM
 		ITEM
