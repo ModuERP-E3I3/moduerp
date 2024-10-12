@@ -204,7 +204,7 @@ tbody tr:hover {
 					name="filterText" id="filterText" placeholder="내용 입력" />
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
-					onclick="window.location.href='account.do';">초기화</button>
+					onclick="window.location.href='purchaseOrders.do';">초기화</button>
 			</div>
 		</form>
 
@@ -214,30 +214,28 @@ tbody tr:hover {
 			<thead>
 				<tr>
 					<th>순번</th>
-					<th>거래처 번호</th>
-					<th>거래처 이름</th>
-					<th>업태</th>
-					<th>대표자 이름</th>
-					<th>사업자번호</th>
-					<th>거래처 주소</th>
-					<th>거래처 전화번호</th>
-					<th>거래처 이메일</th>
+					<th>발주서 코드</th>
+					<th>품목 코드</th>
+					<th>거래처 코드</th>
+					<th>수량</th>
+					<th>발주 금액</th>
+					<th>납품일</th>
+					<th>담당자명</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="purchaseOrders" items="${accountList}" varStatus="status">
+				<c:forEach var="purchaseOrders" items="${purchaseOrdersList}" varStatus="status">
 					<tr
-						onclick="window.location.href='getAccountDetails.do?accountNo=${account.accountNo}'">
+						onclick="window.location.href='getPurchaseOrdersDetails.do?orderId=${purchaseOrders.orderId}'">
 
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
+						<td>${purchaseOrders.orderId}</td>
+						<td>${purchaseOrders.itemCode}</td>
 						<td>${purchaseOrders.accountNo}</td>
-						<td>${purchaseOrders.accountName}</td>
-						<td>${purchaseOrders.businessType}</td>
-						<td>${purchaseOrders.bossName}</td>
-						<td>${purchaseOrders.businessNumber}</td>
-						<td>${purchaseOrders.accountAddress}</td>
-						<td>${purchaseOrders.accountPhone}</td>
-						<td>${purchaseOrders.email}</td>
+						<td>${purchaseOrders.quantity}</td>
+						<td>${purchaseOrders.supplyPrice}</td>
+						<td>${purchaseOrders.deliveryDate}</td>
+						<td>${purchaseOrders.mgrName}</td>
 
 					</tr>
 				</c:forEach>
