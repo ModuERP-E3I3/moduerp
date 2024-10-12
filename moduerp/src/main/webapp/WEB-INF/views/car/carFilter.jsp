@@ -206,12 +206,13 @@ tbody tr:hover {
 		<div class="filter-box">
 			<select name="filterOption" id="filterOption">
 				<option disabled selected>옵션 선택</option>
-				<option value="carModel">차종</option>
-				<option value="carNum">차량 번호</option>
-				<option value="ownershipStatus">소유 형태</option>
+				<option value="carModel" ${option == 'carModel' ? 'selected' : ''}>차종</option>
+				<option value="carNum" ${option == 'carNum' ? 'selected' : ''}>차량 번호</option>
+				<option value="ownershipStatus" ${option == 'ownershipStatus' ? 'selected' : ''}>소유 형태</option>
 			</select>  
 			<input type="text"
-					name="filterText" id="filterText" placeholder="내용 입력" />
+					name="filterText" id="filterText" placeholder="내용 입력"
+					value="${filterText != null ? filterText : ''}" />
 			<button type="submit" class="btn">조회</button>
 			<button type="button" class="btn"
 				onclick="window.location.href='carRes.do';">초기화</button>
@@ -314,7 +315,7 @@ tbody tr:hover {
 							<!-- 현재 페이지는 강조 -->
 						</c:when>
 						<c:otherwise>
-							<a href="carRes.do?page=${i}">${i}</a>
+							<a href="carRes.do?page=${i}&filterOption=${option}&filterText=${filterText}">${i}</a>
 							<!-- 페이지 링크 -->
 						</c:otherwise>
 					</c:choose>

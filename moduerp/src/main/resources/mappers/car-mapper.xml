@@ -48,5 +48,35 @@
 		SET YN = 'N'
 		WHERE CAR_ID = #{carId}
 	</delete>
+	
+	<select id="selectCarByCarModel" parameterType="map"
+		resultType="com.e3i3.moduerp.car.model.dto.CarDto">
+		SELECT *
+		FROM CAR
+		WHERE CAR_ID LIKE #{bizNumber} || 'C%'
+		AND
+		CAR_MODEL LIKE '%' || #{filterText} || '%'
+		ORDER BY CAR_MODEL ASC
+	</select>
+	
+	<select id="selectCarByCarNum" parameterType="map"
+		resultType="com.e3i3.moduerp.car.model.dto.CarDto">
+		SELECT *
+		FROM CAR
+		WHERE CAR_ID LIKE #{bizNumber} || 'C%'
+		AND
+		CAR_NUM LIKE '%' || #{filterText} || '%'
+		ORDER BY CAR_MODEL ASC
+	</select>
+	
+	<select id="selectCarByOwnershipStatus" parameterType="map"
+		resultType="com.e3i3.moduerp.car.model.dto.CarDto">
+		SELECT *
+		FROM CAR
+		WHERE CAR_ID LIKE #{bizNumber} || 'C%'
+		AND
+		OWNERSHIP_STATUS LIKE '%' || #{filterText} || '%'
+		ORDER BY CAR_MODEL ASC
+	</select>
 
  </mapper>

@@ -88,6 +88,38 @@ public class CarController {
 		return "car/carRes";
 	}
 	
+	@RequestMapping(value = "/carFilter.do", method = RequestMethod.GET)
+	public String forwardCarFilter(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "filterOption", required = false) String option,
+			@RequestParam(value = "filterText", required = false) String filterText,
+			Model model, HttpSession session) {
+		String bizNumber = (String) session.getAttribute("biz_number");
+		List<CarDto> carList;
+		
+		// 필터링 로직 추가
+		if (option != null && filterText != null) {
+			carList = CarService.getCarByFilter(bizNumber, option, filterText);
+		} else {
+			carList = CarService.getAllCar(bizNumber);
+		}
+		
+		int carsPerPage = 3;
+		int totalCars = carList.size();
+		int totalPages = (int) Math.ceil((double) totalCars / carsPerPage);
+		int startIndex = (page - 1) * carsPerPage;
+		int endIndex = Math.min(startIndex + carsPerPage, totalCars);
+		
+		List<CarDto> paginatedList = carList.subList(startIndex, endIndex);
+		
+		model.addAttribute("carList", paginatedList);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("option", option);
+		model.addAttribute("filterText", filterText);
+		
+		return "car/carFilter";
+	}
+	
 	// 차량 추가 페이지로 이동
     @RequestMapping(value = "/carCreate.do", method = RequestMethod.GET)
     public String showCreateCarForm() {
