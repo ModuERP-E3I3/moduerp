@@ -218,7 +218,7 @@ tbody tr:hover {
 					<th>품명</th>
 					<th>거래처명</th>
 					<th>수량</th>
-					<th>발주 금액</th>
+					<th>발주금액</th>
 					<th>납품일</th>
 					<th>담당자명</th>
 				</tr>

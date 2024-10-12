@@ -219,11 +219,11 @@ th {
 		<table>
 			<thead>
 				<tr>
-					<th>발주서 번호</th>
-					<th>품목 코드</th>
-					<th>거래처 번호</th>
+					<th>발주서번호</th>
+					<th>품명</th>
+					<th>거래처명</th>
 					<th>수량</th>
-					<th>공급가</th>
+					<th>발주금액</th>
 					<th>납품일</th>
 					<th>담당자명</th>
 				</tr>
@@ -231,8 +231,8 @@ th {
 			<tbody>
 				<tr>
 					<td>${purchaseOrderDetail.orderId}</td>
-					<td>${purchaseOrderDetail.itemCode}</td>
-					<td>${purchaseOrderDetail.accountNo}</td>
+					<td>${purchaseOrderDetail.puItemName}</td>
+					<td>${purchaseOrderDetail.accountName}</td>
 					<td>${purchaseOrderDetail.quantity}</td>
 					<td>${purchaseOrderDetail.supplyPrice}</td>
 					<td>${purchaseOrderDetail.deliveryDate}</td>
