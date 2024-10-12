@@ -235,7 +235,7 @@ tbody tr:hover {
 						<td>${purchaseOrders.quantity}</td>
 						<td>${purchaseOrders.supplyPrice}</td>
 						<td>${purchaseOrders.deliveryDate}</td>
-						<td>${purchaseOrders.oDirector != null ? purchaseOrders.oDirector : ''}</td>
+						<td>${purchaseOrders.oDirector}</td>
 
 					</tr>
 				</c:forEach>
