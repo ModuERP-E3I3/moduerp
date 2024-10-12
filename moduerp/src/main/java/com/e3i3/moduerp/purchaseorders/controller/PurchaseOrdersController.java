@@ -128,7 +128,7 @@ public class PurchaseOrdersController {
 		PurchaseOrdersDTO purchaseOrderDto = new PurchaseOrdersDTO();
 		purchaseOrderDto.setOrderId(orderId);
 		purchaseOrderDto.setAccountNo(accountNo);
-		purchaseOrderDto.setAccountName(accountName); // 추가된 부분
+		purchaseOrderDto.setAccountName(accountName);
 		purchaseOrderDto.setQuantity(quantity);
 		purchaseOrderDto.setSupplyPrice(supplyPrice);
 		purchaseOrderDto.setDeliveryDate(deliveryDate);
