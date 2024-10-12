@@ -61,12 +61,30 @@ public class CarController {
 	
 	@CrossOrigin(origins = "https://apis-navi.kakaomobility.com/v1/directions") // 
 	@RequestMapping(value = "/carRes.do", method = RequestMethod.GET)
-	public String carListView(Model model, HttpSession session) {
-		
+	public String carListView(@RequestParam(value = "page", defaultValue = "1") int page, Model model, HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		
 		List<CarDto> carList = CarService.getAllCar(bizNumber);
-		model.addAttribute("carList", carList);
+		
+		// 페이지당 항목 수
+		int carsPerPage = 3;
+		
+		// 총 항목 수
+		int totalCars = carList.size();
+		
+		// 총 페이지 수
+		int totalPages = (int) Math.ceil((double) totalCars / carsPerPage);
+		
+		// 시작 인덱스 계산
+		int startIndex = (page - 1) * carsPerPage;
+		int endIndex = Math.min(startIndex + carsPerPage, totalCars);
+		
+		List<CarDto> paginatedList = carList.subList(startIndex, endIndex);
+		
+		model.addAttribute("carList", paginatedList);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", page);
+		
 		return "car/carRes";
 	}
 	

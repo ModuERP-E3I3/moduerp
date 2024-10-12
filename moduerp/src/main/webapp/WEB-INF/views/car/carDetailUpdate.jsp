@@ -81,8 +81,9 @@
 
 /* 테이블 스타일 */
 table {
-	width: 100%;
+	width: 40%;
 	border-collapse: collapse;
+	margin : 0 auto;
 	margin-top: 20px;
 }
 
@@ -173,28 +174,59 @@ th {
 			<input type="hidden" name="carId" value="${carDetail.carId}" />
 			<table>
 				<thead>
-					<tr>		
-						<th>차량 이미지</th>
-						<th>차종</th>
-                    	<th>차량 번호</th>
-                    	<th>소유 형태</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
+                <tr>
+                  		<th>차량 이미지</th>
+            	</tr>
+            	</thead>
+            	<tbody>
+            		<tr>
+            			<td>
     						<img id="previewImage" alt="${carDetail.carModel}" src="${pageContext.request.contextPath}/${carDetail.imagePath}" width="100">
-    						<input type="file" id="image" name="image" accept="image/*" onchange="previewFile()"><br>
+    						<br>
+    						<input type="file" id="image" name="image" accept="image/*" onchange="previewFile()" style="margin-left:8.5%"><br>
 						</td>
-						<td><input type="text" name="carModel"
-							value="${carDetail.carModel}" required /></td>
-						<td><input type="text" name="carNum"
-							value="${carDetail.carNum}" required /></td>
-						<td><input type="text" name="ownershipStatus"
-							value="${carDetail.ownershipStatus}" required /></td>
-
-					</tr>
-				</tbody>
+            		</tr>
+            	</tbody>
+            	<thead>
+            		<tr>
+                  		<th>차종</th>
+            		</tr>
+            	</thead>
+            	<tbody>
+            		<tr>
+            			<td>
+            				<input type="text" name="carModel"
+							value="${carDetail.carModel}" required />
+						</td>
+            		</tr>
+            	</tbody>
+            	<thead>
+            		<tr>
+                  		<th>차량 번호</th>
+            		</tr>
+            	</thead>
+            	<tbody>
+            		<tr>
+            			<td>
+            				<input type="text" name="carNum"
+							value="${carDetail.carNum}" required />
+						</td>
+            		</tr>
+            	</tbody>
+            	<thead>
+            		<tr>
+                  		<th>소유 형태</th>
+            		</tr>
+            	</thead>
+            	<tbody>
+            		<tr>
+            			<td>
+            				<input type="text" name="ownershipStatus"
+							value="${carDetail.ownershipStatus}" required />
+						</td>
+            		</tr>
+            	</tbody>
+				
 			</table>
 
 			<div class="btn-group">
