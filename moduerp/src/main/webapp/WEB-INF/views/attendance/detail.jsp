@@ -150,7 +150,6 @@ tr:nth-child(even) {
 </style>
 </head>
 
-</script>
 <body>
 	<!-- 서브헤더 JSP 임포트 -->
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
@@ -160,7 +159,7 @@ tr:nth-child(even) {
 		<ul id="menubar">
 			<li><a href="<c:url value='/attendance.do' />"><i
 					class="fas fa-bullhorn"></i> 출퇴근</a></li>
-			<li><a href="<c:url value='/attendanceRequest/mylist.do' />"><i
+			<li><a href="<c:url value='/attendanceDocument/mylist.do' />"><i
 					class="fas fa-clipboard"></i> 근태문서</a></li>
 			<li><a href="<c:url value='/email/inbox.do' />"> <i
 					class="fas fa-envelope"></i> 이메일
@@ -244,24 +243,57 @@ tr:nth-child(even) {
 				<th>상태</th>
 				<td>${request.status}</td>
 			</tr>
-			<tr>
-				<th>승인 여부</th>
-				<td><c:choose>
-						<c:when test="${request.isApproved == 'Y'}">승인됨</c:when>
-						<c:otherwise>미승인</c:otherwise>
-					</c:choose></td>
-			</tr>
+			<c:if test="${request.isApproved != 'N'}">
+   				 <tr>
+       				 <th>승인 여부</th>
+        			<td>${request.isApproved}</td>
+   				 </tr>
+			</c:if>
+
 		</table>
 
-		<div class="button-container">
-			<button class="edit-button"onclick="location.href='<c:url value='/attendanceRequest/send.do?attendancerequestId=${request.attendancerequestId}'/>'">수정하기</button>
-			<button class="cancel-button" onclick="location.href='<c:url value="/attendanceRequest/cancel.do?attendancerequestId=${request.attendancerequestId}"/>'">신청취소</button>
-			<button class="back-button" onclick="location.href='<c:url value="/attendanceRequest/mylist.do"/>'">목록으로 돌아가기</button>
-		</div>
+<div class="button-container">
+	<button class="edit-button" onclick="location.href='<c:url value='/attendanceDocument/send.do?attendancerequestId=${request.attendancerequestId}'/>'">수정하기</button>
+	<button class="cancel-button" 
+		onclick="if(confirm('정말로 삭제하시겠습니까? 복구할 수 없습니다.')) { location.href='<c:url value="/attendanceDocument/cancel.do?attendancerequestId=${request.attendancerequestId}"/>'; }">신청취소</button>
+	<button class="back-button" onclick="location.href='<c:url value="/attendanceDocument/mylist.do"/>'">목록으로 돌아가기</button>
+	<c:if test="${request.status == '임시저장'}">
+    <button class="submit-button" onclick="submitRequest('${request.attendancerequestId}', '${request.approver}')">제출하기</button>
+</c:if>
 
-
-
+</div>
 	</div>
+	
+	
+<script>
+function submitRequest(attendanceRequestId, approverUUID) {
+    const requestBody = 'id=' + attendanceRequestId + '&status=제출완료&approver=' + approverUUID + '&isApproved=대기';
+    
+    // c:url 값을 자바스크립트 변수로 설정
+    const mylistUrl = '<c:url value="/attendanceDocument/mylist.do"/>';
+    const detailUrlBase = '<c:url value="/attendanceDocument/detail/"/>';
+
+    fetch('<c:url value="/attendanceDocument/updateStatus.do"/>', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: requestBody
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.redirectUrl) {
+            // 리다이렉트 URL을 설정된 c:url 변수로 이동
+            location.href = result.redirectUrl === "/attendanceDocument/mylist.do" ? mylistUrl : detailUrlBase + attendanceRequestId + '.do';
+        } else {
+            alert(result.error);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+</script>
+
 </body>
 
 <script>

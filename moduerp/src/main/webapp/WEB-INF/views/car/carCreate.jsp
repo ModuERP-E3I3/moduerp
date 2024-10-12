@@ -171,18 +171,21 @@ th {
 
 		<!-- 테이블 -->
 		<!-- 테이블 -->
-		<form action="/moduerp/insertCar.do" method="POST">
+		<form action="/moduerp/insertCar.do" method="POST" enctype="multipart/form-data">
 			<table>
 				<thead>
 					<tr>
+						<th>차량 이미지</th>
 						<th>차종</th>
 						<th>차량 번호</th>
 						<th>소유 형태</th>
+						
 						
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
+						<td><input type="file" id="image" name="image" accept="image/*" required><br></td>
 
 						<!-- 차종 입력 칸 -->
 						<td><input type="text" name="carModel" placeholder="차종 입력" /></td>
@@ -206,7 +209,6 @@ th {
 
 	</div>
 </body>
-
 
 
 <script>

@@ -116,14 +116,15 @@ public class BuyStockInController {
 		
 		
 		@PostMapping("/buyStockInCreate.do")
-		public String createBuyStockIn(@RequestParam("bStockInDate") String stockInDateStr,
+		public String createBuyStockIn(
+				@RequestParam("bStockInDate") String stockInDateStr,
 				@RequestParam("stockPlace") String stockPlace, 
 				@RequestParam("stockIn") int stockIn,
 				@RequestParam("itemName") String itemName, 
 				@RequestParam("itemDesc") String itemDesc,
 				@RequestParam("inPrice") double inPrice,
-				@RequestParam("accountNo") String accountNo,
-				@RequestParam("iDirrector") String iDirrector,
+				@RequestParam("accountName") String accountName,
+				@RequestParam("iDirector") String iDirector,
 				HttpSession session) {
 			
 			// 샂
@@ -152,8 +153,8 @@ public class BuyStockInController {
 			itemDTO.setInPrice(inPrice);
 			itemDTO.setBizNumber(bizNumber);
 			itemDTO.setStockIn(stockIn);
-			itemDTO.setAccountName(accountNo);
-			itemDTO.setiDirector(iDirrector);
+			itemDTO.setAccountName(accountName);
+			itemDTO.setiDirector(iDirector);
 			
 
 			// ITEM
@@ -167,10 +168,10 @@ public class BuyStockInController {
 			buyStockInDTO.setbStockInId(bStockInId); // 맂 B_STOCK_IN_ID 
 			buyStockInDTO.setItemCode(itemCode);
 			buyStockInDTO.setbStockInDate(stockInDate); // Timestamp
-			buyStockInDTO.setAccountNo(stockPlace);
+			buyStockInDTO.setbStockInPlace(stockPlace);
 			buyStockInDTO.setbStockInQty(stockIn);
 			buyStockInDTO.setUuid(userUuid);
-			buyStockInDTO.setAccountNo(accountNo);
+			buyStockInDTO.setAccountName(accountName);
 
 			//  
 			BuyStockInService.insertBuyStockIn(buyStockInDTO);

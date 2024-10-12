@@ -88,7 +88,7 @@ table {
 
 th, td {
 	border: 1px solid #ccc;
-	padding: 10px;
+	padding: 5px;
 	text-align: center;
 }
 
@@ -148,6 +148,9 @@ th {
 .material-type-input {
 	margin-bottom: 10px;
 }
+
+
+
 </style>
 
 </head>
@@ -155,16 +158,15 @@ th {
 <body>
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
+	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
 			<li><a href="productionStockIn.do"><i
-					class="fas fa-bullhorn"></i> 생산 입고</a></li>
+					class="fa-solid fa-store"></i> 생산 입고</a></li>
 			<li><a href="productionStockOut.do"><i
-					class="fas fa-clipboard"></i> 생산 출고</a></li>
-			<li><a href="productionWorkorder.do"><i class="fas fa-code"></i>
-					작업지시서</a></li>
-			<li><a href="productionQuality.do"><i class="fas fa-plug"></i>
-					품질관리</a></li>
+					class="fa-solid fa-store-slash"></i> 생산 출고</a></li>
+			<li><a href="productionWorkorder.do"><i class="fa-solid fa-paste"></i>작업지시서</a></li>
+			<li><a href="productionQuality.do"><i class="fa-solid fa-bars-progress"></i>품질관리</a></li>
 		</ul>
 	</div>
 
@@ -196,9 +198,9 @@ th {
 							value="${itemDetails.itemDesc}" required /></td>
 						<td>${itemDetails.createdAt}</td>
 						<td>${itemDetails.updatedAt}</td>
-						<td><input type="number" name="stockIn"
+						<td><input type="number" name="stockIn" id="stockIn"
 							value="${itemDetails.stockIn}" required /></td>
-						<td><input type="number" name="inPrice"
+						<td><input type="number" name="inPrice" id="inPrice"
 							value="${itemDetails.inPrice}" step="0.01" required /></td>
 
 						<td><input list="stockPlaces" name="stockPlace"

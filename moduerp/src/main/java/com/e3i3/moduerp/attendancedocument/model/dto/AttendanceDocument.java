@@ -1,4 +1,4 @@
-package com.e3i3.moduerp.attendancerequest.model.dto;
+package com.e3i3.moduerp.attendancedocument.model.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class AttendanceRequest {
+public class AttendanceDocument {
 	private String attendancerequestId; // 신청 ID (Primary Key)
 	private String uuid; // 신청자 UUID (Foreign Key: Employee)
 	private String requesterName; // 신청자 이름
