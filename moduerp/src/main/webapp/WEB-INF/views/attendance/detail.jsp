@@ -274,7 +274,6 @@
 
     function submitRequest(attendanceRequestId, approverUUID) {
         const requestBody = 'id=' + attendanceRequestId + '&status=제출완료&approver=' + approverUUID + '&isApproved=대기';
-        console.log("attendanceRequestId:", attendanceRequestId);  // 확인용 로그
         
         // c:url 값을 자바스크립트 변수로 설정
         const mylistUrl = '<c:url value="/attendanceDocument/mylist.do"/>';
@@ -289,11 +288,16 @@
         })
         .then(response => response.json())
         .then(result => {
-        	console.log(result);
-            alert(result.error);
+            if (result.redirectUrl) {
+                // 리다이렉트 URL을 설정된 c:url 변수로 이동
+                location.href = result.redirectUrl === "/attendanceDocument/mylist.do" ? mylistUrl : detailUrlBase + attendanceRequestId + '.do';
+            } else {
+                alert(result.error);
+            }
         })
         .catch(error => console.error('Error:', error));
     }
+
 
     </script>
 </body>

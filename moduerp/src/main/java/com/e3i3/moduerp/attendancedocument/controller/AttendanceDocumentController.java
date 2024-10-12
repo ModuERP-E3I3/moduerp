@@ -150,7 +150,7 @@ public class AttendanceDocumentController {
 	// 3. 상태 업데이트 (임시 저장에서 최종 제출로 변경 & isApproved가 'N'에서 '대기'로 변경)
 	@PostMapping("/attendanceDocument/updateStatus.do")
 	@ResponseBody
-	public ResponseEntity<Map<String, Object>> updateRequestStatus(@RequestParam("id") String attendanceRequestId,
+	public ResponseEntity<Map<String, String>> updateRequestStatus(@RequestParam("id") String attendanceRequestId,
 			@RequestParam("status") String status, @RequestParam("approver") String approverUUID,
 			@RequestParam("isApproved") String isApproved) {
 
@@ -165,7 +165,7 @@ public class AttendanceDocumentController {
 		int result = attendanceRequestService.updateRequestStatus(params);
 		System.out.println("업뎃 된 reulst 수: "+ result);
 
-		Map<String, Object> response = new HashMap<>();
+		Map<String, String> response = new HashMap<>();
 		if (result > 0 && "제출완료".equals(status) && "대기".equals(isApproved)) {
 			response.put("redirectUrl", "/attendanceDocument/mylist.do");
 		} else {

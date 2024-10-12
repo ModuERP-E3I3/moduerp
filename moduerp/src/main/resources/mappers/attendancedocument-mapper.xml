@@ -63,7 +63,7 @@
 <update id="updateRequestStatus" parameterType="map">
     UPDATE C##PROJECT3TEAM.ATTENDANCEREQUEST
     SET status = #{status}, is_approved = #{isApproved}, approver = #{approver}
-    WHERE attendancerequest_id = #{attendancerequestId}
+    WHERE attendancerequest_id = #{attendanceRequestId}
 </update>
 
 
