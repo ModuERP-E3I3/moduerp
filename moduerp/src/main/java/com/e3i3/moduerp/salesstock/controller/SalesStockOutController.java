@@ -192,6 +192,7 @@ public class SalesStockOutController {
 	public String updateSalesStockSubOut(@RequestParam("itemCode") String itemCode,
 			@RequestParam("sStockOutId") String sStockOutId, @RequestParam("stockOut") int stockOutQty,
 			@RequestParam("outPrice") double sStockOutPrice, @RequestParam("stockPlace") String sStockOutPlace,
+			@RequestParam("paymentStatus") String paymentStatus, // paymentStatus 추가
 			HttpSession session) {
 		// 세션에서 UUID 가져오기
 		String userUuid = (String) session.getAttribute("uuid");
@@ -207,6 +208,7 @@ public class SalesStockOutController {
 		salesStockOutDTO.setsStockOutPlace(sStockOutPlace);
 		salesStockOutDTO.setUuid(userUuid); // 수정자 정보
 		salesStockOutDTO.setsStockOutUpdate(currentTimestamp); // 수정 시간
+		salesStockOutDTO.setPaymentStatus(paymentStatus); // paymentStatus 추가
 
 		// 데이터베이스 업데이트 로직 호출
 		salesStockOutService.updateSalesStockOut(salesStockOutDTO);
