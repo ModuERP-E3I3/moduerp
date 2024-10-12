@@ -26,20 +26,29 @@
 			alias="Department" />
 		<typeAlias type="com.e3i3.moduerp.car.model.dto.CarDto"
 			alias="CarDto" />
+		<typeAlias type="com.e3i3.moduerp.account.model.dto.AccountDTO"
+			alias="AccountDTO" />
 		<typeAlias type="com.e3i3.moduerp.notice.model.dto.Notice"
 			alias="Notice" />
 		<typeAlias type="com.e3i3.moduerp.email.model.dto.Email"
 			alias="Email" />
+			
 		<typeAlias
 			type="com.e3i3.moduerp.productionstock.model.dto.ProductionStockOutDTO"
-			alias="ProductionStockOutDTO" /> <!-- 추가된 부분 -->
-
+			alias="ProductionStockOutDTO" /> <!-- 추가된 부분 --> 
+			
 		<typeAlias
-			type="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg"
+		type="com.e3i3.moduerp.salesstock.model.dto.SalesStockOutDTO"
+		alias="SalesStockOutDTO" />
+			
+			<typeAlias type="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg"
 			alias="Bankmg" />
 		<typeAlias
 			type="com.e3i3.moduerp.financialclosing.model.dto.FinClose"
 			alias="FinClose" />
+		<typeAlias type="com.e3i3.moduerp.buystock.model.dto.BuyStockOutDTO" 
+			alias="BuyStockOutDTO" />
+		
 
 	</typeAliases>
 
@@ -82,6 +91,7 @@
 
 		<mapper resource="mappers/account-mapper.xml" />
 		<mapper resource="mappers/admin-mapper.xml" />
+		
 		<mapper resource="mappers/item-buystock-mapper.xml" />
 		<mapper resource="mappers/employee-buy-mapper.xml" />
 

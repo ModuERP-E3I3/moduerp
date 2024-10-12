@@ -12,9 +12,9 @@ public interface EmployeeService {
 
 	public void updateEmployee(Employee employee);
 
-	public void deleteEmployee(UUID uuid);
+	public void deleteEmployee(String uuid);
 
-	public Employee selectEmployeeByUuid(UUID uuid);
+	public Employee selectEmployeeByUuid(String uuid);
 
 	public List<Employee> selectEmployeesByBizNum(String biznumber);
 

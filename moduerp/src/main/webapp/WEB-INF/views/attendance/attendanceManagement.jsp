@@ -255,8 +255,8 @@
 		<ul id="menubar">
 			<li><a href="<c:url value='/attendance.do' />"><i
 					class="fas fa-bullhorn"></i> 출퇴근</a></li>
-			<li><a href="<c:url value='/leave.do' />"><i
-					class="fas fa-clipboard"></i> 통합문서</a></li>
+			<li><a href="<c:url value='/attendanceRequest/mylist.do' />"><i
+					class="fas fa-clipboard"></i> 근태문서</a></li>
 			<li><a href="<c:url value='/email/inbox.do' />"> <i
 					class="fas fa-envelope"></i> 이메일
 			</a></li>

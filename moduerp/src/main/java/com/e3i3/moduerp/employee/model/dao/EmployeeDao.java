@@ -33,12 +33,12 @@ public class EmployeeDao {
 	}
 
 	// uuid로 직원 삭제
-	public void deleteEmployee(UUID uuid) {
+	public void deleteEmployee(String uuid) {
 		sqlSessionTemplate.delete("EmployeeMapper.deleteEmployee", uuid);
 	}
 
 	// uuid로 직원 조회
-	public Employee selectEmployeeByUuid(UUID uuid) {
+	public Employee selectEmployeeByUuid(String uuid) {
 		return sqlSessionTemplate.selectOne("EmployeeMapper.selectEmployeeByUuid", uuid);
 	}
 	

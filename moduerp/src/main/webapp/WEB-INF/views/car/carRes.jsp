@@ -161,10 +161,9 @@
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	        <li><a href="carRes.do"><i class="fas fa-bullhorn"></i> 차량 예약</a></li>
-	        <li><a href="carMgt.do"><i class="fas fa-bullhorn"></i> 차량 결제 관리</a></li>
-	        <li><a href="map.do"><i class="fas fa-bullhorn"></i> 도로 교통 / 경로 조회</a></li>
-
+	        <li><a href="carRes.do"><i class="fa-solid fa-car-side"></i> 차량 예약</a></li>
+	        <li><a href="carMgt.do"><i class="fa-solid fa-list-check"></i> 차량 결제 관리</a></li>
+	        <li><a href="map.do"><i class="fa-solid fa-signs-post"></i> 도로 교통 / 경로 조회</a></li>
 	    </ul>
 	</div>
 	
@@ -202,7 +201,6 @@
 			            <td>${ car.carModel }</td>
 			            <td>${ car.carNum }</td>
 			            <td>${ car.ownershipStatus }</td>
-			            
 			        </tr>
 			        
 			    </c:forEach>
@@ -211,12 +209,13 @@
         </table>
         
         <div class="btn-group">
+        	<a href="carresListCreate.do"><button class="btn green">예약하기</button></a>
 			<a href="carCreate.do"><button class="btn blue">등록</button></a>
 		</div>
         <br>
         
         <!-- 테이블 -->
-        <h3> 차량 예약 내역 </h3>
+        <%-- <h3> 차량 예약 내역 </h3>
         <table>
             <thead>
                 <tr>
@@ -239,7 +238,7 @@
 			    </c:forEach>
 			</tbody>
 
-        </table>
+        </table> --%>
 
         
 

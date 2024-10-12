@@ -4,27 +4,109 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="CarresMapper">
  	<resultMap type="com.e3i3.moduerp.carres.model.dto.CarresDto" id="resultCarres">
+ 		<result property="carReserveCode" column="CAR_RESERVE_CODE" />
  		<result property="carId" column="CAR_ID" />
+ 		<result property="carModel" column="CAR_MODEL" />
+ 		<result property="carNum" column="CAR_NUM" />
  		<result property="departmentId" column="DEPARTMENT_ID" />
  		<result property="reserveStartDate" column="RESERVE_START_DATE" />
  		<result property="reserveEndDate" column="RESERVE_END_DATE" />
  		<result property="useReason" column="USE_REASON" />
  		<result property="uuid" column="UUID" />
  		<result property="empName" column="EMP_NAME" />
+ 		<result property="bizNumber" column="BIZ_NUMBER" />
+ 		<result property="drivingStatus" column="DRIVING_STATUS" />
  	</resultMap>
  	
  	<!-- 차량 예약 전체 조회 쿼리 -->
  	<select id="getAllCarres" resultMap="resultCarres">
- 			SELECT
-    			C.CAR_ID,
-   				E.EMP_NAME,
-    			E.DEPARTMENT_ID,
-    			C.RESERVE_START_DATE,
-    			C.RESERVE_END_DATE,
-    			C.USE_REASON
-			FROM
-    			CAR_RESERVE C
-			JOIN
-    			EMPLOYEE E ON C.UUID = E.UUID
+ 			SELECT *
+			FROM CAR_RESERVE C
+			JOIN EMPLOYEE E ON C.UUID = E.UUID
+			WHERE C.BIZ_NUMBER = #{bizNumber}
+			ORDER BY C.RESERVE_END_DATE DESC
  	</select>
+ 	
+ 	<!-- bizNumber와 일치하는 사원명/부서명 list 조회 쿼리-->
+ 	<select id="getEmpNameDepart" parameterType="map"
+		resultType="com.e3i3.moduerp.employee.model.dto.Employee">
+		SELECT *
+		FROM EMPLOYEE
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+	
+	<!-- bizNumber와 일치하는 차량 정보 조회 쿼리 -->
+	<select id="getCarsByBizNumber"
+		resultType="com.e3i3.moduerp.carres.model.dto.CarresDto">
+		SELECT CAR_MODEL, CAR_NUM
+		FROM CAR
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+	
+	<!-- insert carresList -->
+	<insert id="insertCarres"
+		parameterType="com.e3i3.moduerp.carres.model.dto.CarresDto">
+		INSERT INTO CAR_RESERVE (
+		CAR_RESERVE_CODE,
+		CAR_MODEL,
+		CAR_NUM,
+		EMP_NAME,
+		DEPARTMENT_ID,
+		CAR_ID,
+		UUID,
+		BIZ_NUMBER,
+		RESERVE_START_DATE,
+		RESERVE_END_DATE,
+		USE_REASON,
+		DRIVING_STATUS
+		)
+		VALUES (
+		#{carReserveCode},
+		#{carModel},
+		#{carNum},
+		#{empName},
+		#{departmentId},
+		(SELECT CAR_ID FROM CAR WHERE CAR_MODEL = #{carModel} AND CAR_NUM = #{carNum}
+		AND ROWNUM = 1),
+		(SELECT UUID FROM EMPLOYEE WHERE EMP_NAME = #{empName} AND DEPARTMENT_ID =
+		#{departmentId} AND ROWNUM = 1),
+		#{bizNumber},
+		#{reserveStartDate},
+		#{reserveEndDate},
+		#{useReason},
+		#{drivingStatus}
+		)
+	</insert>
+	
+	<!-- 차량 예약 디테일 뷰 쿼리 -->
+	<select id="selectcarReserveCode" parameterType="map" resultType="com.e3i3.moduerp.carres.model.dto.CarresDto">
+		SELECT *
+		FROM CAR_RESERVE
+		WHERE CAR_RESERVE_CODE = #{carReserveCode}
+	</select>
+	
+	<!-- 차량 예약 수정 쿼리 -->
+	<update id="updateCarres"
+		parameterType="com.e3i3.moduerp.carres.model.dto.CarresDto">
+		UPDATE CAR_RESERVE
+		SET CAR_ID = (SELECT CAR_ID FROM CAR WHERE CAR_MODEL = #{carModel} AND CAR_NUM = #{carNum}
+		AND ROWNUM = 1),
+		UUID = (SELECT UUID FROM EMPLOYEE WHERE EMP_NAME = #{empName} AND DEPARTMENT_ID = #{departmentId} AND ROWNUM = 1),
+		CAR_MODEL = #{carModel},
+		CAR_NUM = #{carNum},
+		EMP_NAME = #{empName},
+		DEPARTMENT_ID = #{departmentId},
+		RESERVE_START_DATE = #{reserveStartDate},
+		RESERVE_END_DATE = #{reserveEndDate},
+		USE_REASON = #{useReason},
+		DRIVING_STATUS = #{drivingStatus}
+		WHERE CAR_RESERVE_CODE = #{carReserveCode}
+	</update>
+
+
+	<!-- 차량 예약 삭제 쿼리 -->
+	<delete id="deleteCarres" parameterType="String">
+		DELETE FROM CAR_RESERVE
+		WHERE CAR_RESERVE_CODE = #{carReserveCode}
+	</delete>
  </mapper>

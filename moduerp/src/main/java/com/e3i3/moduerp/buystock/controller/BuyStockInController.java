@@ -38,18 +38,11 @@ public class BuyStockInController {
 		public String forwardBuyIn(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
 		        HttpSession session) {
 		    String bizNumber = (String) session.getAttribute("biz_number");
-		    if (bizNumber == null) {
-		        // bizNumber가 null인 경우 처리
-		        model.addAttribute("error", "Business number is not available in session.");
-		        return "main.do"; // 에러 페이지로 리다이렉트
-		    }
+		   
 
 		    List<ItemDTO> itemList = itembuyStockService.getItemsByBizNumber(bizNumber);
-		    if (itemList == null) {
-		        // itemList가 null인 경우 처리
-		        model.addAttribute("error", "No items found for the given business number.");
-		        return "main.do"; // 에러 페이지로 리다이렉트
-		    }
+		   
+		    
 
 		    for (ItemDTO item : itemList) {
 		        if (item.getCreatedAt() != null) {
@@ -74,6 +67,53 @@ public class BuyStockInController {
 		    return "buyStock/buyStockIn"; // JSP
 		}
 
+		@RequestMapping(value = "/buyStockInFilter.do", method = RequestMethod.GET)
+		public String forwardBuyInFilter(@RequestParam(value = "page", defaultValue = "1") int page,
+				@RequestParam(value = "filterOption", required = false) String option,
+				@RequestParam(value = "filterText", required = false) String filterText,
+				@RequestParam(value = "startDate", required = false) String startDate,
+				@RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
+			String bizNumber = (String) session.getAttribute("biz_number");
+			List<ItemDTO> itemList;
+
+			// 필터링 로직 추가
+			if (option != null && filterText != null) {
+				if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+					System.out.println("날짜있는거 실행");
+					itemList = itembuyStockService.getItemByFilterDate(bizNumber, option, filterText, startDate,
+							endDate);
+				} else if (startDate == null || startDate.isEmpty()) {
+					System.out.println("날짜없는거 실행");
+					itemList = itembuyStockService.getItemsByFilter(bizNumber, option, filterText);
+				} else {
+					System.out.println("실행 못함");
+					itemList = itembuyStockService.getItemsByBizNumber(bizNumber);
+				}
+			} else {
+				itemList = itembuyStockService.getItemsByBizNumber(bizNumber);
+			}
+
+			// 페이지네이션 처리
+			int itemsPerPage = 10;
+			int totalItems = itemList.size();
+			int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+			int startIndex = (page - 1) * itemsPerPage;
+			int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+			List<ItemDTO> paginatedList = itemList.subList(startIndex, endIndex);
+
+			// 모델에 추가
+			model.addAttribute("itemList", paginatedList);
+			model.addAttribute("totalPages", totalPages);
+			model.addAttribute("currentPage", page);
+			model.addAttribute("option", option);
+			model.addAttribute("filterText", filterText);
+			model.addAttribute("startDate", startDate);
+			model.addAttribute("endDate", endDate);
+
+			return "buyStock/buyStockInFilter"; // JSP 파일 경로 반환
+		}
+		
 		
 		@PostMapping("/buyStockInCreate.do")
 		public String createBuyStockIn(@RequestParam("bStockInDate") String stockInDateStr,
@@ -261,6 +301,8 @@ public class BuyStockInController {
 		    return "redirect:/buyStockIn.do"; // 삭제 후 재고 목록 페이지로 리다이렉트
 		}
 
+		
+		
 
 
 		

@@ -126,35 +126,17 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="productionStockIn.do"><i
-					class="fas fa-bullhorn"></i> 생산 입고</a></li>
-			<li><a href="productionStockOut.do"><i
-					class="fas fa-clipboard"></i> 생산 출고</a></li>
-			<!-- 수정 -->
-			<li><a href="productionWorkorder.do"><i class="fas fa-code"></i>
-					작업지시서</a></li>
-			<!-- 수정 -->
-			<li><a href="productionQuality.do"><i class="fas fa-plug"></i>
-					품질관리</a></li>
-			<!-- 수정 -->
-		</ul>
+	        <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
+			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
+			<li><a href="buyStockIn.do"><i class="fa-solid fa-truck"></i></i> 배송 조회</a></li>
+	    </ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 생산출고 | ${itemDetails.itemName}
+		<div class="content-title">구매관리 | 구매출고 | ${itemDetails.itemName}
 			출고 정보</div>
-
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-		</div>
 
 		<!-- 테이블 -->
 		<!-- 아이템 관련 데이터 테이블 -->
@@ -163,11 +145,10 @@ th {
 				<tr>
 					<th>제품명</th>
 					<th>제품 설명</th>
-					<th>최종 출고 날짜</th>
-					<th>총 출고 수량</th>
-					<th>최종 출고 가격</th>
-					<th>최종 출고 장소</th>
-					<th>자재 종류</th>
+					<th>출고 날짜</th>
+					<th>출고 수량</th>
+					<th>출고 가격</th>
+					<th>출고 장소</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -179,12 +160,11 @@ th {
 					<td>${itemDetails.stockOut}</td>
 					<td>${itemDetails.outPrice}</td>
 					<td>${itemDetails.stockOutPlace}</td>
-					<td>${itemDetails.itemList}</td>
 				</tr>
 			</tbody>
 		</table>
 
-		<!-- 생산 출고 관련 데이터 테이블 -->
+		<!-- 출고 관련 데이터 테이블 -->
 		<table>
 			<thead>
 				<tr>
@@ -195,14 +175,14 @@ th {
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="stockOut" items="${productionStockOutDetails}">
+				<c:forEach var="stockOut" items="${buyStockOutDetails}">
 					<tr
-						onclick="window.location.href='getProductionOutDetailsSub.do?pStockOutId=${stockOut.pStockOutId}&itemCode=${itemDetails.itemCode }'">
-						<td><fmt:formatDate value="${stockOut.pStockOutDate}"
+						onclick="window.location.href='getBuyOutDetailsSub.do?bStockOutId=${stockOut.bStockOutId}&itemCode=${itemDetails.itemCode }'">
+						<td><fmt:formatDate value="${stockOut.bStockOutDate}"
 								pattern="yyyy-MM-dd HH:mm:ss" /></td>
-						<td>${stockOut.pStockOutPlace}</td>
-						<td>${stockOut.pStockOutQty}</td>
-						<td>${stockOut.pStockOutPrice}</td>
+						<td>${stockOut.bStockOutPlace}</td>
+						<td>${stockOut.bStockOutQty}</td>
+						<td>${stockOut.bStockOutPrice}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -222,7 +202,7 @@ th {
 
 
 <script>
-    const activeMenu = "productionStockIn";
+    const activeMenu = "buyStockIn";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

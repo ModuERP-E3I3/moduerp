@@ -184,10 +184,8 @@ th {
 						<th>출고수량</th>
 						<th>출고단가</th>
 						<th>담당자</th>
-						<th>출고 상태</th>
-						<!-- S_STOCK_OUT_STATUS 추가 -->
 						<th>지급 상태</th>
-						<!-- PANNINT_STATUS 추가 -->
+
 					</tr>
 				</thead>
 				<tbody>
@@ -203,24 +201,26 @@ th {
 									</c:if>
 								</c:forEach>
 								<option value="==========">==========</option>
+								
 							</datalist> <input type="hidden" name="itemCode" id="itemCodeInput" /></td>
+							
 						<td><input type="date" name="createdOutAt" required /></td>
+						
 						<td><input list="stockOutPlaces" name="stockOutPlace"
 							placeholder="출고 장소 선택" required /> <datalist id="stockOutPlaces">
 								<c:forEach var="place" items="${stockOutPlaces}">
 									<option value="${place}"></option>
 								</c:forEach>
 							</datalist></td>
+							
 						<td><input type="number" name="stockOut" required /></td>
+						
 						<td><input type="number" name="outPrice" step="0.01" required /></td>
+						
 						<td><input type="text" name="oDirector"
 							value="${directorName}" readonly /></td>
-						<td><select name="sStockOutStatus" required>
-								<option value="Y">Yes</option>
-								<option value="N">No</option>
-						</select></td>
-						<!-- S_STOCK_OUT_STATUS 추가 -->
-						<td><select name="panningStatus" required>
+
+						<td><select name="paymentStatus" required>
 								<option value="Y">Yes</option>
 								<option value="N">No</option>
 						</select></td>
