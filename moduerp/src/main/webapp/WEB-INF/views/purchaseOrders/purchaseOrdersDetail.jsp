@@ -244,7 +244,7 @@ th {
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
 			<button class="btn red" onclick="openDeleteModal()">삭제</button>
-			<a href="purchaseOrderUpdate.do?orderId=${purchaseOrderDetail.orderId}">
+			<a href="purchaseOrderDetailUpdate.do?orderId=${purchaseOrderDetail.orderId}">
 				<button class="btn green">수정</button>
 			</a>
 		</div>

@@ -111,7 +111,7 @@ public class PurchaseOrdersController {
 		model.addAttribute("empNameDepart", empNameDepart);
 		model.addAttribute("purchaseOrderDetail", purchaseOrderDetail);
 
-		return "purchaseOrders/purchaseOrderDetailUpdate";
+		return "purchaseOrders/purchaseOrdersDetailUpdate";
 	}
 
 	@PostMapping("/updatePurchaseOrder.do")

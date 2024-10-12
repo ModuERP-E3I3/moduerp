@@ -207,19 +207,27 @@ tbody tr:hover {
 				</thead>
 				<tbody>
 					<tr>
-						<td><input type="text" name="itemCode" placeholder="품목 코드 입력"
-							value="${purchaseOrderDetail.itemCode}" /></td>
-						<td><input type="text" name="accountNo"
-							placeholder="거래처 번호 입력" value="${purchaseOrderDetail.accountNo}" /></td>
+					
+						<td><input type="text" name="puItemName" placeholder="품명 입력"
+							value="${purchaseOrderDetail.puItemName}" /></td>
+							
+						<td><input type="text" name="accountName"
+							placeholder="거래처명 입력" value="${purchaseOrderDetail.accountName}" /></td>
+							
 						<td><input type="number" name="quantity" placeholder="수량 입력"
 							value="${purchaseOrderDetail.quantity}" /></td>
+							
 						<td><input type="text" name="supplyPrice"
 							placeholder="공급가 입력" value="${purchaseOrderDetail.supplyPrice}" /></td>
+							
 						<td><input type="date" name="deliveryDate"
 							value="${purchaseOrderDetail.deliveryDate}" /></td>
+							
 						<td><input type="text" name="mgrName" placeholder="담당자명 입력"
 							value="${purchaseOrderDetail.mgrName}" /></td>
+							
 					</tr>
+					
 				</tbody>
 			</table>
 
