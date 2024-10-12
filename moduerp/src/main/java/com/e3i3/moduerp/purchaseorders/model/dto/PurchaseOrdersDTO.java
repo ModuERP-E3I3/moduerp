@@ -1,7 +1,6 @@
 package com.e3i3.moduerp.purchaseorders.model.dto;
 
 import java.util.Date;
-import java.util.List;
 
 public class PurchaseOrdersDTO {
     private String orderId;
@@ -9,22 +8,30 @@ public class PurchaseOrdersDTO {
     private int quantity;
     private double supplyPrice;
     private String accountNo;
+    private String accountName;
     private String deliveryDate;
     private String mgrName;
-    
+    private String puItemName;
+    private String bizNumber;  // 추가된 필드
+
     public PurchaseOrdersDTO() {
         super();
     }
 
-    public PurchaseOrdersDTO(String orderId, String itemCode, int quantity, double supplyPrice, String accountNo, String deliveryDate, String mgrName) {
+    public PurchaseOrdersDTO(String orderId, int quantity, 
+    		double supplyPrice, String accountNo, String accountName, 
+    		String deliveryDate, String mgrName, String bizNumber, String puItemName
+    		) {
         super();
         this.orderId = orderId;
-        this.itemCode = itemCode;
         this.quantity = quantity;
         this.supplyPrice = supplyPrice;
         this.accountNo = accountNo;
+        this.accountName = accountName;
         this.deliveryDate = deliveryDate;
         this.mgrName = mgrName;
+        this.puItemName = puItemName;
+        this.bizNumber = bizNumber;  // 추가된 필드 초기화
     }
 
     // Getters and Setters
@@ -34,14 +41,6 @@ public class PurchaseOrdersDTO {
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
-    }
-
-    public String getItemCode() {
-        return itemCode;
-    }
-
-    public void setItemCode(String itemCode) {
-        this.itemCode = itemCode;
     }
 
     public int getQuantity() {
@@ -68,6 +67,14 @@ public class PurchaseOrdersDTO {
         this.accountNo = accountNo;
     }
 
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
     public String getDeliveryDate() {
         return deliveryDate;
     }
@@ -82,5 +89,21 @@ public class PurchaseOrdersDTO {
 
     public void setMgrName(String mgrName) {
         this.mgrName = mgrName;
+    }
+    
+    public String getPuItemName() {
+        return puItemName;
+    }
+
+    public void setPuItemName(String puItemName) {
+        this.puItemName = puItemName;
+    }
+
+    public String getBizNumber() {  // 추가된 getter
+        return bizNumber;
+    }
+
+    public void setBizNumber(String bizNumber) {  // 추가된 setter
+        this.bizNumber = bizNumber;
     }
 }

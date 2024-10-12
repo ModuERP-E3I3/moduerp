@@ -177,9 +177,12 @@ tbody tr:hover {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="purchaseOrdersList.do"><i class="fa-solid fa-list"></i> 발주서 목록</a></li>
-	        <li><a href="purchaseOrdersMgt.do"><i class="fa-solid fa-list-check"></i> 발주서 관리</a></li>
-	        <li><a href="purchaseOrdersCreate.do"><i class="fa-solid fa-file-circle-plus"></i> 발주서 추가</a></li>
+			<li><a href="purchaseOrdersList.do"><i
+					class="fa-solid fa-list"></i> 발주서 목록</a></li>
+			<li><a href="purchaseOrdersMgt.do"><i
+					class="fa-solid fa-list-check"></i> 발주서 관리</a></li>
+			<li><a href="purchaseOrdersCreate.do"><i
+					class="fa-solid fa-file-circle-plus"></i> 발주서 추가</a></li>
 		</ul>
 	</div>
 
@@ -187,29 +190,44 @@ tbody tr:hover {
 		<div class="content-title">구매관리 | 발주서관리 | 수정</div>
 
 		<form action="/moduerp/updatePurchaseOrder.do" method="POST">
-			<input type="hidden" name="orderId" value="${purchaseOrderDetail.orderId}" />
-			
+			<input type="hidden" name="orderId"
+				value="${purchaseOrderDetail.orderId}" />
+
 			<!-- 테이블 -->
 			<table>
 				<thead>
 					<tr>
-						<th>품목 코드</th>
-						<th>거래처 번호</th>
+						<th>품명</th>
+						<th>거래처명</th>
 						<th>수량</th>
-						<th>공급가</th>
+						<th>발주 금액</th>
 						<th>납품일</th>
 						<th>담당자명</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td><input type="text" name="itemCode" placeholder="품목 코드 입력" value="${purchaseOrderDetail.itemCode}" /></td>
-						<td><input type="text" name="accountNo" placeholder="거래처 번호 입력" value="${purchaseOrderDetail.accountNo}" /></td>
-						<td><input type="number" name="quantity" placeholder="수량 입력" value="${purchaseOrderDetail.quantity}" /></td>
-						<td><input type="text" name="supplyPrice" placeholder="공급가 입력" value="${purchaseOrderDetail.supplyPrice}" /></td>
-						<td><input type="date" name="deliveryDate" value="${purchaseOrderDetail.deliveryDate}" /></td>
-						<td><input type="text" name="mgrName" placeholder="담당자명 입력" value="${purchaseOrderDetail.mgrName}" /></td>
+					
+						<td><input type="text" name="puItemName" placeholder="품명 입력"
+							value="${purchaseOrderDetail.puItemName}" /></td>
+							
+						<td><input type="text" name="accountName"
+							placeholder="거래처명 입력" value="${purchaseOrderDetail.accountName}" /></td>
+							
+						<td><input type="number" name="quantity" placeholder="수량 입력"
+							value="${purchaseOrderDetail.quantity}" /></td>
+							
+						<td><input type="text" name="supplyPrice"
+							placeholder="공급가 입력" value="${purchaseOrderDetail.supplyPrice}" /></td>
+							
+						<td><input type="date" name="deliveryDate"
+							value="${purchaseOrderDetail.deliveryDate}" /></td>
+							
+						<td><input type="text" name="mgrName" placeholder="담당자명 입력"
+							value="${purchaseOrderDetail.mgrName}" /></td>
+							
 					</tr>
+					
 				</tbody>
 			</table>
 

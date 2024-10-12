@@ -14,6 +14,7 @@ public interface PurchaseOrdersService {
 
     // accountNo 리스트 가져오기 !!!
     List<String> getAllAccountNames();
+    List<String> getAllItemNames();
 
     // OrderId
     PurchaseOrdersDTO getPurchaseOrderDetail(String orderId);
