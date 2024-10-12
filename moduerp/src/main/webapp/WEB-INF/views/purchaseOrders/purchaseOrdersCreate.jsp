@@ -221,7 +221,7 @@ tbody tr:hover {
 				<tbody>
 					<tr>
 					
-						<!-- 거래처 코드 드롭다운 리스트 -->
+						<!-- 거래처 코드 드롭다운 리스트 !!!!! -->
 						<td><select name="accountNo" onchange="setAccountName(this)">
 								<option value="" disabled selected>거래처 선택</option>
 								<c:forEach var="account" items="${accountNames}">
