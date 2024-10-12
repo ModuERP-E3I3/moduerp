@@ -190,8 +190,8 @@ tbody tr:hover {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업관리 | 거래처관리</div>
-		<form action="/moduerp/accountFilter.do">
+		<div class="content-title">구매관리 | 발주서관리</div>
+		<form action="/moduerp/purchaseOrdersFilter.do">
 			<!-- 필터 박스 -->
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
