@@ -53,4 +53,37 @@ public class CarresServiceImpl implements CarresService{
 		// TODO Auto-generated method stub
 		return carresDao.getAllCarres(bizNumber);
 	}
+
+	@Override
+	public List<CarresDto> getCarByFilterDate(String bizNumber, String option, String filterText, String startDate,
+			String endDate) {
+		if (option.equals("carModel")) {
+			return carresDao.getCarByCarModelDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("carNum")) {
+			return carresDao.getCarByCarNumDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("empName")) {
+			return carresDao.getCarByEmpNameDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("departmentId")) {
+			return carresDao.getCarByDepartmentIdDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("drivingStatus")) {
+			return carresDao.getCarByDrivingStatusDate(bizNumber, filterText, startDate, endDate);
+		}
+		return null;
+	}
+
+	@Override
+	public List<CarresDto> getCarByFilter(String bizNumber, String option, String filterText) {
+		if (option.equals("carModel")) {
+			return carresDao.getCarByCarModel(bizNumber, filterText);
+		} else if (option.equals("carNum")) {
+			return carresDao.getCarByCarNum(bizNumber, filterText);
+		} else if (option.equals("empName")) {
+			return carresDao.getCarByEmpName(bizNumber, filterText);
+		} else if (option.equals("departmentId")) {
+			return carresDao.getCarByDepartmentId(bizNumber, filterText);
+		} else if (option.equals("drivingStatus")) {
+			return carresDao.getCarByDrivingStatus(bizNumber, filterText);
+		}
+		return null;
+	}
 }

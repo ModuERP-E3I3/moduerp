@@ -30,4 +30,7 @@ public interface ModuleDAO {
 
 	List<ModuleDTO> getModuleListAccount();
 
+	List<String> selectModuleGradesByIds(List<String> moduleIds);
+
+	List<ModuleDTO> selectModulesByGrades(List<String> moduleGrades);
 }

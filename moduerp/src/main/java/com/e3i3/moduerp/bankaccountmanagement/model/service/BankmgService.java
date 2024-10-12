@@ -9,5 +9,5 @@ public interface BankmgService {
     Bankmg getmgById(String bankId);
     void insertmg(Bankmg mg);
     void updatemg(Bankmg mg);
-    void deletemg(String bankId);
+    void deletemg(String bankId); 
 }

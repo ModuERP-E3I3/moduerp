@@ -20,4 +20,26 @@ public interface CarresDao {
 
 	void deleteCarres(String carReserveCode);
 
+	List<CarresDto> getCarByCarModelDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<CarresDto> getCarByCarNumDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<CarresDto> getCarByEmpNameDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<CarresDto> getCarByDepartmentIdDate(String bizNumber, String filterText, String startDate,
+			String endDate);
+
+	List<CarresDto> getCarByDrivingStatusDate(String bizNumber, String filterText, String startDate,
+			String endDate);
+
+	List<CarresDto> getCarByCarModel(String bizNumber, String filterText);
+
+	List<CarresDto> getCarByCarNum(String bizNumber, String filterText);
+
+	List<CarresDto> getCarByEmpName(String bizNumber, String filterText);
+
+	List<CarresDto> getCarByDepartmentId(String bizNumber, String filterText);
+
+	List<CarresDto> getCarByDrivingStatus(String bizNumber, String filterText);
+
 }

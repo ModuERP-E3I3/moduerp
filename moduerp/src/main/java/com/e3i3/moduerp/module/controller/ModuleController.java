@@ -1,9 +1,13 @@
 package com.e3i3.moduerp.module.controller;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.e3i3.moduerp.cart.model.dto.CartDTO;
+import com.e3i3.moduerp.cart.model.service.CartService;
+import com.e3i3.moduerp.employee.model.service.EmployeeProductionService;
 import com.e3i3.moduerp.module.model.dto.ModuleDTO;
 import com.e3i3.moduerp.module.model.service.ModuleService;
 
@@ -21,6 +29,12 @@ public class ModuleController {
 
 	@Autowired
 	private ModuleService moduleService;
+
+	@Autowired
+	private EmployeeProductionService employeeProductionService;
+
+	@Autowired
+	private CartService cartService;
 
 	// 모듈 구매 페이지 이동
 	@RequestMapping(value = "/buyModule.do", method = RequestMethod.GET)
@@ -158,6 +172,81 @@ public class ModuleController {
 		moduleService.deleteModule(moduleId);
 
 		return "redirect:/moduleList.do";
+	}
+
+	// 장바구니 가기
+	@RequestMapping(value = "/insertCart.do", method = RequestMethod.POST)
+	public String forwardCart(@RequestParam("moduleIds") List<String> moduleIds,
+			@RequestParam("buttonClicked") String buttonClicked, Model model, HttpSession session) {
+		String bizNumber = (String) session.getAttribute("biz_number");
+		String uuid = (String) session.getAttribute("uuid");
+
+		// CART 테이블에 데이터가 존재하는지 확인
+		boolean isCartExist = cartService.isCartExistByBizNumber(bizNumber);
+
+		// ModuleService를 통해 MODULE_GRADE를 가져옴
+		List<String> moduleGrades = moduleService.getModuleGradesByIds(moduleIds);
+
+		// 현재 로그인한 사용자의 EMP_NAME 가져오기
+		String loginUserName = employeeProductionService.getEmployeeNameByUuid(uuid);
+
+		// MODULE_GRADE 리스트를 ','로 구분된 문자열로 변환
+		String moduleGradesString = String.join(",", moduleGrades);
+		System.out.println("-------------------------------------");
+		System.out.println(moduleGradesString);
+		System.out.println("-------------------------------------");
+
+		if (isCartExist == false) {
+			// CartID 생성
+			String cartId = uuid + "CT" + System.currentTimeMillis();
+
+			CartDTO cartDTO = new CartDTO();
+			cartDTO.setCartId(cartId);
+			cartDTO.setBizNumber(bizNumber);
+			cartDTO.setCartList(moduleGradesString); // 변환된 문자열을 cartList에 설정
+			cartDTO.setUuid(uuid);
+			cartDTO.setName(loginUserName);
+
+			cartService.insertCart(cartDTO);
+		} else if (isCartExist) {
+			// bizNumber로 CART_LIST 조회
+			String existingCartList = cartService.getCartListByBizNumber(bizNumber);
+
+			// 기존 목록을 ','로 분리하여 리스트로 변환 (null 처리)
+			List<String> existingModules = new ArrayList<>();
+			if (existingCartList != null && !existingCartList.trim().isEmpty()) {
+				existingModules = new ArrayList<>(Arrays.asList(existingCartList.split(",")));
+			}
+
+			// 새 목록을 ','로 분리하여 리스트로 변환
+			List<String> newModules = Arrays.asList(moduleGradesString.split(","));
+
+			// 기존 목록에 없는 모듈만 필터링하여 추가
+			for (String module : newModules) {
+				if (!existingModules.contains(module)) {
+					existingModules.add(module); // 중복되지 않는 항목만 추가
+				}
+			}
+
+			// 최종적으로 업데이트할 목록을 ','로 다시 결합
+			String updatedCartList = String.join(",", existingModules);
+
+			// CartDTO 객체 생성 및 설정
+			CartDTO cartDTO = new CartDTO();
+			cartDTO.setBizNumber(bizNumber);
+			cartDTO.setUuid(uuid);
+			cartDTO.setCartList(updatedCartList); // 중복 제거 후 업데이트할 목록 설정
+
+			// CART 업데이트 실행
+			cartService.updateCart(cartDTO);
+		}
+
+		if ("go-cart".equals(buttonClicked)) {
+			return "redirect:/forwardCart.do";
+		} else if ("continue-shopping".equals(buttonClicked)) {
+			return "redirect:/buyModule.do";
+		}
+		return "redirect:/forwardCart.do";
 	}
 
 }

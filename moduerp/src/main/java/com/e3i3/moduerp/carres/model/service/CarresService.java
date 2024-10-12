@@ -21,6 +21,13 @@ public interface CarresService {
 
 	void deleteCarres(String carReserveCode);
 
+	List<CarresDto> getCarByFilterDate(String bizNumber, String option, String filterText, String startDate,
+			String endDate);
+
+	List<CarresDto> getCarByFilter(String bizNumber, String option, String filterText);
+
+	
+
 	
 
 }

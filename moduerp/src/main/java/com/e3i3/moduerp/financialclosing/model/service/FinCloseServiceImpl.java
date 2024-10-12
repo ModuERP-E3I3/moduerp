@@ -5,10 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg;
 import com.e3i3.moduerp.financialclosing.model.dao.FinCloseDao;
 import com.e3i3.moduerp.financialclosing.model.dto.FinClose;
 
-@Service("finCloseService")
+@Service("FinCloseService")
 public class FinCloseServiceImpl implements FinCloseService {
 	@Autowired
 	private FinCloseDao FinCloseDAO;
@@ -36,5 +37,10 @@ public class FinCloseServiceImpl implements FinCloseService {
 	@Override
 	public void deleteFinClose(String FinCloseId) {
 		FinCloseDAO.deleteFinClose(FinCloseId);
+	}
+
+	@Override
+	public List<Bankmg> getBankmgListByBizNumber(String bizNumber) {
+		return FinCloseDAO.getBankmgListByBizNumber(bizNumber);
 	}
 }

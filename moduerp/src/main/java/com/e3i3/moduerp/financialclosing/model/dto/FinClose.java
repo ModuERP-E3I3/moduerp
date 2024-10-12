@@ -4,38 +4,33 @@ import java.sql.Date;
 
 public class FinClose implements java.io.Serializable {
 	private static final long serialVersionUID = -8269302835859129601L;
-	
-	public String closingId;	//	CLOSING_ID	VARCHAR2(50 BYTE)
-	public String uuId;	//	UUID	VARCHAR2(255 BYTE)
-	public String bankId;//	BANK_ID	VARCHAR2(50 BYTE)
-	public String departmentId;//	DEPARTMENT_ID	VARCHAR2(250 BYTE)
-	public java.sql.Date startDate;//	START_DATE	DATE
-	public java.sql.Date endDate;//	END_DATE	DATE
-	public int totalSales;//	TOTAL_SALES	NUMBER(38,0)
-	public int totalExpenses;//	TOTAL_EXPENSES	NUMBER(38,0)
-	public int netProfit;//	NET_PROFIT	NUMBER(38,0)
-	public String approvalStatus;//	APPROVAL_STATUS	CHAR(1 BYTE)
-	public java.sql.Date closingDate;//	CLOSING_DATE	DATE
-	public String closingType;//	CLOSING_TYPE	VARCHAR2(10 BYTE)
-	
+
+	public String closingId; // CLOSING_ID VARCHAR2(50 BYTE)
+	public String uuId; // UUID VARCHAR2(255 BYTE)
+	public String bankId;// BANK_ID VARCHAR2(50 BYTE)
+	public java.sql.Date startDate;// START_DATE DATE
+	public java.sql.Date endDate;// END_DATE DATE
+	public int totalSales;// TOTAL_SALES NUMBER(38,0)
+	public int totalExpenses;// TOTAL_EXPENSES NUMBER(38,0)
+	public int netProfit;// NET_PROFIT NUMBER(38,0)
+	public java.sql.Date closingDate;// CLOSING_DATE DATE
+	public String closingType;// CLOSING_TYPE VARCHAR2(10 BYTE)
+
 	public FinClose() {
 		super();
 	}
 
-	public FinClose(String closingId, String uuId, String bankId, String departmentId, Date startDate, Date endDate,
-			int totalSales, int totalExpenses, int netProfit, String approvalStatus, Date closingDate,
-			String closingType) {
+	public FinClose(String closingId, String uuId, String bankId, Date startDate, Date endDate, int totalSales,
+			int totalExpenses, int netProfit, Date closingDate, String closingType) {
 		super();
 		this.closingId = closingId;
 		this.uuId = uuId;
 		this.bankId = bankId;
-		this.departmentId = departmentId;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.totalSales = totalSales;
 		this.totalExpenses = totalExpenses;
 		this.netProfit = netProfit;
-		this.approvalStatus = approvalStatus;
 		this.closingDate = closingDate;
 		this.closingType = closingType;
 	}
@@ -62,14 +57,6 @@ public class FinClose implements java.io.Serializable {
 
 	public void setBankId(String bankId) {
 		this.bankId = bankId;
-	}
-
-	public String getDepartmentId() {
-		return departmentId;
-	}
-
-	public void setDepartmentId(String departmentId) {
-		this.departmentId = departmentId;
 	}
 
 	public java.sql.Date getStartDate() {
@@ -112,14 +99,6 @@ public class FinClose implements java.io.Serializable {
 		this.netProfit = netProfit;
 	}
 
-	public String getApprovalStatus() {
-		return approvalStatus;
-	}
-
-	public void setApprovalStatus(String approvalStatus) {
-		this.approvalStatus = approvalStatus;
-	}
-
 	public java.sql.Date getClosingDate() {
 		return closingDate;
 	}
@@ -142,9 +121,8 @@ public class FinClose implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "FinClose [closingId=" + closingId + ", uuId=" + uuId + ", bankId=" + bankId + ", departmentId="
-				+ departmentId + ", startDate=" + startDate + ", endDate=" + endDate + ", totalSales=" + totalSales
-				+ ", totalExpenses=" + totalExpenses + ", netProfit=" + netProfit + ", approvalStatus=" + approvalStatus
-				+ ", closingDate=" + closingDate + ", closingType=" + closingType + "]";
+		return "FinClose [closingId=" + closingId + ", uuId=" + uuId + ", bankId=" + bankId + ", startDate=" + startDate
+				+ ", endDate=" + endDate + ", totalSales=" + totalSales + ", totalExpenses=" + totalExpenses
+				+ ", netProfit=" + netProfit + ", closingDate=" + closingDate + ", closingType=" + closingType + "]";
 	}
 }
