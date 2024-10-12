@@ -93,8 +93,11 @@
 		<mapper resource="mappers/employee-buy-mapper.xml" />
 
 		<mapper resource="mappers/attendance-mapper.xml" />
-		<mapper resource="mappers/attendancerequest-mapper.xml" />
+		<mapper resource="mappers/attendancedocument-mapper.xml" />
 		<mapper resource="mappers/bankmg-mapper.xml" />
+		<mapper resource="mappers/module-mapper.xml" />
+		<mapper resource="mappers/item-delivery-mapper.xml" />
+		<mapper resource="mappers/delivery-mapper.xml" />
 
 	</mappers>
 

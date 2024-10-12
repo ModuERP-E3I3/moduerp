@@ -1,4 +1,4 @@
-package com.e3i3.moduerp.item.controller;
+ package com.e3i3.moduerp.item.controller;
 
 import java.util.List;
 
@@ -37,14 +37,17 @@ public class ItemBuyStockcontroller {
 	            List<String> itemNames = itemService.getItemNamesByBizNumber(bizNumber);
 	            // biz_number로 stock_place 목록을 가져옴
 	            List<String> stockPlaces = itemService.getStockPlacesByBizNumber(bizNumber);
+	            List<String> accountName = itemService.getStockPlacesByBizNumber(bizNumber);
 	            String directorName = employeeBuyService.getEmployeeNameByUuid(uuid);
 	            // 쿼리 결과 로그 출력
 	            System.out.println("조회된 itemNames: " + itemNames);
 	            System.out.println("조회된 stockPlaces: " + stockPlaces);
+	            System.out.println("조회된 stockPlaces: " + accountName);
 	            
 	            // JSP로 전달할 모델 추가
 	            model.addAttribute("itemNames", itemNames);
 	            model.addAttribute("stockPlaces", stockPlaces);
+	            model.addAttribute("accountName", accountName);
 	            model.addAttribute("directorName", directorName);
 	        }
 	        return "buyStock/buyStockInCreate"; // JSP 파일 이름

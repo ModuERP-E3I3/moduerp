@@ -72,7 +72,7 @@
 	background-color: white;
 	margin-left: 1%;
 	margin-right: 5%;
-	margin-top: 5%;
+	margin-top: 3%;
 	border: 1px solid #ccc;
 	border-radius: 20px; /* 박스 둥글게 */
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -255,7 +255,7 @@
 		<ul id="menubar">
 			<li><a href="<c:url value='/attendance.do' />"><i
 					class="fas fa-bullhorn"></i> 출퇴근</a></li>
-			<li><a href="<c:url value='/attendanceRequest/mylist.do' />"><i
+			<li><a href="<c:url value='/attendanceDocument/mylist.do' />"><i
 					class="fas fa-clipboard"></i> 근태문서</a></li>
 			<li><a href="<c:url value='/email/inbox.do' />"> <i
 					class="fas fa-envelope"></i> 이메일
@@ -354,7 +354,7 @@
 				<div class="info-box">
 					<div class="info-label">근태 신청</div>
 					<div class="info-value">-</div>
-					<a href="<c:url value='/attendanceRequest/send.do' />" class="info-link">신청하기</a>
+					<a href="<c:url value='/attendanceDocument/send.do' />" class="info-link">신청하기</a>
 				</div>
 			</div>
 

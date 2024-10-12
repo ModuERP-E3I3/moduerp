@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ModuleMapper">
+	<resultMap id="resultModuleOrder"
+		type="com.e3i3.moduerp.module.model.dto.ModuleDTO">
+		<result property="moduleId" column="MODULE_ID" />
+		<result property="moduleName" column="MODULE_NAME" />
+		<result property="modulePrice" column="MODULE_PRICE" />
+		<result property="moduleDesc" column="MODULE_DESC" />
+		<result property="moduleVer" column="MODULE_VER" />
+		<result property="moduleGrade" column="MODULE_GRADE" />
+		<result property="moduleUsage" column="MODULE_USAGE" />
+		<result property="createDate" column="CREATE_DATE" />
+		<result property="updateDate" column="UPDATE_DATE" />
+		<result property="moduleType" column="MODULE_TYPE" />
+	</resultMap>
+
+	<!-- MODUKE_USAGE가 'Y'인 데이터만 가져오는 쿼리 -->
+	<select id="selectActiveModules" resultMap="resultModuleOrder">
+		SELECT * FROM MODULE
+		WHERE MODULE_USAGE = 'Y'
+		ORDER BY CREATE_DATE ASC
+	</select>
+
+	<!-- MODUKE_USAGE가 'N'인 데이터만 가져오는 쿼리 -->
+	<select id="selectModulesN" resultMap="resultModuleOrder">
+		SELECT * FROM MODULE WHERE
+		MODULE_USAGE = 'N'
+	</select>
+
+	<insert id="insertModule">
+		INSERT INTO MODULE
+		(MODULE_ID, MODULE_NAME,
+		MODULE_PRICE, MODULE_DESC,
+		MODULE_VER, MODULE_GRADE, MODULE_USAGE,
+		CREATE_DATE, MODULE_TYPE)
+		VALUES
+		(#{moduleId},
+		#{moduleName},
+		#{modulePrice},
+		#{moduleDesc},
+		#{moduleVer}, #{moduleGrade},
+		#{moduleUsage},
+		#{createDate}, #{moduleType})
+	</insert>
+
+	<!-- 디테일 -->
+	<select id="getModuleDetailByModuleId" parameterType="String"
+		resultType="com.e3i3.moduerp.module.model.dto.ModuleDTO">
+		SELECT * FROM MODULE WHERE MODULE_ID = #{moduleId}
+	</select>
+
+	<update id="updateModule"
+		parameterType="com.e3i3.moduerp.module.model.dto.ModuleDTO">
+		UPDATE MODULE
+		SET MODULE_PRICE = #{modulePrice},
+		MODULE_DESC = #{moduleDesc},
+		MODULE_VER = #{moduleVer},
+		UPDATE_DATE =
+		#{updateDate},
+		MODULE_USAGE = #{moduleUsage}
+		WHERE MODULE_ID =
+		#{moduleId}
+	</update>
+
+	<delete id="deleteModule" parameterType="String">
+		DELETE FROM MODULE
+		WHERE
+		MODULE_ID = #{moduleId}
+	</delete>
+
+	<!-- 그룹웨어, 생산, 구매, 영업, 차량, 회계 -->
+	<select id="getModuleListGroup" resultMap="resultModuleOrder">
+		SELECT * FROM MODULE
+		WHERE MODULE_USAGE = 'Y'
+		AND MODULE_TYPE='그룹웨어'
+		ORDER BY CREATE_DATE ASC
+	</select>
+
+	<select id="getModuleListProduction"
+		resultMap="resultModuleOrder">
+		SELECT * FROM MODULE
+		WHERE MODULE_USAGE = 'Y'
+		AND
+		MODULE_TYPE='생산'
+		ORDER BY CREATE_DATE ASC
+	</select>
+
+	<select id="getModuleListBuy" resultMap="resultModuleOrder">
+		SELECT * FROM MODULE
+		WHERE MODULE_USAGE = 'Y'
+		AND MODULE_TYPE='구매'
+		ORDER BY CREATE_DATE ASC
+	</select>
+
+	<select id="getModuleListSales" resultMap="resultModuleOrder">
+		SELECT * FROM MODULE
+		WHERE MODULE_USAGE = 'Y'
+		AND MODULE_TYPE='영업'
+		ORDER BY CREATE_DATE ASC
+	</select>
+
+	<select id="getModuleListCar" resultMap="resultModuleOrder">
+		SELECT * FROM MODULE
+		WHERE MODULE_USAGE = 'Y'
+		AND MODULE_TYPE='차량'
+		ORDER BY CREATE_DATE ASC
+	</select>
+
+	<select id="getModuleListAccount"
+		resultMap="resultModuleOrder">
+		SELECT * FROM MODULE
+		WHERE MODULE_USAGE = 'Y'
+		AND
+		MODULE_TYPE='회계'
+		ORDER BY CREATE_DATE ASC
+	</select>
+
+
+
+</mapper>
