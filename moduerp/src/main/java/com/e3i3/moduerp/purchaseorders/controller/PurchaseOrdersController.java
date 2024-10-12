@@ -74,8 +74,9 @@ public class PurchaseOrdersController {
 	public String purchaseOrderCreate(@RequestParam("accountNo") String accountNo,
 			@RequestParam("accountName") String accountName, @RequestParam("quantity") int quantity,
 			@RequestParam("supplyPrice") double supplyPrice, @RequestParam("deliveryDate") String deliveryDate,
-			@RequestParam("mgrName") String mgrName, @RequestParam("puItemName") String puItemName, Model model,
-			HttpSession session) {
+			@RequestParam("mgrName") String mgrName, @RequestParam("puItemName") String puItemName,
+			@RequestParam("oDirector") String oDirector, // oDirector 추가
+			Model model, HttpSession session) {
 
 		PurchaseOrdersDTO purchaseOrderDto = new PurchaseOrdersDTO();
 		purchaseOrderDto.setAccountNo(accountNo);
@@ -85,6 +86,7 @@ public class PurchaseOrdersController {
 		purchaseOrderDto.setDeliveryDate(deliveryDate);
 		purchaseOrderDto.setMgrName(mgrName);
 		purchaseOrderDto.setPuItemName(puItemName);
+		purchaseOrderDto.setoDirector(oDirector); // oDirector 설정
 
 		purchaseOrdersService.purchaseOrderCreate(purchaseOrderDto);
 
@@ -120,10 +122,11 @@ public class PurchaseOrdersController {
 
 	@PostMapping("/updatePurchaseOrder.do")
 	public String updatePurchaseOrder(@RequestParam("orderId") String orderId,
-			@RequestParam("accountNo") String accountNo, @RequestParam("accountName") String accountName, // 추가된 부분
+			@RequestParam("accountNo") String accountNo, @RequestParam("accountName") String accountName,
 			@RequestParam("quantity") int quantity, @RequestParam("supplyPrice") double supplyPrice,
 			@RequestParam("deliveryDate") String deliveryDate, @RequestParam("mgrName") String mgrName,
-			@RequestParam("puItemName") String puItemName) {
+			@RequestParam("puItemName") String puItemName, @RequestParam("oDirector") String oDirector) { // oDirector
+																											// 추가
 
 		PurchaseOrdersDTO purchaseOrderDto = new PurchaseOrdersDTO();
 		purchaseOrderDto.setOrderId(orderId);
@@ -134,6 +137,7 @@ public class PurchaseOrdersController {
 		purchaseOrderDto.setDeliveryDate(deliveryDate);
 		purchaseOrderDto.setMgrName(mgrName);
 		purchaseOrderDto.setPuItemName(puItemName);
+		purchaseOrderDto.setoDirector(oDirector); // oDirector 설정
 
 		purchaseOrdersService.updatePurchaseOrder(purchaseOrderDto);
 
