@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<c:url value="/attendanceRequest/submit.do" var="submitUrl" />
+<c:url value="/attendanceDocument/submit.do" var="submitUrl" />
 
 <!DOCTYPE html>
 <html>
@@ -127,7 +127,7 @@ function toggleTimeFields() {
     // 임시 저장 버튼 클릭 시 status를 임시저장으로 설정
     $('#saveBtn').click(function() {
         $('#status').val("임시저장"); // 임시 저장 상태로 설정
-        $('form').attr('action', '<c:url value="/attendanceRequest/save.do" />'); // 폼 액션 URL 변경
+        $('form').attr('action', '<c:url value="/attendanceDocument/save.do" />'); // 폼 액션 URL 변경
         //event.preventDefault(); // 기본 폼 제출 방지
         $('form').submit(); // 폼 제출
     });
@@ -164,9 +164,8 @@ function toggleTimeFields() {
 		<div class="content-title">근태신청</div>
 		<!-- 근태 요청서 작성 폼 -->
 		
-		<form:form method="post" action="${submitUrl}" modelAttribute="attendanceRequest" oninput="toggleTimeFields()">
+		<form:form method="post" action="${submitUrl}" modelAttribute="attendanceDocument" oninput="toggleTimeFields()">
 		<!-- JSP의 숨겨진 필드로 attendancerequestId 전달 -->
-		<form:input path="attendancerequestId" type="hidden" />
     <table>
         <tr>
             <td>*신청 유형:</td>
@@ -243,7 +242,7 @@ function toggleTimeFields() {
     <!-- 숨겨진 status와 isApproved 필드 추가 -->
     <input type="hidden" id="status" name="status" value="제출완료" />
     <input type="hidden" id="isApproved" name="isApproved" value="N" />
-
+	<input type="hidden" name="attendancerequestId" value="${attendanceDocument.attendancerequestId}" />
 </form:form>
 	</div>
 </body>

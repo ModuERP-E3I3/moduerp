@@ -161,10 +161,9 @@
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	        <li><a href="carRes.do"><i class="fas fa-bullhorn"></i> 차량 예약</a></li>
-	        <li><a href="carMgt.do"><i class="fas fa-bullhorn"></i> 차량 결제 관리</a></li>
-	        <li><a href="map.do"><i class="fas fa-bullhorn"></i> 도로 교통 / 경로 조회</a></li>
-
+	        <li><a href="carRes.do"><i class="fa-solid fa-car-side"></i> 차량 예약</a></li>
+	        <li><a href="carMgt.do"><i class="fa-solid fa-list-check"></i> 차량 결제 관리</a></li>
+	        <li><a href="map.do"><i class="fa-solid fa-signs-post"></i> 도로 교통 / 경로 조회</a></li>  
 	    </ul>
 	</div>
 	
@@ -220,6 +219,24 @@
 
         </table>
 
+		<!-- 페이지 버튼 -->
+		<div id="pagebutton">
+			<c:if test="${totalPages > 1}">
+				<c:forEach var="i" begin="1" end="${totalPages}">
+					<c:choose>
+						<c:when test="${i == currentPage}">
+							<strong>${i}</strong>
+							<!-- 현재 페이지는 강조 -->
+						</c:when>
+						<c:otherwise>
+							<a href="carMgt.do?page=${i}">${i}</a>
+							<!-- 페이지 링크 -->
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</c:if>
+		</div>
+		
         <!-- 버튼 그룹 -->
         <div class="btn-group">
 			<a href="carmgtCreate.do"><button class="btn blue">등록</button></a>

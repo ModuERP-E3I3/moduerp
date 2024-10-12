@@ -159,17 +159,14 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="carRes.do"><i class="fas fa-bullhorn"></i> 차량
-					예약</a></li>
-			<li><a href="carMgt.do"><i class="fas fa-bullhorn"></i> 차량
-					결제 관리</a></li>
-			<li><a href="map.do"><i class="fas fa-bullhorn"></i> 도로 교통 /
-					경로 조회</a></li>
+			<li><a href="carRes.do"><i class="fa-solid fa-car-side"></i> 차량 예약</a></li>
+	        <li><a href="carMgt.do"><i class="fa-solid fa-list-check"></i> 차량 결제 관리</a></li>
+	        <li><a href="map.do"><i class="fa-solid fa-signs-post"></i> 도로 교통 / 경로 조회</a></li>
 		</ul>
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">차량관리 | 차량 예약 | 차량 정보 수정 수정하기</div>
+		<div class="content-title">차량관리 | 차량 결제 관리 | 차량 결제 리스트 수정하기</div>
 
 		<form action="/moduerp/updateCarmgt.do" method="POST">
 			<input type="hidden" name="paymentHistoryCode" value="${carmgtDetail.paymentHistoryCode}" />

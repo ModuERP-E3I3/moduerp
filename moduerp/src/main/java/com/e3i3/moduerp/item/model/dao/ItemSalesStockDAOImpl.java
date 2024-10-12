@@ -83,8 +83,9 @@ public class ItemSalesStockDAOImpl implements ItemSalesStockDAO {
 		params.put("stockOut", stockOut);
 		params.put("outPrice", outPrice);
 		params.put("updatedStock", updatedStock);
+		params.put("oDirector", oDirector);
 
-		sqlSession.update(namespace + ".updateItemForSalesOut", params);
+		sqlSession.update(namespace + ".updateItemStockOut", params);
 	}
 
 	@Override

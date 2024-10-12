@@ -205,7 +205,7 @@ th {
 		<ul id="menubar">
 	        <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
 			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
-			<li><a href="buyStockIn.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
+			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
 	    </ul>
 	</div>
 
@@ -257,7 +257,7 @@ th {
 		<div class="btn-group">
 			<button class="btn red" onclick="openDeleteModal()">삭제</button>
 			<a
-				href="buyStockOutDetailSubUpdate.do?itemCode=${itemDetailsSub.itemCode}&pStockId=${buyStockOutDetailsSub.bStockOutId}">
+				href="buyStockOutDetailSubUpdate.do?itemCode=${itemDetailsSub.itemCode}&bStockId=${buyStockOutDetailsSub.bStockOutId}">
 				<button class="btn green">수정</button>
 			</a>
 		</div>

@@ -15,8 +15,8 @@ public class CarServiceImpl implements CarService{
 	private CarDao carDao;
 	
 	@Override
-	public List<CarDto> getAllCar(){
-		return carDao.getAllCar();
+	public List<CarDto> getAllCar(String bizNumber){
+		return carDao.getAllCar(bizNumber);
 	}
 	
 	@Override
@@ -37,5 +37,17 @@ public class CarServiceImpl implements CarService{
 	@Override
 	public void deleteCar(CarDto carDto) {
 		carDao.deleteCar(carDto);
+	}
+
+	@Override
+	public List<CarDto> getCarByFilter(String bizNumber, String option, String filterText) {
+		if (option.equals("carModel")) {
+			return carDao.getCarByCarModel(bizNumber, filterText);
+		} else if (option.equals("carNum")) {
+			return carDao.getCarByCarNum(bizNumber, filterText);
+		} else if (option.equals("ownershipStatus")) {
+			return carDao.getCarByOwnershipStatus(bizNumber, filterText);
+		}
+		return null;
 	}
 }

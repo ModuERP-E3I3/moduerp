@@ -81,8 +81,9 @@
 
 /* 테이블 스타일 */
 table {
-	width: 100%;
+	width: 40%;
 	border-collapse: collapse;
+	margin: 0 auto;
 	margin-top: 20px;
 }
 
@@ -155,9 +156,9 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	        <li><a href="carRes.do"><i class="fas fa-bullhorn"></i> 차량 예약</a></li>
-	        <li><a href="carMgt.do"><i class="fas fa-bullhorn"></i> 차량 결제 관리</a></li>
-	        <li><a href="map.do"><i class="fas fa-bullhorn"></i> 도로 교통 / 경로 조회</a></li>
+	        <li><a href="carRes.do"><i class="fa-solid fa-car-side"></i> 차량 예약</a></li>
+	        <li><a href="carMgt.do"><i class="fa-solid fa-list-check"></i> 차량 결제 관리</a></li>
+	        <li><a href="map.do"><i class="fa-solid fa-signs-post"></i> 도로 교통 / 경로 조회</a></li>
 
 	    </ul>
 	</div>
@@ -171,30 +172,49 @@ th {
 
 		<!-- 테이블 -->
 		<!-- 테이블 -->
-		<form action="/moduerp/insertCar.do" method="POST">
+		<form action="/moduerp/insertCar.do" method="POST" enctype="multipart/form-data">
 			<table>
 				<thead>
 					<tr>
+                  		<th>차량 이미지</th>
+            		</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input type="file" id="image" name="image" accept="image/*" style="margin-left:8.5%" required><br></td>
+					</tr>
+				</tbody>
+				<thead>
+					<tr>
 						<th>차종</th>
-						<th>차량 번호</th>
-						<th>소유 형태</th>
-						
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-
-						<!-- 차종 입력 칸 -->
 						<td><input type="text" name="carModel" placeholder="차종 입력" /></td>
-
-						<!-- 차량 번호 입력 칸 -->
-						<td><input type="text" name="carNum" placeholder="차량 번호 입력" /></td>
-
-						<!-- 소유 형태 입력 칸 -->
-						<td><input type="text" name="ownershipStatus" placeholder="소유 형태 입력" /></td>
-						
 					</tr>
 				</tbody>
+				<thead>
+					<tr>
+						<th>차량 번호</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input type="text" name="carNum" placeholder="차량 번호 입력" /></td>
+					</tr>
+				</tbody>
+				<thead>
+					<tr>
+						<th>소유 형태</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input type="text" name="ownershipStatus" placeholder="소유 형태 입력" /></td>
+					</tr>
+				</tbody>
+				
 			</table>
 
 			<!-- 버튼 그룹 -->
@@ -206,7 +226,6 @@ th {
 
 	</div>
 </body>
-
 
 
 <script>

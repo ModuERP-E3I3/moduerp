@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+ "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CartMapper">
+	<!-- resultMap 설정 -->
+	<resultMap id="cartResultMap"
+		type="com.e3i3.moduerp.cart.model.dto.CartDTO">
+		<id property="cartId" column="CART_ID" />
+		<result property="bizNumber" column="BIZ_NUMBER" />
+		<result property="cartList" column="CART_LIST" />
+		<result property="uuid" column="UUID" />
+		<result property="name" column="NAME" />
+	</resultMap>
+
+
+	<select id="isCartExistByBizNumber" resultType="int"
+		parameterType="String">
+		SELECT COUNT(*) FROM CART WHERE BIZ_NUMBER =
+		#{bizNumber}
+	</select>
+
+	<insert id="insertCart"
+		parameterType="com.e3i3.moduerp.cart.model.dto.CartDTO">
+		INSERT INTO CART(
+		CART_ID,
+		BIZ_NUMBER,
+		CART_LIST,
+		UUID,
+		NAME
+		) VALUES (
+		#{cartId},
+		#{bizNumber},
+		#{cartList},
+		#{uuid},
+		#{name}
+		)
+	</insert>
+
+	<update id="updateCart"
+		parameterType="com.e3i3.moduerp.cart.model.dto.CartDTO">
+		UPDATE CART
+		SET CART_LIST = #{cartList}
+		WHERE BIZ_NUMBER =
+		#{bizNumber}
+		AND UUID = #{uuid}
+	</update>
+
+	<!-- BIZ_NUMBER가 일치하는 모든 CART 데이터를 조회 -->
+	<select id="selectCartListByBizNumber"
+		resultType="com.e3i3.moduerp.cart.model.dto.CartDTO"
+		parameterType="String">
+		SELECT *
+		FROM CART
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+
+	<select id="getCartListByBizNumber" parameterType="string"
+		resultType="string">
+		SELECT CART_LIST
+		FROM CART
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+
+	<update id="updateCartListByBizNumber" parameterType="map">
+		UPDATE CART
+		SET CART_LIST = #{updatedCartList}
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</update>
+
+	<update id="clearCartList" parameterType="string">
+		UPDATE CART
+		SET CART_LIST = NULL
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</update>
+
+</mapper>

@@ -27,8 +27,7 @@ public interface ItemBuyStockDAO {
 
 	int getStockByItemCode(String itemCode);
 
-	void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut, double outPrice,
-			int updatedStock);
+
 
 	void updateStockOutByItemCode(String itemCode, int totalStockOut);
 
@@ -40,11 +39,44 @@ public interface ItemBuyStockDAO {
 
 	void updateItemOutPrice(String itemCode, double outPrice);
 
-	void updateItemWithLatestStockOut(String itemCode, Timestamp latestOutDate, double latestOutPrice,
-			String latestOutPlace);
 
 	void resetItemStockOutDetails(String itemCode);
 
 	void updateItemStockOutToNull(String itemCode);
+
+
+	void updateItemStockOut(String itemCode, String createdOutAt, String stockOutPlace, int stockOut, double outPrice,
+			int updatedStock, String oDirector);
+	
+	void updateItemWithLatestStockOut(String itemCode, Timestamp latestOutDate, double latestOutPrice,
+			String latestOutPlace);
+	
+	// in filter
+	
+	List<ItemDTO> getItemByItemNameDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<ItemDTO> getItemByStockPlaceDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<ItemDTO> getItemByiDirectorDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<ItemDTO> getItemByItemName(String bizNumber, String filterText);
+
+	List<ItemDTO> getItemByStockPlace(String bizNumber, String filterText);
+
+	List<ItemDTO> getItemByiDirector(String bizNumber, String filterText);
+	
+	// -----------------------------------------------
+	// filter
+	List<ItemDTO> getItemOutByItemNameDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<ItemDTO> getItemOutByStockOutPlaceDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<ItemDTO> getItemOutByODirectorDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<ItemDTO> getOutItemByItemName(String bizNumber, String filterText);
+
+	List<ItemDTO> getOutItemByStockOutPlace(String bizNumber, String filterText);
+
+	List<ItemDTO> getOutItemByODirector(String bizNumber, String filterText);
 
 }

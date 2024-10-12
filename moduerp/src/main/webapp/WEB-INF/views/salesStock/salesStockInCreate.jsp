@@ -177,7 +177,6 @@ th {
 		</div>
 
 		<!-- 테이블 -->
-		<!-- 테이블 -->
 		<form action="/moduerp/salesStockInCreate.do" method="POST">
 			<table>
 				<thead>
@@ -238,8 +237,6 @@ th {
 							<button type="button" onclick="addMaterialType()">자재 종류추가</button>
 						</td>
 						
-						<!--  <td><input type="number" name="iDirector" placeholder="담당자 입력"
-							step="0.01" /></td> -->
 						
 						<td> <input type="text" name="director" value="${directorName}" readonly="readonly">
 						</td>

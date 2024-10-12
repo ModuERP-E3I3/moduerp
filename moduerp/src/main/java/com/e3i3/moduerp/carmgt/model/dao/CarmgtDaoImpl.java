@@ -17,8 +17,8 @@ public class CarmgtDaoImpl implements CarmgtDao {
 	private static final String namespace = "CarmgtMapper";
 	
 	@Override
-	public List<CarmgtDto> getAllCarmgt(){
-		return sqlSession.selectList(namespace +  ".getAllCarmgt");
+	public List<CarmgtDto> getAllCarmgt(String bizNumber){
+		return sqlSession.selectList(namespace +  ".getAllCarmgt", bizNumber);
 	}
 	
 	@Override

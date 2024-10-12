@@ -81,8 +81,9 @@
 
 /* 테이블 스타일 */
 table {
-	width: 100%;
+	width: 40%;
 	border-collapse: collapse;
+	margin : 0 auto;
 	margin-top: 20px;
 }
 
@@ -159,9 +160,9 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 	    <ul id="menubar">
-	        <li><a href="carRes.do"><i class="fas fa-bullhorn"></i> 차량 예약</a></li>
-	        <li><a href="carMgt.do"><i class="fas fa-bullhorn"></i> 차량 결제 관리</a></li>
-	        <li><a href="map.do"><i class="fas fa-bullhorn"></i> 도로 교통 / 경로 조회</a></li>
+	        <li><a href="carRes.do"><i class="fa-solid fa-car-side"></i> 차량 예약</a></li>
+	        <li><a href="carMgt.do"><i class="fa-solid fa-list-check"></i> 차량 결제 관리</a></li>
+	        <li><a href="map.do"><i class="fa-solid fa-signs-post"></i> 도로 교통 / 경로 조회</a></li>
 	    </ul>
 	</div>
 
@@ -169,27 +170,63 @@ th {
 		<div class="content-title">차량관리 | 차량 예약 | 차량 정보 수정
 			수정하기</div>
 
-		<form action="/moduerp/updateCar.do" method="POST">
+		<form action="/moduerp/updateCar.do" method="POST" enctype="multipart/form-data">
 			<input type="hidden" name="carId" value="${carDetail.carId}" />
 			<table>
 				<thead>
-					<tr>
-						<th>차종</th>
-                    	<th>차량 번호</th>
-                    	<th>소유 형태</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><input type="text" name="carModel"
-							value="${carDetail.carModel}" required /></td>
-						<td><input type="text" name="carNum"
-							value="${carDetail.carNum}" required /></td>
-						<td><input type="text" name="ownershipStatus"
-							value="${carDetail.ownershipStatus}" required /></td>
-
-					</tr>
-				</tbody>
+                <tr>
+                  		<th>차량 이미지</th>
+            	</tr>
+            	</thead>
+            	<tbody>
+            		<tr>
+            			<td>
+    						<img id="previewImage" alt="${carDetail.carModel}" src="${pageContext.request.contextPath}/${carDetail.imagePath}" width="100">
+    						<br>
+    						<input type="file" id="image" name="image" accept="image/*" onchange="previewFile()" style="margin-left:8.5%"><br>
+						</td>
+            		</tr>
+            	</tbody>
+            	<thead>
+            		<tr>
+                  		<th>차종</th>
+            		</tr>
+            	</thead>
+            	<tbody>
+            		<tr>
+            			<td>
+            				<input type="text" name="carModel"
+							value="${carDetail.carModel}" required />
+						</td>
+            		</tr>
+            	</tbody>
+            	<thead>
+            		<tr>
+                  		<th>차량 번호</th>
+            		</tr>
+            	</thead>
+            	<tbody>
+            		<tr>
+            			<td>
+            				<input type="text" name="carNum"
+							value="${carDetail.carNum}" required />
+						</td>
+            		</tr>
+            	</tbody>
+            	<thead>
+            		<tr>
+                  		<th>소유 형태</th>
+            		</tr>
+            	</thead>
+            	<tbody>
+            		<tr>
+            			<td>
+            				<input type="text" name="ownershipStatus"
+							value="${carDetail.ownershipStatus}" required />
+						</td>
+            		</tr>
+            	</tbody>
+				
 			</table>
 
 			<div class="btn-group">
@@ -199,7 +236,22 @@ th {
 	</div>
 </body>
 
+<script>
+    function previewFile() {
+        const preview = document.getElementById('previewImage');
+        const file = document.getElementById('image').files[0];
+        const reader = new FileReader();
 
+        reader.addEventListener("load", function () {
+            // 이미지 데이터를 src 속성에 설정
+            preview.src = reader.result;
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
 <script>
     const activeMenu = "carRes";
 

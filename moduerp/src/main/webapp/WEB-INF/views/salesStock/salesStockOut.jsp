@@ -169,6 +169,7 @@ tbody tr:hover {
 }
 </style>
 
+
 </head>
 
 <body>
@@ -223,8 +224,6 @@ tbody tr:hover {
 					<th>최종 출고 장소</th>
 					<th>최종 출고 단가</th>
 					<th>담당자</th>
-					<th>판매 상태</th>
-					<th>지급 상태</th>
 
 				</tr>
 			</thead>
@@ -232,25 +231,19 @@ tbody tr:hover {
 				<c:forEach var="item" items="${itemList}" varStatus="status">
 					<tr
 						onclick="window.location.href='getSalesOutDetails.do?itemCode=${item.itemCode}'">
+						
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
+						
 						<td>${item.itemName}</td>
+						
 						<td><fmt:formatDate value="${item.createdOutAt}"
 								pattern="yyyy-MM-dd" /></td>
+								
 						<td>${item.stockOut}</td>
 						<td>${item.stock}</td>
 						<td>${item.stockOutPlace}</td>
 						<td>${item.outPrice}</td>
-						<td>${item.oDirector}</td>
-						
-						<td><c:choose>
-								<c:when test="${item.sStockOutStatus == 'Y'}">Yes</c:when>
-								<c:otherwise>No</c:otherwise>
-							</c:choose></td>
-						
-						<td><c:choose>
-								<c:when test="${item.paymentStatus == 'Y'}">Yes</c:when>
-								<c:otherwise>No</c:otherwise>
-							</c:choose></td>
+						<td>${item.oDirector}</td> 
 						
 					</tr>
 				</c:forEach>

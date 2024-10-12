@@ -180,7 +180,7 @@ tbody tr:hover {
 		 <ul id="menubar">
 	        <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
 			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
-			<li><a href="buyStockIn.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
+			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
 	    </ul>
 	</div>
 
@@ -224,7 +224,7 @@ tbody tr:hover {
 					<th>재고 수량</th>
 					<th>출고 장소</th>
 					<th>출고 단가</th>
-					<th>담당자</th>
+					<th>출고 담당자</th>
 				</tr>
 			</thead>
 			<tbody>

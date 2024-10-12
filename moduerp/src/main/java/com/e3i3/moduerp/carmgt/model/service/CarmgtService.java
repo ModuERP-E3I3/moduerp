@@ -6,7 +6,7 @@ import com.e3i3.moduerp.carmgt.model.dto.CarmgtDto;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 
 public interface CarmgtService {
-	List<CarmgtDto> getAllCarmgt();
+	List<CarmgtDto> getAllCarmgt(String bizNumber);
 	void insertCarmgt(CarmgtDto carmgtDto);
 	List<String> getEmpNamesByBizNumber(String bizNumber);
     List<String> getDepartmentIdsByBizNumber(String bizNumber);

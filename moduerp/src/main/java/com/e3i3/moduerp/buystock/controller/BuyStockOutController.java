@@ -80,6 +80,54 @@ public class BuyStockOutController {
 
 		return "buyStock/buyStockOut"; // JSP 파일 경로 반환
 	}
+	
+	@RequestMapping(value = "/buyStockOutFilter.do", method = RequestMethod.GET)
+	public String forwardBuyInFilter(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "filterOption", required = false) String option,
+			@RequestParam(value = "filterText", required = false) String filterText,
+			@RequestParam(value = "startDate", required = false) String startDate,
+			@RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
+		String bizNumber = (String) session.getAttribute("biz_number");
+		List<ItemDTO> itemList;
+
+		// 필터링 로직 추가
+		if (option != null && filterText != null) {
+			if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+				System.out.println("날짜있는거 실행");
+				itemList = itemBuystockService.getItemOutByFilterDate(bizNumber, option, filterText, startDate,
+						endDate);
+			} else if (startDate == null || startDate.isEmpty()) {
+				System.out.println("날짜없는거 실행");
+				itemList = itemBuystockService.getItemOutByFilter(bizNumber, option, filterText);
+			} else {
+				System.out.println("실행 못함");
+				itemList = itemBuystockService.getItemsByBizNumberOutDate(bizNumber);
+			}
+		} else {
+			itemList = itemBuystockService.getItemsByBizNumberOutDate(bizNumber);
+		}
+
+		// 페이지네이션 처리
+		int itemsPerPage = 10;
+		int totalItems = itemList.size();
+		int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+		int startIndex = (page - 1) * itemsPerPage;
+		int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+		// 서브리스트 생성
+		List<ItemDTO> paginatedList = itemList.subList(startIndex, endIndex);
+
+		// 모델에 추가
+		model.addAttribute("itemList", paginatedList);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("option", option);
+		model.addAttribute("filterText", filterText);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
+
+		return "buyStock/buyStockOutFilter"; // JSP 파일 경로 반환
+	}
 
 	// 등록 페이지로 이동(buyStockOutCreate.do)
 	@RequestMapping(value = "/buyStockOutCreate.do", method = RequestMethod.GET)
@@ -90,7 +138,7 @@ public class BuyStockOutController {
 
 		String directorName = employeeBuyService.getEmployeeNameByUuid(uuid);
 
-		// item_code가 biz_number + "P"로 시작하는 데이터 가져오기
+		// item_code가 biz_number + "B"로 시작하는 데이터 가져오기
 		List<ItemDTO> items = itemBuystockService.getItemsByBizNumberStartingWith(bizNumber);
 		model.addAttribute("itemList", items); // item_name을 포함한 리스트
 		model.addAttribute("directorName", directorName);
@@ -105,19 +153,23 @@ public class BuyStockOutController {
 	        @RequestParam("itemCode") String itemCode, @RequestParam("oDirector") String oDirector,
 	        HttpSession session) {
 	    // 세션에서 biz_number와 uuid를 가져옴
+
 	    String bizNumber = (String) session.getAttribute("biz_number");
 	    String userUuid = (String) session.getAttribute("uuid");
+		System.out.println("oDirector: ======================================== ");
+		System.out.println("oDirector: " + oDirector);
+		System.out.println("oDirector: ======================================== ");
 
 	    // ITEM 테이블 업데이트 로직
 	    itemBuystockService.updateItemStockOut(itemCode, createdOutAt, stockOutPlace, stockOut, outPrice,
 	            oDirector);
 
 	    // createdOutAt을 LocalDate로 변환한 후 현재 시간을 추가
-	    LocalDate localDate = LocalDate.parse(createdOutAt);
-	    LocalDateTime localDateTime = localDate.atTime(LocalTime.now()); // 현재 시간을 추가
-
+	    LocalDate parsedDate = LocalDate.parse(createdOutAt);
+	    LocalTime currentTime = LocalTime.now();
+	    LocalDateTime combinedDateTime = LocalDateTime.of(parsedDate, currentTime);
 	    // LocalDateTime을 Timestamp로 변환
-	    Timestamp stockOutDate = Timestamp.valueOf(localDateTime);
+	    Timestamp stockOutDate = Timestamp.valueOf(combinedDateTime);
 
 	    // BUY_STOCK_OUT 테이블에 저장할 데이터 설정
 	    BuyStockOutDTO buyStockOutDTO = new BuyStockOutDTO();
@@ -145,14 +197,13 @@ public class BuyStockOutController {
 	public String getBuyInDetails(@RequestParam("itemCode") String itemCode, Model model) {
 		// ITEM 테이블에서 데이터 가져오기
 		ItemDTO itemDetails = itemBuystockService.getItemDetails(itemCode);
-
 		// BUY_STOCK_OUT 테이블에서 데이터 가져오기
 		List<BuyStockOutDTO> buyStockOutDetails = buyStockOutService
 				.getBuyStockOutDetails(itemCode);
 
 		// 디버그 로그 출력 안뜨는지 확인 필요
 		System.out.println("BuyStockOutDetails: " + buyStockOutDetails);
-
+		
 		// CREATED_AT에 9시간 추가하는 로직
 		Timestamp createdAt = itemDetails.getCreatedAt();
 		Timestamp adjustedCreatedAt = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000)); // 9시간

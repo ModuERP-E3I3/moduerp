@@ -59,10 +59,12 @@
 
 	<select id="getItemsByBizNumber" parameterType="String"
 		resultMap="itemResultMap">
-		SELECT * FROM ITEM WHERE BIZ_NUMBER = #{bizNumber}
-		AND
-		ITEM_CODE
-		LIKE CONCAT(#{bizNumber}, 'P%')
+		SELECT *
+		FROM ITEM
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'P%')
+		ORDER BY CREATED_AT ASC
+
 	</select>
 
 	<select id="selectItemByCode" parameterType="String"
@@ -120,7 +122,10 @@
 		ITEM
 		WHERE
 		BIZ_NUMBER = #{bizNumber}
+		AND ITEM_CODE
+		LIKE CONCAT(#{bizNumber}, 'P%')
 		AND CREATED_OUT_AT IS NOT NULL
+		ORDER BY CREATED_OUT_AT ASC
 	</select>
 
 	<!-- BizNumber와 item_code가 biz_number + "P"로 시작하는 품목을 조회하는 쿼리 -->
@@ -133,6 +138,7 @@
 		BIZ_NUMBER = #{bizNumber}
 		AND ITEM_CODE
 		LIKE CONCAT(#{bizNumber}, 'P%')
+		ORDER BY CREATED_AT ASC
 	</select>
 
 	<update id="updateItemForProductionOut" parameterType="map">
@@ -154,6 +160,7 @@
 	<select id="getStockByItemCode" parameterType="String"
 		resultType="int">
 		SELECT STOCK FROM ITEM WHERE ITEM_CODE = #{itemCode}
+		ORDER BY CREATED_OUT_AT ASC
 	</select>
 
 
@@ -169,6 +176,7 @@
 	<select id="getStockInByItemCode" resultType="int">
 		SELECT STOCK_IN
 		FROM ITEM WHERE ITEM_CODE = #{itemCode}
+		ORDER BY CREATED_AT ASC
 	</select>
 
 	<!-- STOCK 업데이트 쿼리 -->
@@ -221,6 +229,7 @@
 		WHERE BIZ_NUMBER
 		= #{bizNumber}
 		AND ITEM_CODE LIKE CONCAT(#{bizNumber}, 'P%')
+		
 	</select>
 
 	<!-- =============================================== -->
@@ -237,6 +246,7 @@
 		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
 		TO_DATE(#{endDate},
 		'YYYY-MM-DD')
+		ORDER BY CREATED_AT ASC
 	</select>
 
 	<select id="selectItemFilterByStockPlaceDate"
@@ -251,6 +261,7 @@
 		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
 		TO_DATE(#{endDate},
 		'YYYY-MM-DD')
+		ORDER BY CREATED_AT ASC
 	</select>
 
 	<select id="selectItemFilterByiDirectorDate" parameterType="map"
@@ -264,6 +275,8 @@
 		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
 		TO_DATE(#{endDate},
 		'YYYY-MM-DD')
+		ORDER BY CREATED_AT ASC
+		
 	</select>
 
 	<select id="selectItemFilterByItemName" parameterType="map"
@@ -273,6 +286,7 @@
 		WHERE ITEM_CODE LIKE #{bizNumber} || 'P%'
 		AND
 		ITEM_NAME LIKE '%' || #{filterText} || '%'
+		ORDER BY CREATED_AT ASC
 	</select>
 
 	<select id="selectItemFilterByStockPlace" parameterType="map"
@@ -282,6 +296,7 @@
 		WHERE ITEM_CODE LIKE #{bizNumber} || 'P%'
 		AND
 		STOCK_PLACE LIKE '%' || #{filterText} || '%'
+		ORDER BY CREATED_AT ASC
 	</select>
 
 	<select id="selectItemFilterByiDirector" parameterType="map"
@@ -291,6 +306,7 @@
 		WHERE ITEM_CODE LIKE #{bizNumber} || 'P%'
 		AND
 		IDIRECTOR LIKE '%' || #{filterText} || '%'
+		ORDER BY CREATED_AT ASC
 	</select>
 
 	<!-- =============================================== -->
@@ -304,10 +320,12 @@
 		WHERE ITEM_CODE LIKE #{bizNumber} || 'P%'
 		AND
 		ITEM_NAME LIKE '%' || #{filterText} || '%'
-		AND CREATED_OUT_AT BETWEEN
+		AND CREATED_OUT_AT
+		BETWEEN
 		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
 		TO_DATE(#{endDate},
 		'YYYY-MM-DD')
+		ORDER BY CREATED_OUT_AT ASC
 	</select>
 
 	<select id="selectItemOutFilterByStockOutPlaceDate"
@@ -323,6 +341,7 @@
 		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
 		TO_DATE(#{endDate},
 		'YYYY-MM-DD')
+		ORDER BY CREATED_OUT_AT ASC
 	</select>
 
 	<select id="selectItemOutFilterByODirectorDate"
@@ -333,10 +352,12 @@
 		WHERE ITEM_CODE LIKE #{bizNumber} || 'P%'
 		AND
 		ODIRECTOR LIKE '%' || #{filterText} || '%'
-		AND CREATED_OUT_AT BETWEEN
+		AND CREATED_OUT_AT
+		BETWEEN
 		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
 		TO_DATE(#{endDate},
 		'YYYY-MM-DD')
+		ORDER BY CREATED_OUT_AT ASC
 	</select>
 
 	<select id="selectItemOutFilterByItemName" parameterType="map"
@@ -346,7 +367,9 @@
 		WHERE ITEM_CODE LIKE #{bizNumber} || 'P%'
 		AND
 		ITEM_NAME LIKE '%' || #{filterText} || '%'
-		AND CREATED_OUT_AT IS NOT NULL
+		AND CREATED_OUT_AT IS NOT
+		NULL
+		ORDER BY CREATED_OUT_AT ASC
 	</select>
 
 	<select id="selectItemOutFilterByStockOutPlace"
@@ -358,7 +381,9 @@
 		'P%'
 		AND
 		STOCK_OUT_PLACE LIKE '%' || #{filterText} || '%'
-		AND CREATED_OUT_AT IS NOT NULL
+		AND CREATED_OUT_AT
+		IS NOT NULL
+		ORDER BY CREATED_OUT_AT ASC
 	</select>
 
 	<select id="selectItemOutFilterByODirector" parameterType="map"
@@ -368,7 +393,9 @@
 		WHERE ITEM_CODE LIKE #{bizNumber} || 'P%'
 		AND
 		ODIRECTOR LIKE '%' || #{filterText} || '%'
-		AND CREATED_OUT_AT IS NOT NULL
+		AND CREATED_OUT_AT IS NOT
+		NULL
+		ORDER BY CREATED_OUT_AT ASC
 	</select>
 
 

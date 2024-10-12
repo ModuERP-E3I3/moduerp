@@ -161,10 +161,8 @@ th {
 					거래처관리</a></li>
 			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
 					영업 입고</a></li>
-			<!-- 수정 -->
 			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
 					영업 출고</a></li>
-			<!-- 수정 -->
 		</ul>
 	</div>
 
@@ -188,25 +186,30 @@ th {
 						<th>출고 장소</th>
 						<th>자재 종류</th>
 						<th>출고 담당자</th>
-						<th>출고 상태</th>
 						<th>지급 상태</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td>${itemDetails.itemName}</td>
+						
 						<td>${itemDetails.itemDesc}</td>
+						
 						<td><fmt:formatDate
 								value="${salesStockOutDetails.sStockOutDate}"
 								pattern="yyyy-MM-dd HH:mm:ss" /></td>
+								
 						<td><fmt:formatDate
 								value="${salesStockOutDetails.sStockOutUpdate}"
 								pattern="yyyy-MM-dd HH:mm:ss" /></td>
+								
 						<td><input type="number" name="stockOut"
 							value="${salesStockOutDetails.sStockOutQty}" required /></td>
+							
 						<td><input type="number" name="outPrice"
 							value="${salesStockOutDetails.sStockOutPrice}" step="0.01"
 							required /></td>
+							
 						<td><input list="stockPlaces" name="stockPlace"
 							value="${salesStockOutDetails.sStockOutPlace}"
 							placeholder="보관장소 선택" required /> <datalist id="stockPlaces">
@@ -214,15 +217,10 @@ th {
 									<option value="${stockPlace}"></option>
 								</c:forEach>
 							</datalist></td>
+							
 						<td>${itemDetails.itemList}</td>
-						<td>${salesStockOutDetails.oDirector}</td>
 						
-						<td><select name="sStockOutStatus">
-								<option value="Y"
-									<c:if test="${salesStockOutDetails.sStockOutStatus == 'Y'}">selected</c:if>>Yes</option>
-								<option value="N"
-									<c:if test="${salesStockOutDetails.sStockOutStatus == 'N'}">selected</c:if>>No</option>
-						</select></td>
+						<td>${salesStockOutDetails.oDirector}</td>
 						
 						<td><select name="paymentStatus">
 								<option value="Y"
@@ -230,7 +228,6 @@ th {
 								<option value="N"
 									<c:if test="${salesStockOutDetails.paymentStatus == 'N'}">selected</c:if>>No</option>
 						</select></td>
-						
 						
 					</tr>
 				</tbody>

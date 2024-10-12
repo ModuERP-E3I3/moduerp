@@ -3,7 +3,7 @@
  "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bankmgMapper">
-<!-- namespace (이름공간) == 패키지와 같음 : 매퍼 영역에 이름을 붙여준 것으로 이해하면 됨 -->
+	<!-- namespace (이름공간) == 패키지와 같음 : 매퍼 영역에 이름을 붙여준 것으로 이해하면 됨 -->
 
 	<resultMap type="Bankmg" id="resultBankmg">
 		<result property="bankId" column="BANK_ID" />
@@ -15,29 +15,65 @@
 		<result property="transactionType" column="TRANSACTION_TYPE" />
 		<result property="transactionPrice" column="TRANSACTION_PRICE" />
 	</resultMap>
-	
-	<select id="getAllmgs" resultType="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg">
-        SELECT * FROM BANK_ACCOUNT_MANAGEMENT
-    </select>
 
-   <select id="getmgById" parameterType="String" resultType="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg">
-        SELECT * FROM BANK_ACCOUNT_MANAGEMENT WHERE BANK_ID = #{bankId}
-    </select>
+	<select id="getAllmgs"
+		resultType="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg">
+		SELECT
+		BANK_NUMBER,
+		MIN(BANK_ID) AS BANK_ID,
+		MIN(TRANSACTION_TYPE) AS TRANSACTION_TYPE,
+		MIN(BANK_NAME) AS BANK_NAME,
+		MIN(BANK_HOLDER) AS BANK_HOLDER,
+		SUM(BALANCE) AS BALANCE,
+		MAX(TRANSACTION_DATE) AS TRANSACTION_DATE
+		FROM
+		BANK_ACCOUNT_MANAGEMENT
+		GROUP BY
+		BANK_NUMBER
+		ORDER BY
+		TRANSACTION_DATE ASC
+	</select>
 
-    <insert id="insertmg" parameterType="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg">
-        INSERT INTO BANK_ACCOUNT_MANAGEMENT (BANK_ID, TRANSACTION_TYPE, BANK_NAME, BANK_NUMBER, BANK_HOLDER, TRANSACTION_PRICE, BALANCE, TRANSACTION_DATE)
-        VALUES (#{bankId}, #{transactionType}, #{bankName}, #{bankNumber}, #{bankHolder}, #{transactionPrice}, #{balance}, #{transactionDate})
-    </insert>
+	<select id="getmgById" parameterType="String"
+		resultType="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg">
+		SELECT
+		BANK_NAME,
+		BANK_NUMBER,
+		BANK_HOLDER,
+		TRANSACTION_PRICE,
+		BALANCE,
+		TRANSACTION_TYPE,
+		TRANSACTION_DATE
+		FROM
+		BANK_ACCOUNT_MANAGEMENT
+		WHERE
+		BANK_ID LIKE CONCAT(#{bankId}, '%')
+		AND BANK_NUMBER = #{bankNumber}
+		ORDER BY
+		TRANSACTION_DATE DESC
+	</select>
 
-    <update id="updatemg" parameterType="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg">
-        UPDATE BANK_ACCOUNT_MANAGEMENT
-        SET TRANSACTION_TYPE = #{transactionType}, BANK_NAME = #{bankName}, BANK_NUMBER = #{bankNumber}, 
-            BANK_HOLDER = #{bankHolder}, TRANSACTION_PRICE = #{transactionPrice}, BALANCE = #{balance}, TRANSACTION_DATE = #{transactionDate}
-        WHERE BANK_ID = #{bankId}
-    </update>
+	<insert id="insertmg"
+		parameterType="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg">
+		INSERT INTO BANK_ACCOUNT_MANAGEMENT (BANK_ID, TRANSACTION_TYPE, BANK_NAME,
+		BANK_NUMBER, BANK_HOLDER, TRANSACTION_PRICE, BALANCE,
+		TRANSACTION_DATE)
+		VALUES (#{bankId}, #{transactionType}, #{bankName}, #{bankNumber},
+		#{bankHolder}, #{transactionPrice}, #{balance}, #{transactionDate})
+	</insert>
 
-    <delete id="deletemg" parameterType="int">
-        DELETE FROM BANK_ACCOUNT_MANAGEMENT WHERE BANK_ID = #{bankId}
-    </delete>
-    
+	<update id="updatemg"
+		parameterType="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg">
+		UPDATE BANK_ACCOUNT_MANAGEMENT
+		SET TRANSACTION_TYPE = #{transactionType}, BANK_NAME = #{bankName},
+		BANK_NUMBER = #{bankNumber},
+		BANK_HOLDER = #{bankHolder}, TRANSACTION_PRICE = #{transactionPrice}, BALANCE =
+		#{balance}, TRANSACTION_DATE = #{transactionDate}
+		WHERE BANK_ID = #{bankId}
+	</update>
+
+	<delete id="deletemg" parameterType="String">
+		DELETE FROM BANK_ACCOUNT_MANAGEMENT WHERE BANK_ID = #{bankId}
+	</delete>
+
 </mapper>

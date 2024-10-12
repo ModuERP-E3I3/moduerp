@@ -61,7 +61,7 @@
 	background-color: white;
 	margin-left: 1%;
 	margin-right: 5%;
-	margin-top: 5%;
+	margin-top: 3%;
 	border: 1px solid #ccc;
 	border-radius: 20px; /* 박스 둥글게 */
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -155,10 +155,10 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="bankmg.do"><i class="fas fa-bullhorn"></i> 은행
+			<li><a href="bankmg.do"><i class="fa-solid fa-money-check-dollar"></i> 은행
 					계좌 관리</a></li>
-			<li><a href="financialClosing.do"><i
-					class="fas fa-clipboard"></i> 결산 관리</a></li>
+			<li><a href="finClose.do"><i class="fa-solid fa-calendar-days"></i>
+					결산 관리</a></li>
 			<!-- 수정 -->
 			<!-- <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> 수정
 	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> 수정 -->
@@ -168,7 +168,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">은행 계좌 관리</div>
+		<div class="content-title">회계 관리 | 은행 계좌 관리</div>
 
 		<!-- 필터 박스 -->
 		<div class="filter-box">
@@ -189,23 +189,18 @@ th {
 					<th>계좌명</th>
 					<th>계좌번호</th>
 					<th>계좌 소유자</th>
-					<th>입출금액</th>
 					<th>잔액</th>
 					<th>입/출금일자</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="bankmg" items="${bankmg}">
-					<tr>
+					<tr onclick="window.location.href='bankmgDetail.do?bankId=${bankmg.bankId}BA%&bankNumber=${bankmg.bankNumber}'">
 						<td>${bankmg.bankId}</td>
 						<td>${bankmg.transactionType}</td>
-						<td
-							onclick="window.location.href='bankmgDetail.do?bankId=${bankmg.bankId}'" >
-							${bankmg.bankName}</td>
-						<!-- 은행명을 클릭하면 상세 페이지로 이동 -->
+						<td>${bankmg.bankName}</td>
 						<td>${bankmg.bankNumber}</td>
 						<td>${bankmg.bankHolder}</td>
-						<td>${bankmg.transactionPrice}</td>
 						<td>${bankmg.balance}</td>
 						<td>${bankmg.transactionDate}</td>
 					</tr>
@@ -221,6 +216,7 @@ th {
 			<button class="btn blue"
 				onclick="location.href='${pageContext.request.contextPath}/bankmgAddForm.do'">등록</button>
 		</div>
+	</div>
 </body>
 
 <script>
