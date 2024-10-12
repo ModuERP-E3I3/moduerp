@@ -197,8 +197,8 @@ tbody tr:hover {
 			<table>
 				<thead>
 					<tr>
-						<th>품명</th>
 						<th>거래처명</th>
+						<th>품명</th>
 						<th>수량</th>
 						<th>발주 금액</th>
 						<th>납품일</th>
@@ -207,9 +207,6 @@ tbody tr:hover {
 				</thead>
 				<tbody>
 					<tr>
-						<!-- 품명 입력 -->
-						<td><input type="text" name="puItemName" placeholder="품명 입력"
-							value="${purchaseOrderDetail.puItemName}" /></td>
 
 						<!-- 거래처 선택 드롭다운 리스트 -->
 						<td><select name="accountNo" onchange="setAccountName(this)">
@@ -223,6 +220,10 @@ tbody tr:hover {
 								</c:forEach>
 						</select> <input type="hidden" name="accountName" id="accountNameField"
 							value="${purchaseOrderDetail.accountName}" /></td>
+					
+						<!-- 품명 입력 -->
+						<td><input type="text" name="puItemName" placeholder="품명 입력"
+							value="${purchaseOrderDetail.puItemName}" /></td>
 
 						<!-- 수량 입력 -->
 						<td><input type="number" name="quantity" placeholder="수량 입력"
