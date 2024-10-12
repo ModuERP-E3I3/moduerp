@@ -45,24 +45,23 @@
 		ACCOUNT_NAME
 		)
 		VALUES (
-		LPAD(PURCHASE_ORDERS_SEQ.NEXTVAL, 5, '0'), --
-		ORDER_ID 자동 생성
-		#{puItemName}, -- 쉼표 추가
+		LPAD(PURCHASE_ORDERS_SEQ.NEXTVAL, 5, '0'),
+		--ORDER_ID 자동 생성
+		#{puItemName},
 		#{quantity},
 		#{supplyPrice},
 		#{accountNo},
 		#{deliveryDate},
 		#{mgrName},
 		#{bizNumber},
-		#{accountName} --
-		마지막 쉼표 제거
+		#{accountName}
 		)
 	</insert>
 
 	<!-- 특정 주문 데이터를 ORDER_ID로 업데이트하는 쿼리 -->
 	<update id="updatePurchaseOrder"
 		parameterType="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO">
-		
+
 		UPDATE PURCHASE_ORDERS
 		SET
 		QUANTITY = #{quantity},
@@ -70,10 +69,12 @@
 		ACCOUNT_NO = #{accountNo},
 		DELIVERY_DATE = #{deliveryDate},
 		MGR_NAME = #{mgrName},
-		PU_ITEM_NAME = #{puItemName}
+		PU_ITEM_NAME = #{puItemName},
+		ACCOUNT_NAME = #{accountName}  
 		WHERE ORDER_ID = #{orderId}
 
 	</update>
+
 
 	<!-- 특정 ORDER_ID로 purchase order 데이터를 삭제하는 쿼리 -->
 	<delete id="deletePurchaseOrderByOrderId" parameterType="String">

@@ -4,7 +4,6 @@ import java.util.Date;
 
 public class PurchaseOrdersDTO {
     private String orderId;
-    private String itemCode;
     private int quantity;
     private double supplyPrice;
     private String accountNo;
@@ -31,7 +30,7 @@ public class PurchaseOrdersDTO {
         this.deliveryDate = deliveryDate;
         this.mgrName = mgrName;
         this.puItemName = puItemName;
-        this.bizNumber = bizNumber;  // 추가된 필드 초기화
+        this.bizNumber = bizNumber; 
     }
 
     // Getters and Setters
