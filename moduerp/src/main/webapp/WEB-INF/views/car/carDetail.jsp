@@ -81,8 +81,9 @@
 
 /* 테이블 스타일 */
 table {
-	width: 100%;
+	width: 40%;
 	border-collapse: collapse;
+	margin: 0 auto;
 	margin-top: 20px;
 }
 
@@ -218,22 +219,49 @@ th {
 		<table>
 			<thead>
                 <tr>
-                	<th>차량 이미지</th>
-                    <th>차종</th>
-                    <th>차량 번호</th>
-                    <th>소유 형태</th>
-                </tr>
+                  		<th>차량 이미지</th>
+            	</tr>
             </thead>
-			<tbody>
-
-				<tr>
-					<td><img alt="${carDetail.carModel}" src="${pageContext.request.contextPath}/${carDetail.imagePath}" width="100"></td>
-					<td>${carDetail.carModel}</td>
-					<td>${carDetail.carNum}</td>
-					<td>${carDetail.ownershipStatus}</td>
-				</tr>
-
-			</tbody>
+            <tbody>
+            <tr>
+               <!-- 차량 이미지 -->
+                  <td><img alt="${carDetail.carModel}" src="${pageContext.request.contextPath}/${carDetail.imagePath}" width="100"></td>
+            </tr>
+         </tbody>
+         <thead>
+            <tr>
+                  <th>차종</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <!-- 차종 -->
+                  <td>${carDetail.carModel}</td>
+            </tr>
+         </tbody>
+         <thead>
+            <tr>
+                  <th>차량 번호</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <!-- 차량 번호 -->
+                  <td>${carDetail.carNum}</td>
+            </tr>
+         </tbody>
+         <thead>
+            <tr>
+                  <th>소유 형태</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <!-- 소유 형태 -->
+                  <td>${carDetail.ownershipStatus}</td>
+            </tr>
+         </tbody>
+			
 
 		</table>
 
