@@ -10,6 +10,7 @@ public interface CarService{
 	CarDto getCarListDetail(String carId);
 	void updateCar(CarDto carDto);
 	void deleteCar(CarDto carDto);
+	List<CarDto> getCarByFilter(String bizNumber, String option, String filterText);
 }
     
 	

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PurchaseOrdersMapper">
+
+	<!-- PurchaseOrders에 대한 resultMap -->
+	<resultMap id="purchaseOrdersResult"
+		type="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO">
+		<result property="orderId" column="ORDER_ID" />
+		<result property="quantity" column="QUANTITY" />
+		<result property="supplyPrice" column="SUPPLY_PRICE" />
+		<result property="accountNo" column="ACCOUNT_NO" />
+		<result property="deliveryDate" column="DELIVERY_DATE" />
+		<result property="mgrName" column="MGR_NAME" />
+
+		<result property="accountName" column="ACCOUNT_NAME" />
+		<result property="puItemName" column="PU_ITEM_NAME" />
+
+		<result property="oDirector" column="ODIRECTOR" />
+
+	</resultMap>
+
+	<!-- accountName 컬럼 가져오기 위해서 select함!!! -->
+	<select id="getAllAccountNames" resultType="map">
+		SELECT ACCOUNT_NO as
+		accountNo, ACCOUNT_NAME as accountName
+		FROM ACCOUNT
+	</select>
+
+	<!-- 모든 purchase orders 데이터 조회용 쿼리 -->
+	<select id="getAllPurchaseOrders"
+		resultMap="purchaseOrdersResult">
+		SELECT * FROM PURCHASE_ORDERS
+	</select>
+
+
+	<!-- 특정 주문 데이터를 ORDER_ID로 조회하는 쿼리 -->
+	<select id="selectPurchaseOrderByOrderId" parameterType="String"
+		resultMap="purchaseOrdersResult">
+		SELECT * FROM PURCHASE_ORDERS WHERE ORDER_ID = #{orderId}
+	</select>
+
+
+	<!-- 새로운 purchase order 데이터를 삽입하는 쿼리 -->
+	<insert id="purchaseOrderCreate">
+		INSERT INTO PURCHASE_ORDERS (
+		ORDER_ID, PU_ITEM_NAME,
+		QUANTITY, SUPPLY_PRICE, ACCOUNT_NO,
+		DELIVERY_DATE, MGR_NAME,
+		BIZ_NUMBER, ACCOUNT_NAME, ODIRECTOR
+		)
+		VALUES (
+		LPAD(PURCHASE_ORDERS_SEQ.NEXTVAL, 5, '0'),
+		#{puItemName},
+		#{quantity},
+		#{supplyPrice}, #{accountNo},
+		#{deliveryDate}, #{mgrName},
+		#{bizNumber}, #{accountName}, #{oDirector}
+		)
+	</insert>
+
+
+	<!-- 특정 주문 데이터를 ORDER_ID로 업데이트하는 쿼리 -->
+	<update id="updatePurchaseOrder"
+		parameterType="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO">
+		UPDATE PURCHASE_ORDERS
+		SET QUANTITY = #{quantity}, SUPPLY_PRICE =
+		#{supplyPrice}, ACCOUNT_NO =
+		#{accountNo},
+		DELIVERY_DATE =
+		#{deliveryDate}, MGR_NAME = #{mgrName}, PU_ITEM_NAME =
+		#{puItemName},
+		ACCOUNT_NAME = #{accountName}, ODIRECTOR = #{oDirector} <!-- oDirector 추가 -->
+		WHERE ORDER_ID = #{orderId}
+	</update>
+
+
+	<!-- 특정 ORDER_ID로 purchase order 데이터를 삭제하는 쿼리 -->
+	<delete id="deletePurchaseOrderByOrderId" parameterType="String">
+		DELETE
+		FROM PURCHASE_ORDERS WHERE ORDER_ID = #{orderId}
+	</delete>
+
+	<!-- 특정 BIZ_NUMBER로 purchase orders 데이터를 조회하는 쿼리 -->
+	<select id="getPurchaseOrdersByBizNumber"
+		resultMap="purchaseOrdersResult" parameterType="string">
+		SELECT * FROM
+		PURCHASE_ORDERS WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+
+	<select id="getEmpNameDepart" parameterType="map"
+		resultType="com.e3i3.moduerp.employee.model.dto.Employee">
+		SELECT *
+		FROM EMPLOYEE
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+
+	<!-- 사원명 조회 쿼리 -->
+	<select id="getEmpNamesByBizNumber" resultType="string">
+		SELECT EMP_NAME
+		FROM EMPLOYEE
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+
+	<!-- 부서명 조회 쿼리 -->
+	<select id="getDepartmentIdsByBizNumber" resultType="string">
+		SELECT
+		DEPARTMENT_ID
+		FROM EMPLOYEE
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+
+</mapper>

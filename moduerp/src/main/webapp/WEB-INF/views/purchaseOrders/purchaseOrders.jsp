@@ -164,11 +164,10 @@ th {
 	color: black; /* 강조 색상 검은색 유지 */
 }
 
-tbody tr:hover {
+tbody tr:hover { 
 	cursor: pointer;
 }
 </style>
-
 
 </head>
 
@@ -179,35 +178,33 @@ tbody tr:hover {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
-					거래처관리</a></li>
-			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
-					영업 입고</a></li>
-			<!-- 수정 -->
-			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
-					영업 출고</a></li>
-			<!-- 수정 -->
+		
+		 <li><a href="purchaseOrders.do"><i class="fas fa-bullhorn"></i> 발주서 관리</a></li>
+		 <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
+         <li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
+         <li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
+
 		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업관리 | 영업출고</div>
-		<form action="/moduerp/salesStockOutFilter.do">
+		<div class="content-title">구매관리 | 발주서관리</div>
+		<form action="/moduerp/purchaseOrdersFilter.do">
 			<!-- 필터 박스 -->
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
 					<option disabled selected>옵션 선택</option>
 					<option value="itemName">제품명</option>
 					<option value="stockPlace">출고 장소</option>
-					<option value="oDirector">담당자</option>
+					<option value="ODirector">담당자</option>
 				</select> <input type="date" name="startDate" id="startDate" /> <input
 					type="date" name="endDate" id="endDate" /> <input type="text"
 					name="filterText" id="filterText" placeholder="내용 입력" />
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
-					onclick="window.location.href='salesStockOut.do';">초기화</button>
+					onclick="window.location.href='purchaseOrders.do';">초기화</button>
 			</div>
 		</form>
 
@@ -217,34 +214,29 @@ tbody tr:hover {
 			<thead>
 				<tr>
 					<th>순번</th>
-					<th>제품명</th>
-					<th>최종 출고 일자</th>
-					<th>총 출고 수량</th>
-					<th>재고 수량</th>
-					<th>최종 출고 장소</th>
-					<th>최종 출고 단가</th>
-					<th>담당자</th>
-
+					<th>발주서번호</th>
+					<th>거래처명</th>
+					<th>품명</th>
+					<th>수량</th>
+					<th>발주금액</th>
+					<th>납품일</th>
+					<th>담당자명</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="item" items="${itemList}" varStatus="status">
+				<c:forEach var="purchaseOrders" items="${purchaseOrdersList}" varStatus="status">
 					<tr
-						onclick="window.location.href='getSalesOutDetails.do?itemCode=${item.itemCode}'">
-						
+						onclick="window.location.href='getPurchaseOrderDetails.do?orderId=${purchaseOrders.orderId}'">
+
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						
-						<td>${item.itemName}</td>
-						
-						<td><fmt:formatDate value="${item.createdOutAt}"
-								pattern="yyyy-MM-dd" /></td>
-								
-						<td>${item.stockOut}</td>
-						<td>${item.stock}</td>
-						<td>${item.stockOutPlace}</td>
-						<td>${item.outPrice}</td>
-						<td>${item.oDirector}</td> 
-						
+						<td>${purchaseOrders.orderId}</td>
+						<td>${purchaseOrders.accountName}</td>
+						<td>${purchaseOrders.puItemName}</td>
+						<td>${purchaseOrders.quantity}</td>
+						<td>${purchaseOrders.supplyPrice}</td>
+						<td>${purchaseOrders.deliveryDate}</td>
+						<td>${purchaseOrders.oDirector}</td>
+
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -261,7 +253,7 @@ tbody tr:hover {
 							<!-- 현재 페이지는 강조 -->
 						</c:when>
 						<c:otherwise>
-							<a href="salesStockOut.do?page=${i}">${i}</a>
+							<a href="purchaseOrders.do?page=${i}">${i}</a>
 							<!-- 페이지 링크 -->
 						</c:otherwise>
 					</c:choose>
@@ -271,13 +263,13 @@ tbody tr:hover {
 
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
-			<a href="salesStockOutCreate.do"><button class="btn blue">등록</button></a>
+			<a href="purchaseOrderCreate.do"><button class="btn blue">등록</button></a>
 		</div>
 
 	</div>
 </body>
 <script>
-    const activeMenu = "account";
+    const activeMenu = "purchaseOrders";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

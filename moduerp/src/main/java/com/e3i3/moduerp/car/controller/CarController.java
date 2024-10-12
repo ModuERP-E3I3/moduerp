@@ -23,6 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.e3i3.moduerp.car.model.dto.CarDto;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Controller
 @RequestMapping("/")
 public class CarController {
@@ -39,7 +42,8 @@ public class CarController {
 	public String forwardMap() {
 		return "car/map";
 	}
-
+	
+	private static final Logger logger = LoggerFactory.getLogger(CarController.class);
 	
 	@Autowired
 	private com.e3i3.moduerp.car.model.service.CarService CarService;
@@ -57,13 +61,63 @@ public class CarController {
 	
 	@CrossOrigin(origins = "https://apis-navi.kakaomobility.com/v1/directions") // 
 	@RequestMapping(value = "/carRes.do", method = RequestMethod.GET)
-	public String carListView(Model model, HttpSession session) {
-		
+	public String carListView(@RequestParam(value = "page", defaultValue = "1") int page, Model model, HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		
 		List<CarDto> carList = CarService.getAllCar(bizNumber);
-		model.addAttribute("carList", carList);
+		
+		// 페이지당 항목 수
+		int carsPerPage = 3;
+		
+		// 총 항목 수
+		int totalCars = carList.size();
+		
+		// 총 페이지 수
+		int totalPages = (int) Math.ceil((double) totalCars / carsPerPage);
+		
+		// 시작 인덱스 계산
+		int startIndex = (page - 1) * carsPerPage;
+		int endIndex = Math.min(startIndex + carsPerPage, totalCars);
+		
+		List<CarDto> paginatedList = carList.subList(startIndex, endIndex);
+		
+		model.addAttribute("carList", paginatedList);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", page);
+		
 		return "car/carRes";
+	}
+	
+	@RequestMapping(value = "/carFilter.do", method = RequestMethod.GET)
+	public String forwardCarFilter(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "filterOption", required = false) String option,
+			@RequestParam(value = "filterText", required = false) String filterText,
+			Model model, HttpSession session) {
+		String bizNumber = (String) session.getAttribute("biz_number");
+		List<CarDto> carList;
+		
+		// 필터링 로직 추가
+		if (option != null && filterText != null) {
+			carList = CarService.getCarByFilter(bizNumber, option, filterText);
+		} else {
+			carList = CarService.getAllCar(bizNumber);
+		}
+		
+		int carsPerPage = 3;
+		int totalCars = carList.size();
+		int totalPages = (int) Math.ceil((double) totalCars / carsPerPage);
+		int startIndex = (page - 1) * carsPerPage;
+		int endIndex = Math.min(startIndex + carsPerPage, totalCars);
+		
+		List<CarDto> paginatedList = carList.subList(startIndex, endIndex);
+		
+		model.addAttribute("carList", paginatedList);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("option", option);
+		model.addAttribute("filterText", filterText);
+		
+		return "car/carFilter";
 	}
 	
 	// 차량 추가 페이지로 이동
@@ -189,6 +243,12 @@ public class CarController {
             carDto.setImagePath(existingCar.getImagePath()); // 기존 이미지 경로를 설정
         }
 
+        // 로그 출력
+        logger.info("업데이트하려는 차량 ID: " + carId);
+        logger.info("업데이트하려는 차량 번호: " + carNum);
+        logger.info("업데이트하려는 차량 모델: " + carModel);
+        logger.info("업데이트하려는 이미지 경로: " + carDto.getImagePath());
+        
         CarService.updateCar(carDto);
         return "redirect:/carRes.do"; 
     }

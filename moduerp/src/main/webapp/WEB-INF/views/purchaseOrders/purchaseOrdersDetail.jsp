@@ -81,9 +81,8 @@
 
 /* 테이블 스타일 */
 table {
-	width: 40%;
+	width: 100%;
 	border-collapse: collapse;
-	margin: 0 auto;
 	margin-top: 20px;
 }
 
@@ -145,6 +144,52 @@ th {
 .top-content-box {
 	background-color: white;
 }
+
+/* Modal Styles */
+#delete-modal {
+	display: none; /* 초기에는 보이지 않도록 설정 */
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%; /* 전체 화면 너비 */
+	height: 100%; /* 전체 화면 높이 */
+	background-color: rgba(0, 0, 0, 0.5); /* 배경 반투명 */
+	display: flex; /* 플렉스 박스를 사용하여 중앙 정렬 */
+}
+
+.modal-content {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	text-align: center;
+	width: 300px; /* 원하는 너비 */
+	position: relative;
+	margin: auto; /* 중앙 정렬을 위한 마진 */
+	margin-top: 20%;
+}
+
+.modal-content h2 {
+	margin-bottom: 20px;
+}
+
+.modal-content button {
+	padding: 10px 20px;
+	margin: 10px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.modal-content .go-delete {
+	background-color: red;
+	color: #fff;
+}
+
+.modal-content .stay-page {
+	background-color: gray;
+	color: #fff;
+}
 </style>
 
 </head>
@@ -155,81 +200,85 @@ th {
 
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-	    <ul id="menubar">
-	        <li><a href="carRes.do"><i class="fa-solid fa-car-side"></i> 차량 예약</a></li>
-	        <li><a href="carMgt.do"><i class="fa-solid fa-list-check"></i> 차량 결제 관리</a></li>
-	        <li><a href="map.do"><i class="fa-solid fa-signs-post"></i> 도로 교통 / 경로 조회</a></li>
-
-	    </ul>
+		<ul id="menubar">
+			<li><a href="purchaseOrders.do"><i class="fas fa-bullhorn"></i>
+					발주서 관리</a></li>
+			<li><a href="buyStockIn.do"><i class="fas fa-clipboard"></i>
+					구매 입고</a></li>
+			<li><a href="buyStockOut.do"><i class="fas fa-code"></i>
+					구매 출고</a></li>
+		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">차량관리 | 차량 예약 | 차량 등록</div>
-
-	
+		<div class="content-title">구매관리 | 발주서관리 | ${purchaseOrderDetail.orderId}</div>
 
 		<!-- 테이블 -->
-		<!-- 테이블 -->
-		<form action="/moduerp/insertCar.do" method="POST" enctype="multipart/form-data">
-			<table>
-				<thead>
-					<tr>
-                  		<th>차량 이미지</th>
-            		</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><input type="file" id="image" name="image" accept="image/*" style="margin-left:8.5%" required><br></td>
-					</tr>
-				</tbody>
-				<thead>
-					<tr>
-						<th>차종</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><input type="text" name="carModel" placeholder="차종 입력" /></td>
-					</tr>
-				</tbody>
-				<thead>
-					<tr>
-						<th>차량 번호</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><input type="text" name="carNum" placeholder="차량 번호 입력" /></td>
-					</tr>
-				</tbody>
-				<thead>
-					<tr>
-						<th>소유 형태</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><input type="text" name="ownershipStatus" placeholder="소유 형태 입력" /></td>
-					</tr>
-				</tbody>
-				
-			</table>
+		<table>
+			<thead>
+				<tr>
+					<th>발주서번호</th>
+					<th>거래처명</th>
+					<th>품명</th>
+					<th>수량</th>
+					<th>발주금액</th>
+					<th>납품일</th>
+					<th>담당자명</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>${purchaseOrderDetail.orderId}</td>
+					<td>${purchaseOrderDetail.accountName}</td>
+					<td>${purchaseOrderDetail.puItemName}</td>
+					<td>${purchaseOrderDetail.quantity}</td>
+					<td>${purchaseOrderDetail.supplyPrice}</td>
+					<td>${purchaseOrderDetail.deliveryDate}</td>
+					<td>${purchaseOrderDetail.mgrName}</td>
+				</tr>
+			</tbody>
+		</table>
 
-			<!-- 버튼 그룹 -->
-			<div class="btn-group">
-				<button type="submit" class="btn blue">등록 완료</button>
-			</div>
-		</form>
-
+		<!-- 버튼 그룹 -->
+		<div class="btn-group">
+			<button class="btn red" onclick="openDeleteModal()">삭제</button>
+			<a href="purchaseOrderDetailUpdate.do?orderId=${purchaseOrderDetail.orderId}">
+				<button class="btn green">수정</button>
+			</a>
+		</div>
 
 	</div>
+
+	<!-- 삭제 확인 모달 -->
+	<div id="delete-modal" style="display: none;">
+		<div class="modal-content">
+			<h2>정말로 삭제하시겠습니까?</h2>
+			<p>삭제된 데이터는 복구할 수 없습니다.</p>
+			<form action="deletePurchaseOrder.do" method="POST">
+				<input type="hidden" name="orderId" value="${purchaseOrderDetail.orderId}">
+				<!-- orderId를 숨겨진 필드로 전달 -->
+				<button type="submit" class="go-delete">삭제</button>
+				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>
+			</form>
+		</div>
+	</div>
+
 </body>
 
+<script type="text/javascript">
+function openDeleteModal() {
+    document.getElementById('delete-modal').style.display = 'block';
+}
+
+function closeDeleteModal() {
+    document.getElementById('delete-modal').style.display = 'none';
+}
+</script>
 
 <script>
-    const activeMenu = "carRes";
+    const activeMenu = "purchaseOrders";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');
@@ -240,6 +289,5 @@ th {
         });
     });
 </script>
-
 
 </html>

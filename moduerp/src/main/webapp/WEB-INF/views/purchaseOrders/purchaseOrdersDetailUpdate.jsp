@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -169,7 +168,6 @@ tbody tr:hover {
 }
 </style>
 
-
 </head>
 
 <body>
@@ -179,113 +177,86 @@ tbody tr:hover {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
-					거래처관리</a></li>
-			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
-					영업 입고</a></li>
-			<!-- 수정 -->
-			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
-					영업 출고</a></li>
-			<!-- 수정 -->
+			<li><a href="purchaseOrdersList.do"><i
+					class="fa-solid fa-list"></i> 발주서 목록</a></li>
+			<li><a href="purchaseOrdersMgt.do"><i
+					class="fa-solid fa-list-check"></i> 발주서 관리</a></li>
+			<li><a href="purchaseOrdersCreate.do"><i
+					class="fa-solid fa-file-circle-plus"></i> 발주서 추가</a></li>
 		</ul>
 	</div>
 
-	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
+		<div class="content-title">구매관리 | 발주서관리 | 수정</div>
 
-		<div class="content-title">영업관리 | 영업출고</div>
-		<form action="/moduerp/salesStockOutFilter.do">
-			<!-- 필터 박스 -->
-			<div class="filter-box">
-				<select name="filterOption" id="filterOption">
-					<option disabled selected>옵션 선택</option>
-					<option value="itemName">제품명</option>
-					<option value="stockPlace">출고 장소</option>
-					<option value="oDirector">담당자</option>
-				</select> <input type="date" name="startDate" id="startDate" /> <input
-					type="date" name="endDate" id="endDate" /> <input type="text"
-					name="filterText" id="filterText" placeholder="내용 입력" />
-				<button type="submit" class="btn">조회</button>
-				<button type="button" class="btn"
-					onclick="window.location.href='salesStockOut.do';">초기화</button>
+		<form action="/moduerp/updatePurchaseOrder.do" method="POST">
+			<input type="hidden" name="orderId"
+				value="${purchaseOrderDetail.orderId}" />
+
+			<!-- 테이블 -->
+			<table>
+				<thead>
+					<tr>
+						<th>거래처명</th>
+						<th>품명</th>
+						<th>수량</th>
+						<th>발주 금액</th>
+						<th>납품일</th>
+						<th>담당자명</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+
+						<!-- 거래처 선택 드롭다운 리스트 -->
+						<td><select name="accountNo" onchange="setAccountName(this)">
+								<option value="" disabled selected>거래처 선택</option>
+								<c:forEach var="account" items="${accountNames}">
+									<option value="${account.ACCOUNTNO}"
+										<c:if test="${account.ACCOUNTNO == purchaseOrderDetail.accountNo}">
+                            selected
+                        </c:if>
+										data-name="${account.ACCOUNTNAME}">${account.ACCOUNTNAME}</option>
+								</c:forEach>
+						</select> <input type="hidden" name="accountName" id="accountNameField"
+							value="${purchaseOrderDetail.accountName}" /></td>
+					
+						<!-- 품명 입력 -->
+						<td><input type="text" name="puItemName" placeholder="품명 입력"
+							value="${purchaseOrderDetail.puItemName}" /></td>
+
+						<!-- 수량 입력 -->
+						<td><input type="number" name="quantity" placeholder="수량 입력"
+							value="${purchaseOrderDetail.quantity}" /></td>
+
+						<!-- 공급가 입력 -->
+						<td><input type="text" name="supplyPrice"
+							placeholder="공급가 입력" value="${purchaseOrderDetail.supplyPrice}" /></td>
+
+						<!-- 납품일 입력 -->
+						<td><input type="date" name="deliveryDate"
+							value="${purchaseOrderDetail.deliveryDate}" /></td>
+
+						<!-- 담당자명 입력 -->
+						<td><input type="text" name="mgrName" placeholder="담당자명 입력"
+							value="${purchaseOrderDetail.mgrName}" /></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div class="btn-group">
+				<button type="submit" class="btn green">수정 완료</button>
 			</div>
 		</form>
-
-
-		<!-- 테이블 -->
-		<table>
-			<thead>
-				<tr>
-					<th>순번</th>
-					<th>제품명</th>
-					<th>최종 출고 일자</th>
-					<th>총 출고 수량</th>
-					<th>재고 수량</th>
-					<th>최종 출고 장소</th>
-					<th>최종 출고 단가</th>
-					<th>담당자</th>
-
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="item" items="${itemList}" varStatus="status">
-					<tr
-						onclick="window.location.href='getSalesOutDetails.do?itemCode=${item.itemCode}'">
-						
-						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						
-						<td>${item.itemName}</td>
-						
-						<td><fmt:formatDate value="${item.createdOutAt}"
-								pattern="yyyy-MM-dd" /></td>
-								
-						<td>${item.stockOut}</td>
-						<td>${item.stock}</td>
-						<td>${item.stockOutPlace}</td>
-						<td>${item.outPrice}</td>
-						<td>${item.oDirector}</td> 
-						
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-
-
-		<!-- 페이지 버튼 -->
-		<div id="pagebutton">
-			<c:if test="${totalPages > 1}">
-				<c:forEach var="i" begin="1" end="${totalPages}">
-					<c:choose>
-						<c:when test="${i == currentPage}">
-							<strong>${i}</strong>
-							<!-- 현재 페이지는 강조 -->
-						</c:when>
-						<c:otherwise>
-							<a href="salesStockOut.do?page=${i}">${i}</a>
-							<!-- 페이지 링크 -->
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-			</c:if>
-		</div>
-
-		<!-- 버튼 그룹 -->
-		<div class="btn-group">
-			<a href="salesStockOutCreate.do"><button class="btn blue">등록</button></a>
-		</div>
-
 	</div>
-</body>
-<script>
-    const activeMenu = "account";
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuItems = document.querySelectorAll('nav.side ul li a');
-        menuItems.forEach(item => {
-            if (item.href.includes(activeMenu)) {
-                item.classList.add('active');
-            }
-        });
-    });
-</script>
+	<script type="text/javascript">
+		function setAccountName(selectElement) {
+			var selectedOption = selectElement.options[selectElement.selectedIndex];
+			var accountName = selectedOption.getAttribute('data-name');
+			document.getElementById('accountNameField').value = accountName;
+		}
+	</script>
+
+</body>
 </html>
