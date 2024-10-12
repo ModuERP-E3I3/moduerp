@@ -4,7 +4,6 @@ import java.util.Date;
 
 public class PurchaseOrdersDTO {
     private String orderId;
-    private String itemCode;
     private int quantity;
     private double supplyPrice;
     private String accountNo;
@@ -12,7 +11,8 @@ public class PurchaseOrdersDTO {
     private String deliveryDate;
     private String mgrName;
     private String puItemName;
-    private String bizNumber;  // 추가된 필드
+    private String bizNumber; 
+    private String oDirector;		// !! 담당자명 !!
 
     public PurchaseOrdersDTO() {
         super();
@@ -20,7 +20,8 @@ public class PurchaseOrdersDTO {
 
     public PurchaseOrdersDTO(String orderId, int quantity, 
     		double supplyPrice, String accountNo, String accountName, 
-    		String deliveryDate, String mgrName, String bizNumber, String puItemName
+    		String deliveryDate, String mgrName, String bizNumber, String puItemName,
+    		String oDirector // !! 담당자명 !!
     		) {
         super();
         this.orderId = orderId;
@@ -31,7 +32,8 @@ public class PurchaseOrdersDTO {
         this.deliveryDate = deliveryDate;
         this.mgrName = mgrName;
         this.puItemName = puItemName;
-        this.bizNumber = bizNumber;  // 추가된 필드 초기화
+        this.bizNumber = bizNumber; 
+        this.oDirector = oDirector;   // !! 담당자명 !!
     }
 
     // Getters and Setters
@@ -99,11 +101,19 @@ public class PurchaseOrdersDTO {
         this.puItemName = puItemName;
     }
 
-    public String getBizNumber() {  // 추가된 getter
+    public String getBizNumber() {  
         return bizNumber;
     }
 
-    public void setBizNumber(String bizNumber) {  // 추가된 setter
+    public void setBizNumber(String bizNumber) { 
         this.bizNumber = bizNumber;
+    }
+    
+    public String getoDirector() {
+        return oDirector;
+    }
+
+    public void setoDirector(String oDirector) {
+        this.oDirector = oDirector;
     }
 }

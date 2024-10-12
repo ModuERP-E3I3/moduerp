@@ -14,6 +14,9 @@
 
 		<result property="accountName" column="ACCOUNT_NAME" />
 		<result property="puItemName" column="PU_ITEM_NAME" />
+
+		<result property="oDirector" column="ODIRECTOR" />
+
 	</resultMap>
 
 	<!-- accountName 컬럼 가져오기 위해서 select함!!! -->
@@ -29,44 +32,47 @@
 		SELECT * FROM PURCHASE_ORDERS
 	</select>
 
+
 	<!-- 특정 주문 데이터를 ORDER_ID로 조회하는 쿼리 -->
 	<select id="selectPurchaseOrderByOrderId" parameterType="String"
 		resultMap="purchaseOrdersResult">
 		SELECT * FROM PURCHASE_ORDERS WHERE ORDER_ID = #{orderId}
 	</select>
 
+
 	<!-- 새로운 purchase order 데이터를 삽입하는 쿼리 -->
 	<insert id="purchaseOrderCreate">
 		INSERT INTO PURCHASE_ORDERS (
-		ORDER_ID, PU_ITEM_NAME, QUANTITY,
-		SUPPLY_PRICE, ACCOUNT_NO, DELIVERY_DATE,
-		MGR_NAME, BIZ_NUMBER, ACCOUNT_NAME
+		ORDER_ID, PU_ITEM_NAME,
+		QUANTITY, SUPPLY_PRICE, ACCOUNT_NO,
+		DELIVERY_DATE, MGR_NAME,
+		BIZ_NUMBER, ACCOUNT_NAME, ODIRECTOR
 		)
 		VALUES (
-		LPAD(PURCHASE_ORDERS_SEQ.NEXTVAL, 5, '0'), -- ORDER_ID 자동 생성
-		#{puItemName}, -- 쉼표 추가
+		LPAD(PURCHASE_ORDERS_SEQ.NEXTVAL, 5, '0'),
+		#{puItemName},
 		#{quantity},
-		#{supplyPrice},
-		#{accountNo},
-		#{deliveryDate},
-		#{mgrName},
-		#{bizNumber},
-		#{accountName} -- 마지막 쉼표 제거
+		#{supplyPrice}, #{accountNo},
+		#{deliveryDate}, #{mgrName},
+		#{bizNumber}, #{accountName}, #{oDirector}
 		)
 	</insert>
+
 
 	<!-- 특정 주문 데이터를 ORDER_ID로 업데이트하는 쿼리 -->
 	<update id="updatePurchaseOrder"
 		parameterType="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO">
 		UPDATE PURCHASE_ORDERS
-		SET
-		QUANTITY = #{quantity}, SUPPLY_PRICE = #{supplyPrice},
-		ACCOUNT_NO =
-		#{accountNo}, DELIVERY_DATE = #{deliveryDate},
-		MGR_NAME = #{mgrName}
-		PU_ITEM_NAME = #{puItemName}
+		SET QUANTITY = #{quantity}, SUPPLY_PRICE =
+		#{supplyPrice}, ACCOUNT_NO =
+		#{accountNo},
+		DELIVERY_DATE =
+		#{deliveryDate}, MGR_NAME = #{mgrName}, PU_ITEM_NAME =
+		#{puItemName},
+		ACCOUNT_NAME = #{accountName}, ODIRECTOR = #{oDirector} <!-- oDirector 추가 -->
 		WHERE ORDER_ID = #{orderId}
 	</update>
+
 
 	<!-- 특정 ORDER_ID로 purchase order 데이터를 삭제하는 쿼리 -->
 	<delete id="deletePurchaseOrderByOrderId" parameterType="String">

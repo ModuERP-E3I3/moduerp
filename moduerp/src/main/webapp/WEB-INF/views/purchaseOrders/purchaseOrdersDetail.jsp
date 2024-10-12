@@ -220,8 +220,8 @@ th {
 			<thead>
 				<tr>
 					<th>발주서번호</th>
-					<th>품명</th>
 					<th>거래처명</th>
+					<th>품명</th>
 					<th>수량</th>
 					<th>발주금액</th>
 					<th>납품일</th>
@@ -231,8 +231,8 @@ th {
 			<tbody>
 				<tr>
 					<td>${purchaseOrderDetail.orderId}</td>
-					<td>${purchaseOrderDetail.puItemName}</td>
 					<td>${purchaseOrderDetail.accountName}</td>
+					<td>${purchaseOrderDetail.puItemName}</td>
 					<td>${purchaseOrderDetail.quantity}</td>
 					<td>${purchaseOrderDetail.supplyPrice}</td>
 					<td>${purchaseOrderDetail.deliveryDate}</td>

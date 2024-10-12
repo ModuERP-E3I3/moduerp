@@ -1,13 +1,14 @@
 package com.e3i3.moduerp.purchaseorders.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO;
 import com.e3i3.moduerp.employee.model.dto.Employee;
+import com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO;
 
 @Repository
 public class PurchaseOrdersDAOImpl implements PurchaseOrdersDAO {
@@ -65,17 +66,13 @@ public class PurchaseOrdersDAOImpl implements PurchaseOrdersDAO {
         sqlSession.delete(namespace + ".deletePurchaseOrderByOrderId", orderId);
     }
 
-    // accountName 리스트 가져오기
+ // accountNo와 accountName 리스트 가져오기
     @Override
-    public List<String> getAllAccountNames() {
+    public List<Map<String, Object>> getAllAccountNames() {
         return sqlSession.selectList(namespace + ".getAllAccountNames");
     }
+
     
-    // itemName 리스트 가져오기
-    @Override
-    public List<String> getAllItemNames() {
-        return sqlSession.selectList(namespace + ".getAllAccountNames");
-    }
     
     
 }

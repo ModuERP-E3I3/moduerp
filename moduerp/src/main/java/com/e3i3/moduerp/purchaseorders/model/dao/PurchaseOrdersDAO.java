@@ -1,8 +1,10 @@
 package com.e3i3.moduerp.purchaseorders.model.dao;
 
 import java.util.List;
-import com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO;
+import java.util.Map;
+
 import com.e3i3.moduerp.employee.model.dto.Employee;
+import com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO;
 
 public interface PurchaseOrdersDAO {
     List<PurchaseOrdersDTO> getAllPurchaseOrders();
@@ -15,10 +17,8 @@ public interface PurchaseOrdersDAO {
     List<Employee> getEmpNameDepart(String bizNumber);
     
     // accountNo 리스트 가져오기 !!!
-    List<String> getAllAccountNames();
+    List<Map<String, Object>> getAllAccountNames();
     
-    // accountNo 리스트 가져오기 !!!
-    List<String> getAllItemNames();
     
     // OrderId
     PurchaseOrdersDTO selectPurchaseOrderByOrderId(String orderId);

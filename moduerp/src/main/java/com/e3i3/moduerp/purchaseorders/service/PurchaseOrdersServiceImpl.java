@@ -1,12 +1,14 @@
 package com.e3i3.moduerp.purchaseorders.service;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.e3i3.moduerp.employee.model.dto.Employee;
 import com.e3i3.moduerp.purchaseorders.model.dao.PurchaseOrdersDAO;
 import com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO;
-import com.e3i3.moduerp.employee.model.dto.Employee;
 
 @Service
 public class PurchaseOrdersServiceImpl implements PurchaseOrdersService {
@@ -61,15 +63,16 @@ public class PurchaseOrdersServiceImpl implements PurchaseOrdersService {
 
     // accountNo 리스트 가져오기 !!!!
     @Override
-    public List<String> getAllAccountNames() {
+    public List<Map<String, Object>> getAllAccountNames() {
         return purchaseOrdersDao.getAllAccountNames();
     }
+
+	@Override
+	public List<String> getAllItemNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
-    // accountNo 리스트 가져오기 !!!!
-    @Override
-    public List<String> getAllItemNames() {
-        return purchaseOrdersDao.getAllAccountNames();
-    }
     
     
     
