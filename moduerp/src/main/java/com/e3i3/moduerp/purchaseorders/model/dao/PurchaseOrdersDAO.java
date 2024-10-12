@@ -17,6 +17,9 @@ public interface PurchaseOrdersDAO {
     // accountNo 리스트 가져오기 !!!
     List<String> getAllAccountNames();
     
+    // accountNo 리스트 가져오기 !!!
+    List<String> getAllItemNames();
+    
     // OrderId
     PurchaseOrdersDTO selectPurchaseOrderByOrderId(String orderId);
     void updatePurchaseOrder(PurchaseOrdersDTO purchaseOrderDto);

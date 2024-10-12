@@ -214,9 +214,9 @@ tbody tr:hover {
 			<thead>
 				<tr>
 					<th>순번</th>
-					<th>발주서 코드</th>
-					<th>품목 코드</th>
-					<th>거래처 코드</th>
+					<th>발주서번호</th>
+					<th>품명</th>
+					<th>거래처명</th>
 					<th>수량</th>
 					<th>발주 금액</th>
 					<th>납품일</th>
@@ -230,13 +230,12 @@ tbody tr:hover {
 
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
 						<td>${purchaseOrders.orderId}</td>
-						<td>${purchaseOrders.itemCode}</td>
-						<td>${purchaseOrders.accountNo}</td>
+						<td>${purchaseOrders.puItemName}</td>
+						<td>${purchaseOrders.accountName}</td>
 						<td>${purchaseOrders.quantity}</td>
 						<td>${purchaseOrders.supplyPrice}</td>
 						<td>${purchaseOrders.deliveryDate}</td>
 						<td>${purchaseOrders.mgrName}</td>
-						
 
 					</tr>
 				</c:forEach>

@@ -211,7 +211,7 @@ tbody tr:hover {
 				<thead>
 					<tr>
 						<th>거래처 코드</th>
-						<th>품목 코드</th>
+						<th>품명</th>
 						<th>수량</th>
 						<th>공급가</th>
 						<th>납품일</th>
@@ -220,21 +220,25 @@ tbody tr:hover {
 				</thead>
 				<tbody>
 					<tr>
-
+					
 						<!-- 거래처 코드 드롭다운 리스트 -->
-						<td><select name="accountNo">
+						<td><select name="accountNo" onchange="setAccountName(this)">
 								<option value="" disabled selected>거래처 선택</option>
 								<c:forEach var="account" items="${accountNames}">
-									<option value="${account.ACCOUNTNO}">${account.ACCOUNTNAME}</option>
+									<option value="${account.ACCOUNTNO}"
+										data-name="${account.ACCOUNTNAME}">${account.ACCOUNTNAME}</option>
 								</c:forEach>
-						</select></td>
-
-						<td><input type="text" name="itemCode" placeholder="품목 코드 입력" /></td>
+						</select> <input type="hidden" name="accountName" id="accountNameField" />
+							<!-- 올바른 위치로 이동 --></td>
+							
+						<td><input type="text" name="puItemName"
+							placeholder="발주할 품명 입력" /></td>
 						<td><input type="number" name="quantity" placeholder="수량 입력" /></td>
 						<td><input type="number" name="supplyPrice"
 							placeholder="공급가 입력" /></td>
 						<td><input type="date" name="deliveryDate" /></td>
 						<td><input type="text" name="mgrName" placeholder="담당자명 입력" /></td>
+			
 					</tr>
 				</tbody>
 			</table>
@@ -285,6 +289,16 @@ function removeMaterialType(button) {
         });
     });
 </script>
+
+
+<!-- AccountName -->
+<script>
+function setAccountName(select) {
+    const accountName = select.options[select.selectedIndex].getAttribute('data-name');
+    document.getElementById('accountNameField').value = accountName;
+}
+</script>
+
 
 
 </html>

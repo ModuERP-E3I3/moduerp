@@ -52,10 +52,8 @@ public class PurchaseOrdersController {
 		List<String> departmentIds = purchaseOrdersService.getDepartmentIdsByBizNumber(bizNumber);
 		List<Employee> empNameDepart = purchaseOrdersService.getEmpNameDepart(bizNumber);
 
-		// Fetch accountNo list from AccountService
+		// 거래처이름, 품명 등 리스트로 가져옴!!!!
 		List<String> accountNames = purchaseOrdersService.getAllAccountNames();
-
-		System.out.println("Account Names: " + accountNames);
 
 		List<PurchaseOrdersDTO> purchaseOrders = purchaseOrdersService.getPurchaseOrdersByBizNumber(bizNumber);
 
@@ -69,23 +67,30 @@ public class PurchaseOrdersController {
 	}
 
 	@PostMapping("/purchaseOrderCreate.do")
-	public String purchaseOrderCreate(@RequestParam("itemCode") String itemCode,
-			@RequestParam("accountNo") String accountNo, @RequestParam("quantity") int quantity,
-			@RequestParam("supplyPrice") double supplyPrice, @RequestParam("deliveryDate") String deliveryDate,
-			@RequestParam("mgrName") String mgrName, Model model, HttpSession session) {
+	public String purchaseOrderCreate(
+	        @RequestParam("accountNo") String accountNo,
+	        @RequestParam("accountName") String accountName,
+	        @RequestParam("quantity") int quantity,
+	        @RequestParam("supplyPrice") double supplyPrice,
+	        @RequestParam("deliveryDate") String deliveryDate,
+	        @RequestParam("mgrName") String mgrName,
+	        @RequestParam("puItemName") String puItemName, 
+	        Model model, HttpSession session) {
 
-		PurchaseOrdersDTO purchaseOrderDto = new PurchaseOrdersDTO();
-		purchaseOrderDto.setItemCode(itemCode);
-		purchaseOrderDto.setAccountNo(accountNo);
-		purchaseOrderDto.setQuantity(quantity);
-		purchaseOrderDto.setSupplyPrice(supplyPrice);
-		purchaseOrderDto.setDeliveryDate(deliveryDate);
-		purchaseOrderDto.setMgrName(mgrName);
+	    PurchaseOrdersDTO purchaseOrderDto = new PurchaseOrdersDTO();
+	    purchaseOrderDto.setAccountNo(accountNo);
+	    purchaseOrderDto.setAccountName(accountName);
+	    purchaseOrderDto.setQuantity(quantity);
+	    purchaseOrderDto.setSupplyPrice(supplyPrice);
+	    purchaseOrderDto.setDeliveryDate(deliveryDate);
+	    purchaseOrderDto.setMgrName(mgrName);
+	    purchaseOrderDto.setPuItemName(puItemName);
 
-		purchaseOrdersService.purchaseOrderCreate(purchaseOrderDto);
+	    purchaseOrdersService.purchaseOrderCreate(purchaseOrderDto);
 
-		return "redirect:/purchaseOrders.do";
+	    return "redirect:/purchaseOrders.do";
 	}
+
 
 	@GetMapping("getPurchaseOrderDetails.do")
 	public String getPurchaseOrderDetail(@RequestParam("orderId") String orderId, Model model) {
@@ -110,19 +115,24 @@ public class PurchaseOrdersController {
 	}
 
 	@PostMapping("/updatePurchaseOrder.do")
-	public String updatePurchaseOrder(@RequestParam("orderId") String orderId,
-			@RequestParam("itemCode") String itemCode, @RequestParam("accountNo") String accountNo,
+	public String updatePurchaseOrder(
+			@RequestParam("orderId") String orderId,
+			@RequestParam("accountNo") String accountNo,
 			@RequestParam("quantity") int quantity, @RequestParam("supplyPrice") double supplyPrice,
-			@RequestParam("deliveryDate") String deliveryDate, @RequestParam("mgrName") String mgrName) {
+			@RequestParam("deliveryDate") String deliveryDate,
+			@RequestParam("mgrName") String mgrName,
+			@RequestParam("puItemName") String puItemName)
+			
+	{
 
 		PurchaseOrdersDTO purchaseOrderDto = new PurchaseOrdersDTO();
 		purchaseOrderDto.setOrderId(orderId);
-		purchaseOrderDto.setItemCode(itemCode);
 		purchaseOrderDto.setAccountNo(accountNo);
 		purchaseOrderDto.setQuantity(quantity);
 		purchaseOrderDto.setSupplyPrice(supplyPrice);
 		purchaseOrderDto.setDeliveryDate(deliveryDate);
 		purchaseOrderDto.setMgrName(mgrName);
+		purchaseOrderDto.setPuItemName(puItemName);
 
 		purchaseOrdersService.updatePurchaseOrder(purchaseOrderDto);
 
