@@ -98,6 +98,7 @@
 		<mapper resource="mappers/module-mapper.xml" />
 		<mapper resource="mappers/item-delivery-mapper.xml" />
 		<mapper resource="mappers/delivery-mapper.xml" />
+		<mapper resource="mappers/cart-mapper.xml" />
 
 	</mappers>
 

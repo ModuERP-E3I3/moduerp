@@ -9,46 +9,46 @@ import com.e3i3.moduerp.module.model.dao.ModuleDAO;
 import com.e3i3.moduerp.module.model.dto.ModuleDTO;
 
 @Service
-public class ModuleServiceImpl implements ModuleService{
+public class ModuleServiceImpl implements ModuleService {
 	@Autowired
 	private ModuleDAO moduleDAO;
 
 	@Override
-    public List<ModuleDTO> getActiveModules() {
-        return moduleDAO.selectActiveModules();
-    }
-	
+	public List<ModuleDTO> getActiveModules() {
+		return moduleDAO.selectActiveModules();
+	}
+
 	@Override
 	public List<ModuleDTO> getModulesN() {
-		 return moduleDAO.getModulesN();
+		return moduleDAO.getModulesN();
 	}
 
 	@Override
 	public void insertModule(ModuleDTO module) {
 		moduleDAO.insertModule(module);
-		
+
 	}
 
 	@Override
 	public ModuleDTO getModuleDetailByModuleId(String moduleId) {
-		 return moduleDAO.getModuleDetailByModuleId(moduleId);
+		return moduleDAO.getModuleDetailByModuleId(moduleId);
 	}
 
 	@Override
 	public void updateModule(ModuleDTO module) {
 		moduleDAO.updateModule(module);
-		
+
 	}
 
 	@Override
 	public void deleteModule(String moduleId) {
 		moduleDAO.deleteModule(moduleId);
-		
+
 	}
 
 	@Override
 	public List<ModuleDTO> getModuleListGroup() {
-		 return moduleDAO.getModuleListGroup();
+		return moduleDAO.getModuleListGroup();
 	}
 
 	@Override
@@ -76,7 +76,13 @@ public class ModuleServiceImpl implements ModuleService{
 		return moduleDAO.getModuleListAccount();
 	}
 
-	
+	@Override
+	public List<String> getModuleGradesByIds(List<String> moduleIds) {
+		return moduleDAO.selectModuleGradesByIds(moduleIds);
+	}
 
-	
+	@Override
+	public List<ModuleDTO> selectModulesByGrades(List<String> moduleGrades) {
+		return moduleDAO.selectModulesByGrades(moduleGrades);
+	}
 }

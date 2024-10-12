@@ -110,8 +110,7 @@
 		ORDER BY CREATE_DATE ASC
 	</select>
 
-	<select id="getModuleListAccount"
-		resultMap="resultModuleOrder">
+	<select id="getModuleListAccount" resultMap="resultModuleOrder">
 		SELECT * FROM MODULE
 		WHERE MODULE_USAGE = 'Y'
 		AND
@@ -119,6 +118,30 @@
 		ORDER BY CREATE_DATE ASC
 	</select>
 
+	<!-- MODULE_ID 리스트에 해당하는 MODULE_GRADE를 가져오는 쿼리 -->
+	<select id="selectModuleGradesByIds" parameterType="list"
+		resultType="string">
+		SELECT MODULE_GRADE
+		FROM MODULE
+		WHERE MODULE_ID IN
+		<foreach item="moduleId" collection="list" open="("
+			separator="," close=")">
+			#{moduleId}
+		</foreach>
+	</select>
+
+
+	<select id="selectModulesByGrades" parameterType="list"
+		resultType="com.e3i3.moduerp.module.model.dto.ModuleDTO">
+		SELECT *
+		FROM MODULE
+		WHERE MODULE_GRADE IN
+		<foreach item="grade" collection="list" open="(" separator=","
+			close=")">
+			#{grade}
+		</foreach>
+		AND MODULE_USAGE = 'Y'
+	</select>
 
 
 </mapper>

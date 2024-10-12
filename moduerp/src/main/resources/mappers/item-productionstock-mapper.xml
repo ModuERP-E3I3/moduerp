@@ -122,6 +122,8 @@
 		ITEM
 		WHERE
 		BIZ_NUMBER = #{bizNumber}
+		AND ITEM_CODE
+		LIKE CONCAT(#{bizNumber}, 'P%')
 		AND CREATED_OUT_AT IS NOT NULL
 		ORDER BY CREATED_OUT_AT ASC
 	</select>
