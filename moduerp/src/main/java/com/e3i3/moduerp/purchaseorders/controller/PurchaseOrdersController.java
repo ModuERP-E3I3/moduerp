@@ -1,7 +1,10 @@
 package com.e3i3.moduerp.purchaseorders.controller;
 
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO;
 import com.e3i3.moduerp.employee.model.dto.Employee;
+import com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO;
 
 @Controller
 @RequestMapping("/")
@@ -51,11 +54,12 @@ public class PurchaseOrdersController {
 		List<String> empNames = purchaseOrdersService.getEmpNamesByBizNumber(bizNumber);
 		List<String> departmentIds = purchaseOrdersService.getDepartmentIdsByBizNumber(bizNumber);
 		List<Employee> empNameDepart = purchaseOrdersService.getEmpNameDepart(bizNumber);
-
-		// 거래처이름, 품명 등 리스트로 가져옴!!!!
-		List<String> accountNames = purchaseOrdersService.getAllAccountNames();
-
 		List<PurchaseOrdersDTO> purchaseOrders = purchaseOrdersService.getPurchaseOrdersByBizNumber(bizNumber);
+
+	    // ----- accountNo와 accountName 가져오는 부분 !!!  -----
+	    List<Map<String, Object>> accountNames = purchaseOrdersService.getAllAccountNames();
+	    model.addAttribute("accountNames", accountNames);
+	    // -----------------------------------------------------
 
 		model.addAttribute("empNames", empNames);
 		model.addAttribute("departmentIds", departmentIds);
@@ -101,18 +105,24 @@ public class PurchaseOrdersController {
 
 	@GetMapping("purchaseOrderDetailUpdate.do")
 	public String purchaseOrderDetailUpdate(@RequestParam("orderId") String orderId, Model model, HttpSession session) {
-		PurchaseOrdersDTO purchaseOrderDetail = purchaseOrdersService.getPurchaseOrderDetail(orderId);
-		String bizNumber = (String) session.getAttribute("biz_number");
+	    PurchaseOrdersDTO purchaseOrderDetail = purchaseOrdersService.getPurchaseOrderDetail(orderId);
+	    String bizNumber = (String) session.getAttribute("biz_number");
 
-		List<Employee> empNameDepart = purchaseOrdersService.getEmpNameDepart(bizNumber);
-		List<PurchaseOrdersDTO> purchaseOrders = purchaseOrdersService.getPurchaseOrdersByBizNumber(bizNumber);
+	    List<Employee> empNameDepart = purchaseOrdersService.getEmpNameDepart(bizNumber);
+	    List<PurchaseOrdersDTO> purchaseOrders = purchaseOrdersService.getPurchaseOrdersByBizNumber(bizNumber);
 
-		model.addAttribute("purchaseOrders", purchaseOrders);
-		model.addAttribute("empNameDepart", empNameDepart);
-		model.addAttribute("purchaseOrderDetail", purchaseOrderDetail);
+	    // ----- accountNo와 accountName 가져오는 부분 !!!  -----
+	    List<Map<String, Object>> accountNames = purchaseOrdersService.getAllAccountNames();
+	    model.addAttribute("accountNames", accountNames);
+	    // -----------------------------------------------------
 
-		return "purchaseOrders/purchaseOrdersDetailUpdate";
+	    model.addAttribute("purchaseOrders", purchaseOrders);
+	    model.addAttribute("empNameDepart", empNameDepart);
+	    model.addAttribute("purchaseOrderDetail", purchaseOrderDetail);
+
+	    return "purchaseOrders/purchaseOrdersDetailUpdate";
 	}
+
 
 	@PostMapping("/updatePurchaseOrder.do")
 	public String updatePurchaseOrder(

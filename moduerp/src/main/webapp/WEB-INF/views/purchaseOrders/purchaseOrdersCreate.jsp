@@ -229,7 +229,7 @@ tbody tr:hover {
 										data-name="${account.ACCOUNTNAME}">${account.ACCOUNTNAME}</option>
 								</c:forEach>
 						</select> <input type="hidden" name="accountName" id="accountNameField" />
-							<!-- 올바른 위치로 이동 --></td>
+						</td>
 							
 						<td><input type="text" name="puItemName"
 							placeholder="발주할 품명 입력" /></td>

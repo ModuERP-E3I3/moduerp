@@ -207,27 +207,39 @@ tbody tr:hover {
 				</thead>
 				<tbody>
 					<tr>
-					
+						<!-- 품명 입력 -->
 						<td><input type="text" name="puItemName" placeholder="품명 입력"
 							value="${purchaseOrderDetail.puItemName}" /></td>
-							
-						<td><input type="text" name="accountName"
-							placeholder="거래처명 입력" value="${purchaseOrderDetail.accountName}" /></td>
-							
+
+						<!-- 거래처 선택 드롭다운 리스트 -->
+						<td><select name="accountNo" onchange="setAccountName(this)">
+								<option value="" disabled selected>거래처 선택</option>
+								<c:forEach var="account" items="${accountNames}">
+									<option value="${account.ACCOUNTNO}"
+										<c:if test="${account.ACCOUNTNO == purchaseOrderDetail.accountNo}">
+                            selected
+                        </c:if>
+										data-name="${account.ACCOUNTNAME}">${account.ACCOUNTNAME}</option>
+								</c:forEach>
+						</select> <input type="hidden" name="accountName" id="accountNameField"
+							value="${purchaseOrderDetail.accountName}" /></td>
+
+						<!-- 수량 입력 -->
 						<td><input type="number" name="quantity" placeholder="수량 입력"
 							value="${purchaseOrderDetail.quantity}" /></td>
-							
+
+						<!-- 공급가 입력 -->
 						<td><input type="text" name="supplyPrice"
 							placeholder="공급가 입력" value="${purchaseOrderDetail.supplyPrice}" /></td>
-							
+
+						<!-- 납품일 입력 -->
 						<td><input type="date" name="deliveryDate"
 							value="${purchaseOrderDetail.deliveryDate}" /></td>
-							
+
+						<!-- 담당자명 입력 -->
 						<td><input type="text" name="mgrName" placeholder="담당자명 입력"
 							value="${purchaseOrderDetail.mgrName}" /></td>
-							
 					</tr>
-					
 				</tbody>
 			</table>
 
@@ -236,5 +248,14 @@ tbody tr:hover {
 			</div>
 		</form>
 	</div>
+
+	<script type="text/javascript">
+		function setAccountName(selectElement) {
+			var selectedOption = selectElement.options[selectElement.selectedIndex];
+			var accountName = selectedOption.getAttribute('data-name');
+			document.getElementById('accountNameField').value = accountName;
+		}
+	</script>
+
 </body>
 </html>
