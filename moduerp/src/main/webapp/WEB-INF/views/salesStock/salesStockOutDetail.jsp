@@ -206,8 +206,9 @@ th {
 						<td><c:choose>
 								<c:when test="${stockOut.paymentStatus == 'Y'}">Yes</c:when>
 								<c:otherwise>No</c:otherwise>
-							</c:choose></td>
-						<!-- PANNINT_STATUS 표시 -->
+							</c:choose>
+						</td>
+					
 					</tr>
 				</c:forEach>
 			</tbody>

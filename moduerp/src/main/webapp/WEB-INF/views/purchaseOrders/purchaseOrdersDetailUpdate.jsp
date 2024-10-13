@@ -238,8 +238,7 @@ tbody tr:hover {
 							value="${purchaseOrderDetail.deliveryDate}" /></td>
 
 						<!-- 담당자명 입력 -->
-						<td><input type="text" name="mgrName" placeholder="담당자명 입력"
-							value="${purchaseOrderDetail.mgrName}" /></td>
+						<td>${itemDetails.oDirector}</td>
 					</tr>
 				</tbody>
 			</table>

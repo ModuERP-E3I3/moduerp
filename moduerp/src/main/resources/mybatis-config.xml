@@ -48,6 +48,9 @@
 			
 			<typeAlias type="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg"
 			alias="Bankmg" />
+		<typeAlias
+			type="com.e3i3.moduerp.financialclosing.model.dto.FinClose"
+			alias="FinClose" />
 		<typeAlias type="com.e3i3.moduerp.buystock.model.dto.BuyStockOutDTO" 
 			alias="BuyStockOutDTO" />
 		
@@ -101,6 +104,7 @@
 		<mapper resource="mappers/attendance-mapper.xml" />
 		<mapper resource="mappers/attendancedocument-mapper.xml" />
 		<mapper resource="mappers/bankmg-mapper.xml" />
+		<mapper resource="mappers/finClose-mapper.xml" />
 		<mapper resource="mappers/module-mapper.xml" />
 		<mapper resource="mappers/item-delivery-mapper.xml" />
 		<mapper resource="mappers/delivery-mapper.xml" />

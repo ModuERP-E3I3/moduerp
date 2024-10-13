@@ -48,6 +48,10 @@ public interface AttendanceDocumentService {
 
     // 13. 특정 근태 관리 요청 ID로 삭제
     int deleteAttendanceRequestById(String attendanceRequestId);
+    
+    // 14. 특정 근태의 승인여부를 제출완료로 업데이트
+    int updateApprovalStatus(String attendancerequestId);
+   
 
 	/*
 	 * // 결재자가 결재 요청을 볼 수 있게 데이터를 필터링 void assignToApprover(String

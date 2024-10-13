@@ -61,7 +61,7 @@
 	background-color: white;
 	margin-left: 1%;
 	margin-right: 5%;
-	margin-top: 5%;
+	margin-top: 3%;
 	border: 1px solid #ccc;
 	border-radius: 20px; /* 박스 둥글게 */
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -148,6 +148,97 @@ th {
 
 </head>
 <body>
+	<!-- 서브헤더 JSP 임포트 -->
+	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
+	<!-- 위에 하얀 박스  -->
+	<div class="top-content-box">
+		<ul id="menubar">
+			<li><a href="bankmg.do"><i class="fa-solid fa-money-check-dollar"></i> 은행
+					계좌 관리</a></li>
+			<li><a href="finClose.do"><i class="fa-solid fa-calendar-days"></i>
+					결산 관리</a></li>
+			<!-- 수정 -->
+			<!-- <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> 수정
+	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> 수정 -->
+		</ul>
+	</div>
+
+	<!-- 하얀 큰 박스 -->
+	<div class="content-box">
+
+		<div class="content-title">회계 관리 | 결산 관리 | 신규 등록</div>
+		<form action="finCloseAddForm.do" method="post">
+			<table>
+				<thead>
+					<tr>
+						<th>은행 선택</th>
+						<th>시작일</th>
+						<th>종료일</th>
+						<th>총 매출</th>
+						<th>총 비용</th>
+						<th>순이익</th>
+						<th>결산 유형</th>
+						<th>결산일</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input type="text" id="bankNameInput" name="bankName"
+							required list="bankList" onchange="updateBankId()" /> <datalist
+								id="bankList">
+								<c:forEach var="bankmg" items="${bankmgList}">
+									<option value="${bankmg.bankName}"
+										data-bank-id="${bankmg.bankId}"></option>
+								</c:forEach>
+							</datalist><input type="hidden" id="bankIdInput" name="bankId" value=""></td>
+						<td><input type="date" name="startDate" required /></td>
+						<td><input type="date" name="endDate" required /></td>
+						<td><input type="number" name="totalSales" placeholder="총 매출 입력" required /></td>
+						<td><input type="number" name="totalExpenses" placeholder="총 비용 입력" required /></td>
+						<td><input type="number" name="netProfit" placeholder="순이익 입력" required /></td>
+						<td><input type="text" name="closingType" placeholder="구분 입력" required /></td>
+						<td><input type="date" name="closingDate" required /></td>
+					</tr>
+				</tbody>
+			</table>
+
+
+			<div class="btn-group">
+				<button class="btn blue" type="submit">등록</button>
+			</div>
+		</form>
+	</div>
 </body>
+
+<script>
+    function updateBankId() {
+        const bankNameInput = document.getElementById('bankNameInput');
+        const bankIdInput = document.getElementById('bankIdInput');
+        
+        // 모든 option 요소를 가져옵니다
+        const options = document.querySelectorAll('#bankList option');
+
+        // 선택한 은행 이름을 찾고 해당 bankId를 업데이트합니다
+        options.forEach(option => {
+            if (option.value === bankNameInput.value) {
+                bankIdInput.value = option.getAttribute('data-bank-id');
+            }
+        });
+    }
+</script>
+
+<script>
+    const activeMenu = "bankmg";
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuItems = document.querySelectorAll('nav.side ul li a');
+        menuItems.forEach(item => {
+            if (item.href.includes(activeMenu)) {
+                item.classList.add('active');
+            }
+        });
+    });
+</script>
+
 </html>

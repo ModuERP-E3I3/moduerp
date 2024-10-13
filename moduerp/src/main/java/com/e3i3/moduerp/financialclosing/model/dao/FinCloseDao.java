@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg;
 import com.e3i3.moduerp.financialclosing.model.dto.FinClose;
 
 @Repository("finCloseDao")
@@ -27,6 +28,10 @@ public class FinCloseDao {
 	}
     public int deleteFinClose(String FinCloseId) {
 		return sqlSessionTemplate.delete("finCloseMapper.deleteFinClose", FinCloseId);
+	}
+    
+	public List<Bankmg> getBankmgListByBizNumber(String bizNumber) {
+		return sqlSessionTemplate.selectList("finCloseMapper.getBankmgListByBizNumber", bizNumber);
 	}
    
 }

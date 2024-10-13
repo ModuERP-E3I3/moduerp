@@ -67,6 +67,12 @@
 </update>
 
 
+<update id="updateApprovalStatus" parameterType="String">
+    UPDATE C##PROJECT3TEAM.ATTENDANCEREQUEST
+    SET IS_APPROVED = '승인'
+    WHERE attendancerequest_id = #{attendancerequestId}
+</update>
+
 	<!-- Select by ATTENDANCEREQUEST_ID -->
 	<select id="selectAttendanceRequestById" parameterType="String"
 		resultMap="AttendanceRequestResultMap">
