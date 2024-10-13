@@ -75,9 +75,21 @@ public class CartController {
 
 		// moduleGrades 리스트를 이용해 MODULE 테이블에서 데이터 조회
 		List<ModuleDTO> modules = moduleService.selectModulesByGrades(moduleGrades);
+		
+		// 합계를 저장할 변수 선언
+		int totalModulePrice = 0;
+
+		// 반복문을 통해 모든 modulePrice 값을 합산
+		for (ModuleDTO module : modules) {
+		    totalModulePrice += module.getModulePrice();
+		}
+
+		// 결과 출력 (혹은 다른 변수에 저장 가능)
+		System.out.println("Total Module Price: " + totalModulePrice);
 
 		// 조회된 모듈 데이터를 모델에 추가하여 JSP로 전달
 		model.addAttribute("modules", modules);
+		model.addAttribute("totalModulePrice",totalModulePrice);
 
 		return "cart/cart"; // 페이지 반환
 	}

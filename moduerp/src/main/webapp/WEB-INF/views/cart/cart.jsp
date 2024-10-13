@@ -29,7 +29,9 @@ hr {
 
 /* 이미지 컨테이너 스타일 */
 div#image-container {
-	flex-direction: column; /* 상하 정렬 */
+	display: flex; /* Flexbox 적용 */
+	flex-direction: row; /* 가로 방향 정렬 */
+	justify-content: space-between; /* 양 끝에 요소 배치 */
 	align-items: center;
 	background-color: white;
 	box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* 입체감 설정 */
@@ -100,22 +102,28 @@ th {
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
+	margin-left: 1%;
 }
 
-.btn_cart {
+.btn_pay {
 	background-color: #4CAF50;
 	color: white;
-	padding: 8px 16px;
+	padding: 5px 12px;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
+	font-size: 20px;
 }
 
 .left-group {
 	text-align: left;
+	margin-left: 3%;
 }
 
 .right-group {
+	margin-top: 30%;
+	text-align: right;
+	margin-right: 1.5%;
 	text-align: right;
 }
 
@@ -141,6 +149,12 @@ th {
 	overflow-y: auto; /* 스크롤 활성화 */
 	margin: 0 auto; /* 좌우 가운데 정렬 */
 	width: 90%; /* 테이블의 너비를 90%로 설정 */
+}
+
+#totalPrice {
+	margin-bottom: 10px;
+	font-weight: bold;
+	font-size: 20px;
 }
 </style>
 
@@ -393,10 +407,14 @@ th {
 						<button type="button" class="btn_deleteCheck"
 							onclick="submitSelectedItems()">선택 항목 삭제하기</button>
 					</div>
-					<div class="right-group">
-						<button type="button" class="btn_cart">결제하기</button>
-					</div>
+
 				</div>
+
+			</div>
+			<div class="right-group">
+				<div id="totalPrice">
+					총 금액<br>${totalModulePrice}원</div>
+				<button type="button" class="btn_pay">결제하기</button>
 			</div>
 		</div>
 
@@ -414,6 +432,225 @@ th {
 	<c:import url="/WEB-INF/views/common/footer.jsp" />
 
 </body>
+
+<script type="text/javascript">
+// GroupWare
+document.addEventListener('DOMContentLoaded', () => {
+    const checkboxes = document.querySelectorAll('input[name="selectedModules"]');
+ // ATD와 AD 체크박스는 비활성화
+    disableCheckbox(['ATD', 'AD']);
+ 
+    function disableCheckbox(values) {
+        values.forEach(value => {
+            const checkbox = Array.from(checkboxes).find(cb => cb.value === value);
+            if (checkbox) {
+                checkbox.disabled = true; // 비활성화
+            }
+        });
+    }
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', (event) => {
+            const selectedValue = event.target.value;
+            const isChecked = event.target.checked;
+
+            if (selectedValue === 'ATD') {
+                // ATD 체크할 때 AD와 EM도 같이 체크
+                toggleCheckbox(['AD', 'EM'], isChecked);
+            } else if (selectedValue === 'AD') {
+                // AD 체크할 때 ATD와 EM도 같이 체크
+                toggleCheckbox(['ATD', 'EM'], isChecked);
+            } else if (selectedValue === 'EM') {
+                // EM은 독립적으로 체크되고 해제됨
+                // 특별한 로직 필요 없음 (기본 동작)
+            }
+        });
+    });
+
+    function toggleCheckbox(values, isChecked) {
+        values.forEach(value => {
+            const relatedCheckbox = Array.from(checkboxes).find(cb => cb.value === value);
+            if (relatedCheckbox) {
+                relatedCheckbox.checked = isChecked;
+            }
+        });
+    }
+});
+
+// Production
+document.addEventListener('DOMContentLoaded', () => {
+    const checkboxes = document.querySelectorAll('input[name="selectedModules"]');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', (event) => {
+            const selectedValue = event.target.value;
+            const isChecked = event.target.checked;
+
+            switch (selectedValue) {
+                case 'P_IN':
+                    toggleCheckbox(['P_OUT', 'WO', 'QC'], isChecked);
+                    break;
+                case 'P_OUT':
+                    toggleCheckbox(['P_IN', 'WO', 'QC'], isChecked);
+                    break;
+                case 'WO':
+                    toggleCheckbox(['QC'], isChecked);
+                    break;
+                case 'QC':
+                    // QC는 독립적으로 동작합니다. 특별한 로직 필요 없음.
+                    break;
+            }
+        });
+    });
+
+    function toggleCheckbox(values, isChecked) {
+        values.forEach(value => {
+            const relatedCheckbox = Array.from(checkboxes).find(cb => cb.value === value);
+            if (relatedCheckbox) {
+                relatedCheckbox.checked = isChecked;
+            }
+        });
+    }
+});
+
+// Buy
+document.addEventListener('DOMContentLoaded', () => {
+    const checkboxes = document.querySelectorAll('input[name="selectedModules"]');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', (event) => {
+            const selectedValue = event.target.value;
+            const isChecked = event.target.checked;
+
+            switch (selectedValue) {
+                case 'B_IN':
+                    toggleCheckbox(['B_OUT', 'OF', 'DT'], isChecked);
+                    break;
+                case 'B_OUT':
+                    toggleCheckbox(['B_IN', 'OF', 'DT'], isChecked);
+                    break;
+                case 'OF':
+                    toggleCheckbox(['B_IN', 'B_OUT', 'DT'], isChecked);
+                    break;
+                case 'DT':
+                    // DT는 혼자 선택 및 해제됩니다. 특별한 로직 필요 없음.
+                    break;
+            }
+        });
+    });
+
+    function toggleCheckbox(values, isChecked) {
+        values.forEach(value => {
+            const relatedCheckbox = Array.from(checkboxes).find(cb => cb.value === value);
+            if (relatedCheckbox) {
+                relatedCheckbox.checked = isChecked;
+            }
+        });
+    }
+});
+
+
+// Salse
+document.addEventListener('DOMContentLoaded', () => {
+    const checkboxes = document.querySelectorAll('input[name="selectedModules"]');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', (event) => {
+            const selectedValue = event.target.value;
+            const isChecked = event.target.checked;
+
+            switch (selectedValue) {
+                case 'S_IN':
+                    toggleCheckbox(['S_OUT', 'VM'], isChecked);
+                    break;
+                case 'S_OUT':
+                    toggleCheckbox(['S_IN', 'VM'], isChecked);
+                    break;
+                case 'VM':
+                    // VM은 독립적으로 선택 및 해제됩니다. 별도의 로직이 필요 없습니다.
+                    break;
+            }
+        });
+    });
+
+    function toggleCheckbox(values, isChecked) {
+        values.forEach(value => {
+            const relatedCheckbox = Array.from(checkboxes).find(cb => cb.value === value);
+            if (relatedCheckbox) {
+                relatedCheckbox.checked = isChecked;
+            }
+        });
+    }
+});
+
+
+//Car
+document.addEventListener('DOMContentLoaded', () => {
+    const checkboxes = document.querySelectorAll('input[name="selectedModules"]');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', (event) => {
+            const selectedValue = event.target.value;
+            const isChecked = event.target.checked;
+
+            switch (selectedValue) {
+                case 'C_I':
+                    toggleCheckbox(['C_R', 'C_P'], isChecked);
+                    break;
+                case 'C_R':
+                    toggleCheckbox(['C_I', 'C_P'], isChecked);
+                    break;
+                case 'C_P':
+                case 'RTRL':
+                    // C_P와 RTRL은 독립적으로 선택 및 해제됩니다. 별도의 로직 필요 없음.
+                    break;
+            }
+        });
+    });
+
+    function toggleCheckbox(values, isChecked) {
+        values.forEach(value => {
+            const relatedCheckbox = Array.from(checkboxes).find(cb => cb.value === value);
+            if (relatedCheckbox) {
+                relatedCheckbox.checked = isChecked;
+            }
+        });
+    }
+});
+
+
+//Account
+
+document.addEventListener('DOMContentLoaded', () => {
+    const checkboxes = document.querySelectorAll('input[name="selectedModules"]');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', (event) => {
+            const selectedValue = event.target.value;
+            const isChecked = event.target.checked;
+
+            switch (selectedValue) {
+                case 'BAM':
+                    toggleCheckbox(['CM'], isChecked);
+                    break;
+                case 'CM':
+                    // CM은 독립적으로 동작합니다. 별도의 로직 필요 없음.
+                    break;
+            }
+        });
+    });
+
+    function toggleCheckbox(values, isChecked) {
+        values.forEach(value => {
+            const relatedCheckbox = Array.from(checkboxes).find(cb => cb.value === value);
+            if (relatedCheckbox) {
+                relatedCheckbox.checked = isChecked;
+            }
+        });
+    }
+});
+
+</script>
+
 <script type="text/javascript">
 
 function deleteAllItems() {
