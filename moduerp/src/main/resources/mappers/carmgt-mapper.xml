@@ -121,4 +121,105 @@
 	<delete id="deleteCarmgt" parameterType="String">
 		DELETE FROM CAR_MANAGEMENT WHERE PAYMENT_HISTORY_CODE = #{paymentHistoryCode}
 	</delete>
+	
+	<!-- filter (date) -->
+	<select id="selectCarByCarModelDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
+		SELECT *
+		FROM CAR_MANAGEMENT
+		WHERE PAYMENT_HISTORY_CODE LIKE #{bizNumber} || 'CM%'
+		AND
+		CAR_MODEL LIKE '%' || #{filterText} || '%'
+		AND PAYMENT_DATE
+		BETWEEN
+		TO_DATE(#{startDate}, 'YY-MM-DD') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD')
+		ORDER BY PAYMENT_DATE DESC
+	</select>
+	
+	<select id="selectCarByCarNumDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
+		SELECT *
+		FROM CAR_MANAGEMENT
+		WHERE PAYMENT_HISTORY_CODE LIKE #{bizNumber} || 'CM%'
+		AND
+		CAR_NUM LIKE '%' || #{filterText} || '%'
+		AND PAYMENT_DATE
+		BETWEEN
+		TO_DATE(#{startDate}, 'YY-MM-DD') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD')
+		ORDER BY PAYMENT_DATE DESC
+	</select>
+	
+	<select id="selectCarByEmpNameDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
+		SELECT *
+		FROM CAR_MANAGEMENT
+		WHERE PAYMENT_HISTORY_CODE LIKE #{bizNumber} || 'CM%'
+		AND
+		EMP_NAME LIKE '%' || #{filterText} || '%'
+		AND PAYMENT_DATE
+		BETWEEN
+		TO_DATE(#{startDate}, 'YY-MM-DD') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD')
+		ORDER BY PAYMENT_DATE DESC
+	</select>
+	
+	<select id="selectCarByDepartmentIdDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
+		SELECT *
+		FROM CAR_MANAGEMENT
+		WHERE PAYMENT_HISTORY_CODE LIKE #{bizNumber} || 'CM%'
+		AND
+		DEPARTMENT_ID LIKE '%' || #{filterText} || '%'
+		AND PAYMENT_DATE
+		BETWEEN
+		TO_DATE(#{startDate}, 'YY-MM-DD') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD')
+		ORDER BY PAYMENT_DATE DESC
+	</select>
+	
+	<select id="selectCarByCarModel"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
+		SELECT *
+		FROM CAR_MANAGEMENT
+		WHERE PAYMENT_HISTORY_CODE LIKE #{bizNumber} || 'CM%'
+		AND CAR_MODEL LIKE '%' || #{filterText} || '%'
+		ORDER BY PAYMENT_DATE DESC
+	</select>
+	
+	<select id="selectCarByCarNum"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
+		SELECT *
+		FROM CAR_MANAGEMENT
+		WHERE PAYMENT_HISTORY_CODE LIKE #{bizNumber} || 'CM%'
+		AND CAR_NUM LIKE '%' || #{filterText} || '%'
+		ORDER BY PAYMENT_DATE DESC
+	</select>
+	
+	<select id="selectCarByEmpName"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
+		SELECT *
+		FROM CAR_MANAGEMENT
+		WHERE PAYMENT_HISTORY_CODE LIKE #{bizNumber} || 'CM%'
+		AND EMP_NAME LIKE '%' || #{filterText} || '%'
+		ORDER BY PAYMENT_DATE DESC
+	</select>
+	
+	<select id="selectCarByDepartmentId"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
+		SELECT *
+		FROM CAR_MANAGEMENT
+		WHERE PAYMENT_HISTORY_CODE LIKE #{bizNumber} || 'CM%'
+		AND DEPARTMENT_ID LIKE '%' || #{filterText} || '%'
+		ORDER BY PAYMENT_DATE DESC
+	</select>
 </mapper>

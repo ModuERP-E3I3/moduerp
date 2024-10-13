@@ -225,7 +225,7 @@ th {
             <tbody>
             <tr>
                <!-- 차량 이미지 -->
-                  <td><img alt="${carDetail.carModel}" src="${pageContext.request.contextPath}/${carDetail.imagePath}" width="100"></td>
+                  <td><img alt="${carDetail.carModel}" src="${pageContext.request.contextPath}/${carDetail.imagePath}" width="25%"></td>
             </tr>
          </tbody>
          <thead>

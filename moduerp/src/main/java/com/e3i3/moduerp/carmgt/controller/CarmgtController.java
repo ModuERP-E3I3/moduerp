@@ -35,7 +35,7 @@ public class CarmgtController {
 		List<CarmgtDto> carmgtList = CarmgtService.getAllCarmgt(bizNumber);
 		
 		// 페이지당 항목 수
-		int carmgtPerPage = 5;
+		int carmgtPerPage = 10;
 		
 		int totalCarmgt = carmgtList.size();
 		
@@ -52,6 +52,53 @@ public class CarmgtController {
 		model.addAttribute("currentPage", page);
 		return "car/carMgt";
 	}
+	
+	@RequestMapping(value = "/carmgtFilter.do",  method = RequestMethod.GET)
+	public String forwardCarmgtFilter(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "filterOption", required = false) String option,
+			@RequestParam(value = "filterText", required = false) String filterText,
+			@RequestParam(value = "startDate", required = false) String startDate,
+			@RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
+		String bizNumber = (String) session.getAttribute("biz_number");
+		List<CarmgtDto> carmgtList = CarmgtService.getAllCarmgt("bizNumber");
+		
+		// 필터링 로직
+				if (option != null && filterText != null) {
+					if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+						System.out.println("날짜있는거 실행");
+						carmgtList = CarmgtService.getCarByFilterDate(bizNumber, option, filterText, startDate, endDate);
+					} else if (startDate == null || startDate.isEmpty()) {
+						System.out.println("날짜없는거 실행");
+						carmgtList = CarmgtService.getCarByFilter(bizNumber, option, filterText);
+					} else {
+						System.out.println("실행 못함");
+						carmgtList = CarmgtService.getCarsByBizNumber(bizNumber);
+					}
+				} else {
+					carmgtList = CarmgtService.getCarsByBizNumber(bizNumber);
+				}
+				
+				int carmgtPerPage = 10;
+				int totalCarmgt = carmgtList.size();
+				int totalPages = (int) Math.ceil((double) totalCarmgt / carmgtPerPage);
+				int startIndex = (page - 1) * carmgtPerPage;
+				int endIndex = Math.min(startIndex + carmgtPerPage, totalCarmgt);
+				
+				List<CarmgtDto> paginatedList = carmgtList.subList(startIndex, endIndex);
+				
+				
+				model.addAttribute("carmgtList", paginatedList);
+				model.addAttribute("totalPages", totalPages);
+				model.addAttribute("currentPage", page);
+				model.addAttribute("option", option);
+				model.addAttribute("filterText", filterText);
+				model.addAttribute("startDate", startDate);
+				model.addAttribute("endDate", endDate);
+		
+				return "car/carMgtFilter";
+	}
+	
+	
 
 	@RequestMapping(value = "/carmgtCreate.do", method = RequestMethod.GET)
 	public String showCreateCarmgtForm(Model model, HttpSession session) {

@@ -59,6 +59,35 @@ public class CarmgtServiceImpl implements CarmgtService {
 		carmgtDao.deleteCarmgt(paymentHistoryCode);
 	}
 
+	@Override
+	public List<CarmgtDto> getCarByFilterDate(String bizNumber, String option, String filterText, String startDate,
+			String endDate) {
+		if (option.equals("carModel")) {
+			return carmgtDao.getCarByCarModelDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("carNum")) {
+			return carmgtDao.getCarByCarNumDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("empName")) {
+			return carmgtDao.getCarByEmpNameDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("departmentId")) {
+			return carmgtDao.getCarByDepartmentIdDate(bizNumber, filterText, startDate, endDate);
+		}
+		return null;
+	}
+
+	@Override
+	public List<CarmgtDto> getCarByFilter(String bizNumber, String option, String filterText) {
+		if (option.equals("carModel")) {
+			return carmgtDao.getCarByCarModel(bizNumber, filterText);
+		} else if (option.equals("carNum")) {
+			return carmgtDao.getCarByCarNum(bizNumber, filterText);
+		} else if (option.equals("empName")) {
+			return carmgtDao.getCarByEmpName(bizNumber, filterText);
+		} else if (option.equals("departmentId")) {
+			return carmgtDao.getCarByDepartmentId(bizNumber, filterText);
+		}
+		return null;
+	}
+
 	/*
 	 * @Override public void deleteCarmgt(String carId) {
 	 * 

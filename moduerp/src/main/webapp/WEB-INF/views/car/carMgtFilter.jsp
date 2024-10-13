@@ -145,7 +145,6 @@ th {
 .top-content-box {
 	background-color: white;
 }
-
 #pagebutton {
 	display: flex;
 	justify-content: center;
@@ -197,13 +196,18 @@ tbody tr:hover {
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
 					<option disabled selected>옵션 선택</option>
-					<option value="carModel">차종</option>
-					<option value="carNum">차량 번호</option>
-					<option value="empName">사원명</option>
-					<option value="departmentId">부서명</option>
-				</select> <input type="date" name="startDate" id="startDate" /> <input
-					type="date" name="endDate" id="endDate" /> <input type="text"
-					name="filterText" id="filterText" placeholder="내용 입력" />
+					<option value="carModel" ${option == 'carModel' ? 'selected' : ''}>차종</option>
+					<option value="carNum" ${option == 'carNum' ? 'selected' : ''}>차량
+						번호</option>
+					<option value="empName" ${option == 'empName' ? 'selected' : ''}>사원명</option>
+					<option value="departmentId"
+						${option == 'departmentId' ? 'selected' : ''}>부서명</option>
+				</select> <input type="date" name="startDate" id="startDate"
+					value="${startDate != null ? startDate : ''}" /> <input
+					type="date" name="endDate" id="endDate"
+					value="${endDate != null ? endDate : ''}" /> <input type="text"
+					name="filterText" id="filterText" placeholder="내용 입력"
+					value="${filterText != null ? filterText : ''}" />
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
 					onclick="window.location.href='carMgt.do';">초기화</button>
@@ -252,7 +256,8 @@ tbody tr:hover {
 							<!-- 현재 페이지는 강조 -->
 						</c:when>
 						<c:otherwise>
-							<a href="carMgt.do?page=${i}">${i}</a>
+							<a
+								href="carmgtFilter.do?page=${i}&filterOption=${option}&filterText=${filterText}&startDate=${startDate}&endDate=${endDate}">${i}</a>
 							<!-- 페이지 링크 -->
 						</c:otherwise>
 					</c:choose>
