@@ -229,7 +229,7 @@
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
 		SELECT *
 		FROM ITEM
-		WHERE ITEM_CODE LIKE #{bizNumber} || 'P%'
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
 		AND
 		ITEM_NAME LIKE '%' || #{filterText} || '%'
 		AND CREATED_AT BETWEEN
@@ -244,7 +244,7 @@
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
 		SELECT *
 		FROM ITEM
-		WHERE ITEM_CODE LIKE #{bizNumber} || 'P%'
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
 		AND
 		STOCK_PLACE LIKE '%' || #{filterText} || '%'
 		AND CREATED_AT BETWEEN
@@ -258,7 +258,7 @@
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
 		SELECT *
 		FROM ITEM
-		WHERE ITEM_CODE LIKE #{bizNumber} || 'P%'
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
 		AND
 		IDIRECTOR LIKE '%' || #{filterText} || '%'
 		AND CREATED_AT BETWEEN
@@ -273,7 +273,7 @@
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
 		SELECT *
 		FROM ITEM
-		WHERE ITEM_CODE LIKE #{bizNumber} || 'P%'
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
 		AND
 		ITEM_NAME LIKE '%' || #{filterText} || '%'
 		ORDER BY CREATED_AT ASC
@@ -283,7 +283,7 @@
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
 		SELECT *
 		FROM ITEM
-		WHERE ITEM_CODE LIKE #{bizNumber} || 'P%'
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
 		AND
 		STOCK_PLACE LIKE '%' || #{filterText} || '%'
 		ORDER BY CREATED_AT ASC
@@ -293,7 +293,7 @@
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
 		SELECT *
 		FROM ITEM
-		WHERE ITEM_CODE LIKE #{bizNumber} || 'P%'
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
 		AND
 		IDIRECTOR LIKE '%' || #{filterText} || '%'
 		ORDER BY CREATED_AT ASC
@@ -307,7 +307,7 @@
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
 		SELECT *
 		FROM ITEM
-		WHERE ITEM_CODE LIKE #{bizNumber} || 'P%'
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
 		AND
 		ITEM_NAME LIKE '%' || #{filterText} || '%'
 		AND CREATED_OUT_AT
@@ -323,7 +323,7 @@
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
 		SELECT *
 		FROM ITEM
-		WHERE ITEM_CODE LIKE #{bizNumber} || 'P%'
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
 		AND
 		STOCK_OUT_PLACE LIKE '%' || #{filterText} || '%'
 		AND CREATED_OUT_AT
@@ -339,7 +339,7 @@
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
 		SELECT *
 		FROM ITEM
-		WHERE ITEM_CODE LIKE #{bizNumber} || 'P%'
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
 		AND
 		ODIRECTOR LIKE '%' || #{filterText} || '%'
 		AND CREATED_OUT_AT
@@ -354,7 +354,7 @@
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
 		SELECT *
 		FROM ITEM
-		WHERE ITEM_CODE LIKE #{bizNumber} || 'P%'
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
 		AND
 		ITEM_NAME LIKE '%' || #{filterText} || '%'
 		AND CREATED_OUT_AT IS NOT
@@ -368,7 +368,7 @@
 		SELECT *
 		FROM ITEM
 		WHERE ITEM_CODE LIKE #{bizNumber} ||
-		'P%'
+		'S%'
 		AND
 		STOCK_OUT_PLACE LIKE '%' || #{filterText} || '%'
 		AND CREATED_OUT_AT
@@ -380,7 +380,7 @@
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
 		SELECT *
 		FROM ITEM
-		WHERE ITEM_CODE LIKE #{bizNumber} || 'P%'
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
 		AND
 		ODIRECTOR LIKE '%' || #{filterText} || '%'
 		AND CREATED_OUT_AT IS NOT
