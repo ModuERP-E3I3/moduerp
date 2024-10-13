@@ -169,7 +169,6 @@ tbody tr:hover {
 }
 </style>
 
-
 </head>
 
 <body>
@@ -189,24 +188,31 @@ tbody tr:hover {
 	<div class="content-box">
 
 		<div class="content-title">영업관리 | 영업입고</div>
-
-		<form action="/moduerp/salesStockOutFilter.do">
+		<form action="/moduerp/salesStockInFilter.do">
 			<!-- 필터 박스 -->
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
 					<option disabled selected>옵션 선택</option>
-					<option value="itemName">제품명</option>
-					<option value="stockPlace">출고 장소</option>
-					<option value="ODirector">담당자</option>
-				</select> <input type="date" name="startDate" id="startDate" /> <input
-					type="date" name="endDate" id="endDate" /> <input type="text"
-					name="filterText" id="filterText" placeholder="내용 입력" />
+					<option value="itemName" ${option == 'itemName' ? 'selected' : ''}>제품명</option>
+					<option value="stockPlace"
+						${option == 'stockPlace' ? 'selected' : ''}>입고 장소</option>
+					<option value="ODirector"
+						${option == 'ODirector' ? 'selected' : ''}>담당자</option>
+				</select> <input type="date" name="startDate" id="startDate"
+					value="${startDate != null ? startDate : ''}" /> <input
+					type="date" name="endDate" id="endDate"
+					value="${endDate != null ? endDate : ''}" /> <input type="text"
+					name="filterText" id="filterText" placeholder="내용 입력"
+					value="${filterText != null ? filterText : ''}" />
+
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
-					onclick="window.location.href='salesStockOut.do';">초기화</button>
+					onclick="window.location.href='salesStockIn.do';">초기화</button>
 			</div>
+			
 		</form>
-
+		
+		
 		<!-- 테이블 -->
 		<table>
 			<thead>
@@ -220,32 +226,28 @@ tbody tr:hover {
 					<th>담당자</th>
 				</tr>
 			</thead>
-
+			
 			<tbody>
 				<c:forEach var="item" items="${itemList}" varStatus="status">
 					<tr
 						onclick="window.location.href='getSalesInDetails.do?itemCode=${item.itemCode}'">
-						
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
 						
 						<td>${item.itemName}</td>
 						
-						<td><fmt:formatDate value="${item.createdAt}"
+						<td><fmt:formatDate value="${item.createdInAt}"
 								pattern="yyyy-MM-dd" /></td>
-						
+								
 						<td>${item.stockIn}</td>
 						<td>${item.stockPlace}</td>
 						<td>${item.inPrice}</td>
 						<td>${item.iDirector}</td>
-						
 					</tr>
 				</c:forEach>
 			</tbody>
 
 
-
 		</table>
-
 		<!-- 페이지 버튼 -->
 		<div id="pagebutton">
 			<c:if test="${totalPages > 1}">
@@ -256,7 +258,9 @@ tbody tr:hover {
 							<!-- 현재 페이지는 강조 -->
 						</c:when>
 						<c:otherwise>
-							<a href="salesStockIn.do?page=${i}">${i}</a>
+							<a
+								href="salesStockInFilter.do?page=${i}&filterOption=${option}&filterText=${filterText}&startDate=${startDate}&endDate=${endDate}">
+								${i} </a>
 							<!-- 페이지 링크 -->
 						</c:otherwise>
 					</c:choose>
@@ -264,40 +268,13 @@ tbody tr:hover {
 			</c:if>
 		</div>
 
-
-
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
-			<a href="salesInCreate.do"><button class="btn blue">등록</button></a>
+			<a href="salesStockInCreate.do"><button class="btn blue">등록</button></a>
 		</div>
 
 	</div>
 </body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- jQuery 추가 -->
-
-<script>
-    function getItemCode(itemCode) {
-        console.log("클릭한 item_code: " + itemCode);
-
-        $.ajax({
-        	url: '/moduerp/getSalesInDetails.do', // URL을 수정
-            type: 'GET',
-            data: { itemCode: itemCode },
-            success: function(response) {
-                console.log("데이터 가져오기 성공:", response);
-                // 필요한 작업 수행
-            },
-            error: function(xhr, status, error) {
-                console.error("데이터 가져오기 실패:", error);
-            }
-        });
-
-    }
-</script>
-
-
-
 <script>
     const activeMenu = "account";
 
@@ -310,6 +287,4 @@ tbody tr:hover {
         });
     });
 </script>
-
-
 </html>
