@@ -214,7 +214,6 @@ tbody tr:hover {
 			<thead>
 				<tr>
 					<th>순번</th>
-					<th>거래처 번호</th>
 					<th>거래처 이름</th>
 					<th>업태</th>
 					<th>대표자 이름</th>
@@ -230,7 +229,6 @@ tbody tr:hover {
 						onclick="window.location.href='getAccountDetails.do?accountNo=${account.accountNo}'">
 
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<td>${account.accountNo}</td>
 						<td>${account.accountName}</td>
 						<td>${account.businessType}</td>
 						<td>${account.bossName}</td>

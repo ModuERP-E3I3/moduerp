@@ -214,7 +214,6 @@ tbody tr:hover {
 			<thead>
 				<tr>
 					<th>순번</th>
-					<th>발주서번호</th>
 					<th>거래처명</th>
 					<th>품명</th>
 					<th>수량</th>
@@ -229,7 +228,6 @@ tbody tr:hover {
 						onclick="window.location.href='getPurchaseOrderDetails.do?orderId=${purchaseOrders.orderId}'">
 
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<td>${purchaseOrders.orderId}</td>
 						<td>${purchaseOrders.accountName}</td>
 						<td>${purchaseOrders.puItemName}</td>
 						<td>${purchaseOrders.quantity}</td>
