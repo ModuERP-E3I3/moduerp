@@ -226,30 +226,39 @@ tbody tr:hover {
 			<thead>
 				<tr>
 					<th>순번</th>
-					<th>제품명</th>
-					<th>입고 일자</th>
-					<th>입고 수량</th>
-					<th>입고 장소</th>
-					<th>입고 단가</th>
-					<th>직원명</th>
+					<th>거래처명</th>
+					<th>품명</th>
+					<th>수량</th>
+					<th>발주금액</th>
+					<th>납품일</th>
+					<th>담당자명</th>
 				</tr>
 			</thead>
 
 			<tbody>
-				<c:forEach var="item" items="${itemList}" varStatus="status">
+				<c:forEach var="purchaseOrder" items="${purchaseOrdersList}"
+					varStatus="status">
 					<tr
-						onclick="window.location.href='getProductionInDetails.do?itemCode=${item.itemCode}'">
+						onclick="window.location.href='getPurchaseOrderDetails.do?orderId=${purchaseOrder.orderId}'">
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
 						<!-- 순번 계산 -->
-						<td>${item.itemName}</td>
-						<td>${item.createdAt}</td>
-						<td>${item.stockIn}</td>
-						<td>${item.stockPlace}</td>
-						<td>${item.inPrice}</td>
-						<td>${item.iDirector}</td>
+						<td>${purchaseOrder.accountName}</td>
+						<!-- 거래처 이름 -->
+						<td>${purchaseOrder.puItemName}</td>
+						<!-- 품명 -->
+						<td>${purchaseOrder.quantity}</td>
+						<!-- 수량 -->
+						<td>${purchaseOrder.supplyPrice}</td>
+						<!-- 발주금액 -->
+						<td>${purchaseOrder.deliveryDate}</td>
+						<!-- 납품일 -->
+						<td>${purchaseOrder.oDirector}</td>
+						<!-- 담당자명 -->
 					</tr>
 				</c:forEach>
 			</tbody>
+
+
 
 
 
