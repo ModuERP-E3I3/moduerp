@@ -196,8 +196,8 @@ tbody tr:hover {
 					<option value="itemName" ${option == 'itemName' ? 'selected' : ''}>제품명</option>
 					<option value="stockPlace"
 						${option == 'stockPlace' ? 'selected' : ''}>입고 장소</option>
-					<option value="ODirector"
-						${option == 'ODirector' ? 'selected' : ''}>담당자</option>
+					<option value="iDirector"
+						${option == 'iDirector' ? 'selected' : ''}>담당자</option>
 				</select> <input type="date" name="startDate" id="startDate"
 					value="${startDate != null ? startDate : ''}" /> <input
 					type="date" name="endDate" id="endDate"
