@@ -178,9 +178,12 @@ tbody tr:hover {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
-			<li><a href="buyStockOut.do"><i class="fas fa-clipboard"></i> 구매 출고</a></li>
-			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
+			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i>
+					구매 입고</a></li>
+			<li><a href="buyStockOut.do"><i class="fas fa-clipboard"></i>
+					구매 출고</a></li>
+			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i>
+					배송 조회</a></li>
 		</ul>
 	</div>
 
@@ -188,28 +191,36 @@ tbody tr:hover {
 	<div class="content-box">
 
 		<div class="content-title">구매관리 | 구매입고</div>
-		<form action="/moduerp/buyStockInFilter.do">
+		<form action="/moduerp/purchaseOrdersFilter.do">
 			<!-- 필터 박스 -->
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
 					<option disabled selected>옵션 선택</option>
-					<option value="itemName" ${option == 'itemName' ? 'selected' : ''}>제품명</option>
-					<option value="stockPlace"
-						${option == 'stockPlace' ? 'selected' : ''}>입고 장소</option>
-					<option value="iDirector"
-						${option == 'iDirector' ? 'selected' : ''}>담당자</option>
-				</select> <input type="date" name="startDate" id="startDate"
+					<option value="accountName"
+						${option == 'accountName' ? 'selected' : ''}>거래처 이름</option>
+					<option value="puItemName"
+						${option == 'puItemName' ? 'selected' : ''}>품명</option>
+					<option value="ODirector"
+						${option == 'ODirector' ? 'selected' : ''}>담당자 이름</option>
+				</select>
+
+				<!-- 필터 텍스트 -->
+				<input type="text" name="filterText" id="filterText"
+					placeholder="내용 입력" value="${filterText != null ? filterText : ''}" />
+
+				<!-- 날짜 필터 추가 -->
+				<input type="date" name="startDate" id="startDate"
 					value="${startDate != null ? startDate : ''}" /> <input
 					type="date" name="endDate" id="endDate"
-					value="${endDate != null ? endDate : ''}" /> <input type="text"
-					name="filterText" id="filterText" placeholder="내용 입력"
-					value="${filterText != null ? filterText : ''}" />
+					value="${endDate != null ? endDate : ''}" />
 
+				<!-- 조회 및 초기화 버튼 -->
 				<button type="submit" class="btn">조회</button>
-				<button type="button" class="btn" onclick="window.location.href='buyStockIn.do';">초기화</button>
+				<button type="button" class="btn"
+					onclick="window.location.href='purchaseOrders.do';">초기화</button>
 			</div>
-
 		</form>
+
 		<!-- 테이블 -->
 		<table>
 			<thead>
