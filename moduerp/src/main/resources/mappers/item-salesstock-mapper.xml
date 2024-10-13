@@ -300,7 +300,7 @@
 	</select>
 
 	<!-- =============================================== -->
-	<!-- productionOut filter -->
+	<!-- salesOut filter -->
 
 	<select id="selectItemOutFilterByItemNameDate"
 		parameterType="map"
