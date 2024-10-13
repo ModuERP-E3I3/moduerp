@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,7 @@ public class AttendanceDocumentController {
 	@PostMapping("/attendanceDocument/submit.do")
 	public String submitAttendanceRequest(HttpSession session, @ModelAttribute AttendanceDocument request, Model model,
 			RedirectAttributes redirectAttributes) {
-		// 디버깅을 위해 approver 값 출력
+		// 디버깅을 위해 approver 값 출력       
 		System.out.println("Approver: " + request.getApprover());
 
 		// 결재자 조회
@@ -155,15 +156,15 @@ public class AttendanceDocumentController {
 			@RequestParam("isApproved") String isApproved) {
 
 		Map<String, Object> params = new HashMap<>();
-		System.out.println(" 아이디 : "+ attendanceRequestId);
-		
+		System.out.println(" 아이디 : " + attendanceRequestId);
+
 		params.put("attendanceRequestId", attendanceRequestId);
 		params.put("status", status);
 		params.put("approver", approverUUID);
 		params.put("isApproved", isApproved);
 
 		int result = attendanceRequestService.updateRequestStatus(params);
-		System.out.println("업뎃 된 reulst 수: "+ result);
+		System.out.println("업뎃 된 reulst 수: " + result);
 
 		Map<String, String> response = new HashMap<>();
 		if (result > 0 && "제출완료".equals(status) && "대기".equals(isApproved)) {
@@ -189,47 +190,100 @@ public class AttendanceDocumentController {
 
 	// 5. 특정 사용자 UUID로 결재 목록 조회
 	@GetMapping("/attendanceDocument/mylist.do")
-	public String getAttendanceDocumentsByUuid(HttpSession session, Model model) {
+	public String getAttendanceDocumentsByUuid(HttpServletRequest request, HttpSession session, Model model) {
+		String uuid = (String) session.getAttribute("uuid");
+
+		// 버전 파라미터를 받아옴
+	    String versionParam = request.getParameter("version");
+	    Long lastVersion = (versionParam != null) ? Long.parseLong(versionParam) : 0L;
+	    
+	    // 현재 시간 기준으로 버전 설정
+	    long currentVersion = System.currentTimeMillis();
+	    
+	    // 새로운 데이터가 있는지 확인
+	    if (lastVersion < currentVersion) {
+	    	// 내가 요청한 결재 리스트
+	    	List<AttendanceDocument> documents = attendanceRequestService.selectAttendanceRequestByUuid(uuid);
+	    	
+	    	// 내가 승인해야 하는 결재 리스트
+	    	List<AttendanceDocument> requests = attendanceRequestService.selectPendingRequestsByApprover(uuid);
+	    	
+	    	// '대기' 상태인 요청 문서 필터링
+	    	List<AttendanceDocument> pendingApprovalRequests = requests.stream()
+	    			.filter(doc -> "대기".equals(doc.getIsApproved())).collect(Collectors.toList());
+	    	
+	    	model.addAttribute("pendingApprovalRequests", pendingApprovalRequests);
+	    	
+	    	// '승인'이거나 '반려'된 요청 문서 필터링
+	    	List<AttendanceDocument> approvedOrRejected_r = requests.stream()
+	    			.filter(doc -> "승인".equals(doc.getIsApproved()) || "반려".equals(doc.getIsApproved()))
+	    			.collect(Collectors.toList());
+	    	
+	    	model.addAttribute("approvedOrRejected_r", approvedOrRejected_r);
+	    	
+	    	// '승인' 또는 '반려'가 아닌 문서 필터링
+	    	List<AttendanceDocument> notYetProcessed = documents.stream()
+	    			.filter(doc -> !"승인".equals(doc.getIsApproved()) && !"반려".equals(doc.getIsApproved()))
+	    			.collect(Collectors.toList());
+	    	
+	    	model.addAttribute("notYetProcessed", notYetProcessed);
+	    	
+	    	// '승인'이거나 '반려'된 문서 필터링
+	    	List<AttendanceDocument> approvedOrRejected = documents.stream()
+	    			.filter(doc -> "승인".equals(doc.getIsApproved()) || "반려".equals(doc.getIsApproved()))
+	    			.collect(Collectors.toList());
+	    	
+	    	model.addAttribute("approvedOrRejected", approvedOrRejected);
+	    	
+	    	model.addAttribute("version", currentVersion);  // 새로운 버전을 model에 추가
+	    }
+
+		return "attendance/mylist";
+	}
+	
+	@GetMapping("/data/pendingApprovalRequests.do")
+	@ResponseBody
+	public List<AttendanceDocument> getPendingApprovalRequests(HttpSession session) {
 	    String uuid = (String) session.getAttribute("uuid");
-
-	    // 내가 요청한 결재 리스트
-	    List<AttendanceDocument> documents = attendanceRequestService.selectAttendanceRequestByUuid(uuid);
-	    
-	    // 내가 승인해야 하는 결재 리스트
 	    List<AttendanceDocument> requests = attendanceRequestService.selectPendingRequestsByApprover(uuid);
-
-	    
-	    
-	    // '대기'인 요청 문서 필터링
-	    List<AttendanceDocument> notyet_r = requests.stream()
+	    return requests.stream()
 	            .filter(doc -> "대기".equals(doc.getIsApproved()))
 	            .collect(Collectors.toList());
-	    model.addAttribute("notyet_r", notyet_r);
-
-	    // '승인'된 요청 문서 필터링
-	    List<AttendanceDocument> approved_r = requests.stream()
-	            .filter(doc -> "승인".equals(doc.getIsApproved()))
-	            .collect(Collectors.toList());
-	    model.addAttribute("approved_r", approved_r);
-
-	    
-	    
-	    
-	    // '승인'가 아닌 문서 필터링
-	    List<AttendanceDocument> notyet = documents.stream()
-	            .filter(doc -> !"승인".equals(doc.getIsApproved()))
-	            .collect(Collectors.toList());
-	    model.addAttribute("notyet", notyet);
-
-	    // '승인'된 문서 필터링
-	    List<AttendanceDocument> approved = documents.stream()
-	            .filter(doc -> "승인".equals(doc.getIsApproved()))
-	            .collect(Collectors.toList());
-	    model.addAttribute("approved", approved);
-
-	    return "attendance/mylist";
 	}
 
+
+	@GetMapping("/data/approvedOrRejected_r.do")
+	@ResponseBody
+	public List<AttendanceDocument> getApprovedOrRejected_r(HttpSession session) {
+	    String uuid = (String) session.getAttribute("uuid");
+	    List<AttendanceDocument> requests = attendanceRequestService.selectPendingRequestsByApprover(uuid);
+	    return requests.stream()
+	            .filter(doc -> "승인".equals(doc.getIsApproved()) || "반려".equals(doc.getIsApproved()))
+	            .collect(Collectors.toList());
+	}
+
+	@GetMapping("/data/notYetProcessed.do")
+	@ResponseBody
+	public List<AttendanceDocument> getNotYetProcessed(HttpSession session) {
+	    String uuid = (String) session.getAttribute("uuid");
+	    List<AttendanceDocument> documents = attendanceRequestService.selectAttendanceRequestByUuid(uuid);
+	    return documents.stream()
+	            .filter(doc -> !"승인".equals(doc.getIsApproved()) && !"반려".equals(doc.getIsApproved()))
+	            .collect(Collectors.toList());
+	}
+
+	@GetMapping("/data/approvedOrRejected.do")
+	@ResponseBody
+	public List<AttendanceDocument> getApprovedOrRejected(HttpSession session) {
+	    String uuid = (String) session.getAttribute("uuid");
+	    List<AttendanceDocument> documents = attendanceRequestService.selectAttendanceRequestByUuid(uuid);
+	    return documents.stream()
+	            .filter(doc -> "승인".equals(doc.getIsApproved()) || "반려".equals(doc.getIsApproved()))
+	            .collect(Collectors.toList());
+	}
+
+
+	
 
 	// 6. 특정 사업자번호(BizNumber)로 근태 관리 요청 조회
 	@GetMapping("/attendanceDocument/company/{bizNumber}")
@@ -281,12 +335,30 @@ public class AttendanceDocumentController {
 	}
 
 	// 11. 근태 관리 요청 업데이트
-	@PostMapping("/attendanceDocument/update")
-	public String updateAttendanceRequest(@ModelAttribute AttendanceDocument request, Model model) {
-		int result = attendanceRequestService.updateAttendanceRequest(request);
-		model.addAttribute("message", result > 0 ? "Request updated successfully!" : "Update failed.");
-		return "attendance/updateResult";
+	@PostMapping("/attendanceDocument/update.do")
+	public String updateAttendanceRequest(
+	    @RequestParam("attendancerequestId") String attendancerequestId,
+	    @ModelAttribute AttendanceDocument attendanceDocument,
+	    RedirectAttributes redirectAttributes) {
+	    
+		// 기존 객체 조회
+		 AttendanceDocument existingDocument = attendanceRequestService.selectAttendanceRequestById(attendancerequestId);
+		 
+		 if (existingDocument != null) {
+			 	// 기존 데이터에 덮어쓰기
+			 	attendanceDocument.setAttendancerequestId(attendancerequestId); // ID 유지
+		        // 기존 객체의 값을 수정
+		        attendanceRequestService.updateAttendanceRequest(attendanceDocument);
+		        redirectAttributes.addFlashAttribute("successMessage", "근태 문서가 성공적으로 수정되었습니다.");
+		    } else {
+		        redirectAttributes.addFlashAttribute("errorMessage", "문서를 찾을 수 없습니다.");
+		    }
+
+
+	    // 수정 후 목록 페이지로 리다이렉트
+	    return "redirect:/attendanceDocument/mylist.do";
 	}
+
 
 	// 12. 특정 UUID로 근태 관리 요청 삭제
 	@PostMapping("/attendanceDocument/delete/uuid/{uuid}")
@@ -305,7 +377,7 @@ public class AttendanceDocumentController {
 		return "redirect:/attendanceDocument/mylist.do";
 	}
 
-	// 14. 특정 근태 관리 요청의 승인 여부 '제출완료'로 업데이트
+	// 14. 특정 근태 관리 요청의 승인 여부 '승인'으로 업데이트
 	@PostMapping("/attendanceDocument/approve.do")
 	public String approveAttendanceRequest(@RequestParam("attendancerequestId") String attendancerequestId,
 			RedirectAttributes redirectAttributes) {
@@ -316,7 +388,7 @@ public class AttendanceDocumentController {
 
 			// 결과 처리
 			if (result > 0) {
-				redirectAttributes.addFlashAttribute("successMessage", "결재가 성공적으로 완료되었습니다.");
+				redirectAttributes.addFlashAttribute("successMessage", "결재를 승인처리했습니다.");
 			} else {
 				redirectAttributes.addFlashAttribute("errorMessage", "결재에 실패했습니다. 다시 시도해주세요.");
 			}
@@ -326,5 +398,50 @@ public class AttendanceDocumentController {
 
 		return "redirect:/attendanceDocument/mylist.do";
 	}
+
+	// 15. 결재자가 근태 요청의 승인 여부를 '반려'로 업데이트
+	@PostMapping("/attendanceDocument/reject.do")
+	@ResponseBody
+	public ResponseEntity<Map<String, String>> rejectRequest(
+			@RequestParam("attendancerequestId") String attendancerequestId) {
+		Map<String, String> response = new HashMap<>();
+		System.out.println("승인 확인 id: " + attendancerequestId);
+		try {
+			// 승인 상태 업데이트 서비스 호출
+			int result = attendanceRequestService.rejectRequest(attendancerequestId);
+
+			// 결과 처리
+			if (result > 0) {
+				response.put("redirectUrl", "/attendanceDocument/mylist.do");
+			} else {
+				response.put("error", "결재에 실패했습니다. 다시 시도해주세요.");
+			}
+		} catch (Exception e) {
+			response.put("error", "처리 중 오류가 발생했습니다.");
+		}
+
+		return ResponseEntity.ok(response);
+	}
+	
+	// 16. 특정 근태의 반려를 취소하는 메소드 (반려 -> 대기)
+	@PostMapping("/attendanceDocument/undoReject.do")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> undoRejectRequest(@RequestParam("attendancerequestId") String attendancerequestId) {
+	    Map<String, Object> response = new HashMap<>();
+	    try {
+	        // 승인 상태를 '대기'로 업데이트하는 서비스 호출
+	        int result = attendanceRequestService.undoRejectRequest(attendancerequestId);
+
+	        if (result > 0) {
+	            response.put("redirectUrl", "/attendanceDocument/mylist.do");
+	        } else {
+	            response.put("error", "반려 취소에 실패했습니다. 다시 시도해주세요.");
+	        }
+	    } catch (Exception e) {
+	        response.put("error", "처리 중 오류가 발생했습니다.");
+	    }
+	    return ResponseEntity.ok(response);
+	}
+
 
 }

@@ -82,8 +82,19 @@ public class AttendanceDocumentDao {
 		return sqlSessionTemplate.delete(NAMESPACE + "deleteAttendanceRequestById", attendanceRequestId);
 	}
 
-	// 14. 특정 근태의 승인여부를 제출완료로 업데이트
+	// 14. 특정 근태의 승인여부를 '승인'으로 업데이트
 	public int updateApprovalStatus(String attendancerequestId) {
 		return sqlSessionTemplate.update(NAMESPACE + "updateApprovalStatus", attendancerequestId);
 	}
+	
+	// 15. 특정 근태의 승인여부를 '반려'로 업데이트
+	public int rejectRequest(String attendancerequestId) {
+		return sqlSessionTemplate.update(NAMESPACE + "rejectRequest", attendancerequestId);
+	}
+	
+	// 16. 특정 근태의 반려를 취소하는 메소드
+	public int undoRejectRequest(String attendancerequestId) {
+		return sqlSessionTemplate.update(NAMESPACE + "undoRejectRequest", attendancerequestId);
+	}
+	
 }

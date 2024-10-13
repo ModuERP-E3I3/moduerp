@@ -3,13 +3,20 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<c:url value="/attendanceDocument/submit.do" var="submitUrl" />
+<c:if test="${attendanceDocument.attendancerequestId != null}">
+    <c:url value="/attendanceDocument/update.do" var="submitUrl"/>
+</c:if>
+<c:if test="${attendanceDocument.attendancerequestId == null}">
+    <c:url value="/attendanceDocument/submit.do" var="submitUrl"/>
+</c:if>
+
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>근태 요청서 작성</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style type="text/css">
 .top-content-box {
 	width: 96%; /* 화면에 가득 차지 않게 */
@@ -88,6 +95,12 @@
 </head>
 
 <script type="text/javascript">
+$(document).ready(function() {
+    // 페이지 로드 시 결재자 이름 자동 설정
+    var existingApproverName = $('#approverSelect option:selected').text();
+    $('#approverName').val(existingApproverName);
+});
+
 function toggleTimeFields() {
     // 시간 필드 활성화 (모든 신청 유형에 대해 입력 가능)
     var startTimeField = document.getElementById("startTime");
@@ -114,7 +127,11 @@ function toggleTimeFields() {
             var startDate = $('#startDate').val();
             var endDate = $('#endDate').val();
             var approver = $('#approver').val();
-
+            var approverName = $('#approverName').val();
+            if (approverName === "") {
+                alert("결재자 이름이 없습니다.");
+                event.preventDefault(); // 폼 제출 방지
+            }
             // 유효성 검사 조건
             if (applicationType === "" || startDate === "" || endDate === "" || approver === "") {
                 alert("신청 유형, 시작 날짜, 종료 날짜, 그리고 결재자를 모두 입력해야 합니다.");
@@ -233,8 +250,15 @@ function toggleTimeFields() {
         </tr>
         <tr>
             <td colspan="2" align="center">
-                <input type="submit" value="제출" id="submitBtn" />
-                <button type="button" id="saveBtn" onclick="setStatusAndSubmit('saved')">임시 저장</button>
+            	  <c:if test="${attendanceDocument.attendancerequestId != null}">
+      				  <!-- request.attendancerequestId가 있을 때 '수정하기' 버튼만 보임 -->
+       				 <button class="edit-button" onclick="location.href='<c:url value='/attendanceDocument/update.do?attendancerequestId=${request.attendancerequestId}' />'">수정하기</button>
+    		  	  </c:if>
+    			
+    			  <c:if test="${attendanceDocument.attendancerequestId == null}">
+          			 <input type="submit" value="제출" id="submitBtn" />
+              		 <button type="button" id="saveBtn" onclick="setStatusAndSubmit('saved')">임시 저장</button>
+  				  </c:if>
             </td>
         </tr>
     </table>
@@ -243,12 +267,17 @@ function toggleTimeFields() {
     <input type="hidden" id="status" name="status" value="제출완료" />
     <input type="hidden" id="isApproved" name="isApproved" value="N" />
 	<input type="hidden" name="attendancerequestId" value="${attendanceDocument.attendancerequestId}" />
+	<input type="hidden" name="approverName" id="approverName" />
 </form:form>
 	</div>
 </body>
-
 <script>
-	
+function updateApproverHiddenField() {
+    const approverSelect = document.getElementById('approverSelect');
+    const approverName = approverSelect.options[approverSelect.selectedIndex].text;
+    console.log('Selected approverName:', approverName); // 추가된 로그
+    document.getElementById('approverName').value = approverName;
+}
 </script>
 
 </html>

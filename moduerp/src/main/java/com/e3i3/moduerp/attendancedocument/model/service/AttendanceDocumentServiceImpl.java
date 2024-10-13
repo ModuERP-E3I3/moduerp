@@ -100,4 +100,14 @@ public class AttendanceDocumentServiceImpl implements AttendanceDocumentService 
 		  return attendanceRequestDao.updateApprovalStatus(attendancerequestId);
 	  }
 
+	@Override
+	public int rejectRequest(String attendancerequestId) {
+		return attendanceRequestDao.rejectRequest(attendancerequestId);
+	}
+
+	@Override
+	public int undoRejectRequest(String attendancerequestId) {
+		return attendanceRequestDao.undoRejectRequest(attendancerequestId);
+	}
+	
 }
