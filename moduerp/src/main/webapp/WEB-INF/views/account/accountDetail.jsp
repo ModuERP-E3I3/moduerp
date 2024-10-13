@@ -219,7 +219,6 @@ th {
 		<table>
 			<thead>
 				<tr>
-					<th>거래처 번호</th>
 					<th>거래처 이름</th>
 					<th>업태</th>
 					<th>대표자 이름</th>
@@ -231,7 +230,6 @@ th {
 			</thead>
 			<tbody>
 				<tr>
-					<td>${accountDetail.accountNo}</td>
 					<td>${accountDetail.accountName}</td>
 					<td>${accountDetail.businessType}</td>
 					<td>${accountDetail.bossName}</td>
