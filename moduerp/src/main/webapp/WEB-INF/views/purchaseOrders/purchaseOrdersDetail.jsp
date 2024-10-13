@@ -201,25 +201,29 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
+
 			<li><a href="purchaseOrders.do"><i class="fas fa-bullhorn"></i>
 					발주서 관리</a></li>
-			<li><a href="buyStockIn.do"><i class="fas fa-clipboard"></i>
+			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i>
 					구매 입고</a></li>
-			<li><a href="buyStockOut.do"><i class="fas fa-code"></i>
+			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i>
 					구매 출고</a></li>
+			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i>
+					배송 조회</a></li>
+
 		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">구매관리 | 발주서관리 | ${purchaseOrderDetail.orderId}</div>
+		<div class="content-title">구매관리 | 발주서관리 |
+			${purchaseOrderDetail.puItemName}</div>
 
 		<!-- 테이블 -->
 		<table>
 			<thead>
 				<tr>
-					<th>발주서번호</th>
 					<th>거래처명</th>
 					<th>품명</th>
 					<th>수량</th>
@@ -230,7 +234,6 @@ th {
 			</thead>
 			<tbody>
 				<tr>
-					<td>${purchaseOrderDetail.orderId}</td>
 					<td>${purchaseOrderDetail.accountName}</td>
 					<td>${purchaseOrderDetail.puItemName}</td>
 					<td>${purchaseOrderDetail.quantity}</td>
@@ -244,7 +247,8 @@ th {
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
 			<button class="btn red" onclick="openDeleteModal()">삭제</button>
-			<a href="purchaseOrderDetailUpdate.do?orderId=${purchaseOrderDetail.orderId}">
+			<a
+				href="purchaseOrderDetailUpdate.do?orderId=${purchaseOrderDetail.orderId}">
 				<button class="btn green">수정</button>
 			</a>
 		</div>
@@ -257,7 +261,8 @@ th {
 			<h2>정말로 삭제하시겠습니까?</h2>
 			<p>삭제된 데이터는 복구할 수 없습니다.</p>
 			<form action="deletePurchaseOrder.do" method="POST">
-				<input type="hidden" name="orderId" value="${purchaseOrderDetail.orderId}">
+				<input type="hidden" name="orderId"
+					value="${purchaseOrderDetail.orderId}">
 				<!-- orderId를 숨겨진 필드로 전달 -->
 				<button type="submit" class="go-delete">삭제</button>
 				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>

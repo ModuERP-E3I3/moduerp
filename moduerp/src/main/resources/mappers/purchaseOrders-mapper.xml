@@ -53,8 +53,10 @@
 		ODIRECTOR
 		)
 		VALUES (
-		#{bizNumber} || 'PU' || TO_CHAR(SYSDATE, 'YYYYMMDD') ||
-		LPAD(PURCHASE_ORDERS_SEQ.NEXTVAL, 5, '0'),
+		#{bizNumber} || 'PU' ||
+		TO_CHAR(SYSDATE, 'YYYYMMDD') ||
+		LPAD(PURCHASE_ORDERS_SEQ.NEXTVAL, 5,
+		'0'),
 		#{puItemName},
 		#{quantity},
 		#{supplyPrice},
@@ -119,5 +121,79 @@
 		FROM EMPLOYEE
 		WHERE BIZ_NUMBER = #{bizNumber}
 	</select>
+
+	<!-- =============================================== -->
+	<!-- purchaseOrders filter -->
+
+	<select id="selectPurchaseOrdersByAccountNameDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO">
+		SELECT *
+		FROM PURCHASE_ORDERS
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND ACCOUNT_NAME LIKE '%' || #{filterText} || '%'
+		AND DELIVERY_DATE
+		BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+		ORDER BY DELIVERY_DATE ASC
+	</select>
+
+	<select id="selectPurchaseOrdersByItemNameDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO">
+		SELECT *
+		FROM PURCHASE_ORDERS
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND ITEM_NAME LIKE '%' || #{filterText} || '%'
+		AND DELIVERY_DATE
+		BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+		ORDER BY DELIVERY_DATE ASC
+	</select>
+
+	<select id="selectPurchaseOrdersByODirectorDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO">
+		SELECT *
+		FROM PURCHASE_ORDERS
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND ODIRECTOR LIKE '%' || #{filterText} || '%'
+		AND DELIVERY_DATE
+		BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+		ORDER BY DELIVERY_DATE ASC
+	</select>
+
+	<select id="selectPurchaseOrdersByAccountName"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO">
+		SELECT *
+		FROM PURCHASE_ORDERS
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND ACCOUNT_NAME LIKE '%' || #{filterText} || '%'
+		ORDER BY DELIVERY_DATE ASC
+	</select>
+
+	<select id="selectPurchaseOrdersByItemName" parameterType="map"
+		resultType="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO">
+		SELECT *
+		FROM PURCHASE_ORDERS
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND ITEM_NAME LIKE '%' || #{filterText} || '%'
+		ORDER BY DELIVERY_DATE ASC
+	</select>
+
+	<select id="selectPurchaseOrdersByODirector" parameterType="map"
+		resultType="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO">
+		SELECT *
+		FROM PURCHASE_ORDERS
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND ODIRECTOR LIKE '%' || #{filterText} || '%'
+		ORDER BY DELIVERY_DATE ASC
+	</select>
+
+
+
+
 
 </mapper>

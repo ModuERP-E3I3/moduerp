@@ -196,8 +196,8 @@ tbody tr:hover {
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
 					<option disabled selected>옵션 선택</option>
-					<option value="itemName">제품명</option>
-					<option value="stockPlace">출고 장소</option>
+					<option value="accountName">거래처명</option>
+					<option value="puItemName">품명</option>
 					<option value="ODirector">담당자</option>
 				</select> <input type="date" name="startDate" id="startDate" /> <input
 					type="date" name="endDate" id="endDate" /> <input type="text"
@@ -207,7 +207,6 @@ tbody tr:hover {
 					onclick="window.location.href='purchaseOrders.do';">초기화</button>
 			</div>
 		</form>
-
 
 		<!-- 테이블 -->
 		<table>

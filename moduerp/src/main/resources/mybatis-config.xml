@@ -30,7 +30,7 @@
 			alias="CarresDto" />
 		<typeAlias type="com.e3i3.moduerp.account.model.dto.AccountDTO"
 			alias="AccountDTO" />
-		<typeAlias type="com.e3i3.moduerp.account.model.dto.AccountDTO"
+		<typeAlias type="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO"
 			alias="PurchaseOrdersDTO" />
 		<typeAlias type="com.e3i3.moduerp.notice.model.dto.Notice"
 			alias="Notice" />
