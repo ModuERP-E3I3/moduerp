@@ -65,8 +65,9 @@
 		BUSINESS_TYPE,
 		ITEMS,
 		BOSS_NAME,
-		BUSINESS_NUMBER,
-		ACCOUNT_ADDRESS, 	
+		BUSINESS_NUMBER, 
+		BIZ_NUMBER,       <!-- biz_number -->
+		ACCOUNT_ADDRESS,
 		ACCOUNT_PHONE,
 		EMAIL
 		)
@@ -78,14 +79,12 @@
 		#{items},
 		#{bossName},
 		#{businessNumber},
+		#{bizNumber},      <!-- biz_number 값  -->
 		#{accountAddress},
 		#{accountPhone},
 		#{email}
 		)
 	</insert>
-
-
-
 
 
 	<!-- 특정 account 데이터를 ACCOUNT_NO로 조회하는 쿼리 -->
