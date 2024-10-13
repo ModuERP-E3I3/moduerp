@@ -69,7 +69,7 @@
 		STOCK_IN, STOCK,
 		CREATED_AT, STOCK_PLACE, IN_PRICE, BIZ_NUMBER,
 		ITEM_LIST, IDIRECTOR,
-		 PAYMENT_STATUS)
+		PAYMENT_STATUS)
 		VALUES
 		(#{itemCode}, #{itemName}, #{itemDesc}, #{stockIn}, #{stockIn},
 		SYSDATE, #{stockPlace}, #{inPrice}, #{bizNumber},
@@ -105,7 +105,8 @@
 		STOCK = #{stock},
 		UPDATED_AT = SYSDATE,
 		PAYMENT_STATUS = #{paymentStatus}
-		WHERE ITEM_CODE = #{itemCode}
+		WHERE ITEM_CODE
+		= #{itemCode}
 	</update>
 
 
@@ -126,7 +127,8 @@
 		ITEM
 		WHERE
 		BIZ_NUMBER = #{bizNumber}
-		AND CREATED_OUT_AT IS NOT NULL
+		AND
+		CREATED_OUT_AT IS NOT NULL
 		AND
 		ITEM_CODE
 		LIKE CONCAT(#{bizNumber}, 'S%')
@@ -159,7 +161,8 @@
 		STOCK =
 		COALESCE(STOCK, 0) -
 		#{stockOut},
-		ODIRECTOR = #{oDirector}
+		ODIRECTOR =
+		#{oDirector}
 		WHERE ITEM_CODE
 		= #{itemCode}
 	</update>
@@ -219,4 +222,172 @@
 		#{itemCode}
 	</update>
 
+	<!-- =============================================== -->
+	<!-- sales in filter -->
+
+	<select id="selectItemFilterByItemNameDate" parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
+		AND
+		ITEM_NAME LIKE '%' || #{filterText} || '%'
+		AND CREATED_AT BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+		ORDER BY CREATED_AT ASC
+	</select>
+
+	<select id="selectItemFilterByStockPlaceDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
+		AND
+		STOCK_PLACE LIKE '%' || #{filterText} || '%'
+		AND CREATED_AT BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+		ORDER BY CREATED_AT ASC
+	</select>
+
+	<select id="selectItemFilterByiDirectorDate" parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
+		AND
+		IDIRECTOR LIKE '%' || #{filterText} || '%'
+		AND CREATED_AT BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+		ORDER BY CREATED_AT ASC
+		
+	</select>
+
+	<select id="selectItemFilterByItemName" parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
+		AND
+		ITEM_NAME LIKE '%' || #{filterText} || '%'
+		ORDER BY CREATED_AT ASC
+	</select>
+
+	<select id="selectItemFilterByStockPlace" parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
+		AND
+		STOCK_PLACE LIKE '%' || #{filterText} || '%'
+		ORDER BY CREATED_AT ASC
+	</select>
+
+	<select id="selectItemFilterByiDirector" parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
+		AND
+		IDIRECTOR LIKE '%' || #{filterText} || '%'
+		ORDER BY CREATED_AT ASC
+	</select>
+
+	<!-- =============================================== -->
+	<!-- salesOut filter -->
+
+	<select id="selectItemOutFilterByItemNameDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
+		AND
+		ITEM_NAME LIKE '%' || #{filterText} || '%'
+		AND CREATED_OUT_AT
+		BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+		ORDER BY CREATED_OUT_AT ASC
+	</select>
+
+	<select id="selectItemOutFilterByStockOutPlaceDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
+		AND
+		STOCK_OUT_PLACE LIKE '%' || #{filterText} || '%'
+		AND CREATED_OUT_AT
+		BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+		ORDER BY CREATED_OUT_AT ASC
+	</select>
+
+	<select id="selectItemOutFilterByODirectorDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
+		AND
+		ODIRECTOR LIKE '%' || #{filterText} || '%'
+		AND CREATED_OUT_AT
+		BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+		ORDER BY CREATED_OUT_AT ASC
+	</select>
+
+	<select id="selectItemOutFilterByItemName" parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
+		AND
+		ITEM_NAME LIKE '%' || #{filterText} || '%'
+		AND CREATED_OUT_AT IS NOT
+		NULL
+		ORDER BY CREATED_OUT_AT ASC
+	</select>
+
+	<select id="selectItemOutFilterByStockOutPlace"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} ||
+		'S%'
+		AND
+		STOCK_OUT_PLACE LIKE '%' || #{filterText} || '%'
+		AND CREATED_OUT_AT
+		IS NOT NULL
+		ORDER BY CREATED_OUT_AT ASC
+	</select>
+
+	<select id="selectItemOutFilterByODirector" parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'S%'
+		AND
+		ODIRECTOR LIKE '%' || #{filterText} || '%'
+		AND CREATED_OUT_AT IS NOT
+		NULL
+		ORDER BY CREATED_OUT_AT ASC
+	</select>
+
+
 </mapper>
+

@@ -14,6 +14,7 @@
 		<result property="accountAddress" column="ACCOUNT_ADDRESS" />
 		<result property="accountPhone" column="ACCOUNT_PHONE" />
 		<result property="email" column="EMAIL" />
+		<result property="bizNumber" column="BIZ_NUMBER" />
 	</resultMap>
 
 	<!-- 모든 account 데이터 조회용 쿼리 -->
@@ -59,19 +60,32 @@
 	<!-- 새로운 account 데이터를 삽입하는 쿼리 -->
 	<insert id="accountCreate">
 		INSERT INTO ACCOUNT (
-		ACCOUNT_NO, ACCOUNT_NAME,
-		BUSINESS_TYPE, ITEMS,
-		BOSS_NAME, BUSINESS_NUMBER, ACCOUNT_ADDRESS,
-		ACCOUNT_PHONE, EMAIL
+		ACCOUNT_NO,
+		ACCOUNT_NAME,
+		BUSINESS_TYPE,
+		ITEMS,
+		BOSS_NAME,
+		BUSINESS_NUMBER, 
+		BIZ_NUMBER,       <!-- biz_number -->
+		ACCOUNT_ADDRESS,
+		ACCOUNT_PHONE,
+		EMAIL
 		)
 		VALUES (
-		LPAD(ACCOUNT_SEQ.NEXTVAL, 5, '0'),
-		#{accountName}, #{businessType}, #{items},
+		#{bizNumber} || 'A' || TO_CHAR(SYSDATE, 'YYYYMMDD') || LPAD(ACCOUNT_SEQ.NEXTVAL,
+		5, '0'),
+		#{accountName},
+		#{businessType},
+		#{items},
 		#{bossName},
-		#{businessNumber}, #{accountAddress}, #{accountPhone},
+		#{businessNumber},
+		#{bizNumber},      <!-- biz_number 값  -->
+		#{accountAddress},
+		#{accountPhone},
 		#{email}
 		)
 	</insert>
+
 
 	<!-- 특정 account 데이터를 ACCOUNT_NO로 조회하는 쿼리 -->
 	<select id="selectAccountByAccountNo" parameterType="String"
@@ -89,7 +103,8 @@
 		BOSS_NAME =
 		#{bossName}, BUSINESS_NUMBER =
 		#{businessNumber},
-		ACCOUNT_ADDRESS = #{accountAddress}, ACCOUNT_PHONE =
+		ACCOUNT_ADDRESS =
+		#{accountAddress}, ACCOUNT_PHONE =
 		#{accountPhone},
 		EMAIL = #{email}
 		WHERE ACCOUNT_NO = #{accountNo}
@@ -100,5 +115,39 @@
 		DELETE FROM
 		ACCOUNT WHERE ACCOUNT_NO = #{accountNo}
 	</delete>
+
+
+	<!-- filter !!!!!!!!!! -->
+	<!-- Account Name 필터 -->
+	<select id="selectAccountsByAccountName" parameterType="map"
+		resultType="com.e3i3.moduerp.account.model.dto.AccountDTO">
+		SELECT *
+		FROM ACCOUNT
+		WHERE BIZ_NUMBER LIKE #{bizNumber}
+		AND
+		UPPER(ACCOUNT_NAME) LIKE '%' || UPPER(#{filterText}) || '%'
+	</select>
+
+	<!-- Business Number 필터 -->
+	<select id="selectAccountsByBusinessNumber" parameterType="map"
+		resultType="com.e3i3.moduerp.account.model.dto.AccountDTO">
+		SELECT *
+		FROM ACCOUNT
+		WHERE BIZ_NUMBER LIKE #{bizNumber}
+		AND
+		BUSINESS_NUMBER LIKE '%' || #{filterText} || '%'
+	</select>
+
+	<!-- Boss Name 필터 -->
+	<select id="selectAccountsByBossName" parameterType="map"
+		resultType="com.e3i3.moduerp.account.model.dto.AccountDTO">
+		SELECT *
+		FROM ACCOUNT
+		WHERE BIZ_NUMBER LIKE #{bizNumber}
+		AND
+		UPPER(BOSS_NAME) LIKE '%' || UPPER(#{filterText}) || '%'
+	</select>
+
+
 
 </mapper>

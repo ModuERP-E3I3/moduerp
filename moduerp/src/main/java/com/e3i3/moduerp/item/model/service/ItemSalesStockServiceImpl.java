@@ -12,44 +12,44 @@ import com.e3i3.moduerp.item.model.dto.ItemDTO;
 @Service
 public class ItemSalesStockServiceImpl implements ItemSalesStockService {
 
-    @Autowired
-    private ItemSalesStockDAO itemSalesStockDAO;
+	@Autowired
+	private ItemSalesStockDAO itemSalesStockDAO;
 
-    @Override
-    public List<String> getSalesItemNamesByBizNumber(String bizNumber) {
-        return itemSalesStockDAO.selectSalesItemNamesByBizNumber(bizNumber);
-    }
+	@Override
+	public List<String> getSalesItemNamesByBizNumber(String bizNumber) {
+		return itemSalesStockDAO.selectSalesItemNamesByBizNumber(bizNumber);
+	}
 
-    @Override
-    public List<String> getStockPlacesByBizNumber(String bizNumber) { // �߰��� �޼���
-        return itemSalesStockDAO.selectStockPlacesByBizNumber(bizNumber);
-    }
+	@Override
+	public List<String> getStockPlacesByBizNumber(String bizNumber) { // �߰��� �޼���
+		return itemSalesStockDAO.selectStockPlacesByBizNumber(bizNumber);
+	}
 
-    @Override
-    public void insertItem(ItemDTO itemDTO) {
-        itemSalesStockDAO.insertItem(itemDTO);
-    }
+	@Override
+	public void insertItem(ItemDTO itemDTO) {
+		itemSalesStockDAO.insertItem(itemDTO);
+	}
 
-    @Override
-    public List<ItemDTO> getItemsByBizNumber(String bizNumber) {
-        return itemSalesStockDAO.getItemsByBizNumber(bizNumber);
-    }
+	@Override
+	public List<ItemDTO> getItemsByBizNumber(String bizNumber) {
+		return itemSalesStockDAO.getItemsByBizNumber(bizNumber);
+	}
 
-    @Override
-    public ItemDTO getItemDetails(String itemCode) {
-        return itemSalesStockDAO.selectItemByCode(itemCode);
-    }
+	@Override
+	public ItemDTO getItemDetails(String itemCode) {
+		return itemSalesStockDAO.selectItemByCode(itemCode);
+	}
 
-    @Override
-    public void updateItem(ItemDTO itemDTO) {
-        itemSalesStockDAO.updateItem(itemDTO);
-    }
+	@Override
+	public void updateItem(ItemDTO itemDTO) {
+		itemSalesStockDAO.updateItem(itemDTO);
+	}
 
-    @Override
-    public void deleteItemByCode(String itemCode) {
-        itemSalesStockDAO.deleteItemByCode(itemCode);
-    }
-    
+	@Override
+	public void deleteItemByCode(String itemCode) {
+		itemSalesStockDAO.deleteItemByCode(itemCode);
+	}
+
 	// ---------------------------------------------------
 	// salesOUT
 	@Override
@@ -73,8 +73,8 @@ public class ItemSalesStockServiceImpl implements ItemSalesStockService {
 		// 로그 추가: 업데이트할 재고 출력
 		System.out.println("Updating item stock: " + updatedStock); // 이 부분 추가
 		// DB 업데이트
-		itemSalesStockDAO.updateItemStockOut(itemCode, createdOutAt, stockOutPlace, stockOut, outPrice,
-				updatedStock, oDirector);
+		itemSalesStockDAO.updateItemStockOut(itemCode, createdOutAt, stockOutPlace, stockOut, outPrice, updatedStock,
+				oDirector);
 	}
 
 	@Override
@@ -118,10 +118,61 @@ public class ItemSalesStockServiceImpl implements ItemSalesStockService {
 		// DAO를 통해 ITEM 테이블을 업데이트하는 로직
 		itemSalesStockDAO.updateItemStockOutToNull(itemCode);
 	}
-    
-    
-    
-    
-    
-    
+
+	// -----------------------------------------------
+	// sales in filter   !!!!
+	@Override
+	public List<ItemDTO> getItemByFilterDate(String bizNumber, String option, String filterText, String startDate,
+			String endDate) {
+		if (option.equals("itemName")) {
+			return itemSalesStockDAO.getItemByItemNameDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("stockPlace")) {
+			return itemSalesStockDAO.getItemByStockPlaceDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("iDirector")) {
+			return itemSalesStockDAO.getItemByiDirectorDate(bizNumber, filterText, startDate, endDate);
+		}
+
+		return null;
+
+	}
+
+	@Override
+	public List<ItemDTO> getItemsByFilter(String bizNumber, String option, String filterText) {
+		if (option.equals("itemName")) {
+			return itemSalesStockDAO.getItemByItemName(bizNumber, filterText);
+		} else if (option.equals("stockPlace")) {
+			return itemSalesStockDAO.getItemByStockPlace(bizNumber, filterText);
+		} else if (option.equals("iDirector")) {
+			return itemSalesStockDAO.getItemByiDirector(bizNumber, filterText);
+		}
+		return null;
+	}
+
+	// -----------------------------------------------
+	// sales Out filter   !!!!!
+	@Override
+	public List<ItemDTO> getItemOutByFilterDate(String bizNumber, String option, String filterText, String startDate,
+			String endDate) {
+		if (option.equals("itemName")) {
+			return itemSalesStockDAO.getItemOutByItemNameDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("stockPlace")) {
+			return itemSalesStockDAO.getItemOutByStockOutPlaceDate(bizNumber, filterText, startDate, endDate);
+		} else if (option.equals("ODirector")) {
+			return itemSalesStockDAO.getItemOutByODirectorDate(bizNumber, filterText, startDate, endDate);
+		}
+
+		return null;
+	}
+
+	@Override
+	public List<ItemDTO> getItemOutByFilter(String bizNumber, String option, String filterText) {
+		if (option.equals("itemName")) {
+			return itemSalesStockDAO.getOutItemByItemName(bizNumber, filterText);
+		} else if (option.equals("stockPlace")) {
+			return itemSalesStockDAO.getOutItemByStockOutPlace(bizNumber, filterText);
+		} else if (option.equals("ODirector")) {
+			return itemSalesStockDAO.getOutItemByODirector(bizNumber, filterText);
+		}
+		return null;
+	}
 }

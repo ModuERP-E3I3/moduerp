@@ -190,7 +190,7 @@ tbody tr:hover {
 
 		<div class="content-title">영업관리 | 영업입고</div>
 
-		<form action="/moduerp/productionStockOutFilter.do">
+		<form action="/moduerp/salesStockOutFilter.do">
 			<!-- 필터 박스 -->
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
@@ -203,7 +203,7 @@ tbody tr:hover {
 					name="filterText" id="filterText" placeholder="내용 입력" />
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
-					onclick="window.location.href='productionStockOut.do';">초기화</button>
+					onclick="window.location.href='salesStockOut.do';">초기화</button>
 			</div>
 		</form>
 
@@ -295,7 +295,6 @@ tbody tr:hover {
 
     }
 </script>
-
 
 
 <script>

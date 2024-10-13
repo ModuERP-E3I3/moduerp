@@ -196,12 +196,11 @@ tbody tr:hover {
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
 					<option disabled selected>옵션 선택</option>
-					<option value="itemName">제품명</option>
-					<option value="stockPlace">출고 장소</option>
-					<option value="ODirector">담당자</option>
-				</select> <input type="date" name="startDate" id="startDate" /> <input
-					type="date" name="endDate" id="endDate" /> <input type="text"
-					name="filterText" id="filterText" placeholder="내용 입력" />
+					<option value="accountName">거래처 이름</option>
+					<option value="businessNumber">사업자 번호</option>
+					<option value="bossName">대표자 이름</option>
+				</select> <input type="text" name="filterText" id="filterText"
+					placeholder="내용 입력" />
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
 					onclick="window.location.href='account.do';">초기화</button>
@@ -209,12 +208,12 @@ tbody tr:hover {
 		</form>
 
 
+
 		<!-- 테이블 -->
 		<table>
 			<thead>
 				<tr>
 					<th>순번</th>
-					<th>거래처 번호</th>
 					<th>거래처 이름</th>
 					<th>업태</th>
 					<th>대표자 이름</th>
@@ -228,9 +227,8 @@ tbody tr:hover {
 				<c:forEach var="account" items="${accountList}" varStatus="status">
 					<tr
 						onclick="window.location.href='getAccountDetails.do?accountNo=${account.accountNo}'">
-	
+
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<td>${account.accountNo}</td>
 						<td>${account.accountName}</td>
 						<td>${account.businessType}</td>
 						<td>${account.bossName}</td>

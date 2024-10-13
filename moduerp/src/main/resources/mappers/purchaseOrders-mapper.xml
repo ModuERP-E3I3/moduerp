@@ -10,7 +10,7 @@
 		<result property="supplyPrice" column="SUPPLY_PRICE" />
 		<result property="accountNo" column="ACCOUNT_NO" />
 		<result property="deliveryDate" column="DELIVERY_DATE" />
-
+		<result property="bizNumber" column="BIZ_NUMBER" />
 		<result property="accountName" column="ACCOUNT_NAME" />
 		<result property="puItemName" column="PU_ITEM_NAME" />
 
@@ -42,42 +42,45 @@
 	<!-- 새로운 purchase order 데이터를 삽입하는 쿼리 -->
 	<insert id="purchaseOrderCreate">
 		INSERT INTO PURCHASE_ORDERS (
-		ORDER_ID, 
+		ORDER_ID,
 		PU_ITEM_NAME,
-		QUANTITY, 
-		SUPPLY_PRICE, 
+		QUANTITY,
+		SUPPLY_PRICE,
 		ACCOUNT_NO,
 		DELIVERY_DATE,
-		 
-		BIZ_NUMBER, 
-		ACCOUNT_NAME, 
+		BIZ_NUMBER,
+		ACCOUNT_NAME,
 		ODIRECTOR
 		)
 		VALUES (
+		#{bizNumber} || 'PU' || TO_CHAR(SYSDATE, 'YYYYMMDD') ||
 		LPAD(PURCHASE_ORDERS_SEQ.NEXTVAL, 5, '0'),
-		#{puItemName},   
+		#{puItemName},
 		#{quantity},
-		#{supplyPrice},  
+		#{supplyPrice},
 		#{accountNo},
 		#{deliveryDate},
-		 #{bizNumber}, 
-		#{accountName},  
+		#{bizNumber},
+		#{accountName},
 		#{oDirector}
 		)
 	</insert>
+
 
 
 	<!-- 특정 주문 데이터를 ORDER_ID로 업데이트하는 쿼리 -->
 	<update id="updatePurchaseOrder"
 		parameterType="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO">
 		UPDATE PURCHASE_ORDERS
-		SET QUANTITY = #{quantity}, SUPPLY_PRICE =
+		SET QUANTITY = #{quantity},
+		SUPPLY_PRICE =
 		#{supplyPrice}, ACCOUNT_NO =
 		#{accountNo},
 		DELIVERY_DATE =
 		#{deliveryDate}, PU_ITEM_NAME =
 		#{puItemName},
-		ACCOUNT_NAME = #{accountName}, ODIRECTOR = #{oDirector} 
+		ACCOUNT_NAME =
+		#{accountName}, ODIRECTOR = #{oDirector}
 		WHERE ORDER_ID = #{orderId}
 	</update>
 

@@ -64,6 +64,54 @@ public class SalesStockOutController {
 
 		return "salesStock/salesStockOut"; // JSP 파일 경로 반환
 	}
+	
+	@RequestMapping(value = "/salesStockOutFilter.do", method = RequestMethod.GET)   //  filter !!!!!
+	public String forwardSalesInFilter(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "filterOption", required = false) String option,
+			@RequestParam(value = "filterText", required = false) String filterText,
+			@RequestParam(value = "startDate", required = false) String startDate,
+			@RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
+		String bizNumber = (String) session.getAttribute("biz_number");
+		List<ItemDTO> itemList;
+
+		// 필터링 로직 추가
+		if (option != null && filterText != null) {
+			if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+				System.out.println("날짜있는거 실행");
+				itemList = itemSalesStockService.getItemOutByFilterDate(bizNumber, option, filterText, startDate,
+						endDate);
+			} else if (startDate == null || startDate.isEmpty()) {
+				System.out.println("날짜없는거 실행");
+				itemList = itemSalesStockService.getItemOutByFilter(bizNumber, option, filterText);
+			} else {
+				System.out.println("실행 못함");
+				itemList = itemSalesStockService.getItemsByBizNumberOutDate(bizNumber);
+			}
+		} else {
+			itemList = itemSalesStockService.getItemsByBizNumberOutDate(bizNumber);
+		}
+
+		// 페이지네이션 처리
+		int itemsPerPage = 10;
+		int totalItems = itemList.size();
+		int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+		int startIndex = (page - 1) * itemsPerPage;
+		int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+		// 서브리스트 생성
+		List<ItemDTO> paginatedList = itemList.subList(startIndex, endIndex);
+
+		// 모델에 추가
+		model.addAttribute("itemList", paginatedList);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("option", option);
+		model.addAttribute("filterText", filterText);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
+
+		return "salesStock/salesStockOutFilter"; // JSP 파일 경로 반환
+	}
 
 	// 등록 페이지로 이동
 	@RequestMapping(value = "/salesStockOutCreate.do", method = RequestMethod.GET)
@@ -78,7 +126,8 @@ public class SalesStockOutController {
 
 		return "salesStock/salesStockOutCreate"; // JSP 파일 경로 반환
 	}
-
+	
+	
 	@PostMapping("/salesStockOutCreate.do")
 	public String createSalesStockOut(@RequestParam("itemName") String itemName,
 			@RequestParam("createdOutAt") String createdOutAt, @RequestParam("stockOutPlace") String stockOutPlace,
