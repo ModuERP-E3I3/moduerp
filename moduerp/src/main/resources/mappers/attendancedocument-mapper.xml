@@ -73,6 +73,20 @@
     WHERE attendancerequest_id = #{attendancerequestId}
 </update>
 
+<update id="rejectRequest" parameterType="String">
+    UPDATE C##PROJECT3TEAM.ATTENDANCEREQUEST
+    SET IS_APPROVED = '반려'
+    WHERE attendancerequest_id = #{attendanceRequestId}
+</update>
+
+<update id="undoRejectRequest" parameterType="String">
+    UPDATE C##PROJECT3TEAM.ATTENDANCEREQUEST
+    SET IS_APPROVED = '대기'
+    WHERE attendancerequest_id = #{attendancerequestId}
+</update>
+
+
+
 	<!-- Select by ATTENDANCEREQUEST_ID -->
 	<select id="selectAttendanceRequestById" parameterType="String"
 		resultMap="AttendanceRequestResultMap">
@@ -125,13 +139,13 @@
 	<update id="updateAttendanceRequest"
 		parameterType="com.e3i3.moduerp.attendancedocument.model.dto.AttendanceDocument">
 		UPDATE C##PROJECT3TEAM.ATTENDANCEREQUEST
-		SET UUID = #{uuid}, BIZ_NUMBER = #{bizNumber}, APPLICATION_TYPE =
+		SET APPLICATION_TYPE =
 		#{applicationType},
 		START_DATE = #{startDate}, END_DATE = #{endDate}, START_TIME = #{startTime},
 		END_TIME = #{endTime},
 		REASON = #{reason}, ATTACHMENT = #{attachment}, APPROVER = #{approver},
 		APPROVER_NAME = #{approverName}, REMARKS = #{remarks},
-		CONTACT = #{contact}, STATUS = #{status}, IS_APPROVED = #{isApproved}
+		CONTACT = #{contact}
 		WHERE ATTENDANCEREQUEST_ID = #{attendancerequestId}
 	</update>
 

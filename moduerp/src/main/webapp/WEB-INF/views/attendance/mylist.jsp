@@ -7,8 +7,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <meta charset="UTF-8">
 <title>근태신청 목록</title>
+<script type="text/javascript">
+    var baseUrl = '<c:url value="/" />';
+</script>
 <style type="text/css">
 .top-content-box {
 	width: 98%; /* 화면에 가득 차지 않게 */
@@ -221,6 +225,45 @@ ul.nav {
 
 </script>
 
+<script type="text/javascript">
+function renderTableRows(documents, containerId) {
+    var tableRows = "";
+    documents.forEach(function(document) {
+        tableRows += "<tr>" +
+            "<td>" + document.applicationType + "</td>" +
+            "<td>" + document.startDate.split(" ")[0] + "</td>" +
+            "<td>" + document.endDate.split(" ")[0] + "</td>" +
+            "<td>" + document.status + "</td>" +
+            "<td>" + document.approverName + "</td>" +
+            "<td><a href='" + baseUrl + "attendanceDocument/detail/" + document.attendancerequestId + ".do' class='button'>상세보기</a></td>" +
+            "</tr>";
+    });
+    $('#' + containerId + ' tbody').html(tableRows);
+}
+
+function loadDataWithCondition(url, containerId) {
+    $.ajax({
+        url: url,
+        dataType: "json",  // JSON 데이터임을 명시
+        success: function(response) {
+            renderTableRows(response, containerId);  // 데이터를 테이블로 렌더링
+        },
+        error: function() {
+            console.error('데이터 로드 중 오류 발생');
+        }
+    });
+}
+
+//5초마다 각 컨테이너에 대해 AJAX 요청
+setInterval(function() {
+    loadDataWithCondition('<c:url value="/data/pendingApprovalRequests.do" />', 'pendingApprovalRequests-container');
+    loadDataWithCondition('<c:url value="/data/approvedOrRejected_r.do" />', 'approvedOrRejected_r-container');
+    loadDataWithCondition('<c:url value="/data/notYetProcessed.do" />', 'notYetProcessed-container');
+    loadDataWithCondition('<c:url value="/data/approvedOrRejected.do" />', 'approvedOrRejected-container');
+}, 5000);
+
+</script>
+
 <body>
 	<!-- 서브헤더 JSP 임포트 -->
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
@@ -268,13 +311,14 @@ ul.nav {
     <div class="tab-pane fade show active" id="req-waiting">
         <div class="content-box">
             <c:choose>
-                <c:when test="${empty notyet_r}">
+                <c:when test="${empty pendingApprovalRequests}">
                     <div class="empty-message-box" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
                         <p style="font-size: 24px; color: #333; font-weight: bold;">승인할 결재 요청이 없습니다.</p>
                     </div>
                 </c:when>
                 
                 <c:otherwise>
+                <div id="pendingApprovalRequests-container">
                     <table class="attendance-table">
                         <thead>
                             <tr>
@@ -287,7 +331,8 @@ ul.nav {
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="request" items="${notyet_r}">
+                        	
+                            <c:forEach var="request" items="${pendingApprovalRequests}">
                                 <tr>
                                     <td>${request.applicationType}</td>
                                     <td>${request.startDate.split(" ")[0]}</td>
@@ -301,6 +346,7 @@ ul.nav {
                             </c:forEach>
                         </tbody>
                     </table>
+                    </div>
                 </c:otherwise>
                 
                 
@@ -313,12 +359,13 @@ ul.nav {
     <div class="tab-pane fade" id="req-completed">
         <div class="content-box">
             <c:choose>
-                <c:when test="${empty approved_r}">
+                <c:when test="${empty approvedOrRejected_r}">
                     <div class="empty-message-box" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
                         <p style="font-size: 24px; color: #333; font-weight: bold;">승인한 결재 요청이 없습니다.</p>
                     </div>
                 </c:when>
                 <c:otherwise>
+                  <div id="approvedOrRejected_r-container">
                     <table class="attendance-table">
                         <thead>
                             <tr>
@@ -331,7 +378,8 @@ ul.nav {
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="request" items="${approved_r}">
+                      
+                            <c:forEach var="request" items="${approvedOrRejected_r}">
                                 <tr>
                                     <td>${request.applicationType}</td>
                                     <td>${request.startDate.split(" ")[0]}</td>
@@ -345,6 +393,7 @@ ul.nav {
                             </c:forEach>
                         </tbody>
                     </table>
+                   </div>
                 </c:otherwise>
             </c:choose>
         </div>
@@ -354,7 +403,7 @@ ul.nav {
     <div class="tab-pane fade" id="doc-waiting">
         <div class="content-box">
 <c:choose>
-    <c:when test="${notyet == null || empty notyet}">
+    <c:when test="${notYetProcessed == null || empty notYetProcessed}">
         <div class="empty-message-box" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
             <p style="font-size: 24px; color: #333; font-weight: bold;">승인받을 결재 문서가 없습니다.</p>
             <button class="apply-button" onclick="location.href='<c:url value='/attendanceDocument/send.do' />'" style="margin-top: 20px; padding: 10px 20px; font-size: 16px; border: none; background-color: #4CAF50; color: white; border-radius: 5px; cursor: pointer;">
@@ -363,6 +412,7 @@ ul.nav {
         </div>
     </c:when>
     <c:otherwise>
+     <div id="notYetProcessed-container">
         <table class="attendance-table">
             <thead>
                 <tr>
@@ -375,7 +425,8 @@ ul.nav {
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="document" items="${notyet}">
+           
+                <c:forEach var="document" items="${notYetProcessed}">
                         <tr>
                             <td>${document.applicationType}</td>
                             <td>${document.startDate.split(" ")[0]}</td>
@@ -389,6 +440,7 @@ ul.nav {
                 </c:forEach>
             </tbody>
         </table>
+                </div>
     </c:otherwise>
 </c:choose>
 
@@ -399,12 +451,13 @@ ul.nav {
     <div class="tab-pane fade" id="doc-completed">
     <div class="content-box">
         <c:choose>
-            <c:when test="${approved == null || empty approved}">
+            <c:when test="${approvedOrRejected == null || empty approvedOrRejected}">
                 <div class="empty-message-box" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
                     <p style="font-size: 24px; color: #333; font-weight: bold;">승인받은 결재 문서가 없습니다.</p>
                 </div>
             </c:when>
             <c:otherwise>
+            <div id="approvedOrRejected-container">
                 <table class="attendance-table">
                     <thead>
                         <tr>
@@ -417,7 +470,7 @@ ul.nav {
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="document" items="${approved}">
+                        <c:forEach var="document" items="${approvedOrRejected}">
                                 <tr>
                                     <td>${document.applicationType}</td>
                                     <td>${document.startDate.split(" ")[0]}</td>
@@ -431,6 +484,7 @@ ul.nav {
                         </c:forEach>
                     </tbody>
                 </table>
+                        </div>
             </c:otherwise>
         </c:choose>
     </div>
