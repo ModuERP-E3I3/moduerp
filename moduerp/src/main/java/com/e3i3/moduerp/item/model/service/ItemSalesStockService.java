@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 
+
 public interface ItemSalesStockService {
     List<String> getSalesItemNamesByBizNumber(String bizNumber);
 
@@ -49,8 +50,24 @@ public interface ItemSalesStockService {
 	void resetItemStockOutDetails(String itemCode);
 
 	void resetItemStockOut(String itemCode);
+	
+	
 
-    
+	// -----------------------------------------------
+	// sales in filter !!!
+
+	List<ItemDTO> getItemByFilterDate(String bizNumber, String option, String filterText, String startDate,
+			String endDate);
+
+	List<ItemDTO> getItemsByFilter(String bizNumber, String option, String filterText);
+
+	// -----------------------------------------------
+	// sales Out filter
+	List<ItemDTO> getItemOutByFilterDate(String bizNumber, String option, String filterText, String startDate,
+			String endDate);
+
+	List<ItemDTO> getItemOutByFilter(String bizNumber, String option, String filterText);
+
     
     
     
