@@ -14,7 +14,6 @@
 		<result property="accountAddress" column="ACCOUNT_ADDRESS" />
 		<result property="accountPhone" column="ACCOUNT_PHONE" />
 		<result property="email" column="EMAIL" />
-
 		<result property="bizNumber" column="BIZ_NUMBER" />
 	</resultMap>
 
@@ -61,19 +60,33 @@
 	<!-- 새로운 account 데이터를 삽입하는 쿼리 -->
 	<insert id="accountCreate">
 		INSERT INTO ACCOUNT (
-		ACCOUNT_NO, ACCOUNT_NAME,
-		BUSINESS_TYPE, ITEMS,
-		BOSS_NAME, BUSINESS_NUMBER, ACCOUNT_ADDRESS,
-		ACCOUNT_PHONE, EMAIL
+		ACCOUNT_NO,
+		ACCOUNT_NAME,
+		BUSINESS_TYPE,
+		ITEMS,
+		BOSS_NAME,
+		BUSINESS_NUMBER,
+		ACCOUNT_ADDRESS, 	
+		ACCOUNT_PHONE,
+		EMAIL
 		)
 		VALUES (
-		LPAD(ACCOUNT_SEQ.NEXTVAL, 5, '0'),
-		#{accountName}, #{businessType}, #{items},
+		#{bizNumber} || 'A' || TO_CHAR(SYSDATE, 'YYYYMMDD') || LPAD(ACCOUNT_SEQ.NEXTVAL,
+		5, '0'),
+		#{accountName},
+		#{businessType},
+		#{items},
 		#{bossName},
-		#{businessNumber}, #{accountAddress}, #{accountPhone},
+		#{businessNumber},
+		#{accountAddress},
+		#{accountPhone},
 		#{email}
 		)
 	</insert>
+
+
+
+
 
 	<!-- 특정 account 데이터를 ACCOUNT_NO로 조회하는 쿼리 -->
 	<select id="selectAccountByAccountNo" parameterType="String"
@@ -112,7 +125,8 @@
 		SELECT *
 		FROM ACCOUNT
 		WHERE BIZ_NUMBER LIKE #{bizNumber}
-		AND UPPER(ACCOUNT_NAME) LIKE '%' || UPPER(#{filterText}) || '%'
+		AND
+		UPPER(ACCOUNT_NAME) LIKE '%' || UPPER(#{filterText}) || '%'
 	</select>
 
 	<!-- Business Number 필터 -->
@@ -121,7 +135,8 @@
 		SELECT *
 		FROM ACCOUNT
 		WHERE BIZ_NUMBER LIKE #{bizNumber}
-		AND BUSINESS_NUMBER LIKE '%' || #{filterText} || '%'
+		AND
+		BUSINESS_NUMBER LIKE '%' || #{filterText} || '%'
 	</select>
 
 	<!-- Boss Name 필터 -->
@@ -130,7 +145,8 @@
 		SELECT *
 		FROM ACCOUNT
 		WHERE BIZ_NUMBER LIKE #{bizNumber}
-		AND UPPER(BOSS_NAME) LIKE '%' || UPPER(#{filterText}) || '%'
+		AND
+		UPPER(BOSS_NAME) LIKE '%' || UPPER(#{filterText}) || '%'
 	</select>
 
 

@@ -106,6 +106,9 @@ public class AccountController {
 			@RequestParam("accountAddress") String accountAddress, @RequestParam("accountPhone") String accountPhone,
 			@RequestParam("email") String email, Model model, HttpSession session) {
 
+		// 세션에서 bizNumber를 가져옴
+		String bizNumber = (String) session.getAttribute("biz_number");
+
 		AccountDTO accountDto = new AccountDTO();
 		accountDto.setAccountName(accountName);
 		accountDto.setBusinessType(businessType);
@@ -115,13 +118,14 @@ public class AccountController {
 		accountDto.setAccountPhone(accountPhone);
 		accountDto.setEmail(email);
 
+		// bizNumber를 AccountDTO에 설정
+		accountDto.setBizNumber(bizNumber);
+
 		accountService.accountCreate(accountDto);
 
 		return "redirect:/account.do";
 	}
 
-	
-	
 	@GetMapping("getAccountDetails.do")
 	public String getAccountDetail(@RequestParam("accountNo") String accountNo, Model model) {
 		AccountDTO accountDetail = accountService.getAccountListDetail(accountNo);

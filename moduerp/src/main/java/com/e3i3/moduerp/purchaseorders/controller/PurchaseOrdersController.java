@@ -80,26 +80,32 @@ public class PurchaseOrdersController {
 
 	@PostMapping("/purchaseOrderCreate.do")
 	public String purchaseOrderCreate(@RequestParam("accountNo") String accountNo,
-			@RequestParam("accountName") String accountName,
-			@RequestParam("quantity") int quantity,
-			@RequestParam("supplyPrice") double supplyPrice,
-			@RequestParam("deliveryDate") String deliveryDate,
-			@RequestParam("puItemName") String puItemName,
-			@RequestParam("oDirector") String oDirector, // oDirector !!!
-			Model model, HttpSession session) {
+	        @RequestParam("accountName") String accountName,
+	        @RequestParam("quantity") int quantity,
+	        @RequestParam("supplyPrice") double supplyPrice,
+	        @RequestParam("deliveryDate") String deliveryDate,
+	        @RequestParam("puItemName") String puItemName,
+	        @RequestParam("oDirector") String oDirector, // oDirector !!!
+	        Model model, HttpSession session) {
 
+	    // 세션에서 bizNumber 가져오기
+	    String bizNumber = (String) session.getAttribute("biz_number");
+
+		// PurchaseOrdersDTO 객체 생성 및 값 설정
 		PurchaseOrdersDTO purchaseOrderDto = new PurchaseOrdersDTO();
-		purchaseOrderDto.setAccountNo(accountNo);
-		purchaseOrderDto.setAccountName(accountName);
-		purchaseOrderDto.setQuantity(quantity);
-		purchaseOrderDto.setSupplyPrice(supplyPrice);
-		purchaseOrderDto.setDeliveryDate(deliveryDate);
-		purchaseOrderDto.setPuItemName(puItemName);
-		purchaseOrderDto.setoDirector(oDirector); // oDirector !!!
+	    purchaseOrderDto.setAccountNo(accountNo);
+	    purchaseOrderDto.setAccountName(accountName);
+	    purchaseOrderDto.setQuantity(quantity);
+	    purchaseOrderDto.setSupplyPrice(supplyPrice);
+	    purchaseOrderDto.setDeliveryDate(deliveryDate);
+	    purchaseOrderDto.setPuItemName(puItemName);
+	    purchaseOrderDto.setoDirector(oDirector); // oDirector 설정
+	    purchaseOrderDto.setBizNumber(bizNumber); // bizNumber 설정
 
-		purchaseOrdersService.purchaseOrderCreate(purchaseOrderDto);
+	    // purchaseOrderCreate 메서드 호출
+	    purchaseOrdersService.purchaseOrderCreate(purchaseOrderDto);
 
-		return "redirect:/purchaseOrders.do";
+	    return "redirect:/purchaseOrders.do";
 	}
 
 	@GetMapping("getPurchaseOrderDetails.do")
