@@ -30,6 +30,8 @@ public class AdminDTO {
     private Date contractEndTime;
     private String mgrUuid;
     private String password;
+    private String lastLoginTime;
+
 
     public AdminDTO() {
         super();
@@ -250,4 +252,14 @@ public class AdminDTO {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public String getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(String lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
+
+    
 }
