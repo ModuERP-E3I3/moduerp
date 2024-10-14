@@ -82,45 +82,35 @@ footer {
 	<div class="container">
 		<h2>회원가입 현황 데이터 테이블</h2>
 
-		<form id="deleteForm"
-			action="${pageContext.request.contextPath}/deleteAdmins"
-			method="post">
-			<button id="deleteButton" type="submit">삭제</button>
-
-			<div class="table-container">
-				<div class="scrollable-table">
-					<table>
-						<thead>
+		<div class="table-container">
+			<div class="scrollable-table">
+				<table>
+					<thead>
+						<tr>
+							<th>가입일자</th>
+							<th>가입자 UUID</th>
+							<th>가입자 Email</th>
+							<th>마지막 로그인 시간</th>
+							<th>탈퇴일자</th>
+							<th>탈퇴 사유</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="admin" items="${adminList}">
 							<tr>
-								<th><input type="checkbox" id="selectAll"></th>
-								<!-- 전체 선택 체크박스 -->
-								<th>가입일자</th>
-								<th>가입자 UUID</th>
-								<th>가입자 Email</th>
-								<th>마지막 로그인 시간</th>
-								<th>탈퇴일자</th>
-								<th>탈퇴 사유</th>
+								<td>${admin.registrationDate}</td>
+								<td>${admin.uuid}</td>
+								<td>${admin.empEmail}</td>
+								<td>${admin.lastLoginTime}</td>
+								<td>${admin.deletedAt}</td>
+								<td>${admin.deletedExcuse}</td>
 							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="admin" items="${adminList}">
-								<tr>
-									<td><input type="checkbox" class="delete-checkbox"
-										name="uuids[]" value="${admin.uuid}"></td>
-									<td>${admin.registrationDate}</td>
-									<td>${admin.uuid}</td>
-									<td>${admin.empEmail}</td>
-									<td>${admin.lastLoginTime}</td>
-									<td>${admin.deletedAt}</td>
-									<td>${admin.deletedExcuse}</td>
-								</tr>
-							</c:forEach>
-						</tbody>
+						</c:forEach>
+					</tbody>
 
-					</table>
-				</div>
+				</table>
 			</div>
-		</form>
+		</div>
 	</div>
 
 	<script>
