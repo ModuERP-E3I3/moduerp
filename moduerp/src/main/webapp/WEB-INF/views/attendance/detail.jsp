@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <meta charset="UTF-8">
     <style type="text/css">
         .top-content-box {
@@ -139,8 +142,8 @@
 <!-- 위에 하얀 박스 -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="<c:url value='/attendance.do' />"><i
-					class="fas fa-bullhorn"></i> 출퇴근</a></li>
+		<li><a href="<c:url value='/attendance.do' />"><i
+					class="fa-solid fa-clipboard-user"></i> 출퇴근</a></li>
 			<li><a href="<c:url value='/attendanceDocument/mylist.do' />"><i
 					class="fas fa-clipboard"></i> 근태문서</a></li>
 			<li><a href="<c:url value='/email/inbox.do' />"> <i
@@ -198,17 +201,18 @@
                     <th>근태 사유</th>
                     <td>${request.reason}</td>
                 </tr>
-                <tr>
-                    <th>첨부 파일</th>
-                    <td>
-                        <c:choose>
-                            <c:when test="${request.attachment != null}">
-                                <a href="/attachments/${request.attachment}">${request.attachment}</a>
-                            </c:when>
-                            <c:otherwise>첨부 파일 없음</c:otherwise>
-                        </c:choose>
-                    </td>
-                </tr>
+           <tr>
+    <th>첨부 파일</th>
+    <td>
+        <c:choose>
+            <c:when test="${request.attachment != null}">
+                <c:set var="originalFileName" value="${fn:substringAfter(request.attachment, '_')}" />
+               <a href="<c:url value='/resources/templates/email_files/${request.attachment}'/>" download="${originalFileName}">${originalFileName}</a>
+            </c:when>
+            <c:otherwise>첨부 파일 없음</c:otherwise>
+        </c:choose>
+    </td>
+</tr>
                 <tr>
                     <th>결재자</th>
                     <td>${request.approverName}</td>
