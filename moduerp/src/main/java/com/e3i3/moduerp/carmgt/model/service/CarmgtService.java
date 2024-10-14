@@ -18,6 +18,9 @@ public interface CarmgtService {
 	List<CarmgtDto> getCarByFilterDate(String bizNumber, String option, String filterText, String startDate,
 			String endDate);
 	List<CarmgtDto> getCarByFilter(String bizNumber, String option, String filterText);
+	List<CarmgtDto> getCarByFilterOnlyDate(String bizNumber, String startDate, String endDate);
+	List<CarmgtDto> getCarByFilterStartDate(String bizNumber, String startDate);
+	List<CarmgtDto> getCarByFilterEndDate(String bizNumber, String endDate);
 	
 	/* void deleteCarmgt(String carId); */
 }

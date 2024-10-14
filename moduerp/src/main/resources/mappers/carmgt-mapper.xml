@@ -47,7 +47,7 @@
 	<!-- 차량 정보 조회 쿼리 -->
 	<select id="getCarsByBizNumber"
 		resultType="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
-		SELECT CAR_MODEL, CAR_NUM
+		SELECT *
 		FROM CAR
 		WHERE BIZ_NUMBER = #{bizNumber}
 	</select>
@@ -133,8 +133,8 @@
 		CAR_MODEL LIKE '%' || #{filterText} || '%'
 		AND PAYMENT_DATE
 		BETWEEN
-		TO_DATE(#{startDate}, 'YY-MM-DD') AND
-		TO_DATE(#{endDate}, 'YY-MM-DD')
+		TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
 		ORDER BY PAYMENT_DATE DESC
 	</select>
 	
@@ -148,8 +148,8 @@
 		CAR_NUM LIKE '%' || #{filterText} || '%'
 		AND PAYMENT_DATE
 		BETWEEN
-		TO_DATE(#{startDate}, 'YY-MM-DD') AND
-		TO_DATE(#{endDate}, 'YY-MM-DD')
+		TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
 		ORDER BY PAYMENT_DATE DESC
 	</select>
 	
@@ -163,8 +163,8 @@
 		EMP_NAME LIKE '%' || #{filterText} || '%'
 		AND PAYMENT_DATE
 		BETWEEN
-		TO_DATE(#{startDate}, 'YY-MM-DD') AND
-		TO_DATE(#{endDate}, 'YY-MM-DD')
+		TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
 		ORDER BY PAYMENT_DATE DESC
 	</select>
 	
@@ -178,8 +178,8 @@
 		DEPARTMENT_ID LIKE '%' || #{filterText} || '%'
 		AND PAYMENT_DATE
 		BETWEEN
-		TO_DATE(#{startDate}, 'YY-MM-DD') AND
-		TO_DATE(#{endDate}, 'YY-MM-DD')
+		TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
 		ORDER BY PAYMENT_DATE DESC
 	</select>
 	
@@ -220,6 +220,42 @@
 		FROM CAR_MANAGEMENT
 		WHERE PAYMENT_HISTORY_CODE LIKE #{bizNumber} || 'CM%'
 		AND DEPARTMENT_ID LIKE '%' || #{filterText} || '%'
+		ORDER BY PAYMENT_DATE DESC
+	</select>
+	
+	<!-- filter(날짜만 입력받은 경우) 쿼리 -->
+	<select id="selectCarByFilterOnlyDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
+		SELECT *
+		FROM CAR_MANAGEMENT
+		WHERE PAYMENT_HISTORY_CODE LIKE #{bizNumber} || 'CM%'
+		AND PAYMENT_DATE
+		BETWEEN
+		TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
+		ORDER BY PAYMENT_DATE DESC
+	</select>
+	
+	<!-- filter(시작일만 입력받은 경우) 쿼리 -->
+	<select id="selectCarByFilterStartDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
+		SELECT *
+		FROM CAR_MANAGEMENT
+		WHERE PAYMENT_HISTORY_CODE LIKE #{bizNumber} || 'CM%'
+		AND PAYMENT_DATE >= TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS')
+		ORDER BY PAYMENT_DATE DESC
+	</select>
+	
+	<!-- filter(시작일만 입력받은 경우) 쿼리 -->
+	<select id="selectCarByFilterEndDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
+		SELECT *
+		FROM CAR_MANAGEMENT
+		WHERE PAYMENT_HISTORY_CODE LIKE #{bizNumber} || 'CM%'
+		AND PAYMENT_DATE &lt;= TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
 		ORDER BY PAYMENT_DATE DESC
 	</select>
 </mapper>

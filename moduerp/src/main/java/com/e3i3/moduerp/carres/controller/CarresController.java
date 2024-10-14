@@ -2,6 +2,7 @@ package com.e3i3.moduerp.carres.controller;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -74,7 +75,21 @@ public class CarresController {
 		} else {
 			System.out.println("carresList is null");
 		}
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+		// startDate의 시분초 기본값 설정 (00:00:00)
+	    if (startDate != null && !startDate.isEmpty()) {
+	        LocalDateTime startDateTime = LocalDateTime.parse(startDate + " 00:00:00", formatter);
+	        startDate = startDateTime.format(formatter);  // 포맷된 문자열로 변환
+	    }
+
+	    // endDate의 시분초 기본값 설정 (23:59:59)
+	    if (endDate != null && !endDate.isEmpty()) {
+	        LocalDateTime endDateTime = LocalDateTime.parse(endDate + " 23:59:59", formatter);
+	        endDate = endDateTime.format(formatter);  // 포맷된 문자열로 변환
+	    }
+		
 		// 필터링 로직
 		if (option != null && filterText != null) {
 			if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
@@ -85,10 +100,23 @@ public class CarresController {
 				carresList = CarresService.getCarByFilter(bizNumber, option, filterText);
 			} else {
 				System.out.println("실행 못함");
-				carresList = CarresService.getCarsbyBizNumber(bizNumber);
+				carresList = CarresService.getAllCarres(bizNumber);
 			}
+		} else if ((option == null || filterText == null || filterText.isEmpty()) 
+		        && startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+		    System.out.println("필터 없이 날짜만 있는 경우 실행");
+		    carresList = CarresService.getCarByFilterOnlyDate(bizNumber, startDate, endDate);
+		} else if ((option == null || filterText == null || filterText.isEmpty()) 
+		        && startDate != null && !startDate.isEmpty()) {
+		    System.out.println("startDate만 있는 경우 실행");
+		    carresList = CarresService.getCarByFilterStartDate(bizNumber, startDate);
+		} else if ((option == null || filterText == null || filterText.isEmpty()) 
+		        && endDate != null && !endDate.isEmpty()) {
+		    System.out.println("endDate만 있는 경우 실행");
+		    carresList = CarresService.getCarByFilterEndDate(bizNumber, endDate);
 		} else {
-			carresList = CarresService.getCarsbyBizNumber(bizNumber);
+		    System.out.println("기본 전체 조회 실행");
+		    carresList = CarresService.getAllCarres(bizNumber);
 		}
 
 		int carresPerPage = 5;
