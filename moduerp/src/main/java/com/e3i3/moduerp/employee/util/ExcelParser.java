@@ -38,6 +38,7 @@ public class ExcelParser {
                     .setEmpNo(getCellValue(row.getCell(1)))   // 사번
                     .setEmpEmail(getCellValue(row.getCell(2)))// 사원 이메일
                     .setDepartmentId(departmentId)           // 부서코드
+                    .setJobId(getCellValue(row.getCell(4))) // 직급
                     .setUuid(java.util.UUID.randomUUID().toString())
                     .setBizNumber(company.getBizNumber())
                     .setIsDeleted('N')

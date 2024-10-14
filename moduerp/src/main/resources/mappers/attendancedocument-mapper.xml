@@ -121,7 +121,6 @@
 
 
 
-
 	<!-- Select by ATTENDANCEREQUEST_ID -->
 	<select id="selectAttendanceRequestById" parameterType="String"
 		resultMap="AttendanceRequestResultMap">

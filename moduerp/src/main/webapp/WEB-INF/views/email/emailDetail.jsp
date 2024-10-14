@@ -7,6 +7,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 <meta charset="UTF-8">
 <title>이메일 상세 보기</title>
 
@@ -228,8 +230,9 @@
     <!-- 위에 하얀 박스 -->
     <div class="top-content-box">
         <ul id="menubar">
-            <li><a href="<c:url value='/attendance.do' />"><i class="fas fa-bullhorn"></i> 출퇴근</a></li>
-            <li><a href="<c:url value='/leave.do' />"><i class="fas fa-clipboard"></i> 휴 가</a></li>
+            <li><a href="<c:url value='/attendance.do' />"><i class="fa-solid fa-clipboard-user"></i> 출퇴근</a></li>
+            <li><a href="<c:url value='/attendanceDocument/mylist.do' />"><i
+					class="fas fa-clipboard"></i> 근태문서</a></li>
             <li>
                 <a href="javascript:void(0);" class="active" onclick="toggleDropdown(this);"><i class="fas fa-envelope"></i> 이메일</a>
                 <ul class="dropdown-menu">
