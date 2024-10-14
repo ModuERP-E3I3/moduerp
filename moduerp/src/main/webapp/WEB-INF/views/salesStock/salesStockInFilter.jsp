@@ -235,7 +235,7 @@ tbody tr:hover {
 						
 						<td>${item.itemName}</td>
 						
-						<td><fmt:formatDate value="${item.createdInAt}"
+						<td><fmt:formatDate value="${item.createdAt}"
 								pattern="yyyy-MM-dd" /></td>
 								
 						<td>${item.stockIn}</td>

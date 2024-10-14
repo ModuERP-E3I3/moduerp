@@ -11,34 +11,34 @@
 
 <style type="text/css">
 .top-content-box {
-	width: 96%;
+	width: 96%; /* 화면에 가득 차지 않게 */
 	height: 6vh;
 	background-color: white;
 	margin-left: 1%;
 	margin-right: 5%;
 	margin-top: 1.8%;
 	border: 1px solid #ccc;
-	border-radius: 20px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 20px; /* 박스 둥글게 */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	justify-content: center; /* 수평 중앙 정렬 */
+	align-items: center; /* 수직 중앙 정렬 */
 	padding: 20px;
 	font-size: 30px;
 	font-weight: bold;
 }
 /* ul의 기본 스타일 제거 */
 #menubar {
-	list-style: none;
+	list-style: none; /* 기본 list-style 없애기 */
 	padding: 0;
 	margin: 0;
-	display: flex;
+	display: flex; /* li를 가로로 배치하기 위해 flexbox 사용 */
 	justify-content: center;
 	align-items: center;
 }
 
 #menubar li {
-	margin: 0 40px;
+	margin: 0 40px; /* li 간의 간격 추가 */
 }
 
 #menubar li a {
@@ -52,22 +52,22 @@
 
 #menubar li a:hover {
 	background-color: #f4f4f4;
-	border-radius: 10px;
+	border-radius: 10px; /* 호버 시 살짝 둥근 배경 */
 }
 
 /* 하얀 박스 스타일 */
 .content-box {
-	width: 96%;
-	height: 70vh;
+	width: 96%; /* 화면에 가득 차지 않게 */
+	height: 70vh; /* 화면 높이의 78% */
 	background-color: white;
 	margin-left: 1%;
 	margin-right: 5%;
 	margin-top: 3%;
 	border: 1px solid #ccc;
-	border-radius: 20px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 20px; /* 박스 둥글게 */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
 	position: relative;
-	padding: 20px;
+	padding: 20px; /* 내부 여백 추가 */
 }
 
 /* 제목 스타일 */
@@ -149,19 +149,19 @@ th {
 #pagebutton {
 	display: flex;
 	justify-content: center;
-	margin-top: 2%;
+	margin-top: 2%; /* 위쪽 여백 추가 */
 }
 
 #pagebutton a {
-	color: black;
-	text-decoration: none;
-	font-size: 20px;
-	margin: 0 10px;
+	color: black; /* 글자 색상 검은색 */
+	text-decoration: none; /* 밑줄 제거 */
+	font-size: 20px; /* 글자 크기 증가 */
+	margin: 0 10px; /* 페이지 버튼 간격 조정 */
 }
 
 #pagebutton strong {
-	font-size: 20px;
-	color: black;
+	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
+	color: black; /* 강조 색상 검은색 유지 */
 }
 
 tbody tr:hover {
@@ -217,7 +217,6 @@ tbody tr:hover {
 			<thead>
 				<tr>
 					<th>순번</th>
-					<th>거래처 번호</th>
 					<th>거래처 이름</th>
 					<th>업태</th>
 					<th>대표자 이름</th>
@@ -234,7 +233,6 @@ tbody tr:hover {
 						onclick="window.location.href='getAccountDetails.do?accountNo=${account.accountNo}'">
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
 
-						<td>${account.accountNo}</td>
 						<td>${account.accountName}</td>
 						<td>${account.businessType}</td>
 						<td>${account.bossName}</td>
