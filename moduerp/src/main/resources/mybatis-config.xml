@@ -109,6 +109,8 @@
 		<mapper resource="mappers/item-delivery-mapper.xml" />
 		<mapper resource="mappers/delivery-mapper.xml" />
 		<mapper resource="mappers/cart-mapper.xml" />
+		
+		<mapper resource="mappers/qna-mapper.xml" />
 
 	</mappers>
 
