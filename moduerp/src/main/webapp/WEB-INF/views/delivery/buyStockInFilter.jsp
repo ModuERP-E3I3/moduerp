@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -173,73 +172,78 @@ tbody tr:hover {
 </head>
 
 <body>
-    <!-- 서브헤더 JSP 임포트 -->
-    <c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
+	<!-- 서브헤더 JSP 임포트 -->
+	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-	    <ul id="menubar">
-	        <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
-			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
+		<ul id="menubar">
+			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
+			<li><a href="buyStockOut.do"><i class="fas fa-clipboard"></i> 구매 출고</a></li>
 			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
-	    </ul>
 	</div>
-	
-    <!-- 하얀 큰 박스 -->
-    <div class="content-box">
 
-        <div class="content-title">구매관리 | 구매출고</div>
-		<form action="/moduerp/buyStockOutFilter.do">
+	<!-- 하얀 큰 박스 -->
+	<div class="content-box">
+
+		<div class="content-title">구매관리 | 구매입고</div>
+		<form action="/moduerp/buyStockInFilter.do">
 			<!-- 필터 박스 -->
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
 					<option disabled selected>옵션 선택</option>
-					<option value="itemName">제품명</option>
-					<option value="stockPlace">출고 장소</option>
-					<option value="ODirector">담당자</option>
-				</select> <input type="date" name="startDate" id="startDate" /> <input
-					type="date" name="endDate" id="endDate" /> <input type="text"
-					name="filterText" id="filterText" placeholder="내용 입력" />
-				<button type="submit" class="btn">조회</button>
-				<button type="button" class="btn"
-					onclick="window.location.href='buyStockOut.do';">초기화</button>
-			</div>
-		</form>
-        <!-- 테이블 -->
-        <table>
-            <thead>
-                <tr>
-                    <th>순번</th>
-                    <th>출고 날짜</th>
-                    <th>제품명</th>
-                    <th>총출고 수량</th>
-                    <th>재고 수량</th>
-                    <th>출고 장소</th>
-                    <th>출고 단가</th>
-                    <th>출고 담당자</th> 
-                </tr>
-            </thead>
-            <tbody>
-			    <c:forEach var="item" items="${itemList}" varStatus="status">
-				<tr onclick="window.location.href='getBuyOutDetails.do?itemCode=${item.itemCode}'">
-                  	 <td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-                  			<!-- 순번 계산 -->           
-                     <td><fmt:formatDate value="${item.createdOutAt}"  
-								pattern="yyyy-MM-dd" /></td> <!-- 날짜만 나오게 수정 -->
-                     <td>${item.itemName}</td> 
-                     <td>${item.stockOut}</td>
-                     <td>${item.stock}</td>
-                     <td>${item.stockOutPlace}</td>  
-                     <td>${item.outPrice}</td>
-                     <td>${item.oDirector}</td>
-                 </tr>
+					<option value="itemName" ${option == 'itemName' ? 'selected' : ''}>제품명</option>
+					<option value="stockPlace"
+						${option == 'stockPlace' ? 'selected' : ''}>입고 장소</option>
+					<option value="iDirector"
+						${option == 'iDirector' ? 'selected' : ''}>담당자</option>
+				</select> <input type="date" name="startDate" id="startDate"
+					value="${startDate != null ? startDate : ''}" /> <input
+					type="date" name="endDate" id="endDate"
+					value="${endDate != null ? endDate : ''}" /> <input type="text"
+					name="filterText" id="filterText" placeholder="내용 입력"
+					value="${filterText != null ? filterText : ''}" />
 
+				<button type="submit" class="btn">조회</button>
+				<button type="button" class="btn" onclick="window.location.href='buyStockIn.do';">초기화</button>
+			</div>
+
+		</form>
+		<!-- 테이블 -->
+		<table>
+			<thead>
+				<tr>
+					<th>순번</th>
+					<th>제품명</th>
+					<th>입고 일자</th>
+					<th>입고 수량</th>
+					<th>입고 장소</th>
+					<th>입고 단가</th>
+					<th>직원명</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<c:forEach var="item" items="${itemList}" varStatus="status">
+					<tr
+						onclick="window.location.href='getProductionInDetails.do?itemCode=${item.itemCode}'">
+						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
+						<!-- 순번 계산 -->
+						<td>${item.itemName}</td>
+						<td>${item.createdAt}</td>
+						<td>${item.stockIn}</td>
+						<td>${item.stockPlace}</td>
+						<td>${item.inPrice}</td>
+						<td>${item.iDirector}</td>
+					</tr>
 				</c:forEach>
 			</tbody>
 
-        </table>
-        
-        <!-- 페이지 버튼 -->
+
+
+		</table>
+
+		<!-- 페이지 버튼 -->
 		<div id="pagebutton">
 			<c:if test="${totalPages > 1}">
 				<c:forEach var="i" begin="1" end="${totalPages}">
@@ -249,22 +253,54 @@ tbody tr:hover {
 							<!-- 현재 페이지는 강조 -->
 						</c:when>
 						<c:otherwise>
-							<a href="buyStockOut.do?page=${i}">${i}</a>
+							<a
+								href="buyStockInFilter.do?page=${i}&filterOption=${option}&filterText=${filterText}&startDate=${startDate}&endDate=${endDate}">
+								${i} </a>
 							<!-- 페이지 링크 -->
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
 			</c:if>
 		</div>
-        
 
-        <!-- 버튼 그룹 -->
-        <div class="btn-group">
-			<a href="buyStockOutCreate.do"><button class="btn blue">등록</button></a>
+
+
+
+		<!-- 버튼 그룹 -->
+		<div class="btn-group">
+			<a href="buyInCreate.do"><button class="btn blue">등록</button></a>
 		</div>
 
-    </div>
+	</div>
 </body>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- jQuery 추가 -->
+
+
+
+<script>
+    function getItemCode(itemCode) {
+        console.log("클릭한 item_code: " + itemCode);
+
+        $.ajax({
+        	url: '/moduerp/getBuyInDetails.do', // URL을 수정
+            type: 'GET',
+            data: { itemCode: itemCode },
+            success: function(response) {
+                console.log("데이터 가져오기 성공:", response);
+                // 필요한 작업 수행
+            },
+            error: function(xhr, status, error) {
+                console.error("데이터 가져오기 실패:", error);
+            }
+        });
+
+    }
+</script>
+
+
 
 <script>
     const activeMenu = "buyStockIn";

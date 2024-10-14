@@ -23,6 +23,11 @@
 		<result property="iDirector" column="IDIRECTOR" />
 		<result property="oDirector" column="ODIRECTOR" />
 	</resultMap>
+	
+	<select id="getItemsByBizNumber" resultType="ItemDTO">
+    SELECT * FROM item WHERE biz_number = #{bizNumber}
+	</select>
+	
 
 	<select id="getAllItemsByBizNumber" resultMap="itemResultMap">
 		SELECT
