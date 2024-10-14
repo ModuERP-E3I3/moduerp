@@ -164,7 +164,7 @@ th {
 	color: black; /* 강조 색상 검은색 유지 */
 }
 
-tbody tr:hover { 
+tbody tr:hover {
 	cursor: pointer;
 }
 </style>
