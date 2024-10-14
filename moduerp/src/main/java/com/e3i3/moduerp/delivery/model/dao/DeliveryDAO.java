@@ -6,7 +6,7 @@ import com.e3i3.moduerp.delivery.model.dto.DeliveryDTO;
 
 public interface DeliveryDAO {
 
-	List<DeliveryDTO> getAllDeleveryTableList();
+	List<DeliveryDTO> getAllDeliveryTableList();
 
 	List<DeliveryDTO> getAllDelivery();
 
@@ -18,5 +18,5 @@ public interface DeliveryDAO {
 
 	void deleteDeliveryByItemCode(String itemCode);
 
-
+	List<String> getItemItemCode(String itemCode);
 }

@@ -259,6 +259,7 @@ public class EmailController {
 	/**
 	 * 이메일 상세 보기 URL: /email/view.do?emailId=XXX
 	 */
+	@SuppressWarnings("unlikely-arg-type")
 	@GetMapping("/email/view.do") // GET 메소드로 명시적으로 지정
 	public String viewEmail(@RequestParam("emailId") Long emailId, Model model, HttpSession session) {
 		String loginUUID = (String) session.getAttribute("uuid");

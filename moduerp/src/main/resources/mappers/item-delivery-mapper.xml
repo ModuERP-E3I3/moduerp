@@ -26,9 +26,8 @@
 	
 	<select id="getItemsByBizNumber" resultType="ItemDTO">
     SELECT *
-	FROM DELIVERY D
-	JOIN ITEM I on D.ITEM_CODE = I.ITEM_CODE
-    WHERE I.biz_number = #{bizNumber}
+	FROM ITEM 
+    WHERE biz_number = #{bizNumber}
 	</select>
 	
 

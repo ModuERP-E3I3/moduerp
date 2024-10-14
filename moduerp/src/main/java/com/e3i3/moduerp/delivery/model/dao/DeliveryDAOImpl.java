@@ -15,7 +15,7 @@ public class DeliveryDAOImpl implements DeliveryDAO{
 	@Autowired
 	private SqlSession sqlSession;
 	
-	private static final String namespace = "DelieveryMapper";
+	private static final String namespace = "DeliveryMapper";
 
 	@Override
 	public List<DeliveryDTO> getAllDelivery() {
@@ -46,9 +46,14 @@ public class DeliveryDAOImpl implements DeliveryDAO{
 	}
 
 	@Override
-	public List<DeliveryDTO> getAllDeleveryTableList() {
-		// TODO Auto-generated method stub
+	public List<DeliveryDTO> getAllDeliveryTableList() {
 		return null;
+	}
+
+	@Override
+	public List<String> getItemItemCode(String bizNumber) {
+		return sqlSession.selectList(namespace + ".getItemItemCode", bizNumber);
+		
 	}
 
 }

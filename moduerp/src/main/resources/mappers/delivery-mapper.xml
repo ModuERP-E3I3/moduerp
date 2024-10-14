@@ -20,7 +20,6 @@
 		<result property="deliveryCompany" column="DELIVERYCOMPANY" />
 	</resultMap>
 
-
 	<select id="getAllDeleveryTableList" parameterType="String"
 		resultMap="deliveryResultMap">
 		SELECT *
@@ -29,15 +28,11 @@
 		I.ITEM_CODE
 	</select>
 
-
-
-	<!-- 아이템 이름을 biz_number로 필터링해서 조회하는 쿼리 -->
 	<select id="selectItemNamesByBizNumber" parameterType="String"
 		resultType="String">
 		SELECT ITEM_NAME
 		FROM ITEM
-		WHERE
-		BIZ_NUMBER = #{bizNumber}
+		WHERE BIZ_NUMBER = #{bizNumber}
 	</select>
 
 	<select id="selectStockPlacesByBizNumber" parameterType="String"
@@ -48,22 +43,35 @@
 		#{bizNumber}
 	</select>
 
-
-
 	<insert id="insertDelivery"
 		parameterType="com.e3i3.moduerp.delivery.model.dto.DeliveryDTO">
-		INSERT INTO delivery (DELIVERY_ID, ITEM_CODE, SPEC, RECEIVER_ID, ADDRESS,
+		INSERT INTO delivery (DELIVERY_ID, ITEM_CODE, SPEC,
+		RECEIVER_ID, ADDRESS,
 		DELIVERY_TYPE, KEY,
-		DELIVERY_DATE, IN_DATE, UP_DATE, RECIPIENT, WAYBILL, DELIVERYCOMPANY)
-		VALUES (#{deliveryId}, #{itemCode}, #{spec}, #{receiverId}, #{address},
-		#{deliveryType}, #{key},
-		#{deliveryDate}, #{inDate}, #{upDate}, #{recipient}, #{waybill}, #{deliveryCompany})
+		DELIVERY_DATE, IN_DATE,
+		UP_DATE, RECIPIENT, WAYBILL, DELIVERYCOMPANY)
+		VALUES (#{deliveryId},
+		#{itemCode}, #{spec}, #{receiverId}, #{address},
+		#{deliveryType},
+		#{key},
+		#{deliveryDate}, #{inDate}, #{upDate}, #{recipient},
+		#{waybill}, #{deliveryCompany})
 	</insert>
 
+	<select id="getItemItemCode" parameterType="String"
+		resultType="String">
+		SELECT ITEM_CODE
+		FROM ITEM
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
 
+	<select id="selectDeliveryByItemCode" parameterType="String"
+		resultType="com.e3i3.moduerp.delivery.model.dto.DeliveryDTO">
+		SELECT * FROM ITEM I 
+		LEFT JOIN DELIVERY D ON D.ITEM_CODE = I.ITEM_CODE 
+		WHERE I.ITEM_CODE = #{itemCode}
 
-
-
+	</select>
 
 
 </mapper>
