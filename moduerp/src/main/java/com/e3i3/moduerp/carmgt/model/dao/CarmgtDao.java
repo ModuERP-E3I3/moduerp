@@ -26,4 +26,7 @@ public interface CarmgtDao {
 	List<CarmgtDto> getCarByCarNum(String bizNumber, String filterText);
 	List<CarmgtDto> getCarByEmpName(String bizNumber, String filterText);
 	List<CarmgtDto> getCarByDepartmentId(String bizNumber, String filterText);
+	List<CarmgtDto> getCarByFilterOnlyDate(String bizNumber, String startDate, String endDate);
+	List<CarmgtDto> getCarByFilterStartDate(String bizNumber, String startDate);
+	List<CarmgtDto> getCarByFilterEndDate(String bizNumber, String endDate);
 }

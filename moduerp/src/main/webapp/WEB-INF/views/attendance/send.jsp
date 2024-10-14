@@ -66,21 +66,21 @@
 
 /* 하얀 박스 스타일 */
 .content-box {
-	width: 96%; /* 화면에 가득 차지 않게 */
-	height: 70vh; /* 화면 높이의 78% */
-	background-color: white;
-	margin-left: 1%;
-	margin-right: 5%;
-	margin-top: 5%;
-	border: 1px solid #ccc;
-	border-radius: 20px; /* 박스 둥글게 */
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-	position: relative;
-	padding: 20px; /* 내부 여백 추가 */
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
+    width: 96%; /* 화면에 가득 차지 않게 */
+    height: auto; /* 높이를 내용에 맞게 자동 조정 */
+    background-color: white;
+    margin: 5% auto; /* 상단 마진 5%, 좌우 중앙 정렬 */
+    border: 1px solid #ccc;
+    border-radius: 20px; /* 박스 둥글게 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    padding: 20px; /* 내부 여백 추가 */
+    display: flex;
+    flex-direction: column; /* 수직 정렬 */
+    justify-content: center; /* 수직 중앙 정렬 */
+    align-items: center; /* 수평 중앙 정렬 */
+    position: relative;
 }
+
 
 /* 제목 스타일 */
 .content-title {
@@ -91,6 +91,49 @@
 	color: white;
 	font-weight: bold;
 }
+
+form {
+    width: 80%; /* 원하는 너비로 조정 */
+    max-width: 600px; /* 최대 너비 설정 */
+    background-color: #f0f8ff; /* 원하는 배경색으로 변경 (예: Alice Blue) */
+    padding: 20px; /* 내부 여백 추가 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
+
+
+table {
+    width: 100%;
+}
+
+table td {
+    padding: 10px 0;
+}
+
+button, input[type="submit"] {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover, input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* "임시 저장" 버튼 스타일 */
+#saveBtn {
+    background-color: gray; /* 회색 배경 */
+    color: white; /* 텍스트 색상 */
+}
+
+#saveBtn:hover {
+    background-color: darkgray; /* 호버 시 진한 회색 */
+}
+
 </style>
 </head>
 

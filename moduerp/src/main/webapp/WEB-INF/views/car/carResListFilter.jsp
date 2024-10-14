@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 
 <!DOCTYPE html>
@@ -179,9 +179,12 @@ tbody tr:hover {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="carRes.do"><i class="fa-solid fa-car-side"></i> 차량 예약</a></li>
-	        <li><a href="carMgt.do"><i class="fa-solid fa-list-check"></i> 차량 결제 관리</a></li>
-	        <li><a href="map.do"><i class="fa-solid fa-signs-post"></i> 도로 교통 / 경로 조회</a></li>
+			<li><a href="carRes.do"><i class="fa-solid fa-car-side"></i>
+					차량 예약</a></li>
+			<li><a href="carMgt.do"><i class="fa-solid fa-list-check"></i>
+					차량 결제 관리</a></li>
+			<li><a href="map.do"><i class="fa-solid fa-signs-post"></i>
+					도로 교통 / 경로 조회</a></li>
 		</ul>
 	</div>
 
@@ -233,113 +236,116 @@ tbody tr:hover {
 							</datalist></td>
 						<!-- 부서명 입력 칸 -->
 						<td><input type="text" id="departmentIdInput"
-							name="departmentId" placeholder="부서명" readonly="readonly"/> <datalist
+							name="departmentId" placeholder="부서명" readonly="readonly" /> <datalist
 								id="departmentIds">
 								<c:forEach var="departmentId" items="${departmentIds}">
 									<option value="${departmentId}" />
 								</c:forEach>
 							</datalist></td>
-						<td>
-							<input type="datetime-local" id="reserveStartDate" name="reserveStartDate" /> ~ 
-    						<input type="datetime-local" id="reserveEndDate" name="reserveEndDate" />
-						</td>
+						<td><input type="datetime-local" id="reserveStartDate"
+							name="reserveStartDate" /> ~ <input type="datetime-local"
+							id="reserveEndDate" name="reserveEndDate" /></td>
 						<td><input type="text" name="useReason"
 							placeholder="예약 사유 입력" /></td>
-						<td>
-							<input list="drivingStatus" name="drivingStatus" id="drivingStatusInput" placeholder="운행 상태 입력" />
-							<datalist id="drivingStatus">
-        						<option value="운행 전">운행 전</option>
-        						<option value="운행 중">운행 중</option>
-        						<option value="운행 완료">운행 완료</option>
-   							</datalist>
-						</td>
-						
-						
+						<td><input list="drivingStatus" name="drivingStatus"
+							id="drivingStatusInput" placeholder="운행 상태 입력" /> <datalist
+								id="drivingStatus">
+								<option value="운행 전">운행 전</option>
+								<option value="운행 중">운행 중</option>
+								<option value="운행 완료">운행 완료</option>
+							</datalist></td>
+
+
 					</tr>
 				</tbody>
 			</table>
 
-			
-			
+
+
 			<!-- 버튼 그룹 -->
 			<div class="btn-group">
 				<button type="submit" class="btn blue">등록 완료</button>
 			</div>
 		</form>
-		
-		
-		
+
+
+
 		<!-- 테이블 -->
-        <h3> 차량 예약 내역 </h3>
+		<h3>차량 예약 내역</h3>
 		<!-- 필터 박스 -->
-        <form action="/moduerp/carresFilter.do">
+		<form action="/moduerp/carresFilter.do">
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
 					<option disabled selected>옵션 선택</option>
 					<option value="carModel" ${option == 'carModel' ? 'selected' : ''}>차종</option>
-					<option value="carNum" ${option == 'carNum' ? 'selected' : ''}>차량 번호</option>
+					<option value="carNum" ${option == 'carNum' ? 'selected' : ''}>차량
+						번호</option>
 					<option value="empName" ${option == 'empName' ? 'selected' : ''}>사원명</option>
-					<option value="departmentId" ${option == 'departmentId' ? 'selected' : ''}>부서명</option>
-					<option value="drivingStatus" ${option == 'drivingStatus' ? 'selected' : ''}>운행 여부</option>
+					<option value="departmentId"
+						${option == 'departmentId' ? 'selected' : ''}>부서명</option>
+					<option value="drivingStatus"
+						${option == 'drivingStatus' ? 'selected' : ''}>운행 여부</option>
 				</select> <input type="date" name="startDate" id="startDate"
-					value="${startDate != null ? startDate : ''}" /> <input
-					type="date" name="endDate" id="endDate"
-					value="${endDate != null ? endDate : ''}" /> <input type="text"
-					name="filterText" id="filterText" placeholder="내용 입력"
-					value="${filterText != null ? filterText : ''}" />
+					value="${startDate != null && startDate.length() >= 10 ? startDate.substring(0, 10) : ''}" />
+				<input type="date" name="endDate" id="endDate"
+					value="${endDate != null && endDate.length() >= 10 ? endDate.substring(0, 10) : ''}" />
+				<input type="text" name="filterText" id="filterText"
+					placeholder="내용 입력" value="${filterText != null ? filterText : ''}" />
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
 					onclick="window.location.href='carresListCreate.do';">초기화</button>
 			</div>
 		</form>
-        <table>
-            <thead>
-                <tr>
-                    <th>차종</th>
-                    <th>차량 번호</th>
-                    <th>사원명</th>
-                    <th>부서명</th>
-                    <th>예약 일정</th>
-                    <th>예약 사유</th>
-                    <th>운행 여부</th>
-                </tr>
-            </thead>
-            <tbody>
-			    <c:forEach var="carres" items="${carresList}">
-			        <tr onclick="window.location.href='getCarresDetail.do?carReserveCode=${ carres.carReserveCode }' ">
-			            <td>${ carres.carModel }</td>
-			            <td>${ carres.carNum }</td>
-			            <td>${ carres.empName }</td>
-			            <td>${ carres.departmentId }</td>
-			            <td>
-    						<fmt:formatDate value="${carres.reserveStartDate}" pattern="yyyy-MM-dd HH:mm:ss" /> ~ 
-    						<fmt:formatDate value="${carres.reserveEndDate}" pattern="yyyy-MM-dd HH:mm:ss" />
+		<table>
+			<thead>
+				<tr>
+					<th>차종</th>
+					<th>차량 번호</th>
+					<th>사원명</th>
+					<th>부서명</th>
+					<th>예약 일정</th>
+					<th>예약 사유</th>
+					<th>운행 여부</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="carres" items="${carresList}">
+					<tr
+						onclick="window.location.href='getCarresDetail.do?carReserveCode=${ carres.carReserveCode }' ">
+						<td>${ carres.carModel }</td>
+						<td>${ carres.carNum }</td>
+						<td>${ carres.empName }</td>
+						<td>${ carres.departmentId }</td>
+						<td><fmt:formatDate value="${carres.reserveStartDate}"
+								pattern="yyyy-MM-dd HH:mm:ss" /> ~ <fmt:formatDate
+								value="${carres.reserveEndDate}" pattern="yyyy-MM-dd HH:mm:ss" />
 						</td>
-			            <td>${ carres.useReason }</td>
-			            <td>${ carres.drivingStatus }</td>
-			        </tr>
-			    </c:forEach>
+						<td>${ carres.useReason }</td>
+						<td>${ carres.drivingStatus }</td>
+					</tr>
+				</c:forEach>
 			</tbody>
 
-        </table>
-		
+		</table>
+
 		<!-- 페이지 버튼 -->
-			<div id="pagebutton">
-				<c:if test="${totalPages > 1}">
-					<c:forEach var="i" begin="1" end="${totalPages}">
-						<c:choose>
-							<c:when test="${i == currentPage}">
-								<strong>${i}</strong>
-								<!-- 현재 페이지는 강조 -->
-							</c:when>
-							<c:otherwise>
-								<a href="carresFilter.do?page=${i}&filterOption=${option}&filterText=${filterText}&startDate=${startDate}&endDate=${endDate}">${i}</a>
-								<!-- 페이지 링크 -->
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
-				</c:if>
-			</div>
+		<div id="pagebutton">
+			<c:if test="${totalPages > 1}">
+				<c:forEach var="i" begin="1" end="${totalPages}">
+					<c:choose>
+						<c:when test="${i == currentPage}">
+							<strong>${i}</strong>
+							<!-- 현재 페이지는 강조 -->
+						</c:when>
+						<c:otherwise>
+							<a
+								href="carresFilter.do?page=${i}&filterOption=${option}&filterText=${filterText}&startDate=${startDate}&endDate=${endDate}">${i}</a>
+							<!-- 페이지 링크 -->
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</c:if>
+		</div>
 
 	</div>
 </body>

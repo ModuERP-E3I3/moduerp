@@ -122,5 +122,23 @@ public class CarmgtDaoImpl implements CarmgtDao {
 				Map.of("bizNumber", bizNumber, "filterText", filterText));
 	}
 
+	@Override
+	public List<CarmgtDto> getCarByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
+		return sqlSession.selectList(namespace + ".selectCarByFilterOnlyDate",
+				Map.of("bizNumber", bizNumber, "startDate", startDate, "endDate", endDate));
+	}
+
+	@Override
+	public List<CarmgtDto> getCarByFilterStartDate(String bizNumber, String startDate) {
+		return sqlSession.selectList(namespace + ".selectCarByFilterStartDate",
+				Map.of("bizNumber", bizNumber, "startDate", startDate));
+	}
+
+	@Override
+	public List<CarmgtDto> getCarByFilterEndDate(String bizNumber, String endDate) {
+		return sqlSession.selectList(namespace + ".selectCarByFilterEndDate",
+				Map.of("bizNumber", bizNumber, "endDate", endDate));
+	}
+
     
 }
