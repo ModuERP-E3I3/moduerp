@@ -346,14 +346,14 @@ body {
 				<div class="info-box">
 					<div class="info-label">남은 연차</div>
 					<div class="info-value">${annualLeaveUsed}/${totalAnnualLeave}</div>
-					<a href="<c:url value='/leave/leaveRequest.do' />"
+					<a href="<c:url value='/attendanceDocument/send.do' />"
 						class="info-link">신청하기</a>
 				</div>
 				<!-- 결재 대기 -->
 				<div class="info-box">
 					<div class="info-label">결재 대기</div>
 					<div class="info-value">${documentsToApprove}건</div>
-					<a href="<c:url value='/approval/approvalInbox.do' />"
+					<a href="<c:url value='/attendanceDocument/mylist.do' />"
 						class="info-link">결재하기</a>
 				</div>
 				<!-- 근태 신청 -->
