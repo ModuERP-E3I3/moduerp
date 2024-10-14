@@ -99,7 +99,6 @@ public class BuyStockInController {
 			int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
 			int startIndex = (page - 1) * itemsPerPage;
 			int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-
 			List<ItemDTO> paginatedList = itemList.subList(startIndex, endIndex);
 
 			// 모델에 추가
