@@ -246,7 +246,7 @@ tbody tr:hover {
 							<!-- 현재 페이지는 강조 -->
 						</c:when>
 						<c:otherwise>
-							<a href="Delivery.do?page=${i}">${i}</a>
+							<a href="delivery.do?page=${i}">${i}</a>
 							<!-- 페이지 링크 -->
 						</c:otherwise>
 					</c:choose>

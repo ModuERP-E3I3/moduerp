@@ -13,11 +13,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.e3i3.moduerp.buystock.model.service.BuyStockInService;
 import com.e3i3.moduerp.delivery.model.dto.DeliveryDTO;
 import com.e3i3.moduerp.delivery.model.service.DeliveryService;
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
@@ -165,39 +167,39 @@ public class DeliveryController {
 			//  
 			DeliveryService.insertDelivery(DeliveryDTO);
 
-			return "redirect:/delivery.do"; // 
+			return "redirect:/deliveryDitail.do"; // 
 		}
-//
-//		@GetMapping("/getBuyInDetails.do")
-//		public String getBuyInDetails(@RequestParam("itemCode") String itemCode, Model model) {
-//			// ITEM 
-//			ItemDTO itemDetails = itembuyStockService.getItemDetails(itemCode);
-//			// Buy_STOCK_IN 
-//			DeliveryDTO BuyStockInDetails = BuyStockInService.getBuyStockInDetails(itemCode);
-//
-//			// CREATED_AT
-//			Timestamp createdAt = itemDetails.getCreatedAt();
-//			Timestamp adjustedCreatedAt = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000)); 
-//																	
-//			itemDetails.setCreatedAt(adjustedCreatedAt); // Timestamp
-//
-//			// UPDATED_AT
-//			Timestamp updatedAt = itemDetails.getUpdatedAt();
-//			if (updatedAt != null) {
-//				Timestamp adjustedUpdatedAt = Timestamp
-//						.from(Instant.ofEpochMilli(updatedAt.getTime() + 9 * 60 * 60 * 1000)); 
-//				itemDetails.setUpdatedAt(adjustedUpdatedAt); // 맂Timestamp 
-//			} else {
-//				// updatedAt
-//				itemDetails.setUpdatedAt(null); 
-//			}
-//
-//			// 
-//			model.addAttribute("itemDetails", itemDetails);
-//			model.addAttribute("BuyStockInDetails", BuyStockInDetails);
-//
-//			return "buyStock/buyStockInDetail"; // JSP 
-//		}
+
+		@GetMapping("/getDeliveryDetails.do")
+		public String getBuyInDetails(@RequestParam("itemCode") String itemCode, Model model) {
+			// ITEM 
+			ItemDTO itemDetails = itemDeliveryService.getItemDetails(itemCode);
+			// delivery
+			DeliveryDTO deliveryDetails = DeliveryService.getDeliveryDetails(itemCode);
+
+			// CREATED_AT
+			Timestamp createdAt = itemDetails.getCreatedAt();
+			Timestamp adjustedCreatedAt = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000)); 
+																	
+			itemDetails.setCreatedAt(adjustedCreatedAt); // Timestamp
+
+			// UPDATED_AT
+			Timestamp updatedAt = itemDetails.getUpdatedAt();
+			if (updatedAt != null) {
+				Timestamp adjustedUpdatedAt = Timestamp
+						.from(Instant.ofEpochMilli(updatedAt.getTime() + 9 * 60 * 60 * 1000)); 
+				itemDetails.setUpdatedAt(adjustedUpdatedAt); // 맂Timestamp 
+			} else {
+				// updatedAt
+				itemDetails.setUpdatedAt(null); 
+			}
+
+			// 
+			model.addAttribute("itemDetails", itemDetails);
+			model.addAttribute("DeliveryDetails", deliveryDetails);
+
+			return "buyStock/buyStockInDetail"; // JSP 
+		}
 //		
 //		@GetMapping("/buyStockInDetailUpdate.do")
 //		public String showUpdateForm(@RequestParam("itemCode") String itemCode, Model model, HttpSession session) {
