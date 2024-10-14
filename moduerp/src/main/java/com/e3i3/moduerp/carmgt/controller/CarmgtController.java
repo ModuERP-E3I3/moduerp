@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -62,6 +63,20 @@ public class CarmgtController {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		List<CarmgtDto> carmgtList = CarmgtService.getAllCarmgt("bizNumber");
 		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+		// startDate의 시분초 기본값 설정 (00:00:00)
+	    if (startDate != null && !startDate.isEmpty()) {
+	        LocalDateTime startDateTime = LocalDateTime.parse(startDate + " 00:00:00", formatter);
+	        startDate = startDateTime.format(formatter);  // 포맷된 문자열로 변환
+	    }
+
+	    // endDate의 시분초 기본값 설정 (23:59:59)
+	    if (endDate != null && !endDate.isEmpty()) {
+	        LocalDateTime endDateTime = LocalDateTime.parse(endDate + " 23:59:59", formatter);
+	        endDate = endDateTime.format(formatter);  // 포맷된 문자열로 변환
+	    }
+		
 		// 필터링 로직
 				if (option != null && filterText != null) {
 					if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
@@ -72,10 +87,23 @@ public class CarmgtController {
 						carmgtList = CarmgtService.getCarByFilter(bizNumber, option, filterText);
 					} else {
 						System.out.println("실행 못함");
-						carmgtList = CarmgtService.getCarsByBizNumber(bizNumber);
+						carmgtList = CarmgtService.getAllCarmgt(bizNumber);
 					}
+				} else if ((option == null || filterText == null || filterText.isEmpty()) 
+				        && startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+				    System.out.println("필터 텍스트 없이 날짜만 있는 경우 실행");
+				    carmgtList = CarmgtService.getCarByFilterOnlyDate(bizNumber, startDate, endDate);
+				} else if ((option == null || filterText == null || filterText.isEmpty()) 
+				        && startDate != null && !startDate.isEmpty()) {
+				    System.out.println("startDate만 있는 경우 실행");
+				    carmgtList = CarmgtService.getCarByFilterStartDate(bizNumber, startDate);
+				} else if ((option == null || filterText == null || filterText.isEmpty()) 
+				        && endDate != null && !endDate.isEmpty()) {
+				    System.out.println("endDate만 있는 경우 실행");
+				    carmgtList = CarmgtService.getCarByFilterEndDate(bizNumber, endDate);
 				} else {
-					carmgtList = CarmgtService.getCarsByBizNumber(bizNumber);
+				    System.out.println("기본 전체 조회 실행");
+				    carmgtList = CarmgtService.getAllCarmgt(bizNumber);
 				}
 				
 				int carmgtPerPage = 10;

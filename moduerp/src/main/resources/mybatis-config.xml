@@ -53,7 +53,7 @@
 			alias="FinClose" />
 		<typeAlias type="com.e3i3.moduerp.buystock.model.dto.BuyStockOutDTO" 
 			alias="BuyStockOutDTO" />
-		
+		<typeAlias alias="ItemDTO" type="com.e3i3.moduerp.item.model.dto.ItemDTO"/>
 
 	</typeAliases>
 
@@ -109,6 +109,8 @@
 		<mapper resource="mappers/item-delivery-mapper.xml" />
 		<mapper resource="mappers/delivery-mapper.xml" />
 		<mapper resource="mappers/cart-mapper.xml" />
+		
+		<mapper resource="mappers/qna-mapper.xml" />
 
 	</mappers>
 

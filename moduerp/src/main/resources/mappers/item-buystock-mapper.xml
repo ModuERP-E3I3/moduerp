@@ -194,6 +194,27 @@
 	</update>
 
 	<!-- BUY In filter -->
+	
+	<select id="selectItemFilterByItemName" parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'B%'
+		AND
+		ITEM_NAME LIKE '%' || #{filterText} || '%'
+		ORDER BY CREATED_AT ASC
+	</select>
+	
+	<select id="selectItemFilterByStockPlace" parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'B%'
+		AND
+		STOCK_PLACE LIKE '%' || #{filterText} || '%'
+		ORDER BY CREATED_AT ASC
+	</select>
+	
 	<select id="selectItemFilterByItemNameDate" parameterType="map"
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
 		SELECT *
@@ -276,6 +297,7 @@
 		STOCK_OUT_PLACE LIKE '%' || #{filterText} || '%'
 		AND CREATED_OUT_AT
 		IS NOT NULL
+		ORDER BY CREATED_OUT_AT ASC
 	</select>
 
 	<select id="selectItemOutFilterByODirector" parameterType="map"
@@ -313,8 +335,8 @@
 		IDIRECTOR LIKE '%' || #{filterText} || '%'
 		AND CREATED_AT BETWEEN
 		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
-		TO_DATE(#{endDate},
-		'YYYY-MM-DD')
+		TO_DATE(#{endDate}, 'YYYY-MM-DD')
+		ORDER BY CREATED_AT ASC
 	</select>
 
 

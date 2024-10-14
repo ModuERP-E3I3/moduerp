@@ -88,6 +88,21 @@ public class CarmgtServiceImpl implements CarmgtService {
 		return null;
 	}
 
+	@Override
+	public List<CarmgtDto> getCarByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
+		return carmgtDao.getCarByFilterOnlyDate(bizNumber, startDate, endDate);
+	}
+
+	@Override
+	public List<CarmgtDto> getCarByFilterStartDate(String bizNumber, String startDate) {
+		return carmgtDao.getCarByFilterStartDate(bizNumber, startDate);
+	}
+
+	@Override
+	public List<CarmgtDto> getCarByFilterEndDate(String bizNumber, String endDate) {
+		return carmgtDao.getCarByFilterEndDate(bizNumber, endDate);
+	}
+
 	/*
 	 * @Override public void deleteCarmgt(String carId) {
 	 * 
