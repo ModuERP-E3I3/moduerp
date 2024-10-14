@@ -13,13 +13,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
+import com.e3i3.moduerp.delivery.model.dto.DeliveryDTO;
 import com.e3i3.moduerp.delivery.model.service.DeliveryService;
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 import com.e3i3.moduerp.item.model.service.ItemDeliveryService;
@@ -41,10 +40,10 @@ public class DeliveryController {
 		public String forwardDelivery(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
 		        HttpSession session) {
 		    String bizNumber = (String) session.getAttribute("biz_number");
-		   
+		    //List<DeliveryDTO> deliveryTableList = DeliveryService.getAllDelivery(bizNumber);
 
 		    List<ItemDTO> itemList = itemDeliveryService.getItemsByBizNumber(bizNumber);
-		   
+		    
 		    
 
 		    for (ItemDTO item : itemList) {
@@ -116,56 +115,52 @@ public class DeliveryController {
 
 			return "delivery/deliveryFilter"; // JSP 파일 경로 반환
 		}
-//		
-//		
-//		@PostMapping("/deliveryCreate.do")
-//		public String createDelivery(  //Param 가져올 항목 수정 필요함
-//				@RequestParam("bStockInDate") String stockInDateStr,
-//				@RequestParam("stockPlace") String stockPlace, 
-//				@RequestParam("stockIn") int stockIn,
-//				@RequestParam("itemName") String itemName, 
-//				@RequestParam("itemDesc") String itemDesc,
-//				@RequestParam("inPrice") double inPrice,
-//				@RequestParam("accountName") String accountName,
-//				@RequestParam("iDirector") String iDirector,
-//				HttpSession session) {
-//			
-//			// 샂
-//			String bizNumber = (String) session.getAttribute("biz_number");
-//			String userUuid = (String) session.getAttribute("uuid");
-//			
-//			// 
-//			LocalDate localDate = LocalDate.parse(stockInDateStr);
-//			LocalDateTime localDateTime = localDate.atStartOfDay(); // 
-//			Timestamp stockInDate = Timestamp.valueOf(localDateTime);
-//
-//			// 한국 시간대의 현재 타임스탬프를 사용
-//			ZonedDateTime nowKST = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
-//			Timestamp currentTimestampKST = Timestamp.valueOf(nowKST.toLocalDateTime());
-//
-//			
-//			// ITEM
-//			itemDeliveryService.insertItem(itemDTO);
-//
-//			//Delivery_ID:  biz_number 
-//			String deleveryId =  bizNumber + currentTimestampKST.getTime();
-//
-//			// 수정필요 컬럼에 맞춰야함
-//			//  테이블에 저장할 데이터 설정
-//			DeleveryDTO DeleveryDTO = new DeleveryDTO();
-//			DeleveryDTO.setbStockInId(deleveryId); // 맂 B_STOCK_IN_ID 
-//			DeleveryDTO.setItemCode(itemCode);
-//			DeleveryDTO.setbStockInDate(stockInDate); // Timestamp
-//			DeleveryDTO.setbStockInPlace(stockPlace);
-//			DeleveryDTO.setbStockInQty(stockIn);
-//			DeleveryDTO.setUuid(userUuid);
-//			DeleveryDTO.setAccountName(accountName);
-//
-//			//  
-//			DeliveryService.insertDelivery(deliveryDTO);
-//
-//			return "redirect:/delivery.do"; // 
-//		}
+		
+		
+		@PostMapping("/deliveryCreate.do")
+		public String createDelivery(  
+				@RequestParam("inDate") String inDateToday,
+				@RequestParam("spec") String spec, 
+				@RequestParam("receiverId") String receiverId,
+				@RequestParam("address") String address, 
+				@RequestParam("recipient") String recipient,
+				@RequestParam("waybill") String waybill,
+				@RequestParam("deliveryCompany") String deliveryCompany,
+				HttpSession session) {
+			
+			
+			String itemCode = (String) session.getAttribute("itemCode");
+			
+			
+			LocalDate localDate = LocalDate.parse(inDateToday);
+			LocalDateTime localDateTime = localDate.atStartOfDay(); // 
+			Timestamp inDate = Timestamp.valueOf(localDateTime);
+
+			// 한국 시간대의 현재 타임스탬프를 사용
+			ZonedDateTime nowKST = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+			Timestamp currentTimestampKST = Timestamp.valueOf(nowKST.toLocalDateTime());
+
+			//Delivery_ID: itemCode +  지금시간
+			String deleveryId =  itemCode + currentTimestampKST.getTime();
+
+		
+			//  테이블에 저장할 데이터 설정
+			DeliveryDTO DeliveryDTO = new DeliveryDTO();
+			DeliveryDTO.setInDate(inDate); 
+			DeliveryDTO.setDeliveryId(deleveryId); 
+			DeliveryDTO.setItemCode(itemCode);
+			DeliveryDTO.setSpec(spec); 
+			DeliveryDTO.setReceiverId(receiverId);
+			DeliveryDTO.setAddress(address);
+			DeliveryDTO.setRecipient(recipient);
+			DeliveryDTO.setWaybill(waybill);
+			DeliveryDTO.setDeliveryCompany(deliveryCompany);
+
+			//  
+			DeliveryService.insertDelivery(DeliveryDTO);
+
+			return "redirect:/delivery.do"; // 
+		}
 //
 //		@GetMapping("/getBuyInDetails.do")
 //		public String getBuyInDetails(@RequestParam("itemCode") String itemCode, Model model) {
