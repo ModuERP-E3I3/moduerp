@@ -68,7 +68,7 @@
 /* 하얀 박스 스타일 */
 .content-box {
 	width: 96%; /* 화면에 가득 차지 않게 */
-	height: 70vh; /* 화면 높이의 78% */
+	height: auto; /* 화면 높이의 78% */
 	background-color: white;
 	margin-left: 1%;
 	margin-right: 5%;
@@ -341,19 +341,19 @@
 				<!-- 남은 연차 -->
 				<div class="info-box">
 					<div class="info-label">남은 연차</div>
-					<div class="info-value">12/15</div>
+					<div class="info-value">${annualLeaveUsed}/${totalAnnualLeave}</div>
 					<a href="<c:url value='/leave/leaveRequest.do' />" class="info-link">신청하기</a>
 				</div>
 				<!-- 결재 대기 -->
 				<div class="info-box">
 					<div class="info-label">결재 대기</div>
-					<div class="info-value">5건</div>
+					<div class="info-value">${documentsToApprove}건</div>
 					<a href="<c:url value='/approval/approvalInbox.do' />" class="info-link">결재하기</a>
 				</div>
 				<!-- 근태 신청 -->
 				<div class="info-box">
 					<div class="info-label">근태 신청</div>
-					<div class="info-value">-</div>
+					<div class="info-value"> 임시 저장: ${draftCount}건, 대기 중: ${pendingCount}건, 승인됨: ${approvedCount}건, 반려됨: ${rejectedCount}건</div>
 					<a href="<c:url value='/attendanceDocument/send.do' />" class="info-link">신청하기</a>
 				</div>
 			</div>

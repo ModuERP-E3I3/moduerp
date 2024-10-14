@@ -74,8 +74,9 @@ public class BuyStockInController {
 				@RequestParam(value = "startDate", required = false) String startDate,
 				@RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
 			String bizNumber = (String) session.getAttribute("biz_number");
-			List<ItemDTO> itemList;
+			List<ItemDTO> itemList = null;
 
+		
 			// 필터링 로직 추가
 			if (option != null && filterText != null) {
 				if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {

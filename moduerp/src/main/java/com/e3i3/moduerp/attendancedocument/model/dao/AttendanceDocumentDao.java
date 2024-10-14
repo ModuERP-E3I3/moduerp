@@ -12,7 +12,7 @@ import com.e3i3.moduerp.attendancedocument.model.dto.AttendanceDocument;
 @Repository
 public class AttendanceDocumentDao {
 
-	private static final String NAMESPACE = "AttendanceRequestMapper.";
+	private static final String NAMESPACE   = "AttendanceRequestMapper.";
 
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
@@ -97,4 +97,33 @@ public class AttendanceDocumentDao {
 		return sqlSessionTemplate.update(NAMESPACE + "undoRejectRequest", attendancerequestId);
 	}
 	
+	// 17. 연차 개수 세는 메소드
+	public int countAnnualLeaveByUUID(String uuid) {
+		return sqlSessionTemplate.selectOne(NAMESPACE + "countAnnualLeaveByUUID", uuid);
+	}
+	
+	 // 임시 저장된 문서 개수 조회
+    public int countDraftDocumentsByUUID(String uuid) {
+        return sqlSessionTemplate.selectOne(NAMESPACE + "countDraftDocumentsByUUID", uuid);
+    }
+
+    // 대기 중인 문서 개수 조회
+    public int countPendingDocumentsByUUID(String uuid) {
+        return sqlSessionTemplate.selectOne(NAMESPACE + "countPendingDocumentsByUUID", uuid);
+    }
+
+    // 승인된 문서 개수 조회
+    public int countApprovedDocumentsByUUID(String uuid) {
+        return sqlSessionTemplate.selectOne(NAMESPACE + "countApprovedDocumentsByUUID", uuid);
+    }
+
+    // 반려된 문서 개수 조회
+    public int countRejectedDocumentsByUUID(String uuid) {
+        return sqlSessionTemplate.selectOne(NAMESPACE + "countRejectedDocumentsByUUID", uuid);
+    }
+	
+    // 로그인한 유저가 결재해야 하는 대기 상태의 문서
+    public int countDocumentsToApproveByUUID(String uuid) {
+        return sqlSessionTemplate.selectOne(NAMESPACE + "countDocumentsToApproveByUUID", uuid);
+    }
 }
