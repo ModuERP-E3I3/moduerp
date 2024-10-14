@@ -4,7 +4,7 @@
 
 	<!-- 아이템 정보를 매핑하기 위한 resultMap -->
 	<resultMap id="itemResultMap"
-		type="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		type="com.e3i3.moduerp.buystock.model.dto.BuyStockInDTO">
 		<id property="itemCode" column="ITEM_CODE" />
 		<result property="itemName" column="ITEM_NAME" />
 		<result property="itemDesc" column="ITEM_DESC" />

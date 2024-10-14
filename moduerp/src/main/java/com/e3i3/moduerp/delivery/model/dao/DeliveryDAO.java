@@ -2,11 +2,20 @@ package com.e3i3.moduerp.delivery.model.dao;
 
 import java.util.List;
 
+import com.e3i3.moduerp.buystock.model.dto.BuyStockInDTO;
 import com.e3i3.moduerp.delivery.model.dto.DeliveryDTO;
-import com.e3i3.moduerp.item.model.dto.ItemDTO;
 
 public interface DeliveryDAO {
 
-	List<ItemDTO> getAllItemsByBizNumber(String bizNumber);
+	List<DeliveryDTO> getAllDelivery();
+
+	void insertDelivery(DeliveryDTO deliveryDTO);
+
+	DeliveryDTO selectDeliveryByItemCode(String itemCode);
+
+	void updateDelivery(DeliveryDTO deliveryDTO);
+
+	void deleteDeliveryByItemCode(String itemCode);
+
 
 }
