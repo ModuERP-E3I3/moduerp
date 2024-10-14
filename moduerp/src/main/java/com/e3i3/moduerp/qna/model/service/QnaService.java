@@ -12,6 +12,8 @@ public interface QnaService {
 
 	List<Employee> getEmpNameDepart(String uuid);
 
+	void insertQna(QnaDto qnaDto);
+
 	
 
 }
