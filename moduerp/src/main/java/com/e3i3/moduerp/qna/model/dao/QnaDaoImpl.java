@@ -26,4 +26,9 @@ public class QnaDaoImpl implements QnaDao {
 	public List<Employee> getEmpNameDepart(String uuid) {
 		return sqlSession.selectList(namespace + ".getEmpNameDepart", uuid);
 	}
+
+	@Override
+	public void insertQna(QnaDto qnaDto) {
+		sqlSession.insert(namespace + ".insertQna", qnaDto);
+	}
 }

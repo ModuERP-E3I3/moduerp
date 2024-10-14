@@ -30,4 +30,34 @@
 		FROM EMPLOYEE
 		WHERE UUID = #{uuid}
 	</select>
+	
+	<!-- 질문글 등록 쿼리 -->
+	<insert id="insertQna"
+		parameterType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		INSERT INTO QUESTION (
+		Q_SEQ,
+		UUID,
+		EMP_NAME,
+		DEPARTMENT_ID,
+		BIZ_NUMBER,
+		Q_TITLE,
+		Q_CONTENTS,
+		Q_STATUS,
+		Q_DATE,
+		IS_PUBLIC
+		)
+		VALUES (
+		QNA_SEQ.NEXTVAL,
+		#{uuid},
+		#{empName},
+		#{departmentId},
+		(SELECT BIZ_NUMBER FROM EMPLOYEE WHERE EMP_NAME = #{empName} AND DEPARTMENT_ID =
+		#{departmentId} AND ROWNUM = 1),
+		#{qTitle},
+		#{qContents},
+		#{qStatus},
+		#{qDate},
+		#{isPublic}
+		)
+	</insert>
 </mapper>

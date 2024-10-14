@@ -25,4 +25,9 @@ public class QnaServiceImpl implements QnaService{
 		return QnaDao.getEmpNameDepart(uuid);
 	}
 
+	@Override
+	public void insertQna(QnaDto qnaDto) {
+		QnaDao.insertQna(qnaDto);
+	}
+
 }

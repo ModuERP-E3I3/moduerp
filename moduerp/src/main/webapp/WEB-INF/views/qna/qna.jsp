@@ -173,6 +173,34 @@ footer {
     border-top: 1px solid #ddd;
     margin-top: 50px;
 }
+/* 버튼 스타일 */
+.btn-group {
+	margin-top: 20px;
+	text-align: right;
+}
+
+.btn {
+	padding: 8px 16px;
+	margin-left: 5px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.btn.red {
+	background-color: red;
+	color: white;
+}
+
+.btn.green {
+	background-color: green;
+	color: white;
+}
+
+.btn.blue {
+	background-color: blue;
+	color: white;
+}
     </style>
 </head>
 <body>
@@ -222,6 +250,10 @@ footer {
                     </li>
                 </c:forEach>
             </ul>
+            
+            <div class="btn-group">
+				<a href="qnaCreate.do"><button class="btn blue">등록</button></a>
+			</div>
 
              <!-- 페이지네이션 -->
             <%-- <div class="pagination">
