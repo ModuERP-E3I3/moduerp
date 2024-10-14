@@ -178,57 +178,65 @@ tbody tr:hover {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-		 <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
-         <li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
-         <li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
-
-		</ul>
+			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
+			<li><a href="buyStockOut.do"><i class="fas fa-clipboard"></i> 구매 출고</a></li>
+			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">구매관리 | 배송조회 </div>
+		<div class="content-title">구매관리 | 구매입고</div>
+		<form action="/moduerp/buyStockInFilter.do">
+			<!-- 필터 박스 -->
+			<div class="filter-box">
+				<select name="filterOption" id="filterOption">
+					<option disabled selected>옵션 선택</option>
+					<option value="itemName" ${option == 'itemName' ? 'selected' : ''}>제품명</option>
+					<option value="stockPlace"
+						${option == 'stockPlace' ? 'selected' : ''}>입고 장소</option>
+					<option value="iDirector"
+						${option == 'iDirector' ? 'selected' : ''}>담당자</option>
+				</select> <input type="date" name="startDate" id="startDate"
+					value="${startDate != null ? startDate : ''}" /> <input
+					type="date" name="endDate" id="endDate"
+					value="${endDate != null ? endDate : ''}" /> <input type="text"
+					name="filterText" id="filterText" placeholder="내용 입력"
+					value="${filterText != null ? filterText : ''}" />
 
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-		</div>
+				<button type="submit" class="btn">조회</button>
+				<button type="button" class="btn" onclick="window.location.href='buyStockIn.do';">초기화</button>
+			</div>
 
+		</form>
 		<!-- 테이블 -->
 		<table>
 			<thead>
 				<tr>
 					<th>순번</th>
-                    <th>입고 날짜</th>
-                    <th>제품명</th>
-                    <th>입고 수량</th>
-                    <th>입고 장소</th>
-                    <th>입고 단가</th>
-                    <th>직원명</th> 
+					<th>제품명</th>
+					<th>입고 일자</th>
+					<th>입고 수량</th>
+					<th>입고 장소</th>
+					<th>입고 단가</th>
+					<th>직원명</th>
 				</tr>
 			</thead>
 
 			<tbody>
 				<c:forEach var="item" items="${itemList}" varStatus="status">
-					 <tr
-                     onclick="window.location.href='getDeliveryDetails.do?itemCode=${item.itemCode}'">
-                  <td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-                  <!-- 순번 계산 -->           
-                     <td><fmt:formatDate value="${item.createdAt}"
+					<tr
+						onclick="window.location.href='getProductionInDetails.do?itemCode=${item.itemCode}'">
+						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
+						<!-- 순번 계산 -->
+						<td>${item.itemName}</td>
+						<td><fmt:formatDate value="${item.createdAt}"
 								pattern="yyyy-MM-dd" /></td>
-                     <td>${item.itemName}</td>   
-                     <td>${item.stockIn}</td>
-                     <td>${item.stockPlace}</td>  
-                     <td>${item.inPrice}</td>
-                     <td>${item.iDirector}</td>
-                 </tr>
-
+						<td>${item.stockIn}</td>
+						<td>${item.stockPlace}</td>
+						<td>${item.inPrice}</td>
+						<td>${item.iDirector}</td>
+					</tr>
 				</c:forEach>
 			</tbody>
 
@@ -246,7 +254,9 @@ tbody tr:hover {
 							<!-- 현재 페이지는 강조 -->
 						</c:when>
 						<c:otherwise>
-							<a href="Delivery.do?page=${i}">${i}</a>
+							<a
+								href="buyStockInFilter.do?page=${i}&filterOption=${option}&filterText=${filterText}&startDate=${startDate}&endDate=${endDate}">
+								${i} </a>
 							<!-- 페이지 링크 -->
 						</c:otherwise>
 					</c:choose>
@@ -256,22 +266,27 @@ tbody tr:hover {
 
 
 
+
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
-			<a href="deliveryCreate.do"><button class="btn blue">등록</button></a>
+			<a href="buyInCreate.do"><button class="btn blue">등록</button></a>
 		</div>
 
 	</div>
 </body>
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- jQuery 추가 -->
+
+
 
 <script>
     function getItemCode(itemCode) {
         console.log("클릭한 item_code: " + itemCode);
 
         $.ajax({
-        	url: '/moduerp/getDeliveryDetails.do', // URL을 수정
+        	url: '/moduerp/getBuyInDetails.do', // URL을 수정
             type: 'GET',
             data: { itemCode: itemCode },
             success: function(response) {
@@ -298,26 +313,6 @@ tbody tr:hover {
                 item.classList.add('active');
             }
         });
-    });
-</script>
-
-<!-- 배송조회 api -->
-<script>
-    document.getElementById('trackingForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // 폼 제출 기본 동작 방지
-        
-        // 고정된 API Key
-        var apiKey = '3uPTRFP4o7AXr6mP7ZwWWw';
-        
-        // 폼 데이터 추출
-        var tCode = document.getElementById('t_code').value;
-        var tInvoice = document.getElementById('t_invoice').value;
-        
-        // URL 생성
-        var url = `https://info.sweettracker.co.kr/tracking/4?t_key=${apiKey}&t_code=${tCode}&t_invoice=${tInvoice}`;
-        
-        // 새로운 페이지로 이동
-        window.location.href = url;
     });
 </script>
 

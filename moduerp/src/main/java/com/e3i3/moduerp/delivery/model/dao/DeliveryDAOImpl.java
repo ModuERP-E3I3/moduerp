@@ -45,4 +45,10 @@ public class DeliveryDAOImpl implements DeliveryDAO{
 		
 	}
 
+	@Override
+	public List<DeliveryDTO> getAllDeleveryTableList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

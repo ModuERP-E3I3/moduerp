@@ -21,7 +21,7 @@ public class ItemDeliveryServiceImpl implements ItemDeliveryService {
 	}
 
 	@Override
-	public List<String> getStockPlacesByBizNumber(String bizNumber) { // �߰��� �޼���
+	public List<String> getStockPlacesByBizNumber(String bizNumber) { 
 		return itemDeliveryDAO.selectStockPlacesByBizNumber(bizNumber);
 	}
 
