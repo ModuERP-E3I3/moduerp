@@ -17,5 +17,8 @@ public interface DeliveryService {
 	 void deleteDeliveryByItemCode(String itemCode);
 
 	List<DeliveryDTO> getAllDelivery(String bizNumber);
+	
+	 List<String> getItemItemCode(String bizNumber);
+	
 
 }

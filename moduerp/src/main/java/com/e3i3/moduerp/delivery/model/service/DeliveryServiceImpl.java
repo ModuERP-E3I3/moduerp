@@ -42,8 +42,15 @@ public class DeliveryServiceImpl implements DeliveryService {
 
 	@Override
 	public List<DeliveryDTO> getAllDelivery(String bizNumber) {
-		return deliveryDAO.getAllDeleveryTableList();
+		return deliveryDAO.getAllDeliveryTableList();
 	}
+
+	@Override
+	public List<String> getItemItemCode(String bizNumber) {
+		return deliveryDAO.getItemItemCode(bizNumber);
+	}
+
+
 
 
 

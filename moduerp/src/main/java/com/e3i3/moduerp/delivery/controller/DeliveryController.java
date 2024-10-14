@@ -128,9 +128,15 @@ public class DeliveryController {
 				@RequestParam("deliveryCompany") String deliveryCompany,
 				HttpSession session) {
 			
-			
-			String itemCode = (String) session.getAttribute("itemCode");
-			
+			String bizNumber = (String) session.getAttribute("biz_number");
+			 String itemCode = (String) session.getAttribute("itemCode");
+			// itemCode가 없으면 DAO를 통해 가져오기
+			 if (itemCode == null) {
+				    List<String> itemCodes = DeliveryService.getItemItemCode(bizNumber);
+				    if (!itemCodes.isEmpty()) {
+				        itemCode = itemCodes.get(0); // 첫 번째 값으로 설정 (원하는 방식에 맞게 조정)
+				    }
+				}
 			
 			LocalDate localDate = LocalDate.parse(inDateToday);
 			LocalDateTime localDateTime = localDate.atStartOfDay(); // 
@@ -141,7 +147,7 @@ public class DeliveryController {
 			Timestamp currentTimestampKST = Timestamp.valueOf(nowKST.toLocalDateTime());
 
 			//Delivery_ID: itemCode +  지금시간
-			String deleveryId =  itemCode + currentTimestampKST.getTime();
+			String deleveryId = itemCode + currentTimestampKST.getTime();
 
 		
 			//  테이블에 저장할 데이터 설정

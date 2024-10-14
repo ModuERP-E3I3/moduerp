@@ -20,35 +20,26 @@
 		<result property="deliveryCompany" column="DELIVERYCOMPANY" />
 	</resultMap>
 
-
 	<select id="getAllDeleveryTableList" parameterType="String"
 		resultMap="deliveryResultMap">
 		SELECT *
 		FROM DELIVERY D
-		JOIN ITEM I on D.ITEM_CODE =
-		I.ITEM_CODE
+		JOIN ITEM I on D.ITEM_CODE = I.ITEM_CODE
 	</select>
 
-
-
-	<!-- 아이템 이름을 biz_number로 필터링해서 조회하는 쿼리 -->
 	<select id="selectItemNamesByBizNumber" parameterType="String"
 		resultType="String">
 		SELECT ITEM_NAME
 		FROM ITEM
-		WHERE
-		BIZ_NUMBER = #{bizNumber}
+		WHERE BIZ_NUMBER = #{bizNumber}
 	</select>
 
 	<select id="selectStockPlacesByBizNumber" parameterType="String"
 		resultType="String">
 		SELECT DISTINCT STOCK_PLACE
 		FROM ITEM
-		WHERE BIZ_NUMBER =
-		#{bizNumber}
+		WHERE BIZ_NUMBER = #{bizNumber}
 	</select>
-
-
 
 	<insert id="insertDelivery"
 		parameterType="com.e3i3.moduerp.delivery.model.dto.DeliveryDTO">
@@ -60,10 +51,12 @@
 		#{deliveryDate}, #{inDate}, #{upDate}, #{recipient}, #{waybill}, #{deliveryCompany})
 	</insert>
 
-
-
-
-
+	<select id="getItemItemCode" parameterType="String"
+		resultType="String">
+		SELECT ITEM_CODE
+		FROM ITEM
+		 WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
 
 
 </mapper>

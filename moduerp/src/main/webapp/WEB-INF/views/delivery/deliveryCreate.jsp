@@ -175,54 +175,54 @@ th {
 		<!-- 테이블 -->
 		<!-- 테이블 -->
 		<form action="/moduerp/deliveryCreate.do" method="POST">
-    <!-- 숨겨진 필드로 현재 날짜를 설정 -->
-    <input type="hidden" name="inDate" value="<%= java.time.LocalDate.now() %>">
-    
-    <table>
-        <thead>
-            <tr>
-                <th>택배규격</th>
-                <th>수신자번호</th>
-                <th>수신자주소</th>
-                <th>수취인</th>
-                <th>운송장번호</th>
-                <th>배송업체</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><input type="text" id="spec" name="spec"></td>
-                <td><input type="text" name="receiverId" /></td>
-                <td><input type="text" name="address" placeholder="수신자 주소" /></td>
-                <td><input type="text" name="recipient" placeholder="수취인" /></td>
-                <td><input type="text" name="waybill" placeholder="운송장번호" /></td>
-                <td>
-                    <input type="text" id="deliveryCompanyDisplay" list="deliveryCompanyCode" placeholder="택배사 선택" required oninput="updateValue(this)">
-                    <input type="hidden" name="deliveryCompany" id="deliveryCompany" required>
-                    <datalist id="deliveryCompanyCode">
-                        <option value="01">우체국택배</option>
-                        <option value="04">CJ대한통운</option>
-                        <option value="05">한진택배</option>
-                        <option value="06">로젠택배</option>
-                        <option value="08">롯데택배</option>
-                        <option value="94">카카오 T 당일배송</option>
-                        <option value="95">큐익스프레스</option>
-                        <option value="11">일양로지스</option>
-                        <option value="22">대신택배</option>
-                        <option value="23">경동택배</option>
-                        <option value="24">GS Postbox 택배</option>
-                        <option value="46">CU편의점택배</option>
-                    </datalist>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+			<!-- 숨겨진 필드로 현재 날짜를 설정 -->
+			<input type="hidden" name="inDate"
+				value="<%=java.time.LocalDate.now()%>">
 
-    <!-- 버튼 그룹 -->
-    <div class="btn-group">
-        <button type="submit" class="btn blue">등록 완료</button>
-    </div>
-</form>
+			<table>
+				<thead>
+					<tr>
+						<th>택배규격</th>
+						<th>수신자번호</th>
+						<th>수신자주소</th>
+						<th>수취인</th>
+						<th>운송장번호</th>
+						<th>배송업체</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input type="text" id="spec" name="spec"></td>
+						<td><input type="text" name="receiverId" /></td>
+						<td><input type="text" name="address" placeholder="수신자 주소" /></td>
+						<td><input type="text" name="recipient" placeholder="수취인" /></td>
+						<td><input type="text" name="waybill" placeholder="운송장번호" /></td>
+						<td><input type="text" id="deliveryCompany" name="deliveryCompany" list="deliveryCompanyCode" 
+						placeholder="택배사 선택" required> <datalist
+								id="deliveryCompanyCode">
+								<option value="01">우체국택배</option>
+								<option value="04">CJ대한통운</option>
+								<option value="05">한진택배</option>
+								<option value="06">로젠택배</option>
+								<option value="08">롯데택배</option>
+								<option value="94">카카오 T 당일배송</option>
+								<option value="95">큐익스프레스</option>
+								<option value="11">일양로지스</option>
+								<option value="22">대신택배</option>
+								<option value="23">경동택배</option>
+								<option value="24">GS Postbox 택배</option>
+								<option value="46">CU편의점택배</option>
+							</datalist></td>
+
+					</tr>
+				</tbody>
+			</table>
+
+			<!-- 버튼 그룹 -->
+			<div class="btn-group">
+				<button type="submit" class="btn blue">등록 완료</button>
+			</div>
+		</form>
 
 
 
