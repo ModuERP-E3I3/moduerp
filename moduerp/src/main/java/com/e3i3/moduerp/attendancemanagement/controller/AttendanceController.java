@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.e3i3.moduerp.attendancedocument.model.service.AttendanceDocumentService;
 import com.e3i3.moduerp.attendancemanagement.model.dto.Attendance;
 import com.e3i3.moduerp.attendancemanagement.model.service.AttendanceService;
 
@@ -26,7 +27,8 @@ import com.e3i3.moduerp.attendancemanagement.model.service.AttendanceService;
 public class AttendanceController {
 	@Autowired
 	private AttendanceService attendanceService;
-
+	@Autowired
+	private AttendanceDocumentService attendanceRequestService;
 	
 	@RequestMapping(value = "/attendance.do", method = RequestMethod.GET)
 	public String forwardAttendance(HttpSession session, Model model) {
@@ -43,6 +45,33 @@ public class AttendanceController {
 		/*오늘의 출퇴근 기록을 가져와 attendace라는 이름으로 모델에 추가했음*/
 		model.addAttribute("attendance", todayAttendance);
 
+		  // 연차 신청 개수 계산 및 모델에 추가
+	    int annualLeaveUsed = attendanceRequestService.countAnnualLeaveUsed(loginUUID); // 연차 신청 수 계산
+	    int totalAnnualLeave = 15; // 총 연차 수
+	    model.addAttribute("annualLeaveUsed", annualLeaveUsed);
+	    model.addAttribute("totalAnnualLeave", totalAnnualLeave);
+	    
+	    
+	    // 임시 저장된 문서 개수
+        int draftCount = attendanceRequestService.countDraftDocumentsByUUID(loginUUID);
+        model.addAttribute("draftCount", draftCount);
+
+        // 대기 중인 문서 개수
+        int pendingCount = attendanceRequestService.countPendingDocumentsByUUID(loginUUID);
+        model.addAttribute("pendingCount", pendingCount);
+
+        // 승인된 문서 개수
+        int approvedCount = attendanceRequestService.countApprovedDocumentsByUUID(loginUUID);
+        model.addAttribute("approvedCount", approvedCount);
+
+        // 반려된 문서 개수
+        int rejectedCount = attendanceRequestService.countRejectedDocumentsByUUID(loginUUID);
+        model.addAttribute("rejectedCount", rejectedCount);
+        
+        // 본인이 결재해야 할 문서 개수 가져오기
+        int documentsToApprove = attendanceRequestService.countDocumentsToApproveByUUID(loginUUID);
+        model.addAttribute("documentsToApprove", documentsToApprove);
+        
 		return "attendance/attendanceManagement";
 	}
 

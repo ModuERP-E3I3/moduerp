@@ -74,8 +74,9 @@ public class BuyStockInController {
 				@RequestParam(value = "startDate", required = false) String startDate,
 				@RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
 			String bizNumber = (String) session.getAttribute("biz_number");
-			List<ItemDTO> itemList;
+			List<ItemDTO> itemList = null;
 
+		
 			// 필터링 로직 추가
 			if (option != null && filterText != null) {
 				if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
@@ -99,7 +100,6 @@ public class BuyStockInController {
 			int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
 			int startIndex = (page - 1) * itemsPerPage;
 			int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-
 			List<ItemDTO> paginatedList = itemList.subList(startIndex, endIndex);
 
 			// 모델에 추가

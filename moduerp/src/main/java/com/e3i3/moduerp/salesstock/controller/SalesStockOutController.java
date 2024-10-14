@@ -51,6 +51,7 @@ public class SalesStockOutController {
 			item.setCreatedAt(adjustedTimestamp);
 		}
 
+		// 페이지네이션 처리
 		int itemsPerPage = 10;
 		int totalItems = itemList.size();
 		int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
@@ -72,7 +73,7 @@ public class SalesStockOutController {
 			@RequestParam(value = "startDate", required = false) String startDate,
 			@RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
-		List<ItemDTO> itemList;
+		List<ItemDTO> itemList=null;;
 
 		// 필터링 로직 추가
 		if (option != null && filterText != null) {
