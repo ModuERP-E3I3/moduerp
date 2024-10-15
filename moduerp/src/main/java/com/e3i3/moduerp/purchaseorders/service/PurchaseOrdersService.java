@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.e3i3.moduerp.employee.model.dto.Employee;
+import com.e3i3.moduerp.item.model.dto.ItemDTO;
 import com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO;
 
 public interface PurchaseOrdersService {
@@ -39,6 +40,15 @@ public interface PurchaseOrdersService {
 	List<PurchaseOrdersDTO> getPurchaseOrdersByFilter(String bizNumber, String option, String filterText);
 
 	
+	// 날짜 데이터만 필터할 경우!
+	List<PurchaseOrdersDTO> getPurchaseOrdersByFilterOnlyDate(String bizNumber, String startDate, String endDate);
+
+	List<PurchaseOrdersDTO> getPurchaseOrdersByFilterStartDate(String bizNumber, String startDate);
+
+	List<PurchaseOrdersDTO> getPurchaseOrdersByFilterEndDate(String bizNumber, String endDate);
+
+	
+
 	
 	
 }

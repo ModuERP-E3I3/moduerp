@@ -43,5 +43,19 @@ public interface PurchaseOrdersDAO {
 
 	List<PurchaseOrdersDTO> getPurchaseOrdersByODirector(String bizNumber, String filterText);
 
+	
+	// 날짜 데이터만 조회할 경우!
+	List<PurchaseOrdersDTO> getPurchaseOrdersByFilterOnlyDate(String bizNumber, String startDate, String endDate);
 
+	List<PurchaseOrdersDTO> getPurchaseOrdersByFilterStartDate(String bizNumber, String startDate);
+
+	List<PurchaseOrdersDTO> getPurchaseOrdersByFilterEndDate(String bizNumber, String endDate);
+
+	
+	
+	
+	
 }
+
+
+
