@@ -112,6 +112,7 @@
 		<mapper resource="mappers/cart-mapper.xml" />
 		
 		<mapper resource="mappers/qna-mapper.xml" />
+		<mapper resource="mappers/answer-mapper.xml" />
 
 	</mappers>
 
