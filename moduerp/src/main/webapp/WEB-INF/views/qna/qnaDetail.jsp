@@ -249,6 +249,11 @@ button:hover {
 						</p>
 						<hr>
 						<p>${answerDetail.aContents}</p>
+						<c:if test="${uuid == '08fd74b7-f049-4583-bc44-213d2114aa5d'}">
+						<button type="button" class="btn green"
+							onclick="location.href='answerUpdateForm.do?qSeq=${qnaDetail.qSeq}'">답변
+							수정</button>
+						</c:if> 
 					</c:when>
 				</c:choose>
 			</div>

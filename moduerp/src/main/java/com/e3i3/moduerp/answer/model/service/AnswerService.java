@@ -8,6 +8,8 @@ public interface AnswerService {
 
 	AnswerDto getAnswerDetail(String qSeq);
 
+	void updateAnswer(AnswerDto answerDto);
+
 	
 
 }
