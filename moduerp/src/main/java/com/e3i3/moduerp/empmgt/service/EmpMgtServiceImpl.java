@@ -45,10 +45,6 @@ public class EmpMgtServiceImpl implements EmpMgtService {
         return empMgtDao.getEmpNameDepart(bizNumber);
     }
 
-    @Override
-    public EmpMgtDTO getEmployeeDetail(String empNo) {
-        return empMgtDao.selectEmployeeByEmpNo(empNo);
-    }
 
     @Override
     public void updateEmployee(EmpMgtDTO empMgtDTO) {
@@ -56,8 +52,13 @@ public class EmpMgtServiceImpl implements EmpMgtService {
     }
 
     @Override
-    public void deleteEmployeeByEmpNo(String empNo) {
-        empMgtDao.deleteEmployeeByEmpNo(empNo);
+    public void deleteEmployeeByUUID(String uuid) {
+        empMgtDao.deleteEmployeeByUUID(uuid);
+    }
+    
+    @Override
+    public EmpMgtDTO getEmployeeDetailByUUID(String uuid) {
+        return empMgtDao.selectEmployeeByUUID(uuid);
     }
 
     // 필터 관련 메서드

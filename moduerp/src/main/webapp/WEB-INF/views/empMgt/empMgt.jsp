@@ -179,13 +179,12 @@ tbody tr:hover {
 	<div class="top-content-box">
 		<ul id="menubar">
 			<li><a href="empMgt.do">직원 관리</a></li>
-			<li><a href="departmentMgt.do">부서 관리</a></li>
 		</ul>
 	</div>
 
 	<!-- 직원 관리 내용 박스 -->
 	<div class="content-box">
-		<div class="content-title">직원 관리</div>
+		<div class="content-title">인사 관리 | 직원 관리 |</div>
 		<form action="/moduerp/empMgtFilter.do" method="get">
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
@@ -220,26 +219,23 @@ tbody tr:hover {
 					<th>이메일</th>
 					<th>전화번호</th>
 					<th>주소</th>
-					<th>테스트용</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="employee" items="${employeeList}" varStatus="status">
 					<tr
-						onclick="window.location.href='getEmployeeDetails.do?empNo=${employee.empNo}'">
+						onclick="window.location.href='getEmployeeDetails.do?uuid=${employee.uuid}'">
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						
 						<td>${employee.departmentName}</td>
 						<td>${employee.jobId}</td>
-						<td>${employee.empNo}</td>
 						<td>${employee.empName}</td>
 						<td>${employee.email}</td>
 						<td>${employee.phone}</td>
 						<td>${employee.address}</td>
-						<td>${employee.bizNumber}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
+
 
 
 		</table>

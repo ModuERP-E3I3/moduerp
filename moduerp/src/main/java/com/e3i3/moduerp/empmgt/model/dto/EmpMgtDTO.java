@@ -10,6 +10,8 @@ public class EmpMgtDTO {
     private String phone;          // 전화번호
     private String address;        // 주소
     private String bizNumber;      // 사업자 번호
+    private String uuid;  		   // uuid
+    
 
     public EmpMgtDTO() {
         super();
@@ -27,6 +29,7 @@ public class EmpMgtDTO {
         this.phone = phone;
         this.address = address;
         this.bizNumber = bizNumber;
+        
     }
 
     // Getters and Setters
@@ -100,5 +103,13 @@ public class EmpMgtDTO {
 
     public void setBizNumber(String bizNumber) {
         this.bizNumber = bizNumber;
+    }
+    
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

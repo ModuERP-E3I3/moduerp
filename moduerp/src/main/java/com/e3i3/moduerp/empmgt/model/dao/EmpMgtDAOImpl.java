@@ -49,8 +49,8 @@ public class EmpMgtDAOImpl implements EmpMgtDAO {
     }
 
     @Override
-    public EmpMgtDTO selectEmployeeByEmpNo(String empNo) {
-        return sqlSession.selectOne(namespace + ".selectEmployeeByEmpNo", empNo);
+    public EmpMgtDTO selectEmployeeByUUID(String uuid) {
+        return sqlSession.selectOne(namespace + ".selectEmployeeByUUID", uuid);
     }
 
     @Override
@@ -59,13 +59,12 @@ public class EmpMgtDAOImpl implements EmpMgtDAO {
     }
 
     @Override
-    public void deleteEmployeeByEmpNo(String empNo) {
-        sqlSession.delete(namespace + ".deleteEmployeeByEmpNo", empNo);
+    public void deleteEmployeeByUUID(String uuid) {
+        sqlSession.delete(namespace + ".deleteEmployeeByUUID", uuid);
     }
 
     // -----------------------------------------------
     // 직원 필터링 관련 메서드
-
 
     @Override
     public List<EmpMgtDTO> getEmployeesByEmpName(String bizNumber, String filterText) {
@@ -84,5 +83,4 @@ public class EmpMgtDAOImpl implements EmpMgtDAO {
         return sqlSession.selectList(namespace + ".selectEmployeesByJobId",
             Map.of("bizNumber", bizNumber, "filterText", filterText));
     }
-
 }

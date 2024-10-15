@@ -101,7 +101,6 @@ public class EmpMgtController {
 	@RequestMapping(value = "/employeeCreate.do", method = RequestMethod.GET)
 	public String showCreateEmployeeForm(Model model, HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
-		String uuid = (String) session.getAttribute("uuid");
 
 		List<String> empNames = empMgtService.getEmpNamesByBizNumber(bizNumber);
 		List<String> departmentIds = empMgtService.getDepartmentIdsByBizNumber(bizNumber);
@@ -113,11 +112,11 @@ public class EmpMgtController {
 		model.addAttribute("employees", employees);
 		model.addAttribute("empNameDepart", empNameDepart);
 
-		return "empMgt/employeeCreate";
+		return "empMgt/empMgtCreate";
 	}
 
 	@PostMapping("/employeeCreate.do")
-	public String employeeCreate(@RequestParam("empNo") String empNo, @RequestParam("empName") String empName,
+	public String employeeCreate(@RequestParam("uuid") String uuid, @RequestParam("empName") String empName,
 			@RequestParam("departmentId") String departmentId, @RequestParam("jobId") String jobId,
 			@RequestParam("email") String email, @RequestParam("phone") String phone,
 			@RequestParam("address") String address, Model model, HttpSession session) {
@@ -125,7 +124,7 @@ public class EmpMgtController {
 		String bizNumber = (String) session.getAttribute("biz_number");
 
 		EmpMgtDTO empMgtDTO = new EmpMgtDTO();
-		empMgtDTO.setEmpNo(empNo);
+		empMgtDTO.setUuid(uuid);
 		empMgtDTO.setEmpName(empName);
 		empMgtDTO.setDepartmentId(departmentId);
 		empMgtDTO.setJobId(jobId);
@@ -140,15 +139,15 @@ public class EmpMgtController {
 	}
 
 	@GetMapping("getEmployeeDetails.do")
-	public String getEmployeeDetail(@RequestParam("empNo") String empNo, Model model) {
-		EmpMgtDTO employeeDetail = empMgtService.getEmployeeDetail(empNo);
+	public String getEmployeeDetail(@RequestParam("uuid") String uuid, Model model) {
+		EmpMgtDTO employeeDetail = empMgtService.getEmployeeDetailByUUID(uuid);
 		model.addAttribute("employeeDetail", employeeDetail);
-		return "empmgt/employeeDetail";
+		return "empMgt/empMgtDetail";
 	}
 
 	@GetMapping("employeeDetailUpdate.do")
-	public String employeeDetailUpdate(@RequestParam("empNo") String empNo, Model model, HttpSession session) {
-		EmpMgtDTO employeeDetail = empMgtService.getEmployeeDetail(empNo);
+	public String employeeDetailUpdate(@RequestParam("uuid") String uuid, Model model, HttpSession session) {
+		EmpMgtDTO employeeDetail = empMgtService.getEmployeeDetailByUUID(uuid);
 		String bizNumber = (String) session.getAttribute("biz_number");
 
 		List<Employee> empNameDepart = empMgtService.getEmpNameDepart(bizNumber);
@@ -158,17 +157,17 @@ public class EmpMgtController {
 		model.addAttribute("empNameDepart", empNameDepart);
 		model.addAttribute("employeeDetail", employeeDetail);
 
-		return "empmgt/employeeDetailUpdate";
+		return "empMgt/empMgtDetailUpdate";
 	}
 
 	@PostMapping("/updateEmployee.do")
-	public String updateEmployee(@RequestParam("empNo") String empNo, @RequestParam("empName") String empName,
+	public String updateEmployee(@RequestParam("uuid") String uuid, @RequestParam("empName") String empName,
 			@RequestParam("departmentId") String departmentId, @RequestParam("jobId") String jobId,
 			@RequestParam("email") String email, @RequestParam("phone") String phone,
 			@RequestParam("address") String address) {
 
 		EmpMgtDTO empMgtDTO = new EmpMgtDTO();
-		empMgtDTO.setEmpNo(empNo);
+		empMgtDTO.setUuid(uuid);
 		empMgtDTO.setEmpName(empName);
 		empMgtDTO.setDepartmentId(departmentId);
 		empMgtDTO.setJobId(jobId);
@@ -182,8 +181,8 @@ public class EmpMgtController {
 	}
 
 	@PostMapping("/deleteEmployee.do")
-	public String deleteEmployee(@RequestParam("empNo") String empNo, HttpSession session) {
-		empMgtService.deleteEmployeeByEmpNo(empNo);
+	public String deleteEmployee(@RequestParam("uuid") String uuid, HttpSession session) {
+		empMgtService.deleteEmployeeByUUID(uuid);
 		return "redirect:/empMgt.do";
 	}
 }

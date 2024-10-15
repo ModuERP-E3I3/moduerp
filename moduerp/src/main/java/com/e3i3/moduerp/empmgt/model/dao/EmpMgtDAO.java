@@ -25,14 +25,14 @@ public interface EmpMgtDAO {
     // 부서 및 직급 정보를 함께 가져오기
     List<Employee> getEmpNameDepart(String bizNumber);
 
-    // 사번으로 직원 상세 정보 가져오기
-    EmpMgtDTO selectEmployeeByEmpNo(String empNo);
+    // UUID로 직원 상세 정보 가져오기
+    EmpMgtDTO selectEmployeeByUUID(String uuid);
 
     // 직원 정보 수정
     void updateEmployee(EmpMgtDTO empMgtDTO);
 
-    // 사번으로 직원 삭제
-    void deleteEmployeeByEmpNo(String empNo);
+    // UUID로 직원 삭제
+    void deleteEmployeeByUUID(String uuid);
 
     // -----------------------------------------------
     // 직원 필터링
@@ -41,6 +41,4 @@ public interface EmpMgtDAO {
     List<EmpMgtDTO> getEmployeesByDepartmentId(String bizNumber, String filterText);
 
     List<EmpMgtDTO> getEmployeesByJobId(String bizNumber, String filterText);
-
-
 }
