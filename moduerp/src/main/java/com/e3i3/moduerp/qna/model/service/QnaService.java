@@ -25,6 +25,16 @@ public interface QnaService {
 
 	void deleteQna(int qSeq);
 
+	List<QnaDto> getQnaByFilterDate(String option, String filterText, String startDate, String endDate);
+
+	List<QnaDto> getQnaByFilter(String option, String filterText);
+
+	List<QnaDto> getQnaByFilterOnlyDate(String startDate, String endDate);
+
+	List<QnaDto> getQnaByFilterStartDate(String startDate);
+
+	List<QnaDto> getQnaByFilterEndDate(String endDate);
+
 	
 
 }
