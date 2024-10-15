@@ -33,12 +33,16 @@ public interface EmpMgtService {
 
     // 사번으로 직원 삭제
     void deleteEmployeeByEmpNo(String empNo);
-    
 
     // 필터에 따른 직원 목록 가져오기
     List<EmpMgtDTO> getEmployeesByFilter(String bizNumber, String option, String filterText);
 
-    
-    
-    
+    // 부서 ID로 직원 목록 가져오기
+    List<EmpMgtDTO> getEmployeesByDepartmentId(String bizNumber, String departmentId);
+
+    // 직급 ID로 직원 목록 가져오기
+    List<EmpMgtDTO> getEmployeesByJobId(String bizNumber, String jobId);
 }
+
+
+

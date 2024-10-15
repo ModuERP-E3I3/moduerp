@@ -65,15 +65,23 @@ public class EmpMgtServiceImpl implements EmpMgtService {
     public List<EmpMgtDTO> getEmployeesByFilter(String bizNumber, String option, String filterText) {
         if (option.equals("empName")) {
             return empMgtDao.getEmployeesByEmpName(bizNumber, filterText);
-        } 
-        else if (option.equals("departmentId")) {
-            return empMgtDao.getEmployeesByDepartmentId(bizNumber, filterText);
-        } 
-        else if (option.equals("jobId")) {
-            return empMgtDao.getEmployeesByJobId(bizNumber, filterText);
+        } else if (option.equals("departmentId")) {
+            return getEmployeesByDepartmentId(bizNumber, filterText);
+        } else if (option.equals("jobId")) {
+            return getEmployeesByJobId(bizNumber, filterText);
         }
         return null;
     }
 
+    // 부서 ID로 직원 목록 가져오기
+    @Override
+    public List<EmpMgtDTO> getEmployeesByDepartmentId(String bizNumber, String departmentId) {
+        return empMgtDao.getEmployeesByDepartmentId(bizNumber, departmentId);
+    }
 
+    // 직급 ID로 직원 목록 가져오기
+    @Override
+    public List<EmpMgtDTO> getEmployeesByJobId(String bizNumber, String jobId) {
+        return empMgtDao.getEmployeesByJobId(bizNumber, jobId);
+    }
 }

@@ -110,14 +110,15 @@
 	</select>
 
 	<!-- 직급명 조회 -->
-	<select id="selectEmployeesByJobId" parameterType="String"
+	<select id="selectEmployeesByJobId" parameterType="map"
 		resultMap="empMgtResult">
 		SELECT *
 		FROM EMPLOYEE
 		WHERE JOB_ID = #{jobId}
-		ORDER BY JOB_ID
-		ASC
+		AND BIZ_NUMBER = #{bizNumber}
+		ORDER BY JOB_ID ASC
 	</select>
+
 
 
 
