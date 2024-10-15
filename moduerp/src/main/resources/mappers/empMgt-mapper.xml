@@ -16,10 +16,14 @@
 		<result property="bizNumber" column="BIZ_NUMBER" />
 	</resultMap>
 
+
+
 	<!-- 모든 직원 정보를 조회하는 쿼리 -->
 	<select id="getAllEmployees" resultMap="empMgtResult">
 		SELECT * FROM EMPLOYEE
 	</select>
+
+
 
 	<!-- 특정 EMP_NO로 직원 데이터를 조회하는 쿼리 -->
 	<select id="selectEmployeeByEmpNo" parameterType="String"
@@ -32,8 +36,10 @@
 		INSERT INTO EMPLOYEE (
 		EMP_NO, EMP_NAME,
 		DEPARTMENT_ID, JOB_ID, EMP_EMAIL, USER_PHONE, ADDRESS, BIZ_NUMBER
-		) VALUES (
-		#{empNo}, #{empName}, #{departmentId}, #{jobId}, #{email}, #{phone},
+		)
+		VALUES (
+		#{empNo}, #{empName}, #{departmentId}, #{jobId}, #{email},
+		#{phone},
 		#{address}, #{bizNumber}
 		)
 	</insert>
@@ -80,9 +86,16 @@
 		DEPARTMENT_ID FROM EMPLOYEE WHERE BIZ_NUMBER = #{bizNumber}
 	</select>
 
+
+	<select id="selectEmployeesByEmpName" parameterType="String"
+		resultType="EmpMgtDTO">
+		SELECT * FROM EMPLOYEE WHERE EMP_NAME = #{empName}
+	</select>
+
+
+
 	<!-- =============================================== -->
 	<!-- 직원 필터링 관련 쿼리 -->
-
 	<select id="selectEmployeesByEmpNameDate" parameterType="map"
 		resultMap="empMgtResult">
 		SELECT * FROM EMPLOYEE
@@ -95,6 +108,26 @@
 		'YYYY-MM-DD')
 		ORDER BY HIRE_DATE ASC
 	</select>
+
+	<select id="getEmployeesByFilter" parameterType="map"
+		resultType="EmpMgtDTO">
+		SELECT * FROM EMPLOYEE
+		WHERE EMP_NAME = #{filterText}
+	</select>
+
+	<!-- 부서코드 필터 -->
+	<select id="selectEmployeesByDepartmentId"
+		parameterType="String" resultMap="empMgtResult">
+		SELECT * FROM EMPLOYEE WHERE DEPARTMENT_ID = #{departmentId}
+	</select>
+
+
+	<!-- 직급명 필터 -->
+	<select id="selectEmployeesByJobId" parameterType="String"
+		resultMap="empMgtResult">
+		SELECT * FROM EMPLOYEE WHERE JOB_ID = #{jobId}
+	</select>
+
 
 	<select id="selectEmployeesByDepartmentIdDate"
 		parameterType="map" resultMap="empMgtResult">
@@ -137,8 +170,10 @@
 		resultMap="empMgtResult">
 		SELECT * FROM EMPLOYEE
 		WHERE BIZ_NUMBER = #{bizNumber}
-		AND HIRE_DATE &lt;= TO_DATE(#{endDate}, 'YYYY-MM-DD')
-		ORDER BY HIRE_DATE ASC
+		AND
+		HIRE_DATE &lt;= TO_DATE(#{endDate}, 'YYYY-MM-DD')
+		ORDER BY HIRE_DATE
+		ASC
 	</select>
 
 	<!-- 날짜만 입력받은 경우 -->

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,9 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 
+    @Value("${admin.uuid}")
+    private String adminUUID;
+    
 	// 로그인 페이지 반환
 	@RequestMapping("signin.do")
 	public String signInPage() {
@@ -59,7 +63,8 @@ public class EmployeeController {
 			session.setAttribute("email", employee.getEmpEmail());
 			session.setAttribute("name", employee.getEmpName());
 			session.setAttribute("departmentId", employee.getDepartmentId());
-
+			session.setAttribute("adminUUID", adminUUID); //세션에 개발자 uuid 넣어줌
+			
 			// 콘솔에 로그인 세션 정보 출력
 			System.out.println("로그인한 사용자의 UUID: " + session.getAttribute("uuid"));
 			System.out.println("로그인한 사용자의 사업자번호: " + session.getAttribute("biz_number"));
@@ -73,7 +78,7 @@ public class EmployeeController {
 			if ("ceo-dpt".equals(employee.getDepartmentId())) {
 				// 사장일 경우 main.jsp로 이동
 				model.addAttribute("message", "사장님 로그인 성공");
-				return "common/main";
+				return "redirect:/main.do";
 			} else {
 				// 사원일 경우 "/attendance.do"로 리다이렉트
 				model.addAttribute("message", "사원 로그인 성공");

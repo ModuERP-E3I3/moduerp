@@ -186,22 +186,27 @@ tbody tr:hover {
 	<!-- 직원 관리 내용 박스 -->
 	<div class="content-box">
 		<div class="content-title">직원 관리</div>
-		<form action="/moduerp/empMgtFilter.do">
-			<!-- 필터 박스 -->
+		<form action="/moduerp/empMgtFilter.do" method="get">
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
 					<option disabled selected>옵션 선택</option>
-					<option value="empName">직원명</option>
-					<option value="departmentId">부서 코드</option>
-					<option value="jobId">직급 코드</option>
-				</select> <input type="date" name="startDate" id="startDate" /> <input
-					type="date" name="endDate" id="endDate" /> <input type="text"
-					name="filterText" id="filterText" placeholder="검색어 입력" />
+					<option value="empName" ${option == 'empName' ? 'selected' : ''}>직원명</option>
+					<option value="departmentId"
+						${option == 'departmentId' ? 'selected' : ''}>부서 코드</option>
+					<option value="jobId" ${option == 'jobId' ? 'selected' : ''}>직급
+						코드</option>
+				</select> <input type="date" name="startDate" id="startDate"
+					value="${startDate != null ? startDate : ''}" /> <input
+					type="date" name="endDate" id="endDate"
+					value="${endDate != null ? endDate : ''}" /> <input type="text"
+					name="filterText" id="filterText" placeholder="검색어 입력"
+					value="${filterText != null ? filterText : ''}" />
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
 					onclick="window.location.href='empMgt.do';">초기화</button>
 			</div>
 		</form>
+
 
 		<!-- 직원 정보 테이블 -->
 		<table>
