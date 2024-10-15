@@ -36,16 +36,8 @@ public interface EmpMgtService {
     
 
     // 필터에 따른 직원 목록 가져오기
-    List<EmpMgtDTO> getEmployeesByFilterDate(String bizNumber, String option, String filterText, String startDate, String endDate);
-
     List<EmpMgtDTO> getEmployeesByFilter(String bizNumber, String option, String filterText);
 
-    // 날짜 데이터만 필터할 경우
-    List<EmpMgtDTO> getEmployeesByFilterOnlyDate(String bizNumber, String startDate, String endDate);
-
-    List<EmpMgtDTO> getEmployeesByFilterStartDate(String bizNumber, String startDate);
-
-    List<EmpMgtDTO> getEmployeesByFilterEndDate(String bizNumber, String endDate);
     
     
     

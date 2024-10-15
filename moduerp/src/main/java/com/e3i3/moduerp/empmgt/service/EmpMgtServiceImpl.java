@@ -62,19 +62,6 @@ public class EmpMgtServiceImpl implements EmpMgtService {
 
     // 필터 관련 메서드
     @Override
-    public List<EmpMgtDTO> getEmployeesByFilterDate(String bizNumber, String option, String filterText, String startDate, String endDate) {
-        if (option.equals("empName")) {
-            return empMgtDao.getEmployeesByEmpNameDate(bizNumber, filterText, startDate, endDate);
-        } else if (option.equals("departmentId")) {
-            return empMgtDao.getEmployeesByDepartmentIdDate(bizNumber, filterText, startDate, endDate);
-        } else if (option.equals("jobId")) {
-            return empMgtDao.getEmployeesByJobIdDate(bizNumber, filterText, startDate, endDate);
-        }
-
-        return null;
-    }
-
-    @Override
     public List<EmpMgtDTO> getEmployeesByFilter(String bizNumber, String option, String filterText) {
         if (option.equals("empName")) {
             return empMgtDao.getEmployeesByEmpName(bizNumber, filterText);
@@ -86,18 +73,5 @@ public class EmpMgtServiceImpl implements EmpMgtService {
         return null;
     }
 
-    @Override
-    public List<EmpMgtDTO> getEmployeesByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
-        return empMgtDao.getEmployeesByFilterOnlyDate(bizNumber, startDate, endDate);
-    }
 
-    @Override
-    public List<EmpMgtDTO> getEmployeesByFilterStartDate(String bizNumber, String startDate) {
-        return empMgtDao.getEmployeesByFilterStartDate(bizNumber, startDate);
-    }
-
-    @Override
-    public List<EmpMgtDTO> getEmployeesByFilterEndDate(String bizNumber, String endDate) {
-        return empMgtDao.getEmployeesByFilterEndDate(bizNumber, endDate);
-    }
 }

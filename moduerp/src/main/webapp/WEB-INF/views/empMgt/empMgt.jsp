@@ -195,11 +195,8 @@ tbody tr:hover {
 						${option == 'departmentId' ? 'selected' : ''}>부서 코드</option>
 					<option value="jobId" ${option == 'jobId' ? 'selected' : ''}>직급
 						코드</option>
-				</select> <input type="date" name="startDate" id="startDate"
-					value="${startDate != null ? startDate : ''}" /> <input
-					type="date" name="endDate" id="endDate"
-					value="${endDate != null ? endDate : ''}" /> <input type="text"
-					name="filterText" id="filterText" placeholder="검색어 입력"
+				</select> <input type="text" name="filterText" id="filterText"
+					placeholder="검색어 입력"
 					value="${filterText != null ? filterText : ''}" />
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
