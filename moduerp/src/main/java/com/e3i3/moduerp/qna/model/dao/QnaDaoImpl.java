@@ -41,4 +41,9 @@ public class QnaDaoImpl implements QnaDao {
 	public void updateQuestion(QnaDto qnaDto) {
 		sqlSession.update(namespace + ".updateQuestion", qnaDto);
 	}
+
+	@Override
+	public void deleteQna(String qSeq) {
+		sqlSession.delete(namespace + ".deleteQna", qSeq);
+	}
 }

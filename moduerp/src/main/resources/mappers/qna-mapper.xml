@@ -79,4 +79,9 @@
 		WHERE Q_SEQ = #{qSeq}
 	</update>
 	
+	<!-- 글 삭제 -->
+	<delete id="deleteQna" parameterType="String">
+		DELETE FROM QUESTION WHERE Q_SEQ = #{qSeq}
+	</delete>
+	
 </mapper>

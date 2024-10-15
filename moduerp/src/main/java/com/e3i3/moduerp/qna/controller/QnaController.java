@@ -160,4 +160,11 @@ public class QnaController {
 		
 		return "redirect:/qna.do";
 	}
+	
+	@PostMapping("/deleteQna.do")
+	public String deleteQna(@RequestParam("qSeq") String qSeq, HttpSession session) {
+		QnaService.deleteQna(qSeq);
+		
+		return "redirect:/qna.do";
+	}
 }
