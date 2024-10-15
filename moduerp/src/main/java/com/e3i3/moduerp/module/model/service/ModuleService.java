@@ -33,4 +33,6 @@ public interface ModuleService {
 	List<String> getModuleGradesByIds(List<String> moduleIds);
 
 	List<ModuleDTO> selectModulesByGrades(List<String> moduleGrades);
+
+	List<ModuleDTO> getModulesByGrades(List<String> moduleGrades);
 }

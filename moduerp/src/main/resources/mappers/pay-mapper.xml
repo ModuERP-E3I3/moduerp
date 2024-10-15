@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PayMapper">
+
+	<!-- PAY 테이블의 결과를 PayDTO로 매핑 -->
+	<resultMap id="payResultMap"
+		type="com.e3i3.moduerp.pay.model.dto.PayDTO">
+		<id property="payId" column="PAY_ID" />
+		<result property="uuid" column="UUID" />
+		<result property="payPrice" column="PAY_PRICE" />
+		<result property="payStatus" column="PAY_STATUS" />
+		<result property="firstPayDate" column="FIRST_PAY_DATE" />
+		<result property="bizNumber" column="BIZ_NUMBER" />
+		<result property="paymentItem" column="PAYMENT_ITEM" />
+		<result property="paymentRequestDay"
+			column="PAYMENT_REQUEST_DAY" />
+	</resultMap>
+
+
+
+
+	<insert id="insertPay"
+		parameterType="com.e3i3.moduerp.pay.model.dto.PayDTO">
+		INSERT INTO PAY (
+		PAY_ID, UUID, PAY_PRICE, PAY_STATUS,
+		FIRST_PAY_DATE, BIZ_NUMBER, PAYMENT_ITEM, PAYMENT_REQUEST_DAY
+		)
+		VALUES (
+		#{payId}, #{uuid}, #{payPrice}, #{payStatus},
+		#{firstPayDate},
+		#{bizNumber}, #{paymentItem}, #{paymentRequestDay}
+		)
+	</insert>
+
+	<!-- PAYMENT_REQUEST_DAY로 결제 요청 조회 -->
+	<select id="getPaymentsByRequestDay" parameterType="String"
+		resultType="com.e3i3.moduerp.pay.model.dto.PayDTO">
+		 SELECT * 
+        FROM PAY 
+        WHERE PAYMENT_REQUEST_DAY = #{today}
+	</select>
+
+</mapper>

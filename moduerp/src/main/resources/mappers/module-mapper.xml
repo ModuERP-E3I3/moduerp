@@ -143,5 +143,17 @@
 		AND MODULE_USAGE = 'Y'
 	</select>
 
+	<select id="selectModuleDataByGrades"
+		resultType="com.e3i3.moduerp.module.model.dto.ModuleDTO">
+		SELECT *
+		FROM MODULE
+		WHERE MODULE_GRADE IN
+		<foreach item="grade" collection="list" open="(" separator=","
+			close=")">
+			#{grade}
+		</foreach>
+		AND MODULE_USAGE = 'Y'
+	</select>
+
 
 </mapper>

@@ -18,9 +18,12 @@ public interface QnaService {
 
 	void updateQuestion(QnaDto qnaDto);
 
-	void deleteQna(String qSeq);
 
 	void updateQStatus(QnaDto qnaDto);
+
+	void updateQStatusN(QnaDto qnaDto);
+
+	void deleteQna(int qSeq);
 
 	
 

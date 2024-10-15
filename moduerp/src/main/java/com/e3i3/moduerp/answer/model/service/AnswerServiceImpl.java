@@ -26,4 +26,9 @@ public class AnswerServiceImpl implements AnswerService {
 	public void updateAnswer(AnswerDto answerDto) {
 		AnswerDao.updateAnswer(answerDto);
 	}
+
+	@Override
+	public void deleteAnswer(String aSeq) {
+		AnswerDao.deleteAnswer(aSeq);
+	}
 }

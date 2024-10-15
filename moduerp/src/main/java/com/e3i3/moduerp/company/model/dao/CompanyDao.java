@@ -1,6 +1,8 @@
 package com.e3i3.moduerp.company.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,6 @@ public class CompanyDao {
 	public void insertCompany(Company company) {
 		sqlSessionTemplate.insert("CompanyMapper.insertCompany", company);
 	}
-
 
 	// 회사 수정
 	public void updateCompany(Company company) {
@@ -44,4 +45,18 @@ public class CompanyDao {
 	public List<Company> selectAllCompanies() {
 		return sqlSessionTemplate.selectList("CompanyMapper.selectAllCompanies");
 	}
+
+	// 회사 카드 조회
+	public String selectComplayCardExitence(String bizNumber) {
+		return sqlSessionTemplate.selectOne("CompanyMapper.selectComplayCardExitence", bizNumber);
+	}
+
+	public void updateCardExistence(String cardBillingId, String bizNumber) {
+		 Map<String, Object> params = new HashMap<>();
+	        params.put("cardBillingId", cardBillingId);
+	        params.put("bizNumber", bizNumber);
+
+	        sqlSessionTemplate.update( "CompanyMapper.updateCardExistence", params);
+	    }
+
 }

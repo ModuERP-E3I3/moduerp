@@ -40,14 +40,21 @@ public class QnaServiceImpl implements QnaService{
 		QnaDao.updateQuestion(qnaDto);
 	}
 
-	@Override
-	public void deleteQna(String qSeq) {
-		QnaDao.deleteQna(qSeq);
-	}
+	
 
 	@Override
 	public void updateQStatus(QnaDto qnaDto) {
 		QnaDao.updateQStatus(qnaDto);
+	}
+
+	@Override
+	public void updateQStatusN(QnaDto qnaDto) {
+		QnaDao.updateQStatusN(qnaDto);
+	}
+
+	@Override
+	public void deleteQna(int qSeq) {
+		QnaDao.deleteQna(qSeq);
 	}
 
 }

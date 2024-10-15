@@ -36,22 +36,11 @@ public interface EmpMgtDAO {
 
     // -----------------------------------------------
     // 직원 필터링
-    List<EmpMgtDTO> getEmployeesByEmpNameDate(String bizNumber, String filterText, String startDate, String endDate);
-
-    List<EmpMgtDTO> getEmployeesByDepartmentIdDate(String bizNumber, String filterText, String startDate, String endDate);
-
-    List<EmpMgtDTO> getEmployeesByJobIdDate(String bizNumber, String filterText, String startDate, String endDate);
-
     List<EmpMgtDTO> getEmployeesByEmpName(String bizNumber, String filterText);
 
     List<EmpMgtDTO> getEmployeesByDepartmentId(String bizNumber, String filterText);
 
     List<EmpMgtDTO> getEmployeesByJobId(String bizNumber, String filterText);
 
-    // 날짜 데이터만 조회할 경우
-    List<EmpMgtDTO> getEmployeesByFilterOnlyDate(String bizNumber, String startDate, String endDate);
 
-    List<EmpMgtDTO> getEmployeesByFilterStartDate(String bizNumber, String startDate);
-
-    List<EmpMgtDTO> getEmployeesByFilterEndDate(String bizNumber, String endDate);
 }

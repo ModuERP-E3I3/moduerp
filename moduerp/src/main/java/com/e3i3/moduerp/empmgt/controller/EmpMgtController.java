@@ -50,28 +50,13 @@ public class EmpMgtController {
 	@RequestMapping(value = "/empMgtFilter.do", method = RequestMethod.GET)
 	public String forwardEmpMgtFilter(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "filterOption", required = false) String option,
-			@RequestParam(value = "filterText", required = false) String filterText,
-			@RequestParam(value = "startDate", required = false) String startDate,
-			@RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
+			@RequestParam(value = "filterText", required = false) String filterText, Model model, HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		List<EmpMgtDTO> employeeList;
 
-		// 필터링 로직
+		// 필터링 로직 (날짜 필터 제거)
 		if (option != null && filterText != null) {
-			if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
-				employeeList = empMgtService.getEmployeesByFilterDate(bizNumber, option, filterText, startDate,
-						endDate);
-			} else if (startDate != null && !startDate.isEmpty()) {
-				employeeList = empMgtService.getEmployeesByFilterStartDate(bizNumber, startDate);
-			} else if (endDate != null && !endDate.isEmpty()) {
-				employeeList = empMgtService.getEmployeesByFilterEndDate(bizNumber, endDate);
-			} else {
-				employeeList = empMgtService.getEmployeesByFilter(bizNumber, option, filterText);
-			}
-		} else if (startDate != null && !startDate.isEmpty()) {
-			employeeList = empMgtService.getEmployeesByFilterStartDate(bizNumber, startDate);
-		} else if (endDate != null && !endDate.isEmpty()) {
-			employeeList = empMgtService.getEmployeesByFilterEndDate(bizNumber, endDate);
+			employeeList = empMgtService.getEmployeesByFilter(bizNumber, option, filterText);
 		} else {
 			employeeList = empMgtService.getEmployeesByBizNumber(bizNumber);
 		}
@@ -89,16 +74,14 @@ public class EmpMgtController {
 		model.addAttribute("currentPage", page);
 		model.addAttribute("option", option);
 		model.addAttribute("filterText", filterText);
-		model.addAttribute("startDate", startDate);
-		model.addAttribute("endDate", endDate);
+
 		System.out.println("Option: " + option);
 		System.out.println("Filter Text: " + filterText);
-
-
 
 		return "empMgt/empMgtFilter";
 	}
 
+	
 	@RequestMapping(value = "/employeeCreate.do", method = RequestMethod.GET)
 	public String showCreateEmployeeForm(Model model, HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
