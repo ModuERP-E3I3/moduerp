@@ -101,6 +101,7 @@ nav.side ul li.moduerp {
         	즉, JSP 파일이 어디에 위치하든 항상 정확한 URL을 생성
         	( /moduerp/email/inbox.do ) ->  ( moduerp/attendance.do ) 로 유연하게 url 작동함 
         	--%>
+        <li><a href="<c:url value='/empMgt.do' />"><i class="fas fa-plug"></i>인사 관리</a></li>
         <li><a href="<c:url value='/productionStockIn.do' />"><i class="fas fa-clipboard"></i>생산 관리</a></li>
         <li><a href="<c:url value='/purchaseOrders.do' />"><i class="fas fa-code"></i>구매 관리</a></li>
         <li><a href="<c:url value='/account.do' />"><i class="fas fa-plug"></i>영업/판매 관리</a></li>

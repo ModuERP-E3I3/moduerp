@@ -93,6 +93,7 @@
 		<mapper resource="mappers/salesStockOut-mapper.xml" />
 		<mapper resource="mappers/item-salesstock-mapper.xml" />
 		<mapper resource="mappers/employee-sales-mapper.xml" />
+		<mapper resource="mappers/empMgt-mapper.xml" />
 
 		<mapper resource="mappers/account-mapper.xml" />
 		<mapper resource="mappers/purchaseOrders-mapper.xml" />
