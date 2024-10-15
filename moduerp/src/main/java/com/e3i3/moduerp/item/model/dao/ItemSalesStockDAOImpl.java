@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.e3i3.moduerp.carmgt.model.dto.CarmgtDto;
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 
 @Repository
@@ -175,6 +176,25 @@ public class ItemSalesStockDAOImpl implements ItemSalesStockDAO {
 		return sqlSession.selectList(namespace + ".selectItemFilterByiDirector",
 				Map.of("bizNumber", bizNumber, "filterText", filterText));
 	}
+	
+	
+	@Override
+	public List<ItemDTO> getItemByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
+		return sqlSession.selectList(namespace + ".selectItemByFilterOnlyDate",
+				Map.of("bizNumber", bizNumber, "startDate", startDate, "endDate", endDate));
+	}
+
+	@Override
+	public List<ItemDTO> getItemByFilterStartDate(String bizNumber, String startDate) {
+		return sqlSession.selectList(namespace + ".selectItemByFilterStartDate",
+				Map.of("bizNumber", bizNumber, "startDate", startDate));
+	}
+
+	@Override
+	public List<ItemDTO> getItemByFilterEndDate(String bizNumber, String endDate) {
+		return sqlSession.selectList(namespace + ".selectItemByFilterEndDate",
+				Map.of("bizNumber", bizNumber, "endDate", endDate));
+	}
 
 	// -----------------------------------------------
 	// sales Out filter
@@ -222,4 +242,24 @@ public class ItemSalesStockDAOImpl implements ItemSalesStockDAO {
 		return sqlSession.selectList(namespace + ".selectItemOutFilterByODirector",
 				Map.of("bizNumber", bizNumber, "filterText", filterText));
 	}
+	
+	
+	@Override
+	public List<ItemDTO> getItemOutByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
+		return sqlSession.selectList(namespace + ".selectItemOutByFilterOnlyDate",
+				Map.of("bizNumber", bizNumber, "startDate", startDate, "endDate", endDate));
+	}
+
+	@Override
+	public List<ItemDTO> getItemOutByFilterStartDate(String bizNumber, String startDate) {
+		return sqlSession.selectList(namespace + ".selectItemOutByFilterStartDate",
+				Map.of("bizNumber", bizNumber, "startDate", startDate));
+	}
+
+	@Override
+	public List<ItemDTO> getItemOutByFilterEndDate(String bizNumber, String endDate) {
+		return sqlSession.selectList(namespace + ".selectItemOutByFilterEndDate",
+				Map.of("bizNumber", bizNumber, "endDate", endDate));
+	}
+	
 }

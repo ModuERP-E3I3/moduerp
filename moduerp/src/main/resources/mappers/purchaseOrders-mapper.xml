@@ -171,7 +171,8 @@
 		FROM PURCHASE_ORDERS
 		WHERE BIZ_NUMBER = #{bizNumber}
 		AND ACCOUNT_NAME LIKE '%' || #{filterText} || '%'
-		ORDER BY DELIVERY_DATE ASC
+		ORDER BY
+		DELIVERY_DATE ASC
 	</select>
 
 	<select id="selectPurchaseOrdersByItemName" parameterType="map"
@@ -180,7 +181,8 @@
 		FROM PURCHASE_ORDERS
 		WHERE BIZ_NUMBER = #{bizNumber}
 		AND PU_ITEM_NAME LIKE '%' || #{filterText} || '%'
-		ORDER BY DELIVERY_DATE ASC
+		ORDER BY
+		DELIVERY_DATE ASC
 	</select>
 
 	<select id="selectPurchaseOrdersByODirector" parameterType="map"
@@ -189,9 +191,45 @@
 		FROM PURCHASE_ORDERS
 		WHERE BIZ_NUMBER = #{bizNumber}
 		AND ODIRECTOR LIKE '%' || #{filterText} || '%'
+		ORDER BY DELIVERY_DATE
+		ASC
+	</select>
+
+	<!-- 날짜만 입력받은 경우 -->
+	<select id="selectPurchaseOrdersByFilterOnlyDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO">
+		SELECT *
+		FROM PURCHASE_ORDERS
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND DELIVERY_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD')
+		AND
+		TO_DATE(#{endDate}, 'YYYY-MM-DD')
 		ORDER BY DELIVERY_DATE ASC
 	</select>
 
+	<!-- 시작일만 입력받은 경우 -->
+	<select id="selectPurchaseOrdersByFilterStartDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO">
+		SELECT *
+		FROM PURCHASE_ORDERS
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND DELIVERY_DATE >= TO_DATE(#{startDate}, 'YYYY-MM-DD')
+		ORDER BY
+		DELIVERY_DATE ASC
+	</select>
+
+	<!-- 종료일만 입력받은 경우 -->
+	<select id="selectPurchaseOrdersByFilterEndDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO">
+		SELECT *
+		FROM PURCHASE_ORDERS
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND DELIVERY_DATE &lt;= TO_DATE(#{endDate}, 'YYYY-MM-DD')
+		ORDER BY DELIVERY_DATE ASC
+	</select>
 
 
 

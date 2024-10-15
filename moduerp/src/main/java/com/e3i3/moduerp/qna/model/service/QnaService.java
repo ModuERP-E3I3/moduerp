@@ -14,6 +14,12 @@ public interface QnaService {
 
 	void insertQna(QnaDto qnaDto);
 
+	QnaDto getQnaDetail(String qSeq);
+
+	void updateQuestion(QnaDto qnaDto);
+
+	void deleteQna(String qSeq);
+
 	
 
 }

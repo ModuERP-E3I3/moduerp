@@ -24,17 +24,29 @@
 		MIN(TRANSACTION_TYPE) AS TRANSACTION_TYPE,
 		MIN(BANK_NAME) AS BANK_NAME,
 		MIN(BANK_HOLDER) AS BANK_HOLDER,
-		SUM(BALANCE) AS BALANCE,
-		MAX(TRANSACTION_DATE) AS TRANSACTION_DATE
+		(
+		SELECT COALESCE(SUM(
+		CASE
+		WHEN
+		TRANSACTION_TYPE = '입금' THEN TRANSACTION_PRICE
+		WHEN TRANSACTION_TYPE =
+		'출금' THEN -TRANSACTION_PRICE
+		ELSE 0
+		END), 0)
+		FROM BANK_ACCOUNT_MANAGEMENT
+		WHERE BANK_NUMBER = bm.BANK_NUMBER
+		) AS BALANCE,
+		MAX(TRANSACTION_DATE)
+		AS TRANSACTION_DATE -- 이 부분은 그대로
 		FROM
-		BANK_ACCOUNT_MANAGEMENT
+		BANK_ACCOUNT_MANAGEMENT bm
 		GROUP BY
 		BANK_NUMBER
 		ORDER BY
 		TRANSACTION_DATE ASC
 	</select>
 
-	<select id="getmgById" parameterType="String"
+	<select id="getmgById" parameterType="map"
 		resultType="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg">
 		SELECT
 		BANK_NAME,
@@ -47,33 +59,61 @@
 		FROM
 		BANK_ACCOUNT_MANAGEMENT
 		WHERE
-		BANK_ID LIKE CONCAT(#{bankId}, '%')
-		AND BANK_NUMBER = #{bankNumber}
+		BANK_ID LIKE CONCAT(#{bizNumber}, 'BA%')
+		AND BANK_NUMBER =
+		#{bankNumber}
 		ORDER BY
 		TRANSACTION_DATE DESC
 	</select>
 
 	<insert id="insertmg"
 		parameterType="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg">
-		INSERT INTO BANK_ACCOUNT_MANAGEMENT (BANK_ID, TRANSACTION_TYPE, BANK_NAME,
-		BANK_NUMBER, BANK_HOLDER, TRANSACTION_PRICE, BALANCE,
-		TRANSACTION_DATE)
-		VALUES (#{bankId}, #{transactionType}, #{bankName}, #{bankNumber},
-		#{bankHolder}, #{transactionPrice}, #{balance}, #{transactionDate})
+		INSERT INTO BANK_ACCOUNT_MANAGEMENT (BANK_ID,
+		TRANSACTION_TYPE, BANK_NAME,
+		BANK_NUMBER, BANK_HOLDER,
+		TRANSACTION_PRICE, BALANCE,
+		TRANSACTION_DATE, BIZ_NUMBER)
+		VALUES
+		(#{bankId},
+		#{transactionType}, #{bankName}, #{bankNumber},
+		#{bankHolder},
+		#{transactionPrice},
+		(SELECT COALESCE(MAX(BALANCE), 0)
+		FROM BANK_ACCOUNT_MANAGEMENT WHERE BANK_NUMBER = #{bankNumber}) +
+		CASE
+		WHEN #{transactionType} = '입금' THEN #{transactionPrice}
+		WHEN
+		#{transactionType} = '출금' THEN -#{transactionPrice}
+		ELSE 0
+		END,
+		#{transactionDate},
+		#{bizNumber})
 	</insert>
 
 	<update id="updatemg"
 		parameterType="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg">
 		UPDATE BANK_ACCOUNT_MANAGEMENT
-		SET TRANSACTION_TYPE = #{transactionType}, BANK_NAME = #{bankName},
-		BANK_NUMBER = #{bankNumber},
-		BANK_HOLDER = #{bankHolder}, TRANSACTION_PRICE = #{transactionPrice}, BALANCE =
-		#{balance}, TRANSACTION_DATE = #{transactionDate}
-		WHERE BANK_ID = #{bankId}
+		SET TRANSACTION_TYPE =
+		#{transactionType},
+		BANK_NAME = #{bankName},
+		BANK_HOLDER =
+		#{bankHolder},
+		TRANSACTION_PRICE = #{transactionPrice},
+		BALANCE =
+		#{balance},
+		TRANSACTION_DATE = #{transactionDate}
+		WHERE BANK_NUMBER =
+		#{bankNumber}
+		AND BIZ_NUMBER = #{bizNumber}
 	</update>
 
-	<delete id="deletemg" parameterType="String">
-		DELETE FROM BANK_ACCOUNT_MANAGEMENT WHERE BANK_ID = #{bankId}
+	<delete id="deletemg"
+		parameterType="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg">
+		DELETE FROM
+		BANK_ACCOUNT_MANAGEMENT
+		WHERE BANK_NUMBER =
+		#{bankNumber}
+		AND BIZ_NUMBER = #{bizNumber}
 	</delete>
 
 </mapper>

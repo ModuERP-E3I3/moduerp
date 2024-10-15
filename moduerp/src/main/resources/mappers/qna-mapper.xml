@@ -60,4 +60,28 @@
 		#{isPublic}
 		)
 	</insert>
+	
+	<!-- 글 상세 보기 -->
+	<select id="selectQnaDetail" parameterType="map"
+		resultType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		SELECT *
+		FROM QUESTION
+		WHERE Q_SEQ = #{qSeq}
+	</select>
+	
+	<!-- 글 수정 -->
+	<update id="updateQuestion"
+		parameterType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		UPDATE QUESTION
+		SET Q_TITLE = #{qTitle},
+		Q_CONTENTS = #{qContents},
+		Q_DATE = #{qDate}
+		WHERE Q_SEQ = #{qSeq}
+	</update>
+	
+	<!-- 글 삭제 -->
+	<delete id="deleteQna" parameterType="String">
+		DELETE FROM QUESTION WHERE Q_SEQ = #{qSeq}
+	</delete>
+	
 </mapper>

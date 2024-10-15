@@ -174,8 +174,18 @@ window.onclick = function(event) {
 			<li><a href="qna.do"><i class="fas fa-plug"></i>고객서비스</a></li>
 			<li><a href="main.do"><i class="fas fa-plug"></i>회사소개</a></li>
 			
-			<!-- !!!! 테스트용 경로 !!!! -->
-			<li><a href="admin.do"><i class="fas fa-plug"></i>관리자페이지 테스트용</a></li>
+			 <!-- 조건부 메뉴 항목 -->
+            <c:choose>
+                <c:when test="${param.loginUUID == '08fd74b7-f049-4583-bc44-213d2114aa5d'}">
+                    <li><a href="admin.do"><i class="fas fa-plug"></i>관리자페이지 테스트용</a></li>
+                </c:when>
+                <c:when test="${param.departmentId == 'ceo-dpt'}">
+                    <li><a href="mypage.do"><i class="fas fa-user-circle"></i>마이페이지</a></li>
+                </c:when>
+                <c:otherwise>
+                	<!--  일반 직원이 로그인하면 아무것도 출력되지 않음 -->
+                </c:otherwise>
+            </c:choose>
 			<li><a href="erpMain.do"><i class="fas fa-plug"></i>ERP 테스트용</a></li>
 			<li><a href="forwardCart.do"><i class="fa-solid fa-cart-shopping"></i></i>장바구니</a></li>
 			

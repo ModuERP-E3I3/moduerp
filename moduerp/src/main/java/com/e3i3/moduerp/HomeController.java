@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -19,9 +21,6 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
 	@RequestMapping(value = "moduerp/main", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
@@ -36,9 +35,12 @@ public class HomeController {
 		return "home";
 	}
 	
-	//index.jsp 가 웰컴 요청될 때 포워딩된 요청을 받아서, common/main.jsp 를 내보내기 위한 메소드
 	@RequestMapping("main.do")
-	public String forwardMain() {
+	public String forwardMain(HttpSession session, Model model) {
+		String uuid=(String) session.getAttribute("uuid");
+		String departmentId= (String) session.getAttribute("departmentId");
+		model.addAttribute("loginUUID", uuid);
+		model.addAttribute("departmentId", departmentId);
 		return "common/main";
 	}
 	

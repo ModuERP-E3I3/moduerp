@@ -13,4 +13,10 @@ public interface QnaDao {
 
 	void insertQna(QnaDto qnaDto);
 
+	QnaDto selectQnaDetail(String qSeq);
+
+	void updateQuestion(QnaDto qnaDto);
+
+	void deleteQna(String qSeq);
+
 }

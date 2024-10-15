@@ -191,22 +191,21 @@ button:hover {
 			<h1>질문글 작성</h1>
 
 			<div class="form-box">
-				<form action="insertQna.do" method="POST">
-					<input type="hidden" id="isPublic" name="isPublic" value="Y">
-					<input type="hidden" id="departmentId" name="departmentId" value="${departmentId}" readonly />
-					<input type="hidden" id="qStatus" name="qStatus" value="N">
+				<form action="updateQuestion.do" method="POST">
+					<input type="hidden" id="qSeq" name="qSeq" value="${qnaDetail.qSeq}">
+					<input type="hidden" id="isPublic" name="isPublic" value="${qnaDetail.isPublic}">
+					<input type="hidden" id="departmentId" name="departmentId" value="${qnaDetail.departmentId}" readonly />
+					<input type="hidden" id="qStatus" name="qStatus" value="${qnaDetail.qStatus}">
 					<label for="qtitle">제목</label> 
-					<input type="text" id="qtitle" name="qTitle" required>
-					<input type="hidden" id="empName" name="empName" value="${empName}" readonly />
-					
-					<input type="hidden" id="qDate" name="qDate">
+					<input type="text" id="qtitle" name="qTitle" value="${qnaDetail.qTitle}" required>
+					<input type="text" id="empName" name="empName" value="${qnaDetail.empName}" readonly />
+					<input type="hidden" id="qDate" name="qDate" value="${qnaDetail.qDate}">
 					
 
 					<label for="body">내용</label>
-					<textarea id="body" name="qContents" rows="10" cols="50" required></textarea>
-
+					<textarea id="body" name="qContents" rows="10" cols="50" required>${qnaDetail.qContents}</textarea>
 					<div class="form-footer">
-						<button type="submit">등록</button>
+						<button type="submit">수정 완료</button>
 					</div>
 				</form>
 			</div>
