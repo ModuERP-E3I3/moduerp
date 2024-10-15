@@ -20,6 +20,8 @@ public interface QnaService {
 
 	void deleteQna(String qSeq);
 
+	void updateQStatus(QnaDto qnaDto);
+
 	
 
 }

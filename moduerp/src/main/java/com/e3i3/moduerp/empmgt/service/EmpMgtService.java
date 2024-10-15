@@ -33,6 +33,7 @@ public interface EmpMgtService {
 
     // 사번으로 직원 삭제
     void deleteEmployeeByEmpNo(String empNo);
+    
 
     // 필터에 따른 직원 목록 가져오기
     List<EmpMgtDTO> getEmployeesByFilterDate(String bizNumber, String option, String filterText, String startDate, String endDate);
@@ -45,4 +46,7 @@ public interface EmpMgtService {
     List<EmpMgtDTO> getEmployeesByFilterStartDate(String bizNumber, String startDate);
 
     List<EmpMgtDTO> getEmployeesByFilterEndDate(String bizNumber, String endDate);
+    
+    
+    
 }

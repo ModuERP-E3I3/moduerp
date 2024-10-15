@@ -53,6 +53,16 @@ label {
 	display: block;
 }
 
+input[type="text"], textarea {
+	width: 100%;
+	padding: 10px;
+	font-size: 16px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	margin-bottom: 20px;
+	box-sizing: border-box;
+}
+
 .menubar {
 	width: 100%;
 	background-color: white; /* 흰색 배경 */
@@ -166,17 +176,6 @@ button:hover {
 	margin-top: 30px;
 	text-align: right;
 }
-
-.back-btn {
-	margin-top: 30px;
-	padding: 10px 15px;
-	background-color: #007bff;
-	color: white;
-	border: none;
-	cursor: pointer;
-	text-decoration: none;
-	border-radius: 4px;
-}
 </style>
 </head>
 <body>
@@ -189,78 +188,26 @@ button:hover {
 
 		<!-- qna 게시판 -->
 		<div class="container">
-
-			<h1>질문글 상세 보기</h1>
-
-			<div class="form-box">
-				<h3>${qnaDetail.qTitle}</h3>
-				<p>작성자: ${qnaDetail.empName}</p>
-				<p>
-					작성일:
-					<fmt:formatDate value="${qnaDetail.qDate}" pattern="yyyy-MM-dd" />
-				</p>
-				<hr>
-				<p>${qnaDetail.qContents}</p>
-				<div class="button-group">
-					<a href="qna.do" class="back-btn">목록으로 돌아가기</a> 
-					<c:if test="${uuid == qnaDetail.uuid}">
-					<a href="questionUpdateForm.do?qSeq=${qnaDetail.qSeq}"><button class="btn green">수정</button></a>
-					</c:if>
-					<c:if test="${uuid == qnaDetail.uuid || uuid == '08fd74b7-f049-4583-bc44-213d2114aa5d'}">
-					<button class="btn red" onclick="openDeleteModal()">삭제</button>
-					</c:if>
-				</div>
-			</div>
-			<!-- 삭제 확인 모달 -->
-			<div id="delete-modal" style="display: none;">
-				<div class="modal-content">
-					<h2>정말로 삭제하시겠습니까?</h2>
-					<p>삭제된 데이터는 복구할 수 없습니다.</p>
-					<!-- 삭제 버튼을 포함하는 폼 추가 -->
-					<form action="deleteQna.do" method="POST">
-						<input type="hidden" name="qSeq"
-							value="${qnaDetail.qSeq}">
-						<!-- itemCode를 숨겨진 필드로 전달 -->
-						<button type="submit" class="go-delete">삭제</button>
-						<button type="button" class="stay-page"
-							onclick="closeDeleteModal()">취소</button>
-					</form>
-				</div>
-			</div>
+			<h1>답글 작성</h1>
 
 			<div class="form-box">
-				<c:choose>
-					<c:when test="${qnaDetail.qStatus == 'N'}">
-						<h1 style="color: gray;">답변 대기중</h1>
-						<!-- 답변 입력 버튼 -->
-						<c:if test="${uuid == '08fd74b7-f049-4583-bc44-213d2114aa5d'}">
-						<button type="button" class="btn blue"
-							onclick="location.href='qnaAnswerCreate.do?qSeq=${qnaDetail.qSeq}'">답변
-							입력</button>
-						</c:if> 
-					</c:when>
-					<c:when test="${qnaDetail.qStatus == 'Y'}">
-						<h1 style="color: green;">답변 완료</h1>
-						<h3>${answerDetail.aTitle}</h3>
-						<p>작성자: 관리자</p>
-						<p>
-							작성일:
-							<fmt:formatDate value="${answerDetail.aDate}" pattern="yyyy-MM-dd" />
-						</p>
-						<hr>
-						<p>${answerDetail.aContents}</p>
-						<c:if test="${uuid == '08fd74b7-f049-4583-bc44-213d2114aa5d'}">
-						<button type="button" class="btn green"
-							onclick="location.href='answerUpdateForm.do?qSeq=${qnaDetail.qSeq}'">답변
-							수정</button>
-						</c:if> 
-					</c:when>
-				</c:choose>
+				<form action="insertAnswer.do" method="POST">
+					<label for="atitle">제목</label> 
+					<input type="text" id="atitle" name="aTitle" required>
+					<input type="hidden" id="aDate" name="aDate">
+					<input type="hidden" name="qSeq" value="${qnaDetail.qSeq}" /> <!-- 현재 질문의 qSeq -->
+					<input type="hidden" name="qStatus" value="${qnaDetail.qStatus}" />
+					
+
+					<label for="body">내용</label>
+					<textarea id="body" name="aContents" rows="10" cols="50" required></textarea>
+
+					<div class="form-footer">
+						<button type="submit">등록</button>
+					</div>
+				</form>
 			</div>
-
-
 		</div>
-
 	</div>
 
 	<!-- 푸터 -->
@@ -269,18 +216,4 @@ button:hover {
 	</footer>
 
 </body>
-<script type="text/javascript">
-function openDeleteModal() {
-    document.getElementById('delete-modal').style.display = 'block';
-}
-
-function closeDeleteModal() {
-    document.getElementById('delete-modal').style.display = 'none';
-}
-
-
-
-</script>
-
-
 </html>

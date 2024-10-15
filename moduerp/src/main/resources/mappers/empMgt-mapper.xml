@@ -8,9 +8,10 @@
 		<result property="empNo" column="EMP_NO" />
 		<result property="empName" column="EMP_NAME" />
 		<result property="departmentId" column="DEPARTMENT_ID" />
+		<result property="departmentId" column="DEPARTMENT_ID" />
 		<result property="jobId" column="JOB_ID" />
-		<result property="email" column="EMAIL" />
-		<result property="phone" column="PHONE" />
+		<result property="email" column="EMP_EMAIL" />
+		<result property="phone" column="USER_PHONE" />
 		<result property="address" column="ADDRESS" />
 		<result property="bizNumber" column="BIZ_NUMBER" />
 	</resultMap>
@@ -30,7 +31,7 @@
 	<insert id="createEmployee">
 		INSERT INTO EMPLOYEE (
 		EMP_NO, EMP_NAME,
-		DEPARTMENT_ID, JOB_ID, EMAIL, PHONE, ADDRESS, BIZ_NUMBER
+		DEPARTMENT_ID, JOB_ID, EMP_EMAIL, USER_PHONE, ADDRESS, BIZ_NUMBER
 		) VALUES (
 		#{empNo}, #{empName}, #{departmentId}, #{jobId}, #{email}, #{phone},
 		#{address}, #{bizNumber}
@@ -44,7 +45,7 @@
 		SET EMP_NAME = #{empName}, DEPARTMENT_ID
 		= #{departmentId}, JOB_ID =
 		#{jobId},
-		EMAIL = #{email}, PHONE =
+		EMP_EMAIL = #{email}, USER_PHONE =
 		#{phone}, ADDRESS = #{address}
 		WHERE EMP_NO = #{empNo}
 	</update>

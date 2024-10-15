@@ -84,4 +84,11 @@
 		DELETE FROM QUESTION WHERE Q_SEQ = #{qSeq}
 	</delete>
 	
+	<!-- 답변 등록 시 qStatus 'Y'로 업데이트 -->
+	<update id="updateQStatus"
+		parameterType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		UPDATE QUESTION
+		SET Q_STATUS = 'Y'
+		WHERE Q_SEQ = #{qSeq}
+	</update>
 </mapper>
