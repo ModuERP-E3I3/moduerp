@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.e3i3.moduerp.answer.model.dto.AnswerDto;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 import com.e3i3.moduerp.qna.model.dto.QnaDto;
 
@@ -26,6 +27,9 @@ public class QnaController {
 
 	@Autowired
 	private com.e3i3.moduerp.qna.model.service.QnaService QnaService;
+	
+	@Autowired
+	private com.e3i3.moduerp.answer.model.service.AnswerService AnswerService;
 	
 	@RequestMapping(value = "/qna.do", method = RequestMethod.GET)
 	public String qnaView(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
@@ -128,9 +132,11 @@ public class QnaController {
 		String uuid = (String) session.getAttribute("uuid");
 		System.out.println("uuid : " + uuid);
 		QnaDto qnaDetail = QnaService.getQnaDetail(qSeq);
+		AnswerDto answerDetail = AnswerService.getAnswerDetail(qSeq);
 		
 		model.addAttribute("uuid", uuid);
 		model.addAttribute("qnaDetail", qnaDetail);
+		model.addAttribute("answerDetail", answerDetail);
 		
 		return "qna/qnaDetail";
 	}
@@ -169,5 +175,99 @@ public class QnaController {
 		QnaService.deleteQna(qSeq);
 		
 		return "redirect:/qna.do";
+	}
+	
+	@RequestMapping(value = "/qnaAnswerCreate.do", method = RequestMethod.GET)
+	public String showCreateAnswerForm(@RequestParam("qSeq") String qSeq, Model model, HttpSession session) {
+		String uuid = (String) session.getAttribute("uuid");
+		QnaDto qnaDetail = QnaService.getQnaDetail(qSeq);
+		
+		System.out.println("uuid: " + uuid);
+		
+		model.addAttribute("qnaDetail", qnaDetail);
+		model.addAttribute("uuid", uuid);
+		
+		return "qna/qnaAnswerCreate";
+	}
+	
+	@PostMapping("/insertAnswer.do")
+	public String insertAnswer(
+	        @RequestParam("aTitle") String aTitle,
+	        @RequestParam("aContents") String aContents,
+	        @RequestParam("qSeq") int qSeq,  // 현재 질문의 qSeq 값을 받아옴
+	        @RequestParam("qStatus") String qStatus,
+	        Model model, HttpSession session) {
+	    
+	    String uuid = (String) session.getAttribute("uuid");
+
+	    System.out.println("aTitle: " + aTitle);
+	    System.out.println("aContents: " + aContents);
+	    System.out.println("qSeq: " + qSeq);
+	    System.out.println("uuid: " + uuid);
+	    
+	    if (aContents == null || aContents.trim().isEmpty()) {
+	        model.addAttribute("errorMessage", "답변 내용을 입력하세요.");
+	        return "qna/qnaAnswerCreate"; // 오류 메시지를 포함한 답변 작성 페이지로 이동
+	    }
+	    
+	    String aSeq = qSeq + "QNAAnswer" + System.currentTimeMillis();
+	    
+	    // 현재 날짜와 시간을 aDate로 설정
+	    LocalDate currentDate = LocalDate.now();
+		LocalTime currentTime = LocalTime.now();
+		LocalDateTime combinedDateTime = LocalDateTime.of(currentDate, currentTime);
+	    Timestamp aDate = Timestamp.valueOf(combinedDateTime);
+
+	    // Answer DTO에 값 설정
+	    AnswerDto answerDto = new AnswerDto();
+	    answerDto.setaTitle(aTitle);
+	    answerDto.setaSeq(aSeq);
+	    answerDto.setaContents(aContents);
+	    answerDto.setaDate(aDate);
+	    answerDto.setqSeq(qSeq);  // 답변이 연결될 질문의 qSeq
+	    answerDto.setUuid(uuid);  // 답변 작성자의 uuid
+	    
+	    
+	 // 질문 상태 업데이트를 위한 DTO 설정
+	    QnaDto qnaDto = new QnaDto();
+	    qnaDto.setqSeq(qSeq);
+	    qnaDto.setqStatus(qStatus);
+	    
+	    
+	    AnswerService.insertAnswer(answerDto);
+	    
+	    QnaService.updateQStatus(qnaDto);
+	    
+	    // 답변 추가 후 질문 상세 페이지로 리다이렉트
+	    return "redirect:/qnaDetail.do?qSeq=" + qSeq;
+	}
+	@GetMapping("answerUpdateForm.do")
+	public String answerUpdateForm(@RequestParam("qSeq") String qSeq, Model model) {
+		AnswerDto answerDetail = AnswerService.getAnswerDetail(qSeq);
+		
+		model.addAttribute("answerDetail", answerDetail);
+		
+		return "qna/qnaAnswerUpdate";
+	}
+	
+	@PostMapping("/updateAnswer.do")
+	public String updateAnswer(@RequestParam("aTitle") String aTitle,
+			@RequestParam("aContents") String aContents,
+			@RequestParam("aSeq") String aSeq,
+			@RequestParam("qSeq") String qSeq) {
+		LocalDate currentDate = LocalDate.now();
+		LocalTime currentTime = LocalTime.now();
+		LocalDateTime combinedDateTime = LocalDateTime.of(currentDate, currentTime);
+		Timestamp aDate = Timestamp.valueOf(combinedDateTime);
+		
+		AnswerDto answerDto = new AnswerDto();
+		answerDto.setaTitle(aTitle);
+		answerDto.setaContents(aContents);
+		answerDto.setaDate(aDate);
+		answerDto.setaSeq(aSeq);
+		
+		AnswerService.updateAnswer(answerDto);
+
+	    return "redirect:/qnaDetail.do?qSeq=" + qSeq;
 	}
 }

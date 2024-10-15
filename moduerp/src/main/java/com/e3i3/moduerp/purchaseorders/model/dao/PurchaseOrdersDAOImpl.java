@@ -114,5 +114,26 @@ public class PurchaseOrdersDAOImpl implements PurchaseOrdersDAO {
 		return sqlSession.selectList(namespace + ".selectPurchaseOrdersByODirector",
 				Map.of("bizNumber", bizNumber, "filterText", filterText));
 	}
+	
+	// 날짜 데이터만 조회할 경우!
+	@Override
+	public List<PurchaseOrdersDTO> getPurchaseOrdersByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
+	    return sqlSession.selectList(namespace + ".selectPurchaseOrdersByFilterOnlyDate",
+	            Map.of("bizNumber", bizNumber, "startDate", startDate, "endDate", endDate));
+	}
+
+	@Override
+	public List<PurchaseOrdersDTO> getPurchaseOrdersByFilterStartDate(String bizNumber, String startDate) {
+	    return sqlSession.selectList(namespace + ".selectPurchaseOrdersByFilterStartDate",
+	            Map.of("bizNumber", bizNumber, "startDate", startDate));
+	}
+
+	@Override
+	public List<PurchaseOrdersDTO> getPurchaseOrdersByFilterEndDate(String bizNumber, String endDate) {
+	    return sqlSession.selectList(namespace + ".selectPurchaseOrdersByFilterEndDate",
+	            Map.of("bizNumber", bizNumber, "endDate", endDate));
+	}
+
+	
 
 }

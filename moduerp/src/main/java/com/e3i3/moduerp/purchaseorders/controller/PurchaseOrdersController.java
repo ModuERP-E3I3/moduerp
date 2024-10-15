@@ -51,53 +51,77 @@ public class PurchaseOrdersController {
 		return "purchaseOrders/purchaseOrders";
 	}
 
-	@RequestMapping(value = "/purchaseOrdersFilter.do", method = RequestMethod.GET)   //  filter !!!!!
+	@RequestMapping(value = "/purchaseOrdersFilter.do", method = RequestMethod.GET)
 	public String forwardPurchaseOrdersFilter(@RequestParam(value = "page", defaultValue = "1") int page,
-	        @RequestParam(value = "filterOption", required = false) String option,
-	        @RequestParam(value = "filterText", required = false) String filterText,
-	        @RequestParam(value = "startDate", required = false) String startDate,
-	        @RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
-	    String bizNumber = (String) session.getAttribute("biz_number");
-	    List<PurchaseOrdersDTO> purchaseOrdersList;
+			@RequestParam(value = "filterOption", required = false) String option,
+			@RequestParam(value = "filterText", required = false) String filterText,
+			@RequestParam(value = "startDate", required = false) String startDate,
+			@RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
+		String bizNumber = (String) session.getAttribute("biz_number");
+		List<PurchaseOrdersDTO> purchaseOrdersList;
 
-	    // 필터링 로직 추가
-	    if (option != null && filterText != null) {
-	        if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
-	            System.out.println("날짜 있는 필터 실행");
-	            purchaseOrdersList = purchaseOrdersService.getPurchaseOrdersByFilterDate(bizNumber, option, filterText, startDate, endDate);
-	        } else if (startDate == null || startDate.isEmpty()) {
-	            System.out.println("날짜 없는 필터 실행");
-	            purchaseOrdersList = purchaseOrdersService.getPurchaseOrdersByFilter(bizNumber, option, filterText);
-	        } else {
-	            System.out.println("날짜 필터 미사용");
-	            purchaseOrdersList = purchaseOrdersService.getPurchaseOrdersByBizNumber(bizNumber);
-	        }
-	    } else {
-	        purchaseOrdersList = purchaseOrdersService.getPurchaseOrdersByBizNumber(bizNumber);
-	    }
+		// 필터링 로직
+		if (option != null && filterText != null) {
+			if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+				System.out.println("날짜 있는 필터 실행");
+				purchaseOrdersList = purchaseOrdersService.getPurchaseOrdersByFilterDate(bizNumber, option, filterText,
+						startDate, endDate);
+			} else if ((option == null || filterText == null || filterText.isEmpty()) && startDate != null
+					&& !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+				// 날짜만 있는 경우 처리
+				System.out.println("날짜만 있는 필터 실행");
+				purchaseOrdersList = purchaseOrdersService.getPurchaseOrdersByFilterOnlyDate(bizNumber, startDate,
+						endDate);
+			} else if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
+				// 시작 날짜만 있는 경우 처리
+				System.out.println("시작 날짜만 있는 필터 실행");
+				purchaseOrdersList = purchaseOrdersService.getPurchaseOrdersByFilterStartDate(bizNumber, startDate);
+			} else if ((startDate == null || startDate.isEmpty()) && endDate != null && !endDate.isEmpty()) {
+				// 종료 날짜만 있는 경우 처리
+				System.out.println("종료 날짜만 있는 필터 실행");
+				purchaseOrdersList = purchaseOrdersService.getPurchaseOrdersByFilterEndDate(bizNumber, endDate);
+			} else {
+				System.out.println("날짜 없는 필터 실행");
+				purchaseOrdersList = purchaseOrdersService.getPurchaseOrdersByFilter(bizNumber, option, filterText);
+			}
+		} else if ((option == null || filterText == null || filterText.isEmpty()) && startDate != null
+				&& !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+			// 필터 옵션과 텍스트 없이 날짜만 있는 경우
+			System.out.println("날짜만 있는 필터 실행");
+			purchaseOrdersList = purchaseOrdersService.getPurchaseOrdersByFilterOnlyDate(bizNumber, startDate, endDate);
+		} else if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
+			// 시작 날짜만 있는 경우 처리
+			System.out.println("시작 날짜만 있는 필터 실행");
+			purchaseOrdersList = purchaseOrdersService.getPurchaseOrdersByFilterStartDate(bizNumber, startDate);
+		} else if ((startDate == null || startDate.isEmpty()) && endDate != null && !endDate.isEmpty()) {
+			// 종료 날짜만 있는 경우 처리
+			System.out.println("종료 날짜만 있는 필터 실행");
+			purchaseOrdersList = purchaseOrdersService.getPurchaseOrdersByFilterEndDate(bizNumber, endDate);
+		} else {
+			purchaseOrdersList = purchaseOrdersService.getPurchaseOrdersByBizNumber(bizNumber);
+		}
 
-	    // 페이지네이션 처리
-	    int itemsPerPage = 10;
-	    int totalItems = purchaseOrdersList.size();
-	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
-	    int startIndex = (page - 1) * itemsPerPage;
-	    int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+		// 페이지네이션 처리
+		int itemsPerPage = 10;
+		int totalItems = purchaseOrdersList.size();
+		int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+		int startIndex = (page - 1) * itemsPerPage;
+		int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
 
-	    // 서브리스트 생성
-	    List<PurchaseOrdersDTO> paginatedList = purchaseOrdersList.subList(startIndex, endIndex);
+		// 서브리스트 생성
+		List<PurchaseOrdersDTO> paginatedList = purchaseOrdersList.subList(startIndex, endIndex);
 
-	    // 모델에 추가
-	    model.addAttribute("purchaseOrdersList", paginatedList);
-	    model.addAttribute("totalPages", totalPages);
-	    model.addAttribute("currentPage", page);
-	    model.addAttribute("option", option);
-	    model.addAttribute("filterText", filterText);
-	    model.addAttribute("startDate", startDate);
-	    model.addAttribute("endDate", endDate);
+		// 모델에 추가
+		model.addAttribute("purchaseOrdersList", paginatedList);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("option", option);
+		model.addAttribute("filterText", filterText);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
 
-	    return "purchaseOrders/purchaseOrdersFilter"; // JSP 파일 경로 반환
+		return "purchaseOrders/purchaseOrdersFilter"; // JSP 파일 경로 반환
 	}
-
 
 	@RequestMapping(value = "/purchaseOrderCreate.do", method = RequestMethod.GET)
 	public String showCreatePurchaseOrderForm(Model model, HttpSession session) {
