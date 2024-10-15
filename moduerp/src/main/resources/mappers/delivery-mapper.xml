@@ -78,9 +78,9 @@
     address = #{address},
     recipient = #{recipient},
     waybill = #{waybill},
-    delivery_company = #{deliveryCompany}
+    DELIVERYCOMPANY = #{deliveryCompany}
 	WHERE 
-    item_code = #{itemCode};
+    item_code = #{itemCode}
 	</select>
 	
 	<select id="SelectDeliveryByDelivery" resultType="com.e3i3.moduerp.delivery.model.dto.DeliveryDTO">
