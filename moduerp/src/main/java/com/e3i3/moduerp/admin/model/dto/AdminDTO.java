@@ -30,7 +30,6 @@ public class AdminDTO {
     private Date contractEndTime;
     private String mgrUuid;
     private String password;
-    private String lastLoginTime;
 
 
     public AdminDTO() {
@@ -145,8 +144,8 @@ public class AdminDTO {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public String getLastLoginLocation() {
@@ -253,13 +252,6 @@ public class AdminDTO {
         this.password = password;
     }
     
-    public String getLastLoginTime() {
-        return lastLoginTime;
-    }
-
-    public void setLastLoginTime(String lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
-    }
 
     
 }
