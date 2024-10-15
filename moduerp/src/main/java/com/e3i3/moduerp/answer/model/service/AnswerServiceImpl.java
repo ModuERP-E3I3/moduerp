@@ -21,4 +21,9 @@ public class AnswerServiceImpl implements AnswerService {
 	public AnswerDto getAnswerDetail(String qSeq) {
 		return AnswerDao.selectAnswerDetail(qSeq);
 	}
+
+	@Override
+	public void updateAnswer(AnswerDto answerDto) {
+		AnswerDao.updateAnswer(answerDto);
+	}
 }

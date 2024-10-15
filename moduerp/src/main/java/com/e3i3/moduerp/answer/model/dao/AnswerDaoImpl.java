@@ -23,4 +23,9 @@ public class AnswerDaoImpl implements AnswerDao {
 	public AnswerDto selectAnswerDetail(String qSeq) {
 		return sqlSession.selectOne(namespace + ".selectAnswerDetail", qSeq);
 	}
+
+	@Override
+	public void updateAnswer(AnswerDto answerDto) {
+		sqlSession.update(namespace + ".updateAnswer", answerDto);
+	}
 }

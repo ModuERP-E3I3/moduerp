@@ -8,4 +8,6 @@ public interface AnswerDao {
 
 	AnswerDto selectAnswerDetail(String qSeq);
 
+	void updateAnswer(AnswerDto answerDto);
+
 }

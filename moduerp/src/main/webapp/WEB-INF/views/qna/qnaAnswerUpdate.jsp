@@ -188,22 +188,19 @@ button:hover {
 
 		<!-- qna 게시판 -->
 		<div class="container">
-			<h1>답글 작성</h1>
+			<h1>질문글 작성</h1>
 
 			<div class="form-box">
-				<form action="insertAnswer.do" method="POST">
-					<label for="atitle">제목</label> 
-					<input type="text" id="atitle" name="aTitle" required>
-					<input type="hidden" id="aDate" name="aDate">
-					<input type="hidden" name="qSeq" value="${qnaDetail.qSeq}" /> <!-- 현재 질문의 qSeq -->
-					<input type="hidden" name="qStatus" value="${qnaDetail.qStatus}" />
-					
-
+				<form action="updateAnswer.do" method="POST">
+					<input type="text" id="qSeq" name="qSeq" value="${answerDetail.qSeq}">
+					<input type="text" id="aSeq" name="aSeq" value="${answerDetail.aSeq}">
+					<label for="qtitle">제목</label> 
+					<input type="text" id="atitle" name="aTitle" value="${answerDetail.aTitle}" required>
+					<input type="hidden" id="aDate" name="aDate" value="${answerDetail.aDate}">
 					<label for="body">내용</label>
-					<textarea id="body" name="aContents" rows="10" cols="50" required></textarea>
-
+					<textarea id="body" name="aContents" rows="10" cols="50" required>${answerDetail.aContents}</textarea>
 					<div class="form-footer">
-						<button type="submit">등록</button>
+						<button type="submit">수정 완료</button>
 					</div>
 				</form>
 			</div>

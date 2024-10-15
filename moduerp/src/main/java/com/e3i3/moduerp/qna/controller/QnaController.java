@@ -241,4 +241,33 @@ public class QnaController {
 	    // 답변 추가 후 질문 상세 페이지로 리다이렉트
 	    return "redirect:/qnaDetail.do?qSeq=" + qSeq;
 	}
+	@GetMapping("answerUpdateForm.do")
+	public String answerUpdateForm(@RequestParam("qSeq") String qSeq, Model model) {
+		AnswerDto answerDetail = AnswerService.getAnswerDetail(qSeq);
+		
+		model.addAttribute("answerDetail", answerDetail);
+		
+		return "qna/qnaAnswerUpdate";
+	}
+	
+	@PostMapping("/updateAnswer.do")
+	public String updateAnswer(@RequestParam("aTitle") String aTitle,
+			@RequestParam("aContents") String aContents,
+			@RequestParam("aSeq") String aSeq,
+			@RequestParam("qSeq") String qSeq) {
+		LocalDate currentDate = LocalDate.now();
+		LocalTime currentTime = LocalTime.now();
+		LocalDateTime combinedDateTime = LocalDateTime.of(currentDate, currentTime);
+		Timestamp aDate = Timestamp.valueOf(combinedDateTime);
+		
+		AnswerDto answerDto = new AnswerDto();
+		answerDto.setaTitle(aTitle);
+		answerDto.setaContents(aContents);
+		answerDto.setaDate(aDate);
+		answerDto.setaSeq(aSeq);
+		
+		AnswerService.updateAnswer(answerDto);
+
+	    return "redirect:/qnaDetail.do?qSeq=" + qSeq;
+	}
 }
