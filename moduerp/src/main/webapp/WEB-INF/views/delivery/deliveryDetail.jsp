@@ -145,27 +145,11 @@ th {
 	background-color: white;
 }
 
-#pagebutton {
-	display: flex;
-	justify-content: center;
-	margin-top: 2%; /* 위쪽 여백 추가 */
+.material-type-input {
+	margin-bottom: 10px;
 }
 
-#pagebutton a {
-	color: black; /* 글자 색상 검은색 */
-	text-decoration: none; /* 밑줄 제거 */
-	font-size: 20px; /* 글자 크기 증가 */
-	margin: 0 10px; /* 페이지 버튼 간격 조정 */
-}
 
-#pagebutton strong {
-	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
-	color: black; /* 강조 색상 검은색 유지 */
-}
-
-tbody tr:hover {
-	cursor: pointer;
-}
 </style>
 
 </head>
@@ -175,161 +159,142 @@ tbody tr:hover {
 
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i>
-					구매 입고</a></li>
-			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i>
-					구매 출고</a></li>
-			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i>
-					배송 조회</a></li>
+			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i>구매 입고</a></li>
+			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i>구매 출고</a></li>
+			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i>배송 조회</a></li>
 		</ul>
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">구매관리 | 배송조회 | ${itemDetails.itemName}</div>
+		<c:if test="${not empty itemDetails}">
+		    <div class="content-title">구매관리 | 배송조회 | ${itemDetails.itemName}</div>
 
-		<form action="/moduerp/deliveryFilter.do">
-			<!-- 필터 박스 -->
-			<div class="filter-box">
-				<select name="filterOption" id="filterOption">
-					<option disabled selected>옵션 선택</option>
-					<option value="itemName">제품명</option>
-					<option value="stockPlace">장소</option>
-					<option value="iDirector">담당자</option>
-				</select> <input type="date" name="startDate" id="startDate" /> <input
-					type="date" name="endDate" id="endDate" /> <input type="text"
-					name="filterText" id="filterText" placeholder="내용 입력" />
-				<button type="submit" class="btn">조회</button>
-				<button type="button" class="btn"
-					onclick="window.location.href='delivery.do';">초기화</button>
-			</div>
-		</form>
+		    <form action="/moduerp/deliveryFilter.do">
+		        <!-- 필터 박스 -->
+		        <div class="filter-box">
+		            <select name="filterOption" id="filterOption">
+		                <option disabled selected>옵션 선택</option>
+		                <option value="itemName">제품명</option>
+		                <option value="stockPlace">장소</option>
+		                <option value="iDirector">담당자</option>
+		            </select> 
+		            <input type="date" name="startDate" id="startDate" /> 
+		            <input type="date" name="endDate" id="endDate" /> 
+		            <input type="text" name="filterText" id="filterText" placeholder="내용 입력" />
+		            <button type="submit" class="btn">조회</button>
+		            <button type="button" class="btn" onclick="window.location.href='delivery.do';">초기화</button>
+		        </div>
+		    </form>
 
-		<!-- 첫 번째 테이블 -->
-		<table>
-			<thead>
-				<tr>
-					<th>입고 날짜</th>
-					<th>재고명</th>
-					<th>재고 수량</th>
-					<th>입고 장소</th>
-					<th>입고 단가</th>
-					<th>직원명</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>${itemDetails.createdAt}</td>
-					<td>${itemDetails.itemName}</td>
-					<td>${itemDetails.stockIn}</td>
-					<td>${itemDetails.stockPlace}</td>
-					<td>${itemDetails.inPrice}</td>
-					<td>${itemDetails.iDirector}</td>
-				</tr>
-			</tbody>
-		</table>
+		    <!-- 첫 번째 테이블 -->
+		    <table>
+		        <thead>
+		            <tr>
+		                <th>입고 날짜</th>
+		                <th>재고명</th>
+		                <th>재고 수량</th>
+		                <th>입고 장소</th>
+		                <th>입고 단가</th>
+		                <th>직원명</th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		            <tr>
+		                <td>${itemDetails.createdAt}</td>
+		                <td>${itemDetails.itemName}</td>
+		                <td>${itemDetails.stockIn}</td>
+		                <td>${itemDetails.stockPlace}</td>
+		                <td>${itemDetails.inPrice}</td>
+		                <td>${itemDetails.iDirector}</td>
+		            </tr>
+		        </tbody>
+		    </table>
 
+		    <!-- 두 번째 테이블: deliveryDetails가 존재하고 deliveryCompanyName이 비어있지 않을 때만 보여줌 -->
+<c:if test="${not empty deliveryDetails and not empty deliveryCompanyName}">
+    <form action="/moduerp/deliveryDetails.do" method="POST">
+        <input type="hidden" id="itemCode" name="itemCode" value="${itemDetails.itemCode}">
+        <table>
+            <thead>
+                <tr>
+                    <th>택배규격</th>
+                    <th>수취인</th>
+                    <th>수신자번호</th>
+                    <th>수신자주소</th>
+                    <th>운송장번호</th>
+                    <th>배송업체</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>${deliveryDetails.spec}</td>
+                    <td>${deliveryDetails.recipient}</td>
+                    <td>${deliveryDetails.receiverId}</td>
+                    <td>${deliveryDetails.address}</td>
+                    <td>${deliveryDetails.waybill}</td>
+                    <td>${deliveryCompanyName}</td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</c:if>
 
-		<!-- 두 번째 테이블 -->
-		<!-- 테이블 -->
-		<form action="/moduerp/deliveryDetails.do" method="POST">
-		<table>
-			<thead>
-				<tr>
-				
-					<th>택배규격</th>
-					<th>수취인</th>
-					<th>수신자번호</th>
-					<th>수신자주소</th>
-					<th>운송장번호</th>
-					<th>배송업체</th>
-				</tr>
-			</thead>
-			<tbody>
+<!-- 세 번째 테이블: deliveryDetails가 비어있거나 deliveryCompanyName이 비어있을 때 보여줌 -->
+<c:if test="${empty deliveryDetails or empty deliveryCompanyName}">
+    <form action="/moduerp/deliveryCreate.do" method="POST">
+        <input type="hidden" name="inDate" value="<%=java.time.LocalDate.now()%>">
+        <input type="hidden" id="itemCode" name="itemCode" value="${itemDetails.itemCode}">
+        <table>
+            <thead>
+                <tr>
+                    <th>택배규격</th>
+                    <th>수취인</th>
+                    <th>수신자번호</th>
+                    <th>수신자주소</th>
+                    <th>운송장번호</th>
+                    <th>배송업체</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" id="spec" name="spec" placeholder="극소형,소형,중형,대형,극대형" style="width: 175px;"></td>
+                    <td><input type="text" name="recipient" placeholder="수취인" /></td>
+                    <td><input type="text" name="receiverId" placeholder="수신자 번호" /></td>
+                    <td><input type="text" name="address" placeholder="수신자 주소" style="width: 255px;" /></td>
+                    <td><input type="text" name="waybill" placeholder="운송장번호" /></td>
+                    <td><input type="text" id="deliveryCompany" name="deliveryCompany" list="deliveryCompanyCode" placeholder="택배사 선택" required>
+                        <datalist id="deliveryCompanyCode">
+                            <option value="01">우체국택배</option>
+                            <option value="04">CJ대한통운</option>
+                            <option value="05">한진택배</option>
+                            <option value="06">로젠택배</option>
+                            <option value="08">롯데택배</option>
+                            <option value="94">카카오 T 당일배송</option>
+                            <option value="95">큐익스프레스</option>
+                            <option value="11">일양로지스</option>
+                            <option value="22">대신택배</option>
+                            <option value="23">경동택배</option>
+                            <option value="24">GS Postbox 택배</option>
+                            <option value="46">CU편의점택배</option>
+                        </datalist>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-				<tr>
-					<td>${deliveryDetails.spac}</td>
-					<td>${deliveryDetails.recipient}</td>
-					<td>${deliveryDetails.receiverId}</td>
-					<td>${deliveryDetails.address}</td>
-					<td>${deliveryDetails.waybill}</td>
-					<td>${deliveryDetails.deliveryCompany}</td>
-				</tr>
+        <div class="btn-group">
+            <button type="submit" class="btn blue">등록 완료</button>
+        </div>
+    </form>
+</c:if>
+		    
+		</c:if>
 
-			</tbody>
-
-		</table>
-		</form>
-
-
-		<!-- 세 번째 테이블 -->
-		<form action="/moduerp/deliveryCreate.do" method="POST">
-			<input type="hidden" name="inDate"
-				value="<%=java.time.LocalDate.now()%>">
-			<input type="hidden" id="itemCode" name="itemCode" value="${itemDetails.itemCode}">
-			<table>
-				<thead>
-					<tr>
-						<th>택배규격</th>
-						<th>수취인</th>
-						<th>수신자번호</th>
-						<th>수신자주소</th>
-						<th>운송장번호</th>
-						<th>배송업체</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						
-						<td><input type="text" id="spec" name="spec"
-							placeholder="극소형,소형,중형,대형,극대형" style="width: 175px;"></td>
-						<td><input type="text" name="recipient" placeholder="수취인" /></td>
-						<td><input type="text" name="receiverId" placeholder="수신자 번호" /></td>
-						<td><input type="text" name="address" placeholder="수신자 주소"
-							style="width: 255px;" /></td>
-						<td><input type="text" name="waybill" placeholder="운송장번호" /></td>
-						<td><input type="text" id="deliveryCompany"
-							name="deliveryCompany" list="deliveryCompanyCode"
-							placeholder="택배사 선택" required> <datalist
-								id="deliveryCompanyCode">
-								<option value="01">우체국택배</option>
-								<option value="04">CJ대한통운</option>
-								<option value="05">한진택배</option>
-								<option value="06">로젠택배</option>
-								<option value="08">롯데택배</option>
-								<option value="94">카카오 T 당일배송</option>
-								<option value="95">큐익스프레스</option>
-								<option value="11">일양로지스</option>
-								<option value="22">대신택배</option>
-								<option value="23">경동택배</option>
-								<option value="24">GS Postbox 택배</option>
-								<option value="46">CU편의점택배</option>
-							</datalist></td>
-						
-					</tr>
-				</tbody>
-			</table>
-
-			<div class="btn-group">
-				<button type="submit" class="btn blue">등록 완료</button>
-			</div>
-		</form>
+		<c:if test="${not empty errorMessage}">
+		    <div class="error-message">${errorMessage}</div>
+		</c:if>
 
 	</div>
-
-	<!-- 삭제 확인 모달 -->
-	<div id="delete-modal" style="display: none;">
-		<div class="modal-content">
-			<h2>정말로 삭제하시겠습니까?</h2>
-			<p>삭제된 데이터는 복구할 수 없습니다.</p>
-			<form action="deleteDelivery.do" method="POST">
-				<input type="hidden" name="deliveryCode" value="${deliveryDetails.itemCode}">
-				<button type="submit" class="go-delete">삭제</button>
-				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>
-			</form>
-		</div>
-	</div>
-
-
 
 	<script type="text/javascript">
 		function openDeleteModal() {
@@ -339,6 +304,19 @@ tbody tr:hover {
 		function closeDeleteModal() {
 			document.getElementById('delete-modal').style.display = 'none';
 		}
+	</script>
+	
+	<script>
+	    const activeMenu = "buyStockIn";
+
+	    document.addEventListener('DOMContentLoaded', function() {
+	        const menuItems = document.querySelectorAll('nav.side ul li a');
+	        menuItems.forEach(item => {
+	            if (item.href.includes(activeMenu)) {
+	                item.classList.add('active');
+	            }
+	        });
+	    });
 	</script>
 </body>
 </html>

@@ -65,8 +65,8 @@
 	<select id="selectDeliveryByItemCode" parameterType="String"
 		resultType="com.e3i3.moduerp.delivery.model.dto.DeliveryDTO">
 		SELECT * FROM ITEM I 
-		LEFT JOIN DELIVERY D ON D.ITEM_CODE = I.ITEM_CODE 
-		WHERE I.ITEM_CODE = #{itemCode}
+		LEFT JOIN DELIVERY D ON I.ITEM_CODE = D.ITEM_CODE 
+		WHERE D.ITEM_CODE = #{itemCode}
 
 	</select>
 	
