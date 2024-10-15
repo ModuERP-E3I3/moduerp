@@ -19,6 +19,10 @@ public interface DeliveryService {
 	List<DeliveryDTO> getAllDelivery(String bizNumber);
 	
 	 List<String> getItemItemCode(String bizNumber);
+
+	DeliveryDTO getDeliveryDetailsSub(String deliveryId);
+
+	DeliveryDTO getItemDetails(String itemCode);
 	
 
 }

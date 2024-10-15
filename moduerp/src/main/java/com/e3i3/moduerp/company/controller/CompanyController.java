@@ -128,6 +128,11 @@ public class CompanyController {
        }
    }
 
+   // 판매사이트 사장님 마이페이지
+   @GetMapping("/mypage.do")
+   public String ShowMyPage() {
+      return "common/mypage";
+   }
 
    // 2. 회사 수정
    @PutMapping("/update.do")

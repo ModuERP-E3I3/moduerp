@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.e3i3.moduerp.employee.model.dto.Employee;
+import com.e3i3.moduerp.item.model.dto.ItemDTO;
 import com.e3i3.moduerp.purchaseorders.model.dao.PurchaseOrdersDAO;
 import com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO;
 
@@ -99,5 +100,24 @@ public class PurchaseOrdersServiceImpl implements PurchaseOrdersService {
 		}
 		return null;
 	}
+	
+	@Override
+	public List<PurchaseOrdersDTO> getPurchaseOrdersByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
+		return purchaseOrdersDao.getPurchaseOrdersByFilterOnlyDate(bizNumber, startDate, endDate);
+	}
+
+	@Override
+	public List<PurchaseOrdersDTO> getPurchaseOrdersByFilterStartDate(String bizNumber, String startDate) {
+		return purchaseOrdersDao.getPurchaseOrdersByFilterStartDate(bizNumber, startDate);
+	}
+
+	@Override
+	public List<PurchaseOrdersDTO> getPurchaseOrdersByFilterEndDate(String bizNumber, String endDate) {
+		return purchaseOrdersDao.getPurchaseOrdersByFilterEndDate(bizNumber, endDate);
+	}
 
 }
+
+
+
+

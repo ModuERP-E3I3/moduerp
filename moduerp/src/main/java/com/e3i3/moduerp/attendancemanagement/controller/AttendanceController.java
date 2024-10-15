@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.e3i3.moduerp.attendancedocument.model.service.AttendanceDocumentService;
 import com.e3i3.moduerp.attendancemanagement.model.dto.Attendance;
 import com.e3i3.moduerp.attendancemanagement.model.service.AttendanceService;
+import com.e3i3.moduerp.email.model.service.EmailService;
 
 @Controller
 public class AttendanceController {
@@ -29,6 +30,8 @@ public class AttendanceController {
 	private AttendanceService attendanceService;
 	@Autowired
 	private AttendanceDocumentService attendanceRequestService;
+	@Autowired
+	private EmailService emailService;
 	
 	@RequestMapping(value = "/attendance.do", method = RequestMethod.GET)
 	public String forwardAttendance(HttpSession session, Model model) {
@@ -71,6 +74,9 @@ public class AttendanceController {
         // 본인이 결재해야 할 문서 개수 가져오기
         int documentsToApprove = attendanceRequestService.countDocumentsToApproveByUUID(loginUUID);
         model.addAttribute("documentsToApprove", documentsToApprove);
+        
+        int unReadInboxEmail=emailService.countUnreadEmailsByRecipient(loginUUID);
+        model.addAttribute("unReadInboxEmail", unReadInboxEmail);
         
 		return "attendance/attendanceManagement";
 	}

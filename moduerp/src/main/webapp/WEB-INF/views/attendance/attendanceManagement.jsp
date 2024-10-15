@@ -344,10 +344,10 @@ body {
 			<div class="info-row">
 				<!-- 남은 연차 -->
 				<div class="info-box">
-					<div class="info-label">남은 연차</div>
-					<div class="info-value">${annualLeaveUsed}/${totalAnnualLeave}</div>
-					<a href="<c:url value='/attendanceDocument/send.do' />"
-						class="info-link">신청하기</a>
+					<div class="info-label">안 읽은 이메일</div>
+					<div class="info-value">${unReadInboxEmail}개</div>
+					<a href="<c:url value='/email/inbox.do' />"
+						class="info-link">확인하기</a>
 				</div>
 				<!-- 결재 대기 -->
 				<div class="info-box">
