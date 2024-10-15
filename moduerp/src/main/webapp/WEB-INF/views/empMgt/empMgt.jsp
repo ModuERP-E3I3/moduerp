@@ -190,14 +190,14 @@ tbody tr:hover {
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
 					<option disabled selected>옵션 선택</option>
-					
+
 					<option value="empName" ${option == 'empName' ? 'selected' : ''}>직원명</option>
-					
+
 					<option value="departmentId"
 						${option == 'departmentId' ? 'selected' : ''}>부서 코드</option>
-						
+
 					<option value="jobId" ${option == 'jobId' ? 'selected' : ''}>직급</option>
-					
+
 				</select> <input type="text" name="filterText" id="filterText"
 					placeholder="검색어 입력"
 					value="${filterText != null ? filterText : ''}" />
@@ -228,7 +228,8 @@ tbody tr:hover {
 					<tr
 						onclick="window.location.href='getEmployeeDetails.do?empNo=${employee.empNo}'">
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<td>${employee.departmentId}</td>
+						
+						<td>${employee.departmentName}</td>
 						<td>${employee.jobId}</td>
 						<td>${employee.empNo}</td>
 						<td>${employee.empName}</td>
@@ -239,6 +240,7 @@ tbody tr:hover {
 					</tr>
 				</c:forEach>
 			</tbody>
+
 
 		</table>
 
