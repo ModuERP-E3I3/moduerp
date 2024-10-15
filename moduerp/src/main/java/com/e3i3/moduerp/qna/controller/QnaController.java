@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -61,7 +62,7 @@ public class QnaController {
 	        model.addAttribute("departmentId", departmentId);
 	    }
 		if (!empNameDepart.isEmpty()) {
-	        String empName = empNameDepart.get(0).getDepartmentId(); // 첫 번째 사원 정보에서 가져오기
+	        String empName = empNameDepart.get(0).getEmpName(); // 첫 번째 사원 정보에서 가져오기
 	        model.addAttribute("empName", empName);
 	    }
 		
@@ -121,5 +122,52 @@ public class QnaController {
 	    return "redirect:/qna.do";
 	}
 	
+	// qna 상세 페이지
+	@GetMapping("qnaDetail.do")
+	public String qnaDetail(@RequestParam("qSeq") String qSeq, Model model, HttpSession session) {
+		String uuid = (String) session.getAttribute("uuid");
+		System.out.println("uuid : " + uuid);
+		QnaDto qnaDetail = QnaService.getQnaDetail(qSeq);
+		
+		model.addAttribute("uuid", uuid);
+		model.addAttribute("qnaDetail", qnaDetail);
+		
+		return "qna/qnaDetail";
+	}
 	
+	@GetMapping("questionUpdateForm.do")
+	public String questionUpdateForm(@RequestParam("qSeq") String qSeq, Model model) {
+		QnaDto qnaDetail = QnaService.getQnaDetail(qSeq);
+		
+		model.addAttribute("qnaDetail", qnaDetail);
+		
+		return "qna/qnaUpdate";
+	}
+	
+	@PostMapping("/updateQuestion.do")
+	public String updateQuestion(@RequestParam("qTitle") String qTitle,
+			@RequestParam("qContents") String qContents,
+			@RequestParam("qSeq") int qSeq) {
+		LocalDate currentDate = LocalDate.now();
+		LocalTime currentTime = LocalTime.now();
+		LocalDateTime combinedDateTime = LocalDateTime.of(currentDate, currentTime);
+		Timestamp qDate = Timestamp.valueOf(combinedDateTime);
+		
+		QnaDto qnaDto = new QnaDto();
+		qnaDto.setqTitle(qTitle);
+		qnaDto.setqContents(qContents);
+		qnaDto.setqDate(qDate);
+		qnaDto.setqSeq(qSeq);
+		
+		QnaService.updateQuestion(qnaDto);
+		
+		return "redirect:/qna.do";
+	}
+	
+	@PostMapping("/deleteQna.do")
+	public String deleteQna(@RequestParam("qSeq") String qSeq, HttpSession session) {
+		QnaService.deleteQna(qSeq);
+		
+		return "redirect:/qna.do";
+	}
 }

@@ -154,10 +154,10 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="bankmg.do"><i class="fa-solid fa-money-check-dollar"></i> 은행
-					계좌 관리</a></li>
-			<li><a href="finClose.do"><i class="fa-solid fa-calendar-days"></i>
-					결산 관리</a></li>
+			<li><a href="bankmg.do"><i
+					class="fa-solid fa-money-check-dollar"></i> 은행 계좌 관리</a></li>
+			<li><a href="finClose.do"><i
+					class="fa-solid fa-calendar-days"></i> 결산 관리</a></li>
 			<!-- 수정 -->
 			<!-- <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> 수정
 	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> 수정 -->
@@ -171,6 +171,7 @@ th {
 		<table>
 			<thead>
 				<tr>
+					<th>선택</th>
 					<th>계좌명</th>
 					<th>계좌번호</th>
 					<th>계좌 소유자</th>
@@ -181,29 +182,68 @@ th {
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>${bankmg.bankName}</td>
-					<td>${bankmg.bankNumber}</td>
-					<td>${bankmg.bankHolder}</td>
-					<td>${bankmg.transactionPrice}</td>
-					<td>${bankmg.balance}</td>
-					<td>${bankmg.transactionType}</td>
-					<td>${bankmg.transactionDate}</td>
-				</tr>
+				<c:forEach var="bankmg" items="${bankmgList}">
+					<tr>
+						<td><input type="checkbox" name="selectedBankIds"
+							value="${bankmg.bankNumber}" data-bizNumber="${bankmg.bizNumber}" /></td>
+						<td>${bankmg.bankName}</td>
+						<td>${bankmg.bankNumber}</td>
+						<td>${bankmg.bankHolder}</td>
+						<td>${bankmg.transactionPrice}</td>
+						<td>${bankmg.balance}</td>
+						<td>${bankmg.transactionType}</td>
+						<td>${bankmg.transactionDate}</td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 
 		<!-- 수정 및 삭제 버튼 -->
 		<div class="btn-group">
-			<button class="btn green"
-				onclick="location.href='${pageContext.request.contextPath}/bankmgUpdateForm.do?bankId=${bankmg.bankId}'">수정</button>
-			<button class="btn red"
-				onclick="if(confirm('정말로 삭제하시겠습니까?')) location.href='${pageContext.request.contextPath}/bankmgDelete.do?bankId=${bankmg.bankId}'">삭제</button>
+			<form action="${pageContext.request.contextPath}/bankmgUpdateForm.do"
+				method="post" style="display: inline;"
+				onsubmit="return checkSingleSelection();">
+				<input type="hidden" name="bankNumber" id="hiddenBankNumber"
+					value="" /> <input type="hidden" name="bizNumber"
+					id="hiddenBizNumber" value="" />
+				<button class="btn green" type="submit">수정</button>
+			</form>
+
+			<!-- 삭제 버튼을 위한 폼 -->
+			<form action="${pageContext.request.contextPath}/bankmgDelete.do"
+				method="post" style="display: inline;">
+				<input type="hidden" name="bankNumber" value="${bankmg.bankNumber}" />
+				<button class="btn red" type="submit"
+					onclick="return confirm('정말로 삭제하시겠습니까?');">삭제</button>
+			</form>
 		</div>
 	</div>
-</body>
 
-<script>
+	<script>
+	function checkSingleSelection() {
+	    const checkboxes = document.querySelectorAll('input[name="selectedBankIds"]:checked');
+	    
+	    if (checkboxes.length === 0) {
+	        alert("수정할 항목을 선택해 주세요.");
+	        return false;
+	    } else if (checkboxes.length > 1) {
+	        alert("수정할 항목을 하나만 선택해 주세요.");
+	        return false;
+	    }
+
+	    // 선택된 체크박스에서 bankNumber와 bizNumber 추출
+	    const selectedBankNumber = checkboxes[0].value;
+	    const selectedBizNumber = checkboxes[0].getAttribute('data-bizNumber');
+
+	    // hidden 필드에 값 설정
+	    document.getElementById('hiddenBankNumber').value = selectedBankNumber;
+	    document.getElementById('hiddenBizNumber').value = selectedBizNumber;
+
+	    return true;
+	}
+</script>
+
+	<script>
     const activeMenu = "bankmg";
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -216,4 +256,5 @@ th {
     });
 </script>
 
+</body>
 </html>

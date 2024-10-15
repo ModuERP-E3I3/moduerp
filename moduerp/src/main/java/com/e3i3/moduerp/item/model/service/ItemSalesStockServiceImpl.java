@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.e3i3.moduerp.carmgt.model.dto.CarmgtDto;
 import com.e3i3.moduerp.item.model.dao.ItemSalesStockDAO;
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 
@@ -175,4 +176,37 @@ public class ItemSalesStockServiceImpl implements ItemSalesStockService {
 		}
 		return null;
 	}
+	
+	// filter
+	@Override
+	public List<ItemDTO> getItemOutByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
+		return itemSalesStockDAO.getItemOutByFilterOnlyDate(bizNumber, startDate, endDate);
+	}
+
+	@Override
+	public List<ItemDTO> getItemOutByFilterStartDate(String bizNumber, String startDate) {
+		return itemSalesStockDAO.getItemOutByFilterStartDate(bizNumber, startDate);
+	}
+
+	@Override
+	public List<ItemDTO> getItemOutByFilterEndDate(String bizNumber, String endDate) {
+		return itemSalesStockDAO.getItemOutByFilterEndDate(bizNumber, endDate);
+	}
+
+	@Override
+	public List<ItemDTO> getItemByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
+		return itemSalesStockDAO.getItemByFilterOnlyDate(bizNumber, startDate, endDate);
+	}
+
+	@Override
+	public List<ItemDTO> getItemByFilterStartDate(String bizNumber, String startDate) {
+		return itemSalesStockDAO.getItemByFilterStartDate(bizNumber, startDate);
+	}
+
+	@Override
+	public List<ItemDTO> getItemByFilterEndDate(String bizNumber, String endDate) {
+		return itemSalesStockDAO.getItemByFilterEndDate(bizNumber, endDate);
+	}
+	
+	
 }

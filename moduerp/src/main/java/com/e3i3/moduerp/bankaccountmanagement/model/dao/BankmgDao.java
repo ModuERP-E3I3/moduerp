@@ -1,6 +1,8 @@
 package com.e3i3.moduerp.bankaccountmanagement.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +19,11 @@ public class BankmgDao {
     public List<Bankmg> getAllmgs() {
 		return sqlSessionTemplate.selectList("bankmgMapper.getAllmgs");
 	}
-    public Bankmg getmgById(String bankId) {
-		return sqlSessionTemplate.selectOne("bankmgMapper.getmgById", bankId);
+    public List<Bankmg> getmgById(String bankNumber, String bizNumber) {
+    	Map<String, Object> params = new HashMap<>();
+        params.put("bankNumber", bankNumber);
+        params.put("bizNumber", bizNumber);
+		return sqlSessionTemplate.selectList("bankmgMapper.getmgById", params);
 	}
     public int insertmg(Bankmg mg) {
 		return sqlSessionTemplate.insert("bankmgMapper.insertmg", mg);
@@ -26,8 +31,8 @@ public class BankmgDao {
     public int updatemg(Bankmg mg) {
 		return sqlSessionTemplate.update("bankmgMapper.updatemg", mg);
 	}
-    public int deletemg(String bankId) {
-		return sqlSessionTemplate.delete("bankmgMapper.deletemg", bankId);
+    public int deletemg(Bankmg mg) {
+        return sqlSessionTemplate.delete("bankmgMapper.deletemg", mg);
 	}
    
 }

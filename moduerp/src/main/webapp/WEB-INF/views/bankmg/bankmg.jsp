@@ -195,7 +195,7 @@ th {
 			</thead>
 			<tbody>
 				<c:forEach var="bankmg" items="${bankmg}">
-					<tr onclick="window.location.href='bankmgDetail.do?bankId=${bankmg.bankId}BA%&bankNumber=${bankmg.bankNumber}'">
+					<tr onclick="window.location.href='bankmgDetail.do?bankNumber=${bankmg.bankNumber}'">
 						<td>${bankmg.bankId}</td>
 						<td>${bankmg.transactionType}</td>
 						<td>${bankmg.bankName}</td>

@@ -154,10 +154,10 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="bankmg.do"><i class="fa-solid fa-money-check-dollar"></i> 은행
-					계좌 관리</a></li>
-			<li><a href="finClose.do"><i class="fa-solid fa-calendar-days"></i>
-					결산 관리</a></li>
+			<li><a href="bankmg.do"><i
+					class="fa-solid fa-money-check-dollar"></i> 은행 계좌 관리</a></li>
+			<li><a href="finClose.do"><i
+					class="fa-solid fa-calendar-days"></i> 결산 관리</a></li>
 			<!-- 수정 -->
 			<!-- <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> 수정
 	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> 수정 -->
@@ -168,9 +168,10 @@ th {
 	<div class="content-box">
 
 		<div class="content-title">회계 관리 | 은행 계좌 관리 | 수정</div>
-		<form action="${pageContext.request.contextPath}/bankmgUpdateForm.do"
+		<form action="${pageContext.request.contextPath}/bankmgUpdate.do"
 			method="post">
-			<input type="hidden" name="bankId" value="${bankmg.bankId}" />
+			<input type="hidden" name="bizNumber" value="${bankmg.bizNumber}" />
+			<input type="hidden" name="bankNumber" value="${bankmg.bankNumber}" />
 			<table>
 				<thead>
 					<tr>
@@ -178,7 +179,6 @@ th {
 						<th>계좌번호</th>
 						<th>계좌 소유자</th>
 						<th>거래 금액</th>
-						<th>잔액</th>
 						<th>거래 구분</th>
 						<th>거래 일자</th>
 					</tr>
@@ -188,13 +188,11 @@ th {
 						<td><input type="text" name="bankName"
 							value="${bankmg.bankName}" /></td>
 						<td><input type="text" name="bankNumber"
-							value="${bankmg.bankNumber}" /></td>
+							value="${bankmg.bankNumber}" readonly /></td>
 						<td><input type="text" name="bankHolder"
 							value="${bankmg.bankHolder}" /></td>
 						<td><input type="number" name="transactionPrice"
 							value="${bankmg.transactionPrice}" /></td>
-						<td><input type="number" name="balance"
-							value="${bankmg.balance}" /></td>
 						<td><input type="text" name="transactionType"
 							value="${bankmg.transactionType}" /></td>
 						<td><input type="date" name="transactionDate"

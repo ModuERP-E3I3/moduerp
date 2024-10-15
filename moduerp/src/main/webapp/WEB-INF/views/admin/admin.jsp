@@ -87,23 +87,23 @@ footer {
 				<table>
 					<thead>
 						<tr>
+							<th>사업자번호</th>
+							<th>사원명</th>
+							<th>사원 이메일</th>
+							<th>UUID</th>
 							<th>가입일자</th>
-							<th>가입자 UUID</th>
-							<th>가입자 Email</th>
-							<th>마지막 로그인 시간</th>
-							<th>탈퇴일자</th>
-							<th>탈퇴 사유</th>
+							<th>마지막 로그인 시기</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="admin" items="${adminList}">
 							<tr>
-								<td>${admin.registrationDate}</td>
-								<td>${admin.uuid}</td>
+								<td>${admin.bizNumber}</td>
+								<td>${admin.empName}</td>
 								<td>${admin.empEmail}</td>
-								<td>${admin.lastLoginTime}</td>
-								<td>${admin.deletedAt}</td>
-								<td>${admin.deletedExcuse}</td>
+								<td>${admin.uuid}</td>
+								<td>${admin.registrationDate}</td>
+								<td>${admin.lastLoginLocation}</td>
 							</tr>
 						</c:forEach>
 					</tbody>
