@@ -99,7 +99,7 @@
 		ORDER BY EMP_NAME ASC
 	</select>
 
-	<!-- 부서 ID로 직원 데이터를 조회하는 쿼리 -->
+	<!-- 부서 ID 조회 -->
 	<select id="selectEmployeesByDepartmentId" parameterType="map"
 		resultMap="empMgtResult">
 		SELECT *
@@ -109,7 +109,7 @@
 		ORDER BY DEPARTMENT_ID ASC
 	</select>
 
-	<!-- 직급 ID로 직원 데이터를 조회하는 쿼리 -->
+	<!-- 직급명 조회 -->
 	<select id="selectEmployeesByJobId" parameterType="String"
 		resultMap="empMgtResult">
 		SELECT *

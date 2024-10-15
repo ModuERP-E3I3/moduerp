@@ -65,9 +65,11 @@ public class EmpMgtServiceImpl implements EmpMgtService {
     public List<EmpMgtDTO> getEmployeesByFilter(String bizNumber, String option, String filterText) {
         if (option.equals("empName")) {
             return empMgtDao.getEmployeesByEmpName(bizNumber, filterText);
-        } else if (option.equals("departmentId")) {
+        } 
+        else if (option.equals("departmentId")) {
             return empMgtDao.getEmployeesByDepartmentId(bizNumber, filterText);
-        } else if (option.equals("jobId")) {
+        } 
+        else if (option.equals("jobId")) {
             return empMgtDao.getEmployeesByJobId(bizNumber, filterText);
         }
         return null;
