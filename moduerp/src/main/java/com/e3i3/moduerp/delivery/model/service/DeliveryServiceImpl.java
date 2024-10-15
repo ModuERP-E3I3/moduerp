@@ -38,6 +38,20 @@ public class DeliveryServiceImpl implements DeliveryService {
 	@Override
 	public void deleteDeliveryByItemCode(String itemCode) {
 		deliveryDAO.selectDeliveryByItemCode(itemCode);
-	} 
+	}
+
+	@Override
+	public List<DeliveryDTO> getAllDelivery(String bizNumber) {
+		return deliveryDAO.getAllDeliveryTableList();
+	}
+
+	@Override
+	public List<String> getItemItemCode(String bizNumber) {
+		return deliveryDAO.getItemItemCode(bizNumber);
+	}
+
+
+
+
 
 }

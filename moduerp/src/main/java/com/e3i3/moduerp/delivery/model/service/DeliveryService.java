@@ -15,4 +15,10 @@ public interface DeliveryService {
 	 void updateDelivery(DeliveryDTO deliveryDTO);
 
 	 void deleteDeliveryByItemCode(String itemCode);
+
+	List<DeliveryDTO> getAllDelivery(String bizNumber);
+	
+	 List<String> getItemItemCode(String bizNumber);
+	
+
 }

@@ -14,6 +14,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 <meta charset="UTF-8">
 <title>근태 요청서 작성</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -154,8 +156,6 @@ function toggleTimeFields() {
     endTimeField.disabled = false;
 }
 </script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         // 드롭다운에서 선택하면 approver 필드에 값 설정
@@ -167,10 +167,12 @@ function toggleTimeFields() {
     
     // 폼 제출 전 유효성 검사
     $("form").submit(function(event) {
+    		var applicationType = $('#applicationType').val(); // 변수 정의 추가
             var startDate = $('#startDate').val();
             var endDate = $('#endDate').val();
             var approver = $('#approver').val();
             var approverName = $('#approverName').val();
+            
             if (approverName === "") {
                 alert("결재자 이름이 없습니다.");
                 event.preventDefault(); // 폼 제출 방지
@@ -209,10 +211,10 @@ function toggleTimeFields() {
 	<!-- 위에 하얀 박스 -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="<c:url value='/attendance.do' />"><i
-					class="fas fa-bullhorn"></i> 출퇴근</a></li>
-			<li><a href="<c:url value='/leave.do' />"><i
-					class="fas fa-clipboard"></i> 문서통합</a></li>
+		<li><a href="<c:url value='/attendance.do' />"><i
+					class="fa-solid fa-clipboard-user"></i> 출퇴근</a></li>
+			<li><a href="<c:url value='/attendanceDocument/mylist.do' />"><i
+					class="fas fa-clipboard"></i> 근태문서</a></li>
 			<li><a href="<c:url value='/email/inbox.do' />"> <i
 					class="fas fa-envelope"></i> 이메일
 			</a></li>
@@ -223,8 +225,12 @@ function toggleTimeFields() {
 	<div class="content-box">
 		<div class="content-title">근태신청</div>
 		<!-- 근태 요청서 작성 폼 -->
-		
-		<form:form method="post" action="${submitUrl}" modelAttribute="attendanceDocument" oninput="toggleTimeFields()">
+		<c:if test="${not empty message}">
+    <div class="alert alert-info">
+      		  ${message}
+    </div>
+</c:if>
+		<form:form method="post" enctype="multipart/form-data" action="${submitUrl}"  modelAttribute="attendanceDocument" oninput="toggleTimeFields()">
 		<!-- JSP의 숨겨진 필드로 attendancerequestId 전달 -->
     <table>
         <tr>
@@ -265,7 +271,7 @@ function toggleTimeFields() {
         </tr>
         <tr>
             <td>첨부 파일:</td>
-            <td><input type="file" name="attachment" /></td>
+            <td><input type="file" name="file" /></td>
         </tr>
 
         <!-- 결재자 선택 드롭다운 -->
@@ -300,7 +306,7 @@ function toggleTimeFields() {
     			
     			  <c:if test="${attendanceDocument.attendancerequestId == null}">
           			 <input type="submit" value="제출" id="submitBtn" />
-              		 <button type="button" id="saveBtn" onclick="setStatusAndSubmit('saved')">임시 저장</button>
+              		 <button type="button" id="saveBtn">임시 저장</button>
   				  </c:if>
             </td>
         </tr>
@@ -308,7 +314,7 @@ function toggleTimeFields() {
 
     <!-- 숨겨진 status와 isApproved 필드 추가 -->
     <input type="hidden" id="status" name="status" value="제출완료" />
-    <input type="hidden" id="isApproved" name="isApproved" value="N" />
+    <input type="hidden" id="isApproved" name="isApproved" value="N" /> 
 	<input type="hidden" name="attendancerequestId" value="${attendanceDocument.attendancerequestId}" />
 	<input type="hidden" name="approverName" id="approverName" />
 </form:form>

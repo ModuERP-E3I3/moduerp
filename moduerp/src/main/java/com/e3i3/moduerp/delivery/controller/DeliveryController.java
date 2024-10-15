@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
+import com.e3i3.moduerp.buystock.model.service.BuyStockInService;
+import com.e3i3.moduerp.delivery.model.dto.DeliveryDTO;
 import com.e3i3.moduerp.delivery.model.service.DeliveryService;
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 import com.e3i3.moduerp.item.model.service.ItemDeliveryService;
@@ -41,10 +42,10 @@ public class DeliveryController {
 		public String forwardDelivery(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
 		        HttpSession session) {
 		    String bizNumber = (String) session.getAttribute("biz_number");
-		   
+		    //List<DeliveryDTO> deliveryTableList = DeliveryService.getAllDelivery(bizNumber);
 
 		    List<ItemDTO> itemList = itemDeliveryService.getItemsByBizNumber(bizNumber);
-		   
+		    
 		    
 
 		    for (ItemDTO item : itemList) {
@@ -116,87 +117,89 @@ public class DeliveryController {
 
 			return "delivery/deliveryFilter"; // JSP 파일 경로 반환
 		}
-//		
-//		
-//		@PostMapping("/deliveryCreate.do")
-//		public String createDelivery(  //Param 가져올 항목 수정 필요함
-//				@RequestParam("bStockInDate") String stockInDateStr,
-//				@RequestParam("stockPlace") String stockPlace, 
-//				@RequestParam("stockIn") int stockIn,
-//				@RequestParam("itemName") String itemName, 
-//				@RequestParam("itemDesc") String itemDesc,
-//				@RequestParam("inPrice") double inPrice,
-//				@RequestParam("accountName") String accountName,
-//				@RequestParam("iDirector") String iDirector,
-//				HttpSession session) {
-//			
-//			// 샂
-//			String bizNumber = (String) session.getAttribute("biz_number");
-//			String userUuid = (String) session.getAttribute("uuid");
-//			
-//			// 
-//			LocalDate localDate = LocalDate.parse(stockInDateStr);
-//			LocalDateTime localDateTime = localDate.atStartOfDay(); // 
-//			Timestamp stockInDate = Timestamp.valueOf(localDateTime);
-//
-//			// 한국 시간대의 현재 타임스탬프를 사용
-//			ZonedDateTime nowKST = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
-//			Timestamp currentTimestampKST = Timestamp.valueOf(nowKST.toLocalDateTime());
-//
-//			
-//			// ITEM
-//			itemDeliveryService.insertItem(itemDTO);
-//
-//			//Delivery_ID:  biz_number 
-//			String deleveryId =  bizNumber + currentTimestampKST.getTime();
-//
-//			// 수정필요 컬럼에 맞춰야함
-//			//  테이블에 저장할 데이터 설정
-//			DeleveryDTO DeleveryDTO = new DeleveryDTO();
-//			DeleveryDTO.setbStockInId(deleveryId); // 맂 B_STOCK_IN_ID 
-//			DeleveryDTO.setItemCode(itemCode);
-//			DeleveryDTO.setbStockInDate(stockInDate); // Timestamp
-//			DeleveryDTO.setbStockInPlace(stockPlace);
-//			DeleveryDTO.setbStockInQty(stockIn);
-//			DeleveryDTO.setUuid(userUuid);
-//			DeleveryDTO.setAccountName(accountName);
-//
-//			//  
-//			DeliveryService.insertDelivery(deliveryDTO);
-//
-//			return "redirect:/delivery.do"; // 
-//		}
-//
-//		@GetMapping("/getBuyInDetails.do")
-//		public String getBuyInDetails(@RequestParam("itemCode") String itemCode, Model model) {
-//			// ITEM 
-//			ItemDTO itemDetails = itembuyStockService.getItemDetails(itemCode);
-//			// Buy_STOCK_IN 
-//			DeliveryDTO BuyStockInDetails = BuyStockInService.getBuyStockInDetails(itemCode);
-//
-//			// CREATED_AT
-//			Timestamp createdAt = itemDetails.getCreatedAt();
-//			Timestamp adjustedCreatedAt = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000)); 
-//																	
-//			itemDetails.setCreatedAt(adjustedCreatedAt); // Timestamp
-//
-//			// UPDATED_AT
-//			Timestamp updatedAt = itemDetails.getUpdatedAt();
-//			if (updatedAt != null) {
-//				Timestamp adjustedUpdatedAt = Timestamp
-//						.from(Instant.ofEpochMilli(updatedAt.getTime() + 9 * 60 * 60 * 1000)); 
-//				itemDetails.setUpdatedAt(adjustedUpdatedAt); // 맂Timestamp 
-//			} else {
-//				// updatedAt
-//				itemDetails.setUpdatedAt(null); 
-//			}
-//
-//			// 
-//			model.addAttribute("itemDetails", itemDetails);
-//			model.addAttribute("BuyStockInDetails", BuyStockInDetails);
-//
-//			return "buyStock/buyStockInDetail"; // JSP 
-//		}
+		
+		
+		@PostMapping("/deliveryCreate.do")
+		public String createDelivery(  
+				@RequestParam("inDate") String inDateToday,
+				@RequestParam("spec") String spec, 
+				@RequestParam("receiverId") String receiverId,
+				@RequestParam("address") String address, 
+				@RequestParam("recipient") String recipient,
+				@RequestParam("waybill") String waybill,
+				@RequestParam("deliveryCompany") String deliveryCompany,
+				HttpSession session) {
+			
+			String bizNumber = (String) session.getAttribute("biz_number");
+			 String itemCode = (String) session.getAttribute("itemCode");
+			// itemCode가 없으면 DAO를 통해 가져오기
+			 if (itemCode == null) {
+				    List<String> itemCodes = DeliveryService.getItemItemCode(bizNumber);
+				    if (!itemCodes.isEmpty()) {
+				        itemCode = itemCodes.get(0); // 첫 번째 값으로 설정 (원하는 방식에 맞게 조정)
+				    }
+				}
+			
+			LocalDate localDate = LocalDate.parse(inDateToday);
+			LocalDateTime localDateTime = localDate.atStartOfDay(); // 
+			Timestamp inDate = Timestamp.valueOf(localDateTime);
+
+			// 한국 시간대의 현재 타임스탬프를 사용
+			ZonedDateTime nowKST = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+			Timestamp currentTimestampKST = Timestamp.valueOf(nowKST.toLocalDateTime());
+
+			//Delivery_ID: itemCode +  지금시간
+			String deleveryId = itemCode + currentTimestampKST.getTime();
+
+		
+			//  테이블에 저장할 데이터 설정
+			DeliveryDTO DeliveryDTO = new DeliveryDTO();
+			DeliveryDTO.setInDate(inDate); 
+			DeliveryDTO.setDeliveryId(deleveryId); 
+			DeliveryDTO.setItemCode(itemCode);
+			DeliveryDTO.setSpec(spec); 
+			DeliveryDTO.setReceiverId(receiverId);
+			DeliveryDTO.setAddress(address);
+			DeliveryDTO.setRecipient(recipient);
+			DeliveryDTO.setWaybill(waybill);
+			DeliveryDTO.setDeliveryCompany(deliveryCompany);
+
+			//  
+			DeliveryService.insertDelivery(DeliveryDTO);
+
+			return "redirect:/deliveryDitail.do"; // 
+		}
+
+		@GetMapping("/getDeliveryDetails.do")
+		public String getBuyInDetails(@RequestParam("itemCode") String itemCode, Model model) {
+			// ITEM 
+			ItemDTO itemDetails = itemDeliveryService.getItemDetails(itemCode);
+			// delivery
+			DeliveryDTO deliveryDetails = DeliveryService.getDeliveryDetails(itemCode);
+
+			// CREATED_AT
+			Timestamp createdAt = itemDetails.getCreatedAt();
+			Timestamp adjustedCreatedAt = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000)); 
+																	
+			itemDetails.setCreatedAt(adjustedCreatedAt); // Timestamp
+
+			// UPDATED_AT
+			Timestamp updatedAt = itemDetails.getUpdatedAt();
+			if (updatedAt != null) {
+				Timestamp adjustedUpdatedAt = Timestamp
+						.from(Instant.ofEpochMilli(updatedAt.getTime() + 9 * 60 * 60 * 1000)); 
+				itemDetails.setUpdatedAt(adjustedUpdatedAt); // 맂Timestamp 
+			} else {
+				// updatedAt
+				itemDetails.setUpdatedAt(null); 
+			}
+
+			// 
+			model.addAttribute("itemDetails", itemDetails);
+			model.addAttribute("DeliveryDetails", deliveryDetails);
+
+			return "buyStock/buyStockInDetail"; // JSP 
+		}
 //		
 //		@GetMapping("/buyStockInDetailUpdate.do")
 //		public String showUpdateForm(@RequestParam("itemCode") String itemCode, Model model, HttpSession session) {

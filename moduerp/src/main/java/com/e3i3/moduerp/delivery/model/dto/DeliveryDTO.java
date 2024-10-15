@@ -1,6 +1,7 @@
 package com.e3i3.moduerp.delivery.model.dto;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class DeliveryDTO {
    private String deliveryId;
@@ -11,7 +12,7 @@ public class DeliveryDTO {
    private String deliveryType;
    private String key;
    private Date deliveryDate;
-   private Date inDate;
+   private Timestamp inDate;
    private Date upDate;
    private String recipient;
    private String waybill;
@@ -66,10 +67,10 @@ public Date getDeliveryDate() {
 public void setDeliveryDate(Date deliveryDate) {
 	this.deliveryDate = deliveryDate;
 }
-public Date getInDate() {
+public Timestamp getInDate() {
 	return inDate;
 }
-public void setInDate(Date inDate) {
+public void setInDate(Timestamp inDate) {
 	this.inDate = inDate;
 }
 public Date getUpDate() {

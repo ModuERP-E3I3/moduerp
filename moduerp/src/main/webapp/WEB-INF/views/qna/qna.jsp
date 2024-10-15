@@ -37,7 +37,7 @@ body {
     text-align: center;
 }
 
-.notice-board {
+.QNA-board {
     width: 100%;
     background: white;
     margin-top: 30px;
@@ -82,7 +82,7 @@ h2 {
     background-color: #0056b3;
 }
 
-.notice-list {
+.QNA-list {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -90,7 +90,7 @@ h2 {
     width: 100%;
 }
 
-.notice-list li {
+.QNA-list li {
     padding: 20px 0;
     border-bottom: 1px solid #eee;
     display: flex;
@@ -98,24 +98,24 @@ h2 {
     max-width: 100%;
 }
 
-.notice-list li a {
+.QNA-list li a {
     font-size: 18px;
     text-decoration: none;
     color: #333;
 }
 
-.notice-list li a:hover {
+.QNA-list li a:hover {
     text-decoration: underline;
 }
 
-.notice-list li .meta {
+.QNA-list li .meta {
     font-size: 14px;
     color: #777;
     display: flex;
     gap: 20px;
 }
 
-.notice-list .important a {
+.QNA-list .important a {
     color: red;
 }
 
@@ -173,6 +173,34 @@ footer {
     border-top: 1px solid #ddd;
     margin-top: 50px;
 }
+/* 버튼 스타일 */
+.btn-group {
+	margin-top: 20px;
+	text-align: right;
+}
+
+.btn {
+	padding: 8px 16px;
+	margin-left: 5px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.btn.red {
+	background-color: red;
+	color: white;
+}
+
+.btn.green {
+	background-color: green;
+	color: white;
+}
+
+.btn.blue {
+	background-color: blue;
+	color: white;
+}
     </style>
 </head>
 <body>
@@ -184,11 +212,11 @@ footer {
     </div>
 
     <!-- 공지사항 게시판 -->
-    <div class="notice-board">
+    <div class="QNA-board">
         <div class="box">
             <h2>QnA</h2>
 
-            <div class="search-bar">
+            <!-- <div class="search-bar">
                 <select name="category" id="category">
                     <option value="전체">종류 전체</option>
                     <option value="중요">중요</option>
@@ -203,23 +231,29 @@ footer {
 
                 <input type="text" placeholder="내용">
                 <button type="submit">검색</button>
-            </div>
+            </div> -->
 
             <hr>
 
             <!-- 동적으로 공지사항 리스트 출력 -->
-            <ul class="notice-list">
-                <c:forEach var="notice" items="${noticeList}">
-                    <li class="<c:if test='${notice.noticeImp == "Y"}'>important</c:if>">
-                        <a href="noticeDetail.do?noticeId=${notice.noticeSeq}">${notice.noticeTitle}</a>
+            <ul class="QNA-list">
+                <c:forEach var="qna" items="${qnaList}">
+                    <%-- <li class="<c:if test='${notice.noticeImp == "Y"}'>important</c:if>"> --%>
+                    <li>
+                        <a href="qnaDetail.do?qSeq=${qna.qSeq}">${qna.qTitle}</a>
                         <div class="meta">
-                            <span>No.${notice.noticeSeq}</span>
-                            <span>작성일 : <fmt:formatDate value="${notice.writeDate}" pattern="yyyy-MM-dd" /></span>
-                            <span>조회수 : ${notice.viewCnt}</span>
+                        	<span>${qna.empName}</span>
+                            <span>No.${qna.qSeq}</span>
+                            <span>작성일 : <fmt:formatDate value="${qna.qDate}" pattern="yyyy-MM-dd" /></span>
+                            <%-- <span>조회수 : ${notice.viewCnt}</span> --%>
                         </div>
                     </li>
                 </c:forEach>
             </ul>
+            
+            <div class="btn-group">
+				<a href="qnaCreate.do"><button class="btn blue">등록</button></a>
+			</div>
 
              <!-- 페이지네이션 -->
             <%-- <div class="pagination">
@@ -235,7 +269,7 @@ footer {
             </div> --%>
 
             <!-- 작성 버튼 -->
-            <a href="noticeWriteForm.do" class="action-btn">작성</a>
+            <!-- <a href="noticeWriteForm.do" class="action-btn">작성</a -->>
         </div>
     </div>
 </div>

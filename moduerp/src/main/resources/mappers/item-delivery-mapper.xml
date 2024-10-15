@@ -25,7 +25,9 @@
 	</resultMap>
 	
 	<select id="getItemsByBizNumber" resultType="ItemDTO">
-    SELECT * FROM item WHERE biz_number = #{bizNumber}
+    SELECT *
+	FROM ITEM 
+    WHERE biz_number = #{bizNumber}
 	</select>
 	
 

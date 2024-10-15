@@ -7,6 +7,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 <meta charset="UTF-8">
 <title>출퇴근</title>
 
@@ -14,11 +16,14 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css"
 	rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+	rel="stylesheet">
 <style type="text/css">
-    body {
-        font-family: 'Roboto', sans-serif;
-    }
+body {
+	font-family: 'Roboto', sans-serif;
+}
+
 .top-content-box {
 	width: 96%; /* 화면에 가득 차지 않게 */
 	height: 6vh;
@@ -221,23 +226,22 @@
 	margin-top: 8px;
 	display: inline-block;
 }
+
 .indent {
-    margin-left: 20px;
+	margin-left: 20px;
 }
 
-@media (max-width: 768px) {
-    .content-box {
-        flex-direction: column;
-    }
-    .attendance-btns {
-        flex-direction: column;
-    }
-    .info-row {
-        flex-direction: column;
-    }
+@media ( max-width : 768px) {
+	.content-box {
+		flex-direction: column;
+	}
+	.attendance-btns {
+		flex-direction: column;
+	}
+	.info-row {
+		flex-direction: column;
+	}
 }
-
-
 </style>
 
 <!-- FullCalendar JS -->
@@ -254,7 +258,7 @@
 	<div class="top-content-box">
 		<ul id="menubar">
 			<li><a href="<c:url value='/attendance.do' />"><i
-					class="fas fa-bullhorn"></i> 출퇴근</a></li>
+					class="fa-solid fa-clipboard-user"></i> 출퇴근</a></li>
 			<li><a href="<c:url value='/attendanceDocument/mylist.do' />"><i
 					class="fas fa-clipboard"></i> 근태문서</a></li>
 			<li><a href="<c:url value='/email/inbox.do' />"> <i
@@ -277,7 +281,7 @@
 
 			<!-- 성공 메시지 표시 -->
 			<c:if test="${not empty success}">
-				<div style="color: green;margin-left: 20px ">${success}</div>
+				<div style="color: green; margin-left: 20px">${success}</div>
 			</c:if>
 
 			<!-- 오류 메시지 표시 -->
@@ -342,19 +346,23 @@
 				<div class="info-box">
 					<div class="info-label">남은 연차</div>
 					<div class="info-value">${annualLeaveUsed}/${totalAnnualLeave}</div>
-					<a href="<c:url value='/leave/leaveRequest.do' />" class="info-link">신청하기</a>
+					<a href="<c:url value='/attendanceDocument/send.do' />"
+						class="info-link">신청하기</a>
 				</div>
 				<!-- 결재 대기 -->
 				<div class="info-box">
 					<div class="info-label">결재 대기</div>
 					<div class="info-value">${documentsToApprove}건</div>
-					<a href="<c:url value='/approval/approvalInbox.do' />" class="info-link">결재하기</a>
+					<a href="<c:url value='/attendanceDocument/mylist.do' />"
+						class="info-link">결재하기</a>
 				</div>
 				<!-- 근태 신청 -->
 				<div class="info-box">
 					<div class="info-label">근태 신청</div>
-					<div class="info-value"> 임시 저장: ${draftCount}건, 대기 중: ${pendingCount}건, 승인됨: ${approvedCount}건, 반려됨: ${rejectedCount}건</div>
-					<a href="<c:url value='/attendanceDocument/send.do' />" class="info-link">신청하기</a>
+					<div class="info-value">임시 저장: ${draftCount}건, 대기 중:
+						${pendingCount}건, 승인됨: ${approvedCount}건, 반려됨: ${rejectedCount}건</div>
+					<a href="<c:url value='/attendanceDocument/send.do' />"
+						class="info-link">신청하기</a>
 				</div>
 			</div>
 
