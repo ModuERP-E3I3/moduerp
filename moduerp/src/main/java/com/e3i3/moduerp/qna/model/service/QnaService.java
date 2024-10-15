@@ -14,6 +14,8 @@ public interface QnaService {
 
 	void insertQna(QnaDto qnaDto);
 
+	QnaDto getQnaDetail(String qSeq);
+
 	
 
 }
