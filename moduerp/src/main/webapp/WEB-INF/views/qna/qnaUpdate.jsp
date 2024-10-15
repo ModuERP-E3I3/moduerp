@@ -191,7 +191,8 @@ button:hover {
 			<h1>질문글 작성</h1>
 
 			<div class="form-box">
-				<form action="insertQna.do" method="POST">
+				<form action="updateQuestion.do" method="POST">
+					<input type="hidden" id="qSeq" name="qSeq" value="${qnaDetail.qSeq}">
 					<input type="hidden" id="isPublic" name="isPublic" value="${qnaDetail.isPublic}">
 					<input type="hidden" id="departmentId" name="departmentId" value="${qnaDetail.departmentId}" readonly />
 					<input type="hidden" id="qStatus" name="qStatus" value="${qnaDetail.qStatus}">

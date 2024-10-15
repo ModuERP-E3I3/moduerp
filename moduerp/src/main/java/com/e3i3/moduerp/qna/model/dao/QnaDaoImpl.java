@@ -36,4 +36,9 @@ public class QnaDaoImpl implements QnaDao {
 	public QnaDto selectQnaDetail(String qSeq) {
 		return sqlSession.selectOne(namespace + ".selectQnaDetail", qSeq);
 	}
+
+	@Override
+	public void updateQuestion(QnaDto qnaDto) {
+		sqlSession.update(namespace + ".updateQuestion", qnaDto);
+	}
 }

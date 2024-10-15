@@ -32,8 +32,12 @@ public class QnaServiceImpl implements QnaService{
 
 	@Override
 	public QnaDto getQnaDetail(String qSeq) {
-		// TODO Auto-generated method stub
 		return QnaDao.selectQnaDetail(qSeq);
+	}
+
+	@Override
+	public void updateQuestion(QnaDto qnaDto) {
+		QnaDao.updateQuestion(qnaDto);
 	}
 
 }

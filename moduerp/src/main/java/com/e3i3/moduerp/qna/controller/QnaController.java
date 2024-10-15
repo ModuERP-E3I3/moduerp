@@ -141,5 +141,23 @@ public class QnaController {
 		return "qna/qnaUpdate";
 	}
 	
-	
+	@PostMapping("/updateQuestion.do")
+	public String updateQuestion(@RequestParam("qTitle") String qTitle,
+			@RequestParam("qContents") String qContents,
+			@RequestParam("qSeq") int qSeq) {
+		LocalDate currentDate = LocalDate.now();
+		LocalTime currentTime = LocalTime.now();
+		LocalDateTime combinedDateTime = LocalDateTime.of(currentDate, currentTime);
+		Timestamp qDate = Timestamp.valueOf(combinedDateTime);
+		
+		QnaDto qnaDto = new QnaDto();
+		qnaDto.setqTitle(qTitle);
+		qnaDto.setqContents(qContents);
+		qnaDto.setqDate(qDate);
+		qnaDto.setqSeq(qSeq);
+		
+		QnaService.updateQuestion(qnaDto);
+		
+		return "redirect:/qna.do";
+	}
 }
