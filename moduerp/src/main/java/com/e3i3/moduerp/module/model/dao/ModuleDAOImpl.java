@@ -86,4 +86,9 @@ public class ModuleDAOImpl implements ModuleDAO {
 	public List<ModuleDTO> selectModulesByGrades(List<String> moduleGrades) {
 		return sqlSession.selectList(namespace + ".selectModulesByGrades", moduleGrades);
 	}
+
+	@Override
+	public List<ModuleDTO> selectModuleDataByGrades(List<String> moduleGrades) {
+		 return sqlSession.selectList(namespace + ".selectModuleDataByGrades", moduleGrades);
+	}
 }

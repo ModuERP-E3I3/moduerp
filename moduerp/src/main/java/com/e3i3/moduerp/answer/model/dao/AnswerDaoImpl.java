@@ -28,4 +28,9 @@ public class AnswerDaoImpl implements AnswerDao {
 	public void updateAnswer(AnswerDto answerDto) {
 		sqlSession.update(namespace + ".updateAnswer", answerDto);
 	}
+
+	@Override
+	public void deleteAnswer(String aSeq) {
+		sqlSession.delete(namespace + ".deleteAnswer", aSeq);
+	}
 }

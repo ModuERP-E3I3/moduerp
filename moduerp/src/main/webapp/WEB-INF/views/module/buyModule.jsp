@@ -222,11 +222,12 @@ input[type="checkbox"]:disabled {
 									<td><input type="checkbox" class="moduleCheckboxGroup"
 										value="${moduleListGroup.moduleGrade}"
 										onclick="syncCheckboxesGroup(this)"
-										<c:if test="${moduleListGroup.moduleGrade == 'AD' || moduleListGroup.moduleGrade == 'ATD'}">
-						                    checked="checked" disabled="disabled"
-						                </c:if>>
+										<c:if test="${moduleListGroup.moduleGrade == 'AD' || moduleListGroup.moduleGrade == 'ATD' || moduleListGroup.moduleGrade == 'EM'}">
+									        checked="checked" disabled="disabled"
+									    </c:if>>
 										<input type="hidden" name=""
 										value="${moduleListGroup.moduleId}"></td>
+
 
 									<td>${moduleListGroup.moduleName}</td>
 									<td>${moduleListGroup.modulePrice}</td>
@@ -497,48 +498,16 @@ input[type="checkbox"]:disabled {
 
 <script type="text/javascript">
 	// 그룹웨어
+	// 그룹웨어 체크박스 동기화
 	function syncCheckboxesGroup(checkbox) {
 		var checkboxes = document.getElementsByClassName('moduleCheckboxGroup');
+		var isChecked = checkbox.checked;
 
+		// 선택된 체크박스의 값에 따라 나머지 체크박스를 동일하게 설정
 		for (var i = 0; i < checkboxes.length; i++) {
-
-			if (checkbox.value === 'EM') {
-				// EM이 선택되면 AD와 ATD를 선택, 해제 시에는 EM만 해제
-				if (checkbox.checked) {
-					if (checkboxes[i].value === 'AD'
-							|| checkboxes[i].value === 'ATD') {
-						checkboxes[i].checked = true;
-					}
-				}
-			} else if (checkbox.value === 'ATD' || checkbox.value === 'AD') {
-				// AD와 ATD는 서로 연동되어 같이 체크/해제됨
-				if (checkbox.checked) {
-					if (checkbox.value === 'ATD'
-							&& checkboxes[i].value === 'AD') {
-						checkboxes[i].checked = true;
-					} else if (checkbox.value === 'AD'
-							&& checkboxes[i].value === 'ATD') {
-						checkboxes[i].checked = true;
-					}
-				} else {
-					if (checkbox.value === 'ATD'
-							&& checkboxes[i].value === 'AD') {
-						checkboxes[i].checked = false;
-					} else if (checkbox.value === 'AD'
-							&& checkboxes[i].value === 'ATD') {
-						checkboxes[i].checked = false;
-					}
-
-					// AD와 ATD가 모두 해제되면 EM도 해제
-					if (!checkboxes[i].checked
-							&& (checkbox.value === 'AD' || checkbox.value === 'ATD')) {
-						for (var j = 0; j < checkboxes.length; j++) {
-							if (checkboxes[j].value === 'EM') {
-								checkboxes[j].checked = false;
-							}
-						}
-					}
-				}
+			if (checkboxes[i].value === 'AD' || checkboxes[i].value === 'ATD'
+					|| checkboxes[i].value === 'EM') {
+				checkboxes[i].checked = isChecked;
 			}
 		}
 	}

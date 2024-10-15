@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.e3i3.moduerp.cart.model.dto.CartDTO;
 import com.e3i3.moduerp.cart.model.service.CartService;
+import com.e3i3.moduerp.company.model.service.CompanyService;
 import com.e3i3.moduerp.module.model.dto.ModuleDTO;
 import com.e3i3.moduerp.module.model.service.ModuleService;
 
@@ -27,6 +28,9 @@ public class CartController {
 
 	@Autowired
 	private ModuleService moduleService;
+	
+	@Autowired
+	private CompanyService companyService;
 
 	private boolean allCartListsAreNull(List<CartDTO> cartList) {
 	    for (CartDTO cart : cartList) {
@@ -84,9 +88,17 @@ public class CartController {
 		    totalModulePrice += module.getModulePrice();
 		}
 
-		// 결과 출력 (혹은 다른 변수에 저장 가능)
-		System.out.println("Total Module Price: " + totalModulePrice);
-
+		String companyCard = companyService.selectComplayCardExitence(bizNumber);
+		boolean companyCardExistence;
+		if(companyCard == null){
+			companyCardExistence = false;
+			model.addAttribute("companyCardExistence", companyCardExistence);
+		}else if(companyCard != null) {
+			companyCardExistence = true;
+			model.addAttribute("companyCardExistence", companyCardExistence);
+			model.addAttribute("companyCard",companyCard);
+		}
+		
 		// 조회된 모듈 데이터를 모델에 추가하여 JSP로 전달
 		model.addAttribute("modules", modules);
 		model.addAttribute("totalModulePrice",totalModulePrice);
