@@ -62,7 +62,7 @@ public class QnaController {
 	        model.addAttribute("departmentId", departmentId);
 	    }
 		if (!empNameDepart.isEmpty()) {
-	        String empName = empNameDepart.get(0).getDepartmentId(); // 첫 번째 사원 정보에서 가져오기
+	        String empName = empNameDepart.get(0).getEmpName(); // 첫 번째 사원 정보에서 가져오기
 	        model.addAttribute("empName", empName);
 	    }
 		
@@ -130,6 +130,15 @@ public class QnaController {
 		model.addAttribute("qnaDetail", qnaDetail);
 		
 		return "qna/qnaDetail";
+	}
+	
+	@GetMapping("questionUpdateForm.do")
+	public String questionUpdateForm(@RequestParam("qSeq") String qSeq, Model model) {
+		QnaDto qnaDetail = QnaService.getQnaDetail(qSeq);
+		
+		model.addAttribute("qnaDetail", qnaDetail);
+		
+		return "qna/qnaUpdate";
 	}
 	
 	

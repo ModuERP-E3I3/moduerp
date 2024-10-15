@@ -202,18 +202,20 @@ button:hover {
 				<hr>
 				<p>${qnaDetail.qContents}</p>
 				<div class="button-group">
-				<a href="qna.do" class="back-btn">목록으로 돌아가기</a><%--  <a
-					href="noticeUpdateForm.do?noticeId=${notice.noticeSeq}"
-					class="back-btn">수정</a> <a
-					href="noticeDelete.do?noticeId=${notice.noticeSeq}"
-					class="back-btn">삭제</a> --%>
-			</div>
+					<a href="qna.do" class="back-btn">목록으로 돌아가기</a> <a
+						href="questionUpdateForm.do?qSeq=${qnaDetail.qSeq}" class="back-btn">수정</a>
+					<%-- <a href="noticeDelete.do?noticeId=${notice.noticeSeq}" class="back-btn">삭제</a> --%>
+				</div>
 			</div>
 
 			<div class="form-box">
 				<c:choose>
 					<c:when test="${qnaDetail.qStatus == 'N'}">
 						<h1 style="color: gray;">답변 대기중</h1>
+						<!-- 답변 입력 버튼 -->
+						<%-- <button type="button" class="btn blue"
+							onclick="location.href='qnaAnswerForm.do?qSeq=${qnaDetail.qSeq}'">답변
+							입력</button> --%>
 					</c:when>
 					<c:when test="${qnaDetail.qStatus == 'Y'}">
 						<h1 style="color: green;">답변 완료</h1>
@@ -221,7 +223,7 @@ button:hover {
 				</c:choose>
 			</div>
 
-			
+
 		</div>
 
 	</div>
