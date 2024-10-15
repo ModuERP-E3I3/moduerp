@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -51,6 +52,7 @@ public class SalesStockOutController {
 			item.setCreatedAt(adjustedTimestamp);
 		}
 
+		// 페이지네이션 처리
 		int itemsPerPage = 10;
 		int totalItems = itemList.size();
 		int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
@@ -64,6 +66,79 @@ public class SalesStockOutController {
 
 		return "salesStock/salesStockOut"; // JSP 파일 경로 반환
 	}
+	
+	@RequestMapping(value = "/salesStockOutFilter.do", method = RequestMethod.GET)
+	public String forwardSalesOutFilter(@RequestParam(value = "page", defaultValue = "1") int page,
+	        @RequestParam(value = "filterOption", required = false) String option,
+	        @RequestParam(value = "filterText", required = false) String filterText,
+	        @RequestParam(value = "startDate", required = false) String startDate,
+	        @RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
+	    
+	    String bizNumber = (String) session.getAttribute("biz_number");
+	    List<ItemDTO> itemList;
+
+	    // 필터링 로직 
+	    if (option != null && filterText != null) {
+	        if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+	            System.out.println("날짜있는거 실행");
+	            itemList = itemSalesStockService.getItemOutByFilterDate(bizNumber, option, filterText, startDate, endDate);
+	        } else if ((option == null || filterText == null || filterText.isEmpty()) 
+	                && startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+	            // 날짜만 있는 경우 처리
+	            System.out.println("날짜만 있는 경우 실행");
+	            itemList = itemSalesStockService.getItemOutByFilterOnlyDate(bizNumber, startDate, endDate);
+	        } else if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
+	            // 시작 날짜만 있는 경우 처리
+	            System.out.println("시작 날짜만 있는 경우 실행");
+	            itemList = itemSalesStockService.getItemOutByFilterStartDate(bizNumber, startDate);
+	        } else if ((startDate == null || startDate.isEmpty()) && endDate != null && !endDate.isEmpty()) {
+	            // 종료 날짜만 있는 경우 처리
+	            System.out.println("종료 날짜만 있는 경우 실행");
+	            itemList = itemSalesStockService.getItemOutByFilterEndDate(bizNumber, endDate);
+	        } else {
+	            // 날짜 없는 경우
+	            System.out.println("날짜없는거 실행");
+	            itemList = itemSalesStockService.getItemOutByFilter(bizNumber, option, filterText);
+	        }
+	    } else if ((option == null || filterText == null || filterText.isEmpty()) 
+	            && startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+	        // 필터 옵션과 텍스트 없이 날짜만 있는 경우
+	        System.out.println("날짜만 있는 경우 실행");
+	        itemList = itemSalesStockService.getItemOutByFilterOnlyDate(bizNumber, startDate, endDate);
+	    } else if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
+	        // 시작 날짜만 있는 경우 처리
+	        System.out.println("시작 날짜만 있는 경우 실행");
+	        itemList = itemSalesStockService.getItemOutByFilterStartDate(bizNumber, startDate);
+	    } else if ((startDate == null || startDate.isEmpty()) && endDate != null && !endDate.isEmpty()) {
+	        // 종료 날짜만 있는 경우 처리
+	        System.out.println("종료 날짜만 있는 경우 실행");
+	        itemList = itemSalesStockService.getItemOutByFilterEndDate(bizNumber, endDate);
+	    } else {
+	        itemList = itemSalesStockService.getItemsByBizNumberOutDate(bizNumber);
+	    }
+
+	    // 페이지네이션 처리
+	    int itemsPerPage = 10;
+	    int totalItems = itemList.size();
+	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+	    int startIndex = (page - 1) * itemsPerPage;
+	    int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+	    // 서브리스트 생성
+	    List<ItemDTO> paginatedList = itemList.subList(startIndex, endIndex);
+
+	    // 모델에 추가
+	    model.addAttribute("itemList", paginatedList);
+	    model.addAttribute("totalPages", totalPages);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("option", option);
+	    model.addAttribute("filterText", filterText);
+	    model.addAttribute("startDate", startDate);
+	    model.addAttribute("endDate", endDate);
+
+	    return "salesStock/salesStockOutFilter"; // JSP 파일 경로 반환
+	}
+
 
 	// 등록 페이지로 이동
 	@RequestMapping(value = "/salesStockOutCreate.do", method = RequestMethod.GET)
@@ -78,7 +153,8 @@ public class SalesStockOutController {
 
 		return "salesStock/salesStockOutCreate"; // JSP 파일 경로 반환
 	}
-
+	
+	
 	@PostMapping("/salesStockOutCreate.do")
 	public String createSalesStockOut(@RequestParam("itemName") String itemName,
 			@RequestParam("createdOutAt") String createdOutAt, @RequestParam("stockOutPlace") String stockOutPlace,

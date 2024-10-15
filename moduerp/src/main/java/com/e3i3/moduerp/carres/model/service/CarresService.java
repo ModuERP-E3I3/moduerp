@@ -26,6 +26,12 @@ public interface CarresService {
 
 	List<CarresDto> getCarByFilter(String bizNumber, String option, String filterText);
 
+	List<CarresDto> getCarByFilterOnlyDate(String bizNumber, String startDate, String endDate);
+
+	List<CarresDto> getCarByFilterStartDate(String bizNumber, String startDate);
+
+	List<CarresDto> getCarByFilterEndDate(String bizNumber, String endDate);
+
 	
 
 	

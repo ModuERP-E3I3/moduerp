@@ -164,7 +164,7 @@ th {
 	color: black; /* 강조 색상 검은색 유지 */
 }
 
-tbody tr:hover { 
+tbody tr:hover {
 	cursor: pointer;
 }
 </style>
@@ -196,8 +196,8 @@ tbody tr:hover {
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
 					<option disabled selected>옵션 선택</option>
-					<option value="itemName">제품명</option>
-					<option value="stockPlace">출고 장소</option>
+					<option value="accountName">거래처명</option>
+					<option value="puItemName">품명</option>
 					<option value="ODirector">담당자</option>
 				</select> <input type="date" name="startDate" id="startDate" /> <input
 					type="date" name="endDate" id="endDate" /> <input type="text"
@@ -208,13 +208,11 @@ tbody tr:hover {
 			</div>
 		</form>
 
-
 		<!-- 테이블 -->
 		<table>
 			<thead>
 				<tr>
 					<th>순번</th>
-					<th>발주서번호</th>
 					<th>거래처명</th>
 					<th>품명</th>
 					<th>수량</th>
@@ -229,7 +227,6 @@ tbody tr:hover {
 						onclick="window.location.href='getPurchaseOrderDetails.do?orderId=${purchaseOrders.orderId}'">
 
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<td>${purchaseOrders.orderId}</td>
 						<td>${purchaseOrders.accountName}</td>
 						<td>${purchaseOrders.puItemName}</td>
 						<td>${purchaseOrders.quantity}</td>

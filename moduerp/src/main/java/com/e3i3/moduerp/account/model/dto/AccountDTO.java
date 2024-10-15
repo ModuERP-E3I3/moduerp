@@ -13,7 +13,7 @@ public class AccountDTO {
     private String accountAddress;
     private String accountPhone;  
     private String email;         
-    
+    private String bizNumber;
     
     public AccountDTO() {
         super();
@@ -106,4 +106,12 @@ public class AccountDTO {
         this.email = email;
     }
 
+    public String getBizNumber() {
+        return bizNumber;
+    }
+
+    public void setBizNumber(String bizNumber) {
+        this.bizNumber = bizNumber;
+    }
+    
 }

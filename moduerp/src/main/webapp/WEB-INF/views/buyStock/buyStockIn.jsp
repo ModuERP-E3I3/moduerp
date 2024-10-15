@@ -226,7 +226,8 @@ tbody tr:hover {
                      onclick="window.location.href='getBuyInDetails.do?itemCode=${item.itemCode}'">
                   <td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
                   <!-- 순번 계산 -->           
-                     <td>${item.createdAt}</td>
+                     <td><fmt:formatDate value="${item.createdAt}"
+								pattern="yyyy-MM-dd" /></td>		<!-- 날짜만 나오게 수정 -->
                      <td>${item.itemName}</td>   
                      <td>${item.stockIn}</td>
                      <td>${item.stockPlace}</td>  

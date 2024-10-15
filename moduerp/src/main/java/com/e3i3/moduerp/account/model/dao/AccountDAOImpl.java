@@ -1,6 +1,7 @@
 package com.e3i3.moduerp.account.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,4 +65,32 @@ public class AccountDAOImpl implements AccountDAO {
     public void deleteAccountByAccountNo(String accountNo) {
         sqlSession.delete(namespace + ".deleteAccountByAccountNo", accountNo);
     }
+    
+    
+    // filter !!!!!!!!!!
+    @Override
+    public List<AccountDTO> getAccountsByAccountName(String bizNumber, String filterText) {
+        return sqlSession.selectList(namespace + ".selectAccountsByAccountName",
+                Map.of("bizNumber", bizNumber, "filterText", filterText));
+    }
+
+    @Override
+    public List<AccountDTO> getAccountsByBusinessNumber(String bizNumber, String filterText) {
+        return sqlSession.selectList(namespace + ".selectAccountsByBusinessNumber",
+                Map.of("bizNumber", bizNumber, "filterText", filterText));
+    }
+
+    @Override
+    public List<AccountDTO> getAccountsByBossName(String bizNumber, String filterText) {
+        return sqlSession.selectList(namespace + ".selectAccountsByBossName",
+                Map.of("bizNumber", bizNumber, "filterText", filterText));
+    }
+
+    
+    
+    
+    
+    
+    
+    
 }

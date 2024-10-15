@@ -119,4 +119,24 @@ public class CarresDaoImpl implements CarresDao {
 		return sqlSession.selectList(namespace + ".selectCarByDrivingStatus",
 				Map.of("bizNumber", bizNumber, "filterText", filterText));
 	}
+
+	@Override
+	public List<CarresDto> getCarByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
+		return sqlSession.selectList(namespace + ".selectCarByFilterOnlyDate",
+				Map.of("bizNumber", bizNumber, "startDate", startDate, "endDate", endDate));
+	}
+
+	@Override
+	public List<CarresDto> getCarByFilterStartDate(String bizNumber, String startDate) {
+		return sqlSession.selectList(namespace + ".selectCarByFilterStartDate",
+				Map.of("bizNumber", bizNumber, "startDate", startDate));
+	}
+
+	@Override
+	public List<CarresDto> getCarByFilterEndDate(String bizNumber, String endDate) {
+		return sqlSession.selectList(namespace + ".selectCarByFilterEndDate",
+				Map.of("bizNumber", bizNumber, "endDate", endDate));
+	}
+	
+	
 }

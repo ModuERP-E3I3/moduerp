@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.e3i3.moduerp.employee.model.dto.Employee;
+import com.e3i3.moduerp.employee.model.service.EmployeeProductionService;
 import com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO;
 
 @Controller
@@ -23,6 +24,9 @@ public class PurchaseOrdersController {
 
 	@Autowired
 	private com.e3i3.moduerp.purchaseorders.service.PurchaseOrdersService purchaseOrdersService;
+
+	@Autowired
+	private EmployeeProductionService employeeProductionService;
 
 	@RequestMapping(value = "/purchaseOrders.do", method = RequestMethod.GET)
 	public String forwardPurchaseOrders(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
@@ -47,14 +51,65 @@ public class PurchaseOrdersController {
 		return "purchaseOrders/purchaseOrders";
 	}
 
+	@RequestMapping(value = "/purchaseOrdersFilter.do", method = RequestMethod.GET)   //  filter !!!!!
+	public String forwardPurchaseOrdersFilter(@RequestParam(value = "page", defaultValue = "1") int page,
+	        @RequestParam(value = "filterOption", required = false) String option,
+	        @RequestParam(value = "filterText", required = false) String filterText,
+	        @RequestParam(value = "startDate", required = false) String startDate,
+	        @RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
+	    String bizNumber = (String) session.getAttribute("biz_number");
+	    List<PurchaseOrdersDTO> purchaseOrdersList;
+
+	    // 필터링 로직 추가
+	    if (option != null && filterText != null) {
+	        if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+	            System.out.println("날짜 있는 필터 실행");
+	            purchaseOrdersList = purchaseOrdersService.getPurchaseOrdersByFilterDate(bizNumber, option, filterText, startDate, endDate);
+	        } else if (startDate == null || startDate.isEmpty()) {
+	            System.out.println("날짜 없는 필터 실행");
+	            purchaseOrdersList = purchaseOrdersService.getPurchaseOrdersByFilter(bizNumber, option, filterText);
+	        } else {
+	            System.out.println("날짜 필터 미사용");
+	            purchaseOrdersList = purchaseOrdersService.getPurchaseOrdersByBizNumber(bizNumber);
+	        }
+	    } else {
+	        purchaseOrdersList = purchaseOrdersService.getPurchaseOrdersByBizNumber(bizNumber);
+	    }
+
+	    // 페이지네이션 처리
+	    int itemsPerPage = 10;
+	    int totalItems = purchaseOrdersList.size();
+	    int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+	    int startIndex = (page - 1) * itemsPerPage;
+	    int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+	    // 서브리스트 생성
+	    List<PurchaseOrdersDTO> paginatedList = purchaseOrdersList.subList(startIndex, endIndex);
+
+	    // 모델에 추가
+	    model.addAttribute("purchaseOrdersList", paginatedList);
+	    model.addAttribute("totalPages", totalPages);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("option", option);
+	    model.addAttribute("filterText", filterText);
+	    model.addAttribute("startDate", startDate);
+	    model.addAttribute("endDate", endDate);
+
+	    return "purchaseOrders/purchaseOrdersFilter"; // JSP 파일 경로 반환
+	}
+
+
 	@RequestMapping(value = "/purchaseOrderCreate.do", method = RequestMethod.GET)
 	public String showCreatePurchaseOrderForm(Model model, HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
+		String uuid = (String) session.getAttribute("uuid");
 
 		List<String> empNames = purchaseOrdersService.getEmpNamesByBizNumber(bizNumber);
 		List<String> departmentIds = purchaseOrdersService.getDepartmentIdsByBizNumber(bizNumber);
 		List<Employee> empNameDepart = purchaseOrdersService.getEmpNameDepart(bizNumber);
 		List<PurchaseOrdersDTO> purchaseOrders = purchaseOrdersService.getPurchaseOrdersByBizNumber(bizNumber);
+		// 현재 로그인한 사용자의 EMP_NAME 가져오기
+		String directorName = employeeProductionService.getEmployeeNameByUuid(uuid);
 
 		// ----- accountNo와 accountName 가져오는 부분 !!! -----
 		List<Map<String, Object>> accountNames = purchaseOrdersService.getAllAccountNames();
@@ -66,6 +121,7 @@ public class PurchaseOrdersController {
 		model.addAttribute("purchaseOrders", purchaseOrders);
 		model.addAttribute("empNameDepart", empNameDepart);
 		model.addAttribute("accountNames", accountNames);
+		model.addAttribute("directorName", directorName);
 
 		return "purchaseOrders/purchaseOrdersCreate";
 	}
@@ -74,20 +130,24 @@ public class PurchaseOrdersController {
 	public String purchaseOrderCreate(@RequestParam("accountNo") String accountNo,
 			@RequestParam("accountName") String accountName, @RequestParam("quantity") int quantity,
 			@RequestParam("supplyPrice") double supplyPrice, @RequestParam("deliveryDate") String deliveryDate,
-			@RequestParam("mgrName") String mgrName, @RequestParam("puItemName") String puItemName,
-			@RequestParam("oDirector") String oDirector, // oDirector 추가
+			@RequestParam("puItemName") String puItemName, @RequestParam("oDirector") String oDirector, // oDirector !!!
 			Model model, HttpSession session) {
 
+		// 세션에서 bizNumber 가져오기
+		String bizNumber = (String) session.getAttribute("biz_number");
+
+		// PurchaseOrdersDTO 객체 생성 및 값 설정
 		PurchaseOrdersDTO purchaseOrderDto = new PurchaseOrdersDTO();
 		purchaseOrderDto.setAccountNo(accountNo);
 		purchaseOrderDto.setAccountName(accountName);
 		purchaseOrderDto.setQuantity(quantity);
 		purchaseOrderDto.setSupplyPrice(supplyPrice);
 		purchaseOrderDto.setDeliveryDate(deliveryDate);
-		purchaseOrderDto.setMgrName(mgrName);
 		purchaseOrderDto.setPuItemName(puItemName);
 		purchaseOrderDto.setoDirector(oDirector); // oDirector 설정
+		purchaseOrderDto.setBizNumber(bizNumber); // bizNumber 설정
 
+		// purchaseOrderCreate 메서드 호출
 		purchaseOrdersService.purchaseOrderCreate(purchaseOrderDto);
 
 		return "redirect:/purchaseOrders.do";
@@ -124,9 +184,9 @@ public class PurchaseOrdersController {
 	public String updatePurchaseOrder(@RequestParam("orderId") String orderId,
 			@RequestParam("accountNo") String accountNo, @RequestParam("accountName") String accountName,
 			@RequestParam("quantity") int quantity, @RequestParam("supplyPrice") double supplyPrice,
-			@RequestParam("deliveryDate") String deliveryDate, @RequestParam("mgrName") String mgrName,
-			@RequestParam("puItemName") String puItemName, @RequestParam("oDirector") String oDirector) { // oDirector
-																											// 추가
+			@RequestParam("deliveryDate") String deliveryDate, @RequestParam("puItemName") String puItemName,
+			@RequestParam("oDirector") String oDirector) { // oDirector 담당자명 !!!
+															// 추가
 
 		PurchaseOrdersDTO purchaseOrderDto = new PurchaseOrdersDTO();
 		purchaseOrderDto.setOrderId(orderId);
@@ -135,7 +195,6 @@ public class PurchaseOrdersController {
 		purchaseOrderDto.setQuantity(quantity);
 		purchaseOrderDto.setSupplyPrice(supplyPrice);
 		purchaseOrderDto.setDeliveryDate(deliveryDate);
-		purchaseOrderDto.setMgrName(mgrName);
 		purchaseOrderDto.setPuItemName(puItemName);
 		purchaseOrderDto.setoDirector(oDirector); // oDirector 설정
 

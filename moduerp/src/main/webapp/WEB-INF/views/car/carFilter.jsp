@@ -170,6 +170,10 @@ tbody tr:hover {
 	cursor: pointer;
 }
 
+thead tr:hover {
+	cursor: pointer;
+}
+
 .table-one {
 	width: 33.33% !important;
 }

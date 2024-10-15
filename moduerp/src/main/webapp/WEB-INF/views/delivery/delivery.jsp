@@ -206,7 +206,7 @@ tbody tr:hover {
 				<tr>
 					<th>순번</th>
                     <th>입고 날짜</th>
-                    <th>재고명</th>
+                    <th>제품명</th>
                     <th>입고 수량</th>
                     <th>입고 장소</th>
                     <th>입고 단가</th>
@@ -217,10 +217,11 @@ tbody tr:hover {
 			<tbody>
 				<c:forEach var="item" items="${itemList}" varStatus="status">
 					 <tr
-                     onclick="window.location.href='getBuyInDetails.do?itemCode=${item.itemCode}'">
+                     onclick="window.location.href='getDeliveryDetails.do?itemCode=${item.itemCode}'">
                   <td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
                   <!-- 순번 계산 -->           
-                     <td>${item.createdAt}</td>
+                     <td><fmt:formatDate value="${item.createdAt}"
+								pattern="yyyy-MM-dd" /></td>
                      <td>${item.itemName}</td>   
                      <td>${item.stockIn}</td>
                      <td>${item.stockPlace}</td>  
@@ -245,7 +246,7 @@ tbody tr:hover {
 							<!-- 현재 페이지는 강조 -->
 						</c:when>
 						<c:otherwise>
-							<a href="buyStockIn.do?page=${i}">${i}</a>
+							<a href="delivery.do?page=${i}">${i}</a>
 							<!-- 페이지 링크 -->
 						</c:otherwise>
 					</c:choose>
@@ -257,7 +258,7 @@ tbody tr:hover {
 
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
-			<a href="buyInCreate.do"><button class="btn blue">등록</button></a>
+			<a href="deliveryCreate.do"><button class="btn blue">등록</button></a>
 		</div>
 
 	</div>
@@ -270,7 +271,7 @@ tbody tr:hover {
         console.log("클릭한 item_code: " + itemCode);
 
         $.ajax({
-        	url: '/moduerp/getBuyInDetails.do', // URL을 수정
+        	url: '/moduerp/getDeliveryDetails.do', // URL을 수정
             type: 'GET',
             data: { itemCode: itemCode },
             success: function(response) {
@@ -297,6 +298,26 @@ tbody tr:hover {
                 item.classList.add('active');
             }
         });
+    });
+</script>
+
+<!-- 배송조회 api -->
+<script>
+    document.getElementById('trackingForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // 폼 제출 기본 동작 방지
+        
+        // 고정된 API Key
+        var apiKey = '3uPTRFP4o7AXr6mP7ZwWWw';
+        
+        // 폼 데이터 추출
+        var tCode = document.getElementById('t_code').value;
+        var tInvoice = document.getElementById('t_invoice').value;
+        
+        // URL 생성
+        var url = `https://info.sweettracker.co.kr/tracking/4?t_key=${apiKey}&t_code=${tCode}&t_invoice=${tInvoice}`;
+        
+        // 새로운 페이지로 이동
+        window.location.href = url;
     });
 </script>
 

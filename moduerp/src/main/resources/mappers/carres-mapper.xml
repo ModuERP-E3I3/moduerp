@@ -39,7 +39,7 @@
 	<!-- bizNumber와 일치하는 차량 정보 조회 쿼리 -->
 	<select id="getCarsByBizNumber"
 		resultType="com.e3i3.moduerp.carres.model.dto.CarresDto">
-		SELECT CAR_MODEL, CAR_NUM
+		SELECT *
 		FROM CAR
 		WHERE BIZ_NUMBER =
 		#{bizNumber}
@@ -127,8 +127,8 @@
 		FROM CAR_RESERVE
 		WHERE CAR_RESERVE_CODE LIKE #{bizNumber} || 'CR%'
 		AND CAR_MODEL LIKE '%' || #{filterText} || '%'
-		AND RESERVE_START_DATE >= TO_DATE(#{startDate}, 'YY-MM-DD')
-		AND RESERVE_END_DATE &lt;= TO_DATE(#{endDate}, 'YY-MM-DD')
+		AND RESERVE_START_DATE >= TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS')
+		AND RESERVE_END_DATE &lt;= TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
 		ORDER BY RESERVE_END_DATE DESC
 	</select>
 
@@ -142,9 +142,9 @@
 		#{bizNumber} || 'CR%'
 		AND CAR_NUM LIKE '%' || #{filterText} || '%'
 		AND
-		RESERVE_START_DATE >= TO_DATE(#{startDate}, 'YY-MM-DD')
+		RESERVE_START_DATE >= TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS')
 		AND
-		RESERVE_END_DATE &lt;= TO_DATE(#{endDate}, 'YY-MM-DD')
+		RESERVE_END_DATE &lt;= TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
 		ORDER BY
 		RESERVE_END_DATE DESC
 	</select>
@@ -158,9 +158,9 @@
 		#{bizNumber} || 'CR%'
 		AND EMP_NAME LIKE '%' || #{filterText} || '%'
 		AND
-		RESERVE_START_DATE >= TO_DATE(#{startDate}, 'YY-MM-DD')
+		RESERVE_START_DATE >= TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS')
 		AND
-		RESERVE_END_DATE &lt;= TO_DATE(#{endDate}, 'YY-MM-DD')
+		RESERVE_END_DATE &lt;= TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
 		ORDER BY
 		RESERVE_END_DATE DESC
 	</select>
@@ -173,9 +173,9 @@
 		#{bizNumber} || 'CR%'
 		AND DEPARTMENT_ID LIKE '%' || #{filterText} ||
 		'%'
-		AND RESERVE_START_DATE >= TO_DATE(#{startDate}, 'YY-MM-DD')
+		AND RESERVE_START_DATE >= TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS')
 		AND
-		RESERVE_END_DATE &lt;= TO_DATE(#{endDate}, 'YY-MM-DD')
+		RESERVE_END_DATE &lt;= TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
 		ORDER BY
 		RESERVE_END_DATE DESC
 	</select>
@@ -188,9 +188,9 @@
 		#{bizNumber} || 'CR%'
 		AND DRIVING_STATUS LIKE '%' || #{filterText} ||
 		'%'
-		AND RESERVE_START_DATE >= TO_DATE(#{startDate}, 'YY-MM-DD')
+		AND RESERVE_START_DATE >= TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS')
 		AND
-		RESERVE_END_DATE &lt;= TO_DATE(#{endDate}, 'YY-MM-DD')
+		RESERVE_END_DATE &lt;= TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
 		ORDER BY
 		RESERVE_END_DATE DESC
 	</select>
@@ -244,6 +244,38 @@
 		#{bizNumber} || 'CR%'
 		AND DRIVING_STATUS LIKE '%' || #{filterText} ||
 		'%'
+		ORDER BY RESERVE_END_DATE DESC
+	</select>
+	
+	<select id="selectCarByFilterOnlyDate" parameterType="map"
+		resultType="com.e3i3.moduerp.carres.model.dto.CarresDto">
+		SELECT *
+		FROM CAR_RESERVE
+		WHERE CAR_RESERVE_CODE LIKE
+		#{bizNumber} || 'CR%'
+		AND RESERVE_START_DATE >= TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS')
+		AND
+		RESERVE_END_DATE &lt;= TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
+		ORDER BY RESERVE_END_DATE DESC
+	</select>
+	
+	<select id="selectCarByFilterStartDate" parameterType="map"
+		resultType="com.e3i3.moduerp.carres.model.dto.CarresDto">
+		SELECT *
+		FROM CAR_RESERVE
+		WHERE CAR_RESERVE_CODE LIKE
+		#{bizNumber} || 'CR%'
+		AND RESERVE_START_DATE >= TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS')
+		ORDER BY RESERVE_END_DATE DESC
+	</select>
+	
+	<select id="selectCarByFilterEndDate" parameterType="map"
+		resultType="com.e3i3.moduerp.carres.model.dto.CarresDto">
+		SELECT *
+		FROM CAR_RESERVE
+		WHERE CAR_RESERVE_CODE LIKE
+		#{bizNumber} || 'CR%'
+		AND RESERVE_END_DATE &lt;= TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
 		ORDER BY RESERVE_END_DATE DESC
 	</select>
 </mapper>

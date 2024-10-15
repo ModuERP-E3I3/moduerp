@@ -240,7 +240,7 @@ tbody tr:hover {
 							
 						<td><input type="date" name="deliveryDate" /></td>
 						
-						<td> <input type="text" name="director" 
+						<td> <input type="text" name="oDirector" 
 							value="${directorName}" readonly="readonly">
 						</td>
 						

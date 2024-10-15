@@ -213,13 +213,12 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업/판매 관리 | 거래처관리 | ${accountDetail.accountNo}</div>
+		<div class="content-title">영업/판매 관리 | 거래처관리 | ${accountDetail.accountName}</div>
 
 		<!-- 테이블 -->
 		<table>
 			<thead>
 				<tr>
-					<th>거래처 번호</th>
 					<th>거래처 이름</th>
 					<th>업태</th>
 					<th>대표자 이름</th>
@@ -231,7 +230,6 @@ th {
 			</thead>
 			<tbody>
 				<tr>
-					<td>${accountDetail.accountNo}</td>
 					<td>${accountDetail.accountName}</td>
 					<td>${accountDetail.businessType}</td>
 					<td>${accountDetail.bossName}</td>

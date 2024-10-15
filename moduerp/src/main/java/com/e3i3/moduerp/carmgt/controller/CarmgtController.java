@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -35,7 +36,7 @@ public class CarmgtController {
 		List<CarmgtDto> carmgtList = CarmgtService.getAllCarmgt(bizNumber);
 		
 		// 페이지당 항목 수
-		int carmgtPerPage = 5;
+		int carmgtPerPage = 10;
 		
 		int totalCarmgt = carmgtList.size();
 		
@@ -52,6 +53,80 @@ public class CarmgtController {
 		model.addAttribute("currentPage", page);
 		return "car/carMgt";
 	}
+	
+	@RequestMapping(value = "/carmgtFilter.do",  method = RequestMethod.GET)
+	public String forwardCarmgtFilter(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "filterOption", required = false) String option,
+			@RequestParam(value = "filterText", required = false) String filterText,
+			@RequestParam(value = "startDate", required = false) String startDate,
+			@RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
+		String bizNumber = (String) session.getAttribute("biz_number");
+		List<CarmgtDto> carmgtList = CarmgtService.getAllCarmgt("bizNumber");
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+		// startDate의 시분초 기본값 설정 (00:00:00)
+	    if (startDate != null && !startDate.isEmpty()) {
+	        LocalDateTime startDateTime = LocalDateTime.parse(startDate + " 00:00:00", formatter);
+	        startDate = startDateTime.format(formatter);  // 포맷된 문자열로 변환
+	    }
+
+	    // endDate의 시분초 기본값 설정 (23:59:59)
+	    if (endDate != null && !endDate.isEmpty()) {
+	        LocalDateTime endDateTime = LocalDateTime.parse(endDate + " 23:59:59", formatter);
+	        endDate = endDateTime.format(formatter);  // 포맷된 문자열로 변환
+	    }
+		
+		// 필터링 로직
+				if (option != null && filterText != null) {
+					if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+						System.out.println("날짜있는거 실행");
+						carmgtList = CarmgtService.getCarByFilterDate(bizNumber, option, filterText, startDate, endDate);
+					} else if (startDate == null || startDate.isEmpty()) {
+						System.out.println("날짜없는거 실행");
+						carmgtList = CarmgtService.getCarByFilter(bizNumber, option, filterText);
+					} else {
+						System.out.println("실행 못함");
+						carmgtList = CarmgtService.getAllCarmgt(bizNumber);
+					}
+				} else if ((option == null || filterText == null || filterText.isEmpty()) 
+				        && startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+				    System.out.println("필터 텍스트 없이 날짜만 있는 경우 실행");
+				    carmgtList = CarmgtService.getCarByFilterOnlyDate(bizNumber, startDate, endDate);
+				} else if ((option == null || filterText == null || filterText.isEmpty()) 
+				        && startDate != null && !startDate.isEmpty()) {
+				    System.out.println("startDate만 있는 경우 실행");
+				    carmgtList = CarmgtService.getCarByFilterStartDate(bizNumber, startDate);
+				} else if ((option == null || filterText == null || filterText.isEmpty()) 
+				        && endDate != null && !endDate.isEmpty()) {
+				    System.out.println("endDate만 있는 경우 실행");
+				    carmgtList = CarmgtService.getCarByFilterEndDate(bizNumber, endDate);
+				} else {
+				    System.out.println("기본 전체 조회 실행");
+				    carmgtList = CarmgtService.getAllCarmgt(bizNumber);
+				}
+				
+				int carmgtPerPage = 10;
+				int totalCarmgt = carmgtList.size();
+				int totalPages = (int) Math.ceil((double) totalCarmgt / carmgtPerPage);
+				int startIndex = (page - 1) * carmgtPerPage;
+				int endIndex = Math.min(startIndex + carmgtPerPage, totalCarmgt);
+				
+				List<CarmgtDto> paginatedList = carmgtList.subList(startIndex, endIndex);
+				
+				
+				model.addAttribute("carmgtList", paginatedList);
+				model.addAttribute("totalPages", totalPages);
+				model.addAttribute("currentPage", page);
+				model.addAttribute("option", option);
+				model.addAttribute("filterText", filterText);
+				model.addAttribute("startDate", startDate);
+				model.addAttribute("endDate", endDate);
+		
+				return "car/carMgtFilter";
+	}
+	
+	
 
 	@RequestMapping(value = "/carmgtCreate.do", method = RequestMethod.GET)
 	public String showCreateCarmgtForm(Model model, HttpSession session) {

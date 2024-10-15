@@ -177,12 +177,16 @@ tbody tr:hover {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="purchaseOrdersList.do"><i
-					class="fa-solid fa-list"></i> 발주서 목록</a></li>
-			<li><a href="purchaseOrdersMgt.do"><i
-					class="fa-solid fa-list-check"></i> 발주서 관리</a></li>
-			<li><a href="purchaseOrdersCreate.do"><i
-					class="fa-solid fa-file-circle-plus"></i> 발주서 추가</a></li>
+
+			<li><a href="purchaseOrders.do"><i class="fas fa-bullhorn"></i>
+					발주서 관리</a></li>
+			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i>
+					구매 입고</a></li>
+			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i>
+					구매 출고</a></li>
+			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i>
+					배송 조회</a></li>
+
 		</ul>
 	</div>
 
@@ -220,7 +224,7 @@ tbody tr:hover {
 								</c:forEach>
 						</select> <input type="hidden" name="accountName" id="accountNameField"
 							value="${purchaseOrderDetail.accountName}" /></td>
-					
+
 						<!-- 품명 입력 -->
 						<td><input type="text" name="puItemName" placeholder="품명 입력"
 							value="${purchaseOrderDetail.puItemName}" /></td>
@@ -237,9 +241,10 @@ tbody tr:hover {
 						<td><input type="date" name="deliveryDate"
 							value="${purchaseOrderDetail.deliveryDate}" /></td>
 
-						<!-- 담당자명 입력 -->
-						<td><input type="text" name="mgrName" placeholder="담당자명 입력"
-							value="${purchaseOrderDetail.mgrName}" /></td>
+						<!-- 담당자명 -->
+						<td><input type="text" name="oDirector" placeholder="담당자명 입력"
+							value="${purchaseOrderDetail.oDirector}" /></td>
+
 					</tr>
 				</tbody>
 			</table>

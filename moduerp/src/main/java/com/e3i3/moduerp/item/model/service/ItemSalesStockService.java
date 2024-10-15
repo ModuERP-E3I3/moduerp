@@ -1,12 +1,12 @@
 package com.e3i3.moduerp.item.model.service;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 
 public interface ItemSalesStockService {
+    // 기존 메서드들
     List<String> getSalesItemNamesByBizNumber(String bizNumber);
 
     List<String> getStockPlacesByBizNumber(String bizNumber);
@@ -22,7 +22,7 @@ public interface ItemSalesStockService {
     void deleteItemByCode(String itemCode);
     
 	// ---------------------------------------------------
-	// salesOUT
+	// salesOUT 관련 메서드
     
 	List<ItemDTO> getItemsByBizNumberOutDate(String bizNumber);
 
@@ -49,10 +49,35 @@ public interface ItemSalesStockService {
 	void resetItemStockOutDetails(String itemCode);
 
 	void resetItemStockOut(String itemCode);
+	
+	
 
-    
-    
-    
-    
-    
+	// -----------------------------------------------
+	// sales in filter !!!
+	List<ItemDTO> getItemByFilterDate(String bizNumber, String option, String filterText, String startDate,
+			String endDate);
+
+	List<ItemDTO> getItemsByFilter(String bizNumber, String option, String filterText);
+	
+	List<ItemDTO> getItemByFilterOnlyDate(String bizNumber, String startDate, String endDate);
+
+	List<ItemDTO> getItemByFilterStartDate(String bizNumber, String startDate);
+
+	List<ItemDTO> getItemByFilterEndDate(String bizNumber, String endDate);
+
+	// -----------------------------------------------
+	// sales out filter !!!
+	List<ItemDTO> getItemOutByFilterDate(String bizNumber, String option, String filterText, String startDate,
+			String endDate);
+
+	List<ItemDTO> getItemOutByFilter(String bizNumber, String option, String filterText);
+
+	List<ItemDTO> getItemOutByFilterOnlyDate(String bizNumber, String startDate, String endDate);
+
+	List<ItemDTO> getItemOutByFilterStartDate(String bizNumber, String startDate);
+
+	List<ItemDTO> getItemOutByFilterEndDate(String bizNumber, String endDate);
 }
+
+
+

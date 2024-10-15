@@ -70,17 +70,86 @@ public class SalesStockInController {
 		return "salesStock/salesStockIn";
 	}
 
+	@RequestMapping(value = "/salesStockInFilter.do", method = RequestMethod.GET)
+	public String forwardSalesInFilter(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "filterOption", required = false) String option,
+			@RequestParam(value = "filterText", required = false) String filterText,
+			@RequestParam(value = "startDate", required = false) String startDate,
+			@RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
+
+		String bizNumber = (String) session.getAttribute("biz_number");
+		List<ItemDTO> itemList;
+
+		// 필터링 로직 
+		if (option != null && filterText != null) {
+			if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+				System.out.println("날짜있는거 실행");
+				itemList = itemSalesStockService.getItemByFilterDate(bizNumber, option, filterText, startDate, endDate);
+			} else if ((option == null || filterText == null || filterText.isEmpty()) && startDate != null
+					&& !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+				// 날짜만 있는 경우 처리
+				System.out.println("날짜만 있는 경우 실행");
+				itemList = itemSalesStockService.getItemByFilterOnlyDate(bizNumber, startDate, endDate);
+			} else if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
+				// 시작 날짜만 있는 경우 처리
+				System.out.println("시작 날짜만 있는 경우 실행");
+				itemList = itemSalesStockService.getItemByFilterStartDate(bizNumber, startDate);
+			} else if ((startDate == null || startDate.isEmpty()) && endDate != null && !endDate.isEmpty()) {
+				// 종료 날짜만 있는 경우 처리
+				System.out.println("종료 날짜만 있는 경우 실행");
+				itemList = itemSalesStockService.getItemByFilterEndDate(bizNumber, endDate);
+			} else {
+				System.out.println("날짜없는거 실행");
+				itemList = itemSalesStockService.getItemsByFilter(bizNumber, option, filterText);
+			}
+		} else if ((option == null || filterText == null || filterText.isEmpty()) && startDate != null
+				&& !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+			// 필터 옵션과 텍스트 없이 날짜만 있는 경우
+			System.out.println("날짜만 있는 경우 실행");
+			itemList = itemSalesStockService.getItemByFilterOnlyDate(bizNumber, startDate, endDate);
+		} else if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
+			// 시작 날짜만 있는 경우 처리
+			System.out.println("시작 날짜만 있는 경우 실행");
+			itemList = itemSalesStockService.getItemByFilterStartDate(bizNumber, startDate);
+		} else if ((startDate == null || startDate.isEmpty()) && endDate != null && !endDate.isEmpty()) {
+			// 종료 날짜만 있는 경우 처리
+			System.out.println("종료 날짜만 있는 경우 실행");
+			itemList = itemSalesStockService.getItemByFilterEndDate(bizNumber, endDate);
+		} else {
+			itemList = itemSalesStockService.getItemsByBizNumber(bizNumber);
+		}
+
+		// 페이지네이션 처리
+		int itemsPerPage = 10;
+		int totalItems = itemList.size();
+		int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+		int startIndex = (page - 1) * itemsPerPage;
+		int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+		// 서브리스트 생성
+		List<ItemDTO> paginatedList = itemList.subList(startIndex, endIndex);
+
+		// 모델에 추가
+		model.addAttribute("itemList", paginatedList);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("option", option);
+		model.addAttribute("filterText", filterText);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
+
+		return "salesStock/salesStockInFilter"; // JSP 파일 경로 반환
+	}
+
 	@PostMapping("/salesStockInCreate.do")
 	public String createSalesStockIn(@RequestParam("sStockInDate") String stockInDateStr,
 			@RequestParam("stockPlace") String stockPlace, @RequestParam("stockIn") int stockIn,
 			@RequestParam("itemName") String itemName, @RequestParam("itemDesc") String itemDesc,
 			@RequestParam("inPrice") double inPrice, @RequestParam("materialType") List<String> materialType,
-			@RequestParam("director") String iDirector,
-			HttpSession session) {
+			@RequestParam("director") String iDirector, HttpSession session) {
 
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String userUuid = (String) session.getAttribute("uuid");
-		
 
 		LocalDate localDate = LocalDate.parse(stockInDateStr);
 		LocalDateTime localDateTime = localDate.atStartOfDay();
@@ -115,7 +184,6 @@ public class SalesStockInController {
 		salesStockInDTO.setsStockInPlace(stockPlace);
 		salesStockInDTO.setsStockInQty(stockIn);
 		salesStockInDTO.setUuid(userUuid);
-		
 
 		salesStockInService.insertSalesStockIn(salesStockInDTO);
 

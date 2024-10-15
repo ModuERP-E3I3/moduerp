@@ -18,4 +18,15 @@ public interface CarmgtDao {
 	CarmgtDto selectpaymentHistoryCode(String paymentHistoryCode);
 	void updateCarmgt(CarmgtDto carmgtDto);
 	void deleteCarmgt(String paymentHistoryCode);
+	List<CarmgtDto> getCarByCarModelDate(String bizNumber, String filterText, String startDate, String endDate);
+	List<CarmgtDto> getCarByCarNumDate(String bizNumber, String filterText, String startDate, String endDate);
+	List<CarmgtDto> getCarByEmpNameDate(String bizNumber, String filterText, String startDate, String endDate);
+	List<CarmgtDto> getCarByDepartmentIdDate(String bizNumber, String filterText, String startDate, String endDate);
+	List<CarmgtDto> getCarByCarModel(String bizNumber, String filterText);
+	List<CarmgtDto> getCarByCarNum(String bizNumber, String filterText);
+	List<CarmgtDto> getCarByEmpName(String bizNumber, String filterText);
+	List<CarmgtDto> getCarByDepartmentId(String bizNumber, String filterText);
+	List<CarmgtDto> getCarByFilterOnlyDate(String bizNumber, String startDate, String endDate);
+	List<CarmgtDto> getCarByFilterStartDate(String bizNumber, String startDate);
+	List<CarmgtDto> getCarByFilterEndDate(String bizNumber, String endDate);
 }
