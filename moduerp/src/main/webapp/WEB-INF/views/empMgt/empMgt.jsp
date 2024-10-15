@@ -174,7 +174,7 @@ tbody tr:hover {
 <body>
 	<!-- 서브헤더 JSP 임포트 -->
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
-	
+
 	<!-- 상단 메뉴 -->
 	<div class="top-content-box">
 		<ul id="menubar">
@@ -194,10 +194,9 @@ tbody tr:hover {
 					<option value="empName">직원명</option>
 					<option value="departmentId">부서 코드</option>
 					<option value="jobId">직급 코드</option>
-				</select> 
-				<input type="date" name="startDate" id="startDate" /> 
-				<input type="date" name="endDate" id="endDate" /> 
-				<input type="text" name="filterText" id="filterText" placeholder="검색어 입력" />
+				</select> <input type="date" name="startDate" id="startDate" /> <input
+					type="date" name="endDate" id="endDate" /> <input type="text"
+					name="filterText" id="filterText" placeholder="검색어 입력" />
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
 					onclick="window.location.href='empMgt.do';">초기화</button>
@@ -216,6 +215,7 @@ tbody tr:hover {
 					<th>이메일</th>
 					<th>전화번호</th>
 					<th>주소</th>
+					<th>테스트용</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -230,9 +230,11 @@ tbody tr:hover {
 						<td>${employee.email}</td>
 						<td>${employee.phone}</td>
 						<td>${employee.address}</td>
+						<td>${employee.bizNumber}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
+
 		</table>
 
 		<!-- 페이지 버튼 -->
