@@ -99,4 +99,80 @@
 		SET Q_STATUS = 'N'
 		WHERE Q_SEQ = #{qSeq}
 	</update>
+	
+	<!-- filter 쿼리 -->
+	<select id="selectQnaByEmpNameDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		SELECT *
+		FROM QUESTION
+		WHERE EMP_NAME LIKE '%' || #{filterText} || '%'
+		AND Q_DATE
+		BETWEEN
+		TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
+		ORDER BY Q_DATE DESC
+	</select>
+	
+	<select id="selectQnaByQTitleDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		SELECT *
+		FROM QUESTION
+		WHERE Q_TITLE LIKE '%' || #{filterText} || '%'
+		AND Q_DATE
+		BETWEEN
+		TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
+		ORDER BY Q_DATE DESC
+	</select>
+	
+	<select id="selectQnaByEmpName"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		SELECT *
+		FROM QUESTION
+		WHERE EMP_NAME LIKE '%' || #{filterText} || '%'
+		ORDER BY Q_DATE DESC
+	</select>
+	
+	<select id="selectQnaByQTitle"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		SELECT *
+		FROM QUESTION
+		WHERE Q_TITLE LIKE '%' || #{filterText} || '%'
+		ORDER BY Q_DATE DESC
+	</select>
+	
+	<!-- filter(날짜만 입력받은 경우) 쿼리 -->
+	<select id="selectQnaByFilterOnlyDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		SELECT *
+		FROM QUESTION
+		WHERE Q_DATE
+		BETWEEN
+		TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
+		ORDER BY Q_DATE DESC
+	</select>
+	
+	<select id="selectQnaByFilterStartDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		SELECT *
+		FROM QUESTION
+		WHERE Q_DATE >= TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS') 
+		ORDER BY Q_DATE DESC
+	</select>
+	
+	<select id="selectQnaByFilterEndDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		SELECT *
+		FROM QUESTION
+		WHERE Q_DATE &lt;= TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
+		ORDER BY Q_DATE DESC
+	</select>
 </mapper>
