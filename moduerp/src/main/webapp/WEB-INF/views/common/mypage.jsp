@@ -86,33 +86,17 @@ function movePage(){
 </head>
 <body>
 
-<!-- 서브 이미지 컨테이너 -->
-<div id="image-container">
-    <!-- ModuERP Red 이미지 및 라벨 -->
-    <div class="image-wrapper">
-        <img src="${pageContext.request.contextPath}/resources/images/moduerp_red.jpg" alt="ModuERP Red">
-        <div class="image-label">ModuRedERP</div>
-    </div>
-    
-    <!-- ModuERP Green 이미지 및 라벨 -->
-    <div class="image-wrapper">
-        <img src="${pageContext.request.contextPath}/resources/images/moduerp_green.jpg" alt="ModuERP Green">
-        <div class="image-label">ModuGreenERP</div>
-    </div>
-</div>
 
 
 <!-- 메뉴바 임포트 -->
 <c:import url="/WEB-INF/views/common/menubar.jsp">
     <c:param name="loginUUID" value="${loginUUID}" />
-    <c:param name="departmentId" value="${departmentId}" />
 </c:import>
 
 
 
 <!-- 푸터 임포트 -->
 <c:import url="/WEB-INF/views/common/footer.jsp" />
-
 </body>
 </html>
 

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class ErpHomeController {
-	
 	private static final Logger logger = LoggerFactory.getLogger(ErpHomeController.class);
 	
 	/**
@@ -38,7 +37,6 @@ public class ErpHomeController {
 		return "home";
 	}
 	
-	//index.jsp �� ���� ��û�� �� �������� ��û�� �޾Ƽ�, common/main.jsp �� �������� ���� �޼ҵ�
 	@RequestMapping("erpMain.do")
 	public String forwardMain(HttpSession session) {
 		System.out.println("세션 UUID: " + session.getAttribute("uuid"));
