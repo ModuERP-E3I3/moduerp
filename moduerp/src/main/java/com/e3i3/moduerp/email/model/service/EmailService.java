@@ -40,4 +40,8 @@ public interface EmailService {
     // 보낸 이메일 페이징 처리를 위한 메서드 추가
     int countEmailsBySender(String senderUUID);
     List<Email> selectEmailsBySenderWithPaging(String senderUUID, int offset, int limit);
+    
+    
+    // 로그인 유저의 안 읽은 받은 이메일 개수 조회
+    public int countUnreadEmailsByRecipient(String uuid);
 }
