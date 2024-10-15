@@ -80,7 +80,7 @@ public class SalesStockInController {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		List<ItemDTO> itemList;
 
-		// 필터링 로직 추가
+		// 필터링 로직 
 		if (option != null && filterText != null) {
 			if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
 				System.out.println("날짜있는거 실행");

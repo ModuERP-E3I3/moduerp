@@ -68,56 +68,52 @@ public class SalesStockOutController {
 	}
 	
 	@RequestMapping(value = "/salesStockOutFilter.do", method = RequestMethod.GET)
-	public String forwardSalesInFilter(@RequestParam(value = "page", defaultValue = "1") int page,
+	public String forwardSalesOutFilter(@RequestParam(value = "page", defaultValue = "1") int page,
 	        @RequestParam(value = "filterOption", required = false) String option,
 	        @RequestParam(value = "filterText", required = false) String filterText,
 	        @RequestParam(value = "startDate", required = false) String startDate,
 	        @RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
 	    
 	    String bizNumber = (String) session.getAttribute("biz_number");
-	    List<ItemDTO> itemList = null;
+	    List<ItemDTO> itemList;
 
-	    // 날짜 형식을 처리하기 위한 로직 추가 (startDate와 endDate 기본값 설정)
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-	    // startDate의 시분초 기본값 설정 (00:00:00)
-	    if (startDate != null && !startDate.isEmpty()) {
-	        startDate += " 00:00:00";
-	    }
-
-	    // endDate의 시분초 기본값 설정 (23:59:59)
-	    if (endDate != null && !endDate.isEmpty()) {
-	        endDate += " 23:59:59";
-	    }
-
-	    // 필터링 로직
+	    // 필터링 로직 
 	    if (option != null && filterText != null) {
 	        if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
 	            System.out.println("날짜있는거 실행");
 	            itemList = itemSalesStockService.getItemOutByFilterDate(bizNumber, option, filterText, startDate, endDate);
-	        }
-	        else if ((option == null || filterText == null || filterText.isEmpty()) 
+	        } else if ((option == null || filterText == null || filterText.isEmpty()) 
 	                && startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
 	            // 날짜만 있는 경우 처리
 	            System.out.println("날짜만 있는 경우 실행");
 	            itemList = itemSalesStockService.getItemOutByFilterOnlyDate(bizNumber, startDate, endDate);
-	        } 
-	        else if (startDate == null || startDate.isEmpty()) {
+	        } else if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
+	            // 시작 날짜만 있는 경우 처리
+	            System.out.println("시작 날짜만 있는 경우 실행");
+	            itemList = itemSalesStockService.getItemOutByFilterStartDate(bizNumber, startDate);
+	        } else if ((startDate == null || startDate.isEmpty()) && endDate != null && !endDate.isEmpty()) {
+	            // 종료 날짜만 있는 경우 처리
+	            System.out.println("종료 날짜만 있는 경우 실행");
+	            itemList = itemSalesStockService.getItemOutByFilterEndDate(bizNumber, endDate);
+	        } else {
+	            // 날짜 없는 경우
 	            System.out.println("날짜없는거 실행");
 	            itemList = itemSalesStockService.getItemOutByFilter(bizNumber, option, filterText);
-	        } 
-	        else {
-	            System.out.println("실행 못함");
-	            itemList = itemSalesStockService.getItemsByBizNumberOutDate(bizNumber);
 	        }
-	    } 
-	    else if ((option == null || filterText == null || filterText.isEmpty()) 
+	    } else if ((option == null || filterText == null || filterText.isEmpty()) 
 	            && startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
 	        // 필터 옵션과 텍스트 없이 날짜만 있는 경우
 	        System.out.println("날짜만 있는 경우 실행");
 	        itemList = itemSalesStockService.getItemOutByFilterOnlyDate(bizNumber, startDate, endDate);
-	    } 
-	    else {
+	    } else if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
+	        // 시작 날짜만 있는 경우 처리
+	        System.out.println("시작 날짜만 있는 경우 실행");
+	        itemList = itemSalesStockService.getItemOutByFilterStartDate(bizNumber, startDate);
+	    } else if ((startDate == null || startDate.isEmpty()) && endDate != null && !endDate.isEmpty()) {
+	        // 종료 날짜만 있는 경우 처리
+	        System.out.println("종료 날짜만 있는 경우 실행");
+	        itemList = itemSalesStockService.getItemOutByFilterEndDate(bizNumber, endDate);
+	    } else {
 	        itemList = itemSalesStockService.getItemsByBizNumberOutDate(bizNumber);
 	    }
 
