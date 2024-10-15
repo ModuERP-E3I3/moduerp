@@ -171,7 +171,10 @@ public class QnaController {
 	}
 	
 	@PostMapping("/deleteQna.do")
-	public String deleteQna(@RequestParam("qSeq") String qSeq, HttpSession session) {
+	public String deleteQna(@RequestParam("qSeq") int qSeq, 
+			@RequestParam("aSeq") String aSeq,
+			HttpSession session) {
+		AnswerService.deleteAnswer(aSeq);
 		QnaService.deleteQna(qSeq);
 		
 		return "redirect:/qna.do";
@@ -269,5 +272,20 @@ public class QnaController {
 		AnswerService.updateAnswer(answerDto);
 
 	    return "redirect:/qnaDetail.do?qSeq=" + qSeq;
+	}
+	@PostMapping("/deleteAnswer.do")
+	public String deleteAnswer(@RequestParam("aSeq") String aSeq, 
+			@RequestParam("qSeq") int qSeq,
+			@RequestParam("qStatus") String qStatus,
+			HttpSession session) {
+		
+		QnaDto qnaDto = new QnaDto();
+	    qnaDto.setqSeq(qSeq);
+	    qnaDto.setqStatus(qStatus);
+	    
+	    AnswerService.deleteAnswer(aSeq);
+	    QnaService.updateQStatusN(qnaDto);
+	    
+		return "redirect:/qnaDetail.do?qSeq=" + qSeq;
 	}
 }
