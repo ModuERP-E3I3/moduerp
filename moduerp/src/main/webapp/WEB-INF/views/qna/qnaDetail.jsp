@@ -53,16 +53,6 @@ label {
 	display: block;
 }
 
-input[type="text"], textarea {
-	width: 100%;
-	padding: 10px;
-	font-size: 16px;
-	border: 1px solid #ddd;
-	border-radius: 4px;
-	margin-bottom: 20px;
-	box-sizing: border-box;
-}
-
 .menubar {
 	width: 100%;
 	background-color: white; /* 흰색 배경 */
@@ -176,6 +166,17 @@ button:hover {
 	margin-top: 30px;
 	text-align: right;
 }
+
+.back-btn {
+	margin-top: 30px;
+	padding: 10px 15px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	cursor: pointer;
+	text-decoration: none;
+	border-radius: 4px;
+}
 </style>
 </head>
 <body>
@@ -188,29 +189,43 @@ button:hover {
 
 		<!-- qna 게시판 -->
 		<div class="container">
-			<h1>질문글 작성</h1>
+
+			<h1>질문글 상세 보기</h1>
 
 			<div class="form-box">
-				<form action="insertQna.do" method="POST">
-					<input type="hidden" id="isPublic" name="isPublic" value="Y">
-					<input type="hidden" id="departmentId" name="departmentId" value="${departmentId}" readonly />
-					<input type="hidden" id="qStatus" name="qStatus" value="N">
-					<label for="qtitle">제목</label> 
-					<input type="text" id="qtitle" name="qTitle" required>
-					<input type="hidden" id="empName" name="empName" value="${empName}" readonly />
-					
-					<input type="hidden" id="qDate" name="qDate">
-					
-
-					<label for="body">내용</label>
-					<textarea id="body" name="qContents" rows="10" cols="50" required></textarea>
-
-					<div class="form-footer">
-						<button type="submit">등록</button>
-					</div>
-				</form>
+				<h3>${qnaDetail.qTitle}</h3>
+				<p>작성자: ${qnaDetail.empName}</p>
+				<p>
+					작성일:
+					<fmt:formatDate value="${qnaDetail.qDate}" pattern="yyyy-MM-dd" />
+				</p>
+				<hr>
+				<p>${qnaDetail.qContents}</p>
+				<div class="button-group">
+					<a href="qna.do" class="back-btn">목록으로 돌아가기</a> <a
+						href="questionUpdateForm.do?qSeq=${qnaDetail.qSeq}" class="back-btn">수정</a>
+					<%-- <a href="noticeDelete.do?noticeId=${notice.noticeSeq}" class="back-btn">삭제</a> --%>
+				</div>
 			</div>
+
+			<div class="form-box">
+				<c:choose>
+					<c:when test="${qnaDetail.qStatus == 'N'}">
+						<h1 style="color: gray;">답변 대기중</h1>
+						<!-- 답변 입력 버튼 -->
+						<%-- <button type="button" class="btn blue"
+							onclick="location.href='qnaAnswerForm.do?qSeq=${qnaDetail.qSeq}'">답변
+							입력</button> --%>
+					</c:when>
+					<c:when test="${qnaDetail.qStatus == 'Y'}">
+						<h1 style="color: green;">답변 완료</h1>
+					</c:when>
+				</c:choose>
+			</div>
+
+
 		</div>
+
 	</div>
 
 	<!-- 푸터 -->

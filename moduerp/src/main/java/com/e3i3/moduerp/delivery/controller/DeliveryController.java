@@ -46,8 +46,9 @@ public class DeliveryController {
 
 		    List<ItemDTO> itemList = itemDeliveryService.getItemsByBizNumber(bizNumber);
 		    
-		    
+		    List<DeliveryDTO> dliveryList = DeliveryService.getAllDelivery();
 
+		    
 		    for (ItemDTO item : itemList) {
 		        if (item.getCreatedAt() != null) {
 		            Timestamp createdAt = item.getCreatedAt();
@@ -136,7 +137,7 @@ public class DeliveryController {
 			 if (itemCode == null) {
 				    List<String> itemCodes = DeliveryService.getItemItemCode(bizNumber);
 				    if (!itemCodes.isEmpty()) {
-				        itemCode = itemCodes.get(0); // 첫 번째 값으로 설정 (원하는 방식에 맞게 조정)
+				        itemCode = itemCodes.get(0); // 첫 번째 값으로 설정
 				    }
 				}
 			
@@ -167,7 +168,7 @@ public class DeliveryController {
 			//  
 			DeliveryService.insertDelivery(DeliveryDTO);
 
-			return "redirect:/deliveryDitail.do"; // 
+			return "redirect:/delivery.do";
 		}
 
 		@GetMapping("/getDeliveryDetails.do")
@@ -177,28 +178,15 @@ public class DeliveryController {
 			// delivery
 			DeliveryDTO deliveryDetails = DeliveryService.getDeliveryDetails(itemCode);
 
-			// CREATED_AT
-			Timestamp createdAt = itemDetails.getCreatedAt();
-			Timestamp adjustedCreatedAt = Timestamp.from(Instant.ofEpochMilli(createdAt.getTime() + 9 * 60 * 60 * 1000)); 
-																	
-			itemDetails.setCreatedAt(adjustedCreatedAt); // Timestamp
-
-			// UPDATED_AT
-			Timestamp updatedAt = itemDetails.getUpdatedAt();
-			if (updatedAt != null) {
-				Timestamp adjustedUpdatedAt = Timestamp
-						.from(Instant.ofEpochMilli(updatedAt.getTime() + 9 * 60 * 60 * 1000)); 
-				itemDetails.setUpdatedAt(adjustedUpdatedAt); // 맂Timestamp 
-			} else {
-				// updatedAt
-				itemDetails.setUpdatedAt(null); 
-			}
-
+			System.out.println("==============================================================");
+			System.out.println(itemDetails);
+			System.out.println(deliveryDetails);
+			System.out.println("==============================================================");
 			// 
 			model.addAttribute("itemDetails", itemDetails);
 			model.addAttribute("DeliveryDetails", deliveryDetails);
 
-			return "buyStock/buyStockInDetail"; // JSP 
+			return "delivery/deliveryDetail"; // JSP 
 		}
 //		
 //		@GetMapping("/buyStockInDetailUpdate.do")

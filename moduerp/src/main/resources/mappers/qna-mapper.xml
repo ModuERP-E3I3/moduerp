@@ -60,4 +60,13 @@
 		#{isPublic}
 		)
 	</insert>
+	
+	<!-- 글 상세 보기 -->
+	<select id="selectQnaDetail" parameterType="map"
+		resultType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		SELECT *
+		FROM QUESTION
+		WHERE Q_SEQ = #{qSeq}
+	</select>
+	
 </mapper>
