@@ -91,6 +91,10 @@ public class EmpMgtController {
 		model.addAttribute("filterText", filterText);
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("endDate", endDate);
+		System.out.println("Option: " + option);
+		System.out.println("Filter Text: " + filterText);
+
+
 
 		return "empMgt/empMgtFilter";
 	}
