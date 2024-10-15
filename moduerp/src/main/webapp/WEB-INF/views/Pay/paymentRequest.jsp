@@ -205,7 +205,8 @@ th {
 									<c:if test="${module.moduleType == '그룹웨어'}">
 										<tr>
 											<td><input type="checkbox" name="selectedModules"
-												value="${module.moduleGrade}"></td>
+												value="${module.moduleGrade}"> <input type="hidden"
+												name="moduleIds" value="${module.moduleId}"></td>
 											<!-- 첫 번째 그룹웨어일 때만 rowspan 적용 -->
 											<c:if test="${status.index == 0}">
 												<td rowspan="${groupwareCount}">${module.moduleType}</td>
@@ -237,7 +238,8 @@ th {
 									<c:if test="${module.moduleType == '생산'}">
 										<tr>
 											<td><input type="checkbox" name="selectedModules"
-												value="${module.moduleGrade}"></td>
+												value="${module.moduleGrade}"> <input type="hidden"
+												name="moduleIds" value="${module.moduleId}"></td>
 
 											<!-- 첫 번째 생산 모듈일 때만 rowspan 적용 -->
 											<c:if test="${!firstProductionRendered}">
@@ -272,7 +274,8 @@ th {
 									<c:if test="${module.moduleType == '영업'}">
 										<tr>
 											<td><input type="checkbox" name="selectedModules"
-												value="${module.moduleGrade}"></td>
+												value="${module.moduleGrade}"> <input type="hidden"
+												name="moduleIds" value="${module.moduleId}"></td>
 
 											<!-- 첫 번째 영업 모듈일 때만 rowspan 적용 -->
 											<c:if test="${!firstSalesRendered}">
@@ -305,7 +308,8 @@ th {
 									<c:if test="${module.moduleType == '구매'}">
 										<tr>
 											<td><input type="checkbox" name="selectedModules"
-												value="${module.moduleGrade}"></td>
+												value="${module.moduleGrade}"> <input type="hidden"
+												name="moduleIds" value="${module.moduleId}"></td>
 
 											<!-- 첫 번째 구매 모듈일 때만 rowspan 적용 -->
 											<c:if test="${!firstPurchaseRendered}">
@@ -338,7 +342,8 @@ th {
 									<c:if test="${module.moduleType == '차량'}">
 										<tr>
 											<td><input type="checkbox" name="selectedModules"
-												value="${module.moduleGrade}"></td>
+												value="${module.moduleGrade}"> <input type="hidden"
+												name="moduleIds" value="${module.moduleId}"></td>
 
 											<!-- 첫 번째 차량 모듈일 때만 rowspan 적용 -->
 											<c:if test="${!firstVehicleRendered}">
@@ -371,7 +376,8 @@ th {
 									<c:if test="${module.moduleType == '회계'}">
 										<tr>
 											<td><input type="checkbox" name="selectedModules"
-												value="${module.moduleGrade}"></td>
+												value="${module.moduleGrade}"> <input type="hidden"
+												name="moduleIds" value="${module.moduleId}"></td>
 
 											<!-- 첫 번째 회계 모듈일 때만 rowspan 적용 -->
 											<c:if test="${!firstAccountingRendered}">
@@ -389,45 +395,20 @@ th {
 
 							</c:if>
 
-							<c:if test="${empty modules}">
-								<tr>
-									<td colspan="6">장바구니가 비어 있습니다.</td>
-								</tr>
-							</c:if>
+
 						</tbody>
 
 					</table>
 
 				</div>
-				<!-- 버튼 그룹 -->
-				<div class="btn-group">
-					<div class="left-group">
-						<button type="button" class="btn_deleteAll"
-							onclick="deleteAllItems()">전체 항목 삭제하기</button>
-						<button type="button" class="btn_deleteCheck"
-							onclick="submitSelectedItems()">선택 항목 삭제하기</button>
-					</div>
 
-				</div>
 
 			</div>
 			<div class="right-group">
 				<div id="totalPrice">
 					총 금액<br>${totalModulePrice}원
 				</div>
-
-				<c:choose>
-					<c:when test="${companyCardExistence}">
-						<button type="button" class="btn_pay" onclick="submitPayment()">결제하기</button>
-					</c:when>
-
-
-
-					<c:otherwise>
-						<!-- companyCardExistence가 false일 때 -->
-						<button type="button" class="btn_pay" onclick="handleNoCard()">결제하기</button>
-					</c:otherwise>
-				</c:choose>
+				<button type="button" class="btn_pay" onclick="">결제하기</button>
 			</div>
 
 
@@ -451,25 +432,11 @@ th {
 <script type="text/javascript">
 function submitPayment() {
     const form = document.getElementById('cartForm');
-
-    // 모든 체크박스에서 moduleGrade 값을 가져옴
-    const allModules = Array.from(document.querySelectorAll('input[name="selectedModules"]'))
-        .map(checkbox => checkbox.value);
-
-    // 모든 moduleGrade를 숨겨진 필드로 추가
-    allModules.forEach(moduleGrade => {
-        const hiddenInput = document.createElement('input');
-        hiddenInput.type = 'hidden';
-        hiddenInput.name = 'moduleGrades';
-        hiddenInput.value = moduleGrade;
-        form.appendChild(hiddenInput);
-    });
-
+    
     form.action = 'createPayment.do';
     form.method = 'post';
     form.submit();
 }
-
 
 </script>
 
