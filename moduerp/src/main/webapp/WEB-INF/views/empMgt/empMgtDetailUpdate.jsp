@@ -184,33 +184,31 @@ tbody tr:hover {
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">영업/판매 관리 | 거래처관리 </div>
+		<div class="content-title">인사 관리 | 직원 관리 </div>
 
-		<form action="/moduerp/updateAccount.do" method="POST">
-			<input type="hidden" name="accountNo" value="${accountDetail.accountNo}" />
+		<form action="/moduerp/updateEmployee.do" method="POST">
+			<input type="hidden" name="uuid" value="${employeeDetail.uuid}" />
 			
 			<!-- 테이블 -->
 			<table>
 				<thead>
 					<tr>
-						<th>거래처명</th>
-						<th>사업 유형</th>
-						<th>사업자 번호</th>
-						<th>대표자명</th>
-						<th>주소</th>
-						<th>전화번호</th>
-						<th>이메일</th>
+					<th>부서코드</th>
+					<th>직급</th>
+					<th>직원명</th>
+					<th>이메일</th>
+					<th>전화번호</th>
+					<th>주소</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td><input type="text" name="accountName" placeholder="거래처명 입력" value="${accountDetail.accountName}" /></td>
-						<td><input type="text" name="businessType" placeholder="사업유형" value="${accountDetail.businessType}" /></td>
-						<td><input type="text" name="businessNumber" placeholder="사업자번호" value="${accountDetail.businessNumber}" /></td>
-						<td><input type="text" name="bossName" placeholder="대표자명" value="${accountDetail.bossName}" /></td>
-						<td><input type="text" name="accountAddress" placeholder="주소 입력" value="${accountDetail.accountAddress}" /></td>
-						<td><input type="text" name="accountPhone" placeholder="전화번호" value="${accountDetail.accountPhone}" /></td>
-						<td><input type="text" name="email" placeholder="이메일" value="${accountDetail.email}" /></td>
+						<td><input type="text" name="departmentName" placeholder="거래처명 입력" value="${employeeDetail.departmentName}" /></td>
+						<td><input type="text" name="jobId" placeholder="사업유형" value="${employeeDetail.jobId}" /></td>
+						<td><input type="text" name="empName" placeholder="사업자번호" value="${employeeDetail.empName}" /></td>
+						<td><input type="text" name="email" placeholder="대표자명" value="${employeeDetail.email}" /></td>
+						<td><input type="text" name="phone" placeholder="주소 입력" value="${employeeDetail.phone}" /></td>
+						<td><input type="text" name="address" placeholder="전화번호" value="${employeeDetail.address}" /></td>
 					</tr>
 				</tbody>
 			</table>

@@ -184,7 +184,7 @@ tbody tr:hover {
 
 	<!-- 직원 관리 내용 박스 -->
 	<div class="content-box">
-		<div class="content-title">인사 관리 | 직원 관리 |</div>
+		<div class="content-title">인사 관리 | 직원 관리 </div>
 		<form action="/moduerp/empMgtFilter.do" method="get">
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
