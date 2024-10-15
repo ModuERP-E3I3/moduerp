@@ -103,10 +103,7 @@ function movePage(){
 
 
 <!-- 메뉴바 임포트 -->
-<c:import url="/WEB-INF/views/common/menubar.jsp">
-    <c:param name="loginUUID" value="${loginUUID}" />
-    <c:param name="departmentId" value="${departmentId}" />
-</c:import>
+<c:import url="/WEB-INF/views/common/menubar.jsp"/>
 
 
 
