@@ -229,6 +229,8 @@ th {
 									<c:if test="${salesStockOutDetails.paymentStatus == 'N'}">selected</c:if>>No</option>
 						</select></td>
 						
+						
+						
 					</tr>
 				</tbody>
 			</table>

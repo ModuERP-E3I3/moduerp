@@ -98,4 +98,9 @@ public class EmailDao {
 	public void updateReadStatusBatch(List<Long> emailIds) {
 		sqlSessionTemplate.update("EmailMapper.updateReadStatusBatch", emailIds);
 	}
+	
+	//로그인 유저가 받은 안 읽은 이메일 개수 조회
+	public int countUnreadEmailsByRecipient(String uuid) {
+		return sqlSessionTemplate.selectOne("EmailMapper.countUnreadEmailsByRecipient", uuid);
+	}
 }

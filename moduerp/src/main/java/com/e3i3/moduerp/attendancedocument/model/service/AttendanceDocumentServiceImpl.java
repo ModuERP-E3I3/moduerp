@@ -1,6 +1,5 @@
 package com.e3i3.moduerp.attendancedocument.model.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -97,7 +96,51 @@ public class AttendanceDocumentServiceImpl implements AttendanceDocumentService 
 	// 14. 특정 근태의 승인여부를 제출완료로 업데이트
 	@Override
 	public int updateApprovalStatus(String attendancerequestId) {
-		  return attendanceRequestDao.updateApprovalStatus(attendancerequestId);
-	  }
+		return attendanceRequestDao.updateApprovalStatus(attendancerequestId);
+	}
 
+	@Override
+	public int rejectRequest(String attendancerequestId) {
+		return attendanceRequestDao.rejectRequest(attendancerequestId);
+	}
+
+	@Override
+	public int undoRejectRequest(String attendancerequestId) {
+		return attendanceRequestDao.undoRejectRequest(attendancerequestId);
+	}
+
+	@Override
+	public int countAnnualLeaveUsed(String uuid) {
+		return attendanceRequestDao.countAnnualLeaveByUUID(uuid);
+	}
+
+	// 임시 저장된 문서 개수 조회
+	@Override
+	public int countDraftDocumentsByUUID(String uuid) {
+		return attendanceRequestDao.countDraftDocumentsByUUID(uuid);
+	}
+
+	// 대기 중인 문서 개수 조회
+	@Override
+	public int countPendingDocumentsByUUID(String uuid) {
+		return attendanceRequestDao.countPendingDocumentsByUUID(uuid);
+	}
+
+	// 승인된 문서 개수 조회
+	@Override
+	public int countApprovedDocumentsByUUID(String uuid) {
+		return attendanceRequestDao.countApprovedDocumentsByUUID(uuid);
+	}
+
+	// 반려된 문서 개수 조회
+	@Override
+	public int countRejectedDocumentsByUUID(String uuid) {
+		return attendanceRequestDao.countRejectedDocumentsByUUID(uuid);
+	}
+
+	// 로그인 유저가 결재해야 하는 문서 개수 조회
+	@Override
+	public int countDocumentsToApproveByUUID(String uuid) {
+		return attendanceRequestDao.countDocumentsToApproveByUUID(uuid);
+	}
 }

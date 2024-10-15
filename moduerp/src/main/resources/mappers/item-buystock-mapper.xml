@@ -25,19 +25,9 @@
 	</resultMap>
 
 	<select id="getItemsByBizNumber" resultMap="itemResultMap">
-		SELECT
-		i.*,
-		b.*,
-		a.ACCOUNT_NAME
-		FROM
-		item i
-		JOIN
-		BUY_STOCK_IN b ON i.item_code = b.item_code
-		JOIN
-		ACCOUNT a ON b.account_no = a.account_no
-
-		WHERE i.BIZ_NUMBER = #{bizNumber} AND
-		i.ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
+		SELECT * FROM ITEM
+		WHERE BIZ_NUMBER = #{bizNumber} AND
+		ITEM_CODE LIKE CONCAT(#{bizNumber}, 'B%')
 	</select>
 
 	<!-- 아이템 이름을 biz_number로 필터링해서 조회하는 쿼리 -->
@@ -204,6 +194,27 @@
 	</update>
 
 	<!-- BUY In filter -->
+	
+	<select id="selectItemFilterByItemName" parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'B%'
+		AND
+		ITEM_NAME LIKE '%' || #{filterText} || '%'
+		ORDER BY CREATED_AT ASC
+	</select>
+	
+	<select id="selectItemFilterByStockPlace" parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'B%'
+		AND
+		STOCK_PLACE LIKE '%' || #{filterText} || '%'
+		ORDER BY CREATED_AT ASC
+	</select>
+	
 	<select id="selectItemFilterByItemNameDate" parameterType="map"
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
 		SELECT *
@@ -286,6 +297,7 @@
 		STOCK_OUT_PLACE LIKE '%' || #{filterText} || '%'
 		AND CREATED_OUT_AT
 		IS NOT NULL
+		ORDER BY CREATED_OUT_AT ASC
 	</select>
 
 	<select id="selectItemOutFilterByODirector" parameterType="map"
@@ -311,6 +323,7 @@
 		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
 		TO_DATE(#{endDate},
 		'YYYY-MM-DD')
+		ORDER BY CREATED_AT ASC
 	</select>
 	
 		<select id="selectItemFilterByiDirectorDate" parameterType="map"
@@ -322,8 +335,8 @@
 		IDIRECTOR LIKE '%' || #{filterText} || '%'
 		AND CREATED_AT BETWEEN
 		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
-		TO_DATE(#{endDate},
-		'YYYY-MM-DD')
+		TO_DATE(#{endDate}, 'YYYY-MM-DD')
+		ORDER BY CREATED_AT ASC
 	</select>
 
 

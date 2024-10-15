@@ -31,6 +31,7 @@ public class AdminDTO {
     private String mgrUuid;
     private String password;
 
+
     public AdminDTO() {
         super();
     }
@@ -143,8 +144,8 @@ public class AdminDTO {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public String getLastLoginLocation() {
@@ -250,4 +251,7 @@ public class AdminDTO {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+
+    
 }

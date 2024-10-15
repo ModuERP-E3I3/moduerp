@@ -23,6 +23,14 @@
 		<result property="iDirector" column="IDIRECTOR" />
 		<result property="oDirector" column="ODIRECTOR" />
 	</resultMap>
+	
+	<select id="getItemsByBizNumber" resultType="ItemDTO">
+    SELECT *
+	FROM ITEM 
+    WHERE biz_number = #{bizNumber}
+    ORDER BY CREATED_AT DESC
+	</select>
+	
 
 	<select id="getAllItemsByBizNumber" resultMap="itemResultMap">
 		SELECT

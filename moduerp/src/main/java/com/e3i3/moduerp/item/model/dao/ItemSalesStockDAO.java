@@ -52,5 +52,52 @@ public interface ItemSalesStockDAO {
 
 	void updateItemStockOutToNull(String itemCode);
 
+	
+	
+	// -----------------------------------------------
+	// sales in filter !!!!
 
-	}
+	// 필터링된 항목 가져오는 메서드
+	List<ItemDTO> getItemByItemNameDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<ItemDTO> getItemByStockPlaceDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<ItemDTO> getItemByiDirectorDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<ItemDTO> getItemByItemName(String bizNumber, String filterText);
+
+	List<ItemDTO> getItemByStockPlace(String bizNumber, String filterText);
+
+	List<ItemDTO> getItemByiDirector(String bizNumber, String filterText);
+	
+	
+	List<ItemDTO> getItemByFilterOnlyDate(String bizNumber, String startDate, String endDate);
+
+	List<ItemDTO> getItemByFilterStartDate(String bizNumber, String startDate);
+
+	List<ItemDTO> getItemByFilterEndDate(String bizNumber, String endDate);
+
+	// -----------------------------------------------
+	// sales out filter   !!!!
+	List<ItemDTO> getItemOutByItemNameDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<ItemDTO> getItemOutByStockOutPlaceDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<ItemDTO> getItemOutByODirectorDate(String bizNumber, String filterText, String startDate, String endDate);
+
+	List<ItemDTO> getOutItemByItemName(String bizNumber, String filterText);
+
+	List<ItemDTO> getOutItemByStockOutPlace(String bizNumber, String filterText);
+
+	List<ItemDTO> getOutItemByODirector(String bizNumber, String filterText);
+
+	
+	List<ItemDTO> getItemOutByFilterOnlyDate(String bizNumber, String startDate, String endDate);
+
+	List<ItemDTO> getItemOutByFilterStartDate(String bizNumber, String startDate);
+
+	List<ItemDTO> getItemOutByFilterEndDate(String bizNumber, String endDate);
+
+
+
+}

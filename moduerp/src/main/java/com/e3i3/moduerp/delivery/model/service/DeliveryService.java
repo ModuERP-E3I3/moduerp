@@ -3,12 +3,26 @@ package com.e3i3.moduerp.delivery.model.service;
 import java.util.List;
 
 import com.e3i3.moduerp.delivery.model.dto.DeliveryDTO;
-import com.e3i3.moduerp.item.model.dto.ItemDTO;
 
 
 public interface DeliveryService {
+	 List<DeliveryDTO> getAllDelivery();
+	 
+	 void insertDelivery(DeliveryDTO deliveryDTO);
 
-	List<ItemDTO> getAllItemsByBizNumber(String bizNumber);
+	 DeliveryDTO getDeliveryDetails(String itemCode);
 
+	 void updateDelivery(DeliveryDTO deliveryDTO);
+
+	 void deleteDeliveryByItemCode(String itemCode);
+
+	List<DeliveryDTO> getAllDelivery(String bizNumber);
+	
+	 List<String> getItemItemCode(String bizNumber);
+
+	DeliveryDTO getDeliveryDetailsSub(String deliveryId);
+
+	DeliveryDTO getItemDetails(String itemCode);
+	
 
 }

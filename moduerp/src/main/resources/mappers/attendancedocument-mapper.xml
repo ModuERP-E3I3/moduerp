@@ -29,16 +29,23 @@
 	<insert id="insertAttendanceRequest"
 		parameterType="com.e3i3.moduerp.attendancedocument.model.dto.AttendanceDocument">
 		INSERT INTO C##PROJECT3TEAM.ATTENDANCEREQUEST (
-		attendancerequest_id, uuid, requester_name, biz_number, application_type, start_date,
+		attendancerequest_id, uuid, requester_name, biz_number,
+		application_type, start_date,
 		end_date,
-		start_time, end_time, reason, attachment, approver, approver_name, remarks,
-		contact, status, is_approved
+		start_time, end_time, reason,
+		attachment, approver, approver_name, remarks,
+		contact, status,
+		is_approved
 		)
 		VALUES (
-		#{attendancerequestId, javaType=String, jdbcType=VARCHAR}, #{uuid}, #{requesterName},
-		#{bizNumber}, #{applicationType}, #{startDate}, #{endDate},
-		#{startTime}, #{endTime}, #{reason}, #{attachment}, #{approver},
-		#{approverName}, #{remarks}, #{contact}, #{status}, '대기'
+		#{attendancerequestId, javaType=String,
+		jdbcType=VARCHAR}, #{uuid}, #{requesterName},
+		#{bizNumber},
+		#{applicationType}, #{startDate}, #{endDate},
+		#{startTime}, #{endTime},
+		#{reason}, #{attachment}, #{approver},
+		#{approverName}, #{remarks},
+		#{contact}, #{status}, '대기'
 		)
 	</insert>
 
@@ -46,54 +53,156 @@
 	<insert id="insertSavedAttendanceRequest"
 		parameterType="com.e3i3.moduerp.attendancedocument.model.dto.AttendanceDocument">
 		INSERT INTO C##PROJECT3TEAM.ATTENDANCEREQUEST (
-		attendancerequest_id, uuid, requester_name, biz_number, application_type, start_date,
+		attendancerequest_id, uuid, requester_name, biz_number,
+		application_type, start_date,
 		end_date, start_time,
-		end_time, reason, attachment, approver, approver_name, remarks, contact,
-		status, is_approved
+		end_time, reason,
+		attachment, approver, approver_name, remarks, contact,
+		status,
+		is_approved
 		)
 		VALUES (
-		#{attendancerequestId, javaType=String, jdbcType=VARCHAR}, #{uuid}, #{requesterName},
-		#{bizNumber}, #{applicationType}, #{startDate}, #{endDate},
-		#{startTime}, #{endTime}, #{reason}, #{attachment}, #{approver},
-		#{approverName}, #{remarks}, #{contact}, #{status}, 'N'
+		#{attendancerequestId, javaType=String,
+		jdbcType=VARCHAR}, #{uuid}, #{requesterName},
+		#{bizNumber},
+		#{applicationType}, #{startDate}, #{endDate},
+		#{startTime}, #{endTime},
+		#{reason}, #{attachment}, #{approver},
+		#{approverName}, #{remarks},
+		#{contact}, #{status}, 'N'
 		)
 	</insert>
 
 	<!-- 최종 제출 업데이트 메서드(status는 '제출완료'가 되고 isApproved는 'N'에서 '대기' 로 업뎃 -->
-<update id="updateRequestStatus" parameterType="map">
-    UPDATE C##PROJECT3TEAM.ATTENDANCEREQUEST
-    SET status = #{status}, is_approved = #{isApproved}, approver = #{approver}
-    WHERE attendancerequest_id = #{attendanceRequestId}
-</update>
+	<update id="updateRequestStatus" parameterType="map">
+		UPDATE
+		C##PROJECT3TEAM.ATTENDANCEREQUEST
+		SET status = #{status}, is_approved =
+		#{isApproved}, approver =
+		#{approver}
+		WHERE attendancerequest_id =
+		#{attendanceRequestId}
+	</update>
 
 
-<update id="updateApprovalStatus" parameterType="String">
-    UPDATE C##PROJECT3TEAM.ATTENDANCEREQUEST
-    SET IS_APPROVED = '승인'
-    WHERE attendancerequest_id = #{attendancerequestId}
-</update>
+	<update id="updateApprovalStatus" parameterType="String">
+		UPDATE
+		C##PROJECT3TEAM.ATTENDANCEREQUEST
+		SET IS_APPROVED = '승인'
+		WHERE
+		attendancerequest_id = #{attendancerequestId}
+	</update>
+
+	<update id="rejectRequest" parameterType="String">
+		UPDATE
+		C##PROJECT3TEAM.ATTENDANCEREQUEST
+		SET IS_APPROVED = '반려'
+		WHERE
+		attendancerequest_id = #{attendanceRequestId}
+	</update>
+
+	<update id="undoRejectRequest" parameterType="String">
+		UPDATE
+		C##PROJECT3TEAM.ATTENDANCEREQUEST
+		SET IS_APPROVED = '대기'
+		WHERE
+		attendancerequest_id = #{attendancerequestId}
+	</update>
+
+
+	<!-- 결재자가 결재해야 하는 대기 상태인 문서 개수 세기 -->
+	<select id="countDocumentsToApproveByUUID"
+		parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
+		WHERE approver = #{uuid}
+		AND is_approved = '대기'
+	</select>
+
+
 
 	<!-- Select by ATTENDANCEREQUEST_ID -->
 	<select id="selectAttendanceRequestById" parameterType="String"
 		resultMap="AttendanceRequestResultMap">
 		SELECT *
 		FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
-		WHERE ATTENDANCEREQUEST_ID = #{attendancerequestId}
+		WHERE
+		ATTENDANCEREQUEST_ID = #{attendancerequestId}
 	</select>
 
 	<!-- Select by UUID -->
 	<select id="selectAttendanceRequestByUuid"
 		parameterType="String" resultMap="AttendanceRequestResultMap">
 		SELECT *
-		FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
+		FROM
+		C##PROJECT3TEAM.ATTENDANCEREQUEST
 		WHERE UUID = #{uuid}
 	</select>
+
+	<!-- 승인된 연차 개수 세는 쿼리 -->
+	<select id="countAnnualLeaveByUUID" resultType="int"
+		parameterType="String">
+		SELECT COUNT(*)
+		FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
+		WHERE application_type = '연차' AND is_approved = '승인'
+		AND uuid = #{uuid}
+	</select>
+
+
+	<!-- 임시저장된 문서 개수 세는 쿼리 -->
+	<select id="countDraftDocumentsByUUID" parameterType="String"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
+		WHERE
+		uuid =
+		#{uuid}
+		AND status = '임시저장'
+	</select>
+
+	<!-- 대기 중인 문서 조회 -->
+	<select id="countPendingDocumentsByUUID" parameterType="String"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
+		WHERE
+		uuid =
+		#{uuid}
+		AND IS_APPROVED = '대기'
+	</select>
+
+
+	<!-- 승인된 문서 조회 -->
+	<select id="countApprovedDocumentsByUUID" parameterType="String"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
+		WHERE
+		uuid =
+		#{uuid}
+		AND IS_APPROVED = '승인'
+	</select>
+
+
+	<!-- 반려된 문서 조회 -->
+	<select id="countRejectedDocumentsByUUID" parameterType="String"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
+		WHERE
+		uuid =
+		#{uuid}
+		AND IS_APPROVED = '반려'
+	</select>
+
+
 
 	<!-- Select All for a given BIZ_NUMBER -->
 	<select id="selectAttendanceRequestsByBizNumber"
 		parameterType="String" resultMap="AttendanceRequestResultMap">
 		SELECT *
-		FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
+		FROM
+		C##PROJECT3TEAM.ATTENDANCEREQUEST
 		WHERE BIZ_NUMBER = #{bizNumber}
 	</select>
 
@@ -102,14 +211,16 @@
 		resultMap="AttendanceRequestResultMap">
 		SELECT *
 		FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
-		WHERE UUID = #{uuid} AND APPLICATION_TYPE = #{applicationType}
+		WHERE UUID =
+		#{uuid} AND APPLICATION_TYPE = #{applicationType}
 	</select>
 
 	<!-- Select Pending Requests by Approver -->
 	<select id="selectPendingRequestsByApprover"
 		parameterType="String" resultMap="AttendanceRequestResultMap">
 		SELECT *
-		FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
+		FROM
+		C##PROJECT3TEAM.ATTENDANCEREQUEST
 		WHERE APPROVER = #{approver}
 	</select>
 
@@ -118,34 +229,43 @@
 		resultMap="AttendanceRequestResultMap">
 		SELECT *
 		FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
-		WHERE UUID = #{uuid} AND START_DATE BETWEEN #{startDate} AND #{endDate}
+		WHERE UUID =
+		#{uuid} AND START_DATE BETWEEN #{startDate} AND #{endDate}
 	</select>
 
 	<!-- Update AttendanceRequest -->
 	<update id="updateAttendanceRequest"
 		parameterType="com.e3i3.moduerp.attendancedocument.model.dto.AttendanceDocument">
 		UPDATE C##PROJECT3TEAM.ATTENDANCEREQUEST
-		SET UUID = #{uuid}, BIZ_NUMBER = #{bizNumber}, APPLICATION_TYPE =
+		SET
+		APPLICATION_TYPE =
 		#{applicationType},
-		START_DATE = #{startDate}, END_DATE = #{endDate}, START_TIME = #{startTime},
-		END_TIME = #{endTime},
-		REASON = #{reason}, ATTACHMENT = #{attachment}, APPROVER = #{approver},
+		START_DATE = #{startDate},
+		END_DATE = #{endDate}, START_TIME = #{startTime},
+		END_TIME =
+		#{endTime},
+		REASON = #{reason}, ATTACHMENT = #{attachment}, APPROVER =
+		#{approver},
 		APPROVER_NAME = #{approverName}, REMARKS = #{remarks},
-		CONTACT = #{contact}, STATUS = #{status}, IS_APPROVED = #{isApproved}
-		WHERE ATTENDANCEREQUEST_ID = #{attendancerequestId}
+		CONTACT = #{contact}
+		WHERE ATTENDANCEREQUEST_ID =
+		#{attendancerequestId}
 	</update>
 
 	<!-- Delete by UUID -->
 	<delete id="deleteAttendanceRequestByUuid"
 		parameterType="String">
 		DELETE FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
-		WHERE UUID = #{uuid}
+		WHERE UUID
+		= #{uuid}
 	</delete>
 
 	<!-- Delete by ATTENDANCEREQUEST_ID -->
 	<delete id="deleteAttendanceRequestById" parameterType="String">
-		DELETE FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
-		WHERE ATTENDANCEREQUEST_ID = #{attendancerequestId}
+		DELETE
+		FROM C##PROJECT3TEAM.ATTENDANCEREQUEST
+		WHERE ATTENDANCEREQUEST_ID =
+		#{attendancerequestId}
 	</delete>
 
 </mapper>

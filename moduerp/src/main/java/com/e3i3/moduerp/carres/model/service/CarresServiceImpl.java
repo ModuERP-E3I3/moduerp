@@ -86,4 +86,19 @@ public class CarresServiceImpl implements CarresService{
 		}
 		return null;
 	}
+
+	@Override
+	public List<CarresDto> getCarByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
+		return carresDao.getCarByFilterOnlyDate(bizNumber, startDate, endDate);
+	}
+
+	@Override
+	public List<CarresDto> getCarByFilterStartDate(String bizNumber, String startDate) {
+		return carresDao.getCarByFilterStartDate(bizNumber, startDate);
+	}
+
+	@Override
+	public List<CarresDto> getCarByFilterEndDate(String bizNumber, String endDate) {
+		return carresDao.getCarByFilterEndDate(bizNumber, endDate);
+	}
 }

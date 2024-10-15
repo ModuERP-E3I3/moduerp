@@ -181,7 +181,7 @@ th {
             	<tbody>
             		<tr>
             			<td>
-    						<img id="previewImage" alt="${carDetail.carModel}" src="${pageContext.request.contextPath}/${carDetail.imagePath}" width="100">
+    						<img id="previewImage" alt="${carDetail.carModel}" src="${pageContext.request.contextPath}/${carDetail.imagePath}" width="25%">
     						<br>
     						<input type="file" id="image" name="image" accept="image/*" onchange="previewFile()" style="margin-left:8.5%"><br>
 						</td>

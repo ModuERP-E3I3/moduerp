@@ -156,9 +156,7 @@ public class BuyStockOutController {
 
 	    String bizNumber = (String) session.getAttribute("biz_number");
 	    String userUuid = (String) session.getAttribute("uuid");
-		System.out.println("oDirector: ======================================== ");
-		System.out.println("oDirector: " + oDirector);
-		System.out.println("oDirector: ======================================== ");
+		
 
 	    // ITEM 테이블 업데이트 로직
 	    itemBuystockService.updateItemStockOut(itemCode, createdOutAt, stockOutPlace, stockOut, outPrice,
@@ -253,8 +251,8 @@ public class BuyStockOutController {
 		ItemDTO itemDetails = itemBuystockService.getItemDetails(itemCode);
 
 		//  테이블에서 bStockOutId로 데이터 가져오기
-		BuyStockOutDTO buyStockOutDetails = buyStockOutService
-				.getBuyStockOutDetailssSub(bStockOutId);
+		BuyStockOutDTO buyStockOutDetails = 
+				buyStockOutService.getBuyStockOutDetailssSub(bStockOutId);
 
 		// 모델에 추가하여 JSP로 전달
 		model.addAttribute("itemDetails", itemDetails);

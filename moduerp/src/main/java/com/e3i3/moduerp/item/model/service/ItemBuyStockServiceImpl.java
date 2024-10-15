@@ -131,11 +131,11 @@ public class ItemBuyStockServiceImpl implements ItemBuyStockService {
 	@Override
 	public List<ItemDTO> getItemsByFilter(String bizNumber, String option, String filterText) {
 	    if (option.equals("itemName")) {
-	        return itemBuyStockDAO.getOutItemByItemName(bizNumber, filterText);
+	        return itemBuyStockDAO.getItemByItemName(bizNumber, filterText);
 	    } else if (option.equals("stockPlace")) {
-	        return itemBuyStockDAO.getOutItemByStockOutPlace(bizNumber, filterText);
-	    } else if (option.equals("ODirector")) {
-	        return itemBuyStockDAO.getOutItemByODirector(bizNumber, filterText);
+	        return itemBuyStockDAO.getItemByStockPlace(bizNumber, filterText);
+	    } else if (option.equals("iDirector")) {
+	        return itemBuyStockDAO.getItemByiDirector(bizNumber, filterText);
 	    }
 	    return null;
 	}

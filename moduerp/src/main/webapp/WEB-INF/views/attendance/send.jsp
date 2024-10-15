@@ -3,13 +3,22 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<c:url value="/attendanceDocument/submit.do" var="submitUrl" />
+<c:if test="${attendanceDocument.attendancerequestId != null}">
+    <c:url value="/attendanceDocument/update.do" var="submitUrl"/>
+</c:if>
+<c:if test="${attendanceDocument.attendancerequestId == null}">
+    <c:url value="/attendanceDocument/submit.do" var="submitUrl"/>
+</c:if>
+
 
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 <meta charset="UTF-8">
 <title>근태 요청서 작성</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style type="text/css">
 .top-content-box {
 	width: 96%; /* 화면에 가득 차지 않게 */
@@ -59,21 +68,21 @@
 
 /* 하얀 박스 스타일 */
 .content-box {
-	width: 96%; /* 화면에 가득 차지 않게 */
-	height: 70vh; /* 화면 높이의 78% */
-	background-color: white;
-	margin-left: 1%;
-	margin-right: 5%;
-	margin-top: 5%;
-	border: 1px solid #ccc;
-	border-radius: 20px; /* 박스 둥글게 */
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-	position: relative;
-	padding: 20px; /* 내부 여백 추가 */
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
+    width: 96%; /* 화면에 가득 차지 않게 */
+    height: auto; /* 높이를 내용에 맞게 자동 조정 */
+    background-color: white;
+    margin: 5% auto; /* 상단 마진 5%, 좌우 중앙 정렬 */
+    border: 1px solid #ccc;
+    border-radius: 20px; /* 박스 둥글게 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    padding: 20px; /* 내부 여백 추가 */
+    display: flex;
+    flex-direction: column; /* 수직 정렬 */
+    justify-content: center; /* 수직 중앙 정렬 */
+    align-items: center; /* 수평 중앙 정렬 */
+    position: relative;
 }
+
 
 /* 제목 스타일 */
 .content-title {
@@ -84,10 +93,59 @@
 	color: white;
 	font-weight: bold;
 }
+
+form {
+    width: 80%; /* 원하는 너비로 조정 */
+    max-width: 600px; /* 최대 너비 설정 */
+    background-color: #f0f8ff; /* 원하는 배경색으로 변경 (예: Alice Blue) */
+    padding: 20px; /* 내부 여백 추가 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
+
+
+table {
+    width: 100%;
+}
+
+table td {
+    padding: 10px 0;
+}
+
+button, input[type="submit"] {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover, input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* "임시 저장" 버튼 스타일 */
+#saveBtn {
+    background-color: gray; /* 회색 배경 */
+    color: white; /* 텍스트 색상 */
+}
+
+#saveBtn:hover {
+    background-color: darkgray; /* 호버 시 진한 회색 */
+}
+
 </style>
 </head>
 
 <script type="text/javascript">
+$(document).ready(function() {
+    // 페이지 로드 시 결재자 이름 자동 설정
+    var existingApproverName = $('#approverSelect option:selected').text();
+    $('#approverName').val(existingApproverName);
+});
+
 function toggleTimeFields() {
     // 시간 필드 활성화 (모든 신청 유형에 대해 입력 가능)
     var startTimeField = document.getElementById("startTime");
@@ -98,8 +156,6 @@ function toggleTimeFields() {
     endTimeField.disabled = false;
 }
 </script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         // 드롭다운에서 선택하면 approver 필드에 값 설정
@@ -111,10 +167,16 @@ function toggleTimeFields() {
     
     // 폼 제출 전 유효성 검사
     $("form").submit(function(event) {
+    		var applicationType = $('#applicationType').val(); // 변수 정의 추가
             var startDate = $('#startDate').val();
             var endDate = $('#endDate').val();
             var approver = $('#approver').val();
-
+            var approverName = $('#approverName').val();
+            
+            if (approverName === "") {
+                alert("결재자 이름이 없습니다.");
+                event.preventDefault(); // 폼 제출 방지
+            }
             // 유효성 검사 조건
             if (applicationType === "" || startDate === "" || endDate === "" || approver === "") {
                 alert("신청 유형, 시작 날짜, 종료 날짜, 그리고 결재자를 모두 입력해야 합니다.");
@@ -149,10 +211,10 @@ function toggleTimeFields() {
 	<!-- 위에 하얀 박스 -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="<c:url value='/attendance.do' />"><i
-					class="fas fa-bullhorn"></i> 출퇴근</a></li>
-			<li><a href="<c:url value='/leave.do' />"><i
-					class="fas fa-clipboard"></i> 문서통합</a></li>
+		<li><a href="<c:url value='/attendance.do' />"><i
+					class="fa-solid fa-clipboard-user"></i> 출퇴근</a></li>
+			<li><a href="<c:url value='/attendanceDocument/mylist.do' />"><i
+					class="fas fa-clipboard"></i> 근태문서</a></li>
 			<li><a href="<c:url value='/email/inbox.do' />"> <i
 					class="fas fa-envelope"></i> 이메일
 			</a></li>
@@ -163,8 +225,12 @@ function toggleTimeFields() {
 	<div class="content-box">
 		<div class="content-title">근태신청</div>
 		<!-- 근태 요청서 작성 폼 -->
-		
-		<form:form method="post" action="${submitUrl}" modelAttribute="attendanceDocument" oninput="toggleTimeFields()">
+		<c:if test="${not empty message}">
+    <div class="alert alert-info">
+      		  ${message}
+    </div>
+</c:if>
+		<form:form method="post" enctype="multipart/form-data" action="${submitUrl}"  modelAttribute="attendanceDocument" oninput="toggleTimeFields()">
 		<!-- JSP의 숨겨진 필드로 attendancerequestId 전달 -->
     <table>
         <tr>
@@ -205,7 +271,7 @@ function toggleTimeFields() {
         </tr>
         <tr>
             <td>첨부 파일:</td>
-            <td><input type="file" name="attachment" /></td>
+            <td><input type="file" name="file" /></td>
         </tr>
 
         <!-- 결재자 선택 드롭다운 -->
@@ -233,22 +299,34 @@ function toggleTimeFields() {
         </tr>
         <tr>
             <td colspan="2" align="center">
-                <input type="submit" value="제출" id="submitBtn" />
-                <button type="button" id="saveBtn" onclick="setStatusAndSubmit('saved')">임시 저장</button>
+            	  <c:if test="${attendanceDocument.attendancerequestId != null}">
+      				  <!-- request.attendancerequestId가 있을 때 '수정하기' 버튼만 보임 -->
+       				 <button class="edit-button" onclick="location.href='<c:url value='/attendanceDocument/update.do?attendancerequestId=${request.attendancerequestId}' />'">수정하기</button>
+    		  	  </c:if>
+    			
+    			  <c:if test="${attendanceDocument.attendancerequestId == null}">
+          			 <input type="submit" value="제출" id="submitBtn" />
+              		 <button type="button" id="saveBtn">임시 저장</button>
+  				  </c:if>
             </td>
         </tr>
     </table>
 
     <!-- 숨겨진 status와 isApproved 필드 추가 -->
     <input type="hidden" id="status" name="status" value="제출완료" />
-    <input type="hidden" id="isApproved" name="isApproved" value="N" />
+    <input type="hidden" id="isApproved" name="isApproved" value="N" /> 
 	<input type="hidden" name="attendancerequestId" value="${attendanceDocument.attendancerequestId}" />
+	<input type="hidden" name="approverName" id="approverName" />
 </form:form>
 	</div>
 </body>
-
 <script>
-	
+function updateApproverHiddenField() {
+    const approverSelect = document.getElementById('approverSelect');
+    const approverName = approverSelect.options[approverSelect.selectedIndex].text;
+    console.log('Selected approverName:', approverName); // 추가된 로그
+    document.getElementById('approverName').value = approverName;
+}
 </script>
 
 </html>

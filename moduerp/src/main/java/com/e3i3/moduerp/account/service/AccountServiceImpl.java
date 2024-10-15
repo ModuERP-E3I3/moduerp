@@ -60,4 +60,30 @@ public class AccountServiceImpl implements AccountService {
         accountDao.deleteAccountByAccountNo(accountNo);
     }
 
+   // filter !!!!!!!!!!!!
+    @Override
+    public List<AccountDTO> getAccountsByFilter(String bizNumber, String option, String filterText) {
+        if (option.equals("accountName")) {
+            return accountDao.getAccountsByAccountName(bizNumber, filterText);
+        } else if (option.equals("businessNumber")) {
+            return accountDao.getAccountsByBusinessNumber(bizNumber, filterText);
+        } else if (option.equals("bossName")) {
+            return accountDao.getAccountsByBossName(bizNumber, filterText);
+        }
+        return null;
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

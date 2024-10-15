@@ -209,7 +209,10 @@ tbody tr:hover {
 				<button type="button" class="btn"
 					onclick="window.location.href='salesStockOut.do';">초기화</button>
 			</div>
+			
 		</form>
+		
+		
 		<!-- 테이블 -->
 		<table>
 			<thead>

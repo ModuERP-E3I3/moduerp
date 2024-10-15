@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <meta charset="UTF-8">
     <style type="text/css">
         .top-content-box {
@@ -139,8 +142,8 @@
 <!-- 위에 하얀 박스 -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="<c:url value='/attendance.do' />"><i
-					class="fas fa-bullhorn"></i> 출퇴근</a></li>
+		<li><a href="<c:url value='/attendance.do' />"><i
+					class="fa-solid fa-clipboard-user"></i> 출퇴근</a></li>
 			<li><a href="<c:url value='/attendanceDocument/mylist.do' />"><i
 					class="fas fa-clipboard"></i> 근태문서</a></li>
 			<li><a href="<c:url value='/email/inbox.do' />"> <i
@@ -198,17 +201,18 @@
                     <th>근태 사유</th>
                     <td>${request.reason}</td>
                 </tr>
-                <tr>
-                    <th>첨부 파일</th>
-                    <td>
-                        <c:choose>
-                            <c:when test="${request.attachment != null}">
-                                <a href="/attachments/${request.attachment}">${request.attachment}</a>
-                            </c:when>
-                            <c:otherwise>첨부 파일 없음</c:otherwise>
-                        </c:choose>
-                    </td>
-                </tr>
+           <tr>
+    <th>첨부 파일</th>
+    <td>
+        <c:choose>
+            <c:when test="${request.attachment != null}">
+                <c:set var="originalFileName" value="${fn:substringAfter(request.attachment, '_')}" />
+               <a href="<c:url value='/resources/templates/email_files/${request.attachment}'/>" download="${originalFileName}">${originalFileName}</a>
+            </c:when>
+            <c:otherwise>첨부 파일 없음</c:otherwise>
+        </c:choose>
+    </td>
+</tr>
                 <tr>
                     <th>결재자</th>
                     <td>${request.approverName}</td>
@@ -235,11 +239,19 @@
         </table>
 
          <div class="button-container" style="clear: both;">
-            <c:if test="${loginUser == request.approver && request.isApproved != '승인'}">
+            <c:if test="${loginUser == request.approver && request.isApproved != '승인' && request.isApproved != '반려'}">
     			<button class="approve-button" onclick="approveRequest('${request.attendancerequestId}')">승인하기</button>
+    			<button class="reject-button" style="background-color: #f44336; color: white;" onclick="rejectRequest('${request.attendancerequestId}')">반려하기</button>
 			</c:if>
 
-
+			<c:if test="${loginUser == request.approver && request.isApproved == '반려'}">
+    			<button class="undo-reject-button" style="background-color: #f44336; color: white;" onclick="undoRejectRequest('${request.attendancerequestId}')">반려 취소</button>
+			</c:if>
+			
+		    <c:if test="${loginUser == request.approver && request.isApproved == '승인'}">
+    			<button class="undo-reject-button" style="background-color: #f44336; color: white;" onclick="undoApproveRequest('${request.attendancerequestId}')">승인 취소</button>
+			</c:if>
+			
             <c:if test="${loginUser != request.approver && request.isApproved != '승인'}">
                 <button class="edit-button" onclick="location.href='<c:url value='/attendanceDocument/send.do?attendancerequestId=${request.attendancerequestId}' />'">수정하기</button>
                 <button class="cancel-button" onclick="if(confirm('정말로 삭제하시겠습니까? 복구할 수 없습니다.')) { location.href='<c:url value='/attendanceDocument/cancel.do?attendancerequestId=${request.attendancerequestId}' />'; }">신청취소</button>
@@ -247,11 +259,127 @@
                     <button class="submit-button" onclick="submitRequest('${request.attendancerequestId}', '${request.approver}')">제출하기</button>
                 </c:if>
             </c:if>
+            
+              <c:if test="${loginUser != request.approver && request.isApproved == '반려'}">
+            	<button class="resubmit-button" style="background-color: #007bff; color: white;" onclick="resubmitRequest('${request.attendancerequestId}')">재요청</button>
+            </c:if>
+            
+            
             <button class="back-button" onclick="location.href='<c:url value='/attendanceDocument/mylist.do' />'">목록으로 돌아가기</button>
         </div>
     </div>
 
     <script>
+    function resubmitRequest(attendanceRequestId) {
+        fetch('<c:url value="/attendanceDocument/undoReject.do"/>', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'attendancerequestId=' + attendanceRequestId
+        })
+        .then(response => response.json())
+        .then(result => {
+        	 alert('결재 재요청을 성공했습니다.');
+        	 const mylistUrl = '<c:url value="/attendanceDocument/mylist.do"/>';
+             const detailUrlBase = '<c:url value="/attendanceDocument/detail/"/>';
+            if (result.redirectUrl) {
+            	 location.href = result.redirectUrl === "/attendanceDocument/mylist.do" ? mylistUrl : detailUrlBase + attendanceRequestId + '.do';
+            } else {
+                alert(result.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('결재 재요청을 실패했습니다. 다시 시도해주세요.');
+        });
+    }
+
+    
+    function undoApproveRequest(attendanceRequestId) {
+        fetch('<c:url value="/attendanceDocument/undoReject.do"/>', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'attendancerequestId=' + attendanceRequestId
+        })
+        .then(response => response.json())
+        .then(result => {
+       	    alert('결재승인을 취소했습니다.');
+            const mylistUrl = '<c:url value="/attendanceDocument/mylist.do"/>';
+            const detailUrlBase = '<c:url value="/attendanceDocument/detail/"/>';
+
+            if (result.redirectUrl) {
+                location.href = result.redirectUrl === "/attendanceDocument/mylist.do" ? mylistUrl : detailUrlBase + attendanceRequestId + '.do';
+            } else {
+                alert(result.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('결재승인의 취소를 실패했습니다. 다시 시도해주세요.');
+        });
+    }
+    
+    
+    
+    function undoRejectRequest(attendanceRequestId) {
+        fetch('<c:url value="/attendanceDocument/undoReject.do"/>', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'attendancerequestId=' + attendanceRequestId
+        })
+        .then(response => response.json())
+        .then(result => {
+       	    alert('결재반려를 취소했습니다.');
+            const mylistUrl = '<c:url value="/attendanceDocument/mylist.do"/>';
+            const detailUrlBase = '<c:url value="/attendanceDocument/detail/"/>';
+
+            if (result.redirectUrl) {
+                location.href = result.redirectUrl === "/attendanceDocument/mylist.do" ? mylistUrl : detailUrlBase + attendanceRequestId + '.do';
+            } else {
+                alert(result.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('결재반려의 취소를 실패했습니다. 다시 시도해주세요.');
+        });
+    }
+
+
+    
+    function rejectRequest(attendanceRequestId) {
+        // POST 요청으로 결재 반려 처리        
+        fetch('<c:url value="/attendanceDocument/reject.do"/>', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'attendancerequestId=' + attendanceRequestId
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.redirectUrl) {
+            	 alert('결재반려에 성공했습니다.');
+                // 리다이렉트 URL을 설정된 c:url 변수로 이동
+                const redirectUrl = result.redirectUrl === "/attendanceDocument/mylist.do" ? '<c:url value="/attendanceDocument/mylist.do"/>' : '<c:url value="/attendanceDocument/detail/' + attendanceRequestId + '.do"/>';
+                location.href = redirectUrl;
+            } else {
+                alert(result.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('결재반려에 실패했습니다. 다시 시도해주세요.');
+        });
+    }
+
+
+    
     function approveRequest(attendancerequestId) {
         // POST 요청으로 결재 승인 처리
         fetch('<c:url value="/attendanceDocument/approve.do"/>', {
@@ -263,12 +391,12 @@
         })
         .then(response => response.text())
         .then(result => {
-            alert('결재가 성공적으로 완료되었습니다.');
+            alert('결재승인을 성공했습니다.');
             location.href = '<c:url value="/attendanceDocument/mylist.do"/>';
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('결재에 실패했습니다. 다시 시도해주세요.');
+            alert('결재승인에 실패했습니다. 다시 시도해주세요.');
         });
     }
 
@@ -288,6 +416,7 @@
         })
         .then(response => response.json())
         .then(result => {
+        	  alert('문서제출을 성공했습니다.');
             if (result.redirectUrl) {
                 // 리다이렉트 URL을 설정된 c:url 변수로 이동
                 location.href = result.redirectUrl === "/attendanceDocument/mylist.do" ? mylistUrl : detailUrlBase + attendanceRequestId + '.do';
@@ -295,7 +424,10 @@
                 alert(result.error);
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            alert('문서제출에 실패했습니다. 다시 시도해주세요.');
+        });
     }
 
 

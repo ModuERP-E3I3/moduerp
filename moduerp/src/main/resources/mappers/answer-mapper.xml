@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+ "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AnswerMapper">
+	<resultMap id="resultAnswer"
+		type="com.e3i3.moduerp.answer.model.dto.AnswerDto">
+		<result property="qSeq" column="Q_SEQ" />
+		<result property="aSeq" column="A_SEQ" />
+		<result property="uuid" column="UUID" />
+		<result property="aTitle" column="A_TITLE" />
+		<result property="aContents" column="A_CONTENTS" />
+		<result property="aDate" column="A_DATE" />
+	</resultMap>
+	
+	<!-- 질문 qSeq와 일치하는 답글 select 쿼리 -->
+	<select id="selectAnswerDetail" parameterType="map" resultType="com.e3i3.moduerp.answer.model.dto.AnswerDto">
+		SELECT *
+		FROM ANSWER WHERE Q_SEQ = #{qSeq}
+	</select>
+	
+	<!-- 답글 추가 쿼리 -->
+	<insert id="insertAnswer"
+		parameterType="com.e3i3.moduerp.answer.model.dto.AnswerDto">
+	INSERT INTO ANSWER (
+	Q_SEQ,
+	UUID,
+	A_SEQ,
+	A_TITLE,
+	A_CONTENTS,
+	A_DATE
+	)
+	VALUES (
+	#{qSeq},
+	#{uuid},
+	#{aSeq},
+	#{aTitle},
+	#{aContents},
+	#{aDate}
+	)
+	</insert>
+	
+	<!-- 답글 수정 쿼리 -->
+	<update id="updateAnswer"
+		parameterType="com.e3i3.moduerp.answer.model.dto.AnswerDto">
+		UPDATE ANSWER
+		SET A_TITLE = #{aTitle},
+		A_CONTENTS = #{aContents},
+		A_DATE = #{aDate}
+		WHERE A_SEQ = #{aSeq}
+	</update>
+	
+	<!-- 답글 삭제 쿼리 -->
+	<delete id="deleteAnswer"
+		parameterType="String">
+		DELETE FROM ANSWER WHERE A_SEQ = #{aSeq}
+	</delete>
+</mapper>

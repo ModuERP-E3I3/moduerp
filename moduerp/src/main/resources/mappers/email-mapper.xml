@@ -29,8 +29,7 @@
 		attachment_path, sent_date, is_read)
 		VALUES (#{senderUUID},
 		#{recipientUUID}, #{subject}, #{body},
-		#{attachmentPath}, #{sentDate},
-		#{isRead})
+		#{attachmentPath}, #{sentDate}, 'N')
 	</insert>
 
 	<!-- 로그인 유저가 받은 이메일의 총 개수를 세는 쿼리 -->
@@ -40,6 +39,14 @@
 		#{recipientUUID}
 	</select>
 
+	<!--  로그인 유자가 안 읽은 받은 이메일의 개수를 세는 쿼리 -->
+	<select id="countUnreadEmailsByRecipient" parameterType="string"
+		resultType="int">
+		SELECT COUNT(*) FROM email WHERE recipient_uuid =
+		#{recipientUUID} AND IS_READ='N'
+	</select>
+	
+	
 	<!-- 로그인 유저가 받은 이메일을 페이징하여 조회하는 쿼리 -->
 	<select id="selectEmailsByRecipientWithPaging"
 		parameterType="map" resultMap="resultEmail">
