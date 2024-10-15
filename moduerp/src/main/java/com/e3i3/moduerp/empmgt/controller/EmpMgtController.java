@@ -44,7 +44,7 @@ public class EmpMgtController {
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("currentPage", page);
 
-        return "empmgt/empMgt";
+        return "empMgt/empMgt";
     }
 
     @RequestMapping(value = "/empMgtFilter.do", method = RequestMethod.GET)
@@ -92,7 +92,7 @@ public class EmpMgtController {
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
 
-        return "empmgt/empMgtFilter";
+        return "empMgt/empMgtFilter";
     }
 
     @RequestMapping(value = "/employeeCreate.do", method = RequestMethod.GET)
@@ -110,7 +110,7 @@ public class EmpMgtController {
         model.addAttribute("employees", employees);
         model.addAttribute("empNameDepart", empNameDepart);
 
-        return "empmgt/employeeCreate";
+        return "empMgt/employeeCreate";
     }
 
     @PostMapping("/employeeCreate.do")

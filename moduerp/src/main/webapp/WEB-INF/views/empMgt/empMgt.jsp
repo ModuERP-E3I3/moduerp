@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>직원 관리</title>
+<title>erpMain | 직원 관리</title>
 
 <style type="text/css">
 .top-content-box {
@@ -27,7 +27,35 @@
 	font-size: 30px;
 	font-weight: bold;
 }
+/* ul의 기본 스타일 제거 */
+#menubar {
+	list-style: none; /* 기본 list-style 없애기 */
+	padding: 0;
+	margin: 0;
+	display: flex; /* li를 가로로 배치하기 위해 flexbox 사용 */
+	justify-content: center;
+	align-items: center;
+}
 
+#menubar li {
+	margin: 0 40px; /* li 간의 간격 추가 */
+}
+
+#menubar li a {
+	color: black;
+	text-decoration: none;
+	font-size: 16px;
+	display: block;
+	padding: 10px 20px;
+	transition: background 0.3s ease;
+}
+
+#menubar li a:hover {
+	background-color: #f4f4f4;
+	border-radius: 10px; /* 호버 시 살짝 둥근 배경 */
+}
+
+/* 하얀 박스 스타일 */
 .content-box {
 	width: 96%; /* 화면에 가득 차지 않게 */
 	height: 70vh; /* 화면 높이의 78% */
@@ -42,6 +70,7 @@
 	padding: 20px; /* 내부 여백 추가 */
 }
 
+/* 제목 스타일 */
 .content-title {
 	position: absolute;
 	top: -40px;
@@ -51,6 +80,7 @@
 	font-weight: bold;
 }
 
+/* 테이블 스타일 */
 table {
 	width: 100%;
 	border-collapse: collapse;
@@ -68,6 +98,7 @@ th {
 	font-weight: bold;
 }
 
+/* 버튼 스타일 */
 .btn-group {
 	margin-top: 20px;
 	text-align: right;
@@ -79,6 +110,19 @@ th {
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
+}
+
+.btn.red {
+	background-color: red;
+	color: white;
+}
+
+.btn.green {
+	background-color: green;
+	color: white;
+}
+
+.btn.blue {
 	background-color: blue;
 	color: white;
 }
@@ -96,6 +140,10 @@ th {
 
 .filter-box input[type="date"] {
 	width: 160px;
+}
+
+.top-content-box {
+	background-color: white;
 }
 
 #pagebutton {
@@ -124,6 +172,9 @@ tbody tr:hover {
 </head>
 
 <body>
+	<!-- 서브헤더 JSP 임포트 -->
+	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
+	
 	<!-- 상단 메뉴 -->
 	<div class="top-content-box">
 		<ul id="menubar">
@@ -176,8 +227,8 @@ tbody tr:hover {
 						<td>${employee.jobId}</td>
 						<td>${employee.empNo}</td>
 						<td>${employee.empName}</td>
-						<td>${employee.empEmail}</td>
-						<td>${employee.userPhone}</td>
+						<td>${employee.email}</td>
+						<td>${employee.phone}</td>
 						<td>${employee.address}</td>
 					</tr>
 				</c:forEach>
@@ -202,7 +253,7 @@ tbody tr:hover {
 
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
-			<a href="employeeCreate.do"><button class="btn">등록</button></a>
+			<a href="employeeCreate.do"><button class="btn blue">등록</button></a>
 		</div>
 
 	</div>
