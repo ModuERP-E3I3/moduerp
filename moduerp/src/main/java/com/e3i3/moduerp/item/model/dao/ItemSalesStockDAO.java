@@ -69,6 +69,13 @@ public interface ItemSalesStockDAO {
 	List<ItemDTO> getItemByStockPlace(String bizNumber, String filterText);
 
 	List<ItemDTO> getItemByiDirector(String bizNumber, String filterText);
+	
+	
+	List<ItemDTO> getItemByFilterOnlyDate(String bizNumber, String startDate, String endDate);
+
+	List<ItemDTO> getItemByFilterStartDate(String bizNumber, String startDate);
+
+	List<ItemDTO> getItemByFilterEndDate(String bizNumber, String endDate);
 
 	// -----------------------------------------------
 	// sales out filter   !!!!
@@ -83,5 +90,14 @@ public interface ItemSalesStockDAO {
 	List<ItemDTO> getOutItemByStockOutPlace(String bizNumber, String filterText);
 
 	List<ItemDTO> getOutItemByODirector(String bizNumber, String filterText);
+
+	
+	List<ItemDTO> getItemOutByFilterOnlyDate(String bizNumber, String startDate, String endDate);
+
+	List<ItemDTO> getItemOutByFilterStartDate(String bizNumber, String startDate);
+
+	List<ItemDTO> getItemOutByFilterEndDate(String bizNumber, String endDate);
+
+
 
 }
