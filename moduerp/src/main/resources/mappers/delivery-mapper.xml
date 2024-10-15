@@ -47,14 +47,11 @@
 		parameterType="com.e3i3.moduerp.delivery.model.dto.DeliveryDTO">
 		INSERT INTO delivery (DELIVERY_ID, ITEM_CODE, SPEC,
 		RECEIVER_ID, ADDRESS,
-		DELIVERY_TYPE, KEY,
-		DELIVERY_DATE, IN_DATE,
+		IN_DATE,
 		UP_DATE, RECIPIENT, WAYBILL, DELIVERYCOMPANY)
 		VALUES (#{deliveryId},
 		#{itemCode}, #{spec}, #{receiverId}, #{address},
-		#{deliveryType},
-		#{key},
-		#{deliveryDate}, #{inDate}, #{upDate}, #{recipient},
+		#{inDate}, #{upDate}, #{recipient},
 		#{waybill}, #{deliveryCompany})
 	</insert>
 
@@ -71,6 +68,23 @@
 		LEFT JOIN DELIVERY D ON D.ITEM_CODE = I.ITEM_CODE 
 		WHERE I.ITEM_CODE = #{itemCode}
 
+	</select>
+	
+	<select id="updateDelivery" resultType="com.e3i3.moduerp.delivery.model.dto.DeliveryDTO">
+	UPDATE DELIVERY
+	SET 
+    spec = #{spec},
+    receiver_id = #{receiverId},
+    address = #{address},
+    recipient = #{recipient},
+    waybill = #{waybill},
+    delivery_company = #{deliveryCompany}
+	WHERE 
+    item_code = #{itemCode};
+	</select>
+	
+	<select id="SelectDeliveryByDelivery" resultType="com.e3i3.moduerp.delivery.model.dto.DeliveryDTO">
+		SELECT * FROM DELIVERY WHERE DELIVERY_ID = #{deliveryId}
 	</select>
 
 

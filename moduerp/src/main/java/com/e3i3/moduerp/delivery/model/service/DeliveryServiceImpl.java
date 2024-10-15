@@ -50,6 +50,16 @@ public class DeliveryServiceImpl implements DeliveryService {
 		return deliveryDAO.getItemItemCode(bizNumber);
 	}
 
+	@Override
+	public DeliveryDTO getDeliveryDetailsSub(String deliveryId) {
+		return deliveryDAO.SelectDeliveryByDelivery(deliveryId);
+	}
+
+	@Override
+	public DeliveryDTO getItemDetails(String itemCode) {
+		return deliveryDAO.selectDeliveryByItemCode(itemCode);
+	}
+
 
 
 
