@@ -124,9 +124,12 @@ public class QnaController {
 	
 	// qna 상세 페이지
 	@GetMapping("qnaDetail.do")
-	public String qnaDetail(@RequestParam("qSeq") String qSeq, Model model) {
+	public String qnaDetail(@RequestParam("qSeq") String qSeq, Model model, HttpSession session) {
+		String uuid = (String) session.getAttribute("uuid");
+		System.out.println("uuid : " + uuid);
 		QnaDto qnaDetail = QnaService.getQnaDetail(qSeq);
 		
+		model.addAttribute("uuid", uuid);
 		model.addAttribute("qnaDetail", qnaDetail);
 		
 		return "qna/qnaDetail";

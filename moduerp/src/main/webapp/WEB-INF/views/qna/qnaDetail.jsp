@@ -202,10 +202,13 @@ button:hover {
 				<hr>
 				<p>${qnaDetail.qContents}</p>
 				<div class="button-group">
-					<a href="qna.do" class="back-btn">목록으로 돌아가기</a> <a
-						href="questionUpdateForm.do?qSeq=${qnaDetail.qSeq}"><button
-							class="btn green">수정</button></a>
+					<a href="qna.do" class="back-btn">목록으로 돌아가기</a> 
+					<c:if test="${uuid == qnaDetail.uuid}">
+					<a href="questionUpdateForm.do?qSeq=${qnaDetail.qSeq}"><button class="btn green">수정</button></a>
+					</c:if>
+					<c:if test="${uuid == qnaDetail.uuid || uuid == '08fd74b7-f049-4583-bc44-213d2114aa5d'}">
 					<button class="btn red" onclick="openDeleteModal()">삭제</button>
+					</c:if>
 				</div>
 			</div>
 			<!-- 삭제 확인 모달 -->
@@ -230,9 +233,11 @@ button:hover {
 					<c:when test="${qnaDetail.qStatus == 'N'}">
 						<h1 style="color: gray;">답변 대기중</h1>
 						<!-- 답변 입력 버튼 -->
-						<%-- <button type="button" class="btn blue"
+						<c:if test="${uuid == '08fd74b7-f049-4583-bc44-213d2114aa5d'}">
+						<button type="button" class="btn blue"
 							onclick="location.href='qnaAnswerForm.do?qSeq=${qnaDetail.qSeq}'">답변
-							입력</button> --%>
+							입력</button>
+						</c:if> 
 					</c:when>
 					<c:when test="${qnaDetail.qStatus == 'Y'}">
 						<h1 style="color: green;">답변 완료</h1>
