@@ -19,4 +19,6 @@ public interface QnaDao {
 
 	void deleteQna(String qSeq);
 
+	void updateQStatus(QnaDto qnaDto);
+
 }
