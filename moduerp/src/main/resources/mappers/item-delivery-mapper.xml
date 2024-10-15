@@ -28,6 +28,7 @@
     SELECT *
 	FROM ITEM 
     WHERE biz_number = #{bizNumber}
+    ORDER BY CREATED_AT DESC
 	</select>
 	
 
