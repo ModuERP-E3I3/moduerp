@@ -15,4 +15,6 @@ public interface QnaDao {
 
 	QnaDto selectQnaDetail(String qSeq);
 
+	void updateQuestion(QnaDto qnaDto);
+
 }

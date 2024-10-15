@@ -69,4 +69,14 @@
 		WHERE Q_SEQ = #{qSeq}
 	</select>
 	
+	<!-- 글 수정 -->
+	<update id="updateQuestion"
+		parameterType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		UPDATE QUESTION
+		SET Q_TITLE = #{qTitle},
+		Q_CONTENTS = #{qContents},
+		Q_DATE = #{qDate}
+		WHERE Q_SEQ = #{qSeq}
+	</update>
+	
 </mapper>

@@ -16,6 +16,8 @@ public interface QnaService {
 
 	QnaDto getQnaDetail(String qSeq);
 
+	void updateQuestion(QnaDto qnaDto);
+
 	
 
 }
