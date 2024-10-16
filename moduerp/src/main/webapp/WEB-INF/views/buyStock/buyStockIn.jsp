@@ -199,9 +199,10 @@ tbody tr:hover {
 					<option value="itemName">제품명</option>
 					<option value="stockPlace">입고 장소</option>
 					<option value="iDirector">담당자</option>
-				</select> <input type="date" name="startDate" id="startDate" /> <input
-					type="date" name="endDate" id="endDate" /> <input type="text"
-					name="filterText" id="filterText" placeholder="내용 입력" />
+				</select> 
+				<input type="date" name="startDate" id="startDate" /> 
+				<input type="date" name="endDate" id="endDate" /> 
+				<input type="text" name="filterText" id="filterText" placeholder="내용 입력" />
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
 					onclick="window.location.href='buyStockIn.do';">초기화</button>
@@ -227,8 +228,7 @@ tbody tr:hover {
                      onclick="window.location.href='getBuyInDetails.do?itemCode=${item.itemCode}'">
                   <td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
                   <!-- 순번 계산 -->           
-                     <td><fmt:formatDate value="${item.createdAt}"
-								pattern="yyyy-MM-dd" /></td>		<!-- 날짜만 나오게 수정 -->
+                     <td><fmt:formatDate value="${item.createdAt}" pattern="yyyy-MM-dd" /></td>
                      <td>${item.itemName}</td>   
                      <td>${item.stockIn}</td>
                      <td>${item.stockPlace}</td>  

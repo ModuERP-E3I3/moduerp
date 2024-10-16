@@ -239,11 +239,11 @@ tbody tr:hover {
 						<td>${workOrder.itemName}</td>
 						<td>${workOrder.taskName}</td>
 						<td><fmt:formatDate value="${workOrder.startDate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
+								pattern="yyyy-MM-dd" /></td>
 						<td><fmt:formatDate value="${workOrder.endExDate}"
 								pattern="yyyy-MM-dd" /></td>
 						<td><fmt:formatDate value="${workOrder.endDate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
+								pattern="yyyy-MM-dd" /></td>
 						<td>${workOrder.qty}</td>
 						<td>${workOrder.progressStatus}</td>
 						<td>${workOrder.workerTeam}</td>

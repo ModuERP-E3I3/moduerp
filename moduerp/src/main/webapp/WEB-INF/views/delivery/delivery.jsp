@@ -263,11 +263,7 @@ tbody tr:hover {
 
 
 
-		<!-- 버튼 그룹 -->
-		<div class="btn-group">
-			<a href="deliveryCreate.do"><button class="btn blue">등록</button></a>
-		</div>
-
+		
 	</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -241,10 +241,10 @@ th {
 					<td>${itemDetailsSub.itemDesc}</td>
 					<td><fmt:formatDate
 							value="${productionStockOutDetailsSub.pStockOutDate}"
-							pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							pattern="yyyy-MM-dd" /></td>
 					<td><fmt:formatDate
 							value="${productionStockOutDetailsSub.pStockOutUpdate}"
-							pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							pattern="yyyy-MM-dd" /></td>
 					<td>${productionStockOutDetailsSub.pStockOutQty}</td>
 					<td>${productionStockOutDetailsSub.pStockOutPrice}</td>
 					<td>${productionStockOutDetailsSub.pStockOutPlace}</td>

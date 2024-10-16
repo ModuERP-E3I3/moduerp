@@ -241,11 +241,11 @@ th {
 					
 					<td><fmt:formatDate
 							value="${salesStockOutDetailsSub.sStockOutDate}"
-							pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							pattern="yyyy-MM-dd" /></td>
 							
 					<td><fmt:formatDate
 							value="${salesStockOutDetailsSub.sStockOutUpdate}"
-							pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							pattern="yyyy-MM-dd" /></td>
 							
 					<td>${salesStockOutDetailsSub.sStockOutQty}</td>
 					<td>${salesStockOutDetailsSub.sStockOutPrice}</td>

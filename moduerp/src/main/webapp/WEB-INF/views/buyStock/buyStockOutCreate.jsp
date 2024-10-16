@@ -179,7 +179,7 @@ th {
 						<th>출고장소</th>
 						<th>출고수량</th>
 						<th>출고단가</th>
-						<th>담당자</th>
+						<th>출고 담당자</th>
 					</tr>
 				</thead>
 				<tbody>
