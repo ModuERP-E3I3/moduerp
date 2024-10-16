@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.e3i3.moduerp.cart.model.dto.CartDTO;
 import com.e3i3.moduerp.cart.model.service.CartService;
+import com.e3i3.moduerp.company.model.service.CompanyService;
 import com.e3i3.moduerp.employee.model.service.EmployeeProductionService;
 import com.e3i3.moduerp.module.model.dto.ModuleDTO;
 import com.e3i3.moduerp.module.model.service.ModuleService;
@@ -36,9 +37,15 @@ public class ModuleController {
 	@Autowired
 	private CartService cartService;
 
+	@Autowired
+	private CompanyService companyService;
+
 	// 모듈 구매 페이지 이동
 	@RequestMapping(value = "/buyModule.do", method = RequestMethod.GET)
 	public String buyModule(HttpSession session, Model model) {
+
+		String bizNumber = (String) session.getAttribute("biz_number");
+
 		// 사용중인 모듈 List
 		// 그룹웨어, 생산, 구매, 영업, 차량, 회계
 		List<ModuleDTO> moduleListGroup = moduleService.getModuleListGroup();
@@ -48,7 +55,12 @@ public class ModuleController {
 		List<ModuleDTO> moduleListCar = moduleService.getModuleListCar();
 		List<ModuleDTO> moduleListAccount = moduleService.getModuleListAccount();
 
-		String bizNumber = (String) session.getAttribute("biz_number");
+		String purchasedModule = companyService.selectPurchasedModule(bizNumber);
+		// 구입한 모듈을 쉼표로 구분된 문자열에서 List로 변환
+		// Null 체크: 구입한 모듈이 없을 경우 빈 리스트 할당
+		List<String> purchasedModulesList = (purchasedModule != null && !purchasedModule.isEmpty())
+				? Arrays.asList(purchasedModule.split(","))
+				: new ArrayList<>(List.of("1"));
 
 		model.addAttribute("bizNumber", bizNumber);
 
@@ -58,6 +70,8 @@ public class ModuleController {
 		model.addAttribute("moduleListSales", moduleListSales);
 		model.addAttribute("moduleListCar", moduleListCar);
 		model.addAttribute("moduleListAccount", moduleListAccount);
+
+		model.addAttribute("purchasedModulesList", purchasedModulesList);
 
 		return "module/buyModule";
 	}

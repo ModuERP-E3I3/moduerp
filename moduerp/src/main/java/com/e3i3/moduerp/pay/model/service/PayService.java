@@ -10,6 +10,16 @@ public interface PayService {
 
 	List<PayDTO> getPaymentsByRequestDay(String today);
 
+	String selectPaymentDate(String bizNumber);
+
+	String selectPurchasedModules(String bizNumber);
+
+	int selectPayPrice(String bizNumber);
+
+	void updatePayPricePaymentItemByBizNumber(String combinedModules, int finalPrice, String bizNumber);
+
+	String selectPayID(String bizNumber);
+
 	
 
 }

@@ -263,7 +263,8 @@ th {
 								<td>${deliveryDetails.waybill}</td>
 								<td>${deliveryCompanyName}</td>
 								<td>
-									<button type="button" class="btn blue" id="trackingBtn">배송조회</button>
+									<button type="button" class="btn blue" id="trackingBtn" 
+									onclick="window.location.href='https://info.sweettracker.co.kr/tracking/4?t_key=zeByxJfH1aBU4Ff1R0Xe7w&t_code=${deliveryDetails.deliveryCompany}&t_invoice=${deliveryDetails.waybill}'">배송조회</button>
 								</td>
 							</tr>
 						</tbody>
@@ -355,50 +356,10 @@ th {
 	</div>
 </body>
 
-<script>
-    window.addEventListener('DOMContentLoaded', function() {
-        var trackingBtn = document.getElementById('trackingBtn');
-        if (trackingBtn) {
-            trackingBtn.addEventListener('click', function() {
-                // 고정된 API Key
-                const apiKey = 'zeByxJfH1aBU4Ff1R0Xe7w';
 
-                const tCode = '<c:out value="${deliveryDetails.deliveryCompany}" />';
-                const tInvoice = '<c:out value="${deliveryDetails.waybill}" />';
 
-               
-                // 디버깅용 로그 출력
-                console.log("API Key: ", apiKey);
-                console.log("Delivery Company Code: ", tCode);
-                console.log("Tracking Invoice Number: ", tInvoice);
-                
-                
-                // tCode와 tInvoice 값이 빈 문자열인지 확인
-                if (!tCode || !tInvoice) {
-                    alert("배송 업체 코드나 운송장 번호가 올바르지 않습니다.");
-                    return;
-                }
 
-                // URL 인코딩
-                var encodedApiKey = encodeURIComponent(apiKey);
-                var encodedTCode = encodeURIComponent(tCode);
-                var encodedTInvoice = encodeURIComponent(tInvoice);
-                
-                console.log("API Key: ", encodedApiKey);
-                console.log("Delivery Company Code: ", encodedTCode);
-                console.log("Tracking Invoice Number: ", encodedTInvoice);
 
-                // URL 생성
-               // URL 생성
-				var url = `https://info.sweettracker.co.kr/tracking/4?t_key=${encodedApiKey}&t_code=${encodedTCode}&t_invoice=${encodedTInvoice}`;
-
-                console.log("Generated URL: ", url);
-                // 팝업 창을 띄움
-                window.open(url, 'trackingPopup', 'width=800,height=600');
-            });
-        }
-    });
-</script>
 
 <script type="text/javascript">
 function openDeleteModal() {

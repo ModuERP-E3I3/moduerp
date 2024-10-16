@@ -1,5 +1,7 @@
 package com.e3i3.moduerp.billingInfo.model.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -20,6 +22,11 @@ public class BillingInfoDAOimpl implements BillingInfoDAO {
 
 	@Override
 	public BillingInfoDTO selectBillingInfoData(String bizNumber) {
-		 return sqlSession.selectOne(namespace + ".selectBillingInfoData", bizNumber);
+		return sqlSession.selectOne(namespace + ".selectBillingInfoData", bizNumber);
+	}
+
+	@Override
+	public List<BillingInfoDTO> getBillingInfoByBizNumbers(List<String> bizNumbers) {
+		return sqlSession.selectList(namespace + ".selectBillingInfoByBizNumbers", bizNumbers);
 	}
 }

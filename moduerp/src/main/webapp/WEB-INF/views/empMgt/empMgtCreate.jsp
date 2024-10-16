@@ -194,11 +194,11 @@ th {
 									<option value="${department.departmentId}">${department.departmentName}</option>
 								</c:forEach>
 						</select></td>
-						<td><input type="text" name="jobId" placeholder="직급 입력" /></td>
-						<td><input type="text" name="empName" placeholder="직원명 입력" /></td>
-						<td><input type="text" name="email" placeholder="이메일 입력" /></td>
-						<td><input type="text" name="phone" placeholder="전화번호 입력" /></td>
-						<td><input type="text" name="address" placeholder="주소 입력" /></td>
+						<td><input type="text" name="jobId" placeholder="직급 입력" required /></td>
+						<td><input type="text" name="empName" placeholder="직원명 입력" required/></td>
+						<td><input type="text" name="email" placeholder="이메일 입력" required/></td>
+						<td><input type="text" name="phone" placeholder="전화번호 입력" required/></td>
+						<td><input type="text" name="address" placeholder="주소 입력" required/></td>
 
 						<!-- 사설권한 라디오 버튼 -->
 						<td><label for="privateAuthority">권한:</label> <input

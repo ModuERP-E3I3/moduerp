@@ -70,8 +70,15 @@
 
 	<update id="clearCartList" parameterType="string">
 		UPDATE CART
-		SET CART_LIST = NULL
+		SET
+		CART_LIST = NULL
 		WHERE BIZ_NUMBER = #{bizNumber}
 	</update>
 
+	<!-- ITEM_LIST 컬럼을 null로 업데이트 -->
+	<update id="updateCartItemListToNull">
+		UPDATE CART
+		SET CART_LIST = NULL
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</update>
 </mapper>

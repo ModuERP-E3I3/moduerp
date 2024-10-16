@@ -59,4 +59,27 @@ public class CompanyDao {
 	        sqlSessionTemplate.update( "CompanyMapper.updateCardExistence", params);
 	    }
 
+	public void updateModuleGrades(String moduleGrades, String bizNumber) {
+		  Map<String, Object> paramMap = new HashMap<>();
+	        paramMap.put("moduleGrades", moduleGrades);
+	        paramMap.put("bizNumber", bizNumber);
+
+	        sqlSessionTemplate.update("CompanyMapper.updateModuleGrades", paramMap);
+		
+	}
+
+	public String selectPurchasedModule(String bizNumber) {
+		  return sqlSessionTemplate.selectOne("CompanyMapper.selectPurchasedModule", bizNumber);
+	}
+
+	public void updateNewModuleGrades(String combinedModuleGrades, String bizNumber) {
+		 // Map으로 파라미터 전달
+        Map<String, Object> params = new HashMap<>();
+        params.put("combinedModuleGrades", combinedModuleGrades);
+        params.put("bizNumber", bizNumber);
+
+        sqlSessionTemplate.update("CompanyMapper.updateNewModuleGrades", params);
+		
+	}
+
 }

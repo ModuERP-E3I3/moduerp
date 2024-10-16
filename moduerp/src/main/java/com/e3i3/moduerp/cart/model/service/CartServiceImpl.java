@@ -49,4 +49,10 @@ public class CartServiceImpl implements CartService {
 	public void clearCartListByBizNumber(String bizNumber) {
 		cartDAO.clearCartList(bizNumber);
 	}
+
+	@Override
+	public void deleteCartList(String bizNumber) {
+		cartDAO.deleteCartList(bizNumber);
+		
+	}
 }

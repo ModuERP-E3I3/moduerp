@@ -59,4 +59,10 @@ public class CartDAOImpl implements CartDAO {
 	public void clearCartList(String bizNumber) {
 		sqlSession.update(namespace + ".clearCartList", bizNumber);
 	}
+
+	@Override
+	public void deleteCartList(String bizNumber) {
+		sqlSession.update(namespace + ".updateCartItemListToNull", bizNumber);
+		
+	}
 }

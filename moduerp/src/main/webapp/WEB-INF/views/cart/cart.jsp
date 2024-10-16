@@ -121,7 +121,7 @@ th {
 }
 
 .right-group {
-	margin-top: 30%;
+	margin-top: 27%;
 	text-align: right;
 	margin-right: 1.5%;
 	text-align: right;
@@ -155,6 +155,12 @@ th {
 	margin-bottom: 10px;
 	font-weight: bold;
 	font-size: 20px;
+}
+
+#thisMonthPrice {
+	font-weight: bold;
+	font-size: 20px;
+	color: red;
 }
 </style>
 
@@ -416,19 +422,50 @@ th {
 					총 금액<br>${totalModulePrice}원
 				</div>
 
+				<!-- purchasedModuleExistence에 따른 분기 -->
 				<c:choose>
-					<c:when test="${companyCardExistence}">
-						<button type="button" class="btn_pay" onclick="submitPayment()">결제하기</button>
+					<c:when test="${purchasedModuleExistence}">
+						<div id="thisMonthPrice">
+							이번달 결제 금액<br>
+
+							<c:choose>
+								<c:when test="${daysUntilNextPayment == 0}">
+									<span>${totalModulePrice}원</span>
+									<input type="hidden" id="calculatedThisMonthPrice"
+										value="${totalModulePrice}">
+								</c:when>
+
+								<c:otherwise>
+									<c:set var="adjustedPrice"
+										value="${(totalModulePrice / 30) * daysUntilNextPayment}" />
+									<span>${fn:substringBefore(adjustedPrice, '.')}원</span>
+									<input type="hidden" id="calculatedThisMonthPrice"
+										value="${fn:substringBefore(adjustedPrice, '.')}">
+								</c:otherwise>
+							</c:choose>
+						</div>
+						<button type="button" class="btn_pay" onclick="submitAllModules()">추가
+							결제하기</button>
 					</c:when>
 
-
-
 					<c:otherwise>
-						<!-- companyCardExistence가 false일 때 -->
-						<button type="button" class="btn_pay" onclick="handleNoCard()">결제하기</button>
+						<c:choose>
+							<c:when test="${companyCardExistence}">
+								<button id="buymodule"type="button" class="btn_pay" onclick="submitPayment()">결제하기</button>
+							</c:when>
+
+							<c:otherwise>
+								<button id="btnNoCard" type="button" class="btn_pay"
+									onclick="handleNoCard()">결제하기카드 없음</button>
+
+							</c:otherwise>
+						</c:choose>
 					</c:otherwise>
 				</c:choose>
 			</div>
+
+
+
 
 
 		</div>
@@ -449,12 +486,19 @@ th {
 </body>
 
 <script type="text/javascript">
-function submitPayment() {
+
+
+function submitAllModules() {
     const form = document.getElementById('cartForm');
 
     // 모든 체크박스에서 moduleGrade 값을 가져옴
     const allModules = Array.from(document.querySelectorAll('input[name="selectedModules"]'))
         .map(checkbox => checkbox.value);
+
+    if (allModules.length === 0) {
+        alert("추가 결제할 모듈이 선택되지 않았습니다.");
+        return;
+    }
 
     // 모든 moduleGrade를 숨겨진 필드로 추가
     allModules.forEach(moduleGrade => {
@@ -465,6 +509,65 @@ function submitPayment() {
         form.appendChild(hiddenInput);
     });
 
+    // totalModulePrice와 thisMonthPrice를 숨겨진 필드로 추가
+    const totalModulePrice = document.getElementById('totalPrice').innerText.replace(/\D/g, '');
+    const thisMonthPrice = document.getElementById('calculatedThisMonthPrice').value;
+
+    const totalPriceInput = document.createElement('input');
+    totalPriceInput.type = 'hidden';
+    totalPriceInput.name = 'totalModulePrice';
+    totalPriceInput.value = totalModulePrice;
+    form.appendChild(totalPriceInput);
+
+    const thisMonthPriceInput = document.createElement('input');
+    thisMonthPriceInput.type = 'hidden';
+    thisMonthPriceInput.name = 'thisMonthPrice';
+    thisMonthPriceInput.value = thisMonthPrice;
+    form.appendChild(thisMonthPriceInput);
+
+    // 폼 제출
+    form.action = 'createAdditionalPayment.do'; // 필요한 매핑 주소로 설정
+    form.method = 'post';
+    form.submit();
+}
+
+
+</script>
+
+<script type="text/javascript">
+function submitPayment() {
+    const form = document.getElementById('cartForm');
+
+    // 선택된 모듈(체크된 항목) 가져오기
+    const selectedModules = Array.from(document.querySelectorAll('input[name="selectedModules"]:checked'))
+        .map(checkbox => checkbox.value);
+
+    // 테이블이 비어 있는지 확인 (tbody에 행이 있는지 확인)
+    const tableBody = document.querySelector('.moduleTableScroll tbody');
+    const isTableEmpty = tableBody.querySelectorAll('tr').length === 1 &&
+                         tableBody.querySelector('td').colSpan === 6;
+
+    if (isTableEmpty) {
+        alert("결제할 항목이 없습니다!");
+        return; // 결제 진행 막기
+    }
+
+    // 선택된 모듈이 없는 경우 경고 표시
+    if (selectedModules.length === 0) {
+        alert("결제할 모듈을 선택하세요.");
+        return; // 결제 진행 막기
+    }
+
+    // 선택된 모듈을 숨겨진 필드로 추가
+    selectedModules.forEach(moduleGrade => {
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'moduleGrades';
+        hiddenInput.value = moduleGrade;
+        form.appendChild(hiddenInput);
+    });
+
+    // 결제 폼 제출 설정
     form.action = 'createPayment.do';
     form.method = 'post';
     form.submit();
@@ -474,12 +577,12 @@ function submitPayment() {
 </script>
 
 <script>
-  function handleNoCard() {
-    // 알림창 표시
+function handleNoCard() {
+    console.log("handleNoCard called");
     alert("등록된 카드가 없습니다.");
-    // 특정 페이지로 이동
     window.location.href = "http://localhost:8080/moduerp/payment.do"; 
-  }
+}
+
 </script>
 
 <script type="text/javascript">

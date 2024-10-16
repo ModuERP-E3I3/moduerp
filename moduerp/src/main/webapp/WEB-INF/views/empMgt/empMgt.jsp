@@ -218,6 +218,7 @@ tbody tr:hover {
 					<th>이메일</th>
 					<th>전화번호</th>
 					<th>주소</th>
+					<th>사설권한</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -231,6 +232,7 @@ tbody tr:hover {
 						<td>${employee.email}</td>
 						<td>${employee.phone}</td>
 						<td>${employee.address}</td>
+						<td>${employee.privateAuthority}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
