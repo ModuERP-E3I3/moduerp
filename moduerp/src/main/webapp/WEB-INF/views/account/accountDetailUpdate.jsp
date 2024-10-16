@@ -176,19 +176,20 @@ tbody tr:hover {
 
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
-		<ul id="menubar">
-			<li><a href="accountList.do"><i class="fa-solid fa-users"></i> 계정 목록</a></li>
-	        <li><a href="accountMgt.do"><i class="fa-solid fa-list-check"></i> 계정 관리</a></li>
-	        <li><a href="accountCreate.do"><i class="fa-solid fa-user-plus"></i> 계정 추가</a></li>
-		</ul>
+	    <ul id="menubar">
+	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
+	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li>
+	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> 
+	    </ul>
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">영업/판매 관리 | 거래처관리 </div>
+		<div class="content-title">영업/판매 관리 | 거래처관리 | 수정</div>
 
 		<form action="/moduerp/updateAccount.do" method="POST">
-			<input type="hidden" name="accountNo" value="${accountDetail.accountNo}" />
-			
+			<input type="hidden" name="accountNo"
+				value="${accountDetail.accountNo}" />
+
 			<!-- 테이블 -->
 			<table>
 				<thead>
@@ -204,13 +205,23 @@ tbody tr:hover {
 				</thead>
 				<tbody>
 					<tr>
-						<td><input type="text" name="accountName" placeholder="거래처명 입력" value="${accountDetail.accountName}" required /></td>
-						<td><input type="text" name="businessType" placeholder="사업유형" value="${accountDetail.businessType}"  required/></td>
-						<td><input type="text" name="businessNumber" placeholder="사업자번호" value="${accountDetail.businessNumber}" required /></td>
-						<td><input type="text" name="bossName" placeholder="대표자명" value="${accountDetail.bossName}" required/></td>
-						<td><input type="text" name="accountAddress" placeholder="주소 입력" value="${accountDetail.accountAddress}" required/></td>
-						<td><input type="text" name="accountPhone" placeholder="전화번호" value="${accountDetail.accountPhone}" required/></td>
-						<td><input type="text" name="email" placeholder="이메일" value="${accountDetail.email}" required/></td>
+						<td><input type="text" name="accountName"
+							placeholder="거래처명 입력" value="${accountDetail.accountName}"
+							required /></td>
+						<td><input type="text" name="businessType" placeholder="사업유형"
+							value="${accountDetail.businessType}" required /></td>
+						<td><input type="text" name="businessNumber"
+							placeholder="사업자번호" value="${accountDetail.businessNumber}"
+							required /></td>
+						<td><input type="text" name="bossName" placeholder="대표자명"
+							value="${accountDetail.bossName}" required /></td>
+						<td><input type="text" name="accountAddress"
+							placeholder="주소 입력" value="${accountDetail.accountAddress}"
+							required /></td>
+						<td><input type="text" name="accountPhone" placeholder="전화번호"
+							value="${accountDetail.accountPhone}" required /></td>
+						<td><input type="text" name="email" placeholder="이메일"
+							value="${accountDetail.email}" required /></td>
 					</tr>
 				</tbody>
 			</table>
@@ -221,4 +232,19 @@ tbody tr:hover {
 		</form>
 	</div>
 </body>
+
+<script>
+    const activeMenu = "account";
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuItems = document.querySelectorAll('nav.side ul li a');
+        menuItems.forEach(item => {
+            if (item.href.includes(activeMenu)) {
+                item.classList.add('active');
+            }
+        });
+    });
+</script>
+
+
 </html>
