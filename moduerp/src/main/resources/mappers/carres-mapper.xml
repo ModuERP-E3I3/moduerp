@@ -278,4 +278,14 @@
 		AND RESERVE_END_DATE &lt;= TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
 		ORDER BY RESERVE_END_DATE DESC
 	</select>
+	
+	<!-- 차량 예약 중복 여부 확인 -->
+    <select id="findOverlappingReservations" parameterType="map" resultType="com.e3i3.moduerp.carres.model.dto.CarresDto">
+        SELECT *
+        FROM car_reserve
+        WHERE car_model = #{carModel}
+          AND car_num = #{carNum}
+          AND biz_number = #{bizNumber}
+          AND (reserve_start_date &lt;= #{reserveEndDate} AND reserve_end_date >= #{reserveStartDate})
+    </select>
 </mapper>
