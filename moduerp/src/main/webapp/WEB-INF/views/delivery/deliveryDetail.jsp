@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -227,7 +227,7 @@ th {
 				</thead>
 				<tbody>
 					<tr>
-						<td>${itemDetails.createdAt}</td>
+						<td><fmt:formatDate value="${itemDetails.createdAt}" pattern="yyyy-MM-dd" /></td>
 						<td>${itemDetails.itemName}</td>
 						<td>${itemDetails.stockIn}</td>
 						<td>${itemDetails.stockPlace}</td>
@@ -276,24 +276,20 @@ th {
 						<!-- 수정 버튼 추가 -->
 						<button type="button" class="btn green"
 							onclick="window.location.href='deliveryDetailUpdate.do?itemCode=${itemDetails.itemCode}&deliveryId=${deliveryDetails.deliveryId}'">수정</button>
-						<button type="button" class="btn red"  id="deleteBtn">삭제</button>
-					</div>
-
-					<div id="delete-modal" style="display: none;">
-						<div class="modal-content">
-							<h2>정말로 삭제하시겠습니까?</h2>
-							<p>삭제된 데이터는 복구할 수 없습니다.</p>
-							<!-- 삭제 버튼을 포함하는 폼 추가 -->
-							<input type="hidden" name="itemCode"
-								value="${itemDetails.itemCode}">
-							<!-- itemCode를 숨겨진 필드로 전달 -->
-							<button type="submit" class="go-delete">삭제</button>
-							<button type="button" class="stay-page"
-								onclick="closeDeleteModal()">취소</button>
-
-						</div>
+						<button type="button" class="btn red" id="deleteBtn" onclick="openDeleteModal()">삭제</button>
 					</div>
 				</form>
+
+				<div id="delete-modal" style="display: none;">
+					<div class="modal-content">
+						<h2>정말로 삭제하시겠습니까?</h2>
+						<p>삭제된 데이터는 복구할 수 없습니다.</p>
+						<!-- 삭제 버튼을 클릭하면 메인 폼을 제출 -->
+						<button type="button" class="go-delete" onclick="submitDelete()">삭제</button>
+						<button type="button" class="stay-page"
+							onclick="closeDeleteModal()">취소</button>
+					</div>
+				</div>
 			</c:if>
 
 
@@ -362,16 +358,17 @@ th {
 
 
 <script type="text/javascript">
-function openDeleteModal() {
-    document.getElementById('delete-modal').style.display = 'block';
-}
+    function openDeleteModal() {
+        document.getElementById('delete-modal').style.display = 'block';
+    }
 
-function closeDeleteModal() {
-    document.getElementById('delete-modal').style.display = 'none';
-}
+    function closeDeleteModal() {
+        document.getElementById('delete-modal').style.display = 'none';
+    }
 
-
-
+    function submitDelete() {
+        document.getElementById('deleteForm').submit();
+    }
 </script>
 
 <script>

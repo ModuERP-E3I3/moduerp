@@ -220,7 +220,7 @@ tbody tr:hover {
 				<tr>
 					<th>순번</th>
 					<th>제품명</th>
-					<th>출고 일자</th>
+					<th>출고 날짜</th>
 					<th>총 출고 수량</th>
 					<th>재고 수량</th>
 					<th>출고 장소</th>
@@ -234,8 +234,7 @@ tbody tr:hover {
 						onclick="window.location.href='getBuyOutDetails.do?itemCode=${item.itemCode}'">
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
 						<td>${item.itemName}</td>
-						<td><fmt:formatDate value="${item.createdOutAt}"
-								pattern="yyyy-MM-dd" /></td>
+						<td><fmt:formatDate value="${item.createdOutAt}" pattern="yyyy-MM-dd" /></td>
 						<td>${item.stockOut}</td>
 						<td>${item.stock}</td>
 						<td>${item.stockOutPlace}</td>
