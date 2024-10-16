@@ -44,11 +44,14 @@ public class NoticeController {
 	        model.addAttribute("noticeList", noticeList);
 		return "notice/noticeList";
 	}
-
+	
 	@GetMapping("/notice/view/{noticeId}.do")
 	public String viewNotice(@PathVariable("noticeId") String noticeId, Model model) {
+		// 공지사항 ID로 세부 정보 조회
 		Notice notice = noticeService.getNoticeById(noticeId);
+		// 조회한 공지사항 정보를 RedirectAttributes 에 추가하여 전달
 		model.addAttribute("notice", notice);
+		// noticeDetail 페이지로 리다이렉트
 		return "notice/noticeDetail";
 	}
 
