@@ -12,12 +12,13 @@
     
     <style type="text/css">
         /* 전체 페이지 기본 스타일 */
-        body, html {
-            margin-top: 2%;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
+   body, html {
+	margin-top: 2% ;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
         
         /* 레이아웃 컨테이너 */
         .container {
