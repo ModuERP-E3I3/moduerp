@@ -37,4 +37,10 @@ public interface QualityControlDAO {
 
 	List<QualityControlDTO> getQualityqDirectorByFilter(String bizNumber, String filterText);
 
+	List<QualityControlDTO> getQualityByFilterOnlyDate(String bizNumber, String startDate, String endDate);
+
+	List<QualityControlDTO> getQualityByFilterStartDate(String bizNumber, String startDate);
+
+	List<QualityControlDTO> getQualityByFilterEndDate(String bizNumber, String endDate);
+
 }
