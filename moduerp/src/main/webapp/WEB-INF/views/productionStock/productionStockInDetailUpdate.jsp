@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -172,7 +173,7 @@ th {
 
 	<div class="content-box">
 		<div class="content-title">생산관리 | 생산입고 | ${itemDetails.itemName}
-			수정하기</div>
+			수정</div>
 
 		<form action="/moduerp/updateProductionStockIn.do" method="POST">
 			<input type="hidden" name="itemCode" value="${itemDetails.itemCode}" />
@@ -196,8 +197,8 @@ th {
 							value="${itemDetails.itemName}" required /></td>
 						<td><input type="text" name="itemDesc"
 							value="${itemDetails.itemDesc}" required /></td>
-						<td>${itemDetails.createdAt}</td>
-						<td>${itemDetails.updatedAt}</td>
+						<td><fmt:formatDate value="${itemDetails.createdAt}" pattern="yyyy-MM-dd" /></td>
+						<td><fmt:formatDate value="${itemDetails.updatedAt}" pattern="yyyy-MM-dd" /></td>
 						<td><input type="number" name="stockIn" id="stockIn"
 							value="${itemDetails.stockIn}" required /></td>
 						<td><input type="number" name="inPrice" id="inPrice"

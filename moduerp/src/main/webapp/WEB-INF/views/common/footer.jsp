@@ -17,9 +17,8 @@
 footer {
     background-color: #1c1c1c; /* 어두운 회색 배경 */
     color: #e0e0e0; /* 밝은 회색 텍스트 */
-    padding: 40px 20px 20px 20px;
     font-size: 0.9rem;
-    border-top: 5px solid #002147; /* 네이비 색상의 강조 선 */
+    border-top: 5px solid #1C1C1C; /* 네이비 색상의 강조 선 */
 }
 
 .footer-container {
@@ -51,6 +50,14 @@ footer {
 .footer-section ul {
     list-style: none;
     padding: 0;
+}
+.footer-section.links {
+    text-align: center; /* 가운데 정렬 적용 */
+}
+
+
+.footer-section.links ul li {
+  text-align: center; /* 가운데 정렬 적용 */
 }
 
 .footer-section ul li {
@@ -84,6 +91,7 @@ footer {
 .footer-section .socials a:hover {
     color: #1abc9c;
 }
+
 
 .footer-bottom {
     text-align: center;

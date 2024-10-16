@@ -100,4 +100,21 @@ public class QualityControlDAOImpl implements QualityControlDAO {
 		return sqlSession.selectList(namespace + ".selectQualityqDirectorByFilter",
 				Map.of("bizNumber", bizNumber, "filterText", filterText));
 	}
+
+	@Override
+	public List<QualityControlDTO> getQualityByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
+		return sqlSession.selectList(namespace + ".selectQualityByFilterOnlyDate",
+				Map.of("bizNumber", bizNumber, "startDate", startDate, "endDate", endDate));
+	}
+	@Override
+	public List<QualityControlDTO> getQualityByFilterStartDate(String bizNumber, String startDate) {
+		return sqlSession.selectList(namespace + ".selectQualityByFilterStartDate",
+				Map.of("bizNumber", bizNumber, "startDate", startDate));
+	}
+
+	@Override
+	public List<QualityControlDTO> getQualityByFilterEndDate(String bizNumber, String endDate) {
+		return sqlSession.selectList(namespace + ".selectQualityByFilterEndDate",
+				Map.of("bizNumber", bizNumber, "endDate", endDate));
+	}
 }

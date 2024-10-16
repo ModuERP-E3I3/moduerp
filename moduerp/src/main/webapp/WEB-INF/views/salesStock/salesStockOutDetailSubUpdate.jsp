@@ -197,11 +197,11 @@ th {
 						
 						<td><fmt:formatDate
 								value="${salesStockOutDetails.sStockOutDate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
+								pattern="yyyy-MM-dd" /></td>
 								
 						<td><fmt:formatDate
 								value="${salesStockOutDetails.sStockOutUpdate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
+								pattern="yyyy-MM-dd" /></td>
 								
 						<td><input type="number" name="stockOut"
 							value="${salesStockOutDetails.sStockOutQty}" required /></td>

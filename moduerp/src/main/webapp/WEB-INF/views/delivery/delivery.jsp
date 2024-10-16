@@ -189,7 +189,7 @@ tbody tr:hover {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">구매관리 | 배송조회 </div>
+		<div class="content-title">구매관리 | 배송조회 | 구매:생산:영업 목록</div>
 			
 		<form action="/moduerp/delivery.do">
 		<!-- 필터 박스 -->
@@ -263,11 +263,7 @@ tbody tr:hover {
 
 
 
-		<!-- 버튼 그룹 -->
-		<div class="btn-group">
-			<a href="deliveryCreate.do"><button class="btn blue">등록</button></a>
-		</div>
-
+		
 	</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -3,6 +3,8 @@ package com.e3i3.moduerp.quality.controller;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -93,6 +95,22 @@ public class QualityControlController {
 		// 서비스 호출하여 biz_number에 해당하는 품질 관리 데이터 가져오기
 		List<QualityControlDTO> qualityControlList = qualityControlService.getQualityControlsByBizNumber(bizNumber);
 
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+		// startDate의 시분초 기본값 설정 (00:00:00)
+	    if (startDate != null && !startDate.isEmpty()) {
+	        LocalDateTime startDateTime = LocalDateTime.parse(startDate + " 00:00:00", formatter);
+	        startDate = startDateTime.format(formatter);  // 포맷된 문자열로 변환
+	    }
+
+	    // endDate의 시분초 기본값 설정 (23:59:59)
+	    if (endDate != null && !endDate.isEmpty()) {
+	        LocalDateTime endDateTime = LocalDateTime.parse(endDate + " 23:59:59", formatter);
+	        endDate = endDateTime.format(formatter);  // 포맷된 문자열로 변환
+	    }
+		
+		
+		
 		// 필터링 로직 추가
 		if (option != null && filterText != null) {
 			if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
@@ -106,7 +124,19 @@ public class QualityControlController {
 				System.out.println("실행 못함");
 				qualityControlList = qualityControlService.getQualityControlsByBizNumber(bizNumber);
 			}
-		} else {
+		} else if ((option == null || filterText == null || filterText.isEmpty()) 
+		        && startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+		    System.out.println("필터 텍스트 없이 날짜만 있는 경우 실행");
+		    qualityControlList = qualityControlService.getQualityByFilterOnlyDate(bizNumber, startDate, endDate);
+		} else if ((option == null || filterText == null || filterText.isEmpty()) 
+		        && startDate != null && !startDate.isEmpty()) {
+		    System.out.println("startDate만 있는 경우 실행");
+		    qualityControlList = qualityControlService.getQualityByFilterStartDate(bizNumber, startDate);
+		} else if ((option == null || filterText == null || filterText.isEmpty()) 
+		        && endDate != null && !endDate.isEmpty()) {
+		    System.out.println("endDate만 있는 경우 실행");
+		    qualityControlList = qualityControlService.getQualityByFilterEndDate(bizNumber, endDate);
+		}else {
 			qualityControlList = qualityControlService.getQualityControlsByBizNumber(bizNumber);
 		}
 

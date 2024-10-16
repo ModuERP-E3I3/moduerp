@@ -74,4 +74,18 @@ public class QualityControlServiceImpl implements QualityControlService {
 
 		return null;
 	}
+
+	@Override
+	public List<QualityControlDTO> getQualityByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
+		return qualityControlDAO.getQualityByFilterOnlyDate(bizNumber, startDate, endDate);
+	}
+	@Override
+	public List<QualityControlDTO> getQualityByFilterStartDate(String bizNumber, String startDate) {
+		return qualityControlDAO.getQualityByFilterStartDate(bizNumber, startDate);
+	}
+
+	@Override
+	public List<QualityControlDTO> getQualityByFilterEndDate(String bizNumber, String endDate) {
+		return qualityControlDAO.getQualityByFilterEndDate(bizNumber, endDate);
+	}
 }

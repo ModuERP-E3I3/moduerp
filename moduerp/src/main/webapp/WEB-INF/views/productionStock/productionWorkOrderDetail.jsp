@@ -243,7 +243,7 @@ th {
 					<td>${workOrderDetails.itemName}</td>
 					<td>${workOrderDetails.taskName}</td>
 					<td><fmt:formatDate value="${workOrderDetails.startDate}"
-							pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							pattern="yyyy-MM-dd" /></td>
 					<td><fmt:formatDate value="${workOrderDetails.endExDate}"
 							pattern="yyyy-MM-dd" /></td>
 					<td><fmt:formatDate value="${workOrderDetails.endDate}"

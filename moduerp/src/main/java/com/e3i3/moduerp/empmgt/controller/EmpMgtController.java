@@ -31,10 +31,10 @@ public class EmpMgtController {
 			HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
 
-		// 비즈넘버로 직원 데이터 조회
+		// 직원 데이터 조회
 		List<EmpMgtDTO> employeeList = empMgtService.getEmployeesByBizNumber(bizNumber);
 
-		// Pagination logic
+		// Pagination 처리
 		int employeesPerPage = 10;
 		int totalEmployees = employeeList.size();
 		int totalPages = (int) Math.ceil((double) totalEmployees / employeesPerPage);
@@ -42,9 +42,13 @@ public class EmpMgtController {
 		int endIndex = Math.min(startIndex + employeesPerPage, totalEmployees);
 		List<EmpMgtDTO> paginatedList = employeeList.subList(startIndex, endIndex);
 
+		// 모델에 데이터 추가
 		model.addAttribute("employeeList", paginatedList);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("currentPage", page);
+
+		// privateAuthority
+		model.addAttribute("privateAuthority", session.getAttribute("privateAuthority"));
 
 		return "empMgt/empMgt";
 	}
@@ -141,7 +145,7 @@ public class EmpMgtController {
 		String approvalCode = empMgtService.getApprovalCodeByBizNumber(bizNumber);
 
 		EmpMgtDTO empMgtDTO = new EmpMgtDTO();
-		empMgtDTO.setUuid(UUID.randomUUID().toString()); 				// UUID 자동 생성
+		empMgtDTO.setUuid(UUID.randomUUID().toString()); // UUID 자동 생성
 		empMgtDTO.setEmpName(empName);
 		empMgtDTO.setDepartmentId(departmentId);
 		empMgtDTO.setJobId(jobId);
@@ -149,8 +153,8 @@ public class EmpMgtController {
 		empMgtDTO.setPhone(phone);
 		empMgtDTO.setAddress(address);
 		empMgtDTO.setBizNumber(bizNumber);
-		empMgtDTO.setPrivateAuthority(privateAuthority); 				// 권한 설정
-		empMgtDTO.setApprovalCode(approvalCode); 						// 승인 코드 설정
+		empMgtDTO.setPrivateAuthority(privateAuthority); // 권한 설정
+		empMgtDTO.setApprovalCode(approvalCode); // 승인 코드 설정
 
 		empMgtService.createEmployee(empMgtDTO);
 
@@ -161,6 +165,7 @@ public class EmpMgtController {
 	public String getEmployeeDetail(@RequestParam("uuid") String uuid, Model model) {
 		EmpMgtDTO employeeDetail = empMgtService.getEmployeeDetailByUUID(uuid);
 		model.addAttribute("employeeDetail", employeeDetail);
+		model.addAttribute("privateAuthority", employeeDetail.getPrivateAuthority()); // privateAuthority 추가
 		return "empMgt/empMgtDetail";
 	}
 
@@ -173,30 +178,34 @@ public class EmpMgtController {
 		List<EmpMgtDTO> employees = empMgtService.getEmployeesByBizNumber(bizNumber);
 
 		// 부서 리스트 가져오기
-		List<Department> departmentList = empMgtService.getAllDepartments(); // 모든 부서 리스트 가져오기
+		List<Department> departmentList = empMgtService.getAllDepartments();
 
 		model.addAttribute("employees", employees);
 		model.addAttribute("empNameDepart", empNameDepart);
 		model.addAttribute("employeeDetail", employeeDetail);
-		model.addAttribute("departmentList", departmentList); // 부서 리스트 추가
+		model.addAttribute("departmentList", departmentList);
+		model.addAttribute("privateAuthority", employeeDetail.getPrivateAuthority()); // privateAuthority 추가
 
 		return "empMgt/empMgtDetailUpdate";
 	}
 
 	@PostMapping("/updateEmployee.do")
 	public String updateEmployee(@RequestParam("uuid") String uuid, @RequestParam("empName") String empName,
-			@RequestParam("departmentId") String departmentId, // departmentId 사용
-			@RequestParam("jobId") String jobId, @RequestParam("email") String email,
-			@RequestParam("phone") String phone, @RequestParam("address") String address) {
+			@RequestParam("departmentId") String departmentId, @RequestParam("jobId") String jobId,
+			@RequestParam("email") String email, @RequestParam("phone") String phone,
+			@RequestParam("address") String address, @RequestParam("privateAuthority") String privateAuthority) { // privateAuthority
+																													// 추가
 
 		EmpMgtDTO empMgtDTO = new EmpMgtDTO();
 		empMgtDTO.setUuid(uuid);
 		empMgtDTO.setEmpName(empName);
-		empMgtDTO.setDepartmentId(departmentId); // departmentId 설정
+		empMgtDTO.setDepartmentId(departmentId);
 		empMgtDTO.setJobId(jobId);
 		empMgtDTO.setEmail(email);
 		empMgtDTO.setPhone(phone);
 		empMgtDTO.setAddress(address);
+		empMgtDTO.setPrivateAuthority(privateAuthority); // privateAuthority 설정
+		
 
 		empMgtService.updateEmployee(empMgtDTO);
 
