@@ -43,7 +43,136 @@
 		SELECT * FROM EMPLOYEE
 		WHERE DEPARTMENT_ID = 'ceo-dpt'
 	</select>
+	
+	<!-- filter(filtertext, Date) -->
+	<select id="selectAdminByBizNumberDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.admin.model.dto.AdminDTO">
+		SELECT *
+		FROM EMPLOYEE
+		WHERE DEPARTMENT_ID = 'ceo-dpt'
+		AND BIZ_NUMBER LIKE '%' || #{filterText} || '%'
+		AND REGISTRATION_DATE
+		BETWEEN
+		TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
+		ORDER BY REGISTRATION_DATE DESC
+	</select>
+	
+	<select id="selectAdminByEmpNameDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.admin.model.dto.AdminDTO">
+		SELECT *
+		FROM EMPLOYEE
+		WHERE DEPARTMENT_ID = 'ceo-dpt'
+		AND EMP_NAME LIKE '%' || #{filterText} || '%'
+		AND REGISTRATION_DATE
+		BETWEEN
+		TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
+		ORDER BY REGISTRATION_DATE DESC
+	</select>
+	
+	<select id="selectAdminByEmpEmailDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.admin.model.dto.AdminDTO">
+		SELECT *
+		FROM EMPLOYEE
+		WHERE DEPARTMENT_ID = 'ceo-dpt'
+		AND EMP_EMAIL LIKE '%' || #{filterText} || '%'
+		AND REGISTRATION_DATE
+		BETWEEN
+		TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
+		ORDER BY REGISTRATION_DATE DESC
+	</select>
+	
+	<select id="selectAdminByUuidDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.admin.model.dto.AdminDTO">
+		SELECT *
+		FROM EMPLOYEE
+		WHERE DEPARTMENT_ID = 'ceo-dpt'
+		AND UUID LIKE '%' || #{filterText} || '%'
+		AND REGISTRATION_DATE
+		BETWEEN
+		TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
+		ORDER BY REGISTRATION_DATE DESC
+	</select>
 
-
-
+	<!-- filter(only filtertext) -->
+	<select id="selectAdminByBizNumber"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.admin.model.dto.AdminDTO">
+		SELECT *
+		FROM EMPLOYEE
+		WHERE DEPARTMENT_ID = 'ceo-dpt'
+		AND BIZ_NUMBER LIKE '%' || #{filterText} || '%'
+		ORDER BY REGISTRATION_DATE DESC
+	</select>
+	
+	<select id="selectAdminByEmpName"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.admin.model.dto.AdminDTO">
+		SELECT *
+		FROM EMPLOYEE
+		WHERE DEPARTMENT_ID = 'ceo-dpt'
+		AND EMP_NAME LIKE '%' || #{filterText} || '%'
+		ORDER BY REGISTRATION_DATE DESC
+	</select>
+	
+	<select id="selectAdminByEmpEmail"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.admin.model.dto.AdminDTO">
+		SELECT *
+		FROM EMPLOYEE
+		WHERE DEPARTMENT_ID = 'ceo-dpt'
+		AND EMP_EMAIL LIKE '%' || #{filterText} || '%'
+		ORDER BY REGISTRATION_DATE DESC
+	</select>
+	
+	<select id="selectAdminByUuid"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.admin.model.dto.AdminDTO">
+		SELECT *
+		FROM EMPLOYEE
+		WHERE DEPARTMENT_ID = 'ceo-dpt'
+		AND UUID LIKE '%' || #{filterText} || '%'
+		ORDER BY REGISTRATION_DATE DESC
+	</select>
+	
+	<!-- filter(only date) -->
+	<select id="selectAdminByFilterOnlyDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.admin.model.dto.AdminDTO">
+		SELECT *
+		FROM EMPLOYEE
+		WHERE DEPARTMENT_ID = 'ceo-dpt'
+		AND REGISTRATION_DATE
+		BETWEEN
+		TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
+		ORDER BY REGISTRATION_DATE DESC
+	</select>
+	
+	<select id="selectAdminByFilterStartDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.admin.model.dto.AdminDTO">
+		SELECT *
+		FROM EMPLOYEE
+		WHERE DEPARTMENT_ID = 'ceo-dpt'
+		AND REGISTRATION_DATE >= TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS')
+		ORDER BY REGISTRATION_DATE DESC
+	</select>
+	
+	<select id="selectAdminByFilterEndDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.admin.model.dto.AdminDTO">
+		SELECT *
+		FROM EMPLOYEE
+		WHERE DEPARTMENT_ID = 'ceo-dpt'
+		AND REGISTRATION_DATE &lt;= TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS'
+		ORDER BY REGISTRATION_DATE DESC
+	</select>
 </mapper>
