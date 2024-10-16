@@ -85,7 +85,7 @@ public class EmpMgtServiceImpl implements EmpMgtService {
         return empMgtDao.getEmployeesByDepartmentName(bizNumber, departmentName);
     }
 
-    // **새로 추가된 메서드**
+    
     // 모든 부서 목록 가져오기
     @Override
     public List<Department> getAllDepartments() {

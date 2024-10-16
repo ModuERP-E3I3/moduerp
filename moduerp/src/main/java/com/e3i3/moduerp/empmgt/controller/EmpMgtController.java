@@ -100,7 +100,6 @@ public class EmpMgtController {
 		model.addAttribute("currentPage", page);
 		model.addAttribute("option", option);
 		model.addAttribute("filterText", filterText);
-
 		return "empMgt/empMgtFilter";
 	}
 
@@ -142,7 +141,7 @@ public class EmpMgtController {
 		String approvalCode = empMgtService.getApprovalCodeByBizNumber(bizNumber);
 
 		EmpMgtDTO empMgtDTO = new EmpMgtDTO();
-		empMgtDTO.setUuid(UUID.randomUUID().toString()); // UUID 자동 생성
+		empMgtDTO.setUuid(UUID.randomUUID().toString()); 				// UUID 자동 생성
 		empMgtDTO.setEmpName(empName);
 		empMgtDTO.setDepartmentId(departmentId);
 		empMgtDTO.setJobId(jobId);
@@ -150,8 +149,8 @@ public class EmpMgtController {
 		empMgtDTO.setPhone(phone);
 		empMgtDTO.setAddress(address);
 		empMgtDTO.setBizNumber(bizNumber);
-		empMgtDTO.setPrivateAuthority(privateAuthority); // 권한 설정
-		empMgtDTO.setApprovalCode(approvalCode); // 승인 코드 설정
+		empMgtDTO.setPrivateAuthority(privateAuthority); 				// 권한 설정
+		empMgtDTO.setApprovalCode(approvalCode); 						// 승인 코드 설정
 
 		empMgtService.createEmployee(empMgtDTO);
 
