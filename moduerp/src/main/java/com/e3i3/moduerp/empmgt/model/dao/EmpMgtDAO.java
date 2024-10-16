@@ -38,7 +38,7 @@ public interface EmpMgtDAO {
     // 직원 필터링
     List<EmpMgtDTO> getEmployeesByEmpName(String bizNumber, String filterText);
 
-    List<EmpMgtDTO> getEmployeesByDepartmentId(String bizNumber, String filterText);
+    List<EmpMgtDTO> getEmployeesByDepartmentName(String bizNumber, String filterText);
 
     List<EmpMgtDTO> getEmployeesByJobId(String bizNumber, String filterText);
 }

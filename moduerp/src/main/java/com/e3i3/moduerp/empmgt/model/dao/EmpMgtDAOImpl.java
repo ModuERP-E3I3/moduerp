@@ -73,8 +73,8 @@ public class EmpMgtDAOImpl implements EmpMgtDAO {
     }
 
     @Override
-    public List<EmpMgtDTO> getEmployeesByDepartmentId(String bizNumber, String filterText) {
-        return sqlSession.selectList(namespace + ".selectEmployeesByDepartmentId",
+    public List<EmpMgtDTO> getEmployeesByDepartmentName(String bizNumber, String filterText) {
+        return sqlSession.selectList(namespace + ".selectEmployeesByDepartmentName",
             Map.of("bizNumber", bizNumber, "filterText", filterText));
     }
 

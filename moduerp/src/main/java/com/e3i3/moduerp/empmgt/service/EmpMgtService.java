@@ -7,39 +7,42 @@ import com.e3i3.moduerp.empmgt.model.dto.EmpMgtDTO;
 
 public interface EmpMgtService {
 
-    // 모든 직원 가져오기
-    List<EmpMgtDTO> getAllEmployees();
+	// 모든 직원 가져오기
+	List<EmpMgtDTO> getAllEmployees();
 
-    // 직원 등록
-    void createEmployee(EmpMgtDTO empMgtDTO);
+	// 직원 등록
+	void createEmployee(EmpMgtDTO empMgtDTO);
 
-    // 사업자 번호에 따른 직원 이름 가져오기
-    List<String> getEmpNamesByBizNumber(String bizNumber);
+	// 사업자 번호에 따른 직원 이름 가져오기
+	List<String> getEmpNamesByBizNumber(String bizNumber);
 
-    // 사업자 번호에 따른 부서 코드 가져오기
-    List<String> getDepartmentIdsByBizNumber(String bizNumber);
+	// 사업자 번호에 따른 부서 코드 가져오기
+	List<String> getDepartmentIdsByBizNumber(String bizNumber);
 
-    // 사업자 번호에 따른 직원 목록 가져오기
-    List<EmpMgtDTO> getEmployeesByBizNumber(String bizNumber);
+	// 사업자 번호에 따른 직원 목록 가져오기
+	List<EmpMgtDTO> getEmployeesByBizNumber(String bizNumber);
 
-    // 부서와 직급 정보를 함께 가져오기
-    List<Employee> getEmpNameDepart(String bizNumber);
+	// 부서와 직급 정보를 함께 가져오기
+	List<Employee> getEmpNameDepart(String bizNumber);
 
-    // UUID로 직원 상세 정보 가져오기
-    EmpMgtDTO getEmployeeDetailByUUID(String uuid);
+	// UUID로 직원 상세 정보 가져오기
+	EmpMgtDTO getEmployeeDetailByUUID(String uuid);
 
-    // 직원 정보 수정
-    void updateEmployee(EmpMgtDTO empMgtDTO);
+	// 직원 정보 수정
+	void updateEmployee(EmpMgtDTO empMgtDTO);
 
-    // UUID로 직원 삭제
-    void deleteEmployeeByUUID(String uuid);
+	// UUID로 직원 삭제
+	void deleteEmployeeByUUID(String uuid);
 
-    // 필터에 따른 직원 목록 가져오기
-    List<EmpMgtDTO> getEmployeesByFilter(String bizNumber, String option, String filterText);
+	// 필터: 부서명으로 직원 목록 가져오기
+	List<EmpMgtDTO> getEmployeesByDepartmentName(String bizNumber, String departmentName);
 
-    // 부서 ID로 직원 목록 가져오기
-    List<EmpMgtDTO> getEmployeesByDepartmentId(String bizNumber, String departmentId);
+	// 필터로 직원 목록 가져오기
+	List<EmpMgtDTO> getEmployeesByFilter(String bizNumber, String option, String filterText);
 
-    // 직급 ID로 직원 목록 가져오기
-    List<EmpMgtDTO> getEmployeesByJobId(String bizNumber, String jobId);
+	// 부서 ID로 직원 목록 가져오기
+//	List<EmpMgtDTO> getEmployeesByDepartmentId(String bizNumber, String departmentId);
+
+	// 직급 ID로 직원 목록 가져오기
+	List<EmpMgtDTO> getEmployeesByJobId(String bizNumber, String jobId);
 }
