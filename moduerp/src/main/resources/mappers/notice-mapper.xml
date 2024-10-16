@@ -51,6 +51,42 @@
 		SELECT * FROM notice WHERE title LIKE '%' || #{keyword} || '%' OR body LIKE
 		'%' || #{keyword} || '%'
 	</select>
+	
+	
+	
+<!-- 전체 공지사항 조회 with 페이징 -->
+<select id="findAllNotices" resultType="Notice">
+    SELECT * FROM notices
+    ORDER BY notice_date DESC
+    LIMIT #{limit} OFFSET #{offset}
+</select>
+
+
+<!-- Count all notices -->
+<select id="countAllNotices" resultType="int">
+    SELECT COUNT(*) FROM notice
+</select>
+
+<!-- 조건 검색 공지사항 조회 with 페이징 -->
+<select id="searchNotices" resultType="Notice">
+    SELECT * FROM notices
+    WHERE 
+        (#{category} = '전체' OR category = #{category})
+        AND 
+        (title LIKE CONCAT('%', #{keyword}, '%') OR content LIKE CONCAT('%', #{keyword}, '%'))
+    ORDER BY notice_date DESC
+    LIMIT #{limit} OFFSET #{offset}
+</select>
+
+
+<!-- 공지사항 총 개수 조회 -->
+<select id="countNotices" resultType="int">
+    SELECT COUNT(*) FROM notices
+    WHERE 
+        (#{category} = '전체' OR category = #{category})
+        AND 
+        (title LIKE CONCAT('%', #{keyword}, '%') OR content LIKE CONCAT('%', #{keyword}, '%'))
+</select>
 
 
 

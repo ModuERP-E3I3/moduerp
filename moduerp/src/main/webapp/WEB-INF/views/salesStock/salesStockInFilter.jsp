@@ -175,13 +175,16 @@ tbody tr:hover {
 	<!-- 서브헤더 JSP 임포트 -->
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
-	<!-- 위에 하얀 박스  -->
+	<!-- 상단 메뉴바 -->
 	<div class="top-content-box">
-	    <ul id="menubar">
-	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
-	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
-	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
-	    </ul>
+		<ul id="menubar">
+			<li><a href="account.do"><i class="fas fa-building"></i>
+					거래처관리</a></li>
+			<li><a href="salesStockIn.do"><i
+					class="fas fa-truck-loading"></i> 영업 입고</a></li>
+			<li><a href="salesStockOut.do"><i
+					class="fas fa-shipping-fast"></i> 영업 출고</a></li>
+		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
@@ -199,20 +202,20 @@ tbody tr:hover {
 					<option value="iDirector"
 						${option == 'iDirector' ? 'selected' : ''}>담당자</option>
 				</select> <input type="date" name="startDate" id="startDate"
-					value="${startDate != null ? startDate : ''}" required/> <input
+					value="${startDate != null ? startDate : ''}" required /> <input
 					type="date" name="endDate" id="endDate"
 					value="${endDate != null ? endDate : ''}" /> <input type="text"
 					name="filterText" id="filterText" placeholder="내용 입력"
-					value="${filterText != null ? filterText : ''}" required/>
+					value="${filterText != null ? filterText : ''}" required />
 
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
 					onclick="window.location.href='salesStockIn.do';">초기화</button>
 			</div>
-			
+
 		</form>
-		
-		
+
+
 		<!-- 테이블 -->
 		<table>
 			<thead>
@@ -226,18 +229,18 @@ tbody tr:hover {
 					<th>담당자</th>
 				</tr>
 			</thead>
-			
+
 			<tbody>
 				<c:forEach var="item" items="${itemList}" varStatus="status">
 					<tr
 						onclick="window.location.href='getSalesInDetails.do?itemCode=${item.itemCode}'">
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						
+
 						<td>${item.itemName}</td>
-						
+
 						<td><fmt:formatDate value="${item.createdAt}"
 								pattern="yyyy-MM-dd" /></td>
-								
+
 						<td>${item.stockIn}</td>
 						<td>${item.stockPlace}</td>
 						<td>${item.inPrice}</td>

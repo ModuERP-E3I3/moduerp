@@ -26,7 +26,7 @@ public class AccountController {
 		String bizNumber = (String) session.getAttribute("biz_number");
 
 		// Fetch all accounts
-		List<AccountDTO> accountList = accountService.getAllAccounts();
+		List<AccountDTO> accountList = accountService.getAllAccounts(bizNumber);
 
 		// Pagination logic
 		int accountsPerPage = 10;

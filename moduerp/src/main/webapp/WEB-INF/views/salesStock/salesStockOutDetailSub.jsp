@@ -198,17 +198,15 @@ th {
 	<!-- 서브헤더 JSP 임포트 -->
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
-	<!-- 위에 하얀 박스  -->
+	<!-- 상단 메뉴바 -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
+			<li><a href="account.do"><i class="fas fa-building"></i>
 					거래처관리</a></li>
-			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
-					영업 입고</a></li>
-			<!-- 수정 -->
-			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
-					영업 출고</a></li>
-			<!-- 수정 -->
+			<li><a href="salesStockIn.do"><i
+					class="fas fa-truck-loading"></i> 영업 입고</a></li>
+			<li><a href="salesStockOut.do"><i
+					class="fas fa-shipping-fast"></i> 영업 출고</a></li>
 		</ul>
 	</div>
 
@@ -216,7 +214,7 @@ th {
 	<div class="content-box">
 
 		<div class="content-title">영업관리 | 영업출고 |
-			${itemDetailsSub.itemName} 출고 정보</div>
+			${itemDetailsSub.itemName} 정보</div>
 
 		<!-- 테이블 -->
 		<table>
@@ -238,15 +236,15 @@ th {
 				<tr>
 					<td>${itemDetailsSub.itemName}</td>
 					<td>${itemDetailsSub.itemDesc}</td>
-					
+
 					<td><fmt:formatDate
 							value="${salesStockOutDetailsSub.sStockOutDate}"
 							pattern="yyyy-MM-dd" /></td>
-							
+
 					<td><fmt:formatDate
 							value="${salesStockOutDetailsSub.sStockOutUpdate}"
 							pattern="yyyy-MM-dd" /></td>
-							
+
 					<td>${salesStockOutDetailsSub.sStockOutQty}</td>
 					<td>${salesStockOutDetailsSub.sStockOutPrice}</td>
 					<td>${salesStockOutDetailsSub.sStockOutPlace}</td>

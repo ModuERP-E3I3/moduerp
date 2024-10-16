@@ -174,17 +174,15 @@ tbody tr:hover {
 	<!-- 서브헤더 JSP 임포트 -->
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
-	<!-- 위에 하얀 박스  -->
+	<!-- 상단 메뉴바 -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
+			<li><a href="account.do"><i class="fas fa-building"></i>
 					거래처관리</a></li>
-			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
-					영업 입고</a></li>
-			<!-- 수정 -->
-			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
-					영업 출고</a></li>
-			<!-- 수정 -->
+			<li><a href="salesStockIn.do"><i
+					class="fas fa-truck-loading"></i> 영업 입고</a></li>
+			<li><a href="salesStockOut.do"><i
+					class="fas fa-shipping-fast"></i> 영업 출고</a></li>
 		</ul>
 	</div>
 
@@ -221,27 +219,27 @@ tbody tr:hover {
 					<tr>
 
 						<td><input type="text" name="accountName"
-							placeholder="거래처명 입력" required/></td>
+							placeholder="거래처명 입력" required /></td>
 
 						<td><input type="text" name="businessType"
 							placeholder="업태 입력" required /></td>
 
-						<td><input type="text" name="bossName"
-							placeholder="대표자명 입력" required/></td>
+						<td><input type="text" name="bossName" placeholder="대표자명 입력"
+							required /></td>
 
 						<td><input type="text" name="businessNumber"
-							placeholder="사업자번호" required/></td>
+							placeholder="사업자번호" required /></td>
 
 						<td><input type="text" name="accountAddress"
-							placeholder="주소 입력" required/></td>
+							placeholder="주소 입력" required /></td>
 
 						<td><input type="text" name="accountPhone"
-							placeholder="전화번호 입력" required/></td>
-							
-						<td><input type="text" name="email"
-							placeholder="이메일 입력" required/></td>
-							
-							
+							placeholder="전화번호 입력" required /></td>
+
+						<td><input type="text" name="email" placeholder="이메일 입력"
+							required /></td>
+
+
 					</tr>
 				</tbody>
 			</table>

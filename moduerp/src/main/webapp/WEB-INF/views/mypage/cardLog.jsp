@@ -42,6 +42,16 @@
 	font-weight: bold;
 	color: white;
 }
+
+/* thead 스타일 */
+thead {
+	background-color: #d3d3d3; /* 라이트 그레이 색상 */
+	font-size: 15px; /* 폰트 사이즈 10px */
+}
+
+th {
+	white-space: nowrap; /* 줄바꿈 방지 */
+}
 </style>
 
 </head>
@@ -51,22 +61,23 @@
 	<div id="cardTable">
 		<h3>결제 내역</h3>
 		<table border="1" cellpadding="10" cellspacing="0">
-			<tr>
-				<th>주문 번호</th>
-				<th>구매 목록</th>
-				<th>카드사</th>
-				<th>카드 번호</th>
-				<th>카드 종류</th>
-				<th>소유자 유형</th>
-				<th>총 결제 금액</th>
-				<th>공급가액</th>
-				<th>부가가치세</th>
-				<th>결제 요청 시각</th>
-				<th>결제 승인 시각</th>
-				<th>결제 상태</th>
+			<thead>
+				<tr>
+					<th>주문 번호</th>
+					<th>구매 목록</th>
+					<th>카드사</th>
+					<th>카드 번호</th>
+					<th>카드 종류</th>
+					<th>소유자 유형</th>
+					<th>총 결제 금액</th>
+					<th>공급가액</th>
+					<th>부가가치세</th>
+					<th>결제 요청 시각</th>
+					<th>결제 승인 시각</th>
+					<th>결제 상태</th>
 
-			</tr>
-
+				</tr>
+			</thead>
 
 			<c:forEach var="log" items="${payLog}">
 				<tr>

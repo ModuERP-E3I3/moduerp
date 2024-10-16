@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.e3i3.moduerp.notice.model.dto.Notice;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class NoticeDao {
@@ -47,4 +48,27 @@ public class NoticeDao {
         return sqlSessionTemplate.selectList("NoticeMapper.searchNoticesByTitleAndBody", keyword);
     }
     
+    
+    // Get notices with pagination
+    public List<Notice> getNoticesWithPagination(int offset, int size) {
+        Map<String, Object> params = Map.of("offset", offset, "size", size);
+        return sqlSessionTemplate.selectList("NoticeMapper.getNoticesWithPagination", params);
+    }
+
+    // Count all notices
+    public int countAllNotices() {
+        return sqlSessionTemplate.selectOne("NoticeMapper.countAllNotices");
+    }
+
+    // Search notices with pagination
+    public List<Notice> searchNoticesWithPagination(String category, String keyword, int offset, int size) {
+        Map<String, Object> params = Map.of("category", category, "keyword", keyword, "offset", offset, "size", size);
+        return sqlSessionTemplate.selectList("NoticeMapper.searchNoticesWithPagination", params);
+    }
+
+    // Count filtered notices
+    public int countFilteredNotices(String category, String keyword) {
+        Map<String, Object> params = Map.of("category", category, "keyword", keyword);
+        return sqlSessionTemplate.selectOne("NoticeMapper.countFilteredNotices", params);
+    }
 }

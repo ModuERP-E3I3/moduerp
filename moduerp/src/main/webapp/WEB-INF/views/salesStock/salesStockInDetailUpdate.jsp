@@ -156,16 +156,21 @@ th {
 <body>
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
+	<!-- 상단 메뉴바 -->
 	<div class="top-content-box">
-	    <ul id="menubar">
-	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
-	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li>
-	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> 
-	    </ul>
+		<ul id="menubar">
+			<li><a href="account.do"><i class="fas fa-building"></i>
+					거래처관리</a></li>
+			<li><a href="salesStockIn.do"><i
+					class="fas fa-truck-loading"></i> 영업 입고</a></li>
+			<li><a href="salesStockOut.do"><i
+					class="fas fa-shipping-fast"></i> 영업 출고</a></li>
+		</ul>
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">영업/판매 관리 | 영업입고 | ${itemDetails.itemName} 수정</div>
+		<div class="content-title">영업/판매 관리 | 영업입고 |
+			${itemDetails.itemName} 수정</div>
 
 		<form action="/moduerp/updateSalesStockIn.do" method="POST">
 			<input type="hidden" name="itemCode" value="${itemDetails.itemCode}" />
@@ -189,8 +194,10 @@ th {
 							value="${itemDetails.itemName}" required /></td>
 						<td><input type="text" name="itemDesc"
 							value="${itemDetails.itemDesc}" required /></td>
-						<td><fmt:formatDate value="${itemDetails.createdAt}" pattern="yyyy-MM-dd" /></td>
-						<td><fmt:formatDate value="${itemDetails.updatedAt}" pattern="yyyy-MM-dd" /></td>
+						<td><fmt:formatDate value="${itemDetails.createdAt}"
+								pattern="yyyy-MM-dd" /></td>
+						<td><fmt:formatDate value="${itemDetails.updatedAt}"
+								pattern="yyyy-MM-dd" /></td>
 						<td><input type="number" name="stockIn"
 							value="${itemDetails.stockIn}" required /></td>
 						<td><input type="number" name="inPrice"

@@ -178,14 +178,15 @@ tbody tr:hover {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
+			<li><a href="account.do"><i class="fas fa-building"></i>
 					거래처관리</a></li>
-			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
-					영업 입고</a></li>
-			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
-					영업 출고</a></li>
+			<li><a href="salesStockIn.do"><i
+					class="fas fa-truck-loading"></i> 영업 입고</a></li>
+			<li><a href="salesStockOut.do"><i
+					class="fas fa-shipping-fast"></i> 영업 출고</a></li>
 		</ul>
 	</div>
+
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">

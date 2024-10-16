@@ -124,14 +124,15 @@
     </div>
 
     <!-- 첨부파일 출력 (언더스코어 뒤의 부분만 표시) -->
-    <c:if test="${not empty notice.attachment}">
-        <div class="meta">
-            <!-- 언더스코어 뒤의 파일명만 출력 -->
-            <a href="<c:url value='/resources/templates/email_files/${notice.attachment}' />">
-                ${fn:substringAfter(notice.attachment, '_')}
-            </a>
-        </div>
-    </c:if>
+<c:if test="${not empty notice.attachment}">
+    <div class="meta">
+        <!-- 언더스코어 뒤의 파일명만 출력 -->
+        <a href="<c:url value='/resources/templates/email_files/${notice.attachment}' />" download="${fn:substringAfter(notice.attachment, '_')}">
+            ${fn:substringAfter(notice.attachment, '_')}
+        </a>
+    </div>
+</c:if>
+
 
     <div class="content">
         ${notice.body}

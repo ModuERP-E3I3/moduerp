@@ -219,17 +219,35 @@ footer {
 					<a href="<c:url value='/notice/form.do' />" class="action-btn">등록</a>
 				</div>
 
-				<!-- 공지사항 리스트 -->
-				<ul class="notice-list">
-					<c:forEach var="notice" items="${noticeList}">
-						<li>
-							<h2><a href="${pageContext.request.contextPath}/notice/view/${notice.noticeId}.do">${notice.title}</a></h2>
-							<div class="meta">
-								<fmt:formatDate value="${notice.noticeDate}" pattern="yyyy-MM-dd" />
-							</div>
-						</li>
-					</c:forEach>
-				</ul>
+<!-- 공지사항 리스트 -->
+<ul class="notice-list">
+    <c:forEach var="notice" items="${noticeList}">
+        <li>
+            <h2><a href="${pageContext.request.contextPath}/notice/view/${notice.noticeId}.do">${notice.title}</a></h2>
+            <div class="meta">
+                <fmt:formatDate value="${notice.noticeDate}" pattern="yyyy-MM-dd" />
+            </div>
+        </li>
+    </c:forEach>
+</ul>
+
+<!-- 페이지네이션 -->
+<div class="pagination">
+    <c:if test="${currentPage > 1}">
+        <a href="?page=${currentPage - 1}&category=${param.category}&keyword=${param.keyword}" class="page-btn">이전</a>
+    </c:if>
+
+    <c:forEach var="i" begin="1" end="${totalPages}">
+        <a href="?page=${i}&category=${param.category}&keyword=${param.keyword}" class="page-btn ${i == currentPage ? 'active' : ''}">
+            ${i}
+        </a>
+    </c:forEach>
+
+    <c:if test="${currentPage < totalPages}">
+        <a href="?page=${currentPage + 1}&category=${param.category}&keyword=${param.keyword}" class="page-btn">다음</a>
+    </c:if>
+</div>
+
 			</div>
 		</div>
 	</div>

@@ -29,21 +29,34 @@ public class NoticeController {
 	private String uploadDir;
 
 	@GetMapping("/notice/list.do")
-	public String showNoticeList(Model model, @RequestParam(value = "category", required = false) String category,
-			@RequestParam(value = "keyword", required = false) String keyword) {
-		  List<Notice> noticeList;
+	public String showNoticeList(Model model, 
+	        @RequestParam(value = "category", required = false) String category,
+	        @RequestParam(value = "keyword", required = false) String keyword,
+	        @RequestParam(value = "page", defaultValue = "1") int page,
+	        @RequestParam(value = "size", defaultValue = "10") int size) {
 
-	        // 검색어와 카테고리가 있을 경우 필터링
-	        if (keyword != null && !keyword.isEmpty()) {
-	            noticeList = noticeService.searchNotices(category, keyword);
-	        } else {
-	            // 검색어가 없으면 전체 리스트를 반환
-	            noticeList = noticeService.getAllNotices();
-	        }
+	    List<Notice> noticeList;
+	    int totalNotices;
 
-	        model.addAttribute("noticeList", noticeList);
-		return "notice/noticeList";
+	    // Check if a search keyword and category are present
+	    if (keyword != null && !keyword.isEmpty()) {
+	        noticeList = noticeService.searchNoticesWithPagination(category, keyword, page, size);
+	        totalNotices = noticeService.countFilteredNotices(category, keyword);
+	    } else {
+	        // Fetch the entire list with pagination
+	        noticeList = noticeService.getNoticesWithPagination(page, size);
+	        totalNotices = noticeService.countAllNotices();
+	    }
+
+	    int totalPages = (int) Math.ceil((double) totalNotices / size);
+
+	    model.addAttribute("noticeList", noticeList);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("totalPages", totalPages);
+
+	    return "notice/noticeList";
 	}
+
 	
 	@GetMapping("/notice/view/{noticeId}.do")
 	public String viewNotice(@PathVariable("noticeId") String noticeId, Model model) {

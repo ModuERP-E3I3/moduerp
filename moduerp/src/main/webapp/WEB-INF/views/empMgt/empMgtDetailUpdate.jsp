@@ -174,20 +174,17 @@ tbody tr:hover {
 	<!-- 서브헤더 JSP 임포트 -->
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
-	<!-- 위에 하얀 박스  -->
+	<!-- 상단 메뉴 -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="accountList.do"><i class="fa-solid fa-users"></i>
-					계정 목록</a></li>
-			<li><a href="accountMgt.do"><i
-					class="fa-solid fa-list-check"></i> 계정 관리</a></li>
-			<li><a href="accountCreate.do"><i
-					class="fa-solid fa-user-plus"></i> 계정 추가</a></li>
+			<li><a href="empMgt.do"><i class="fas fa-user-cog"></i> 직원 관리</a></li>
+
 		</ul>
 	</div>
 
+
 	<div class="content-box">
-		<div class="content-title">인사 관리 | 직원 관리</div>
+		<div class="content-title">인사 관리 | 직원 관리 | ${employeeDetail.empName} 수정</div>
 
 		<form action="/moduerp/updateEmployee.do" method="POST">
 			<input type="hidden" name="uuid" value="${employeeDetail.uuid}" />
@@ -249,4 +246,18 @@ tbody tr:hover {
 		</form>
 	</div>
 </body>
+
+<script>
+    const activeMenu = "empMgt";
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuItems = document.querySelectorAll('nav.side ul li a');
+        menuItems.forEach(item => {
+            if (item.href.includes(activeMenu)) {
+                item.classList.add('active');
+            }
+        });
+    });
+</script>
+
 </html>
