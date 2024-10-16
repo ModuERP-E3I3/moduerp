@@ -211,7 +211,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">차량관리 | 차량 예약 | 차량 정보</div>
+		<div class="content-title">차량관리 | 차량 정보 | 차량 정보 상세</div>
 
 		
 

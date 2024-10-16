@@ -180,13 +180,6 @@ input[type="checkbox"]:disabled {
 	cursor: not-allowed; /* 사용 불가 커서 표시 */
 }
 </style>
-
-<script type="text/javascript">
-	function movePage() {
-		location.href = "loginPage.do";
-	}
-</script>
-
 </head>
 <body>
 

@@ -118,12 +118,10 @@ nav .moduerp-logo {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.4); /* 배경 어둡게 */
     justify-content: center;
     align-items: center;
 }
 .modal-content {
-    background-color: #fefefe;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
@@ -208,7 +206,7 @@ window.onclick = function(event) {
 
 <nav>
     <div class="nav-wrapper">
-        <a href="main.do" class="moduerp-logo">ModuERP</a>
+        <a href="<c:url value='/main.do' />" class="moduerp-logo">ModuERP</a>
         <ul id="menubar">
            <li><a href="<c:url value='/notice/list.do' />">공지사항</a></li>
 			<li><a href="<c:url value='/buyModule.do' />">구매</a></li>

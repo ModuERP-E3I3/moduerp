@@ -201,9 +201,9 @@ tbody tr:hover {
 					<option value="carNum">차량 번호</option>
 					<option value="empName">사원명</option>
 					<option value="departmentId">부서명</option>
-				</select> <input type="date" name="startDate" id="startDate" /> <input
+				</select> <input type="date" name="startDate" id="startDate" required/> <input
 					type="date" name="endDate" id="endDate" /> <input type="text"
-					name="filterText" id="filterText" placeholder="내용 입력" />
+					name="filterText" id="filterText" placeholder="내용 입력" required/>
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
 					onclick="window.location.href='carMgt.do';">초기화</button>
