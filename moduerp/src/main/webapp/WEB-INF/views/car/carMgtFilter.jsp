@@ -204,11 +204,11 @@ tbody tr:hover {
 					<option value="departmentId"
 						${option == 'departmentId' ? 'selected' : ''}>부서명</option>
 				</select> <input type="date" name="startDate" id="startDate"
-					value="${startDate != null && startDate.length() >= 10 ? startDate.substring(0, 10) : ''}" />
+					value="${startDate != null && startDate.length() >= 10 ? startDate.substring(0, 10) : ''}" required/>
 				<input type="date" name="endDate" id="endDate"
 					value="${endDate != null && endDate.length() >= 10 ? endDate.substring(0, 10) : ''}" />
 				<input type="text" name="filterText" id="filterText"
-					placeholder="내용 입력" value="${filterText != null ? filterText : ''}" />
+					placeholder="내용 입력" value="${filterText != null ? filterText : ''}" required/>
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
 					onclick="window.location.href='carMgt.do';">초기화</button>

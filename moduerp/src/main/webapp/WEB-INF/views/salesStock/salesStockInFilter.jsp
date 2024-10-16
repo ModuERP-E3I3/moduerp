@@ -199,11 +199,11 @@ tbody tr:hover {
 					<option value="iDirector"
 						${option == 'iDirector' ? 'selected' : ''}>담당자</option>
 				</select> <input type="date" name="startDate" id="startDate"
-					value="${startDate != null ? startDate : ''}" /> <input
+					value="${startDate != null ? startDate : ''}" required/> <input
 					type="date" name="endDate" id="endDate"
 					value="${endDate != null ? endDate : ''}" /> <input type="text"
 					name="filterText" id="filterText" placeholder="내용 입력"
-					value="${filterText != null ? filterText : ''}" />
+					value="${filterText != null ? filterText : ''}" required/>
 
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"

@@ -200,7 +200,7 @@ tbody tr:hover {
 					<option value="businessNumber">사업자 번호</option>
 					<option value="bossName">대표자 이름</option>
 				</select> <input type="text" name="filterText" id="filterText"
-					placeholder="내용 입력" />
+					placeholder="내용 입력" required />
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
 					onclick="window.location.href='account.do';">초기화</button>

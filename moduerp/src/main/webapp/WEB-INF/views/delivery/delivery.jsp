@@ -200,8 +200,8 @@ tbody tr:hover {
 					<option value="iDirector">담당자</option>
 				</select> 
 				<input type="date" name="startDate" id="startDate" required/> 
-				<input type="date" name="endDate" id="endDate" required/> 
-				<input type="text"	name="filterText" id="filterText" placeholder="내용 입력" required/>
+				<input type="date" name="endDate" id="endDate" /> 
+				<input type="text"	name="filterText" id="filterText" placeholder="내용 입력" />
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
 					onclick="window.location.href='delivery.do';">초기화</button>
@@ -304,25 +304,7 @@ tbody tr:hover {
     });
 </script>
 
-<!-- 배송조회 api -->
-<script>
-    document.getElementById('trackingForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // 폼 제출 기본 동작 방지
-        
-        // 고정된 API Key
-        var apiKey = '3uPTRFP4o7AXr6mP7ZwWWw';
-        
-        // 폼 데이터 추출
-        var tCode = document.getElementById('t_code').value;
-        var tInvoice = document.getElementById('t_invoice').value;
-        
-        // URL 생성
-        var url = `https://info.sweettracker.co.kr/tracking/4?t_key=${apiKey}&t_code=${tCode}&t_invoice=${tInvoice}`;
-        
-        // 새로운 페이지로 이동
-        window.location.href = url;
-    });
-</script>
+
 
 
 </html>
