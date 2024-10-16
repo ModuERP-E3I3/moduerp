@@ -144,28 +144,6 @@ th {
 .top-content-box {
 	background-color: white;
 }
-
-#pagebutton {
-	display: flex;
-	justify-content: center;
-	margin-top: 2%; /* 위쪽 여백 추가 */
-}
-
-#pagebutton a {
-	color: black; /* 글자 색상 검은색 */
-	text-decoration: none; /* 밑줄 제거 */
-	font-size: 20px; /* 글자 크기 증가 */
-	margin: 0 10px; /* 페이지 버튼 간격 조정 */
-}
-
-#pagebutton strong {
-	font-size: 20px; /* 현재 페이지 강조 글자 크기 증가 */
-	color: black; /* 강조 색상 검은색 유지 */
-}
-
-tbody tr:hover {
-	cursor: pointer;
-}
 </style>
 
 </head>
@@ -191,61 +169,44 @@ tbody tr:hover {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업/판매 관리 | 거래처관리 | 신규 등록</div>
+		<div class="content-title">인사 관리 | 직원 관리 | 신규 등록</div>
 
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-		</div>
 
 		<!-- 테이블 -->
-		<form action="/moduerp/accountCreate.do" method="POST">
+		<form action="/moduerp/employeeCreate.do" method="POST">
 			<table>
 				<thead>
 					<tr>
-						<th>거래처 이름</th>
-						<th>업태</th>
-						<th>대표자 이름</th>
-						<th>사업자번호</th>
-						<th>거래처 주소</th>
-						<th>거래처 전화번호</th>
-						<th>거래처 이메일</th>
+						<th>부서명</th>
+						<th>직급</th>
+						<th>직원명</th>
+						<th>이메일</th>
+						<th>전화번호</th>
+						<th>주소</th>
+						<th>사설권한</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
+						<!-- 부서 선택 드롭다운  -->
+						<td><select name="departmentId">
+								<c:forEach var="department" items="${departmentList}">
+									<option value="${department.departmentId}">${department.departmentName}</option>
+								</c:forEach>
+						</select></td>
+						<td><input type="text" name="jobId" placeholder="직급 입력" /></td>
+						<td><input type="text" name="empName" placeholder="직원명 입력" /></td>
+						<td><input type="text" name="email" placeholder="이메일 입력" /></td>
+						<td><input type="text" name="phone" placeholder="전화번호 입력" /></td>
+						<td><input type="text" name="address" placeholder="주소 입력" /></td>
 
-						<td><input type="text" name="accountName"
-							placeholder="거래처명 입력" /></td>
-
-						<td><input type="text" name="businessType"
-							placeholder="업태 입력" /></td>
-
-						<td><input type="text" name="bossName"
-							placeholder="대표자명 입력" /></td>
-
-						<td><input type="text" name="businessNumber"
-							placeholder="사업자번호" /></td>
-
-						<td><input type="text" name="accountAddress"
-							placeholder="주소 입력" /></td>
-
-						<td><input type="text" name="accountPhone"
-							placeholder="전화번호 입력" /></td>
-							
-						<td><input type="text" name="email"
-							placeholder="이메일 입력" /></td>
-							
-							
+						<!-- 사설권한 라디오 버튼 -->
+						<td><label for="privateAuthority">권한:</label> <input
+							type="radio" name="privateAuthority" value="Y" checked> Y
+							<input type="radio" name="privateAuthority" value="N"> N
+						</td>
 					</tr>
 				</tbody>
-			</table>
-
 			</table>
 
 			<!-- 버튼 그룹 -->
@@ -282,7 +243,7 @@ function removeMaterialType(button) {
 
 
 <script>
-    const activeMenu = "account";
+    const activeMenu = "empMgt";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');
