@@ -2,71 +2,71 @@
 <!DOCTYPE mapper PUBLIC
  "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="noticeMapper">
-<!-- namespace (이름공간) == 패키지와 같음 : 매퍼 영역에 이름을 붙여준 것으로 이해하면 됨 -->
-	
+<mapper namespace="NoticeMapper">
+
+	<!-- Notice 테이블과 매핑되는 resultMap -->
 	<resultMap type="Notice" id="resultNotice">
-		<result property="noticeSeq" column="NOTICE_SEQ" />
-		<result property="uuID" column="UUID" />
-		<result property="departmentId" column="DEPARTMENT_ID" />
-		<result property="noticeTitle" column="NOTICE_TITLE" />
-		<result property="writeDate" column="WRITE_DATE" />
-		<result property="noticeBody" column="NOTICE_BODY" />
-		<result property="noticeImp" column="NOTICE_IMP" />
-		<result property="viewCnt" column="VIEW_CNT" />
-		<result property="attachFile" column="ATTACH_FILE" />
+		<result property="noticeId" column="NOTICEID" /> <!-- noticeId에 매핑 -->
+		<result property="title" column="TITLE" /> <!-- title에 매핑 -->
+		<result property="body" column="BODY" /> <!-- body에 매핑 -->
+		<result property="attachment" column="ATTACHMENT"
+			jdbcType="VARCHAR" /> <!-- attachment에 매핑 (nullable) -->
+		<result property="noticeDate" column="NOTICE_DATE" /> <!-- noticeDate에 매핑 -->
 	</resultMap>
 
 
-	<!-- 전체 공지사항 수 조회 -->
-    <select id="getNoticeCount" resultType="int">
-        SELECT COUNT(*) FROM notice
-    </select>
-    
-    <!-- 공지사항 리스트 조회 -->
-    <select id="getNoticeList" resultType="com.e3i3.moduerp.notice.model.dto.Notice">
-    SELECT * FROM (
-        SELECT 
-            notice.*, 
-            ROW_NUMBER() OVER (ORDER BY write_date DESC) AS row_num
-        FROM notice
-    ) WHERE row_num BETWEEN #{start} AND #{end}
-</select>
-
-
-    
-    <!-- 공지사항 상세 조회 -->
-    <select id="getNoticeById" parameterType="int" resultType="com.e3i3.moduerp.notice.model.dto.Notice">
-    SELECT * FROM notice
-    WHERE NOTICE_SEQ = #{noticeId}
-	</select>
-	
-	<insert id="insertNotice" parameterType="com.e3i3.moduerp.notice.model.dto.Notice">
-    INSERT INTO notice (NOTICE_SEQ, UUID, DEPARTMENT_ID, NOTICE_TITLE, WRITE_DATE, NOTICE_BODY, NOTICE_IMP, VIEW_CNT, ATTACH_FILE)
-    VALUES (NOTICE_SEQ.NEXTVAL, #{uuID}, #{departmentId}, #{noticeTitle}, SYSDATE, #{noticeBody}, #{noticeImp}, 0, #{attachFile})
+	<insert id="insertNotice" parameterType="Notice">
+		INSERT INTO NOTICE
+		(NOTICEID, TITLE, BODY, ATTACHMENT, NOTICE_DATE)
+		VALUES (#{noticeId},
+		#{title}, #{body}, #{attachment}, #{noticeDate})
 	</insert>
-	
-	<update id="updateNotice" parameterType="com.e3i3.moduerp.notice.model.dto.Notice">
-    UPDATE notice
-    SET NOTICE_TITLE = #{noticeTitle},
-        NOTICE_BODY = #{noticeBody},
-        NOTICE_IMP = #{noticeImp}
-    WHERE NOTICE_SEQ = #{noticeSeq}
+
+	<select id="selectNoticeById" parameterType="String"
+		resultType="Notice">
+		SELECT NOTICEID, TITLE, BODY, ATTACHMENT, NOTICE_DATE
+		FROM
+		NOTICE
+		WHERE NOTICEID = #{noticeId}
+	</select>
+
+	<select id="selectAllNotices" resultType="Notice">
+		SELECT NOTICEID, TITLE,
+		BODY, ATTACHMENT, NOTICE_DATE
+		FROM NOTICE
+	</select>
+
+	<!-- 제목으로 검색 -->
+	<select id="searchNoticesByTitle" resultType="Notice">
+		SELECT * FROM notice WHERE title LIKE '%' || #{keyword} || '%'
+	</select>
+
+	<!-- 내용으로 검색 -->
+	<select id="searchNoticesByBody" resultType="Notice">
+		SELECT * FROM notice WHERE body LIKE '%' || #{keyword} || '%'
+	</select>
+
+	<!-- 제목과 내용으로 검색 -->
+	<select id="searchNoticesByTitleAndBody" resultType="Notice">
+		SELECT * FROM notice WHERE title LIKE '%' || #{keyword} || '%' OR body LIKE
+		'%' || #{keyword} || '%'
+	</select>
+
+
+
+
+	<update id="updateNotice" parameterType="Notice">
+		UPDATE NOTICE
+		SET TITLE =
+		#{title}, BODY = #{body}, ATTACHMENT = #{attachment},
+		NOTICE_DATE =
+		#{noticeDate}
+		WHERE NOTICEID = #{noticeId}
 	</update>
-	
-	<delete id="deleteNotice" parameterType="int">
-    DELETE FROM notice WHERE NOTICE_SEQ = #{noticeId}
+
+	<delete id="deleteNotice" parameterType="String">
+		DELETE FROM NOTICE
+		WHERE
+		NOTICEID = #{noticeId}
 	</delete>
-	
-	
 </mapper>
-
-
-
-
-
-
-
-
-
-
