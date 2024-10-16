@@ -144,8 +144,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업관리 | 영업출고 | ${itemDetails.itemName}
-			출고 정보</div>
+		<div class="content-title">영업/판매 관리 | 영업출고 | ${itemDetails.itemName} 출고 정보</div>
 
 
 

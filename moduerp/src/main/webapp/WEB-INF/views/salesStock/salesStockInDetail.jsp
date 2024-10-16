@@ -211,7 +211,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업/판매 관리 | 영업입고 | ${itemDetails.itemName}</div>
+		<div class="content-title">영업/판매 관리 | 영업입고 | ${itemDetails.itemName} 입고 정보</div>
 
 		<!-- 필터 박스 -->
 		<div class="filter-box">
