@@ -191,18 +191,20 @@ public class EmpMgtController {
 
 	@PostMapping("/updateEmployee.do")
 	public String updateEmployee(@RequestParam("uuid") String uuid, @RequestParam("empName") String empName,
-			@RequestParam("departmentId") String departmentId, // departmentId 사용
-			@RequestParam("jobId") String jobId, @RequestParam("email") String email,
-			@RequestParam("phone") String phone, @RequestParam("address") String address) {
+			@RequestParam("departmentId") String departmentId, @RequestParam("jobId") String jobId,
+			@RequestParam("email") String email, @RequestParam("phone") String phone,
+			@RequestParam("address") String address, @RequestParam("privateAuthority") String privateAuthority) { // privateAuthority
+																													// 추가
 
 		EmpMgtDTO empMgtDTO = new EmpMgtDTO();
 		empMgtDTO.setUuid(uuid);
 		empMgtDTO.setEmpName(empName);
-		empMgtDTO.setDepartmentId(departmentId); // departmentId 설정
+		empMgtDTO.setDepartmentId(departmentId);
 		empMgtDTO.setJobId(jobId);
 		empMgtDTO.setEmail(email);
 		empMgtDTO.setPhone(phone);
 		empMgtDTO.setAddress(address);
+		empMgtDTO.setPrivateAuthority(privateAuthority); // privateAuthority 설정
 
 		empMgtService.updateEmployee(empMgtDTO);
 
