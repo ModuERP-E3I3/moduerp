@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE mapper PUBLIC
- "-//mybatis.org//DTD Mapper 3.0//EN"
- "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bankmgMapper">
 	<!-- namespace (이름공간) == 패키지와 같음 : 매퍼 영역에 이름을 붙여준 것으로 이해하면 됨 -->
 
@@ -10,110 +10,64 @@
 		<result property="bankName" column="BANK_NAME" />
 		<result property="bankNumber" column="BANK_NUMBER" />
 		<result property="bankHolder" column="BANK_HOLDER" />
+		<result property="bizNumber" column="BIZ_NUMBER" />
+		<result property="remarks" column="REMARKS" />
 		<result property="balance" column="BALANCE" />
-		<result property="transactionDate" column="TRANSACTION_DATE" />
-		<result property="transactionType" column="TRANSACTION_TYPE" />
-		<result property="transactionPrice" column="TRANSACTION_PRICE" />
 	</resultMap>
 
+	<!-- -->
 	<select id="getAllmgs"
 		resultType="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg">
-		SELECT
-		BANK_NUMBER,
-		MIN(BANK_ID) AS BANK_ID,
-		MIN(TRANSACTION_TYPE) AS TRANSACTION_TYPE,
-		MIN(BANK_NAME) AS BANK_NAME,
-		MIN(BANK_HOLDER) AS BANK_HOLDER,
-		(
-		SELECT COALESCE(SUM(
-		CASE
-		WHEN
-		TRANSACTION_TYPE = '입금' THEN TRANSACTION_PRICE
-		WHEN TRANSACTION_TYPE =
-		'출금' THEN -TRANSACTION_PRICE
-		ELSE 0
-		END), 0)
-		FROM BANK_ACCOUNT_MANAGEMENT
-		WHERE BANK_NUMBER = bm.BANK_NUMBER
-		) AS BALANCE,
-		MAX(TRANSACTION_DATE)
-		AS TRANSACTION_DATE -- 이 부분은 그대로
-		FROM
-		BANK_ACCOUNT_MANAGEMENT bm
-		GROUP BY
-		BANK_NUMBER
-		ORDER BY
-		TRANSACTION_DATE ASC
+		SELECT * FROM BANK_ACCOUNT_MANAGEMENT
 	</select>
 
-	<select id="getmgById" parameterType="map"
+	<select id="getmgById" parameterType="String"
 		resultType="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg">
 		SELECT
 		BANK_NAME,
 		BANK_NUMBER,
 		BANK_HOLDER,
-		TRANSACTION_PRICE,
 		BALANCE,
-		TRANSACTION_TYPE,
-		TRANSACTION_DATE
+		REMARKS
 		FROM
 		BANK_ACCOUNT_MANAGEMENT
 		WHERE
-		BANK_ID LIKE CONCAT(#{bizNumber}, 'BA%')
-		AND BANK_NUMBER =
-		#{bankNumber}
-		ORDER BY
-		TRANSACTION_DATE DESC
+		BANK_ID = #{bankId}
 	</select>
 
 	<insert id="insertmg"
 		parameterType="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg">
-		INSERT INTO BANK_ACCOUNT_MANAGEMENT (BANK_ID,
-		TRANSACTION_TYPE, BANK_NAME,
-		BANK_NUMBER, BANK_HOLDER,
-		TRANSACTION_PRICE, BALANCE,
-		TRANSACTION_DATE, BIZ_NUMBER)
-		VALUES
-		(#{bankId},
-		#{transactionType}, #{bankName}, #{bankNumber},
+		INSERT INTO BANK_ACCOUNT_MANAGEMENT (
+		BANK_ID,
+		BANK_NAME,
+		BANK_NUMBER,
+		BANK_HOLDER,
+		BIZ_NUMBER,
+		REMARKS
+		)
+		VALUES (
+		#{bankId},
+		#{bankName},
+		#{bankNumber},
 		#{bankHolder},
-		#{transactionPrice},
-		(SELECT COALESCE(MAX(BALANCE), 0)
-		FROM BANK_ACCOUNT_MANAGEMENT WHERE BANK_NUMBER = #{bankNumber}) +
-		CASE
-		WHEN #{transactionType} = '입금' THEN #{transactionPrice}
-		WHEN
-		#{transactionType} = '출금' THEN -#{transactionPrice}
-		ELSE 0
-		END,
-		#{transactionDate},
-		#{bizNumber})
+		#{bizNumber},
+		#{remarks}
+		)
 	</insert>
 
 	<update id="updatemg"
 		parameterType="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg">
 		UPDATE BANK_ACCOUNT_MANAGEMENT
-		SET TRANSACTION_TYPE =
-		#{transactionType},
-		BANK_NAME = #{bankName},
-		BANK_HOLDER =
-		#{bankHolder},
-		TRANSACTION_PRICE = #{transactionPrice},
-		BALANCE =
-		#{balance},
-		TRANSACTION_DATE = #{transactionDate}
-		WHERE BANK_NUMBER =
-		#{bankNumber}
-		AND BIZ_NUMBER = #{bizNumber}
+		SET
+		REMARKS = #{remarks}
+		WHERE
+		BANK_ID = #{bankId}
 	</update>
 
-	<delete id="deletemg"
-		parameterType="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg">
-		DELETE FROM
-		BANK_ACCOUNT_MANAGEMENT
-		WHERE BANK_NUMBER =
-		#{bankNumber}
-		AND BIZ_NUMBER = #{bizNumber}
+	<delete id="deletemg" parameterType="String">
+		DELETE FROM BANK_ACCOUNT_MANAGEMENT
+		WHERE
+		BANK_ID = #{bankId}
 	</delete>
 
 </mapper>
