@@ -215,7 +215,7 @@
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
 
-        <div class="content-title">차량 | 생산입고</div>
+        <div class="content-title">차량 관리 | 도로 교통 및 경로 조회</div>
 
         <div id="maphtml">
         	<div class="point">

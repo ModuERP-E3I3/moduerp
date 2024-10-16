@@ -20,6 +20,7 @@
 	<!-- 모든 account 데이터 조회용 쿼리 -->
 	<select id="getAllAccounts" resultMap="accountResult">
 		SELECT * FROM ACCOUNT
+		WHERE BIZ_NUMBER = #{bizNumber}
 	</select>
 
 	<select id="getEmpNameDepart" parameterType="map"

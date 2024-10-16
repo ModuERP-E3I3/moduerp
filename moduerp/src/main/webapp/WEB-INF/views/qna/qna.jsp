@@ -273,7 +273,7 @@ h2 {
 					name="filterText" id="filterText" placeholder="내용 입력" />
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
-					onclick="window.location.href='carMgt.do';">초기화
+					onclick="window.location.href=qna.do';">초기화
 				</button>
 				</div>
 				</form>
