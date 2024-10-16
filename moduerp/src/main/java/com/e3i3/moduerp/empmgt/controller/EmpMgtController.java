@@ -1,6 +1,7 @@
 package com.e3i3.moduerp.empmgt.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.e3i3.moduerp.department.model.dto.Department;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 import com.e3i3.moduerp.empmgt.model.dto.EmpMgtDTO;
 import com.e3i3.moduerp.empmgt.service.EmpMgtService;
@@ -106,29 +108,41 @@ public class EmpMgtController {
 	public String showCreateEmployeeForm(Model model, HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
 
+		// 부서 목록 가져오기
+		List<Department> departmentList = empMgtService.getAllDepartments();
+
+		// UUID 생성 또는 설정
+		String uuid = UUID.randomUUID().toString(); // UUID를 새로 생성합니다.
+
+		// 추가 데이터 로드
 		List<String> empNames = empMgtService.getEmpNamesByBizNumber(bizNumber);
-		List<String> departmentIds = empMgtService.getDepartmentIdsByBizNumber(bizNumber);
 		List<Employee> empNameDepart = empMgtService.getEmpNameDepart(bizNumber);
 		List<EmpMgtDTO> employees = empMgtService.getEmployeesByBizNumber(bizNumber);
 
+		// 모델에 추가
+		model.addAttribute("departmentList", departmentList);
 		model.addAttribute("empNames", empNames);
-		model.addAttribute("departmentIds", departmentIds);
 		model.addAttribute("employees", employees);
 		model.addAttribute("empNameDepart", empNameDepart);
+		model.addAttribute("uuid", uuid);
 
-		return "empMgt/empMgtCreate";
+		return "empMgt/empMgtCreate"; // 생성 폼 뷰 반환
 	}
 
 	@PostMapping("/employeeCreate.do")
-	public String employeeCreate(@RequestParam("uuid") String uuid, @RequestParam("empName") String empName,
+	public String employeeCreate(@RequestParam("empName") String empName,
 			@RequestParam("departmentId") String departmentId, @RequestParam("jobId") String jobId,
 			@RequestParam("email") String email, @RequestParam("phone") String phone,
-			@RequestParam("address") String address, Model model, HttpSession session) {
+			@RequestParam("address") String address, @RequestParam("privateAuthority") String privateAuthority, // 권한
+			Model model, HttpSession session) {
 
 		String bizNumber = (String) session.getAttribute("biz_number");
 
+		// 승인 코드를 가져오는 로직
+		String approvalCode = empMgtService.getApprovalCodeByBizNumber(bizNumber);
+
 		EmpMgtDTO empMgtDTO = new EmpMgtDTO();
-		empMgtDTO.setUuid(uuid);
+		empMgtDTO.setUuid(UUID.randomUUID().toString()); // UUID 자동 생성
 		empMgtDTO.setEmpName(empName);
 		empMgtDTO.setDepartmentId(departmentId);
 		empMgtDTO.setJobId(jobId);
@@ -136,6 +150,8 @@ public class EmpMgtController {
 		empMgtDTO.setPhone(phone);
 		empMgtDTO.setAddress(address);
 		empMgtDTO.setBizNumber(bizNumber);
+		empMgtDTO.setPrivateAuthority(privateAuthority); // 권한 설정
+		empMgtDTO.setApprovalCode(approvalCode); // 승인 코드 설정
 
 		empMgtService.createEmployee(empMgtDTO);
 
@@ -157,23 +173,27 @@ public class EmpMgtController {
 		List<Employee> empNameDepart = empMgtService.getEmpNameDepart(bizNumber);
 		List<EmpMgtDTO> employees = empMgtService.getEmployeesByBizNumber(bizNumber);
 
+		// 부서 리스트 가져오기
+		List<Department> departmentList = empMgtService.getAllDepartments(); // 모든 부서 리스트 가져오기
+
 		model.addAttribute("employees", employees);
 		model.addAttribute("empNameDepart", empNameDepart);
 		model.addAttribute("employeeDetail", employeeDetail);
+		model.addAttribute("departmentList", departmentList); // 부서 리스트 추가
 
 		return "empMgt/empMgtDetailUpdate";
 	}
 
 	@PostMapping("/updateEmployee.do")
 	public String updateEmployee(@RequestParam("uuid") String uuid, @RequestParam("empName") String empName,
-			@RequestParam("departmentId") String departmentId, @RequestParam("jobId") String jobId,
-			@RequestParam("email") String email, @RequestParam("phone") String phone,
-			@RequestParam("address") String address) {
+			@RequestParam("departmentId") String departmentId, // departmentId 사용
+			@RequestParam("jobId") String jobId, @RequestParam("email") String email,
+			@RequestParam("phone") String phone, @RequestParam("address") String address) {
 
 		EmpMgtDTO empMgtDTO = new EmpMgtDTO();
 		empMgtDTO.setUuid(uuid);
 		empMgtDTO.setEmpName(empName);
-		empMgtDTO.setDepartmentId(departmentId);
+		empMgtDTO.setDepartmentId(departmentId); // departmentId 설정
 		empMgtDTO.setJobId(jobId);
 		empMgtDTO.setEmail(email);
 		empMgtDTO.setPhone(phone);
