@@ -85,4 +85,9 @@ public class ModuleServiceImpl implements ModuleService {
 	public List<ModuleDTO> selectModulesByGrades(List<String> moduleGrades) {
 		return moduleDAO.selectModulesByGrades(moduleGrades);
 	}
+	
+	@Override
+    public List<ModuleDTO> getModulesByGrades(List<String> moduleGrades) {
+        return moduleDAO.selectModuleDataByGrades(moduleGrades);
+    }
 }

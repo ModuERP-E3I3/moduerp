@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html>
 <html>
@@ -163,58 +164,40 @@ window.onclick = function(event) {
 
 </head>
 <body>
+<%-- <p>Login UUID: ${param.loginUUID}</p>
+<p>Admin UUID: ${param.adminUUID}</p> --%>
 
-<!--<c:if test="${ empty sessionScope.loginUser }"> -->
 	<nav>
 		<a href="main.do" class="moduerp-logo">ModuERP</a>
 		<ul id="menubar">
 			<li><a href="noticeList.do"><i class="fas fa-bullhorn"></i>공지사항</a></li>
 			<li><a href="buyModule.do"><i class="fas fa-clipboard"></i>구매</a></li>
 			<li><a href="main.do"><i class="fas fa-code"></i>체험페이지</a></li>
-			<li><a href="qna.do"><i class="fas fa-plug"></i>고객서비스</a></li>
+			<li><a href="qna.do"><i class="fa-solid fa-user-pen"></i>고객서비스</a></li>
 			<li><a href="main.do"><i class="fas fa-plug"></i>회사소개</a></li>
 			
-			<!-- !!!! 테스트용 경로 !!!! -->
-			<li><a href="admin.do"><i class="fas fa-plug"></i>관리자페이지 테스트용</a></li>
+			    <c:choose>
+    <%-- 사장님(CEO)일 때 마이페이지 표시 --%>
+    <c:when test="${not empty sessionScope.uuid and sessionScope.departmentId eq 'ceo-dpt'}">
+        <li><a href="passwordManagement.do"><i class="fas fa-user-circle"></i> 마이페이지</a></li>
+    </c:when>
+    
+    <%-- 관리자일 때 관리자페이지 테스트용 표시 --%>
+    <c:when test="${not empty sessionScope.uuid and sessionScope.uuid eq sessionScope.adminUUID}">
+        <li><a href="admin.do"><i class="fas fa-plug"></i> 관리자페이지 테스트용</a></li>
+    </c:when>
+    
+    <c:otherwise>
+        <%-- 일반 직원이 로그인하면 아무것도 출력하지 않음 --%>
+    </c:otherwise>
+</c:choose>
+
 			<li><a href="erpMain.do"><i class="fas fa-plug"></i>ERP 테스트용</a></li>
-			<li><a href="forwardCart.do"><i class="fa-solid fa-cart-shopping"></i></i>장바구니</a></li>
+			<li><a href="forwardCart.do"><i class="fa-solid fa-cart-shopping"></i>장바구니</a></li>
 			
 		</ul>
-		<ul>
-		    <li><a href="#" onclick="openLoginModal()"><i class="fas fa-sign-in-alt"></i> 로그인</a></li>
-		</ul>
 	</nav>
-<!--</c:if> -->
 
-<c:if test="${ !empty sessionScope.loginUser and sessionScope.loginUser.adminYN eq 'Y' }">
-	<nav>
-		<a href="main.do" class="moduerp-logo">ModuERP - Adminpage</a>
-		<ul id="menubar">
-			<li><a href="nlist.do?page=1"><i class="fas fa-bullhorn"></i> 공지사항 관리</a></li>
-			<li><a href="blist.do?page=1"><i class="fas fa-clipboard"></i> 게시글 관리</a></li>
-			<li><a href="mlist.do?page=1"><i class="fas fa-users"></i> 회원 관리</a></li>
-			<!-- 로그아웃 -->
-		    <li><a href="logout.do"><i class="fas fa-sign-out-alt"></i> 로그아웃</a></li>
-		</ul>
-	</nav>
-</c:if>
-
-<c:if test="${ !empty sessionScope.loginUser and sessionScope.loginUser.adminYN eq 'N' }">
-	<nav>
-		<a href="main.do" class="moduerp-logo">ModuERP</a>
-		<ul id="menubar">
-		    <li><a href="salesStockIn.do"><i class="fas fa-bullhorn"></i>공지사항</a></li>
-		    <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>구매</a></li>
-		    <li><a href="salesStockIn.do"><i class="fas fa-code"></i>체험페이지</a></li>
-		    <li><a href="salesStockIn.do"><i class="fas fa-plug"></i>고객서비스</a></li>
-		    <li><a href="salesStockIn.do"><i class="fas fa-plug"></i>회사소개</a></li>
-		    <li><a href="salesStockIn.do"><i class="fas fa-home"></i> ERP</a></li>
-		    <li><a href="myinfo.do?userId=${ sessionScope.loginUser.userId }"><i class="fas fa-user"></i> My Page</a></li>
-			<!-- 로그아웃 -->
-		    <li><a href="logout.do"><i class="fas fa-sign-out-alt"></i> 로그아웃</a></li>
-		</ul>
-	</nav>
-</c:if>
 
 <!-- 로그인 모달 -->
 <div id="loginModal" class="modal">

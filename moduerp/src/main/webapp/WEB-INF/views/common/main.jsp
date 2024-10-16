@@ -103,7 +103,7 @@ function movePage(){
 
 
 <!-- 메뉴바 임포트 -->
-<c:import url="/WEB-INF/views/common/menubar.jsp" />
+<c:import url="/WEB-INF/views/common/menubar.jsp"/>
 
 
 

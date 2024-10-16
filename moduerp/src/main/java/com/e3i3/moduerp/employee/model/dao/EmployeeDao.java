@@ -64,7 +64,22 @@ public class EmployeeDao {
         return sqlSessionTemplate.selectList("EmployeeMapper.selectEmployeesByBizAndDepartment", params);
     }
     
-    
+    /**
+     * 비밀번호를 업데이트합니다.
+     *
+     * @param uuid     사용자의 UUID
+     * @param password 암호화된 새 비밀번호
+     * @return 업데이트된 행의 수
+     */
+    public int updatePassword(String uuid, String password) {
+        // 매퍼에 전달할 파라미터를 맵으로 생성
+        Map<String, Object> params = new HashMap<>();
+        params.put("uuid", uuid);
+        params.put("password", password);
+
+        // 매퍼 네임스페이스와 ID를 통해 쿼리 실행
+        return sqlSessionTemplate.update("EmployeeMapper.updatePassword", params);
+    }
     
 	// 존재하는 모든 직원 조회(필요성 검토)
 	public List<Employee> selectAllEmployees() {

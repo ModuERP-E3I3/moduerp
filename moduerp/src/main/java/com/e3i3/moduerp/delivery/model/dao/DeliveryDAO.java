@@ -19,4 +19,6 @@ public interface DeliveryDAO {
 	void deleteDeliveryByItemCode(String itemCode);
 
 	List<String> getItemItemCode(String itemCode);
+
+	DeliveryDTO SelectDeliveryByDelivery(String deliveryId);
 }

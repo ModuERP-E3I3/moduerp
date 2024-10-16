@@ -177,6 +177,63 @@ button:hover {
 	text-decoration: none;
 	border-radius: 4px;
 }
+
+#delete-answer-modal {
+	display: none; /* 초기에는 보이지 않도록 설정 */
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%; /* 전체 화면 너비 */
+	height: 100%; /* 전체 화면 높이 */
+	background-color: rgba(0, 0, 0, 0.5); /* 배경 반투명 */
+	display: flex; /* 플렉스 박스를 사용하여 중앙 정렬 */
+}
+
+#delete-qna-modal {
+	display: none; /* 초기에는 보이지 않도록 설정 */
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%; /* 전체 화면 너비 */
+	height: 100%; /* 전체 화면 높이 */
+	background-color: rgba(0, 0, 0, 0.5); /* 배경 반투명 */
+	display: flex; /* 플렉스 박스를 사용하여 중앙 정렬 */
+}
+
+.modal-content {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	text-align: center;
+	width: 300px; /* 원하는 너비 */
+	position: relative;
+	margin: auto; /* 중앙 정렬을 위한 마진 */
+	margin-top: 20%;
+}
+
+.modal-content h2 {
+	margin-bottom: 20px;
+}
+
+.modal-content button {
+	padding: 10px 20px;
+	margin: 10px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.modal-content .go-delete {
+	background-color: red;
+	color: #fff;
+}
+
+.modal-content .stay-page {
+	background-color: gray;
+	color: #fff;
+}
 </style>
 </head>
 <body>
@@ -202,25 +259,29 @@ button:hover {
 				<hr>
 				<p>${qnaDetail.qContents}</p>
 				<div class="button-group">
-					<a href="qna.do" class="back-btn">목록으로 돌아가기</a> <a
-						href="questionUpdateForm.do?qSeq=${qnaDetail.qSeq}"><button
-							class="btn green">수정</button></a>
-					<button class="btn red" onclick="openDeleteModal()">삭제</button>
+					<a href="qna.do" class="back-btn">목록으로 돌아가기</a>
+					<c:if test="${uuid == qnaDetail.uuid}">
+						<a href="questionUpdateForm.do?qSeq=${qnaDetail.qSeq}"><button
+								class="btn green">수정</button></a>
+					</c:if>
+					<c:if
+						test="${uuid == qnaDetail.uuid || uuid == '08fd74b7-f049-4583-bc44-213d2114aa5d'}">
+						<button class="btn red" onclick="openDeleteQnaModal()">삭제</button>
+					</c:if>
 				</div>
 			</div>
-			<!-- 삭제 확인 모달 -->
-			<div id="delete-modal" style="display: none;">
+			<!-- 질문 삭제 모달 -->
+			<div id="delete-qna-modal" style="display: none;">
 				<div class="modal-content">
 					<h2>정말로 삭제하시겠습니까?</h2>
 					<p>삭제된 데이터는 복구할 수 없습니다.</p>
-					<!-- 삭제 버튼을 포함하는 폼 추가 -->
 					<form action="deleteQna.do" method="POST">
-						<input type="hidden" name="qSeq"
-							value="${qnaDetail.qSeq}">
-						<!-- itemCode를 숨겨진 필드로 전달 -->
+						<input type="hidden" name="qSeq" value="${qnaDetail.qSeq}">
+						<input type="hidden" name="aSeq" value="${answerDetail.aSeq}">
+						<input type="hidden" name="qSeq" value="${qnaDetail.qStatus}">
 						<button type="submit" class="go-delete">삭제</button>
 						<button type="button" class="stay-page"
-							onclick="closeDeleteModal()">취소</button>
+							onclick="closeDeleteQnaModal()">취소</button>
 					</form>
 				</div>
 			</div>
@@ -230,12 +291,47 @@ button:hover {
 					<c:when test="${qnaDetail.qStatus == 'N'}">
 						<h1 style="color: gray;">답변 대기중</h1>
 						<!-- 답변 입력 버튼 -->
-						<%-- <button type="button" class="btn blue"
-							onclick="location.href='qnaAnswerForm.do?qSeq=${qnaDetail.qSeq}'">답변
-							입력</button> --%>
+						<c:if test="${uuid == '08fd74b7-f049-4583-bc44-213d2114aa5d'}">
+							<button type="button" class="btn blue"
+								onclick="location.href='qnaAnswerCreate.do?qSeq=${qnaDetail.qSeq}'">답변
+								입력</button>
+						</c:if>
 					</c:when>
 					<c:when test="${qnaDetail.qStatus == 'Y'}">
 						<h1 style="color: green;">답변 완료</h1>
+						<h3>${answerDetail.aTitle}</h3>
+						<p>작성자: 관리자</p>
+						<p>
+							작성일:
+							<fmt:formatDate value="${answerDetail.aDate}"
+								pattern="yyyy-MM-dd" />
+						</p>
+						<hr>
+						<p>${answerDetail.aContents}</p>
+						<c:if test="${uuid == '08fd74b7-f049-4583-bc44-213d2114aa5d'}">
+							<div class="button-group">
+								<button type="button" class="btn green"
+									onclick="location.href='answerUpdateForm.do?qSeq=${qnaDetail.qSeq}'">답변
+									수정</button>
+								<button class="btn red" onclick="openDeleteAnswerModal()">삭제</button>
+
+								<!-- 답변 삭제 모달 -->
+								<div id="delete-answer-modal" style="display: none;">
+									<div class="modal-content">
+										<h2>정말로 삭제하시겠습니까?</h2>
+										<p>삭제된 데이터는 복구할 수 없습니다.</p>
+										<form action="deleteAnswer.do" method="POST">
+											<input type="hidden" name="aSeq" value="${answerDetail.aSeq}">
+											<input type="hidden" name="qSeq" value="${answerDetail.qSeq}">
+											<input type="hidden" name="qStatus" value="${qnaDetail.qStatus}">
+											<button type="submit" class="go-delete">삭제</button>
+											<button type="button" class="stay-page"
+												onclick="closeDeleteAnswerModal()">취소</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</c:if>
 					</c:when>
 				</c:choose>
 			</div>
@@ -252,16 +348,21 @@ button:hover {
 
 </body>
 <script type="text/javascript">
-function openDeleteModal() {
-    document.getElementById('delete-modal').style.display = 'block';
+function openDeleteQnaModal() {
+    document.getElementById('delete-qna-modal').style.display = 'block';
 }
 
-function closeDeleteModal() {
-    document.getElementById('delete-modal').style.display = 'none';
+function closeDeleteQnaModal() {
+    document.getElementById('delete-qna-modal').style.display = 'none';
 }
 
+function openDeleteAnswerModal() {
+    document.getElementById('delete-answer-modal').style.display = 'block';
+}
 
-
+function closeDeleteAnswerModal() {
+    document.getElementById('delete-answer-modal').style.display = 'none';
+}
 </script>
 
 

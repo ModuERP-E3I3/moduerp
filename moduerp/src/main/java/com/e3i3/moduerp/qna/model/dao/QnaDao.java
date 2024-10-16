@@ -17,6 +17,24 @@ public interface QnaDao {
 
 	void updateQuestion(QnaDto qnaDto);
 
-	void deleteQna(String qSeq);
+	void updateQStatus(QnaDto qnaDto);
+
+	void updateQStatusN(QnaDto qnaDto);
+
+	void deleteQna(int qSeq);
+
+	List<QnaDto> getQnaByEmpNameDate(String filterText, String startDate, String endDate);
+
+	List<QnaDto> getQnaByQTitleDate(String filterText, String startDate, String endDate);
+
+	List<QnaDto> getQnaByEmpName(String filterText);
+
+	List<QnaDto> getQnaByQTitle(String filterText);
+
+	List<QnaDto> getQnaByFilterOnlyDate(String startDate, String endDate);
+
+	List<QnaDto> getQnaByFilterStartDate(String startDate);
+
+	List<QnaDto> getQnaByFilterEndDate(String endDate);
 
 }

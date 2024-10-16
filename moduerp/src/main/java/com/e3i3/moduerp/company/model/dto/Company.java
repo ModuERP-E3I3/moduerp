@@ -22,5 +22,6 @@ public class Company implements Serializable {
 	private String companyName;// 회사명
 	private Timestamp createdAt; // 생성일시 java.sql.Timestamp
 	private List<Department> departments; // 부서 리스트 (1:N 관계)
+	private String cardExistence; // 카드 여부
 	
 }

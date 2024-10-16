@@ -4,57 +4,91 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="CompanyMapper">
 
-    <!-- 회사 정보를 매핑하기 위한 resultMap -->
-    <resultMap id="resultCompany" type="com.e3i3.moduerp.company.model.dto.Company">
-        <result property="bizNumber" column="biz_number" />
-        <result property="approvalCode" column="approval_code" />
-        <result property="companyName" column="company_name" />
-        <result property="createdAt" column="created_at" />
-          <!-- Nested Mapping: Company에 포함된 부서 목록 설정 -->
-        <collection property="departments" ofType="com.e3i3.moduerp.department.model.dto.Department">
-            <id property="departmentCode" column="department_id" />
-            <result property="departmentName" column="department_name" />
-            <result property="bizNumber" column="biz_number" />
-        </collection>
-    </resultMap>
+	<!-- 회사 정보를 매핑하기 위한 resultMap -->
+	<resultMap id="resultCompany"
+		type="com.e3i3.moduerp.company.model.dto.Company">
+		<result property="bizNumber" column="biz_number" />
+		<result property="approvalCode" column="approval_code" />
+		<result property="companyName" column="company_name" />
+		<result property="createdAt" column="created_at" />
+		<result property="cardExistence" column="CARD_EXISTENCE" />
 
-    <!-- 회사 등록용 쿼리 -->
-    <insert id="insertCompany" parameterType="com.e3i3.moduerp.company.model.dto.Company">
-        INSERT INTO company (biz_number, approval_code, company_name, created_at)
-        VALUES (#{bizNumber}, #{approvalCode}, #{companyName}, #{createdAt})
-    </insert>
+		<!-- Nested Mapping: Company에 포함된 부서 목록 설정 -->
+		<collection property="departments"
+			ofType="com.e3i3.moduerp.department.model.dto.Department">
+			<id property="departmentCode" column="department_id" />
+			<result property="departmentName" column="department_name" />
+			<result property="bizNumber" column="biz_number" />
+		</collection>
+	</resultMap>
 
-    <!-- 회사 수정용 쿼리 -->
-    <update id="updateCompany" parameterType="com.e3i3.moduerp.company.model.dto.Company">
-        UPDATE company
-        SET approval_code = #{approvalCode},
-            company_name = #{companyName},
-            created_at = #{createdAt}
-        WHERE biz_number = #{bizNumber}
-    </update>
+	<!-- 회사 등록용 쿼리 -->
+	<insert id="insertCompany"
+		parameterType="com.e3i3.moduerp.company.model.dto.Company">
+		INSERT INTO company (biz_number, approval_code,
+		company_name, created_at)
+		VALUES (#{bizNumber}, #{approvalCode},
+		#{companyName}, #{createdAt})
+	</insert>
 
-    <!-- 회사 삭제용 쿼리 -->
-    <delete id="deleteCompany" parameterType="String">
-        DELETE FROM company WHERE biz_number = #{bizNumber}
-    </delete>
+	<!-- 회사 수정용 쿼리 -->
+	<update id="updateCompany"
+		parameterType="com.e3i3.moduerp.company.model.dto.Company">
+		UPDATE company
+		SET approval_code = #{approvalCode},
+		company_name = #{companyName},
+		created_at = #{createdAt}
+		WHERE
+		biz_number = #{bizNumber}
+	</update>
 
-    <!-- 사업자 번호로 회사 조회용 쿼리 -->
-    <select id="selectCompanyByBizNumber" parameterType="String" resultMap="resultCompany">
-        SELECT * FROM company WHERE biz_number = #{bizNumber}
-    </select>
+	<!-- 회사 삭제용 쿼리 -->
+	<delete id="deleteCompany" parameterType="String">
+		DELETE FROM company
+		WHERE biz_number = #{bizNumber}
+	</delete>
 
-    <!-- 모든 회사 조회용 쿼리 -->
-    <select id="selectAllCompanies" resultType="com.e3i3.moduerp.company.model.dto.Company">
-        SELECT * FROM company
-    </select>
-    
-     <!-- Company와 관련된 Department 정보를 가져오는 select 쿼리 -->
-    <select id="selectCompanyWithDepartments" parameterType="String" resultMap="resultCompany">
-        SELECT c.biz_number, c.approval_code, c.company_name, c.created_at
-               d.department_id, d.department_name
-        FROM company c
-        LEFT JOIN department d ON c.biz_number = d.biz_number
-        WHERE c.biz_number = #{bizNumber}
-    </select>
-    
+	<!-- 사업자 번호로 회사 조회용 쿼리 -->
+	<select id="selectCompanyByBizNumber" parameterType="String"
+		resultMap="resultCompany">
+		SELECT * FROM company WHERE biz_number = #{bizNumber}
+	</select>
+
+	<!-- 모든 회사 조회용 쿼리 -->
+	<select id="selectAllCompanies"
+		resultType="com.e3i3.moduerp.company.model.dto.Company">
+		SELECT * FROM company
+	</select>
+
+	<!-- Company와 관련된 Department 정보를 가져오는 select 쿼리 -->
+	<select id="selectCompanyWithDepartments" parameterType="String"
+		resultMap="resultCompany">
+		SELECT c.biz_number, c.approval_code, c.company_name,
+		c.created_at
+		d.department_id, d.department_name
+		FROM company c
+		LEFT JOIN
+		department d ON c.biz_number = d.biz_number
+		WHERE c.biz_number =
+		#{bizNumber}
+	</select>
+
+
+
+
+	<!-- 카드 여부 -->
+	<select id="selectComplayCardExitence" parameterType="String"
+		resultType="String">
+		SELECT CARD_EXISTENCE FROM COMPANY
+		WHERE BIZ_NUMBER =
+		#{bizNumber}
+	</select>
+
+	<update id="updateCardExistence">
+		UPDATE COMPANY
+		SET CARD_EXISTENCE = #{cardBillingId}
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</update>
+
+
 </mapper>

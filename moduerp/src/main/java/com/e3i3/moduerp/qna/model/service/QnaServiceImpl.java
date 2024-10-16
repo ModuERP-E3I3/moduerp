@@ -40,9 +40,56 @@ public class QnaServiceImpl implements QnaService{
 		QnaDao.updateQuestion(qnaDto);
 	}
 
+	
+
 	@Override
-	public void deleteQna(String qSeq) {
+	public void updateQStatus(QnaDto qnaDto) {
+		QnaDao.updateQStatus(qnaDto);
+	}
+
+	@Override
+	public void updateQStatusN(QnaDto qnaDto) {
+		QnaDao.updateQStatusN(qnaDto);
+	}
+
+	@Override
+	public void deleteQna(int qSeq) {
 		QnaDao.deleteQna(qSeq);
+	}
+
+	@Override
+	public List<QnaDto> getQnaByFilterDate(String option, String filterText, String startDate, String endDate) {
+		if (option.equals("empName")) {
+			return QnaDao.getQnaByEmpNameDate(filterText, startDate, endDate);
+		} else if (option.equals("qTitle")) {
+			return QnaDao.getQnaByQTitleDate(filterText, startDate, endDate);
+		}
+		return null;
+	}
+
+	@Override
+	public List<QnaDto> getQnaByFilter(String option, String filterText) {
+		if (option.equals("empName")) {
+			return QnaDao.getQnaByEmpName(filterText);
+		} else if (option.equals("qTitle")) {
+			return QnaDao.getQnaByQTitle(filterText);
+		}
+		return null;
+	}
+
+	@Override
+	public List<QnaDto> getQnaByFilterOnlyDate(String startDate, String endDate) {
+		return QnaDao.getQnaByFilterOnlyDate(startDate, endDate);
+	}
+
+	@Override
+	public List<QnaDto> getQnaByFilterStartDate(String startDate) {
+		return QnaDao.getQnaByFilterStartDate(startDate);
+	}
+
+	@Override
+	public List<QnaDto> getQnaByFilterEndDate(String endDate) {
+		return QnaDao.getQnaByFilterEndDate(endDate);
 	}
 
 }

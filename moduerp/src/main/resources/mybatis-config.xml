@@ -30,6 +30,8 @@
 			alias="CarresDto" />
 		<typeAlias type="com.e3i3.moduerp.account.model.dto.AccountDTO"
 			alias="AccountDTO" />
+		<typeAlias type="com.e3i3.moduerp.empmgt.model.dto.EmpMgtDTO"
+			alias="EmpMgtDTO" />
 		<typeAlias type="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO"
 			alias="PurchaseOrdersDTO" />
 		<typeAlias type="com.e3i3.moduerp.notice.model.dto.Notice"
@@ -94,6 +96,7 @@
 		<mapper resource="mappers/salesStockOut-mapper.xml" />
 		<mapper resource="mappers/item-salesstock-mapper.xml" />
 		<mapper resource="mappers/employee-sales-mapper.xml" />
+		<mapper resource="mappers/empMgt-mapper.xml" />
 
 		<mapper resource="mappers/account-mapper.xml" />
 		<mapper resource="mappers/purchaseOrders-mapper.xml" />
@@ -110,8 +113,12 @@
 		<mapper resource="mappers/item-delivery-mapper.xml" />
 		<mapper resource="mappers/delivery-mapper.xml" />
 		<mapper resource="mappers/cart-mapper.xml" />
+		<mapper resource="mappers/billingInfo-mapper.xml" />
+		<mapper resource="mappers/pay-mapper.xml" />
+		<mapper resource="mappers/paylog-mapper.xml" />
 		
 		<mapper resource="mappers/qna-mapper.xml" />
+		<mapper resource="mappers/answer-mapper.xml" />
 
 	</mappers>
 

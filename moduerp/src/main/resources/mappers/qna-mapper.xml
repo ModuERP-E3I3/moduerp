@@ -80,8 +80,99 @@
 	</update>
 	
 	<!-- 글 삭제 -->
-	<delete id="deleteQna" parameterType="String">
+	<delete id="deleteQna" parameterType="int">
 		DELETE FROM QUESTION WHERE Q_SEQ = #{qSeq}
 	</delete>
 	
+	<!-- 답변 등록 시 qStatus 'Y'로 업데이트 -->
+	<update id="updateQStatus"
+		parameterType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		UPDATE QUESTION
+		SET Q_STATUS = 'Y'
+		WHERE Q_SEQ = #{qSeq}
+	</update>
+	
+	<!-- 답변 삭제 시 qStatus 'Y'로 업데이트 -->
+	<update id="updateQStatusN"
+		parameterType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		UPDATE QUESTION
+		SET Q_STATUS = 'N'
+		WHERE Q_SEQ = #{qSeq}
+	</update>
+	
+	<!-- filter 쿼리 -->
+	<select id="selectQnaByEmpNameDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		SELECT *
+		FROM QUESTION
+		WHERE EMP_NAME LIKE '%' || #{filterText} || '%'
+		AND Q_DATE
+		BETWEEN
+		TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
+		ORDER BY Q_DATE DESC
+	</select>
+	
+	<select id="selectQnaByQTitleDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		SELECT *
+		FROM QUESTION
+		WHERE Q_TITLE LIKE '%' || #{filterText} || '%'
+		AND Q_DATE
+		BETWEEN
+		TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
+		ORDER BY Q_DATE DESC
+	</select>
+	
+	<select id="selectQnaByEmpName"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		SELECT *
+		FROM QUESTION
+		WHERE EMP_NAME LIKE '%' || #{filterText} || '%'
+		ORDER BY Q_DATE DESC
+	</select>
+	
+	<select id="selectQnaByQTitle"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		SELECT *
+		FROM QUESTION
+		WHERE Q_TITLE LIKE '%' || #{filterText} || '%'
+		ORDER BY Q_DATE DESC
+	</select>
+	
+	<!-- filter(날짜만 입력받은 경우) 쿼리 -->
+	<select id="selectQnaByFilterOnlyDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		SELECT *
+		FROM QUESTION
+		WHERE Q_DATE
+		BETWEEN
+		TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
+		ORDER BY Q_DATE DESC
+	</select>
+	
+	<select id="selectQnaByFilterStartDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		SELECT *
+		FROM QUESTION
+		WHERE Q_DATE >= TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS') 
+		ORDER BY Q_DATE DESC
+	</select>
+	
+	<select id="selectQnaByFilterEndDate"
+		parameterType="map"
+		resultType="com.e3i3.moduerp.qna.model.dto.QnaDto">
+		SELECT *
+		FROM QUESTION
+		WHERE Q_DATE &lt;= TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
+		ORDER BY Q_DATE DESC
+	</select>
 </mapper>

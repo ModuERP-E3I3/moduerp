@@ -56,4 +56,9 @@ public class DeliveryDAOImpl implements DeliveryDAO{
 		
 	}
 
+	@Override
+	public DeliveryDTO SelectDeliveryByDelivery(String deliveryId) {
+		return sqlSession.selectOne(namespace + ".SelectDeliveryByDelivery", deliveryId);
+	}
+
 }

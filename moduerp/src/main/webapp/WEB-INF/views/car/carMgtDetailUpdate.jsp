@@ -188,7 +188,7 @@ th {
 				<tbody>
 					<tr>
 						<td><input list="carModels" name="carModel"
-							id="carModelInput" placeholder="차종 입력" oninput="updateCarNum()" value="${carmgtDetail.carModel}" />
+							id="carModelInput" placeholder="차종 입력" oninput="updateCarNum()" value="${carmgtDetail.carModel}" required/>
 							<datalist id="carModels">
 								<c:forEach var="cars" items="${cars}">
 									<option value="${cars.carModel} | ${cars.carNum}" />
@@ -196,10 +196,10 @@ th {
 							</datalist></td>
 						<!-- 차량 번호 입력 칸 -->
 						<td><input type="text" id="carNumInput" name="carNum"
-							placeholder="차량 번호 입력" value="${carmgtDetail.carNum}"  readonly="readonly" /></td>
+							placeholder="차량 번호 입력" value="${carmgtDetail.carNum}"  readonly="readonly" required/></td>
 						<!-- 사원 이름 입력 칸 -->
 						<td><input list="empNames" name="empName" id="empNameInput"
-							placeholder="사원명" oninput="updateDepartmentId()" value="${carmgtDetail.empName}"  /> <datalist
+							placeholder="사원명" oninput="updateDepartmentId()" value="${carmgtDetail.empName}" required/> <datalist
 								id="empNames">
 								<c:forEach var="empNameDepart" items="${empNameDepart}">
 									<option
@@ -208,19 +208,19 @@ th {
 							</datalist></td>
 						<!-- 부서명 입력 칸 -->
 						<td><input type="text" id="departmentIdInput"
-							name="departmentId" placeholder="부서명" value="${carmgtDetail.departmentId}" readonly="readonly"/> <datalist
+							name="departmentId" placeholder="부서명" value="${carmgtDetail.departmentId}" readonly="readonly" required/> <datalist
 								id="departmentIds">
 								<c:forEach var="departmentId" items="${departmentIds}">
 									<option value="${departmentId}" />
 								</c:forEach>
 							</datalist></td>
 						<td><input type="text" name="paymentPlace" value="${carmgtDetail.paymentPlace}"
-							placeholder="사용처 입력" /></td>
+							placeholder="사용처 입력" required /></td>
 						<td><input type="text" name="paymentHistory" value="${carmgtDetail.paymentHistory}"
-							placeholder="내역 입력" /></td>
+							placeholder="내역 입력" required /></td>
 						<td><input type="text" name="paymentPrice" value="${carmgtDetail.paymentPrice}"
-							placeholder="금액 입력" /></td>
-						<td><input type="date" id="paymentDate" name="paymentDate" /></td>
+							placeholder="금액 입력" required /></td>
+						<td><input type="date" id="paymentDate" name="paymentDate" required /></td>
 
 					</tr>
 				</tbody>
