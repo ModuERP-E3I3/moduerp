@@ -127,11 +127,6 @@
                         <i class="fas fa-credit-card"></i> 카드 관리
                     </a>
                 </li>
-                <li>
-                    <a href="${pageContext.request.contextPath}/businessNumberManagement.do">
-                        <i class="fas fa-id-badge"></i> 사업자번호 관리
-                    </a>
-                </li>
             </ul>
         </div>
         
