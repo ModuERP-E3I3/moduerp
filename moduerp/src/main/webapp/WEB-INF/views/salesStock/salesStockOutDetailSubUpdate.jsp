@@ -155,20 +155,21 @@ th {
 <body>
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
+	<!-- 상단 메뉴바 -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
+			<li><a href="account.do"><i class="fas fa-building"></i>
 					거래처관리</a></li>
-			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
-					영업 입고</a></li>
-			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
-					영업 출고</a></li>
+			<li><a href="salesStockIn.do"><i
+					class="fas fa-truck-loading"></i> 영업 입고</a></li>
+			<li><a href="salesStockOut.do"><i
+					class="fas fa-shipping-fast"></i> 영업 출고</a></li>
 		</ul>
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">영업/판매 관리 | 영업출고 | ${itemDetails.itemName}
-			수정</div>
+		<div class="content-title">영업/판매 관리 | 영업출고 |
+			${itemDetails.itemName} 수정</div>
 
 		<form action="/moduerp/updateSalesStockSubOut.do" method="POST">
 			<input type="hidden" name="itemCode" value="${itemDetails.itemCode}" />
@@ -192,24 +193,24 @@ th {
 				<tbody>
 					<tr>
 						<td>${itemDetails.itemName}</td>
-						
+
 						<td>${itemDetails.itemDesc}</td>
-						
+
 						<td><fmt:formatDate
 								value="${salesStockOutDetails.sStockOutDate}"
 								pattern="yyyy-MM-dd" /></td>
-								
+
 						<td><fmt:formatDate
 								value="${salesStockOutDetails.sStockOutUpdate}"
 								pattern="yyyy-MM-dd" /></td>
-								
+
 						<td><input type="number" name="stockOut"
 							value="${salesStockOutDetails.sStockOutQty}" required /></td>
-							
+
 						<td><input type="number" name="outPrice"
 							value="${salesStockOutDetails.sStockOutPrice}" step="0.01"
 							required /></td>
-							
+
 						<td><input list="stockPlaces" name="stockPlace"
 							value="${salesStockOutDetails.sStockOutPlace}"
 							placeholder="보관장소 선택" required /> <datalist id="stockPlaces">
@@ -217,20 +218,20 @@ th {
 									<option value="${stockPlace}"></option>
 								</c:forEach>
 							</datalist></td>
-							
+
 						<td>${itemDetails.itemList}</td>
-						
+
 						<td>${salesStockOutDetails.oDirector}</td>
-						
+
 						<td><select name="paymentStatus">
 								<option value="Y"
 									<c:if test="${salesStockOutDetails.paymentStatus == 'Y'}">selected</c:if>>Yes</option>
 								<option value="N"
 									<c:if test="${salesStockOutDetails.paymentStatus == 'N'}">selected</c:if>>No</option>
 						</select></td>
-						
-						
-						
+
+
+
 					</tr>
 				</tbody>
 			</table>

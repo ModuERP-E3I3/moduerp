@@ -198,22 +198,23 @@ th {
 	<!-- 서브헤더 JSP 임포트 -->
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
-	<!-- 위에 하얀 박스  -->
+	<!-- 상단 메뉴바 -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
+			<li><a href="account.do"><i class="fas fa-building"></i>
 					거래처관리</a></li>
-			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
-					영업 입고</a></li>
-			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
-					영업 출고</a></li>
+			<li><a href="salesStockIn.do"><i
+					class="fas fa-truck-loading"></i> 영업 입고</a></li>
+			<li><a href="salesStockOut.do"><i
+					class="fas fa-shipping-fast"></i> 영업 출고</a></li>
 		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업/판매 관리 | 거래처관리 | ${accountDetail.accountName} 정보</div>
+		<div class="content-title">영업/판매 관리 | 거래처관리 |
+			${accountDetail.accountName} 정보</div>
 
 		<!-- 테이블 -->
 		<table>
@@ -245,8 +246,7 @@ th {
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
 			<button class="btn red" onclick="openDeleteModal()">삭제</button>
-			<a
-				href="accountDetailUpdate.do?accountNo=${accountDetail.accountNo}">
+			<a href="accountDetailUpdate.do?accountNo=${accountDetail.accountNo}">
 				<button class="btn green">수정</button>
 			</a>
 		</div>
@@ -261,7 +261,8 @@ th {
 			<p>삭제된 데이터는 복구할 수 없습니다.</p>
 			<!-- 삭제 버튼을 포함하는 폼 추가 -->
 			<form action="deleteAccount.do" method="POST">
-				<input type="hidden" name="accountNo" value="${accountDetail.accountNo}">
+				<input type="hidden" name="accountNo"
+					value="${accountDetail.accountNo}">
 				<!-- accountNo를 숨겨진 필드로 전달 -->
 				<button type="submit" class="go-delete">삭제</button>
 				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>

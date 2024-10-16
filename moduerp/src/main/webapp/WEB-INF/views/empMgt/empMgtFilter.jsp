@@ -178,7 +178,8 @@ tbody tr:hover {
 	<!-- 상단 메뉴 -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="empMgt.do">직원 관리</a></li>
+			<li><a href="empMgt.do"><i class="fas fa-user-cog"></i> 직원 관리</a></li>
+
 		</ul>
 	</div>
 

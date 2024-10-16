@@ -152,13 +152,16 @@ th {
 	<!-- 서브헤더 JSP 임포트 -->
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
-	<!-- 위에 하얀 박스  -->
+	<!-- 상단 메뉴바 -->
 	<div class="top-content-box">
-	    <ul id="menubar">
-	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
-	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li> <!-- 수정 -->
-	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> <!-- 수정 -->
-	    </ul>
+		<ul id="menubar">
+			<li><a href="account.do"><i class="fas fa-building"></i>
+					거래처관리</a></li>
+			<li><a href="salesStockIn.do"><i
+					class="fas fa-truck-loading"></i> 영업 입고</a></li>
+			<li><a href="salesStockOut.do"><i
+					class="fas fa-shipping-fast"></i> 영업 출고</a></li>
+		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
@@ -194,37 +197,40 @@ th {
 				<tbody>
 					<tr>
 						<!-- 날짜 선택하는 칸 -->
-						<td><input type="date" id="sStockInDate" name="sStockInDate" required>
-						</td>
+						<td><input type="date" id="sStockInDate" name="sStockInDate"
+							required></td>
 
 						<!-- 보관장소 선택 칸 -->
 						<td><input list="stockPlaces" name="stockPlace"
-							placeholder="보관장소 선택" required/> <datalist id="stockPlaces">
+							placeholder="보관장소 선택" required /> <datalist id="stockPlaces">
 								<c:forEach var="stockPlace" items="${stockPlaces}">
 									<option value="${stockPlace}"></option>
 								</c:forEach>
 							</datalist></td>
 
 						<!-- 입고수량 칸 -->
-						<td><input type="number" name="stockIn" placeholder="수량 입력" required/></td>
+						<td><input type="number" name="stockIn" placeholder="수량 입력"
+							required /></td>
 
 						<!-- 품목 이름 칸 -->
-						<td><input type="text" name="itemName" placeholder="품목 이름 입력" required/></td>
+						<td><input type="text" name="itemName" placeholder="품목 이름 입력"
+							required /></td>
 
 						<!-- 품목 설명 칸 -->
-						<td><input type="text" name="itemDesc" placeholder="품목 설명 입력" required/></td>
+						<td><input type="text" name="itemDesc" placeholder="품목 설명 입력"
+							required /></td>
 
 						<!-- 가격 입력 칸 -->
 						<td><input type="number" name="inPrice" placeholder="가격 입력"
-							step="0.01" required/></td>
-						
+							step="0.01" required /></td>
+
 						<!-- 자재 종류 선택 칸 -->
 						<td>
 							<!-- 자재 종류 입력 부분 -->
 							<div id="materialTypeContainer">
 								<div class="material-type-input">
 									<input list="materialTypes" name="materialType"
-										placeholder="자재 종류 입력" required/>
+										placeholder="자재 종류 입력" required />
 									<datalist id="materialTypes">
 										<c:forEach var="itemName" items="${itemNames}">
 											<option value="${itemName}"></option>
@@ -234,13 +240,14 @@ th {
 										onclick="removeMaterialType(this)">삭제</button>
 								</div>
 							</div>
-							<button type="button" onclick="addMaterialType()">자재 종류추가</button>
+							<button type="button" onclick="addMaterialType()">자재
+								종류추가</button>
 						</td>
-						
-						
-						<td> <input type="text" name="director" value="${directorName}" readonly="readonly">
-						</td>
-						
+
+
+						<td><input type="text" name="director"
+							value="${directorName}" readonly="readonly"></td>
+
 					</tr>
 				</tbody>
 			</table>
