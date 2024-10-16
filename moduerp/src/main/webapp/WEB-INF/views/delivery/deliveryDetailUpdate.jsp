@@ -144,99 +144,86 @@ th {
 .top-content-box {
 	background-color: white;
 }
+
+.material-type-input {
+	margin-bottom: 10px;
+}
 </style>
 
 </head>
 
 <body>
-	<!-- 서브헤더 JSP 임포트 -->
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
-	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
-			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
-			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
+			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i>
+					구매 입고</a></li>
+			<li><a href="buyStockOut.do"><i class="fas fa-clipboard"></i>
+					구매 출고</a></li>
+			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i>
+					배송 조회</a></li>
 
 		</ul>
 	</div>
 
-	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
+		<div class="content-title">구매관리 | 배송조회 | ${itemDetails.itemName}
+			수정하기</div>
 
-		<div class="content-title">구매관리 | 구매입고 | 신규 등록</div>
-
-		
-
-		<!-- 테이블 -->
-		<!-- 테이블 -->
-		<form action="/moduerp/buyStockInCreate.do" method="POST">
+		<form action="/moduerp/updateDelivery.do" method="POST">
+			<input type="hidden" name="itemCode" value="${itemDetails.itemCode}" />
 			<table>
 				<thead>
 					<tr>
-					<th>입고 날짜</th>
-                    <th>입고 장소</th>
-                    <th>입고 수량</th>
-                    <th>제품명</th>
-                    <th>제품 설명</th>
-                    <th>입고 단가</th>
-                    <th>거래처</th>
-					<th>직원명</th>
+						<th>택배규격</th>
+						<th>수취인</th>
+						<th>수신자번호</th>
+						<th>수신자주소</th>
+						<th>운송장번호</th>
+						<th>배송업체</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<!-- 날짜 선택하는 칸 -->
-						<td><input type="date" id="bStockInDate" name="bStockInDate">
-						</td>
-
-						<!-- 보관장소 선택 칸 -->
-						<td><input list="stockPlaces" name="stockPlace"
-							placeholder="보관장소 선택" /> <datalist id="stockPlaces">
-								<c:forEach var="stockPlace" items="${stockPlaces}">
-									<option value="${stockPlace}"></option>
-								</c:forEach>
+						<td><input type="text" id="spec" name="spec"
+							placeholder="극소형,소형,중형,대형,극대형" value="${deliveryDetails.spec}"
+							style="width: 175px;"></td>
+						<td><input type="text" name="recipient" placeholder="수취인"
+							value="${deliveryDetails.recipient}" /></td>
+						<td><input type="text" name="receiverId" placeholder="수신자 번호"
+							value="${deliveryDetails.receiverId}" /></td>
+						<td><input type="text" name="address" placeholder="수신자 주소"
+							value="${deliveryDetails.address}" style="width: 255px;" /></td>
+						<td><input type="text" name="waybill" placeholder="운송장번호"
+							value="${deliveryDetails.waybill}" /></td>
+						<td><input type="text" id="deliveryCompany"
+							name="deliveryCompany" list="deliveryCompanyCode"
+							placeholder="택배사 선택" value="${deliveryDetails.deliveryCompany}"
+							required> <datalist id="deliveryCompanyCode">
+								<option value="01">우체국택배</option>
+								<option value="04">CJ대한통운</option>
+								<option value="05">한진택배</option>
+								<option value="06">로젠택배</option>
+								<option value="08">롯데택배</option>
+								<option value="94">카카오 T 당일배송</option>
+								<option value="95">큐익스프레스</option>
+								<option value="11">일양로지스</option>
+								<option value="22">대신택배</option>
+								<option value="23">경동택배</option>
+								<option value="24">GS Postbox 택배</option>
+								<option value="46">CU편의점택배</option>
 							</datalist></td>
-
-						<!-- 입고수량 칸 -->
-						<td><input type="number" name="stockIn" placeholder="수량 입력" /></td>
-
-						<!-- 품목 이름 칸 -->
-						<td><input type="text" name="itemName" placeholder="품목 이름 입력" /></td>
-
-						<!-- 품목 설명 칸 -->
-						<td><input type="text" name="itemDesc" placeholder="품목 설명 입력" /></td>
-
-						<!-- 가격 입력 칸 -->
-						<td><input type="number" name="inPrice" placeholder="가격 입력"
-							step="0.01" /></td>
-						<td><input list="accountName" name="accountName"
-							placeholder="거래처" /> <datalist id="accountName">
-								<c:forEach var="accountName" items="${accountName}">
-									<option value="${accountName}"></option>
-								</c:forEach>
-							</datalist></td>
-						<td>
-							<input type="text" name="iDirector" value="${directorName}" readonly>
-						</td>
-
-
-						
 					</tr>
 				</tbody>
 			</table>
 
-			<!-- 버튼 그룹 -->
 			<div class="btn-group">
-				<button type="submit" class="btn blue">등록 완료</button>
+				<button type="submit" class="btn green">수정 완료</button>
 			</div>
 		</form>
-
-
 	</div>
 </body>
-
 
 <script>
     const activeMenu = "purchaseOrders";

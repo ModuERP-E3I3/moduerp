@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.e3i3.moduerp.buystock.model.dto.BuyStockOutDTO;
 import com.e3i3.moduerp.delivery.model.dto.DeliveryDTO;
@@ -134,9 +136,6 @@ public class DeliveryController {
 			
 			String bizNumber = (String) session.getAttribute("biz_number");
 			
-			System.out.println("와와와와아아와와와와아아와와와와아아와와와와아아" + bizNumber);
-			System.out.println("와와와와아아와와와와아아와와와와아아와와와와아아" + itemCode);
-			
 			
 			LocalDate localDate = LocalDate.parse(inDateToday);
 			LocalDateTime localDateTime = localDate.atStartOfDay(); // 
@@ -170,17 +169,76 @@ public class DeliveryController {
 
 		@GetMapping("/getDeliveryDetails.do")
 		public String getDeliveryDetails(@RequestParam("itemCode") String itemCode, Model model) {
-			// ITEM 
-			ItemDTO itemDetails = itemDeliveryService.getItemDetails(itemCode);
-			// delivery
-			DeliveryDTO deliveryDetails = DeliveryService.getDeliveryDetails(itemCode);
+		    // ITEM
+		    ItemDTO itemDetails = itemDeliveryService.getItemDetails(itemCode);
 
-			
-			model.addAttribute("itemDetails", itemDetails);
-			model.addAttribute("DeliveryDetails", deliveryDetails);
+		    // Null 체크 추가
+		    if (itemDetails == null) {
+		        // itemDetails가 null일 경우 에러 메시지 추가
+		        model.addAttribute("errorMessage", "Item not found.");
+		        itemDetails = new ItemDTO(); // 빈 객체 생성
+		    }
 
-			return "delivery/deliveryDetail"; // JSP 
+		    // delivery
+		    DeliveryDTO deliveryDetails = DeliveryService.getDeliveryDetails(itemCode);
+
+		    // Null 체크 
+		    if (deliveryDetails == null) {
+		        deliveryDetails = new DeliveryDTO(); // 빈 DTO 객체 생성
+		    }
+		    System.out.println("================================");
+		    System.out.println(deliveryDetails);
+		    System.out.println("================================");
+		    // 배송 업체 코드 변환
+		    String deliveryCompany = deliveryDetails.getDeliveryCompany();
+		    
+		    if (deliveryCompany == null) {
+		        deliveryCompany = ""; // 기본값 설정 또는 빈 문자열
+		    }
+		    String deliveryCompanyName = getDeliveryCompanyName(deliveryCompany);  // 변환 함수 호출
+
+		    // 변환된 값과 함께 모델에 추가
+		    model.addAttribute("itemDetails", itemDetails);
+		    model.addAttribute("deliveryDetails", deliveryDetails);
+		    model.addAttribute("deliveryCompanyName", deliveryCompanyName);  // 변환된 업체명 추가
+
+		    return "delivery/deliveryDetail"; // JSP 
 		}
+
+
+
+	
+		private String getDeliveryCompanyName(String deliveryCompanyCode) {
+		    switch (deliveryCompanyCode) {
+		        case "01":
+		            return "우체국택배";
+		        case "04":
+		            return "CJ대한통운";
+		        case "05":
+		            return "한진택배";
+		        case "06":
+		            return "로젠택배";
+		        case "08":
+		            return "롯데택배";
+		        case "94":
+		            return "카카오 T 당일배송";
+		        case "95":
+		            return "큐익스프레스";
+		        case "11":
+		            return "일양로지스";
+		        case "22":
+		            return "대신택배";
+		        case "23":
+		            return "경동택배";
+		        case "24":
+		            return "GS Postbox 택배";
+		        case "46":
+		            return "CU편의점택배";
+		        default:
+		            return "";
+		    }
+		}
+
 		
 		@GetMapping("/deliveryDetailUpdate.do")
 		public String showUpdateForm(@RequestParam("itemCode") String itemCode, Model model, HttpSession session) {
@@ -203,29 +261,7 @@ public class DeliveryController {
 			return "delivery/deliveryDetailUpdate"; 
 		}
 		
-		@GetMapping("/getDeliveryDetailsSub.do")
-		public String getBuyInDetailsSub(@RequestParam("deliveryId") String deliveryId,
-				@RequestParam("itemCode") String itemCode, Model model) {
-			ItemDTO itemDetails = itemDeliveryService.getItemDetails(itemCode);
-
-
-			DeliveryDTO deliveryDetails = DeliveryService
-					.getDeliveryDetailsSub(deliveryId);
-
-			// delivery 테이블에서 itemCode로 데이터 가져오기
-			DeliveryDTO deliveryDetailsSub = DeliveryService.getItemDetails(itemCode);
-			
-			System.out.println("=========================================================");
-			System.out.println(deliveryDetailsSub);
-			System.out.println("=========================================================");
-
-			// 모델에 추가
-			model.addAttribute("itemDetails", itemDetails);
-			model.addAttribute("DeliveryDetails", deliveryDetails);
-			model.addAttribute("itemDetailsSub", deliveryDetailsSub);
-
-			return "delivery/deliveryDetailSub"; // JSP 파일 경로
-		}
+		 
 		
 		
 		@PostMapping("/updateDelivery.do")

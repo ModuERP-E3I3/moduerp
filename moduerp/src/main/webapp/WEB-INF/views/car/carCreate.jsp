@@ -191,7 +191,7 @@ th {
 				</thead>
 				<tbody>
 					<tr>
-						<td><input type="text" name="carModel" placeholder="차종 입력" /></td>
+						<td><input type="text" name="carModel" placeholder="차종 입력" required/></td>
 					</tr>
 				</tbody>
 				<thead>
@@ -201,7 +201,7 @@ th {
 				</thead>
 				<tbody>
 					<tr>
-						<td><input type="text" name="carNum" placeholder="차량 번호 입력" /></td>
+						<td><input type="text" name="carNum" placeholder="차량 번호 입력" required/></td>
 					</tr>
 				</tbody>
 				<thead>
@@ -211,7 +211,7 @@ th {
 				</thead>
 				<tbody>
 					<tr>
-						<td><input type="text" name="ownershipStatus" placeholder="소유 형태 입력" /></td>
+						<td><input type="text" name="ownershipStatus" placeholder="소유 형태 입력" required/></td>
 					</tr>
 				</tbody>
 				
