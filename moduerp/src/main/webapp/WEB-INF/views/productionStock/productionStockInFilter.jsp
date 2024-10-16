@@ -202,11 +202,11 @@ tbody tr:hover {
 					<option value="iDirector"
 						${option == 'iDirector' ? 'selected' : ''}>담당자</option>
 				</select> <input type="date" name="startDate" id="startDate"
-					value="${startDate != null ? startDate : ''}" /> <input
-					type="date" name="endDate" id="endDate"
-					value="${endDate != null ? endDate : ''}" /> <input type="text"
-					name="filterText" id="filterText" placeholder="내용 입력"
-					value="${filterText != null ? filterText : ''}" />
+					value="${startDate != null && startDate.length() >= 10 ? startDate.substring(0, 10) : ''}" />
+				<input type="date" name="endDate" id="endDate"
+					value="${endDate != null && endDate.length() >= 10 ? endDate.substring(0, 10) : ''}" />
+				<input type="text" name="filterText" id="filterText"
+					placeholder="내용 입력" value="${filterText != null ? filterText : ''}" />
 
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn" onclick="window.location.href='productionStockIn.do';">초기화</button>
@@ -258,8 +258,8 @@ tbody tr:hover {
 						</c:when>
 						<c:otherwise>
 							<a
-								href="productionStockInFilter.do?page=${i}&filterOption=${option}&filterText=${filterText}&startDate=${startDate}&endDate=${endDate}">
-								${i} </a>
+								href="productionStockInFilter.do?page=${i}&filterOption=${option}&filterText=${filterText}&startDate=${startDate}&endDate=${endDate}">${i}</a>
+								
 							<!-- 페이지 링크 -->
 						</c:otherwise>
 					</c:choose>
