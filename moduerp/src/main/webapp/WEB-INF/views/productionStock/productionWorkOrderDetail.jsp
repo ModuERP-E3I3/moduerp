@@ -205,17 +205,20 @@ th {
 					class="fa-solid fa-store"></i> 생산 입고</a></li>
 			<li><a href="productionStockOut.do"><i
 					class="fa-solid fa-store-slash"></i> 생산 출고</a></li>
-			<li><a href="productionWorkorder.do"><i class="fa-solid fa-paste"></i>작업지시서</a></li>
-			<li><a href="productionQuality.do"><i class="fa-solid fa-bars-progress"></i>품질관리</a></li>
+			<li><a href="productionWorkorder.do"><i
+					class="fa-solid fa-paste"></i>작업지시서</a></li>
+			<li><a href="productionQuality.do"><i
+					class="fa-solid fa-bars-progress"></i>품질관리</a></li>
 		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 작업지시서 | ${workOrderDetails.taskName}</div>
+		<div class="content-title">생산관리 | 작업지시서 |
+			${workOrderDetails.taskName}</div>
 
-		
+
 
 		<!-- 테이블 -->
 		<table>
@@ -262,10 +265,10 @@ th {
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
 			<button class="btn red" onclick="openDeleteModal()">삭제</button>
-			<a
-				href="productionWorkOrderDetailUpdate.do?orderNumber=${workOrderDetails.orderNumber}">
-				<button class="btn green">수정</button>
-			</a>
+
+			<button class="btn green"
+				onclick="location.href='productionWorkOrderDetailUpdate.do?orderNumber=${workOrderDetails.orderNumber != null ? workOrderDetails.orderNumber : ''}'">수정</button>
+
 		</div>
 
 
@@ -278,7 +281,8 @@ th {
 			<p>삭제된 데이터는 복구할 수 없습니다.</p>
 			<!-- 삭제 버튼을 포함하는 폼 추가 -->
 			<form action="deleteProductionWorkOrder.do" method="POST">
-				<input type="hidden" name="orderNumber" value="${workOrderDetails.orderNumber}">
+				<input type="hidden" name="orderNumber"
+					value="${workOrderDetails.orderNumber}">
 				<!-- itemCode를 숨겨진 필드로 전달 -->
 				<button type="submit" class="go-delete">삭제</button>
 				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>

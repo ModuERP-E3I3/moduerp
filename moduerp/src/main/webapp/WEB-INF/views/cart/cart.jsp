@@ -451,7 +451,8 @@ th {
 					<c:otherwise>
 						<c:choose>
 							<c:when test="${companyCardExistence}">
-								<button id="buymodule"type="button" class="btn_pay" onclick="submitPayment()">결제하기</button>
+								<button id="buymodule" type="button" class="btn_pay"
+									onclick="submitPayment()">결제하기</button>
 							</c:when>
 
 							<c:otherwise>
@@ -463,22 +464,11 @@ th {
 					</c:otherwise>
 				</c:choose>
 			</div>
-
-
-
-
-
 		</div>
-
-
 	</form>
-
-
 
 	<!-- 메뉴바 임포트 -->
 	<c:import url="/WEB-INF/views/common/menubar.jsp" />
-
-
 
 	<!-- 푸터 임포트 -->
 	<c:import url="/WEB-INF/views/common/footer.jsp" />
@@ -538,8 +528,8 @@ function submitAllModules() {
 function submitPayment() {
     const form = document.getElementById('cartForm');
 
-    // 선택된 모듈(체크된 항목) 가져오기
-    const selectedModules = Array.from(document.querySelectorAll('input[name="selectedModules"]:checked'))
+    // 모든 모듈의 값을 가져오기 (체크 여부와 상관없이)
+    const allModules = Array.from(document.querySelectorAll('input[name="selectedModules"]'))
         .map(checkbox => checkbox.value);
 
     // 테이블이 비어 있는지 확인 (tbody에 행이 있는지 확인)
@@ -552,14 +542,14 @@ function submitPayment() {
         return; // 결제 진행 막기
     }
 
-    // 선택된 모듈이 없는 경우 경고 표시
-    if (selectedModules.length === 0) {
-        alert("결제할 모듈을 선택하세요.");
+    // 테이블에 항목이 없을 때 경고 표시
+    if (allModules.length === 0) {
+        alert("결제할 항목이 없습니다.");
         return; // 결제 진행 막기
     }
 
-    // 선택된 모듈을 숨겨진 필드로 추가
-    selectedModules.forEach(moduleGrade => {
+    // 모든 모듈을 숨겨진 필드로 추가
+    allModules.forEach(moduleGrade => {
         const hiddenInput = document.createElement('input');
         hiddenInput.type = 'hidden';
         hiddenInput.name = 'moduleGrades';
@@ -574,13 +564,14 @@ function submitPayment() {
 }
 
 
+
 </script>
 
 <script>
 function handleNoCard() {
     console.log("handleNoCard called");
     alert("등록된 카드가 없습니다.");
-    window.location.href = "http://localhost:8080/moduerp/payment.do"; 
+    window.location.href = "http://localhost:8080/moduerp/cardManagement.do"; 
 }
 
 </script>

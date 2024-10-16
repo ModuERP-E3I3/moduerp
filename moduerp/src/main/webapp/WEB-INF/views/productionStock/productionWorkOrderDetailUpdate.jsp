@@ -207,8 +207,10 @@ th {
 					class="fa-solid fa-store"></i> 생산 입고</a></li>
 			<li><a href="productionStockOut.do"><i
 					class="fa-solid fa-store-slash"></i> 생산 출고</a></li>
-			<li><a href="productionWorkorder.do"><i class="fa-solid fa-paste"></i>작업지시서</a></li>
-			<li><a href="productionQuality.do"><i class="fa-solid fa-bars-progress"></i>품질관리</a></li>
+			<li><a href="productionWorkorder.do"><i
+					class="fa-solid fa-paste"></i>작업지시서</a></li>
+			<li><a href="productionQuality.do"><i
+					class="fa-solid fa-bars-progress"></i>품질관리</a></li>
 		</ul>
 	</div>
 
@@ -238,9 +240,12 @@ th {
 						<td><input type="text" name="taskName"
 							value="${workOrderDetails.taskName}" required /></td>
 						<td><input type="date" name="startDate"
-							value="<fmt:formatDate value='${workOrderDetails.startDate}' pattern='yyyy-MM-dd' required />" /></td>
+							value="<fmt:formatDate value='${workOrderDetails.startDate}' pattern='yyyy-MM-dd' />"
+							required /></td>
 						<td><input type="date" name="endExDate"
-							value="<fmt:formatDate value='${workOrderDetails.endExDate}' pattern='yyyy-MM-dd' required />" /></td>
+							value="<fmt:formatDate value='${workOrderDetails.endExDate}' pattern='yyyy-MM-dd' />"
+							required /></td>
+
 						<td><input type="number" name="qty"
 							value="${workOrderDetails.qty}" required /></td>
 					</tr>

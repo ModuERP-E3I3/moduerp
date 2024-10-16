@@ -43,7 +43,7 @@
 	<!-- Worker Teams by Biz Number -->
 	<select id="getWorkerTeamsByBizNumber" resultType="string">
 		SELECT
-		DISTINCT WORKER_TEAM
+		 WORKER_TEAM
 		FROM WORK_ORDER
 		WHERE BIZ_NUMBER = #{bizNumber}
 		ORDER BY START_DATE ASC
@@ -51,7 +51,7 @@
 
 	<!-- Work Places by Biz Number -->
 	<select id="getWorkPlacesByBizNumber" resultType="string">
-		SELECT DISTINCT
+		SELECT 
 		WORK_PLACE
 		FROM WORK_ORDER
 		WHERE BIZ_NUMBER = #{bizNumber}

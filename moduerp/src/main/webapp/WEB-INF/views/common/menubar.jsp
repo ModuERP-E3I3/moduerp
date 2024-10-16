@@ -208,7 +208,7 @@ window.onclick = function(event) {
 
 <nav>
     <div class="nav-wrapper">
-        <a href="main.do" class="moduerp-logo">ModuERP</a>
+        <a href="<c:url value='/main.do' />" class="moduerp-logo">ModuERP</a>
         <ul id="menubar">
            <li><a href="<c:url value='/notice/list.do' />">공지사항</a></li>
 			<li><a href="<c:url value='/buyModule.do' />">구매</a></li>

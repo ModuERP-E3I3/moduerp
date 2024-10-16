@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -96,18 +97,35 @@ public class QualityControlController {
 		List<QualityControlDTO> qualityControlList = qualityControlService.getQualityControlsByBizNumber(bizNumber);
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		
+		if (startDate != null && !startDate.isEmpty()) {
+		    try {
+		        // 시간이 없는 경우 기본 시간 00:00:00을 추가
+		        if (startDate.length() == 10) { // 'yyyy-MM-dd' 형식
+		            startDate += " 00:00:00";
+		        }
+		        LocalDateTime startDateTime = LocalDateTime.parse(startDate, formatter);
+		        startDate = startDateTime.format(formatter);  // 포맷된 문자열로 변환
+		    } catch (DateTimeParseException e) {
+		        // 파싱 에러 처리
+		        System.out.println("Invalid startDate format: " + startDate);
+		    }
+		}
 
-		// startDate의 시분초 기본값 설정 (00:00:00)
-	    if (startDate != null && !startDate.isEmpty()) {
-	        LocalDateTime startDateTime = LocalDateTime.parse(startDate + " 00:00:00", formatter);
-	        startDate = startDateTime.format(formatter);  // 포맷된 문자열로 변환
-	    }
-
-	    // endDate의 시분초 기본값 설정 (23:59:59)
-	    if (endDate != null && !endDate.isEmpty()) {
-	        LocalDateTime endDateTime = LocalDateTime.parse(endDate + " 23:59:59", formatter);
-	        endDate = endDateTime.format(formatter);  // 포맷된 문자열로 변환
-	    }
+		// endDate의 시분초 기본값 설정 (23:59:59)
+		if (endDate != null && !endDate.isEmpty()) {
+		    try {
+		        // 시간이 없는 경우 기본 시간 23:59:59을 추가
+		        if (endDate.length() == 10) { // 'yyyy-MM-dd' 형식
+		            endDate += " 23:59:59";
+		        }
+		        LocalDateTime endDateTime = LocalDateTime.parse(endDate, formatter);
+		        endDate = endDateTime.format(formatter);  // 포맷된 문자열로 변환
+		    } catch (DateTimeParseException e) {
+		        // 파싱 에러 처리
+		        System.out.println("Invalid endDate format: " + endDate);
+		    }
+		}
 		
 		
 		
