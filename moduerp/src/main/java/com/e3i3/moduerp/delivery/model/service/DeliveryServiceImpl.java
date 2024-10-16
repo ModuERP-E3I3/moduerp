@@ -37,7 +37,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
 	@Override
 	public void deleteDeliveryByItemCode(String itemCode) {
-		deliveryDAO.selectDeliveryByItemCode(itemCode);
+		deliveryDAO.deleteDeliveryByItemCode(itemCode);
 	}
 
 	@Override

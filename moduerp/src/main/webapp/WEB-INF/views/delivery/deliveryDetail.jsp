@@ -1,5 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
@@ -199,10 +199,14 @@ th {
 
 	<div class="top-content-box">
 		<ul id="menubar">
-		 <li><a href="purchaseOrders.do"><i class="fas fa-bullhorn"></i> 발주서 관리</a></li>
-		 <li><a href="buyStockIn.do"><i class="fa-solid fa-bag-shopping"></i> 구매 입고</a></li>
-         <li><a href="buyStockOut.do"><i class="fa-solid fa-truck-ramp-box"></i> 구매 출고</a></li>
-         <li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
+			<li><a href="purchaseOrders.do"><i class="fas fa-bullhorn"></i>
+					발주서 관리</a></li>
+			<li><a href="buyStockIn.do"><i
+					class="fa-solid fa-bag-shopping"></i> 구매 입고</a></li>
+			<li><a href="buyStockOut.do"><i
+					class="fa-solid fa-truck-ramp-box"></i> 구매 출고</a></li>
+			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i>
+					배송 조회</a></li>
 		</ul>
 	</div>
 
@@ -227,7 +231,8 @@ th {
 				</thead>
 				<tbody>
 					<tr>
-						<td><fmt:formatDate value="${itemDetails.createdAt}" pattern="yyyy-MM-dd" /></td>
+						<td><fmt:formatDate value="${itemDetails.createdAt}"
+								pattern="yyyy-MM-dd" /></td>
 						<td>${itemDetails.itemName}</td>
 						<td>${itemDetails.stockIn}</td>
 						<td>${itemDetails.stockPlace}</td>
@@ -237,11 +242,18 @@ th {
 				</tbody>
 			</table>
 
+			<form id="deleteForm" action="/moduerp/deleteDelivery.do"
+					method="POST">
+					<input type="hidden" name="itemCode"
+						value="${itemDetails.itemCode}">
+				</form>
+
 			<!-- 두 번째 테이블: deliveryDetails가 존재하고 deliveryCompanyName이 비어있지 않을 때만 보여줌 -->
 			<c:if
 				test="${not empty deliveryDetails and not empty deliveryCompanyName}">
 				<form action="/moduerp/deliveryDetails.do" method="POST">
-					<input type="hidden" id="itemCode" name="itemCode" value="${itemDetails.itemCode}">
+					<input type="hidden" id="itemCode" name="itemCode"
+						value="${itemDetails.itemCode}">
 					<table>
 						<thead>
 							<tr>
@@ -263,24 +275,26 @@ th {
 								<td>${deliveryDetails.waybill}</td>
 								<td>${deliveryCompanyName}</td>
 								<td>
-									<button type="button" class="btn blue" id="trackingBtn" 
-									onclick="window.location.href='https://info.sweettracker.co.kr/tracking/4?t_key=zeByxJfH1aBU4Ff1R0Xe7w&t_code=${deliveryDetails.deliveryCompany}&t_invoice=${deliveryDetails.waybill}'">배송조회</button>
+									<button type="button" class="btn blue" id="trackingBtn"
+										onclick="window.location.href='https://info.sweettracker.co.kr/tracking/4?t_key=zeByxJfH1aBU4Ff1R0Xe7w&t_code=${deliveryDetails.deliveryCompany}&t_invoice=${deliveryDetails.waybill}'">배송조회</button>
 								</td>
 							</tr>
 						</tbody>
 					</table>
 					<!-- 버튼 그룹 -->
-					
+
 
 					<div class="btn-group">
 						<!-- 수정 버튼 추가 -->
 						<button type="button" class="btn green"
 							onclick="window.location.href='deliveryDetailUpdate.do?itemCode=${itemDetails.itemCode}&deliveryId=${deliveryDetails.deliveryId}'">수정</button>
-						<button type="button" class="btn red" id="deleteBtn" onclick="openDeleteModal()">삭제</button>
+						<button type="button" class="btn red" id="deleteBtn"
+							onclick="openDeleteModal()">삭제</button>
 					</div>
 				</form>
 
-				<div id="delete-modal" style="display: none;">
+			</c:if>
+			<div id="delete-modal" style="display: none;">
 					<div class="modal-content">
 						<h2>정말로 삭제하시겠습니까?</h2>
 						<p>삭제된 데이터는 복구할 수 없습니다.</p>
@@ -290,8 +304,6 @@ th {
 							onclick="closeDeleteModal()">취소</button>
 					</div>
 				</div>
-			</c:if>
-
 
 
 			<!-- 세 번째 테이블: deliveryDetails가 비어있거나 deliveryCompanyName이 비어있을 때 보여줌 -->
@@ -370,6 +382,7 @@ th {
         document.getElementById('deleteForm').submit();
     }
 </script>
+
 
 <script>
     const activeMenu = "purchaseOrders";
