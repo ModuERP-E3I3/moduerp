@@ -213,7 +213,7 @@ tbody tr:hover {
 
 						<!-- 차종 입력 칸 -->
 						<td><input list="carModels" name="carModel"
-							id="carModelInput" placeholder="차종 입력" oninput="updateCarNum()" />
+							id="carModelInput" placeholder="차종 입력" oninput="updateCarNum()" required />
 							<datalist id="carModels">
 								<c:forEach var="cars" items="${cars}">
 									<option value="${cars.carModel} | ${cars.carNum}" />
@@ -221,10 +221,10 @@ tbody tr:hover {
 							</datalist></td>
 						<!-- 차량 번호 입력 칸 -->
 						<td><input type="text" id="carNumInput" name="carNum"
-							placeholder="차량 번호 입력" readonly="readonly" /></td>
+							placeholder="차량 번호 입력" readonly="readonly" required /></td>
 						<!-- 사원 이름 입력 칸 -->
 						<td><input list="empNames" name="empName" id="empNameInput"
-							placeholder="사원명" oninput="updateDepartmentId()" /> <datalist
+							placeholder="사원명" oninput="updateDepartmentId()" required /> <datalist
 								id="empNames">
 								<c:forEach var="empNameDepart" items="${empNameDepart}">
 									<option
@@ -233,20 +233,20 @@ tbody tr:hover {
 							</datalist></td>
 						<!-- 부서명 입력 칸 -->
 						<td><input type="text" id="departmentIdInput"
-							name="departmentId" placeholder="부서명" readonly="readonly"/> <datalist
+							name="departmentId" placeholder="부서명" readonly="readonly" required/> <datalist
 								id="departmentIds">
 								<c:forEach var="departmentId" items="${departmentIds}">
 									<option value="${departmentId}" />
 								</c:forEach>
 							</datalist></td>
 						<td>
-							<input type="datetime-local" id="reserveStartDate" name="reserveStartDate" /> ~ 
-    						<input type="datetime-local" id="reserveEndDate" name="reserveEndDate" />
+							<input type="datetime-local" id="reserveStartDate" name="reserveStartDate" required /> ~ 
+    						<input type="datetime-local" id="reserveEndDate" name="reserveEndDate" required />
 						</td>
 						<td><input type="text" name="useReason"
-							placeholder="예약 사유 입력" /></td>
+							placeholder="예약 사유 입력" required /></td>
 						<td>
-							<input list="drivingStatus" name="drivingStatus" id="drivingStatusInput" placeholder="운행 상태 입력" />
+							<input list="drivingStatus" name="drivingStatus" id="drivingStatusInput" placeholder="운행 상태 입력" required />
 							<datalist id="drivingStatus">
         						<option value="운행 전">운행 전</option>
         						<option value="운행 중">운행 중</option>

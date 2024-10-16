@@ -106,7 +106,7 @@ nav.side ul li.moduerp {
         <li><a href="<c:url value='/purchaseOrders.do' />"><i class="fas fa-code"></i>구매 관리</a></li>
         <li><a href="<c:url value='/account.do' />"><i class="fas fa-plug"></i>영업/판매 관리</a></li>
         <li><a href="<c:url value='/bankmg.do' />"><i class="fas fa-plug"></i>회계 관리</a></li>
-        <li><a href="<c:url value='/carRes.do' />"><i class="fas fa-plug"></i>차량 관리</a></li>
+        <li><a href="<c:url value='/carRes.do' />"><i class="fa-solid fa-car"></i>차량 관리</a></li>
         <li><a href="<c:url value='/attendance.do' />"><i class="fa-solid fa-table-columns"></i>그룹 웨어</a></li>
         <li><a href="<c:url value='/main.do' />"><i class="fas fa-home"></i>HomePage</a></li>
         <li><a href="<c:url value='/logout.do' />"><i class="fas fa-sign-out-alt"></i>로그아웃</a></li>

@@ -187,7 +187,7 @@ th {
 				<tbody>
 					<tr>
 						<td><input list="carModels" name="carModel"
-							id="carModelInput" placeholder="차종 입력" oninput="updateCarNum()" value="${carresDetail.carModel}" />
+							id="carModelInput" placeholder="차종 입력" oninput="updateCarNum()" value="${carresDetail.carModel}" required />
 							<datalist id="carModels">
 								<c:forEach var="cars" items="${cars}">
 									<option value="${cars.carModel} | ${cars.carNum}" />
@@ -195,10 +195,10 @@ th {
 							</datalist></td>
 						<!-- 차량 번호 입력 칸 -->
 						<td><input type="text" id="carNumInput" name="carNum"
-							placeholder="차량 번호 입력" value="${carresDetail.carNum}"  readonly="readonly" /></td>
+							placeholder="차량 번호 입력" value="${carresDetail.carNum}"  readonly="readonly" required /></td>
 						<!-- 사원 이름 입력 칸 -->
 						<td><input list="empNames" name="empName" id="empNameInput"
-							placeholder="사원명" oninput="updateDepartmentId()" value="${carresDetail.empName}"  /> <datalist
+							placeholder="사원명" oninput="updateDepartmentId()" value="${carresDetail.empName}" required /> <datalist
 								id="empNames">
 								<c:forEach var="empNameDepart" items="${empNameDepart}">
 									<option
@@ -207,7 +207,7 @@ th {
 							</datalist></td>
 						<!-- 부서명 입력 칸 -->
 						<td><input type="text" id="departmentIdInput"
-							name="departmentId" placeholder="부서명" value="${carresDetail.departmentId}" readonly="readonly"/> <datalist
+							name="departmentId" placeholder="부서명" value="${carresDetail.departmentId}" readonly="readonly" required/> <datalist
 								id="departmentIds">
 								<c:forEach var="departmentId" items="${departmentIds}">
 									<option value="${departmentId}" />
@@ -215,15 +215,15 @@ th {
 							</datalist>
 						</td>
 						<td>
-							<input type="datetime-local" id="reserveStartDate" name="reserveStartDate" value="${carresDetail.reserveStartDate}" /> ~ 
-    						<input type="datetime-local" id="reserveEndDate" name="reserveEndDate" value="${carresDetail.reserveEndDate}" />
+							<input type="datetime-local" id="reserveStartDate" name="reserveStartDate" value="${carresDetail.reserveStartDate}" required /> ~ 
+    						<input type="datetime-local" id="reserveEndDate" name="reserveEndDate" value="${carresDetail.reserveEndDate}" required />
 						</td>
 						<td><input type="text" name="useReason" value="${carresDetail.useReason}"
-							placeholder="예약 사유 입력" /></td>
+							placeholder="예약 사유 입력" required /></td>
 						<td>
 							<input list="drivingStatus" name="drivingStatus" id="drivingStatusInput" 
 							value="${carresDetail.drivingStatus}"
-							placeholder="운행 상태 입력" />
+							placeholder="운행 상태 입력" required />
 							<datalist id="drivingStatus">
         						<option value="운행 전">운행 전</option>
         						<option value="운행 중">운행 중</option>
