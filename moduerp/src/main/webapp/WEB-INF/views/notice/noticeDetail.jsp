@@ -142,6 +142,7 @@
     <a href="<c:url value='/notice/edit/${notice.noticeId}.do' />" class="edit-btn">수정</a>
     <button class="delete-btn" onclick="deleteNotice('<c:url value='/notice/delete/${notice.noticeId}.do' />')">삭제</button>
 </div>
+
 </div>
 
 
