@@ -18,7 +18,7 @@
  	<select id="getAllCar" resultMap="resultCar">
     	select * from CAR
     	where YN = 'Y' AND BIZ_NUMBER = #{bizNumber}
-    	ORDER BY CAR_MODEL ASC
+    	ORDER BY CAR_MODEL DESC
 	</select>
 	
 	<insert id="insertCar" parameterType="com.e3i3.moduerp.car.model.dto.CarDto">
@@ -56,7 +56,7 @@
 		WHERE CAR_ID LIKE #{bizNumber} || 'C%'
 		AND
 		CAR_MODEL LIKE '%' || #{filterText} || '%'
-		ORDER BY CAR_MODEL ASC
+		ORDER BY CAR_MODEL DESC
 	</select>
 	
 	<select id="selectCarByCarNum" parameterType="map"
@@ -66,7 +66,7 @@
 		WHERE CAR_ID LIKE #{bizNumber} || 'C%'
 		AND
 		CAR_NUM LIKE '%' || #{filterText} || '%'
-		ORDER BY CAR_MODEL ASC
+		ORDER BY CAR_MODEL DESC
 	</select>
 	
 	<select id="selectCarByOwnershipStatus" parameterType="map"
@@ -76,7 +76,7 @@
 		WHERE CAR_ID LIKE #{bizNumber} || 'C%'
 		AND
 		OWNERSHIP_STATUS LIKE '%' || #{filterText} || '%'
-		ORDER BY CAR_MODEL ASC
+		ORDER BY CAR_MODEL DESC
 	</select>
 
  </mapper>

@@ -22,4 +22,10 @@ public interface QualityControlService {
 
 	List<QualityControlDTO> getQualityByFilter(String bizNumber, String option, String filterText);
 
+	List<QualityControlDTO> getQualityByFilterOnlyDate(String bizNumber, String startDate, String endDate);
+
+	List<QualityControlDTO> getQualityByFilterStartDate(String bizNumber, String startDate);
+
+	List<QualityControlDTO> getQualityByFilterEndDate(String bizNumber, String endDate);
+
 }
