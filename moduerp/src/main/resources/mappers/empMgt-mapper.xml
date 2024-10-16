@@ -5,14 +5,15 @@
 	<!-- EmpMgtDTO에 대한 resultMap -->
 	<resultMap id="empMgtResult"
 		type="com.e3i3.moduerp.empmgt.model.dto.EmpMgtDTO">
-		<result property="uuid" column="UUID" /> <!-- UUID 추가 -->
+		<result property="uuid" column="UUID" />
 		<result property="empName" column="EMP_NAME" />
-		<result property="departmentName" column="DEPARTMENT_NAME" /> <!-- 추가된 부분 -->
+		<result property="departmentName" column="DEPARTMENT_NAME" />
 		<result property="jobId" column="JOB_ID" />
 		<result property="email" column="EMP_EMAIL" />
 		<result property="phone" column="USER_PHONE" />
 		<result property="address" column="ADDRESS" />
 		<result property="bizNumber" column="BIZ_NUMBER" />
+		<result property="privateAuthority" column="PRIVATE_AUTHORITY" />
 	</resultMap>
 
 	<!-- 모든 직원 정보를 조회하는 쿼리 -->
@@ -33,13 +34,14 @@
 		D.DEPARTMENT_NAME, E.JOB_ID,
 		E.EMP_EMAIL,
 		E.USER_PHONE, E.ADDRESS,
-		E.BIZ_NUMBER
+		E.BIZ_NUMBER,
+		E.PRIVATE_AUTHORITY
 		FROM EMPLOYEE E
-		JOIN DEPARTMENT D ON E.DEPARTMENT_ID =
-		D.DEPARTMENT_ID
+		JOIN DEPARTMENT D ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
 		WHERE E.UUID = #{uuid}
 		) WHERE ROWNUM = 1
 	</select>
+
 
 	<!-- 새로운 직원 데이터를 삽입하는 쿼리 -->
 	<insert id="createEmployee"
@@ -168,15 +170,21 @@
 	<!-- 직급명 조회 : 필터 -->
 	<select id="selectEmployeesByJobId" parameterType="map"
 		resultMap="empMgtResult">
-		SELECT E.UUID, E.EMP_NAME, MAX(D.DEPARTMENT_NAME) AS DEPARTMENT_NAME,
-		E.JOB_ID, E.EMP_EMAIL, E.USER_PHONE, E.ADDRESS, E.BIZ_NUMBER
+		SELECT E.UUID, E.EMP_NAME, MAX(D.DEPARTMENT_NAME) AS
+		DEPARTMENT_NAME,
+		E.JOB_ID, E.EMP_EMAIL, E.USER_PHONE, E.ADDRESS,
+		E.BIZ_NUMBER
 		FROM EMPLOYEE E
-		JOIN DEPARTMENT D ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
+		JOIN DEPARTMENT D ON E.DEPARTMENT_ID =
+		D.DEPARTMENT_ID
 		WHERE E.JOB_ID LIKE '%' || #{filterText} || '%'
-		AND E.BIZ_NUMBER = #{bizNumber}
-		GROUP BY E.UUID, E.EMP_NAME, E.JOB_ID, E.EMP_EMAIL, E.USER_PHONE,
+		AND
+		E.BIZ_NUMBER = #{bizNumber}
+		GROUP BY E.UUID, E.EMP_NAME, E.JOB_ID,
+		E.EMP_EMAIL, E.USER_PHONE,
 		E.ADDRESS, E.BIZ_NUMBER
-		ORDER BY E.EMP_NAME ASC
+		ORDER BY E.EMP_NAME
+		ASC
 	</select>
 
 
