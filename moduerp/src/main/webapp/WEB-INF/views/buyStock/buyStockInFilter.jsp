@@ -188,7 +188,7 @@ tbody tr:hover {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">구매관리 | 구매입고</div>
+		<div class="content-title">구매관리 | 구매입고 | 입고 정보</div>
 		<form action="/moduerp/buyStockInFilter.do">
 			<!-- 필터 박스 -->
 			<div class="filter-box">

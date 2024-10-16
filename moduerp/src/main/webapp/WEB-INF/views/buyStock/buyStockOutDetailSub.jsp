@@ -213,7 +213,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">구매관리 | 구매출고 | ${itemDetailsSub.itemName}</div>
+		<div class="content-title">구매관리 | 구매출고 | ${itemDetailsSub.itemName} | 출고 정보</div>
 
 		<!-- 테이블 -->
 		<table>
