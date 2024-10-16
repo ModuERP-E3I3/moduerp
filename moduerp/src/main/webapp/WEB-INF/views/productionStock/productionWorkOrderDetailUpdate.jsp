@@ -215,7 +215,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 작업지시서 |</div>
+		<div class="content-title">생산관리 | 작업지시서 | 수정</div>
 
 		<form action="/moduerp/updateProductionWorkOrderUpdateDo.do"
 			method="POST">
