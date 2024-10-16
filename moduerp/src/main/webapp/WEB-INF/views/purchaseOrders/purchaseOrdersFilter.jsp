@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -178,19 +179,17 @@ tbody tr:hover {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i>
-					구매 입고</a></li>
-			<li><a href="buyStockOut.do"><i class="fas fa-clipboard"></i>
-					구매 출고</a></li>
-			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i>
-					배송 조회</a></li>
+		 <li><a href="purchaseOrders.do"><i class="fas fa-bullhorn"></i> 발주서 관리</a></li>
+		 <li><a href="buyStockIn.do"><i class="fa-solid fa-bag-shopping"></i> 구매 입고</a></li>
+         <li><a href="buyStockOut.do"><i class="fa-solid fa-truck-ramp-box"></i> 구매 출고</a></li>
+         <li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
 		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">구매관리 | 구매입고</div>
+		<div class="content-title">구매관리 | 발주서관리</div>
 		<form action="/moduerp/purchaseOrdersFilter.do">
 			<!-- 필터 박스 -->
 			<div class="filter-box">
@@ -250,7 +249,7 @@ tbody tr:hover {
 						<!-- 수량 -->
 						<td>${purchaseOrder.supplyPrice}</td>
 						<!-- 발주금액 -->
-						<td>${purchaseOrder.deliveryDate}</td>
+						<td><fmt:formatDate value="${purchaseOrder.deliveryDate}" pattern="yyyy-MM-dd" /></td>
 						<!-- 납품일 -->
 						<td>${purchaseOrder.oDirector}</td>
 						<!-- 담당자명 -->
@@ -324,7 +323,7 @@ tbody tr:hover {
 
 
 <script>
-    const activeMenu = "account";
+    const activeMenu = "purchaseOrders";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

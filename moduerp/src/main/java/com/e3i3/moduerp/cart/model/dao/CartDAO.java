@@ -18,4 +18,6 @@ public interface CartDAO {
 	void updateCartList(String bizNumber, String updatedCartList);
 
 	void clearCartList(String bizNumber);
+
+	void deleteCartList(String bizNumber);
 }

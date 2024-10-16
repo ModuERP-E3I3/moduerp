@@ -1,5 +1,6 @@
 package com.e3i3.moduerp.carres.model.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,5 +101,11 @@ public class CarresServiceImpl implements CarresService{
 	@Override
 	public List<CarresDto> getCarByFilterEndDate(String bizNumber, String endDate) {
 		return carresDao.getCarByFilterEndDate(bizNumber, endDate);
+	}
+
+	@Override
+	public List<CarresDto> getOverlappingReservations(String carModel, String carNum, Timestamp reserveStartDate,
+			Timestamp reserveEndDate, String bizNumber) {
+		return carresDao.getOverlappingReservations(carModel, carNum, reserveStartDate, reserveEndDate, bizNumber);
 	}
 }

@@ -86,6 +86,11 @@
 	<select id="SelectDeliveryByDelivery" resultType="com.e3i3.moduerp.delivery.model.dto.DeliveryDTO">
 		SELECT * FROM DELIVERY WHERE DELIVERY_ID = #{deliveryId}
 	</select>
+	
+	<delete id="deleteDeliveryByItemCode"
+        parameterType="String">
+        DELETE FROM DELIVERY WHERE ITEM_CODE = #{itemCode}
+    </delete>
 
 
 </mapper>

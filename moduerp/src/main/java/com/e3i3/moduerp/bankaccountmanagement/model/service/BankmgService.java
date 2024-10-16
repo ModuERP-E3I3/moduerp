@@ -5,9 +5,10 @@ import java.util.List;
 import com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg;
 
 public interface BankmgService {
-    List<Bankmg> getAllmgs();
+    List<Bankmg> selectAllmgs();
     void insertmg(Bankmg mg);
-    void updatemg(Bankmg mg);
-    void deletemg(Bankmg mg);
-	List<Bankmg> getmgById(String bankNumber, String bizNumber);
+    void updatemg(String bankId);
+    void deletemg(String bankId);
+	Bankmg selectmgById(String bankId);
+	
 }

@@ -12,6 +12,7 @@
 		<result property="companyName" column="company_name" />
 		<result property="createdAt" column="created_at" />
 		<result property="cardExistence" column="CARD_EXISTENCE" />
+		<result property="moduleGrades" column="MODULE_GRADES" />
 
 		<!-- Nested Mapping: Company에 포함된 부서 목록 설정 -->
 		<collection property="departments"
@@ -90,5 +91,26 @@
 		WHERE BIZ_NUMBER = #{bizNumber}
 	</update>
 
+	<update id="updateModuleGrades">
+		UPDATE COMPANY
+		SET MODULE_GRADES = #{moduleGrades}
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</update>
 
+	<select id="selectPurchasedModule" parameterType="string"
+		resultType="string">
+		SELECT MODULE_GRADES
+		FROM COMPANY
+		WHERE BIZ_NUMBER =
+		#{bizNumber}
+	</select>
+	
+	  <update id="updateNewModuleGrades">
+        UPDATE COMPANY
+        SET 
+            MODULE_GRADES = #{combinedModuleGrades}
+        WHERE 
+            BIZ_NUMBER = #{bizNumber}
+    </update>
+	
 </mapper>

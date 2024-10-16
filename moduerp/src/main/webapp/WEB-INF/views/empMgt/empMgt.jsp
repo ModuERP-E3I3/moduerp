@@ -192,8 +192,8 @@ tbody tr:hover {
 
 					<option value="empName" ${option == 'empName' ? 'selected' : ''}>직원명</option>
 
-					<option value="departmentId"
-						${option == 'departmentId' ? 'selected' : ''}>부서 코드</option>
+					<option value="departmentName"
+						${option == 'departmentName' ? 'selected' : ''}>부서명</option>
 
 					<option value="jobId" ${option == 'jobId' ? 'selected' : ''}>직급</option>
 
@@ -212,13 +212,13 @@ tbody tr:hover {
 			<thead>
 				<tr>
 					<th>순번</th>
-					<th>부서코드</th>
+					<th>부서명</th>
 					<th>직급</th>
-					<th>사번</th>
 					<th>직원명</th>
 					<th>이메일</th>
 					<th>전화번호</th>
 					<th>주소</th>
+					<th>사설권한</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -232,6 +232,7 @@ tbody tr:hover {
 						<td>${employee.email}</td>
 						<td>${employee.phone}</td>
 						<td>${employee.address}</td>
+						<td>${employee.privateAuthority}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

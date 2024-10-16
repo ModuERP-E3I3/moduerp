@@ -1,5 +1,6 @@
 package com.e3i3.moduerp.purchaseorders.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -153,7 +154,7 @@ public class PurchaseOrdersController {
 	@PostMapping("/purchaseOrderCreate.do")
 	public String purchaseOrderCreate(@RequestParam("accountNo") String accountNo,
 			@RequestParam("accountName") String accountName, @RequestParam("quantity") int quantity,
-			@RequestParam("supplyPrice") double supplyPrice, @RequestParam("deliveryDate") String deliveryDate,
+			@RequestParam("supplyPrice") double supplyPrice, @RequestParam("deliveryDate") Date deliveryDate,
 			@RequestParam("puItemName") String puItemName, @RequestParam("oDirector") String oDirector, // oDirector !!!
 			Model model, HttpSession session) {
 
@@ -208,7 +209,7 @@ public class PurchaseOrdersController {
 	public String updatePurchaseOrder(@RequestParam("orderId") String orderId,
 			@RequestParam("accountNo") String accountNo, @RequestParam("accountName") String accountName,
 			@RequestParam("quantity") int quantity, @RequestParam("supplyPrice") double supplyPrice,
-			@RequestParam("deliveryDate") String deliveryDate, @RequestParam("puItemName") String puItemName,
+			@RequestParam("deliveryDate") Date deliveryDate, @RequestParam("puItemName") String puItemName,
 			@RequestParam("oDirector") String oDirector) { // oDirector 담당자명 !!!
 															// 추가
 

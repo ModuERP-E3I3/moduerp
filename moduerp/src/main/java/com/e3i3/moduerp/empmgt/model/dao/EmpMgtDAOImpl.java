@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.e3i3.moduerp.employee.model.dto.Employee;
 import com.e3i3.moduerp.empmgt.model.dto.EmpMgtDTO;
+import com.e3i3.moduerp.department.model.dto.Department; 
 
 @Repository
 public class EmpMgtDAOImpl implements EmpMgtDAO {
@@ -73,8 +74,8 @@ public class EmpMgtDAOImpl implements EmpMgtDAO {
     }
 
     @Override
-    public List<EmpMgtDTO> getEmployeesByDepartmentId(String bizNumber, String filterText) {
-        return sqlSession.selectList(namespace + ".selectEmployeesByDepartmentId",
+    public List<EmpMgtDTO> getEmployeesByDepartmentName(String bizNumber, String filterText) {
+        return sqlSession.selectList(namespace + ".selectEmployeesByDepartmentName",
             Map.of("bizNumber", bizNumber, "filterText", filterText));
     }
 
@@ -83,4 +84,20 @@ public class EmpMgtDAOImpl implements EmpMgtDAO {
         return sqlSession.selectList(namespace + ".selectEmployeesByJobId",
             Map.of("bizNumber", bizNumber, "filterText", filterText));
     }
+
+    
+    
+    // 모든 부서 목록 가져오기
+    @Override
+    public List<Department> getAllDepartments() {
+        return sqlSession.selectList(namespace + ".getAllDepartments");  // MyBatis 매퍼 쿼리 호출
+    }
+    
+    // bizNumber로 approvalCode 가져오기**
+    @Override
+    public String getApprovalCodeByBizNumber(String bizNumber) {
+        return sqlSession.selectOne(namespace + ".getApprovalCodeByBizNumber", bizNumber);  // MyBatis 매퍼 쿼리 호출
+    }
 }
+
+

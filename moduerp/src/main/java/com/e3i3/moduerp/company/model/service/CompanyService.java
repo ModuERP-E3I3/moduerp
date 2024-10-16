@@ -27,4 +27,10 @@ public interface CompanyService {
 	public String selectComplayCardExitence(String bizNumber);
 
 	void updateCompanyCardExistence(String cardBillingId, String bizNumber);
+
+	public void insertModuleGradesOfCompany(String moduleGradesStr, String bizNumber);
+
+	public String selectPurchasedModule(String bizNumber);
+
+	public void updateModuleGrades(String combinedModuleGrades, String bizNumber);
 }

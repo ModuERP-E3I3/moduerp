@@ -177,41 +177,60 @@ tbody tr:hover {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="accountList.do"><i class="fa-solid fa-users"></i> 계정 목록</a></li>
-	        <li><a href="accountMgt.do"><i class="fa-solid fa-list-check"></i> 계정 관리</a></li>
-	        <li><a href="accountCreate.do"><i class="fa-solid fa-user-plus"></i> 계정 추가</a></li>
+			<li><a href="accountList.do"><i class="fa-solid fa-users"></i>
+					계정 목록</a></li>
+			<li><a href="accountMgt.do"><i
+					class="fa-solid fa-list-check"></i> 계정 관리</a></li>
+			<li><a href="accountCreate.do"><i
+					class="fa-solid fa-user-plus"></i> 계정 추가</a></li>
 		</ul>
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">인사 관리 | 직원 관리 </div>
+		<div class="content-title">인사 관리 | 직원 관리</div>
 
 		<form action="/moduerp/updateEmployee.do" method="POST">
 			<input type="hidden" name="uuid" value="${employeeDetail.uuid}" />
-			
+
 			<!-- 테이블 -->
 			<table>
 				<thead>
 					<tr>
-					<th>부서코드</th>
-					<th>직급</th>
-					<th>직원명</th>
-					<th>이메일</th>
-					<th>전화번호</th>
-					<th>주소</th>
+						<th>부서명</th>
+						<th>직급</th>
+						<th>직원명</th>
+						<th>이메일</th>
+						<th>전화번호</th>
+						<th>주소</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td><input type="text" name="departmentName" placeholder="거래처명 입력" value="${employeeDetail.departmentName}" /></td>
-						<td><input type="text" name="jobId" placeholder="사업유형" value="${employeeDetail.jobId}" /></td>
-						<td><input type="text" name="empName" placeholder="사업자번호" value="${employeeDetail.empName}" /></td>
-						<td><input type="text" name="email" placeholder="대표자명" value="${employeeDetail.email}" /></td>
-						<td><input type="text" name="phone" placeholder="주소 입력" value="${employeeDetail.phone}" /></td>
-						<td><input type="text" name="address" placeholder="전화번호" value="${employeeDetail.address}" /></td>
+						<td><select name="departmentId">
+								<c:forEach var="department" items="${departmentList}">
+									<option value="${department.departmentId}"
+										${department.departmentId == employeeDetail.departmentId ? 'selected' : ''}>
+										${department.departmentName}</option>
+								</c:forEach>
+						</select></td>
+						<td><input type="text" name="jobId" placeholder="직급"
+							value="${employeeDetail.jobId}" required /></td>
+							
+						<td><input type="text" name="empName" placeholder="직원명"
+							value="${employeeDetail.empName}" required/></td>
+							
+						<td><input type="text" name="email" placeholder="이메일"
+							value="${employeeDetail.email}" required/></td>
+							
+						<td><input type="text" name="phone" placeholder="전화번호"
+							value="${employeeDetail.phone}" required/></td>
+							
+						<td><input type="text" name="address" placeholder="주소"
+							value="${employeeDetail.address}" required/></td>
 					</tr>
 				</tbody>
 			</table>
+
 
 			<div class="btn-group">
 				<button type="submit" class="btn green">수정 완료</button>

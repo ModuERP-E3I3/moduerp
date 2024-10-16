@@ -1,9 +1,9 @@
 package com.e3i3.moduerp.empmgt.service;
 
 import java.util.List;
-
 import com.e3i3.moduerp.employee.model.dto.Employee;
 import com.e3i3.moduerp.empmgt.model.dto.EmpMgtDTO;
+import com.e3i3.moduerp.department.model.dto.Department; // 부서 DTO 임포트
 
 public interface EmpMgtService {
 
@@ -34,12 +34,25 @@ public interface EmpMgtService {
     // UUID로 직원 삭제
     void deleteEmployeeByUUID(String uuid);
 
-    // 필터에 따른 직원 목록 가져오기
-    List<EmpMgtDTO> getEmployeesByFilter(String bizNumber, String option, String filterText);
+    // 필터: 부서명으로 직원 목록 가져오기
+    List<EmpMgtDTO> getEmployeesByDepartmentName(String bizNumber, String departmentName);
 
-    // 부서 ID로 직원 목록 가져오기
-    List<EmpMgtDTO> getEmployeesByDepartmentId(String bizNumber, String departmentId);
+    // 필터로 직원 목록 가져오기
+    List<EmpMgtDTO> getEmployeesByFilter(String bizNumber, String option, String filterText);
 
     // 직급 ID로 직원 목록 가져오기
     List<EmpMgtDTO> getEmployeesByJobId(String bizNumber, String jobId);
+
+
+    // 모든 부서 목록 가져오기
+    List<Department> getAllDepartments();  // 부서 목록 가져오는 메서드 추가
+
+    
+    
+	String getApprovalCodeByBizNumber(String bizNumber);
 }
+
+
+
+
+

@@ -6,7 +6,7 @@ public class FinClose implements java.io.Serializable {
 	private static final long serialVersionUID = -8269302835859129601L;
 
 	public String closingId; // CLOSING_ID VARCHAR2(50 BYTE)
-	public String uuId; // UUID VARCHAR2(255 BYTE)
+	public String bizNumber; // BIZ_NUMBER	VARCHAR2(50 BYTE)
 	public String bankId;// BANK_ID VARCHAR2(50 BYTE)
 	public java.sql.Date startDate;// START_DATE DATE
 	public java.sql.Date endDate;// END_DATE DATE
@@ -20,11 +20,11 @@ public class FinClose implements java.io.Serializable {
 		super();
 	}
 
-	public FinClose(String closingId, String uuId, String bankId, Date startDate, Date endDate, int totalSales,
+	public FinClose(String closingId, String bizNumber, String bankId, Date startDate, Date endDate, int totalSales,
 			int totalExpenses, int netProfit, Date closingDate, String closingType) {
 		super();
 		this.closingId = closingId;
-		this.uuId = uuId;
+		this.bizNumber = bizNumber;
 		this.bankId = bankId;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -43,12 +43,12 @@ public class FinClose implements java.io.Serializable {
 		this.closingId = closingId;
 	}
 
-	public String getUuId() {
-		return uuId;
+	public String getBizNumber() {
+		return bizNumber;
 	}
 
-	public void setUuId(String uuId) {
-		this.uuId = uuId;
+	public void setBizNumber(String bizNumber) {
+		this.bizNumber = bizNumber;
 	}
 
 	public String getBankId() {
@@ -121,7 +121,7 @@ public class FinClose implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "FinClose [closingId=" + closingId + ", uuId=" + uuId + ", bankId=" + bankId + ", startDate=" + startDate
+		return "FinClose [closingId=" + closingId + ", bizNumber=" + bizNumber + ", bankId=" + bankId + ", startDate=" + startDate
 				+ ", endDate=" + endDate + ", totalSales=" + totalSales + ", totalExpenses=" + totalExpenses
 				+ ", netProfit=" + netProfit + ", closingDate=" + closingDate + ", closingType=" + closingType + "]";
 	}

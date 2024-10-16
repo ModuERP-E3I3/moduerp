@@ -8,7 +8,7 @@ public class PurchaseOrdersDTO {
     private double supplyPrice;
     private String accountNo;
     private String accountName;
-    private String deliveryDate;
+    private Date deliveryDate;
     private String puItemName;
     private String bizNumber; 
     private String oDirector;		// !! 담당자명 !!
@@ -19,7 +19,7 @@ public class PurchaseOrdersDTO {
 
     public PurchaseOrdersDTO(String orderId, int quantity, 
     		double supplyPrice, String accountNo, String accountName, 
-    		String deliveryDate, String bizNumber, String puItemName,
+    		Date deliveryDate, String bizNumber, String puItemName,
     		String oDirector // !! 담당자명 !!
     		) {
         super();
@@ -75,11 +75,11 @@ public class PurchaseOrdersDTO {
         this.accountName = accountName;
     }
 
-    public String getDeliveryDate() {
+    public Date getDeliveryDate() {
         return deliveryDate;
     }
 
-    public void setDeliveryDate(String deliveryDate) {
+    public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
     

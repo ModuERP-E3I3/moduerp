@@ -26,13 +26,19 @@
 	<insert id="insertBillingInfo"
 		parameterType="com.e3i3.moduerp.billingInfo.model.dto.BillingInfoDTO">
 		INSERT INTO BILLING_INFO (
-		CARD_BILLING_ID, CUSTOMER_KEY, BILLING_KEY, CARD_COMPANY,
-		CARD_NUMBER, CARD_TYPE, OWNER_TYPE, ISSUER_CODE,
+		CARD_BILLING_ID, CUSTOMER_KEY,
+		BILLING_KEY, CARD_COMPANY,
+		CARD_NUMBER, CARD_TYPE, OWNER_TYPE,
+		ISSUER_CODE,
 		ACQUIRER_CODE, AUTHENTICATED_AT, CREATED_AT, BIZ_NUMBER
-		) VALUES (
-		#{cardBillingId}, #{customerKey}, #{billingKey}, #{cardCompany},
-		#{cardNumber}, #{card.cardType}, #{card.ownerType}, #{card.issuerCode},
-		#{card.acquirerCode}, #{authenticatedAt}, #{createdAt}, #{bizNumber}
+		)
+		VALUES (
+		#{cardBillingId}, #{customerKey}, #{billingKey},
+		#{cardCompany},
+		#{cardNumber}, #{card.cardType}, #{card.ownerType},
+		#{card.issuerCode},
+		#{card.acquirerCode}, #{authenticatedAt},
+		#{createdAt}, #{bizNumber}
 		)
 	</insert>
 
@@ -42,6 +48,17 @@
 		SELECT *
 		FROM BILLING_INFO
 		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
+
+	<select id="selectBillingInfoByBizNumbers"
+		resultType="com.e3i3.moduerp.billingInfo.model.dto.BillingInfoDTO">
+		SELECT *
+		FROM BILLING_INFO
+		WHERE BIZ_NUMBER IN
+		<foreach item="bizNumber" collection="list" open="("
+			separator="," close=")">
+			#{bizNumber}
+		</foreach>
 	</select>
 
 </mapper>
