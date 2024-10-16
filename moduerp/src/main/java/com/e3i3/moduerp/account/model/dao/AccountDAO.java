@@ -6,7 +6,7 @@ import com.e3i3.moduerp.account.model.dto.AccountDTO;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 
 public interface AccountDAO {
-	List<AccountDTO> getAllAccounts();
+	List<AccountDTO> getAllAccounts(String bizNumber);
 
 	void accountCreate(AccountDTO accountDto);
 

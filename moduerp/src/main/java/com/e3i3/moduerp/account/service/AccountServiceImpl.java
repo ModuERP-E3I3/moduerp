@@ -16,8 +16,8 @@ public class AccountServiceImpl implements AccountService {
    
     
     @Override
-    public List<AccountDTO> getAllAccounts() {
-        return accountDao.getAllAccounts();
+    public List<AccountDTO> getAllAccounts(String bizNumber) {
+        return accountDao.getAllAccounts(bizNumber);
     }
 
     @Override
