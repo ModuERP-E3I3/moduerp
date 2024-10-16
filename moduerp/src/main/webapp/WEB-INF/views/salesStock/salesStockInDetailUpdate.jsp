@@ -157,20 +157,15 @@ th {
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
 	<div class="top-content-box">
-		<ul id="menubar">
-			<li><a href="productionStockIn.do"><i
-					class="fas fa-bullhorn"></i> 생산 입고</a></li>
-			<li><a href="productionStockOut.do"><i
-					class="fas fa-clipboard"></i> 생산 출고</a></li>
-			<li><a href="productionWorkorder.do"><i class="fas fa-code"></i>
-					작업지시서</a></li>
-			<li><a href="productionQuality.do"><i class="fas fa-plug"></i>
-					품질관리</a></li>
-		</ul>
+	    <ul id="menubar">
+	        <li><a href="account.do"><i class="fas fa-bullhorn"></i> 거래처관리</a></li>
+	        <li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i> 영업 입고</a></li>
+	        <li><a href="salesStockOut.do"><i class="fas fa-code"></i> 영업 출고</a></li> 
+	    </ul>
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">생산관리 | 생산입고 | ${itemDetails.itemName}
+		<div class="content-title">영업/판매 관리 | 영업입고 | ${itemDetails.itemName}
 			수정하기</div>
 
 		<form action="/moduerp/updateSalesStockIn.do" method="POST">
@@ -221,13 +216,9 @@ th {
 												<option value="${itemName}"></option>
 											</c:forEach>
 										</datalist>
-										<button type="button" class="remove-btn"
-											onclick="removeMaterialType(this)">삭제</button>
 									</div>
 								</c:forEach>
 							</div>
-							<button type="button" onclick="addMaterialType()">자재 종류
-								추가</button>
 						</td>
 						<td>${itemDetails.iDirector}</td>
 
