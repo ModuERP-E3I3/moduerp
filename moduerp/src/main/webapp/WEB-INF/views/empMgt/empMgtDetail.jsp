@@ -227,6 +227,7 @@ th {
 					<th>이메일</th>
 					<th>전화번호</th>
 					<th>주소</th>
+					<th>사설권한</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -237,6 +238,7 @@ th {
 					<td>${employeeDetail.email}</td>
 					<td>${employeeDetail.phone}</td>
 					<td>${employeeDetail.address}</td>
+					<td>${employeeDetail.privateAuthority}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -264,6 +266,8 @@ th {
 				</form>
 			</div>
 		</div>
+	</div>
+		
 </body>
 
 <script type="text/javascript">

@@ -193,6 +193,7 @@ tbody tr:hover {
 			<input type="hidden" name="uuid" value="${employeeDetail.uuid}" />
 
 			<!-- 테이블 -->
+			<!-- 테이블 -->
 			<table>
 				<thead>
 					<tr>
@@ -202,6 +203,7 @@ tbody tr:hover {
 						<th>이메일</th>
 						<th>전화번호</th>
 						<th>주소</th>
+						<th>사설권한</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -215,21 +217,30 @@ tbody tr:hover {
 						</select></td>
 						<td><input type="text" name="jobId" placeholder="직급"
 							value="${employeeDetail.jobId}" required /></td>
-							
+
 						<td><input type="text" name="empName" placeholder="직원명"
-							value="${employeeDetail.empName}" required/></td>
-							
+							value="${employeeDetail.empName}" required /></td>
+
 						<td><input type="text" name="email" placeholder="이메일"
-							value="${employeeDetail.email}" required/></td>
-							
+							value="${employeeDetail.email}" required /></td>
+
 						<td><input type="text" name="phone" placeholder="전화번호"
-							value="${employeeDetail.phone}" required/></td>
-							
+							value="${employeeDetail.phone}" required /></td>
+
 						<td><input type="text" name="address" placeholder="주소"
-							value="${employeeDetail.address}" required/></td>
+							value="${employeeDetail.address}" required /></td>
+
+						<!-- 사설권한 라디오 버튼 -->
+						<td><label for="privateAuthority">권한:</label> <input
+							type="radio" name="privateAuthority" value="Y"
+							${employeeDetail.privateAuthority == 'Y' ? 'checked' : ''}>
+							Y <input type="radio" name="privateAuthority" value="N"
+							${employeeDetail.privateAuthority == 'N' ? 'checked' : ''}>
+							N</td>
 					</tr>
 				</tbody>
 			</table>
+
 
 
 			<div class="btn-group">

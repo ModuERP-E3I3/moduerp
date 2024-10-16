@@ -1,49 +1,50 @@
 package com.e3i3.moduerp.notice.model.dao;
 
-import java.util.HashMap;
-import java.util.List;
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.e3i3.moduerp.notice.model.dto.Notice;
 
-@Repository("noticeDao")
-public class NoticeDao {
+import java.util.List;
 
+@Repository
+public class NoticeDao {
+    
     @Autowired
     private SqlSessionTemplate sqlSessionTemplate;
 
-    public int getNoticeCount() {
-        return sqlSessionTemplate.selectOne("noticeMapper.getNoticeCount");
+    public int insertNotice(Notice notice) {
+        return sqlSessionTemplate.insert("NoticeMapper.insertNotice", notice);
     }
 
-    public List<Notice> getNoticeList(int page, int pageSize) {
-        int start = (page - 1) * pageSize + 1;  // Oracle의 ROWNUM은 1부터 시작
-        int end = page * pageSize;
-        
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("start", start);
-        params.put("end", end);
-        
-        return sqlSessionTemplate.selectList("noticeMapper.getNoticeList", params);
+    public Notice selectNoticeById(String noticeId) {
+        return sqlSessionTemplate.selectOne("NoticeMapper.selectNoticeById", noticeId);
     }
 
+    public List<Notice> selectAllNotices() {
+        return sqlSessionTemplate.selectList("NoticeMapper.selectAllNotices");
+    }
 
-    public Notice getNoticeById(int noticeId) {
-        return sqlSessionTemplate.selectOne("noticeMapper.getNoticeById", noticeId);
+    public int updateNotice(Notice notice) {
+        return sqlSessionTemplate.update("NoticeMapper.updateNotice", notice);
+    }
+
+    public int deleteNotice(String noticeId) {
+        return sqlSessionTemplate.delete("NoticeMapper.deleteNotice", noticeId);
     }
     
-    public void insertNotice(Notice notice) {
-        sqlSessionTemplate.insert("noticeMapper.insertNotice", notice);
+
+    public List<Notice> searchNoticesByTitle(String keyword) {
+        return sqlSessionTemplate.selectList("NoticeMapper.searchNoticesByTitle", keyword);
+    }
+
+    public List<Notice> searchNoticesByBody(String keyword) {
+        return sqlSessionTemplate.selectList("NoticeMapper.searchNoticesByBody", keyword);
+    }
+
+    public List<Notice> searchNoticesByTitleAndBody(String keyword) {
+        return sqlSessionTemplate.selectList("NoticeMapper.searchNoticesByTitleAndBody", keyword);
     }
     
-    public void updateNotice(Notice notice) {
-        sqlSessionTemplate.update("noticeMapper.updateNotice", notice);
-    }
-    
-    public void deleteNotice(int noticeId) {
-        sqlSessionTemplate.delete("noticeMapper.deleteNotice", noticeId);
-    }
 }
