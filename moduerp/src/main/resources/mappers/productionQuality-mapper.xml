@@ -210,9 +210,8 @@
 		FROM QUALITY_CONTROL
 		WHERE BIZ_NUMBER = #{bizNumber}
 		AND START_DATE BETWEEN
-		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
-		TO_DATE(#{endDate},
-		'YYYY-MM-DD')
+		TO_DATE(#{startDate}, 'YY-MM-DD HH24:MI:SS') AND
+		TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
 		ORDER BY START_DATE ASC
 	</select>
 	

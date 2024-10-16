@@ -248,14 +248,16 @@
 		ORDER BY PAYMENT_DATE DESC
 	</select>
 	
-	<!-- filter(시작일만 입력받은 경우) 쿼리 -->
+	<!-- filter(종료일만 입력받은 경우) 쿼리 -->
 	<select id="selectCarByFilterEndDate"
 		parameterType="map"
 		resultType="com.e3i3.moduerp.carmgt.model.dto.CarmgtDto">
 		SELECT *
 		FROM CAR_MANAGEMENT
 		WHERE PAYMENT_HISTORY_CODE LIKE #{bizNumber} || 'CM%'
+		<if test="endDate != null">
 		AND PAYMENT_DATE &lt;= TO_DATE(#{endDate}, 'YY-MM-DD HH24:MI:SS')
+		</if>
 		ORDER BY PAYMENT_DATE DESC
 	</select>
 </mapper>
