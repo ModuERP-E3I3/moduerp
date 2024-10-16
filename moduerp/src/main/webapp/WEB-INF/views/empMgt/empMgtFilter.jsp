@@ -179,7 +179,6 @@ tbody tr:hover {
 	<div class="top-content-box">
 		<ul id="menubar">
 			<li><a href="empMgt.do">직원 관리</a></li>
-			<li><a href="departmentMgt.do">부서 관리</a></li>
 		</ul>
 	</div>
 
@@ -224,7 +223,6 @@ tbody tr:hover {
 						onclick="window.location.href='getEmployeeDetails.do?uuid=${employee.uuid}'">
 						
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						
 						<td>${employee.departmentName}</td>
 						<td>${employee.jobId}</td>
 						<td>${employee.empName}</td>

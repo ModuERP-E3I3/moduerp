@@ -187,7 +187,7 @@ tbody tr:hover {
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">구매관리 | 발주서관리 | 수정</div>
+		<div class="content-title">구매관리 | 발주서관리 | ${purchaseOrderDetail.puItemName} 수정</div>
 
 		<form action="/moduerp/updatePurchaseOrder.do" method="POST">
 			<input type="hidden" name="orderId"

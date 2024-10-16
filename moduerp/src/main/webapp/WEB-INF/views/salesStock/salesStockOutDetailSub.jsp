@@ -216,7 +216,7 @@ th {
 	<div class="content-box">
 
 		<div class="content-title">영업관리 | 영업출고 |
-			${itemDetailsSub.itemName} 출고 정보</div>
+			${itemDetailsSub.itemName} 정보</div>
 
 		<!-- 테이블 -->
 		<table>
