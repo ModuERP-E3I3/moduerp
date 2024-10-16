@@ -246,4 +246,18 @@ tbody tr:hover {
 		</form>
 	</div>
 </body>
+
+<script>
+    const activeMenu = "empMgt";
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuItems = document.querySelectorAll('nav.side ul li a');
+        menuItems.forEach(item => {
+            if (item.href.includes(activeMenu)) {
+                item.classList.add('active');
+            }
+        });
+    });
+</script>
+
 </html>
