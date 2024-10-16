@@ -153,9 +153,13 @@ public class PurchaseOrdersController {
 
 	@PostMapping("/purchaseOrderCreate.do")
 	public String purchaseOrderCreate(@RequestParam("accountNo") String accountNo,
-			@RequestParam("accountName") String accountName, @RequestParam("quantity") int quantity,
-			@RequestParam("supplyPrice") double supplyPrice, @RequestParam("deliveryDate") Date deliveryDate,
-			@RequestParam("puItemName") String puItemName, @RequestParam("oDirector") String oDirector, // oDirector !!!
+			@RequestParam("accountName") String accountName, 
+			@RequestParam("quantity") int quantity,
+			@RequestParam("supplyPrice") double supplyPrice, 
+			@RequestParam("deliveryDate") Date deliveryDate,
+			@RequestParam("puItemName") String puItemName, 
+			@RequestParam("oDirector") String oDirector,		 // 담당자명 !!!
+			
 			Model model, HttpSession session) {
 
 		// 세션에서 bizNumber 가져오기
@@ -169,8 +173,8 @@ public class PurchaseOrdersController {
 		purchaseOrderDto.setSupplyPrice(supplyPrice);
 		purchaseOrderDto.setDeliveryDate(deliveryDate);
 		purchaseOrderDto.setPuItemName(puItemName);
-		purchaseOrderDto.setoDirector(oDirector); // oDirector 설정
-		purchaseOrderDto.setBizNumber(bizNumber); // bizNumber 설정
+		purchaseOrderDto.setoDirector(oDirector); 				 // 담당자명!!
+		purchaseOrderDto.setBizNumber(bizNumber); 	
 
 		// purchaseOrderCreate 메서드 호출
 		purchaseOrdersService.purchaseOrderCreate(purchaseOrderDto);
@@ -206,12 +210,17 @@ public class PurchaseOrdersController {
 	}
 
 	@PostMapping("/updatePurchaseOrder.do")
-	public String updatePurchaseOrder(@RequestParam("orderId") String orderId,
-			@RequestParam("accountNo") String accountNo, @RequestParam("accountName") String accountName,
-			@RequestParam("quantity") int quantity, @RequestParam("supplyPrice") double supplyPrice,
-			@RequestParam("deliveryDate") Date deliveryDate, @RequestParam("puItemName") String puItemName,
-			@RequestParam("oDirector") String oDirector) { // oDirector 담당자명 !!!
-															// 추가
+	public String updatePurchaseOrder(
+			@RequestParam("orderId") String orderId,
+			@RequestParam("accountNo") String accountNo, 
+			@RequestParam("accountName") String accountName,
+			@RequestParam("quantity") int quantity, 
+			@RequestParam("supplyPrice") double supplyPrice,
+			@RequestParam("deliveryDate") Date deliveryDate, 
+			@RequestParam("puItemName") String puItemName,
+			@RequestParam("oDirector") String oDirector) 			// 담당자명 !!!
+	{ 	
+
 
 		PurchaseOrdersDTO purchaseOrderDto = new PurchaseOrdersDTO();
 		purchaseOrderDto.setOrderId(orderId);
@@ -221,7 +230,7 @@ public class PurchaseOrdersController {
 		purchaseOrderDto.setSupplyPrice(supplyPrice);
 		purchaseOrderDto.setDeliveryDate(deliveryDate);
 		purchaseOrderDto.setPuItemName(puItemName);
-		purchaseOrderDto.setoDirector(oDirector); // oDirector 설정
+		purchaseOrderDto.setoDirector(oDirector);					 // 담당자명 !!!
 
 		purchaseOrdersService.updatePurchaseOrder(purchaseOrderDto);
 

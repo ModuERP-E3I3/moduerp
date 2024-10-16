@@ -292,7 +292,7 @@ function removeMaterialType(button) {
 </script>
 
 
-<!-- AccountName -->
+
 <script>
 function setAccountName(select) {
     const accountName = select.options[select.selectedIndex].getAttribute('data-name');
