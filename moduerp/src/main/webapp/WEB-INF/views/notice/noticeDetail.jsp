@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> <!-- fn 라이브러리 추가 -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -121,9 +122,21 @@
     <div class="meta">
         <fmt:formatDate value="${notice.noticeDate}" pattern="yyyy-MM-dd" />
     </div>
+
+    <!-- 첨부파일 출력 (언더스코어 뒤의 부분만 표시) -->
+    <c:if test="${not empty notice.attachment}">
+        <div class="meta">
+            <!-- 언더스코어 뒤의 파일명만 출력 -->
+            <a href="<c:url value='/resources/templates/email_files/${notice.attachment}' />">
+                ${fn:substringAfter(notice.attachment, '_')}
+            </a>
+        </div>
+    </c:if>
+
     <div class="content">
         ${notice.body}
     </div>
+
 <div class="button-group">
     <a href="javascript:goBack();" class="back-btn">목록으로 돌아가기</a>
     <a href="<c:url value='/notice/edit/${notice.noticeId}.do' />" class="edit-btn">수정</a>

@@ -156,11 +156,89 @@ public class NoticeController {
 
 	@PostMapping("/notice/edit.do")
 	public String editNotice(@RequestParam("noticeId") String noticeId, @RequestParam("title") String title,
-			@RequestParam("body") String body, @RequestParam(value = "attachment", required = false) String attachment,
-			@RequestParam("noticeDate") Date noticeDate) {
+			@RequestParam("body") String body, @RequestParam(value = "attachment", required = false) MultipartFile file,
+			 RedirectAttributes model, HttpSession session) {
+		// 1. 로그인 유저의 이메일 주소와 UUID, 사업자번호 가져오기
+		String loginUUID = (String) session.getAttribute("uuid");
+		
+		// 현재 날짜 설정
+	   Date currentDate = new Date(System.currentTimeMillis());
+		
 		// 체인 방식으로 Notice 객체 수정
-		Notice notice = new Notice().setNoticeId(noticeId).setTitle(title).setBody(body).setAttachment(attachment) // Nullable
-				.setNoticeDate(noticeDate);
+		Notice notice = new Notice()
+				.setNoticeId(noticeId)
+				.setTitle(title)
+				.setBody(body)
+				//.setAttachment(attachment) // Nullable
+				.setNoticeDate(currentDate);
+		
+		
+		// 파일 첨부 처리 로직
+				if (!file.isEmpty()) {
+					try {
+						// 원본 파일명 가져오기
+						String originalFilename = file.getOriginalFilename();
+
+						if (originalFilename == null) {
+							model.addFlashAttribute("message", "파일명 정보를 가져올 수 없습니다.");
+							return "notice/noticeForm";
+						}
+
+						// 파일명에 ".." 포함 여부 확인 (디렉토리 트래버설 방지)
+						if (originalFilename.contains("..")) {
+							model.addFlashAttribute("message", "유효하지 않은 파일명입니다.");
+							return "notice/noticeForm";
+						}
+
+						// 새로운 파일명 생성 (첨부한 사람의 UUID + "_" + 파일명)
+						String newFilename = loginUUID + "_" + originalFilename;
+
+						// 파일 저장 경로 설정 시 File.separator 사용
+						String uploadDir = this.uploadDir.replace("/", File.separator).replace("\\", File.separator);
+
+						// 로그 추가 (디버깅용)
+						System.out.println("Upload Directory: " + uploadDir);
+
+						// 디렉토리가 존재하지 않으면 생성
+						File dir = new File(uploadDir);
+						if (!dir.exists()) {
+							boolean dirsCreated = dir.mkdirs();
+							if (!dirsCreated) {
+								model.addFlashAttribute("message", "파일 저장 디렉토리를 생성할 수 없습니다.");
+								return "notice/noticeForm";
+							}
+						}
+
+						// 파일 저장 경로를 File 객체로 생성
+						File serverFile = new File(uploadDir + File.separator + newFilename);
+
+						// 경로 로그 출력 (확인용)
+						System.out.println("통일된 파일 저장 경로: " + serverFile.getAbsolutePath());
+
+						// 파일 저장
+						file.transferTo(serverFile);
+
+						// 파일 저장 경로 확인
+						if (serverFile.exists()) {
+							System.out.println("파일이 성공적으로 저장되었습니다: " + serverFile.getAbsolutePath());
+						} else {
+							System.out.println("파일 저장에 실패했습니다.");
+						}
+
+						// 파일 경로가 Windows 또는 Linux 환경에 따라 다르게 처리될 수 있으므로,
+						String normalizedPath = serverFile.getAbsolutePath().replace("\\", "/");
+						System.out.println("정규화된 파일 경로: " + normalizedPath);
+
+						// attachmentPath 설정 (파일명만 저장)
+						notice.setAttachment(newFilename);
+					} catch (Exception e) {
+						e.printStackTrace();
+						model.addFlashAttribute("message", "파일 업로드 실패: " + e.getMessage());
+						return "notice/noticeForm";
+					}
+				} else {
+					notice.setAttachment(null); // 파일 첨부하지 않은 경우
+				}
 
 		noticeService.updateNotice(notice);
 		return "redirect:/notice/list.do";
