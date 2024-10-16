@@ -178,8 +178,9 @@ tbody tr:hover {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-		 <li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
-         <li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
+		 <li><a href="purchaseOrders.do"><i class="fas fa-bullhorn"></i> 발주서 관리</a></li>
+		 <li><a href="buyStockIn.do"><i class="fa-solid fa-bag-shopping"></i> 구매 입고</a></li>
+         <li><a href="buyStockOut.do"><i class="fa-solid fa-truck-ramp-box"></i> 구매 출고</a></li>
          <li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
 
 		</ul>
@@ -189,17 +190,23 @@ tbody tr:hover {
 	<div class="content-box">
 
 		<div class="content-title">구매관리 | 배송조회 </div>
-
+			
+		<form action="/moduerp/delivery.do">
 		<!-- 필터 박스 -->
 		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
+			<select name="filterOption" id="filterOption">
+					<option disabled selected>옵션 선택</option>
+					<option value="itemName">제품명</option>
+					<option value="iDirector">담당자</option>
+				</select> 
+				<input type="date" name="startDate" id="startDate" required/> 
+				<input type="date" name="endDate" id="endDate" required/> 
+				<input type="text"	name="filterText" id="filterText" placeholder="내용 입력" required/>
+				<button type="submit" class="btn">조회</button>
+				<button type="button" class="btn"
+					onclick="window.location.href='delivery.do';">초기화</button>
 		</div>
-
+		</form>
 		<!-- 테이블 -->
 		<table>
 			<thead>
@@ -289,7 +296,7 @@ tbody tr:hover {
 
 
 <script>
-    const activeMenu = "buyStockIn";
+    const activeMenu = "purchaseOrders";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.e3i3.moduerp.employee.model.dto.Employee;
 import com.e3i3.moduerp.empmgt.model.dto.EmpMgtDTO;
+import com.e3i3.moduerp.department.model.dto.Department; 
 
 @Repository
 public class EmpMgtDAOImpl implements EmpMgtDAO {
@@ -49,8 +50,8 @@ public class EmpMgtDAOImpl implements EmpMgtDAO {
     }
 
     @Override
-    public EmpMgtDTO selectEmployeeByEmpNo(String empNo) {
-        return sqlSession.selectOne(namespace + ".selectEmployeeByEmpNo", empNo);
+    public EmpMgtDTO selectEmployeeByUUID(String uuid) {
+        return sqlSession.selectOne(namespace + ".selectEmployeeByUUID", uuid);
     }
 
     @Override
@@ -59,30 +60,12 @@ public class EmpMgtDAOImpl implements EmpMgtDAO {
     }
 
     @Override
-    public void deleteEmployeeByEmpNo(String empNo) {
-        sqlSession.delete(namespace + ".deleteEmployeeByEmpNo", empNo);
+    public void deleteEmployeeByUUID(String uuid) {
+        sqlSession.delete(namespace + ".deleteEmployeeByUUID", uuid);
     }
 
     // -----------------------------------------------
     // 직원 필터링 관련 메서드
-
-    @Override
-    public List<EmpMgtDTO> getEmployeesByEmpNameDate(String bizNumber, String filterText, String startDate, String endDate) {
-        return sqlSession.selectList(namespace + ".selectEmployeesByEmpNameDate",
-            Map.of("bizNumber", bizNumber, "filterText", filterText, "startDate", startDate, "endDate", endDate));
-    }
-
-    @Override
-    public List<EmpMgtDTO> getEmployeesByDepartmentIdDate(String bizNumber, String filterText, String startDate, String endDate) {
-        return sqlSession.selectList(namespace + ".selectEmployeesByDepartmentIdDate",
-            Map.of("bizNumber", bizNumber, "filterText", filterText, "startDate", startDate, "endDate", endDate));
-    }
-
-    @Override
-    public List<EmpMgtDTO> getEmployeesByJobIdDate(String bizNumber, String filterText, String startDate, String endDate) {
-        return sqlSession.selectList(namespace + ".selectEmployeesByJobIdDate",
-            Map.of("bizNumber", bizNumber, "filterText", filterText, "startDate", startDate, "endDate", endDate));
-    }
 
     @Override
     public List<EmpMgtDTO> getEmployeesByEmpName(String bizNumber, String filterText) {
@@ -91,8 +74,8 @@ public class EmpMgtDAOImpl implements EmpMgtDAO {
     }
 
     @Override
-    public List<EmpMgtDTO> getEmployeesByDepartmentId(String bizNumber, String filterText) {
-        return sqlSession.selectList(namespace + ".selectEmployeesByDepartmentId",
+    public List<EmpMgtDTO> getEmployeesByDepartmentName(String bizNumber, String filterText) {
+        return sqlSession.selectList(namespace + ".selectEmployeesByDepartmentName",
             Map.of("bizNumber", bizNumber, "filterText", filterText));
     }
 
@@ -102,22 +85,19 @@ public class EmpMgtDAOImpl implements EmpMgtDAO {
             Map.of("bizNumber", bizNumber, "filterText", filterText));
     }
 
-    // 날짜 데이터만 조회할 경우
+    
+    
+    // 모든 부서 목록 가져오기
     @Override
-    public List<EmpMgtDTO> getEmployeesByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
-        return sqlSession.selectList(namespace + ".selectEmployeesByFilterOnlyDate",
-            Map.of("bizNumber", bizNumber, "startDate", startDate, "endDate", endDate));
+    public List<Department> getAllDepartments() {
+        return sqlSession.selectList(namespace + ".getAllDepartments");  // MyBatis 매퍼 쿼리 호출
     }
-
+    
+    // bizNumber로 approvalCode 가져오기**
     @Override
-    public List<EmpMgtDTO> getEmployeesByFilterStartDate(String bizNumber, String startDate) {
-        return sqlSession.selectList(namespace + ".selectEmployeesByFilterStartDate",
-            Map.of("bizNumber", bizNumber, "startDate", startDate));
-    }
-
-    @Override
-    public List<EmpMgtDTO> getEmployeesByFilterEndDate(String bizNumber, String endDate) {
-        return sqlSession.selectList(namespace + ".selectEmployeesByFilterEndDate",
-            Map.of("bizNumber", bizNumber, "endDate", endDate));
+    public String getApprovalCodeByBizNumber(String bizNumber) {
+        return sqlSession.selectOne(namespace + ".getApprovalCodeByBizNumber", bizNumber);  // MyBatis 매퍼 쿼리 호출
     }
 }
+
+

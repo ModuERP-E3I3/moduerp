@@ -58,13 +58,12 @@ public class FinCloseController {
 			HttpSession session) {
 
 		String bizNumber = (String) session.getAttribute("biz_number");
-		String uuid = (String) session.getAttribute("uuid");
 
 		String closingid = bizNumber + "FC" + System.currentTimeMillis();
 
 		FinClose finClosedto = new FinClose();
 		finClosedto.setClosingId(closingid);
-		finClosedto.setUuId(uuid);
+		finClosedto.setBizNumber(bizNumber);
 		finClosedto.setBankId(bankId);
 		finClosedto.setStartDate(startDate);
 		finClosedto.setEndDate(endDate);

@@ -204,8 +204,8 @@ th {
 								<option value="==========">==========</option>
 							</datalist> <!-- 선택한 orderNumber를 담을 숨겨진 입력 필드 --> <input type="hidden"
 							name="orderNumber" id="orderNumberInput" value="" /></td>
-						<td><input type="date" name="qcStartDate"></td>
-						<td><input type="date" name="qcEndExDate"></td>
+						<td><input type="date" name="qcStartDate" required></td>
+						<td><input type="date" name="qcEndExDate" required></td>
 						<td><select name="inspectionType" required>
 								<option value="" disabled selected hidden>검사 유형 선택</option>
 								<option value="외관 검사">외관 검사</option>
@@ -218,7 +218,7 @@ th {
 								<option value="검사 완료">검사 완료</option>
 						</select></td>
 
-						<td><input type="number" name="qcQty" id="qcQty" /></td>
+						<td><input type="number" name="qcQty" id="qcQty" required /></td>
 						<!-- 작업자를 선택하는 input 필드 -->
 						<td>
 							<!-- 작업자 선택 부분 -->

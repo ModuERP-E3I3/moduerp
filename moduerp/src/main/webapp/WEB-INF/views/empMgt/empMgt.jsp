@@ -179,27 +179,26 @@ tbody tr:hover {
 	<div class="top-content-box">
 		<ul id="menubar">
 			<li><a href="empMgt.do">직원 관리</a></li>
-			<li><a href="departmentMgt.do">부서 관리</a></li>
 		</ul>
 	</div>
 
 	<!-- 직원 관리 내용 박스 -->
 	<div class="content-box">
-		<div class="content-title">직원 관리</div>
+		<div class="content-title">인사 관리 | 직원 관리 </div>
 		<form action="/moduerp/empMgtFilter.do" method="get">
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
 					<option disabled selected>옵션 선택</option>
+
 					<option value="empName" ${option == 'empName' ? 'selected' : ''}>직원명</option>
-					<option value="departmentId"
-						${option == 'departmentId' ? 'selected' : ''}>부서 코드</option>
-					<option value="jobId" ${option == 'jobId' ? 'selected' : ''}>직급
-						코드</option>
-				</select> <input type="date" name="startDate" id="startDate"
-					value="${startDate != null ? startDate : ''}" /> <input
-					type="date" name="endDate" id="endDate"
-					value="${endDate != null ? endDate : ''}" /> <input type="text"
-					name="filterText" id="filterText" placeholder="검색어 입력"
+
+					<option value="departmentName"
+						${option == 'departmentName' ? 'selected' : ''}>부서명</option>
+
+					<option value="jobId" ${option == 'jobId' ? 'selected' : ''}>직급</option>
+
+				</select> <input type="text" name="filterText" id="filterText"
+					placeholder="검색어 입력"
 					value="${filterText != null ? filterText : ''}" />
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
@@ -213,32 +212,30 @@ tbody tr:hover {
 			<thead>
 				<tr>
 					<th>순번</th>
-					<th>부서 코드</th>
-					<th>직급 코드</th>
-					<th>사번</th>
+					<th>부서명</th>
+					<th>직급</th>
 					<th>직원명</th>
 					<th>이메일</th>
 					<th>전화번호</th>
 					<th>주소</th>
-					<th>테스트용</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="employee" items="${employeeList}" varStatus="status">
 					<tr
-						onclick="window.location.href='getEmployeeDetails.do?empNo=${employee.empNo}'">
+						onclick="window.location.href='getEmployeeDetails.do?uuid=${employee.uuid}'">
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<td>${employee.departmentId}</td>
+						<td>${employee.departmentName}</td>
 						<td>${employee.jobId}</td>
-						<td>${employee.empNo}</td>
 						<td>${employee.empName}</td>
 						<td>${employee.email}</td>
 						<td>${employee.phone}</td>
 						<td>${employee.address}</td>
-						<td>${employee.bizNumber}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
+
+
 
 		</table>
 

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -148,8 +148,6 @@ th {
 .material-type-input {
 	margin-bottom: 10px;
 }
-
-
 </style>
 
 </head>
@@ -163,54 +161,57 @@ th {
 		 <li><a href="buyStockIn.do"><i class="fa-solid fa-bag-shopping"></i> 구매 입고</a></li>
          <li><a href="buyStockOut.do"><i class="fa-solid fa-truck-ramp-box"></i> 구매 출고</a></li>
          <li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
-	    </ul>
+
+		</ul>
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">구매관리 | 구매 출고| ${itemDetails.itemName}
+		<div class="content-title">구매관리 | 배송조회 | ${itemDetails.itemName}
 			수정하기</div>
 
-		<form action="/moduerp/updateBuyStockSubOut.do" method="POST">
+		<form action="/moduerp/updateDelivery.do" method="POST">
 			<input type="hidden" name="itemCode" value="${itemDetails.itemCode}" />
-			<input type="hidden" name="bStockOutId"
-				value="${buyStockOutDetails.bStockOutId}" />
 			<table>
 				<thead>
 					<tr>
-						<th>제품명</th>
-						<th>제품 설명</th>
-						<th>출고 날짜</th>
-						<th>수정 날짜</th>
-						<th>출고 수량</th>
-						<th>출고 가격</th>
-						<th>출고 장소</th>
-						<th>담당자</th>
+						<th>택배규격</th>
+						<th>수취인</th>
+						<th>수신자번호</th>
+						<th>수신자주소</th>
+						<th>운송장번호</th>
+						<th>배송업체</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td>${itemDetails.itemName}</td>
-						<td>${itemDetails.itemDesc}</td>
-						<td><fmt:formatDate
-								value="${buyStockOutDetails.bStockOutDate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
-						<td><fmt:formatDate
-								value="${buyStockOutDetails.bStockOutUpdate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
-						<td><input type="number" name="stockIn"
-							value="${buyStockOutDetails.bStockOutQty}" required /></td>
-						<td><input type="number" name="inPrice"
-							value="${buyStockOutDetails.bStockOutPrice}" step="0.01"
-							required /></td>
-
-						<td><input list="stockPlaces" name="stockPlace"
-							value="${buyStockOutDetails.bStockOutPlace}"
-							placeholder="보관장소 선택" required /> <datalist id="stockPlaces">
-								<c:forEach var="stockPlace" items="${stockPlaces}">
-									<option value="${stockPlace}"></option>
-								</c:forEach>
+						<td><input type="text" id="spec" name="spec"
+							placeholder="극소형,소형,중형,대형,극대형" value="${deliveryDetails.spec}"
+							style="width: 175px;"></td>
+						<td><input type="text" name="recipient" placeholder="수취인"
+							value="${deliveryDetails.recipient}" /></td>
+						<td><input type="text" name="receiverId" placeholder="수신자 번호"
+							value="${deliveryDetails.receiverId}" /></td>
+						<td><input type="text" name="address" placeholder="수신자 주소"
+							value="${deliveryDetails.address}" style="width: 255px;" /></td>
+						<td><input type="text" name="waybill" placeholder="운송장번호"
+							value="${deliveryDetails.waybill}" /></td>
+						<td><input type="text" id="deliveryCompany"
+							name="deliveryCompany" list="deliveryCompanyCode"
+							placeholder="택배사 선택" value="${deliveryDetails.deliveryCompany}"
+							required> <datalist id="deliveryCompanyCode">
+								<option value="01">우체국택배</option>
+								<option value="04">CJ대한통운</option>
+								<option value="05">한진택배</option>
+								<option value="06">로젠택배</option>
+								<option value="08">롯데택배</option>
+								<option value="94">카카오 T 당일배송</option>
+								<option value="95">큐익스프레스</option>
+								<option value="11">일양로지스</option>
+								<option value="22">대신택배</option>
+								<option value="23">경동택배</option>
+								<option value="24">GS Postbox 택배</option>
+								<option value="46">CU편의점택배</option>
 							</datalist></td>
-						<td>${buyStockOutDetails.oDirector}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -221,7 +222,6 @@ th {
 		</form>
 	</div>
 </body>
-
 
 <script>
     const activeMenu = "purchaseOrders";

@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.e3i3.moduerp.employee.model.dto.Employee;
 import com.e3i3.moduerp.employee.model.service.EmployeeService;
@@ -29,10 +31,12 @@ import javax.servlet.http.HttpSession;
 public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
 
-    @Value("${admin.uuid}")
-    private String adminUUID;
-    
+	@Value("${admin.uuid}")
+	private String adminUUID;
+
 	// 로그인 페이지 반환
 	@RequestMapping("signin.do")
 	public String signInPage() {
@@ -63,8 +67,8 @@ public class EmployeeController {
 			session.setAttribute("email", employee.getEmpEmail());
 			session.setAttribute("name", employee.getEmpName());
 			session.setAttribute("departmentId", employee.getDepartmentId());
-			session.setAttribute("adminUUID", adminUUID); //세션에 개발자 uuid 넣어줌
-			
+			session.setAttribute("adminUUID", adminUUID); // 세션에 개발자 uuid 넣어줌
+
 			// 콘솔에 로그인 세션 정보 출력
 			System.out.println("로그인한 사용자의 UUID: " + session.getAttribute("uuid"));
 			System.out.println("로그인한 사용자의 사업자번호: " + session.getAttribute("biz_number"));
@@ -109,6 +113,53 @@ public class EmployeeController {
 		// 로그아웃 후 로그인 페이지로 리다이렉트
 		model.addAttribute("message", "로그아웃되었습니다.");
 		return "redirect:/"; // 로그인 페이지 URL로 리다이렉트
+	}
+
+	/* --------- 비밀번호 관리 ---------- */
+
+	@PostMapping("/updatePassword.do")
+	public String updatePassword(@RequestParam("currentPassword") String currentPassword,
+			@RequestParam("newPassword") String newPassword, @RequestParam("confirmPassword") String confirmPassword,
+			RedirectAttributes redirectAttributes, // 모델을 RedirectAttributes로 변경
+			HttpSession session) {
+
+		// 1. 현재 인증된 사용자 정보 가져오기
+		String uuid = (String) session.getAttribute("uuid");
+		Employee currentCeo = employeeService.selectEmployeeByUuid(uuid);
+
+		if (currentCeo == null) {
+			redirectAttributes.addFlashAttribute("errorMessage", "사용자를 찾을 수 없습니다.");
+			return "redirect:/passwordManagement.do";
+		}
+
+		// 3. 현재 비밀번호 확인
+		if (!bcryptPasswordEncoder.matches(currentPassword, currentCeo.getPassword())) {
+			redirectAttributes.addFlashAttribute("errorMessage", "현재 비밀번호가 일치하지 않습니다.");
+			return "redirect:/passwordManagement.do";
+		}
+
+		// 4. 새 비밀번호 유효성 검사
+		if (newPassword.length() < 8) {
+			redirectAttributes.addFlashAttribute("errorMessage", "새 비밀번호는 최소 8자리 이상이어야 합니다.");
+			return "redirect:/passwordManagement.do";
+		}
+
+		// 5. 새 비밀번호와 확인 비밀번호 일치 여부 확인
+		if (!newPassword.equals(confirmPassword)) {
+			redirectAttributes.addFlashAttribute("errorMessage", "비밀번호 확인이 일치하지 않습니다.");
+			return "redirect:/passwordManagement.do";
+		}
+
+		// 6. 새 비밀번호 암호화
+		String encodedNewPassword = bcryptPasswordEncoder.encode(newPassword);
+
+		// 7. 비밀번호 업데이트 (Service 또는 Repository를 통해)
+		currentCeo.setPassword(encodedNewPassword);
+		employeeService.updatePassword(uuid, encodedNewPassword);
+
+		// 8. 성공 메시지 전달
+		redirectAttributes.addFlashAttribute("successMessage", "비밀번호가 성공적으로 변경되었습니다.");
+		return "redirect:/passwordManagement.do";
 	}
 
 	// uuid로 직원 조회

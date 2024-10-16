@@ -1,6 +1,7 @@
 package com.e3i3.moduerp.empmgt.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.e3i3.moduerp.department.model.dto.Department;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 import com.e3i3.moduerp.empmgt.model.dto.EmpMgtDTO;
 import com.e3i3.moduerp.empmgt.service.EmpMgtService;
@@ -50,29 +52,37 @@ public class EmpMgtController {
 	@RequestMapping(value = "/empMgtFilter.do", method = RequestMethod.GET)
 	public String forwardEmpMgtFilter(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "filterOption", required = false) String option,
-			@RequestParam(value = "filterText", required = false) String filterText,
-			@RequestParam(value = "startDate", required = false) String startDate,
-			@RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
+			@RequestParam(value = "filterText", required = false) String filterText, Model model, HttpSession session) {
+
+		// 세션에서 bizNumber 가져오기
 		String bizNumber = (String) session.getAttribute("biz_number");
+
+		// 사업자 번호가 세션에 없을 경우 처리
+		if (bizNumber == null || bizNumber.isEmpty()) {
+			throw new IllegalStateException("Biz number not found in session.");
+		}
+
+		// 직원 목록 리스트 초기화
 		List<EmpMgtDTO> employeeList;
 
-		// 필터링 로직
-		if (option != null && filterText != null) {
-			if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
-				employeeList = empMgtService.getEmployeesByFilterDate(bizNumber, option, filterText, startDate,
-						endDate);
-			} else if (startDate != null && !startDate.isEmpty()) {
-				employeeList = empMgtService.getEmployeesByFilterStartDate(bizNumber, startDate);
-			} else if (endDate != null && !endDate.isEmpty()) {
-				employeeList = empMgtService.getEmployeesByFilterEndDate(bizNumber, endDate);
+		// 필터 옵션 및 텍스트 확인 후 필터링
+		if (option != null && !option.isEmpty() && filterText != null && !filterText.isEmpty()) {
+			// 로그 출력으로 필터 옵션 및 텍스트 확인
+			System.out.println("Filtering with Option: " + option + ", Filter Text: " + filterText);
+
+			// 필터 옵션에 따른 직원 목록 가져오기
+			if (option.equals("departmentName")) {
+				employeeList = empMgtService.getEmployeesByDepartmentName(bizNumber, filterText);
 			} else {
 				employeeList = empMgtService.getEmployeesByFilter(bizNumber, option, filterText);
 			}
-		} else if (startDate != null && !startDate.isEmpty()) {
-			employeeList = empMgtService.getEmployeesByFilterStartDate(bizNumber, startDate);
-		} else if (endDate != null && !endDate.isEmpty()) {
-			employeeList = empMgtService.getEmployeesByFilterEndDate(bizNumber, endDate);
+
+			// 만약 필터 결과가 없다면 기본 직원 목록을 조회하도록 처리
+			if (employeeList == null || employeeList.isEmpty()) {
+				employeeList = empMgtService.getEmployeesByBizNumber(bizNumber);
+			}
 		} else {
+			// 필터 옵션이 없거나 텍스트가 비어있으면 기본 직원 목록 조회
 			employeeList = empMgtService.getEmployeesByBizNumber(bizNumber);
 		}
 
@@ -84,49 +94,54 @@ public class EmpMgtController {
 		int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
 		List<EmpMgtDTO> paginatedList = employeeList.subList(startIndex, endIndex);
 
+		// 모델에 필요한 데이터 추가
 		model.addAttribute("employeeList", paginatedList);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("option", option);
 		model.addAttribute("filterText", filterText);
-		model.addAttribute("startDate", startDate);
-		model.addAttribute("endDate", endDate);
-		System.out.println("Option: " + option);
-		System.out.println("Filter Text: " + filterText);
-
-
-
 		return "empMgt/empMgtFilter";
 	}
 
 	@RequestMapping(value = "/employeeCreate.do", method = RequestMethod.GET)
 	public String showCreateEmployeeForm(Model model, HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
-		String uuid = (String) session.getAttribute("uuid");
 
+		// 부서 목록 가져오기
+		List<Department> departmentList = empMgtService.getAllDepartments();
+
+		// UUID 생성 또는 설정
+		String uuid = UUID.randomUUID().toString(); // UUID를 새로 생성합니다.
+
+		// 추가 데이터 로드
 		List<String> empNames = empMgtService.getEmpNamesByBizNumber(bizNumber);
-		List<String> departmentIds = empMgtService.getDepartmentIdsByBizNumber(bizNumber);
 		List<Employee> empNameDepart = empMgtService.getEmpNameDepart(bizNumber);
 		List<EmpMgtDTO> employees = empMgtService.getEmployeesByBizNumber(bizNumber);
 
+		// 모델에 추가
+		model.addAttribute("departmentList", departmentList);
 		model.addAttribute("empNames", empNames);
-		model.addAttribute("departmentIds", departmentIds);
 		model.addAttribute("employees", employees);
 		model.addAttribute("empNameDepart", empNameDepart);
+		model.addAttribute("uuid", uuid);
 
-		return "empMgt/employeeCreate";
+		return "empMgt/empMgtCreate"; // 생성 폼 뷰 반환
 	}
 
 	@PostMapping("/employeeCreate.do")
-	public String employeeCreate(@RequestParam("empNo") String empNo, @RequestParam("empName") String empName,
+	public String employeeCreate(@RequestParam("empName") String empName,
 			@RequestParam("departmentId") String departmentId, @RequestParam("jobId") String jobId,
 			@RequestParam("email") String email, @RequestParam("phone") String phone,
-			@RequestParam("address") String address, Model model, HttpSession session) {
+			@RequestParam("address") String address, @RequestParam("privateAuthority") String privateAuthority, // 권한
+			Model model, HttpSession session) {
 
 		String bizNumber = (String) session.getAttribute("biz_number");
 
+		// 승인 코드를 가져오는 로직
+		String approvalCode = empMgtService.getApprovalCodeByBizNumber(bizNumber);
+
 		EmpMgtDTO empMgtDTO = new EmpMgtDTO();
-		empMgtDTO.setEmpNo(empNo);
+		empMgtDTO.setUuid(UUID.randomUUID().toString()); 				// UUID 자동 생성
 		empMgtDTO.setEmpName(empName);
 		empMgtDTO.setDepartmentId(departmentId);
 		empMgtDTO.setJobId(jobId);
@@ -134,6 +149,8 @@ public class EmpMgtController {
 		empMgtDTO.setPhone(phone);
 		empMgtDTO.setAddress(address);
 		empMgtDTO.setBizNumber(bizNumber);
+		empMgtDTO.setPrivateAuthority(privateAuthority); 				// 권한 설정
+		empMgtDTO.setApprovalCode(approvalCode); 						// 승인 코드 설정
 
 		empMgtService.createEmployee(empMgtDTO);
 
@@ -141,37 +158,41 @@ public class EmpMgtController {
 	}
 
 	@GetMapping("getEmployeeDetails.do")
-	public String getEmployeeDetail(@RequestParam("empNo") String empNo, Model model) {
-		EmpMgtDTO employeeDetail = empMgtService.getEmployeeDetail(empNo);
+	public String getEmployeeDetail(@RequestParam("uuid") String uuid, Model model) {
+		EmpMgtDTO employeeDetail = empMgtService.getEmployeeDetailByUUID(uuid);
 		model.addAttribute("employeeDetail", employeeDetail);
-		return "empmgt/employeeDetail";
+		return "empMgt/empMgtDetail";
 	}
 
 	@GetMapping("employeeDetailUpdate.do")
-	public String employeeDetailUpdate(@RequestParam("empNo") String empNo, Model model, HttpSession session) {
-		EmpMgtDTO employeeDetail = empMgtService.getEmployeeDetail(empNo);
+	public String employeeDetailUpdate(@RequestParam("uuid") String uuid, Model model, HttpSession session) {
+		EmpMgtDTO employeeDetail = empMgtService.getEmployeeDetailByUUID(uuid);
 		String bizNumber = (String) session.getAttribute("biz_number");
 
 		List<Employee> empNameDepart = empMgtService.getEmpNameDepart(bizNumber);
 		List<EmpMgtDTO> employees = empMgtService.getEmployeesByBizNumber(bizNumber);
 
+		// 부서 리스트 가져오기
+		List<Department> departmentList = empMgtService.getAllDepartments(); // 모든 부서 리스트 가져오기
+
 		model.addAttribute("employees", employees);
 		model.addAttribute("empNameDepart", empNameDepart);
 		model.addAttribute("employeeDetail", employeeDetail);
+		model.addAttribute("departmentList", departmentList); // 부서 리스트 추가
 
-		return "empmgt/employeeDetailUpdate";
+		return "empMgt/empMgtDetailUpdate";
 	}
 
 	@PostMapping("/updateEmployee.do")
-	public String updateEmployee(@RequestParam("empNo") String empNo, @RequestParam("empName") String empName,
-			@RequestParam("departmentId") String departmentId, @RequestParam("jobId") String jobId,
-			@RequestParam("email") String email, @RequestParam("phone") String phone,
-			@RequestParam("address") String address) {
+	public String updateEmployee(@RequestParam("uuid") String uuid, @RequestParam("empName") String empName,
+			@RequestParam("departmentId") String departmentId, // departmentId 사용
+			@RequestParam("jobId") String jobId, @RequestParam("email") String email,
+			@RequestParam("phone") String phone, @RequestParam("address") String address) {
 
 		EmpMgtDTO empMgtDTO = new EmpMgtDTO();
-		empMgtDTO.setEmpNo(empNo);
+		empMgtDTO.setUuid(uuid);
 		empMgtDTO.setEmpName(empName);
-		empMgtDTO.setDepartmentId(departmentId);
+		empMgtDTO.setDepartmentId(departmentId); // departmentId 설정
 		empMgtDTO.setJobId(jobId);
 		empMgtDTO.setEmail(email);
 		empMgtDTO.setPhone(phone);
@@ -183,8 +204,8 @@ public class EmpMgtController {
 	}
 
 	@PostMapping("/deleteEmployee.do")
-	public String deleteEmployee(@RequestParam("empNo") String empNo, HttpSession session) {
-		empMgtService.deleteEmployeeByEmpNo(empNo);
+	public String deleteEmployee(@RequestParam("uuid") String uuid, HttpSession session) {
+		empMgtService.deleteEmployeeByUUID(uuid);
 		return "redirect:/empMgt.do";
 	}
 }

@@ -201,7 +201,6 @@ th {
 				onclick="if(confirm('정말로 삭제하시겠습니까?')) location.href='${pageContext.request.contextPath}/finCloseDelete.do?closingId=${finClose.closingId}'">삭제</button>
 		</div>
 	</div>
-</body>
 
 <script>
     const activeMenu = "bankmg";
@@ -215,5 +214,6 @@ th {
         });
     });
 </script>
+</body>
 
 </html>

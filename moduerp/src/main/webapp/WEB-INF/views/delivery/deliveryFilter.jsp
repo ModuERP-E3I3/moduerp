@@ -178,16 +178,18 @@ tbody tr:hover {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
-			<li><a href="buyStockOut.do"><i class="fas fa-clipboard"></i> 구매 출고</a></li>
-			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
+		 <li><a href="purchaseOrders.do"><i class="fas fa-bullhorn"></i> 발주서 관리</a></li>
+		 <li><a href="buyStockIn.do"><i class="fa-solid fa-bag-shopping"></i> 구매 입고</a></li>
+         <li><a href="buyStockOut.do"><i class="fa-solid fa-truck-ramp-box"></i> 구매 출고</a></li>
+         <li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
+		</ul>
 	</div>
 
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">구매관리 | 구매입고</div>
-		<form action="/moduerp/buyStockInFilter.do">
+		<div class="content-title">구매관리 | 배송조회</div>
+		<form action="/moduerp/deliveryFilter.do">
 			<!-- 필터 박스 -->
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
@@ -304,7 +306,7 @@ tbody tr:hover {
 
 
 <script>
-    const activeMenu = "buyStockIn";
+    const activeMenu = "purchaseOrders";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');

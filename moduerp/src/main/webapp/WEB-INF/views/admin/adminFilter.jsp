@@ -57,6 +57,14 @@ tr:hover {
 	background-color: #f1f1f1;
 }
 
+.btn {
+	padding: 8px 16px;
+	margin-left: 5px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
 .filter-box {
 	margin-bottom: 20px;
 }
@@ -74,14 +82,6 @@ tr:hover {
 
 .filter-options {
 	margin-bottom: 10px;
-}
-
-.btn {
-	padding: 8px 16px;
-	margin-left: 5px;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
 }
 
 #pagebutton {
@@ -131,13 +131,18 @@ footer {
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
 					<option disabled selected>옵션 선택</option>
-					<option value="bizNumber">사업자 번호</option>
-					<option value="empName">사원명</option>
-					<option value="empEmail">사원 이메일</option>
-					<option value="uuid">UUID</option>
-				</select> <input type="date" name="startDate" id="startDate" /> <input
-					type="date" name="endDate" id="endDate" /> <input type="text"
-					name="filterText" id="filterText" placeholder="내용 입력" />
+					<option value="bizNumber"
+						${option == '"bizNumber"' ? 'selected' : ''}>사업자 번호</option>
+					<option value="empName" ${option == '"empName"' ? 'selected' : ''}>사원명</option>
+					<option value="empEmail"
+						${option == '"empEmail"' ? 'selected' : ''}>사원 이메일</option>
+					<option value="uuid" ${option == '"uuid"' ? 'selected' : ''}>UUID</option>
+				</select> <input type="date" name="startDate" id="startDate"
+					value="${startDate != null && startDate.length() >= 10 ? startDate.substring(0, 10) : ''}" />
+				<input type="date" name="endDate" id="endDate"
+					value="${endDate != null && endDate.length() >= 10 ? endDate.substring(0, 10) : ''}" />
+				<input type="text" name="filterText" id="filterText"
+					placeholder="내용 입력" value="${filterText != null ? filterText : ''}" />
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
 					onclick="window.location.href='admin.do';">초기화</button>
@@ -183,7 +188,8 @@ footer {
 							<!-- 현재 페이지는 강조 -->
 						</c:when>
 						<c:otherwise>
-							<a href="admin.do?page=${i}">${i}</a>
+							<a
+								href="admin.do?page=${i}&filterOption=${option}&filterText=${filterText}&startDate=${startDate}&endDate=${endDate}">${i}</a>
 							<!-- 페이지 링크 -->
 						</c:otherwise>
 					</c:choose>

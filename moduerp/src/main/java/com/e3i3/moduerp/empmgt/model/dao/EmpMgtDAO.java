@@ -1,9 +1,9 @@
 package com.e3i3.moduerp.empmgt.model.dao;
 
 import java.util.List;
-
 import com.e3i3.moduerp.employee.model.dto.Employee;
 import com.e3i3.moduerp.empmgt.model.dto.EmpMgtDTO;
+import com.e3i3.moduerp.department.model.dto.Department; // 부서 DTO 임포트
 
 public interface EmpMgtDAO {
 
@@ -25,33 +25,26 @@ public interface EmpMgtDAO {
     // 부서 및 직급 정보를 함께 가져오기
     List<Employee> getEmpNameDepart(String bizNumber);
 
-    // 사번으로 직원 상세 정보 가져오기
-    EmpMgtDTO selectEmployeeByEmpNo(String empNo);
+    // UUID로 직원 상세 정보 가져오기
+    EmpMgtDTO selectEmployeeByUUID(String uuid);
 
     // 직원 정보 수정
     void updateEmployee(EmpMgtDTO empMgtDTO);
 
-    // 사번으로 직원 삭제
-    void deleteEmployeeByEmpNo(String empNo);
+    // UUID로 직원 삭제
+    void deleteEmployeeByUUID(String uuid);
 
     // -----------------------------------------------
     // 직원 필터링
-    List<EmpMgtDTO> getEmployeesByEmpNameDate(String bizNumber, String filterText, String startDate, String endDate);
-
-    List<EmpMgtDTO> getEmployeesByDepartmentIdDate(String bizNumber, String filterText, String startDate, String endDate);
-
-    List<EmpMgtDTO> getEmployeesByJobIdDate(String bizNumber, String filterText, String startDate, String endDate);
-
     List<EmpMgtDTO> getEmployeesByEmpName(String bizNumber, String filterText);
 
-    List<EmpMgtDTO> getEmployeesByDepartmentId(String bizNumber, String filterText);
+    List<EmpMgtDTO> getEmployeesByDepartmentName(String bizNumber, String filterText);
 
     List<EmpMgtDTO> getEmployeesByJobId(String bizNumber, String filterText);
 
-    // 날짜 데이터만 조회할 경우
-    List<EmpMgtDTO> getEmployeesByFilterOnlyDate(String bizNumber, String startDate, String endDate);
+    // 모든 부서 목록 가져오기
+    List<Department> getAllDepartments();
 
-    List<EmpMgtDTO> getEmployeesByFilterStartDate(String bizNumber, String startDate);
-
-    List<EmpMgtDTO> getEmployeesByFilterEndDate(String bizNumber, String endDate);
+    // ** bizNumber로 approvalCode 가져오기 **
+    String getApprovalCodeByBizNumber(String bizNumber);
 }

@@ -92,6 +92,13 @@
 		WHERE biz_number = #{bizNumber}
 		AND department_id = #{departmentId}
 	</select>
+	
+	  <!-- 비밀번호 업데이트 쿼리 -->
+    <update id="updatePassword" parameterType="map">
+        UPDATE employee
+        SET password = #{password}
+        WHERE uuid = #{uuid}
+    </update>
 
 
 
@@ -179,7 +186,7 @@
 		SELECT * FROM employee WHERE biz_number = #{bizNumber}
 	</select>
 
-	<!-- 모든 직원 조회용 쿼리 -->
+	<!-- 모든 직원 조회용 쿼리 --> 
 	<select id="selectAllEmployees"
 		resultType="com.e3i3.moduerp.employee.model.dto.Employee">
 		SELECT * FROM employee
@@ -199,6 +206,7 @@
 		approval_code = #{approvalCode}
 		AND is_deleted = 'N'
 	</select>
+
 
 
 </mapper>

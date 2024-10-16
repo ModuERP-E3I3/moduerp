@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -53,6 +54,76 @@ public class QnaController {
 		model.addAttribute("currentPage", page);
 		
 		return "qna/qna";
+	}
+	
+	@RequestMapping(value = "/qnaFilter.do", method = RequestMethod.GET)
+	public String forwardQnaFilter(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "filterOption", required = false) String option,
+			@RequestParam(value = "filterText", required = false) String filterText,
+			@RequestParam(value = "startDate", required = false) String startDate,
+			@RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
+
+		List<QnaDto> qnaList = QnaService.getAllQna();
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+		// startDate의 시분초 기본값 설정 (00:00:00)
+	    if (startDate != null && !startDate.isEmpty()) {
+	        LocalDateTime startDateTime = LocalDateTime.parse(startDate + " 00:00:00", formatter);
+	        startDate = startDateTime.format(formatter);  // 포맷된 문자열로 변환
+	    }
+
+	    // endDate의 시분초 기본값 설정 (23:59:59)
+	    if (endDate != null && !endDate.isEmpty()) {
+	        LocalDateTime endDateTime = LocalDateTime.parse(endDate + " 23:59:59", formatter);
+	        endDate = endDateTime.format(formatter);  // 포맷된 문자열로 변환
+	    }
+	    
+	    if (option != null && filterText != null) {
+			if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+				System.out.println("날짜있는거 실행");
+				qnaList = QnaService.getQnaByFilterDate(option, filterText, startDate, endDate);
+			} else if (startDate == null || startDate.isEmpty()) {
+				System.out.println("날짜없는거 실행");
+				qnaList = QnaService.getQnaByFilter(option, filterText);
+			} else {
+				System.out.println("실행 못함");
+				qnaList = QnaService.getAllQna();
+			}
+		} else if ((option == null || filterText == null || filterText.isEmpty()) 
+		        && startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+		    System.out.println("필터 텍스트 없이 날짜만 있는 경우 실행");
+		    qnaList = QnaService.getQnaByFilterOnlyDate(startDate, endDate);
+		} else if ((option == null || filterText == null || filterText.isEmpty()) 
+		        && startDate != null && !startDate.isEmpty()) {
+		    System.out.println("startDate만 있는 경우 실행");
+		    qnaList = QnaService.getQnaByFilterStartDate(startDate);
+		} else if ((option == null || filterText == null || filterText.isEmpty()) 
+		        && endDate != null && !endDate.isEmpty()) {
+		    System.out.println("endDate만 있는 경우 실행");
+		    qnaList = QnaService.getQnaByFilterEndDate(endDate);
+		} else {
+		    System.out.println("기본 전체 조회 실행");
+		    qnaList = QnaService.getAllQna();
+		}
+	    
+	    int qnaPerPage = 10;
+		int totalQna = qnaList.size();
+		int totalPages = (int) Math.ceil((double) totalQna / qnaPerPage);
+		int startIndex = (page - 1) * qnaPerPage;
+		int endIndex = Math.min(startIndex + qnaPerPage, totalQna);
+		
+		List<QnaDto> paginatedList = qnaList.subList(startIndex, endIndex);
+		
+		model.addAttribute("qnaList", paginatedList);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("option", option);
+		model.addAttribute("filterText", filterText);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
+		
+		return "qna/qnaFilter";
 	}
 	
 	@RequestMapping(value = "/qnaCreate.do", method = RequestMethod.GET)

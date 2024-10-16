@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 import com.e3i3.moduerp.empmgt.model.dao.EmpMgtDAO;
 import com.e3i3.moduerp.empmgt.model.dto.EmpMgtDTO;
+import com.e3i3.moduerp.department.model.dto.Department; // 부서 DTO 임포트
 
 @Service
 public class EmpMgtServiceImpl implements EmpMgtService {
@@ -46,58 +47,54 @@ public class EmpMgtServiceImpl implements EmpMgtService {
     }
 
     @Override
-    public EmpMgtDTO getEmployeeDetail(String empNo) {
-        return empMgtDao.selectEmployeeByEmpNo(empNo);
-    }
-
-    @Override
     public void updateEmployee(EmpMgtDTO empMgtDTO) {
         empMgtDao.updateEmployee(empMgtDTO);
     }
 
     @Override
-    public void deleteEmployeeByEmpNo(String empNo) {
-        empMgtDao.deleteEmployeeByEmpNo(empNo);
+    public void deleteEmployeeByUUID(String uuid) {
+        empMgtDao.deleteEmployeeByUUID(uuid);
+    }
+
+    @Override
+    public EmpMgtDTO getEmployeeDetailByUUID(String uuid) {
+        return empMgtDao.selectEmployeeByUUID(uuid);
     }
 
     // 필터 관련 메서드
     @Override
-    public List<EmpMgtDTO> getEmployeesByFilterDate(String bizNumber, String option, String filterText, String startDate, String endDate) {
-        if (option.equals("empName")) {
-            return empMgtDao.getEmployeesByEmpNameDate(bizNumber, filterText, startDate, endDate);
-        } else if (option.equals("departmentId")) {
-            return empMgtDao.getEmployeesByDepartmentIdDate(bizNumber, filterText, startDate, endDate);
-        } else if (option.equals("jobId")) {
-            return empMgtDao.getEmployeesByJobIdDate(bizNumber, filterText, startDate, endDate);
-        }
-
-        return null;
-    }
-
-    @Override
     public List<EmpMgtDTO> getEmployeesByFilter(String bizNumber, String option, String filterText) {
         if (option.equals("empName")) {
             return empMgtDao.getEmployeesByEmpName(bizNumber, filterText);
-        } else if (option.equals("departmentId")) {
-            return empMgtDao.getEmployeesByDepartmentId(bizNumber, filterText);
+        } else if (option.equals("departmentName")) { // 부서명 필터 추가
+            return empMgtDao.getEmployeesByDepartmentName(bizNumber, filterText); // 부서명으로 필터링
         } else if (option.equals("jobId")) {
-            return empMgtDao.getEmployeesByJobId(bizNumber, filterText);
+            return getEmployeesByJobId(bizNumber, filterText);
         }
         return null;
     }
 
+    // 직급 ID로 직원 목록 가져오기
     @Override
-    public List<EmpMgtDTO> getEmployeesByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
-        return empMgtDao.getEmployeesByFilterOnlyDate(bizNumber, startDate, endDate);
+    public List<EmpMgtDTO> getEmployeesByJobId(String bizNumber, String jobId) {
+        return empMgtDao.getEmployeesByJobId(bizNumber, jobId);
     }
 
     @Override
-    public List<EmpMgtDTO> getEmployeesByFilterStartDate(String bizNumber, String startDate) {
-        return empMgtDao.getEmployeesByFilterStartDate(bizNumber, startDate);
+    public List<EmpMgtDTO> getEmployeesByDepartmentName(String bizNumber, String departmentName) {
+        return empMgtDao.getEmployeesByDepartmentName(bizNumber, departmentName);
     }
 
+    
+    // 모든 부서 목록 가져오기
     @Override
-    public List<EmpMgtDTO> getEmployeesByFilterEndDate(String bizNumber, String endDate) {
-        return empMgtDao.getEmployeesByFilterEndDate(bizNumber, endDate);
+    public List<Department> getAllDepartments() {
+        return empMgtDao.getAllDepartments();  // 부서 목록을 가져오는 DAO 호출
+    }
+
+    // **bizNumber로 approvalCode 가져오기**
+    @Override
+    public String getApprovalCodeByBizNumber(String bizNumber) {
+        return empMgtDao.getApprovalCodeByBizNumber(bizNumber);  // approvalCode 가져오는 DAO 호출
     }
 }

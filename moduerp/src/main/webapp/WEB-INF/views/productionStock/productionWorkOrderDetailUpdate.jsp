@@ -236,13 +236,13 @@ th {
 					<tr>
 						<td>${workOrderDetails.itemName}</td>
 						<td><input type="text" name="taskName"
-							value="${workOrderDetails.taskName}" /></td>
+							value="${workOrderDetails.taskName}" required /></td>
 						<td><input type="date" name="startDate"
-							value="<fmt:formatDate value='${workOrderDetails.startDate}' pattern='yyyy-MM-dd' />" /></td>
+							value="<fmt:formatDate value='${workOrderDetails.startDate}' pattern='yyyy-MM-dd' required />" /></td>
 						<td><input type="date" name="endExDate"
-							value="<fmt:formatDate value='${workOrderDetails.endExDate}' pattern='yyyy-MM-dd' />" /></td>
+							value="<fmt:formatDate value='${workOrderDetails.endExDate}' pattern='yyyy-MM-dd' required />" /></td>
 						<td><input type="number" name="qty"
-							value="${workOrderDetails.qty}" /></td>
+							value="${workOrderDetails.qty}" required /></td>
 					</tr>
 				</tbody>
 				<thead>
