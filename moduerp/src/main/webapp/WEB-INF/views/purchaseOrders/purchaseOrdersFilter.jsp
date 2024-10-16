@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -188,7 +189,7 @@ tbody tr:hover {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">구매관리 | 구매입고</div>
+		<div class="content-title">구매관리 | 발주서관리</div>
 		<form action="/moduerp/purchaseOrdersFilter.do">
 			<!-- 필터 박스 -->
 			<div class="filter-box">
@@ -248,7 +249,7 @@ tbody tr:hover {
 						<!-- 수량 -->
 						<td>${purchaseOrder.supplyPrice}</td>
 						<!-- 발주금액 -->
-						<td>${purchaseOrder.deliveryDate}</td>
+						<td><fmt:formatDate value="${purchaseOrder.deliveryDate}" pattern="yyyy-MM-dd" /></td>
 						<!-- 납품일 -->
 						<td>${purchaseOrder.oDirector}</td>
 						<!-- 담당자명 -->
@@ -322,7 +323,7 @@ tbody tr:hover {
 
 
 <script>
-    const activeMenu = "account";
+    const activeMenu = "purchaseOrders";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');
