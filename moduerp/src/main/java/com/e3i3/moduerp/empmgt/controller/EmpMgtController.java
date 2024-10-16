@@ -51,13 +51,32 @@ public class EmpMgtController {
 	public String forwardEmpMgtFilter(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "filterOption", required = false) String option,
 			@RequestParam(value = "filterText", required = false) String filterText, Model model, HttpSession session) {
+
+		// 세션에서 bizNumber 가져오기
 		String bizNumber = (String) session.getAttribute("biz_number");
+
+		// 사업자 번호가 세션에 없을 경우 처리
+		if (bizNumber == null || bizNumber.isEmpty()) {
+			throw new IllegalStateException("Biz number not found in session.");
+		}
+
+		// 직원 목록 리스트 초기화
 		List<EmpMgtDTO> employeeList;
 
-		// 필터링 로직 (날짜 필터 제거)
-		if (option != null && filterText != null) {
+		// 필터 옵션 및 텍스트 확인 후 필터링
+		if (option != null && !option.isEmpty() && filterText != null && !filterText.isEmpty()) {
+			// 로그 출력으로 필터 옵션 및 텍스트 확인
+			System.out.println("Filtering with Option: " + option + ", Filter Text: " + filterText);
+
+			// 필터 옵션에 따른 직원 목록 가져오기
 			employeeList = empMgtService.getEmployeesByFilter(bizNumber, option, filterText);
+
+			// 만약 필터 결과가 없다면 기본 직원 목록을 조회하도록 처리
+			if (employeeList == null || employeeList.isEmpty()) {
+				employeeList = empMgtService.getEmployeesByBizNumber(bizNumber);
+			}
 		} else {
+			// 필터 옵션이 없거나 텍스트가 비어있으면 기본 직원 목록 조회
 			employeeList = empMgtService.getEmployeesByBizNumber(bizNumber);
 		}
 
@@ -69,23 +88,19 @@ public class EmpMgtController {
 		int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
 		List<EmpMgtDTO> paginatedList = employeeList.subList(startIndex, endIndex);
 
+		// 모델에 필요한 데이터 추가
 		model.addAttribute("employeeList", paginatedList);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("option", option);
 		model.addAttribute("filterText", filterText);
 
-		System.out.println("Option: " + option);
-		System.out.println("Filter Text: " + filterText);
-
 		return "empMgt/empMgtFilter";
 	}
 
-	
 	@RequestMapping(value = "/employeeCreate.do", method = RequestMethod.GET)
 	public String showCreateEmployeeForm(Model model, HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
-		String uuid = (String) session.getAttribute("uuid");
 
 		List<String> empNames = empMgtService.getEmpNamesByBizNumber(bizNumber);
 		List<String> departmentIds = empMgtService.getDepartmentIdsByBizNumber(bizNumber);
@@ -97,11 +112,11 @@ public class EmpMgtController {
 		model.addAttribute("employees", employees);
 		model.addAttribute("empNameDepart", empNameDepart);
 
-		return "empMgt/employeeCreate";
+		return "empMgt/empMgtCreate";
 	}
 
 	@PostMapping("/employeeCreate.do")
-	public String employeeCreate(@RequestParam("empNo") String empNo, @RequestParam("empName") String empName,
+	public String employeeCreate(@RequestParam("uuid") String uuid, @RequestParam("empName") String empName,
 			@RequestParam("departmentId") String departmentId, @RequestParam("jobId") String jobId,
 			@RequestParam("email") String email, @RequestParam("phone") String phone,
 			@RequestParam("address") String address, Model model, HttpSession session) {
@@ -109,7 +124,7 @@ public class EmpMgtController {
 		String bizNumber = (String) session.getAttribute("biz_number");
 
 		EmpMgtDTO empMgtDTO = new EmpMgtDTO();
-		empMgtDTO.setEmpNo(empNo);
+		empMgtDTO.setUuid(uuid);
 		empMgtDTO.setEmpName(empName);
 		empMgtDTO.setDepartmentId(departmentId);
 		empMgtDTO.setJobId(jobId);
@@ -124,15 +139,15 @@ public class EmpMgtController {
 	}
 
 	@GetMapping("getEmployeeDetails.do")
-	public String getEmployeeDetail(@RequestParam("empNo") String empNo, Model model) {
-		EmpMgtDTO employeeDetail = empMgtService.getEmployeeDetail(empNo);
+	public String getEmployeeDetail(@RequestParam("uuid") String uuid, Model model) {
+		EmpMgtDTO employeeDetail = empMgtService.getEmployeeDetailByUUID(uuid);
 		model.addAttribute("employeeDetail", employeeDetail);
-		return "empmgt/employeeDetail";
+		return "empMgt/empMgtDetail";
 	}
 
 	@GetMapping("employeeDetailUpdate.do")
-	public String employeeDetailUpdate(@RequestParam("empNo") String empNo, Model model, HttpSession session) {
-		EmpMgtDTO employeeDetail = empMgtService.getEmployeeDetail(empNo);
+	public String employeeDetailUpdate(@RequestParam("uuid") String uuid, Model model, HttpSession session) {
+		EmpMgtDTO employeeDetail = empMgtService.getEmployeeDetailByUUID(uuid);
 		String bizNumber = (String) session.getAttribute("biz_number");
 
 		List<Employee> empNameDepart = empMgtService.getEmpNameDepart(bizNumber);
@@ -142,17 +157,17 @@ public class EmpMgtController {
 		model.addAttribute("empNameDepart", empNameDepart);
 		model.addAttribute("employeeDetail", employeeDetail);
 
-		return "empmgt/employeeDetailUpdate";
+		return "empMgt/empMgtDetailUpdate";
 	}
 
 	@PostMapping("/updateEmployee.do")
-	public String updateEmployee(@RequestParam("empNo") String empNo, @RequestParam("empName") String empName,
+	public String updateEmployee(@RequestParam("uuid") String uuid, @RequestParam("empName") String empName,
 			@RequestParam("departmentId") String departmentId, @RequestParam("jobId") String jobId,
 			@RequestParam("email") String email, @RequestParam("phone") String phone,
 			@RequestParam("address") String address) {
 
 		EmpMgtDTO empMgtDTO = new EmpMgtDTO();
-		empMgtDTO.setEmpNo(empNo);
+		empMgtDTO.setUuid(uuid);
 		empMgtDTO.setEmpName(empName);
 		empMgtDTO.setDepartmentId(departmentId);
 		empMgtDTO.setJobId(jobId);
@@ -166,8 +181,8 @@ public class EmpMgtController {
 	}
 
 	@PostMapping("/deleteEmployee.do")
-	public String deleteEmployee(@RequestParam("empNo") String empNo, HttpSession session) {
-		empMgtService.deleteEmployeeByEmpNo(empNo);
+	public String deleteEmployee(@RequestParam("uuid") String uuid, HttpSession session) {
+		empMgtService.deleteEmployeeByUUID(uuid);
 		return "redirect:/empMgt.do";
 	}
 }

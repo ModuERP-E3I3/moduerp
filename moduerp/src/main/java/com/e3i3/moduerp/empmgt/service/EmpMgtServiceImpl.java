@@ -45,10 +45,6 @@ public class EmpMgtServiceImpl implements EmpMgtService {
         return empMgtDao.getEmpNameDepart(bizNumber);
     }
 
-    @Override
-    public EmpMgtDTO getEmployeeDetail(String empNo) {
-        return empMgtDao.selectEmployeeByEmpNo(empNo);
-    }
 
     @Override
     public void updateEmployee(EmpMgtDTO empMgtDTO) {
@@ -56,8 +52,13 @@ public class EmpMgtServiceImpl implements EmpMgtService {
     }
 
     @Override
-    public void deleteEmployeeByEmpNo(String empNo) {
-        empMgtDao.deleteEmployeeByEmpNo(empNo);
+    public void deleteEmployeeByUUID(String uuid) {
+        empMgtDao.deleteEmployeeByUUID(uuid);
+    }
+    
+    @Override
+    public EmpMgtDTO getEmployeeDetailByUUID(String uuid) {
+        return empMgtDao.selectEmployeeByUUID(uuid);
     }
 
     // 필터 관련 메서드
@@ -65,15 +66,23 @@ public class EmpMgtServiceImpl implements EmpMgtService {
     public List<EmpMgtDTO> getEmployeesByFilter(String bizNumber, String option, String filterText) {
         if (option.equals("empName")) {
             return empMgtDao.getEmployeesByEmpName(bizNumber, filterText);
-        } 
-        else if (option.equals("departmentId")) {
-            return empMgtDao.getEmployeesByDepartmentId(bizNumber, filterText);
-        } 
-        else if (option.equals("jobId")) {
-            return empMgtDao.getEmployeesByJobId(bizNumber, filterText);
+        } else if (option.equals("departmentId")) {
+            return getEmployeesByDepartmentId(bizNumber, filterText);
+        } else if (option.equals("jobId")) {
+            return getEmployeesByJobId(bizNumber, filterText);
         }
         return null;
     }
 
+    // 부서 ID로 직원 목록 가져오기
+    @Override
+    public List<EmpMgtDTO> getEmployeesByDepartmentId(String bizNumber, String departmentId) {
+        return empMgtDao.getEmployeesByDepartmentId(bizNumber, departmentId);
+    }
 
+    // 직급 ID로 직원 목록 가져오기
+    @Override
+    public List<EmpMgtDTO> getEmployeesByJobId(String bizNumber, String jobId) {
+        return empMgtDao.getEmployeesByJobId(bizNumber, jobId);
+    }
 }

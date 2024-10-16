@@ -25,20 +25,21 @@ public interface EmpMgtService {
     // 부서와 직급 정보를 함께 가져오기
     List<Employee> getEmpNameDepart(String bizNumber);
 
-    // 사번으로 직원 상세 정보 가져오기
-    EmpMgtDTO getEmployeeDetail(String empNo);
+    // UUID로 직원 상세 정보 가져오기
+    EmpMgtDTO getEmployeeDetailByUUID(String uuid);
 
     // 직원 정보 수정
     void updateEmployee(EmpMgtDTO empMgtDTO);
 
-    // 사번으로 직원 삭제
-    void deleteEmployeeByEmpNo(String empNo);
-    
+    // UUID로 직원 삭제
+    void deleteEmployeeByUUID(String uuid);
 
     // 필터에 따른 직원 목록 가져오기
     List<EmpMgtDTO> getEmployeesByFilter(String bizNumber, String option, String filterText);
 
-    
-    
-    
+    // 부서 ID로 직원 목록 가져오기
+    List<EmpMgtDTO> getEmployeesByDepartmentId(String bizNumber, String departmentId);
+
+    // 직급 ID로 직원 목록 가져오기
+    List<EmpMgtDTO> getEmployeesByJobId(String bizNumber, String jobId);
 }
