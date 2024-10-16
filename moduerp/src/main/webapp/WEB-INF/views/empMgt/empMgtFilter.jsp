@@ -192,8 +192,8 @@ tbody tr:hover {
 				<select name="filterOption" id="filterOption">
 					<option disabled selected>옵션 선택</option>
 					<option value="empName" ${option == 'empName' ? 'selected' : ''}>직원명</option>
-					<option value="departmentId"
-						${option == 'departmentId' ? 'selected' : ''}>부서코드</option>
+					<option value="departmentName"
+						${option == 'departmentName' ? 'selected' : ''}>부서명</option>
 					<option value="jobId" ${option == 'jobId' ? 'selected' : ''}>직급</option>
 				</select> <input type="text" name="filterText" id="filterText"
 					placeholder="검색어 입력"
@@ -209,29 +209,27 @@ tbody tr:hover {
 			<thead>
 				<tr>
 					<th>순번</th>
-					<th>부서코드</th>
+					<th>부서명</th>
 					<th>직급</th>
-					<th>사번</th>
 					<th>직원명</th>
 					<th>이메일</th>
 					<th>전화번호</th>
 					<th>주소</th>
-					<th>테스트용</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="employee" items="${employeeList}" varStatus="status">
 					<tr
-						onclick="window.location.href='getEmployeeDetails.do?empNo=${employee.empNo}'">
+						onclick="window.location.href='getEmployeeDetails.do?uuid=${employee.uuid}'">
+						
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						<td>${employee.departmentId}</td>
+						
+						<td>${employee.departmentName}</td>
 						<td>${employee.jobId}</td>
-						<td>${employee.empNo}</td>
 						<td>${employee.empName}</td>
 						<td>${employee.email}</td>
 						<td>${employee.phone}</td>
 						<td>${employee.address}</td>
-						<td>${employee.bizNumber}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
