@@ -221,25 +221,25 @@ tbody tr:hover {
 					<tr>
 
 						<td><input type="text" name="accountName"
-							placeholder="거래처명 입력" /></td>
+							placeholder="거래처명 입력" required/></td>
 
 						<td><input type="text" name="businessType"
-							placeholder="업태 입력" /></td>
+							placeholder="업태 입력" required /></td>
 
 						<td><input type="text" name="bossName"
-							placeholder="대표자명 입력" /></td>
+							placeholder="대표자명 입력" required/></td>
 
 						<td><input type="text" name="businessNumber"
-							placeholder="사업자번호" /></td>
+							placeholder="사업자번호" required/></td>
 
 						<td><input type="text" name="accountAddress"
-							placeholder="주소 입력" /></td>
+							placeholder="주소 입력" required/></td>
 
 						<td><input type="text" name="accountPhone"
-							placeholder="전화번호 입력" /></td>
+							placeholder="전화번호 입력" required/></td>
 							
 						<td><input type="text" name="email"
-							placeholder="이메일 입력" /></td>
+							placeholder="이메일 입력" required/></td>
 							
 							
 					</tr>

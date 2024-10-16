@@ -204,13 +204,13 @@ tbody tr:hover {
 				</thead>
 				<tbody>
 					<tr>
-						<td><input type="text" name="accountName" placeholder="거래처명 입력" value="${accountDetail.accountName}" /></td>
-						<td><input type="text" name="businessType" placeholder="사업유형" value="${accountDetail.businessType}" /></td>
-						<td><input type="text" name="businessNumber" placeholder="사업자번호" value="${accountDetail.businessNumber}" /></td>
-						<td><input type="text" name="bossName" placeholder="대표자명" value="${accountDetail.bossName}" /></td>
-						<td><input type="text" name="accountAddress" placeholder="주소 입력" value="${accountDetail.accountAddress}" /></td>
-						<td><input type="text" name="accountPhone" placeholder="전화번호" value="${accountDetail.accountPhone}" /></td>
-						<td><input type="text" name="email" placeholder="이메일" value="${accountDetail.email}" /></td>
+						<td><input type="text" name="accountName" placeholder="거래처명 입력" value="${accountDetail.accountName}" required /></td>
+						<td><input type="text" name="businessType" placeholder="사업유형" value="${accountDetail.businessType}"  required/></td>
+						<td><input type="text" name="businessNumber" placeholder="사업자번호" value="${accountDetail.businessNumber}" required /></td>
+						<td><input type="text" name="bossName" placeholder="대표자명" value="${accountDetail.bossName}" required/></td>
+						<td><input type="text" name="accountAddress" placeholder="주소 입력" value="${accountDetail.accountAddress}" required/></td>
+						<td><input type="text" name="accountPhone" placeholder="전화번호" value="${accountDetail.accountPhone}" required/></td>
+						<td><input type="text" name="email" placeholder="이메일" value="${accountDetail.email}" required/></td>
 					</tr>
 				</tbody>
 			</table>
