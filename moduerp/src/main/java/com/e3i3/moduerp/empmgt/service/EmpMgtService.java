@@ -43,7 +43,7 @@ public interface EmpMgtService {
     // 직급 ID로 직원 목록 가져오기
     List<EmpMgtDTO> getEmployeesByJobId(String bizNumber, String jobId);
 
-    // **새로 추가된 부분**
+
     // 모든 부서 목록 가져오기
     List<Department> getAllDepartments();  // 부서 목록 가져오는 메서드 추가
 
