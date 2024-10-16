@@ -167,8 +167,7 @@ th {
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">구매관리 | 구매 출고 | ${itemDetails.itemName}
-			수정</div>
+		<div class="content-title">구매관리 | 구매 출고| ${itemDetails.itemName} 수정</div>
 
 		<form action="/moduerp/updateBuyStockSubOut.do" method="POST">
 			<input type="hidden" name="itemCode" value="${itemDetails.itemCode}" />
