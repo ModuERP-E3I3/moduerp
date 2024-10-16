@@ -33,4 +33,6 @@ public interface CompanyService {
 	public String selectPurchasedModule(String bizNumber);
 
 	public void updateModuleGrades(String combinedModuleGrades, String bizNumber);
+
+	public void deleteCardExistenceByBizNumber(String bizNumber);
 }

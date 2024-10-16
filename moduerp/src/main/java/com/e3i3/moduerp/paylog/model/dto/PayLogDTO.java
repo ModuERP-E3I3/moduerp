@@ -20,7 +20,7 @@ public class PayLogDTO {
 	private int suppliedAmount;
 	private int vat;
 	private Timestamp requestedAt;
-	private String approvedAt;
+	private Timestamp approvedAt;
 	private String mId;
 	private String paymentKey;
 	private String orderId;
@@ -163,11 +163,11 @@ public class PayLogDTO {
 		this.requestedAt = requestedAt;
 	}
 
-	public String getApprovedAt() {
+	public Timestamp getApprovedAt() {
 		return approvedAt;
 	}
 
-	public void setApprovedAt(String approvedAt) {
+	public void setApprovedAt(Timestamp approvedAt) {
 		this.approvedAt = approvedAt;
 	}
 

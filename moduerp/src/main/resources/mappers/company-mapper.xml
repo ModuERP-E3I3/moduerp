@@ -104,13 +104,21 @@
 		WHERE BIZ_NUMBER =
 		#{bizNumber}
 	</select>
-	
-	  <update id="updateNewModuleGrades">
-        UPDATE COMPANY
-        SET 
-            MODULE_GRADES = #{combinedModuleGrades}
-        WHERE 
-            BIZ_NUMBER = #{bizNumber}
-    </update>
-	
+
+	<update id="updateNewModuleGrades">
+		UPDATE COMPANY
+		SET
+		MODULE_GRADES =
+		#{combinedModuleGrades}
+		WHERE
+		BIZ_NUMBER = #{bizNumber}
+	</update>
+
+	<update id="deleteCardExistenceByBizNumber"
+		parameterType="string">
+		UPDATE COMPANY
+		SET CARD_EXISTENCE = NULL
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</update>
+
 </mapper>

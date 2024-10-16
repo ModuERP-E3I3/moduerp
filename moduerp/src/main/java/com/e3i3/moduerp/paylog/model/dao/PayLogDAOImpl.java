@@ -1,5 +1,7 @@
 package com.e3i3.moduerp.paylog.model.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,6 +19,11 @@ public class PayLogDAOImpl implements PayLogDAO {
 	public void insertPayLog(PayLogDTO payLogDTO) {
 		sqlSession.insert(namespace + ".insertPayLog", payLogDTO);
 
+	}
+
+	@Override
+	public List<PayLogDTO> selectPayLogByBizNumber(String bizNumber) {
+		return 	sqlSession.selectList(namespace + ".selectPayLogByBizNumber", bizNumber);
 	}
 
 }
