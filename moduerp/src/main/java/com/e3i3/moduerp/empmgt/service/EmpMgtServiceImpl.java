@@ -45,10 +45,6 @@ public class EmpMgtServiceImpl implements EmpMgtService {
         return empMgtDao.getEmpNameDepart(bizNumber);
     }
 
-    @Override
-    public EmpMgtDTO getEmployeeDetail(String empNo) {
-        return empMgtDao.selectEmployeeByEmpNo(empNo);
-    }
 
     @Override
     public void updateEmployee(EmpMgtDTO empMgtDTO) {
@@ -56,48 +52,37 @@ public class EmpMgtServiceImpl implements EmpMgtService {
     }
 
     @Override
-    public void deleteEmployeeByEmpNo(String empNo) {
-        empMgtDao.deleteEmployeeByEmpNo(empNo);
+    public void deleteEmployeeByUUID(String uuid) {
+        empMgtDao.deleteEmployeeByUUID(uuid);
+    }
+    
+    @Override
+    public EmpMgtDTO getEmployeeDetailByUUID(String uuid) {
+        return empMgtDao.selectEmployeeByUUID(uuid);
     }
 
     // 필터 관련 메서드
-    @Override
-    public List<EmpMgtDTO> getEmployeesByFilterDate(String bizNumber, String option, String filterText, String startDate, String endDate) {
-        if (option.equals("empName")) {
-            return empMgtDao.getEmployeesByEmpNameDate(bizNumber, filterText, startDate, endDate);
-        } else if (option.equals("departmentId")) {
-            return empMgtDao.getEmployeesByDepartmentIdDate(bizNumber, filterText, startDate, endDate);
-        } else if (option.equals("jobId")) {
-            return empMgtDao.getEmployeesByJobIdDate(bizNumber, filterText, startDate, endDate);
-        }
-
-        return null;
-    }
-
     @Override
     public List<EmpMgtDTO> getEmployeesByFilter(String bizNumber, String option, String filterText) {
         if (option.equals("empName")) {
             return empMgtDao.getEmployeesByEmpName(bizNumber, filterText);
         } else if (option.equals("departmentId")) {
-            return empMgtDao.getEmployeesByDepartmentId(bizNumber, filterText);
+            return getEmployeesByDepartmentId(bizNumber, filterText);
         } else if (option.equals("jobId")) {
-            return empMgtDao.getEmployeesByJobId(bizNumber, filterText);
+            return getEmployeesByJobId(bizNumber, filterText);
         }
         return null;
     }
 
+    // 부서 ID로 직원 목록 가져오기
     @Override
-    public List<EmpMgtDTO> getEmployeesByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
-        return empMgtDao.getEmployeesByFilterOnlyDate(bizNumber, startDate, endDate);
+    public List<EmpMgtDTO> getEmployeesByDepartmentId(String bizNumber, String departmentId) {
+        return empMgtDao.getEmployeesByDepartmentId(bizNumber, departmentId);
     }
 
+    // 직급 ID로 직원 목록 가져오기
     @Override
-    public List<EmpMgtDTO> getEmployeesByFilterStartDate(String bizNumber, String startDate) {
-        return empMgtDao.getEmployeesByFilterStartDate(bizNumber, startDate);
-    }
-
-    @Override
-    public List<EmpMgtDTO> getEmployeesByFilterEndDate(String bizNumber, String endDate) {
-        return empMgtDao.getEmployeesByFilterEndDate(bizNumber, endDate);
+    public List<EmpMgtDTO> getEmployeesByJobId(String bizNumber, String jobId) {
+        return empMgtDao.getEmployeesByJobId(bizNumber, jobId);
     }
 }

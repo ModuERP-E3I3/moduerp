@@ -25,33 +25,20 @@ public interface EmpMgtDAO {
     // 부서 및 직급 정보를 함께 가져오기
     List<Employee> getEmpNameDepart(String bizNumber);
 
-    // 사번으로 직원 상세 정보 가져오기
-    EmpMgtDTO selectEmployeeByEmpNo(String empNo);
+    // UUID로 직원 상세 정보 가져오기
+    EmpMgtDTO selectEmployeeByUUID(String uuid);
 
     // 직원 정보 수정
     void updateEmployee(EmpMgtDTO empMgtDTO);
 
-    // 사번으로 직원 삭제
-    void deleteEmployeeByEmpNo(String empNo);
+    // UUID로 직원 삭제
+    void deleteEmployeeByUUID(String uuid);
 
     // -----------------------------------------------
     // 직원 필터링
-    List<EmpMgtDTO> getEmployeesByEmpNameDate(String bizNumber, String filterText, String startDate, String endDate);
-
-    List<EmpMgtDTO> getEmployeesByDepartmentIdDate(String bizNumber, String filterText, String startDate, String endDate);
-
-    List<EmpMgtDTO> getEmployeesByJobIdDate(String bizNumber, String filterText, String startDate, String endDate);
-
     List<EmpMgtDTO> getEmployeesByEmpName(String bizNumber, String filterText);
 
     List<EmpMgtDTO> getEmployeesByDepartmentId(String bizNumber, String filterText);
 
     List<EmpMgtDTO> getEmployeesByJobId(String bizNumber, String filterText);
-
-    // 날짜 데이터만 조회할 경우
-    List<EmpMgtDTO> getEmployeesByFilterOnlyDate(String bizNumber, String startDate, String endDate);
-
-    List<EmpMgtDTO> getEmployeesByFilterStartDate(String bizNumber, String startDate);
-
-    List<EmpMgtDTO> getEmployeesByFilterEndDate(String bizNumber, String endDate);
 }

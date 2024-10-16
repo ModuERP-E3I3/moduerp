@@ -10,4 +10,6 @@ public interface AnswerDao {
 
 	void updateAnswer(AnswerDto answerDto);
 
+	void deleteAnswer(String aSeq);
+
 }

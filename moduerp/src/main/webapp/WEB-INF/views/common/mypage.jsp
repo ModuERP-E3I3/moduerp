@@ -1,102 +1,147 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" %>
+<!-- /WEB-INF/views/common/mypage.jsp -->
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>ModuERP</title>
-
-<style type="text/css">
-
-/* 전체 페이지 기본 스타일 */
-body, html {
-	margin-top: 2% ;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    padding: 0;
-    background-color: #f4f4f4;
+    <meta charset="UTF-8">
+    <title>ModuERP</title>
+    
+    <!-- Font Awesome 포함 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <style type="text/css">
+        /* 전체 페이지 기본 스타일 */
+        body, html {
+            margin-top: 2%;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        
+        /* 레이아웃 컨테이너 */
+        .container {
+            display: flex;
+            min-height: calc(100vh - 60px); /* 상단 메뉴바 높이 고려 */
+        }
+        
+        /* 왼쪽 사이드바 스타일 */
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .sidebar ul li {
+            padding: 15px 20px;
+        }
+        
+        .sidebar ul li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            display: block;
+            transition: background 0.3s;
+        }
+        
+        .sidebar ul li a:hover {
+            background-color: #34495e;
+            border-radius: 4px;
+        }
+        
+        /* 활성화된 메뉴 항목 스타일 */
+        .sidebar ul li a.active {
+            background-color: #1abc9c; /* 활성화 시 배경색 */
+            color: white; /* 활성화 시 텍스트 색상 */
+            border-radius: 4px;
+        }
+        
+        /* 활성화된 메뉴 항목의 아이콘 색상 변경 */
+        .sidebar ul li a.active i {
+            color: white; /* 아이콘 색상을 흰색으로 변경 */
+        }
+        
+        /* 메인 콘텐츠 영역 스타일 */
+       .main-content {
+    flex: 1;
+    padding: 40px;
+    background-color: #fff;
+    overflow-y: auto;
+    margin-top: 20px; /* 원하는 값으로 조정 */
 }
 
-/* 구분선 스타일 */
-hr {
-    border: none;
-    border-top: 1px solid #ddd;
-    margin: 40px 0;
-}
-
-/* 이미지 컨테이너 스타일 */
-div#image-container {
-    display: flex;
-    justify-content: center; /* 중앙 정렬 */
-    align-items: center;
-    gap: 200px; /* 이미지 사이 간격 */
-    background-color: white ;
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* 입체감 설정 */
-    border-radius: 20px; 
-    margin: 40px auto; /* 페이지 중앙 정렬 */
-    width: 100%; 
-    height: 700px;
-    max-width: 2400px; 
-}
-
-div.image-wrapper {
-    position: relative;
-    text-align: center;
-}
-
-/* 이미지 스타일 */
-div.image-wrapper img {
-    width: 800px;
-    height: auto; 
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* 입체감 설정 */
-    border-radius: 20px; /* 모서리 둥글게 */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 호버 시 확대 및 그림자 변화 */
-}
-
-/* 이미지 호버 시 확대 효과 */
-div.image-wrapper img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); /* 호버 시 그림자 더 진하게 */
-}
-
-/* 이미지 위 둥근 모서리 사각형 텍스트 스타일 */
-div.image-wrapper .image-label {
-    position: absolute;
-    top: 20px; /* 이미지의 상단에서 20px 아래에 배치 */
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.6); /* 반투명 검정 배경 */
-    color: white;
-    font-size: 25px;
-    font-weight: bold;
-    padding: 10px 20px; /* 텍스트 주변 여백 설정 */
-    border-radius: 15px; 
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 텍스트 그림자 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);   /* 사각형에 그림자 */
-}
-
-</style>
-
-<script type="text/javascript">
-function movePage(){
-	location.href = "loginPage.do";
-}
-</script>
-
+        
+        /* 푸터 스타일 */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+        
+            .sidebar {
+                width: 100%;
+                box-shadow: none;
+            }
+        }
+    </style>
+    
+    <script type="text/javascript">
+    function movePage(){
+        location.href = "loginPage.do";
+    }
+    </script>
+    
 </head>
 <body>
 
+    <!-- 메뉴바 임포트 -->
+    <c:import url="/WEB-INF/views/common/menubar.jsp" />
 
+    <!-- 레이아웃 컨테이너 -->
+    <div class="container">
+        <!-- 왼쪽 사이드바 -->
+        <div class="sidebar">
+            <ul>
+                <li>
+                    <a href="${pageContext.request.contextPath}/passwordManagement.do">
+                        <i class="fas fa-key"></i> 비밀번호 관리
+                    </a>
+                </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/cardManagement.do">
+                        <i class="fas fa-credit-card"></i> 카드 관리
+                    </a>
+                </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/businessNumberManagement.do">
+                        <i class="fas fa-id-badge"></i> 사업자번호 관리
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- 메인 콘텐츠 영역 -->
+        <div class="main-content">
+            <jsp:include page="${contentPage}" />
+        </div>
+    </div>
 
-<!-- 메뉴바 임포트 -->
-<c:import url="/WEB-INF/views/common/menubar.jsp">
-    <c:param name="loginUUID" value="${loginUUID}" />
-</c:import>
-
-
-
-<!-- 푸터 임포트 -->
-<c:import url="/WEB-INF/views/common/footer.jsp" />
+    <!-- 푸터 임포트 -->
+    <c:import url="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>
-

@@ -49,4 +49,10 @@
 		A_DATE = #{aDate}
 		WHERE A_SEQ = #{aSeq}
 	</update>
+	
+	<!-- 답글 삭제 쿼리 -->
+	<delete id="deleteAnswer"
+		parameterType="String">
+		DELETE FROM ANSWER WHERE A_SEQ = #{aSeq}
+	</delete>
 </mapper>

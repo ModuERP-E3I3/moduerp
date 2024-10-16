@@ -413,9 +413,24 @@ th {
 			</div>
 			<div class="right-group">
 				<div id="totalPrice">
-					총 금액<br>${totalModulePrice}원</div>
-				<button type="button" class="btn_pay">결제하기</button>
+					총 금액<br>${totalModulePrice}원
+				</div>
+
+				<c:choose>
+					<c:when test="${companyCardExistence}">
+						<button type="button" class="btn_pay" onclick="submitPayment()">결제하기</button>
+					</c:when>
+
+
+
+					<c:otherwise>
+						<!-- companyCardExistence가 false일 때 -->
+						<button type="button" class="btn_pay" onclick="handleNoCard()">결제하기</button>
+					</c:otherwise>
+				</c:choose>
 			</div>
+
+
 		</div>
 
 
@@ -434,11 +449,45 @@ th {
 </body>
 
 <script type="text/javascript">
+function submitPayment() {
+    const form = document.getElementById('cartForm');
+
+    // 모든 체크박스에서 moduleGrade 값을 가져옴
+    const allModules = Array.from(document.querySelectorAll('input[name="selectedModules"]'))
+        .map(checkbox => checkbox.value);
+
+    // 모든 moduleGrade를 숨겨진 필드로 추가
+    allModules.forEach(moduleGrade => {
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'moduleGrades';
+        hiddenInput.value = moduleGrade;
+        form.appendChild(hiddenInput);
+    });
+
+    form.action = 'createPayment.do';
+    form.method = 'post';
+    form.submit();
+}
+
+
+</script>
+
+<script>
+  function handleNoCard() {
+    // 알림창 표시
+    alert("등록된 카드가 없습니다.");
+    // 특정 페이지로 이동
+    window.location.href = "http://localhost:8080/moduerp/payment.do"; 
+  }
+</script>
+
+<script type="text/javascript">
 // GroupWare
 document.addEventListener('DOMContentLoaded', () => {
     const checkboxes = document.querySelectorAll('input[name="selectedModules"]');
  // ATD와 AD 체크박스는 비활성화
-    disableCheckbox(['ATD', 'AD']);
+    disableCheckbox(['ATD', 'AD', 'EM']);
  
     function disableCheckbox(values) {
         values.forEach(value => {

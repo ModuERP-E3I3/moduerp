@@ -4,27 +4,32 @@ public class EmpMgtDTO {
     private String empNo;          // 사번
     private String empName;        // 직원명
     private String departmentId;   // 부서 코드
+    private String departmentName; // 부서 이름 (새로 추가됨)
     private String jobId;          // 직급 코드
     private String email;          // 이메일
     private String phone;          // 전화번호
     private String address;        // 주소
     private String bizNumber;      // 사업자 번호
+    private String uuid;  		   // uuid
+    
 
     public EmpMgtDTO() {
         super();
     }
 
-    public EmpMgtDTO(String empNo, String empName, String departmentId, String jobId, 
-                     String email, String phone, String address, String bizNumber) {
+    public EmpMgtDTO(String empNo, String empName, String departmentId, String departmentName, 
+                     String jobId, String email, String phone, String address, String bizNumber) {
         super();
         this.empNo = empNo;
         this.empName = empName;
         this.departmentId = departmentId;
+        this.departmentName = departmentName; // 부서 이름 초기화
         this.jobId = jobId;
         this.email = email;
         this.phone = phone;
         this.address = address;
         this.bizNumber = bizNumber;
+        
     }
 
     // Getters and Setters
@@ -50,6 +55,14 @@ public class EmpMgtDTO {
 
     public void setDepartmentId(String departmentId) {
         this.departmentId = departmentId;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
     }
 
     public String getJobId() {
@@ -90,5 +103,13 @@ public class EmpMgtDTO {
 
     public void setBizNumber(String bizNumber) {
         this.bizNumber = bizNumber;
+    }
+    
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

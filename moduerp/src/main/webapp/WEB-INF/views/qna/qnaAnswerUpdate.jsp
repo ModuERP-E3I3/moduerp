@@ -192,8 +192,8 @@ button:hover {
 
 			<div class="form-box">
 				<form action="updateAnswer.do" method="POST">
-					<input type="text" id="qSeq" name="qSeq" value="${answerDetail.qSeq}">
-					<input type="text" id="aSeq" name="aSeq" value="${answerDetail.aSeq}">
+					<input type="hidden" id="qSeq" name="qSeq" value="${answerDetail.qSeq}">
+					<input type="hidden" id="aSeq" name="aSeq" value="${answerDetail.aSeq}">
 					<label for="qtitle">제목</label> 
 					<input type="text" id="atitle" name="aTitle" value="${answerDetail.aTitle}" required>
 					<input type="hidden" id="aDate" name="aDate" value="${answerDetail.aDate}">

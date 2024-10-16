@@ -1,27 +1,28 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-  <title>°áÁ¦ÇÏ±â</title>
-  <meta charset="utf-8" />
-  <!-- Åä½ºÆäÀÌ¸ÕÃ÷ °áÁ¦Ã¢ SDK Ãß°¡ -->
-  <script src="https://js.tosspayments.com/v1/payment"></script>
+<title>ê²°ì œí•˜ê¸°</title>
+<meta charset="utf-8" />
+<!-- í† ìŠ¤í˜ì´ë¨¼ì¸  ê²°ì œì°½ SDK ì¶”ê°€ -->
+<script src="https://js.tosspayments.com/v1/payment"></script>
 </head>
 <body>
-  <script>
-    // ------ Å¬¶óÀÌ¾ğÆ® Å°·Î °´Ã¼ ÃÊ±âÈ­ ------
+	<script>
+    // ------ í´ë¼ì´ì–¸íŠ¸ í‚¤ë¡œ ê°ì²´ ì´ˆê¸°í™” ------
     var clientKey = "test_ck_DpexMgkW36xKMDndJL4NrGbR5ozO";
     var tossPayments = TossPayments(clientKey);
     tossPayments
-      .requestBillingAuth("Ä«µå", {
-        customerKey: 'TTczElMVwlKdjksNlMS7r',
-        successUrl: "http://localhost:8080/moduerp/regularPayment/success.do", // Àı´ë °æ·Î·Î º¯°æ
-        failUrl: "http://localhost:8080/moduerp/regularPayment/fail.do", // Àı´ë °æ·Î·Î º¯°æ
+      .requestBillingAuth("ì¹´ë“œ", {
+    	customerKey: '${customerKey}', // ELì„ ì‚¬ìš©í•´ customerKey ê°’ ì‚½ì…
+        successUrl: "http://localhost:8080/moduerp/regularPayment/success.do", // ì ˆëŒ€ ê²½ë¡œë¡œ ë³€ê²½
+        failUrl: "http://localhost:8080/moduerp/regularPayment/fail.do", // ì ˆëŒ€ ê²½ë¡œë¡œ ë³€ê²½
       })
       .catch(function (error) {
         if (error.code === "USER_CANCEL") {
-          // °áÁ¦ °í°´ÀÌ °áÁ¦Ã¢À» ´İ¾ÒÀ» ¶§ ¿¡·¯ Ã³¸®
+        	 // ê²°ì œ ê³ ê°ì´ ê²°ì œì°½ì„ ë‹«ì•˜ì„ ë•Œ cart/cart í˜ì´ì§€ë¡œ ë¦¬ë‹¤ì´ë ‰íŠ¸
+            window.location.href = "http://localhost:8080/moduerp/forwardCart.do"; 
         }
       });
   </script>

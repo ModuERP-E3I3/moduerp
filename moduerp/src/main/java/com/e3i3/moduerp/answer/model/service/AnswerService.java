@@ -10,6 +10,6 @@ public interface AnswerService {
 
 	void updateAnswer(AnswerDto answerDto);
 
-	
+	void deleteAnswer(String aSeq);
 
 }

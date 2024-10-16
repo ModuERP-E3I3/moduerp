@@ -1,5 +1,6 @@
 package com.e3i3.moduerp.employee.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -44,13 +45,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeDao.selectAllEmployees();
 	}
 
-	
 	@Override
 	public List<EmployeeBasicInfo> selectEmployeesByEmailAndBizNumber(String keyword, String bizNumber) {
-	    return employeeDao.selectEmployeesByEmailAndBizNumber(keyword, bizNumber);
+		return employeeDao.selectEmployeesByEmailAndBizNumber(keyword, bizNumber);
 	}
 
-	
 	// 사업자번호로 직원 조회
 	@Override
 	public List<Employee> selectEmployeesByBizNum(String biznumber) {
@@ -85,4 +84,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeDao.selectEmployeesByBizAndDepartment(bizNumber, departmentId);
 	}
 
+	@Override
+	public int updatePassword(String uuid, String password) {
+		return employeeDao.updatePassword(uuid, password);
+	}
 }

@@ -213,62 +213,57 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업/판매 관리 | 거래처관리 | ${accountDetail.accountName}</div>
+		<div class="content-title">인사 관리 관리 | 직원 관리 |
+			${employeeDetail.uuid}</div>
+		<!-- 사번 대신 uuid 표시 -->
 
 		<!-- 테이블 -->
 		<table>
 			<thead>
 				<tr>
-					<th>거래처 이름</th>
-					<th>업태</th>
-					<th>대표자 이름</th>
-					<th>사업자번호</th>
-					<th>거래처 주소</th>
-					<th>거래처 전화번호</th>
-
+					<th>부서코드</th>
+					<th>직급</th>
+					<th>직원명</th>
+					<th>이메일</th>
+					<th>전화번호</th>
+					<th>주소</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td>${accountDetail.accountName}</td>
-					<td>${accountDetail.businessType}</td>
-					<td>${accountDetail.bossName}</td>
-					<td>${accountDetail.businessNumber}</td>
-					<td>${accountDetail.accountAddress}</td>
-					<td>${accountDetail.accountPhone}</td>
-
+					<td>${employeeDetail.departmentName}</td>
+					<td>${employeeDetail.jobId}</td>
+					<td>${employeeDetail.empName}</td>
+					<td>${employeeDetail.email}</td>
+					<td>${employeeDetail.phone}</td>
+					<td>${employeeDetail.address}</td>
 				</tr>
 			</tbody>
-
-
 		</table>
+
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
 			<button class="btn red" onclick="openDeleteModal()">삭제</button>
-			<a
-				href="accountDetailUpdate.do?accountNo=${accountDetail.accountNo}">
+			<a href="employeeDetailUpdate.do?uuid=${employeeDetail.uuid}"> <!-- empNo 대신 uuid로 수정 -->
 				<button class="btn green">수정</button>
 			</a>
 		</div>
 
+		<!-- 삭제 확인 모달 -->
+		<div id="delete-modal" style="display: none;">
+			<div class="modal-content">
+				<h2>정말로 삭제하시겠습니까?</h2>
+				<p>삭제된 데이터는 복구할 수 없습니다.</p>
+				<!-- 삭제 버튼을 포함하는 폼 추가 -->
+				<form action="deleteEmployee.do" method="POST">
+					<input type="hidden" name="uuid" value="${employeeDetail.uuid}">
 
-
-	</div>
-	<!-- 삭제 확인 모달 -->
-	<div id="delete-modal" style="display: none;">
-		<div class="modal-content">
-			<h2>정말로 삭제하시겠습니까?</h2>
-			<p>삭제된 데이터는 복구할 수 없습니다.</p>
-			<!-- 삭제 버튼을 포함하는 폼 추가 -->
-			<form action="deleteAccount.do" method="POST">
-				<input type="hidden" name="accountNo" value="${accountDetail.accountNo}">
-				<!-- accountNo를 숨겨진 필드로 전달 -->
-				<button type="submit" class="go-delete">삭제</button>
-				<button type="button" class="stay-page" onclick="closeDeleteModal()">취소</button>
-			</form>
+					<button type="submit" class="go-delete">삭제</button>
+					<button type="button" class="stay-page"
+						onclick="closeDeleteModal()">취소</button>
+				</form>
+			</div>
 		</div>
-	</div>
-
 </body>
 
 <script type="text/javascript">
@@ -284,7 +279,7 @@ function closeDeleteModal() {
 
 </script>
 <script>
-    const activeMenu = "account";
+    const activeMenu = "empMgt";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');
