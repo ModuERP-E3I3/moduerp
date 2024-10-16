@@ -170,33 +170,29 @@ th {
 		<div class="content-title">회계 관리 | 은행 계좌 관리 | 수정</div>
 		<form action="${pageContext.request.contextPath}/bankmgUpdate.do"
 			method="post">
-			<input type="hidden" name="bizNumber" value="${bankmg.bizNumber}" />
-			<input type="hidden" name="bankNumber" value="${bankmg.bankNumber}" />
+			<input type="hidden" name="bankId" value="${bankmg.bankId}" />
 			<table>
 				<thead>
 					<tr>
 						<th>계좌명</th>
 						<th>계좌번호</th>
 						<th>계좌 소유자</th>
-						<th>거래 금액</th>
-						<th>거래 구분</th>
-						<th>거래 일자</th>
+						<th>잔액</th>
+						<th>비고</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td><input type="text" name="bankName"
-							value="${bankmg.bankName}" /></td>
+							value="${bankmg.bankName}" readonly /></td>
 						<td><input type="text" name="bankNumber"
 							value="${bankmg.bankNumber}" readonly /></td>
 						<td><input type="text" name="bankHolder"
-							value="${bankmg.bankHolder}" /></td>
-						<td><input type="number" name="transactionPrice"
-							value="${bankmg.transactionPrice}" /></td>
-						<td><input type="text" name="transactionType"
-							value="${bankmg.transactionType}" /></td>
-						<td><input type="date" name="transactionDate"
-							value="${bankmg.transactionDate}" /></td>
+							value="${bankmg.bankHolder}" readonly /></td>
+						<td><input type="text" name="bankHolder"
+							value="${bankmg.balance}" readonly /></td>
+						<td><input type="text" name="remarks"
+							value="${bankmg.remarks}" /></td>
 					</tr>
 				</tbody>
 			</table>

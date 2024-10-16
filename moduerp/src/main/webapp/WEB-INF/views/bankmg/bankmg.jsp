@@ -155,10 +155,10 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="bankmg.do"><i class="fa-solid fa-money-check-dollar"></i> 은행
-					계좌 관리</a></li>
-			<li><a href="finClose.do"><i class="fa-solid fa-calendar-days"></i>
-					결산 관리</a></li>
+			<li><a href="bankmg.do"><i
+					class="fa-solid fa-money-check-dollar"></i> 은행 계좌 관리</a></li>
+			<li><a href="finClose.do"><i
+					class="fa-solid fa-calendar-days"></i> 결산 관리</a></li>
 			<!-- 수정 -->
 			<!-- <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> 수정
 	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> 수정 -->
@@ -184,25 +184,20 @@ th {
 		<table>
 			<thead>
 				<tr>
-					<th>순번</th>
-					<th>구분</th>
 					<th>계좌명</th>
 					<th>계좌번호</th>
 					<th>계좌 소유자</th>
-					<th>잔액</th>
-					<th>입/출금일자</th>
+					<th>비고</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="bankmg" items="${bankmg}">
-					<tr onclick="window.location.href='bankmgDetail.do?bankNumber=${bankmg.bankNumber}'">
-						<td>${bankmg.bankId}</td>
-						<td>${bankmg.transactionType}</td>
+					<tr
+						onclick="window.location.href='bankmgDetail.do?bankId=${bankmg.bankId}'">
 						<td>${bankmg.bankName}</td>
 						<td>${bankmg.bankNumber}</td>
-						<td>${bankmg.bankHolder}</td>
-						<td>${bankmg.balance}</td>
-						<td>${bankmg.transactionDate}</td>
+						<td>${bankmg.bankName}</td>
+						<td>${bankmg.remarks}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

@@ -154,10 +154,10 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="bankmg.do"><i class="fa-solid fa-money-check-dollar"></i> 은행
-					계좌 관리</a></li>
-			<li><a href="finClose.do"><i class="fa-solid fa-calendar-days"></i>
-					결산 관리</a></li>
+			<li><a href="bankmg.do"><i
+					class="fa-solid fa-money-check-dollar"></i> 은행 계좌 관리</a></li>
+			<li><a href="finClose.do"><i
+					class="fa-solid fa-calendar-days"></i> 결산 관리</a></li>
 			<!-- 수정 -->
 			<!-- <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> 수정
 	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> 수정 -->
@@ -177,20 +177,21 @@ th {
 						<th>계좌명</th>
 						<th>계좌번호</th>
 						<th>계좌 소유자</th>
-						<th>거래 금액</th>
-						<th>거래 구분</th>
-						<th>거래 일자</th>
+						<th>비고</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td><input type="text" name="bankName" placeholder="계좌명 입력" required /></td>
-						<td><input type="text" name="bankNumber" placeholder="계좌번호 입력" required /></td>
-						<td><input type="text" name="bankHolder" placeholder="소유자 입력" required /></td>
-						<td><input type="number" name="transactionPrice" placeholder="금액 입력" required /></td>
-						<td><input type="text" name="transactionType" placeholder="구분 입력" required /></td>
-						<td><input type="date" name="transactionDate" required /></td>
-						<td><input type="hidden" name="bizNumber" value="${sessionScope.biz_number}" /></td>
+						<td><input type="text" name="bankName" placeholder="계좌명 입력"
+							required /></td>
+						<td><input type="text" name="bankNumber"
+							placeholder="계좌번호 입력" required /></td>
+						<td><input type="text" name="bankHolder" placeholder="소유자 입력"
+							required /></td>
+						<td><input type="text" name="remarks" placeholder="비고 입력"
+							required /></td>
+						<td><input type="hidden" name="bizNumber"
+							value="${sessionScope.biz_number}" /></td>
 					</tr>
 				</tbody>
 			</table>

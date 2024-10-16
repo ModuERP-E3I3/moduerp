@@ -154,10 +154,10 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="bankmg.do"><i class="fa-solid fa-money-check-dollar"></i> 은행
-					계좌 관리</a></li>
-			<li><a href="finClose.do"><i class="fa-solid fa-calendar-days"></i>
-					결산 관리</a></li>
+			<li><a href="bankmg.do"><i
+					class="fa-solid fa-money-check-dollar"></i> 은행 계좌 관리</a></li>
+			<li><a href="finClose.do"><i
+					class="fa-solid fa-calendar-days"></i> 결산 관리</a></li>
 			<!-- 수정 -->
 			<!-- <li><a href="productionWorkorder.do"><i class="fas fa-code"></i> 작업지시서</a></li> 수정
 	        <li><a href="productionQuality.do"><i class="fas fa-plug"></i> 품질관리</a></li> 수정 -->
@@ -194,10 +194,14 @@ th {
 							</datalist><input type="hidden" id="bankIdInput" name="bankId" value=""></td>
 						<td><input type="date" name="startDate" required /></td>
 						<td><input type="date" name="endDate" required /></td>
-						<td><input type="number" name="totalSales" placeholder="총 매출 입력" required /></td>
-						<td><input type="number" name="totalExpenses" placeholder="총 비용 입력" required /></td>
-						<td><input type="number" name="netProfit" placeholder="순이익 입력" required /></td>
-						<td><input type="text" name="closingType" placeholder="구분 입력" required /></td>
+						<td><input type="number" name="totalSales"
+							placeholder="총 매출 입력" required /></td>
+						<td><input type="number" name="totalExpenses"
+							placeholder="총 비용 입력" required /></td>
+						<td><input type="number" name="netProfit"
+							placeholder="순이익 입력" required /></td>
+						<td><input type="text" name="closingType" placeholder="구분 입력"
+							required /></td>
 						<td><input type="date" name="closingDate" required /></td>
 					</tr>
 				</tbody>
@@ -212,20 +216,27 @@ th {
 </body>
 
 <script>
-    function updateBankId() {
-        const bankNameInput = document.getElementById('bankNameInput');
-        const bankIdInput = document.getElementById('bankIdInput');
-        
-        // 모든 option 요소를 가져옵니다
-        const options = document.querySelectorAll('#bankList option');
+function updateBankId() {
+    const bankNameInput = document.getElementById('bankNameInput');
+    const bankIdInput = document.getElementById('bankIdInput');
 
-        // 선택한 은행 이름을 찾고 해당 bankId를 업데이트합니다
-        options.forEach(option => {
-            if (option.value === bankNameInput.value) {
-                bankIdInput.value = option.getAttribute('data-bank-id');
-            }
-        });
+    // 모든 option 요소를 가져옵니다
+    const options = document.querySelectorAll('#bankList option');
+
+    // 선택한 은행 이름을 찾고 해당 bankId를 업데이트합니다
+    let found = false;
+    options.forEach(option => {
+        if (option.value === bankNameInput.value) {
+            bankIdInput.value = option.getAttribute('data-bank-id');
+            found = true;
+            console.log("Found bankId: " + bankIdInput.value); // 콘솔 로그 추가
+        }
+    });
+
+    if (!found) {
+        console.error("Bank ID not found for the bank name: " + bankNameInput.value);
     }
+}
 </script>
 
 <script>

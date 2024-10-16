@@ -15,28 +15,28 @@ public class BankmgServiceImpl implements BankmgService {
 	private BankmgDao bankmgDAO;
 
 	@Override
-	public List<Bankmg> getAllmgs() {
-		return bankmgDAO.getAllmgs();
+	public List<Bankmg> selectAllmgs() {
+		return bankmgDAO.selectAllmgs();
 	}
-
+	
 	@Override
 	public void insertmg(Bankmg mg) {
 		bankmgDAO.insertmg(mg);
 	}
 
 	@Override
-	public void updatemg(Bankmg mg) {
-		bankmgDAO.updatemg(mg);
+	public void updatemg(String bankId) {
+		bankmgDAO.updatemg(bankId);
 	}
 
 	@Override
-	public void deletemg(Bankmg mg) {
-		bankmgDAO.deletemg(mg);
+	public void deletemg(String bankId) {
+		bankmgDAO.deletemg(bankId);
 	}
 
 	@Override
-	public List<Bankmg> getmgById(String bankNumber, String bizNumber) {
-		return bankmgDAO.getmgById(bankNumber, bizNumber);
+	public Bankmg selectmgById(String bankId) {
+		return bankmgDAO.getmgById(bankId);
 	}
 
 }
