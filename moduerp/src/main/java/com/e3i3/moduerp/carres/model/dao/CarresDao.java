@@ -1,5 +1,6 @@
 package com.e3i3.moduerp.carres.model.dao;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.e3i3.moduerp.carres.model.dto.CarresDto;
@@ -47,5 +48,8 @@ public interface CarresDao {
 	List<CarresDto> getCarByFilterStartDate(String bizNumber, String startDate);
 
 	List<CarresDto> getCarByFilterEndDate(String bizNumber, String endDate);
+
+	List<CarresDto> getOverlappingReservations(String carModel, String carNum, Timestamp reserveStartDate,
+			Timestamp reserveEndDate, String bizNumber);
 
 }

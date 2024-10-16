@@ -1,5 +1,7 @@
 package com.e3i3.moduerp.cart.controller;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +20,7 @@ import com.e3i3.moduerp.cart.model.service.CartService;
 import com.e3i3.moduerp.company.model.service.CompanyService;
 import com.e3i3.moduerp.module.model.dto.ModuleDTO;
 import com.e3i3.moduerp.module.model.service.ModuleService;
+import com.e3i3.moduerp.pay.model.service.PayService;
 
 @Controller
 @RequestMapping("/")
@@ -28,22 +31,24 @@ public class CartController {
 
 	@Autowired
 	private ModuleService moduleService;
-	
+
 	@Autowired
 	private CompanyService companyService;
 
+	@Autowired
+	private PayService payService;
+
 	private boolean allCartListsAreNull(List<CartDTO> cartList) {
-	    for (CartDTO cart : cartList) {
-	        // 하나라도 유효한 값이 있으면 false 반환
-	        if (cart.getCartList() != null && !cart.getCartList().trim().isEmpty()) {
-	            return false;
-	        }
-	    }
-	    // 모든 cartList가 null이거나 비어 있으면 true 반환
-	    return true;
+		for (CartDTO cart : cartList) {
+			// 하나라도 유효한 값이 있으면 false 반환
+			if (cart.getCartList() != null && !cart.getCartList().trim().isEmpty()) {
+				return false;
+			}
+		}
+		// 모든 cartList가 null이거나 비어 있으면 true 반환
+		return true;
 	}
 
-	
 	@RequestMapping(value = "/forwardCart.do", method = RequestMethod.GET)
 	public String buyModule(HttpSession session, Model model) {
 		String bizNumber = (String) session.getAttribute("biz_number");
@@ -51,14 +56,27 @@ public class CartController {
 
 		// bizNumber 일치하는 장바구니 데이터 가져오기
 		List<CartDTO> cartList = cartService.selectCartListByBizNumber(bizNumber);
+		
+		String companyCard = companyService.selectComplayCardExitence(bizNumber);
+
+		boolean companyCardExistence = false;
+		if (companyCard == null) {
+			companyCardExistence = false;
+			model.addAttribute("companyCardExistence", companyCardExistence);
+		} else if (companyCard != null) {
+			companyCardExistence = true;
+			model.addAttribute("companyCardExistence", companyCardExistence);
+			model.addAttribute("companyCard", companyCard);
+		}
+		System.out.println("카드 여부" + companyCardExistence);
 
 		// 장바구니가 없거나 모든 cartList 컬럼이 null일 때 처리
-	    if (cartList == null || cartList.isEmpty() || allCartListsAreNull(cartList)) {
-	        System.out.println("장바구니 비었음 또는 모든 cartList 컬럼이 null");
-	        model.addAttribute("modules", new ArrayList<>()); // 빈 리스트 전달
-	        return "cart/cart";
-	    }
-		
+		if (cartList == null || cartList.isEmpty() || allCartListsAreNull(cartList)) {
+			System.out.println("장바구니 비었음 또는 모든 cartList 컬럼이 null");
+			model.addAttribute("modules", new ArrayList<>()); // 빈 리스트 전달
+			return "cart/cart";
+		}
+
 		// cartLists 문자열을 분리하여 리스트로 변환
 		List<String> moduleGrades = new ArrayList<>();
 		for (CartDTO cart : cartList) {
@@ -79,29 +97,53 @@ public class CartController {
 
 		// moduleGrades 리스트를 이용해 MODULE 테이블에서 데이터 조회
 		List<ModuleDTO> modules = moduleService.selectModulesByGrades(moduleGrades);
-		
+
 		// 합계를 저장할 변수 선언
 		int totalModulePrice = 0;
 
 		// 반복문을 통해 모든 modulePrice 값을 합산
 		for (ModuleDTO module : modules) {
-		    totalModulePrice += module.getModulePrice();
+			totalModulePrice += module.getModulePrice();
 		}
 
-		String companyCard = companyService.selectComplayCardExitence(bizNumber);
-		boolean companyCardExistence;
-		if(companyCard == null){
-			companyCardExistence = false;
-			model.addAttribute("companyCardExistence", companyCardExistence);
-		}else if(companyCard != null) {
-			companyCardExistence = true;
-			model.addAttribute("companyCardExistence", companyCardExistence);
-			model.addAttribute("companyCard",companyCard);
-		}
 		
+
+		// company에 구매한 모듈이 뭐가 있는지
+		String purchasedModule = companyService.selectPurchasedModule(bizNumber);
+		boolean purchasedModuleExistence = false;
+		String paymentDate = payService.selectPaymentDate(bizNumber);
+
+		if (paymentDate != null) {
+			// 오늘 날짜 가져오기
+			LocalDate today = LocalDate.now();
+
+			// paymentDate 문자열을 정수로 변환
+			int paymentDay = Integer.parseInt(paymentDate.trim());
+
+			// 이번 달 해당 일자 생성 (유효성 검사 포함)
+			LocalDate thisMonthPaymentDate = today.withDayOfMonth(Math.min(paymentDay, today.lengthOfMonth()));
+
+			// 다음 결제일 계산 (이번 달 결제일이 지났으면 다음 달로)
+			LocalDate nextPaymentDate = !today.isAfter(thisMonthPaymentDate) ? thisMonthPaymentDate
+					: thisMonthPaymentDate.plusMonths(1);
+
+			// 남은 일 수 계산
+			long daysUntilNextPayment = ChronoUnit.DAYS.between(today, nextPaymentDate);
+			System.out.println("남은 일 수: " + daysUntilNextPayment + "일");
+			if (purchasedModule != null) {
+				purchasedModuleExistence = true;
+				model.addAttribute("purchasedModuleExistence", purchasedModuleExistence);
+				model.addAttribute("purchasedModule", purchasedModule);
+				model.addAttribute("daysUntilNextPayment", daysUntilNextPayment);
+			} else if (purchasedModule == null) {
+				purchasedModuleExistence = false;
+				model.addAttribute("purchasedModuleExistence", purchasedModuleExistence);
+			}
+		}
+
 		// 조회된 모듈 데이터를 모델에 추가하여 JSP로 전달
 		model.addAttribute("modules", modules);
-		model.addAttribute("totalModulePrice",totalModulePrice);
+		model.addAttribute("totalModulePrice", totalModulePrice);
 
 		return "cart/cart"; // 페이지 반환
 	}

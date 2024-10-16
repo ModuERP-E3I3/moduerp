@@ -204,6 +204,29 @@ public class DeliveryController {
 
 		    return "delivery/deliveryDetail"; // JSP 
 		}
+		
+		@PostMapping("/moduerp/deliveryDetails.do")
+	    public String handleDeliveryDetails(@RequestParam("itemCode") String itemCode, Model model) {
+	        // 배송 정보를 가져오는 로직
+	        DeliveryDTO deliveryDetails = DeliveryService.getDeliveryDetails(itemCode);
+
+	        // Null 체크
+	        if (deliveryDetails == null) {
+	            deliveryDetails = new DeliveryDTO(); // 빈 DTO 객체 생성
+	        }
+
+	        // 배송 업체 코드 변환
+	        String deliveryCompany = deliveryDetails.getDeliveryCompany();
+	        String deliveryCompanyName = getDeliveryCompanyName(deliveryCompany);
+
+	        // 모델에 값 추가
+	        model.addAttribute("deliveryDetails", deliveryDetails);
+	        model.addAttribute("deliveryCompanyName", deliveryCompanyName);
+
+	        // 배송 상세 페이지로 이동
+	        return "delivery/deliveryDetail"; // JSP
+	    }
+
 
 
 
@@ -291,13 +314,13 @@ public class DeliveryController {
 
 		@PostMapping("/deleteDelivery.do")
 		public String deleteDelivery(@RequestParam("itemCode") String itemCode, 
-				HttpSession session) {
-		   
+		        HttpSession session) {
+		    // 삭제 로직
 		    DeliveryService.deleteDeliveryByItemCode(itemCode);
-
-
+		    
 		    return "redirect:/delivery.do"; 
 		}
+
 
 		
 		

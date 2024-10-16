@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.e3i3.moduerp.carres.model.dto.CarresDto;
 import com.e3i3.moduerp.employee.model.dto.Employee;
@@ -143,7 +144,10 @@ public class CarresController {
 			@RequestParam("empName") String empName, @RequestParam("departmentId") String departmentId,
 			@RequestParam("reserveStartDate") String reserveStartDateStr,
 			@RequestParam("reserveEndDate") String reserveEndDateStr, @RequestParam("useReason") String useReason,
-			@RequestParam("drivingStatus") String drivingStatus, Model model, HttpSession session) {
+			@RequestParam("drivingStatus") String drivingStatus,
+			@RequestParam(value = "page", defaultValue = "1") int page,
+			RedirectAttributes redirectAttributes,
+			Model model, HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String carReserveCode = bizNumber + "CR" + System.currentTimeMillis();
 
@@ -152,6 +156,30 @@ public class CarresController {
 		Timestamp reserveStartDate = Timestamp.valueOf(parseStartDate);
 		Timestamp reserveEndDate = Timestamp.valueOf(parseEndDate);
 
+		// 중복 예약 체크: 입력된 차량 모델, 번호와 겹치는 예약 내역 중에 날짜가 겹치는지 확인
+		List<CarresDto> overlappingReservations = CarresService.getOverlappingReservations(carModel, carNum, reserveStartDate, reserveEndDate, bizNumber);
+		List<CarresDto> carresList = CarresService.getAllCarres(bizNumber);
+		int carresPerPage = 5;
+		int totalCarres = carresList.size();
+		int totalPages = (int) Math.ceil((double) totalCarres / carresPerPage);
+		int startIndex = (page - 1) * carresPerPage;
+		int endIndex = Math.min(startIndex + carresPerPage, totalCarres);
+		// 회사 사업자번호(biznumber)가 일치하는 사원명과 부서명 조회
+		List<Employee> empNameDepart = CarresService.getEmpNameDepart(bizNumber);
+		// 회사 사업자번호(biznumber)가 일치하는 차량 정보 조회
+		List<CarresDto> cars = CarresService.getCarsbyBizNumber(bizNumber);
+		List<CarresDto> paginatedList = carresList.subList(startIndex, endIndex);
+	    if (!overlappingReservations.isEmpty()) {
+	        // 경고 메시지를 전달
+	        model.addAttribute("alertMessage", "이미 예약된 차량입니다. 다른 차량을 선택하거나 다른 날짜를 선택해 주세요.");
+	        model.addAttribute("empNameDepart", empNameDepart);
+			model.addAttribute("cars", cars);
+			model.addAttribute("carresList", paginatedList);
+			model.addAttribute("totalPages", totalPages);
+			model.addAttribute("currentPage", page);
+	        return "car/carResListCreate";  // JSP 페이지로 이동
+	    }
+		
 		CarresDto carresDto = new CarresDto();
 		carresDto.setCarNum(carNum);
 		carresDto.setCarModel(carModel);

@@ -18,4 +18,6 @@ public interface CartService {
 	void updateCartListByBizNumber(String bizNumber, String updatedCartList);
 
 	void clearCartListByBizNumber(String bizNumber);
+
+	void deleteCartList(String bizNumber);
 }

@@ -201,9 +201,10 @@ th {
 	<!-- 위에 하얀 박스  -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="buyStockIn.do"><i class="fas fa-bullhorn"></i> 구매 입고</a></li>
-			<li><a href="buyStockOut.do"><i class="fas fa-bullhorn"></i> 구매 출고</a></li>
-			<li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
+		 <li><a href="purchaseOrders.do"><i class="fas fa-bullhorn"></i> 발주서 관리</a></li>
+		 <li><a href="buyStockIn.do"><i class="fa-solid fa-bag-shopping"></i> 구매 입고</a></li>
+         <li><a href="buyStockOut.do"><i class="fa-solid fa-truck-ramp-box"></i> 구매 출고</a></li>
+         <li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
 		</ul>
 	</div>
 
@@ -212,15 +213,7 @@ th {
 
 		<div class="content-title">구매관리 | 구매입고 | ${itemDetails.itemName}</div>
 
-		<!-- 필터 박스 -->
-		<div class="filter-box">
-			<select>
-				<option>조회기간</option>
-			</select> <input type="date" /> <input type="date" /> <select>
-				<option>품목 선택</option>
-			</select> <input type="text" placeholder="내용 입력" />
-			<button class="btn">조회</button>
-		</div>
+		
 
 		<!-- 테이블 -->
 		<table>

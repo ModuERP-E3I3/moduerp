@@ -38,9 +38,53 @@
 	<!-- PAYMENT_REQUEST_DAY로 결제 요청 조회 -->
 	<select id="getPaymentsByRequestDay" parameterType="String"
 		resultType="com.e3i3.moduerp.pay.model.dto.PayDTO">
-		 SELECT * 
-        FROM PAY 
-        WHERE PAYMENT_REQUEST_DAY = #{today}
+		SELECT *
+		FROM PAY
+		WHERE PAYMENT_REQUEST_DAY = #{today}
 	</select>
 
+	<select id="selectPaymentDate" parameterType="String"
+		resultType="String">
+		SELECT PAYMENT_REQUEST_DAY
+		FROM PAY
+		WHERE BIZ_NUMBER =
+		#{bizNumber}
+	</select>
+
+
+	<select id="selectPurchasedModules" parameterType="String"
+		resultType="String">
+		SELECT PAYMENT_ITEM
+		FROM PAY
+		WHERE BIZ_NUMBER =
+		#{bizNumber}
+	</select>
+
+
+
+	<select id="selectPayPrice" parameterType="String"
+		resultType="int">
+		SELECT PAY_PRICE
+		FROM PAY
+		WHERE BIZ_NUMBER =
+		#{bizNumber}
+	</select>
+
+	<update id="updatePayPricePaymentItemByBizNumber">
+		UPDATE PAY
+		SET
+		PAYMENT_ITEM = #{combinedModules},
+		PAY_PRICE = #{finalPrice}
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</update>
+
+
+
+
+	<select id="selectPayID" parameterType="String"
+		resultType="String">
+		SELECT PAY_ID
+		FROM PAY
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>
 </mapper>

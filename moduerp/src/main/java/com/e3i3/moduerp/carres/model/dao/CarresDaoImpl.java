@@ -1,5 +1,6 @@
 package com.e3i3.moduerp.carres.model.dao;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -136,6 +137,17 @@ public class CarresDaoImpl implements CarresDao {
 	public List<CarresDto> getCarByFilterEndDate(String bizNumber, String endDate) {
 		return sqlSession.selectList(namespace + ".selectCarByFilterEndDate",
 				Map.of("bizNumber", bizNumber, "endDate", endDate));
+	}
+
+	@Override
+	public List<CarresDto> getOverlappingReservations(String carModel, String carNum, Timestamp reserveStartDate,
+			Timestamp reserveEndDate, String bizNumber) {
+		return sqlSession.selectList(namespace + ".findOverlappingReservations",
+				Map.of("carModel", carModel,
+				        "carNum", carNum,
+				        "reserveStartDate", reserveStartDate,
+				        "reserveEndDate", reserveEndDate,
+				        "bizNumber", bizNumber));
 	}
 	
 	
