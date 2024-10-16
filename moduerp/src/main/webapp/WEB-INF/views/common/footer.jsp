@@ -19,7 +19,7 @@ footer {
     color: #e0e0e0; /* 밝은 회색 텍스트 */
     padding: 40px 20px 20px 20px;
     font-size: 0.9rem;
-    border-top: 5px solid #002147; /* 네이비 색상의 강조 선 */
+    border-top: 5px solid #1C1C1C; /* 네이비 색상의 강조 선 */
 }
 
 .footer-container {
