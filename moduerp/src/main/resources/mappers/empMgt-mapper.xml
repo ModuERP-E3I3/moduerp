@@ -45,12 +45,16 @@
 	<insert id="createEmployee"
 		parameterType="com.e3i3.moduerp.empmgt.model.dto.EmpMgtDTO">
 		INSERT INTO EMPLOYEE (
-		EMP_NO, UUID, EMP_NAME, DEPARTMENT_ID, JOB_ID, EMP_EMAIL, USER_PHONE,
-		ADDRESS, BIZ_NUMBER, APPROVAL_CODE, PRIVATE_AUTHORITY,
+		EMP_NO, UUID, EMP_NAME,
+		DEPARTMENT_ID, JOB_ID, EMP_EMAIL, USER_PHONE,
+		ADDRESS, BIZ_NUMBER,
+		APPROVAL_CODE, PRIVATE_AUTHORITY,
 		REGISTRATION_DATE, PASSWORD
 		) VALUES (
-		EMP_NO_SEQ.NEXTVAL, #{uuid}, #{empName}, #{departmentId}, #{jobId}, #{email}, #{phone},
-		#{address}, #{bizNumber}, #{approvalCode}, #{privateAuthority},
+		EMP_NO_SEQ.NEXTVAL, #{uuid}, #{empName}, #{departmentId}, #{jobId},
+		#{email}, #{phone},
+		#{address}, #{bizNumber}, #{approvalCode},
+		#{privateAuthority},
 		SYSDATE, '12345678'
 		)
 	</insert>
@@ -161,14 +165,15 @@
 	<!-- 직급명 조회 : 필터 -->
 	<select id="selectEmployeesByJobId" parameterType="map"
 		resultMap="empMgtResult">
-		SELECT E.UUID, E.EMP_NAME, D.DEPARTMENT_NAME, E.JOB_ID,
-		E.EMP_EMAIL, E.USER_PHONE, E.ADDRESS, E.BIZ_NUMBER
+		SELECT E.UUID, E.EMP_NAME, D.DEPARTMENT_NAME, E.JOB_ID, E.EMP_EMAIL,
+		E.USER_PHONE, E.ADDRESS, E.BIZ_NUMBER
 		FROM EMPLOYEE E
-		JOIN
-		DEPARTMENT D ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
-		WHERE E.JOB_ID =
-		#{jobId} AND E.BIZ_NUMBER = #{bizNumber}
-		ORDER BY E.JOB_ID ASC
+		JOIN DEPARTMENT D ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
+		WHERE E.JOB_ID = #{jobId} AND E.BIZ_NUMBER = #{bizNumber}
+		GROUP BY E.UUID, E.EMP_NAME, D.DEPARTMENT_NAME, E.JOB_ID, E.EMP_EMAIL,
+		E.USER_PHONE, E.ADDRESS, E.BIZ_NUMBER
+		ORDER BY E.EMP_NAME ASC
 	</select>
+
 
 </mapper>
