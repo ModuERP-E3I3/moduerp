@@ -165,8 +165,7 @@ th {
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">영업/판매 관리 | 영업입고 | ${itemDetails.itemName}
-			수정하기</div>
+		<div class="content-title">영업/판매 관리 | 영업입고 | ${itemDetails.itemName} 수정</div>
 
 		<form action="/moduerp/updateSalesStockIn.do" method="POST">
 			<input type="hidden" name="itemCode" value="${itemDetails.itemCode}" />
