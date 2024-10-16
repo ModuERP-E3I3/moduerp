@@ -38,8 +38,8 @@ public class SchedulingController {
 	private PayLogService payLogService;
 
 	// 초 분 시 일 월(* 매월) 요일(? = 요일 무시)
-//	@Scheduled(cron = "0 0 0 * * ?") // 실제 실행 코드 매일 검사
-	@Scheduled(cron = "0 * * * * ?") // 테스트 코드
+	@Scheduled(cron = "0 0 0 * * ?") // 실제 실행 코드 매일 검사
+//	@Scheduled(cron = "0 * * * * ?") // 테스트 코드
 	public void processSubscriptionPayment() {
 		System.out.println("스케줄러 메서드 실행");
 
