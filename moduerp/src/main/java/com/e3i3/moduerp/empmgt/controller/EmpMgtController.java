@@ -69,7 +69,11 @@ public class EmpMgtController {
 			System.out.println("Filtering with Option: " + option + ", Filter Text: " + filterText);
 
 			// 필터 옵션에 따른 직원 목록 가져오기
-			employeeList = empMgtService.getEmployeesByFilter(bizNumber, option, filterText);
+			if (option.equals("departmentName")) {
+				employeeList = empMgtService.getEmployeesByDepartmentName(bizNumber, filterText);
+			} else {
+				employeeList = empMgtService.getEmployeesByFilter(bizNumber, option, filterText);
+			}
 
 			// 만약 필터 결과가 없다면 기본 직원 목록을 조회하도록 처리
 			if (employeeList == null || employeeList.isEmpty()) {

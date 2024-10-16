@@ -26,7 +26,8 @@
 		ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
 	</select>
 
-	<!-- 특정 UUID로 직원 데이터를 조회하는 쿼리 -->
+
+	<!-- UUID로 직원 데이터를 조회하는 쿼리 -->
 	<select id="selectEmployeeByUUID" parameterType="String"
 		resultMap="empMgtResult">
 		SELECT * FROM (
@@ -40,11 +41,11 @@
 		E.ADDRESS,
 		E.BIZ_NUMBER
 		FROM EMPLOYEE E
-		JOIN DEPARTMENT D ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
+		JOIN DEPARTMENT D ON E.DEPARTMENT_ID =
+		D.DEPARTMENT_ID
 		WHERE E.UUID = #{uuid}
 		) WHERE ROWNUM = 1
 	</select>
-
 
 
 	<!-- 새로운 직원 데이터를 삽입하는 쿼리 -->
@@ -76,22 +77,30 @@
 		DELETE FROM EMPLOYEE WHERE UUID = #{uuid}  <!-- UUID로 삭제 -->
 	</delete>
 
-	<!-- 특정 BIZ_NUMBER로 직원 데이터를 조회하는 쿼리 : 조회창 -->
+	<!-- 특정 BIZ_NUMBER로 직원 데이터를 조회하는 쿼리 : 필터 -->
 	<select id="getEmployeesByBizNumber" resultMap="empMgtResult"
 		parameterType="string">
-		SELECT E.UUID,  <!-- UUID 추가 -->
-		E.EMP_NAME, E.DEPARTMENT_ID, MAX(D.DEPARTMENT_NAME) AS
+		SELECT
+		E.UUID,
+		E.EMP_NAME, E.DEPARTMENT_ID,
+		MAX(D.DEPARTMENT_NAME) AS
 		DEPARTMENT_NAME,
-		E.JOB_ID, E.EMP_EMAIL,
+		E.JOB_ID,
+		E.EMP_EMAIL,
 		E.USER_PHONE, E.ADDRESS,
 		E.BIZ_NUMBER
 		FROM EMPLOYEE E
-		JOIN DEPARTMENT D
-		ON E.DEPARTMENT_ID =
+		JOIN
+		DEPARTMENT D
+		ON
+		E.DEPARTMENT_ID =
 		D.DEPARTMENT_ID
-		WHERE E.BIZ_NUMBER = #{bizNumber}
-		GROUP BY E.UUID,
-		E.EMP_NAME, E.DEPARTMENT_ID, E.JOB_ID, E.EMP_EMAIL,
+		WHERE E.BIZ_NUMBER =
+		#{bizNumber}
+		GROUP
+		BY E.UUID,
+		E.EMP_NAME, E.DEPARTMENT_ID, E.JOB_ID,
+		E.EMP_EMAIL,
 		E.USER_PHONE,
 		E.ADDRESS, E.BIZ_NUMBER
 	</select>
@@ -114,36 +123,57 @@
 		DEPARTMENT_ID FROM EMPLOYEE WHERE BIZ_NUMBER = #{bizNumber}
 	</select>
 
-	<!-- 직원명으로 직원 데이터를 조회하는 쿼리 -->
+
+
+	<!-- 직원명으로 조회 : 필터 -->
 	<select id="selectEmployeesByEmpName" parameterType="map"
 		resultMap="empMgtResult">
-		SELECT *
-		FROM EMPLOYEE
-		WHERE EMP_NAME LIKE '%' ||
-		#{filterText} || '%'
-		AND BIZ_NUMBER = #{bizNumber}
-		ORDER BY EMP_NAME ASC
+		SELECT E.UUID, E.EMP_NAME, MAX(D.DEPARTMENT_NAME) AS DEPARTMENT_NAME,
+		E.JOB_ID, E.EMP_EMAIL, E.USER_PHONE, E.ADDRESS, E.BIZ_NUMBER
+		FROM EMPLOYEE E
+		JOIN DEPARTMENT D ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
+		WHERE E.EMP_NAME LIKE '%' || #{filterText} || '%'
+		AND E.BIZ_NUMBER = #{bizNumber}
+		GROUP BY E.UUID, E.EMP_NAME, E.JOB_ID, E.EMP_EMAIL, E.USER_PHONE,
+		E.ADDRESS, E.BIZ_NUMBER
+		ORDER BY E.EMP_NAME ASC
 	</select>
 
-	<!-- 부서 ID 조회 -->
-	<select id="selectEmployeesByDepartmentId" parameterType="map"
+
+	<!-- 부서명 조회 : 필터 -->
+	<select id="selectEmployeesByDepartmentName" parameterType="map"
 		resultMap="empMgtResult">
-		SELECT *
-		FROM EMPLOYEE
-		WHERE DEPARTMENT_ID = #{departmentId}
-		AND BIZ_NUMBER = #{bizNumber}
-		ORDER BY DEPARTMENT_ID ASC
+		SELECT DISTINCT E.UUID, E.EMP_NAME, D.DEPARTMENT_NAME,
+		E.JOB_ID,
+		E.EMP_EMAIL, E.USER_PHONE, E.ADDRESS, E.BIZ_NUMBER
+		FROM
+		EMPLOYEE E
+		JOIN DEPARTMENT D ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
+		WHERE
+		D.DEPARTMENT_NAME LIKE '%' || #{filterText} || '%'
+		AND E.BIZ_NUMBER =
+		#{bizNumber}
+		ORDER BY D.DEPARTMENT_NAME ASC
 	</select>
 
-	<!-- 직급명 조회 -->
+
+	<!-- 직급명 조회 : 필터 -->
 	<select id="selectEmployeesByJobId" parameterType="map"
 		resultMap="empMgtResult">
-		SELECT *
-		FROM EMPLOYEE
-		WHERE JOB_ID = #{jobId}
-		AND BIZ_NUMBER =
-		#{bizNumber}
-		ORDER BY JOB_ID ASC
+		SELECT E.UUID, E.EMP_NAME, D.DEPARTMENT_NAME, E.JOB_ID,
+		E.EMP_EMAIL,
+		E.USER_PHONE, E.ADDRESS, E.BIZ_NUMBER
+		FROM EMPLOYEE E
+		JOIN
+		DEPARTMENT D ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
+		WHERE E.JOB_ID =
+		#{jobId}
+		AND E.BIZ_NUMBER = #{bizNumber}
+		ORDER BY E.JOB_ID ASC
 	</select>
+
+
+
+
 
 </mapper>
