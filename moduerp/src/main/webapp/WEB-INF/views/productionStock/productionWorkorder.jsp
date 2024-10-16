@@ -200,9 +200,9 @@ tbody tr:hover {
 					<option value="taskName">작업명</option>
 					<option value="worker">작업자</option>
 					<option value="wDirector">지시자</option>
-				</select> <input type="date" name="startDate" id="startDate" /> <input
+				</select> <input type="date" name="startDate" id="startDate" required/> <input
 					type="date" name="endDate" id="endDate" /> <input type="text"
-					name="filterText" id="filterText" placeholder="내용 입력" />
+					name="filterText" id="filterText" placeholder="내용 입력" required/>
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
 					onclick="window.location.href='productionWorkorder.do';">초기화</button>
