@@ -205,13 +205,13 @@ tbody tr:hover {
 
 				<!-- 날짜 필터 추가 -->
 				<input type="date" name="startDate" id="startDate"
-					value="${startDate != null ? startDate : ''}" /> <input
+					value="${startDate != null ? startDate : ''}" required/> <input
 					type="date" name="endDate" id="endDate"
 					value="${endDate != null ? endDate : ''}" />
 
 				<!-- 필터 텍스트 -->
 				<input type="text" name="filterText" id="filterText"
-					placeholder="내용 입력" value="${filterText != null ? filterText : ''}" />
+					placeholder="내용 입력" value="${filterText != null ? filterText : ''}" required/>
 					
 				<!-- 조회 및 초기화 버튼 -->
 				<button type="submit" class="btn">조회</button>
