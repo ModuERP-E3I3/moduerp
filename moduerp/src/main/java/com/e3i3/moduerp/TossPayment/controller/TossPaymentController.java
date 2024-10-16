@@ -108,7 +108,7 @@ public class TossPaymentController {
 			throw new RuntimeException("Failed to process billing information: " + e.getMessage(), e);
 		}
 
-		// 성공 페이지로 이동
+		// 성공 페이지로 이동 / 빌링키 정보보기
 		ModelAndView mav = new ModelAndView("regular_payment/billing_success");
 		mav.addObject("responseBody", responseBody);
 		return mav;
@@ -239,9 +239,8 @@ public class TossPaymentController {
 			Timestamp requestedAt = Timestamp
 					.valueOf(jsonResponse.getString("requestedAt").replace("T", " ").substring(0, 19));
 			Timestamp approvedAt = Timestamp
-					.valueOf(jsonResponse.getString("approvedAt").replace("T", " ").substring(0, 19)); 
-					
-					
+					.valueOf(jsonResponse.getString("approvedAt").replace("T", " ").substring(0, 19));
+
 			String mId = jsonResponse.getString("mId");
 			String paymentKey = jsonResponse.getString("paymentKey");
 
@@ -299,7 +298,7 @@ public class TossPaymentController {
 		}
 
 		// 8. 결과를 표시할 JSP로 이동
-		return "payment/paymentResult";
+		return "Pay/paymentSuccess";
 	}
 
 	// 추가 결제
@@ -390,7 +389,7 @@ public class TossPaymentController {
 					.valueOf(jsonResponse.getString("requestedAt").replace("T", " ").substring(0, 19));
 			Timestamp approvedAt = Timestamp
 					.valueOf(jsonResponse.getString("approvedAt").replace("T", " ").substring(0, 19));
-			
+
 			String mId = jsonResponse.getString("mId");
 			String paymentKey = jsonResponse.getString("paymentKey");
 
@@ -409,9 +408,9 @@ public class TossPaymentController {
 			companyService.updateModuleGrades(combinedModuleGrades, bizNumber);
 
 			cartService.deleteCartList(bizNumber);
-			
+
 			String existingPayId = payService.selectPayID(bizNumber);
-			
+
 			String payLogId = bizNumber + "PY" + System.currentTimeMillis();
 
 			PayLogDTO payLogDTO = new PayLogDTO();
@@ -438,12 +437,10 @@ public class TossPaymentController {
 
 			payLogService.insertPayLog(payLogDTO);
 
-			
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error/paymentFailed"; // 결제 실패 시 처리
 		}
-		return "payment/";
+		return "Pay/paymentSuccess";
 	}
 }

@@ -167,7 +167,7 @@ th {
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">차량관리 | 차량 예약 | 차량 정보 수정
+		<div class="content-title">차량관리 | 차량 정보 | 차량 정보 수정
 			수정하기</div>
 
 		<form action="/moduerp/updateCar.do" method="POST" enctype="multipart/form-data">

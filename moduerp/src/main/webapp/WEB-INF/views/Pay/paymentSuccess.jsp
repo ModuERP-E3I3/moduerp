@@ -40,8 +40,8 @@ body, html {
 <body>
 	<div class="container">
 		<h1 class="logo">ModuERP</h1>
-		<h2>카드 등록 성공!</h2>
-		<button class="btn" onclick="window.location.href='http://localhost:8080/moduerp/cardManagement.do';">카드 페이지로 돌아가기</button>
+		<h2>결제 성공!</h2>
+		<button class="btn" onclick="window.location.href='http://localhost:8080/moduerp/main.do';">메인페이지로 돌아가기</button>
 	</div>
 </body>
 </html>

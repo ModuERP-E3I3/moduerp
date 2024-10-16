@@ -14,7 +14,6 @@ body, html {
 	margin-top: 2% ;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     padding: 0;
-    background-color: #f4f4f4;
 }
 
 /* 구분선 스타일 */
@@ -31,7 +30,6 @@ div#image-container {
     align-items: center;
     gap: 200px; /* 이미지 사이 간격 */
     background-color: white ;
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* 입체감 설정 */
     border-radius: 20px; 
     margin: 40px auto; /* 페이지 중앙 정렬 */
     width: 100%; 
