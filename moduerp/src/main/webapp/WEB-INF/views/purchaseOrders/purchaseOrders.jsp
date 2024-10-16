@@ -231,7 +231,7 @@ tbody tr:hover {
 						<td>${purchaseOrders.puItemName}</td>
 						<td>${purchaseOrders.quantity}</td>
 						<td>${purchaseOrders.supplyPrice}</td>
-						<td>${purchaseOrders.deliveryDate}</td>
+						<td><fmt:formatDate value="${purchaseOrders.deliveryDate}" pattern="yyyy-MM-dd" /></td>
 						<td>${purchaseOrders.oDirector}</td>
 
 					</tr>
