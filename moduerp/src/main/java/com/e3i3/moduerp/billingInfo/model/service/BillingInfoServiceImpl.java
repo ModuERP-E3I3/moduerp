@@ -29,4 +29,15 @@ public class BillingInfoServiceImpl implements BillingInfoService {
 	public List<BillingInfoDTO> getBillingInfoByBizNumbers(List<String> bizNumbers) {
 		return billingInfoDAO.getBillingInfoByBizNumbers(bizNumbers);
 	}
+
+	@Override
+	public BillingInfoDTO selectBillingInfoByBizNumber(String bizNumber) {
+		return billingInfoDAO.selectBillingInfoByBizNumber(bizNumber);
+	}
+
+	@Override
+	public void deleteBillingInfoByCardBillingId(String cardBillingId) {
+		billingInfoDAO.deleteBillingInfoByCardBillingId(cardBillingId);
+		
+	}
 }

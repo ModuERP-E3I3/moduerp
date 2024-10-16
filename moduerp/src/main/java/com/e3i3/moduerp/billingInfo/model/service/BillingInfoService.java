@@ -12,4 +12,8 @@ public interface BillingInfoService {
 
 	List<BillingInfoDTO> getBillingInfoByBizNumbers(List<String> bizNumbers);
 
+	BillingInfoDTO selectBillingInfoByBizNumber(String bizNumber);
+
+	void deleteBillingInfoByCardBillingId(String cardBillingId);
+
 }

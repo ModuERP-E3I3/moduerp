@@ -211,9 +211,9 @@ tbody tr:hover {
             <thead>
                 <tr>
                     <th>순번</th>
-                    <th>출고 날짜</th>
                     <th>제품명</th>
-                    <th>총출고 수량</th>
+                    <th>출고 날짜</th>
+                    <th>총 출고 수량</th>
                     <th>재고 수량</th>
                     <th>출고 장소</th>
                     <th>출고 단가</th>
@@ -224,10 +224,8 @@ tbody tr:hover {
 			    <c:forEach var="item" items="${itemList}" varStatus="status">
 				<tr onclick="window.location.href='getBuyOutDetails.do?itemCode=${item.itemCode}'">
                   	 <td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-                  			<!-- 순번 계산 -->           
-                     <td><fmt:formatDate value="${item.createdOutAt}"  
-								pattern="yyyy-MM-dd" /></td> <!-- 날짜만 나오게 수정 -->
-                     <td>${item.itemName}</td> 
+                     <td>${item.itemName}</td>
+                     <td><fmt:formatDate value="${item.createdOutAt}" pattern="yyyy-MM-dd" /></td> 
                      <td>${item.stockOut}</td>
                      <td>${item.stock}</td>
                      <td>${item.stockOutPlace}</td>  

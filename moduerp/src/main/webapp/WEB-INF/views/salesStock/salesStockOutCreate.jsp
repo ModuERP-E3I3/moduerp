@@ -168,7 +168,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업관리 | 영업출고</div>
+		<div class="content-title">영업/판매 관리 | 영업출고 | 신규 등록</div>
 
 		<!-- 폼 시작 -->
 		<form action="/moduerp/salesStockOutCreate.do" method="POST">
@@ -185,7 +185,6 @@ th {
 						<th>출고단가</th>
 						<th>담당자</th>
 						<th>지급 상태</th>
-
 					</tr>
 				</thead>
 				<tbody>

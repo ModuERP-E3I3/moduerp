@@ -319,10 +319,7 @@ public class DeliveryController {
 		    DeliveryService.deleteDeliveryByItemCode(itemCode);
 		    
 		    return "redirect:/delivery.do"; 
-		}
-
-
-		
+		}	
 		
 
 

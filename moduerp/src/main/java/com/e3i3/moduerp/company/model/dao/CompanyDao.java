@@ -82,4 +82,9 @@ public class CompanyDao {
 		
 	}
 
+	public void deleteCardExistenceByBizNumber(String bizNumber) {
+		 sqlSessionTemplate.update("CompanyMapper.deleteCardExistenceByBizNumber", bizNumber);
+		
+	}
+
 }

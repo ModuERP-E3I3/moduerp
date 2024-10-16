@@ -11,8 +11,7 @@
 <title>카드</title>
 <style type="text/css">
 #cardTable {
-	margin-left: 40%;
-	margin-top: 5%;
+	margin-top: 2%;
 }
 
 .btn_group {
@@ -50,39 +49,46 @@
 	<hr>
 
 	<div id="cardTable">
-		<h3>등록된 카드</h3>
+		<h3>결제 내역</h3>
 		<table border="1" cellpadding="10" cellspacing="0">
 			<tr>
+				<th>주문 번호</th>
+				<th>구매 목록</th>
 				<th>카드사</th>
 				<th>카드 번호</th>
-				<th>등록 날짜</th>
+				<th>카드 종류</th>
+				<th>소유자 유형</th>
+				<th>총 결제 금액</th>
+				<th>공급가액</th>
+				<th>부가가치세</th>
+				<th>결제 요청 시각</th>
+				<th>결제 승인 시각</th>
+				<th>결제 상태</th>
+
 			</tr>
 
 
-			<tr>
-				<td>${cardInfo.cardCompany}카드</td>
-				<td>${cardInfo.cardNumber}</td>
-
-				<td><fmt:formatDate value="${cardInfo.createdAt}"
-						pattern="yyyy-MM-dd" /></td>
-				<%-- <td>${card.cardBillingId}</td> --%>
-			</tr>
+			<c:forEach var="log" items="${payLog}">
+				<tr>
+					<td>${log.orderId}</td>
+					<td>${log.details}</td>
+					<td>${log.acquirerCode}</td>
+					<td>${log.cardNumber}</td>
+					<td>${log.cardType}</td>
+					<td>${log.ownerType}</td>
+					<td>${log.totalAmount}</td>
+					<td>${log.suppliedAmount}</td>
+					<td>${log.vat}</td>
+					<td><fmt:formatDate value="${log.requestedAt}"
+							pattern="yyyy-MM-dd HH:mm:ss" /></td>
+					<td><fmt:formatDate value="${log.approvedAt}"
+							pattern="yyyy-MM-dd HH:mm:ss" /></td>
+					<td>${log.status}</td>
+				</tr>
+			</c:forEach>
 
 		</table>
 	</div>
-	<div class="btn_group">
-		<c:choose>
-			<c:when test="${not empty cardInfo}">
-				<button id="deleteCard"
-					onclick="window.location.href='deleteCardBilling.do?cardBillingId=${cardInfo.cardBillingId}';">카드
-					삭제하기</button>
-			</c:when>
-			<c:otherwise>
-				<button id="createCard"
-					onclick="window.location.href='regularPayment.do';">카드
-					등록하기</button>
-			</c:otherwise>
-		</c:choose>
-	</div>
+
 </body>
 </html>

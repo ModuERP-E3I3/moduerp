@@ -216,7 +216,7 @@ th {
 	<div class="content-box">
 
 		<div class="content-title">영업관리 | 영업출고 |
-			${itemDetailsSub.itemName}</div>
+			${itemDetailsSub.itemName} 출고 정보</div>
 
 		<!-- 테이블 -->
 		<table>
@@ -241,11 +241,11 @@ th {
 					
 					<td><fmt:formatDate
 							value="${salesStockOutDetailsSub.sStockOutDate}"
-							pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							pattern="yyyy-MM-dd" /></td>
 							
 					<td><fmt:formatDate
 							value="${salesStockOutDetailsSub.sStockOutUpdate}"
-							pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							pattern="yyyy-MM-dd" /></td>
 							
 					<td>${salesStockOutDetailsSub.sStockOutQty}</td>
 					<td>${salesStockOutDetailsSub.sStockOutPrice}</td>

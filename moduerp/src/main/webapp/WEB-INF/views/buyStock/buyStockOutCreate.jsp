@@ -164,7 +164,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">구매관리 | 구매출고</div>
+		<div class="content-title">구매관리 | 구매출고 | 출고 등록</div>
 
 		<!-- 폼 시작 -->
 		<form action="/moduerp/buyStockOutCreate.do" method="POST">
@@ -179,7 +179,7 @@ th {
 						<th>출고장소</th>
 						<th>출고수량</th>
 						<th>출고단가</th>
-						<th>담당자</th>
+						<th>출고 담당자</th>
 					</tr>
 				</thead>
 				<tbody>

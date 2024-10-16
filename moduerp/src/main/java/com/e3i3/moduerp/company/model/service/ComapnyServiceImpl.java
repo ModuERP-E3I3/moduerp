@@ -86,4 +86,10 @@ public class ComapnyServiceImpl implements CompanyService {
 	public void updateModuleGrades(String combinedModuleGrades, String bizNumber) {
 		companyDao.updateNewModuleGrades(combinedModuleGrades, bizNumber);
 	}
+
+	@Override
+	public void deleteCardExistenceByBizNumber(String bizNumber) {
+		companyDao.deleteCardExistenceByBizNumber(bizNumber);
+
+	}
 }
