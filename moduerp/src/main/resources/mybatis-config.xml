@@ -78,7 +78,6 @@
 		<mapper resource="mappers/carmgt-mapper.xml" />
 		<mapper resource="mappers/carres-mapper.xml" />
 
-		<mapper resource="mappers/notice-mapper.xml" />
 
 		<mapper resource="mappers/buyStockIn-mapper.xml" />
 		<mapper resource="mappers/buyStockOut-mapper.xml" />
@@ -119,6 +118,7 @@
 		
 		<mapper resource="mappers/qna-mapper.xml" />
 		<mapper resource="mappers/answer-mapper.xml" />
+		<mapper resource="mappers/notice-mapper.xml" />
 
 	</mappers>
 

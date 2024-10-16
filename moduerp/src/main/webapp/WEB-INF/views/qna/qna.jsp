@@ -165,15 +165,27 @@ h2 {
 	margin-bottom: 50px;
 }
 
-/* 푸터 설정 */
-footer {
-	width: 100%;
-	background-color: white;
-	text-align: center;
-	padding: 20px 0;
-	border-top: 1px solid #ddd;
-	margin-top: 50px;
-}
+ /* 푸터 스타일 */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            width: 100%;
+            bottom: 0;
+        }
+        
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+        
+            .sidebar {
+                width: 100%;
+                box-shadow: none;
+            }
+        }
 /* 버튼 스타일 */
 .btn-group {
 	margin-top: 20px;

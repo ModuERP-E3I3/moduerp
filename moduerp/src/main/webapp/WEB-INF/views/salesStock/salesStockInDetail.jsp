@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -210,7 +211,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업/판매 관리 | 영업입고 | ${itemDetails.itemName}</div>
+		<div class="content-title">영업/판매 관리 | 영업입고 | ${itemDetails.itemName} 입고 정보</div>
 
 		<!-- 필터 박스 -->
 		<div class="filter-box">
@@ -243,8 +244,8 @@ th {
 				<tr>
 					<td>${itemDetails.itemName}</td>
 					<td>${itemDetails.itemDesc}</td>
-					<td>${itemDetails.createdAt}</td>
-					<td>${itemDetails.updatedAt}</td>
+					<td><fmt:formatDate value="${itemDetails.createdAt}" pattern="yyyy-MM-dd" /></td>
+					<td><fmt:formatDate value="${itemDetails.updatedAt}" pattern="yyyy-MM-dd" /></td>
 					<td>${itemDetails.stockIn}</td>
 					<td>${itemDetails.inPrice}</td>
 					<td>${itemDetails.stockPlace}</td>

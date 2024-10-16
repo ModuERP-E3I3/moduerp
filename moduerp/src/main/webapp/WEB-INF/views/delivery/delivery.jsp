@@ -189,7 +189,7 @@ tbody tr:hover {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">구매관리 | 배송조회 </div>
+		<div class="content-title">구매관리 | 배송조회 | 구매:생산:영업 목록</div>
 			
 		<form action="/moduerp/delivery.do">
 		<!-- 필터 박스 -->
@@ -263,11 +263,7 @@ tbody tr:hover {
 
 
 
-		<!-- 버튼 그룹 -->
-		<div class="btn-group">
-			<a href="deliveryCreate.do"><button class="btn blue">등록</button></a>
-		</div>
-
+		
 	</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -308,25 +304,7 @@ tbody tr:hover {
     });
 </script>
 
-<!-- 배송조회 api -->
-<script>
-    document.getElementById('trackingForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // 폼 제출 기본 동작 방지
-        
-        // 고정된 API Key
-        var apiKey = '3uPTRFP4o7AXr6mP7ZwWWw';
-        
-        // 폼 데이터 추출
-        var tCode = document.getElementById('t_code').value;
-        var tInvoice = document.getElementById('t_invoice').value;
-        
-        // URL 생성
-        var url = `https://info.sweettracker.co.kr/tracking/4?t_key=${apiKey}&t_code=${tCode}&t_invoice=${tInvoice}`;
-        
-        // 새로운 페이지로 이동
-        window.location.href = url;
-    });
-</script>
+
 
 
 </html>

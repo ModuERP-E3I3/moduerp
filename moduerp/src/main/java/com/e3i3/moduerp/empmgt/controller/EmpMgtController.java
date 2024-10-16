@@ -205,6 +205,7 @@ public class EmpMgtController {
 		empMgtDTO.setPhone(phone);
 		empMgtDTO.setAddress(address);
 		empMgtDTO.setPrivateAuthority(privateAuthority); // privateAuthority 설정
+		
 
 		empMgtService.updateEmployee(empMgtDTO);
 

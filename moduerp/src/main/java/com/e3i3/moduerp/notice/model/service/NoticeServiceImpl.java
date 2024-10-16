@@ -7,41 +7,57 @@ import org.springframework.stereotype.Service;
 
 import com.e3i3.moduerp.notice.model.dao.NoticeDao;
 import com.e3i3.moduerp.notice.model.dto.Notice;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-@Service("noticeService")
+import java.util.List;
+
+@Service
 public class NoticeServiceImpl implements NoticeService {
-	
-	@Autowired
-    private NoticeDao NoticeDao;
+
+    @Autowired
+    private NoticeDao noticeDAO;
 
     @Override
-    public int getNoticeCount() {
-        return NoticeDao.getNoticeCount();
+    public int addNotice(Notice notice) {
+        return noticeDAO.insertNotice(notice);
     }
 
     @Override
-    public List<Notice> getNoticeList(int page, int pageSize) {
-        return NoticeDao.getNoticeList(page, pageSize);
+    public Notice getNoticeById(String noticeId) {
+        return noticeDAO.selectNoticeById(noticeId);
     }
 
     @Override
-    public Notice getNoticeById(int noticeId) {
-        return NoticeDao.getNoticeById(noticeId);
+    public List<Notice> getAllNotices() {
+        return noticeDAO.selectAllNotices();
+    }
+
+    @Override
+    public int updateNotice(Notice notice) {
+        return noticeDAO.updateNotice(notice);
+    }
+
+    @Override
+    public int removeNotice(String noticeId) {
+        return noticeDAO.deleteNotice(noticeId);
     }
     
     @Override
-    public void insertNotice(Notice notice) {
-        NoticeDao.insertNotice(notice);
+    public List<Notice> searchNotices(String category, String keyword) {
+    	// 카테고리에 따른 검색 로직 분리
+        if ("제목".equals(category)) {
+        	// 제목으로 검색
+            return noticeDAO.searchNoticesByTitle(keyword);
+        } else if ("내용".equals(category)) {
+        	// 내용으로 검색
+            return noticeDAO.searchNoticesByBody(keyword);
+        } else if ("제목+내용".equals(category)) {
+        	// 제목+내용으로 검색
+            return noticeDAO.searchNoticesByTitleAndBody(keyword);
+        } else {
+        	// 카테고리가 없으면 전체 공지사항 반환
+            return noticeDAO.selectAllNotices();
+        }
     }
-
-    @Override
-    public void updateNotice(Notice notice) {
-        NoticeDao.updateNotice(notice);
-    }
-
-    @Override
-    public void deleteNotice(int noticeId) {
-        NoticeDao.deleteNotice(noticeId);
-    }
-    
 }

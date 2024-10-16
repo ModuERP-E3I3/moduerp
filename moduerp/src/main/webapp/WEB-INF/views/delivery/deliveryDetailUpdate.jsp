@@ -167,7 +167,7 @@ th {
 
 	<div class="content-box">
 		<div class="content-title">구매관리 | 배송조회 | ${itemDetails.itemName}
-			수정하기</div>
+			수정</div>
 
 		<form action="/moduerp/updateDelivery.do" method="POST">
 			<input type="hidden" name="itemCode" value="${itemDetails.itemCode}" />

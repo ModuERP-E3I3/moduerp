@@ -39,7 +39,7 @@ public class SchedulingController {
 
 	// 초 분 시 일 월(* 매월) 요일(? = 요일 무시)
 	@Scheduled(cron = "0 0 0 * * ?") // 실제 실행 코드 매일 검사
-//	@Scheduled(cron = "0 * * * * ?") // 테스트 코드
+//	@Scheduled(cron = "*/10 * * * * ?") // 테스트 코드
 	public void processSubscriptionPayment() {
 		System.out.println("스케줄러 메서드 실행");
 
@@ -111,7 +111,9 @@ public class SchedulingController {
 
 					Timestamp requestedAt = Timestamp
 							.valueOf(jsonResponse.getString("requestedAt").replace("T", " ").substring(0, 19));
-					String approvedAt = jsonResponse.getString("approvedAt");
+					Timestamp approvedAt = Timestamp
+							.valueOf(jsonResponse.getString("approvedAt").replace("T", " ").substring(0, 19));
+					
 					String mId = jsonResponse.getString("mId");
 					String paymentKey = jsonResponse.getString("paymentKey");
 					String orderName = jsonResponse.getString("orderName");

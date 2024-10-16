@@ -14,9 +14,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.e3i3.moduerp.billingInfo.model.dto.BillingInfoDTO;
+import com.e3i3.moduerp.billingInfo.model.service.BillingInfoService;
 import com.e3i3.moduerp.company.model.dto.Company;
 import com.e3i3.moduerp.company.model.service.CompanyService;
 import com.e3i3.moduerp.department.model.dto.Department;
@@ -24,6 +34,8 @@ import com.e3i3.moduerp.department.model.service.DepartmentService;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 import com.e3i3.moduerp.employee.model.service.EmployeeService;
 import com.e3i3.moduerp.employee.util.ExcelParser;
+import com.e3i3.moduerp.paylog.model.dto.PayLogDTO;
+import com.e3i3.moduerp.paylog.model.service.PayLogService;
 
 @Controller
 public class CompanyController {
@@ -36,6 +48,12 @@ public class CompanyController {
 	private EmployeeService employeeService;
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
+
+	@Autowired
+	private BillingInfoService billingInfoService;
+
+	@Autowired
+	private PayLogService payLogService;
 
 	// 1. 회원가입 페이지 이동
 	@RequestMapping("/signup.do")
@@ -129,18 +147,44 @@ public class CompanyController {
 		return "common/mypage"; // 공통 레이아웃 JSP 반환
 	}
 
+	// Mypage Card
 	@GetMapping("/cardManagement.do")
-	public String cardManagement(Model model) {
+	public String cardManagement(Model model, HttpSession session) {
+
+		String bizNumber = (String) session.getAttribute("biz_number");
+		// 회사 카드 가져오기
+		BillingInfoDTO cardInfo = billingInfoService.selectBillingInfoByBizNumber(bizNumber);
+		System.out.println("카드 정보" + cardInfo);
+
 		model.addAttribute("contentPage", "/WEB-INF/views/mypage/cardManagement.jsp");
-		// 카드 관리 관련 데이터 처리
-		// model.addAttribute("cards", cardService.getAllCards());
+		model.addAttribute("cardInfo", cardInfo);
 		return "common/mypage"; // 공통 레이아웃 JSP 반환
 	}
 
-	@GetMapping("/businessNumberManagement.do")
-	public String businessNumberManagement(Model model, HttpSession session) {
-		model.addAttribute("contentPage", "/WEB-INF/views/mypage/businessNumberManagement.jsp");
-		model.addAttribute("businessNumber", (String) session.getAttribute("biz_number"));
+	// 카드 삭제 요청 처리
+	@RequestMapping(value = "/deleteCardBilling.do", method = RequestMethod.GET)
+	public String deleteCardBilling(@RequestParam("cardBillingId") String cardBillingId, HttpSession session) {
+		System.out.println("카드 id : " + cardBillingId);
+
+		String bizNumber = (String) session.getAttribute("biz_number");
+
+		billingInfoService.deleteBillingInfoByCardBillingId(cardBillingId);
+
+		companyService.deleteCardExistenceByBizNumber(bizNumber);
+
+		return "redirect:/cardManagement.do";
+	}
+
+	@GetMapping("/cardLog.do")
+	public String cardLog(Model model, HttpSession session) {
+
+		String bizNumber = (String) session.getAttribute("biz_number");
+
+		List<PayLogDTO> payLog = payLogService.selectPayLogByBizNumber(bizNumber);
+
+		model.addAttribute("payLog", payLog);
+		model.addAttribute("contentPage", "/WEB-INF/views/mypage/cardLog.jsp");
+
 		return "common/mypage"; // 공통 레이아웃 JSP 반환
 	}
 

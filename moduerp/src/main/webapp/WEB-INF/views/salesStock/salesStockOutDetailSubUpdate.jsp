@@ -167,8 +167,8 @@ th {
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">영업관리 | 영업입고 | ${itemDetails.itemName}
-			수정하기</div>
+		<div class="content-title">영업/판매 관리 | 영업출고 | ${itemDetails.itemName}
+			수정</div>
 
 		<form action="/moduerp/updateSalesStockSubOut.do" method="POST">
 			<input type="hidden" name="itemCode" value="${itemDetails.itemCode}" />
@@ -197,11 +197,11 @@ th {
 						
 						<td><fmt:formatDate
 								value="${salesStockOutDetails.sStockOutDate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
+								pattern="yyyy-MM-dd" /></td>
 								
 						<td><fmt:formatDate
 								value="${salesStockOutDetails.sStockOutUpdate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
+								pattern="yyyy-MM-dd" /></td>
 								
 						<td><input type="number" name="stockOut"
 							value="${salesStockOutDetails.sStockOutQty}" required /></td>

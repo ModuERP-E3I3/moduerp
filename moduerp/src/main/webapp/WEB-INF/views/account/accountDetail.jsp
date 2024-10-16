@@ -213,7 +213,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업/판매 관리 | 거래처관리 | ${accountDetail.accountName}</div>
+		<div class="content-title">영업/판매 관리 | 거래처관리 | ${accountDetail.accountName} 거래처 정보</div>
 
 		<!-- 테이블 -->
 		<table>

@@ -16,7 +16,7 @@ body {
 
 /* 상단 메뉴바 */
 nav {
-	padding: 8px ;
+    padding: 8px;
     width: 100%; /* 메뉴바 너비 */
     position: fixed;
     top: 0;
@@ -24,31 +24,45 @@ nav {
     height: 60px;
     background: white;
     color: black;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
     display: flex; /* nav 안의 요소들을 한 줄에 배치 */
+    justify-content: center; /* 자식 요소를 중앙으로 정렬 */
     align-items: center;
 }
-nav ul {
+
+.nav-wrapper {
+    width: 60%; /* 네비게이션 바의 60% 너비 */
+    display: flex;
+    align-items: center;
+}
+
+/* 메뉴바 스타일 */
+#menubar {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
-    justify-content: start;
+    flex-wrap: nowrap; /* 메뉴 항목이 한 줄에 유지되도록 설정 */
+    margin-left: auto; /* 메뉴바를 오른쪽으로 밀어냄 */
     align-items: center;
     height: 100%;
 }
+
 nav ul li {
-    margin: 0 20px; /* 메뉴 항목 간격 */
+    margin: 0 9px; /* 메뉴 항목 간격 조정 */
 }
+
 nav ul li a {
     color: black;
     text-decoration: none;
-    padding: 15px 20px;
+    padding: 10px 15px;
     display: block;
-    font-size: 16px; /* 텍스트 크기 */
+    font-size: 14px; /* 텍스트 크기 */
     position: relative; /* 밑줄에 대한 상대 위치 설정 */
     transition: background 0.3s ease, transform 0.3s ease; /* 호버 효과 애니메이션 */
+    padding-bottom: 8px; /* 텍스트와 밑줄 사이에 공간 추가 */
 }
+
 nav ul li a::after {
     content: '';
     position: absolute;
@@ -56,15 +70,18 @@ nav ul li a::after {
     height: 3px;
     background: black; /* 밑줄 색상 */
     left: 0;
-    bottom: 0;
+    bottom: -5px; /* 텍스트 아래로 밑줄 이동 */
     transition: width 0.3s ease; /* 밑줄 애니메이션 */
 }
+
 nav ul li a:hover::after {
     width: 100%; /* 호버 시 밑줄이 왼쪽에서 오른쪽으로 그어짐 */
 }
+
 nav ul li a i {
     margin-right: 10px; /* 아이콘과 텍스트 간격 */
 }
+
 #logout-button {
     width: 15px;
     height: 20px;
@@ -78,14 +95,16 @@ nav ul li a i {
     text-decoration: none;
     transition: background 0.3s ease;
 }
+
 #logout-button:hover {
     background: #C0392B; /* 호버 시 버튼 색상 변경 */
 }
+
 nav .moduerp-logo {
-    font-size: 28px; /* ModuERP 글씨 크기 */
+    font-size: 24px; /* ModuERP 글씨 크기 */
     font-weight: bold;
     color: black;
-    margin-right: 20px; /* 메뉴바와 로고 거리*/
+    margin-right: 20px; /* 메뉴바와 로고 거리 */
     padding-left: 20px;
     text-decoration: none;
 }
@@ -137,6 +156,26 @@ nav .moduerp-logo {
     text-decoration: none;
     cursor: pointer;
 }
+
+@media screen and (max-width: 768px) {
+    .nav-wrapper {
+        width: 90%; /* 모바일에서는 너비를 90%로 확장 */
+    }
+    
+    nav ul li {
+        margin: 0 10px; /* 모바일에서 메뉴 항목 간격 줄이기 */
+    }
+    
+    nav ul li a {
+        font-size: 12px; /* 모바일에서 텍스트 크기 줄이기 */
+        padding: 8px 10px; /* 패딩 조정 */
+        padding-bottom: 5px; /* 텍스트와 밑줄 사이에 공간 추가 */
+    }
+
+    nav ul li a::after {
+        bottom: -4px; /* 모바일에서 밑줄 위치 조정 */
+    }
+}
 </style>
 
 <!-- Font Awesome for icons -->
@@ -167,36 +206,37 @@ window.onclick = function(event) {
 <%-- <p>Login UUID: ${param.loginUUID}</p>
 <p>Admin UUID: ${param.adminUUID}</p> --%>
 
-	<nav>
-		<a href="main.do" class="moduerp-logo">ModuERP</a>
-		<ul id="menubar">
-			<li><a href="noticeList.do"><i class="fas fa-bullhorn"></i>공지사항</a></li>
-			<li><a href="buyModule.do"><i class="fas fa-clipboard"></i>구매</a></li>
-			<li><a href="main.do"><i class="fas fa-code"></i>체험페이지</a></li>
-			<li><a href="qna.do"><i class="fa-solid fa-user-pen"></i>고객서비스</a></li>
-			<li><a href="main.do"><i class="fas fa-plug"></i>회사소개</a></li>
-			
-			    <c:choose>
-    <%-- 사장님(CEO)일 때 마이페이지 표시 --%>
-    <c:when test="${not empty sessionScope.uuid and sessionScope.departmentId eq 'ceo-dpt'}">
-        <li><a href="passwordManagement.do"><i class="fas fa-user-circle"></i> 마이페이지</a></li>
-    </c:when>
-    
-    <%-- 관리자일 때 관리자페이지 테스트용 표시 --%>
-    <c:when test="${not empty sessionScope.uuid and sessionScope.uuid eq sessionScope.adminUUID}">
-        <li><a href="admin.do"><i class="fas fa-plug"></i> 관리자페이지 테스트용</a></li>
-    </c:when>
-    
-    <c:otherwise>
-        <%-- 일반 직원이 로그인하면 아무것도 출력하지 않음 --%>
-    </c:otherwise>
-</c:choose>
+<nav>
+    <div class="nav-wrapper">
+        <a href="<c:url value='/main.do' />" class="moduerp-logo">ModuERP</a>
+        <ul id="menubar">
+           <li><a href="<c:url value='/notice/list.do' />">공지사항</a></li>
+			<li><a href="<c:url value='/buyModule.do' />">구매</a></li>
+			<li><a href="<c:url value='/main.do' />">체험페이지</a></li>
+			<li><a href="<c:url value='/qna.do' />">고객서비스</a></li>
+			<li><a href="<c:url value='/main.do' />">회사소개</a></li>
 
-			<li><a href="erpMain.do"><i class="fas fa-plug"></i>ERP 테스트용</a></li>
-			<li><a href="forwardCart.do"><i class="fa-solid fa-cart-shopping"></i>장바구니</a></li>
-			
-		</ul>
-	</nav>
+            <c:choose>
+                <%-- 사장님(CEO)일 때 마이페이지 표시 --%>
+                <c:when test="${not empty sessionScope.uuid and sessionScope.departmentId eq 'ceo-dpt'}">
+                    <li><a href="passwordManagement.do">마이페이지</a></li>
+                </c:when>
+                
+                <%-- 관리자일 때 관리자페이지 테스트용 표시 --%>
+                <c:when test="${not empty sessionScope.uuid and sessionScope.uuid eq sessionScope.adminUUID}">
+                    <li><a href="admin.do">관리자페이지 테스트용</a></li>
+                </c:when>
+                
+                <c:otherwise>
+                    <%-- 일반 직원이 로그인하면 아무것도 출력하지 않음 --%>
+                </c:otherwise>
+            </c:choose>
+            
+            <li><a href="erpMain.do">ERP 테스트용</a></li>
+            <li><a href="forwardCart.do">장바구니</a></li>
+        </ul>
+    </div>
+</nav>
 
 
 <!-- 로그인 모달 -->

@@ -61,4 +61,16 @@
 		</foreach>
 	</select>
 
+
+	<select id="selectBillingInfoByBizNumber"
+		resultType="com.e3i3.moduerp.billingInfo.model.dto.BillingInfoDTO">
+		SELECT *
+		FROM BILLING_INFO
+		WHERE BIZ_NUMBER = #{bizNumber}	
+	</select>
+	
+	 <delete id="deleteBillingInfoByCardBillingId" parameterType="string">
+        DELETE FROM BILLING_INFO 
+        WHERE CARD_BILLING_ID = #{cardBillingId}
+    </delete>
 </mapper>

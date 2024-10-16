@@ -29,4 +29,15 @@ public class BillingInfoDAOimpl implements BillingInfoDAO {
 	public List<BillingInfoDTO> getBillingInfoByBizNumbers(List<String> bizNumbers) {
 		return sqlSession.selectList(namespace + ".selectBillingInfoByBizNumbers", bizNumbers);
 	}
+
+	@Override
+	public BillingInfoDTO selectBillingInfoByBizNumber(String bizNumber) {
+		return sqlSession.selectOne(namespace + ".selectBillingInfoByBizNumber", bizNumber);
+	}
+
+	@Override
+	public void deleteBillingInfoByCardBillingId(String cardBillingId) {
+		sqlSession.delete(namespace + ".deleteBillingInfoByCardBillingId" , cardBillingId);
+		
+	}
 }

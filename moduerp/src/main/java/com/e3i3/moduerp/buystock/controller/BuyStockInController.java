@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -75,13 +76,29 @@ public class BuyStockInController {
 		        @RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
 		    String bizNumber = (String) session.getAttribute("biz_number");
 		    List<ItemDTO> itemList;
+		    
+		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+			// startDate의 시분초 기본값 설정 (00:00:00)
+		    if (startDate != null && !startDate.isEmpty()) {
+		        LocalDateTime startDateTime = LocalDateTime.parse(startDate + " 00:00:00", formatter);
+		        startDate = startDateTime.format(formatter);  // 포맷된 문자열로 변환
+		    }
+
+		    // endDate의 시분초 기본값 설정 (23:59:59)
+		    if (endDate != null && !endDate.isEmpty()) {
+		        LocalDateTime endDateTime = LocalDateTime.parse(endDate + " 23:59:59", formatter);
+		        endDate = endDateTime.format(formatter);  // 포맷된 문자열로 변환
+		    }
 
 		    // 필터링 로직 추가
 		    if (option != null && filterText != null) {
 		        if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
 		            System.out.println("날짜있는거 실행");
 		            itemList = itembuyStockService.getItemByFilterDate(bizNumber, option, filterText, startDate, endDate);
-		        } else {
+		        }
+		        
+		        else {
 		            // 날짜가 없을 때 모든 날짜를 포함하도록 수정
 		            System.out.println("날짜없는거 실행");
 		            itemList = itembuyStockService.getItemsByFilter(bizNumber, option, filterText); // 날짜 필터 없이 모든 아이템 가져오기
@@ -298,8 +315,6 @@ public class BuyStockInController {
 
 		    return "redirect:/buyStockIn.do"; // 삭제 후 재고 목록 페이지로 리다이렉트
 		}
-
-		
 		
 
 

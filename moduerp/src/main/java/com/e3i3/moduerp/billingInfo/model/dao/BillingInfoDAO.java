@@ -12,4 +12,8 @@ public interface BillingInfoDAO {
 
 	List<BillingInfoDTO> getBillingInfoByBizNumbers(List<String> bizNumbers);
 
+	BillingInfoDTO selectBillingInfoByBizNumber(String bizNumber);
+
+	void deleteBillingInfoByCardBillingId(String cardBillingId);
+
 }

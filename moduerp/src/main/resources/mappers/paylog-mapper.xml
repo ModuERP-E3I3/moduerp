@@ -36,19 +36,30 @@
 	<insert id="insertPayLog"
 		parameterType="com.e3i3.moduerp.paylog.model.dto.PayLogDTO">
 		INSERT INTO PAY_LOG (
-		LOG_ID, PAY_ID, STATUS, DETAILS, BIZ_NUMBER,
+		LOG_ID, PAY_ID, STATUS, DETAILS,
+		BIZ_NUMBER,
 		ISSUER_CODE, ACQUIRER_CODE, CURRENCY, CARD_NUMBER,
 		CARD_TYPE, OWNER_TYPE, APPROVE_NO, TOTAL_AMOUNT,
-		SUPPLIED_AMOUNT, VAT, REQUESTED_AT, APPROVED_AT,
+		SUPPLIED_AMOUNT, VAT,
+		REQUESTED_AT, APPROVED_AT,
 		MID, PAYMENTKEY, ORDER_ID
 		) VALUES (
 		#{logId}, #{payId}, #{status}, #{details}, #{bizNumber},
 		#{issuerCode}, #{acquirerCode}, #{currency}, #{cardNumber},
 		#{cardType}, #{ownerType}, #{approveNo}, #{totalAmount},
 		#{suppliedAmount}, #{vat}, #{requestedAt}, #{approvedAt},
-		#{mId}, #{paymentKey}, #{orderId}
+		#{mId},
+		#{paymentKey}, #{orderId}
 		)
 	</insert>
 
+
+
+	<select id="selectPayLogByBizNumber" parameterType="string"
+		resultType="com.e3i3.moduerp.paylog.model.dto.PayLogDTO">
+		SELECT *
+		FROM PAY_LOG
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>	
 
 </mapper>

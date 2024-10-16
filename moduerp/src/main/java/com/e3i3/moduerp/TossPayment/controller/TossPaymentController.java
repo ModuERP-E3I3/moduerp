@@ -54,10 +54,10 @@ public class TossPaymentController {
 	private CartService cartService;
 
 	// 결제 등록 화면으로 이동 (card_registration.jsp로 이동)
-	@RequestMapping("payment.do")
-	public String forwardMain() {
-		return "regular_payment/card_registration";
-	}
+//	@RequestMapping("payment.do")
+//	public String forwardMain() {
+//		return "regular_payment/card_registration";
+//	}
 
 	// 카드 등록 후 정기 결제 화면(regular_payment.jsp)으로 이동
 	@RequestMapping("regularPayment.do")
@@ -238,7 +238,10 @@ public class TossPaymentController {
 			int vat = jsonResponse.getInt("vat");
 			Timestamp requestedAt = Timestamp
 					.valueOf(jsonResponse.getString("requestedAt").replace("T", " ").substring(0, 19));
-			String approvedAt = jsonResponse.getString("approvedAt");
+			Timestamp approvedAt = Timestamp
+					.valueOf(jsonResponse.getString("approvedAt").replace("T", " ").substring(0, 19)); 
+					
+					
 			String mId = jsonResponse.getString("mId");
 			String paymentKey = jsonResponse.getString("paymentKey");
 
@@ -385,7 +388,9 @@ public class TossPaymentController {
 			int vat = jsonResponse.getInt("vat");
 			Timestamp requestedAt = Timestamp
 					.valueOf(jsonResponse.getString("requestedAt").replace("T", " ").substring(0, 19));
-			String approvedAt = jsonResponse.getString("approvedAt");
+			Timestamp approvedAt = Timestamp
+					.valueOf(jsonResponse.getString("approvedAt").replace("T", " ").substring(0, 19));
+			
 			String mId = jsonResponse.getString("mId");
 			String paymentKey = jsonResponse.getString("paymentKey");
 
