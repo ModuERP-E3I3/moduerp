@@ -126,14 +126,13 @@ h1, h2 {
 /* 등록 버튼 스타일 */
 .action-btn {
 	padding: 10px 15px;
-	background-color: #28a745; /* 녹색 배경 */
+	background-color: red; /* 녹색 배경 */
 	color: white;
 	border: none;
 	cursor: pointer;
 	text-decoration: none;
 	border-radius: 4px;
 	display: inline-block;
-	margin-left: 10px; /* 검색 버튼과 간격 */
 }
 
 .action-btn:hover {
@@ -162,7 +161,7 @@ h1, h2 {
 .page-btn.active {
 	background-color: #007bff;
 	color: white;
-}
+} 
 
 .page-info {
 	text-align: left; /* 페이지 정보도 왼쪽 정렬 */
@@ -219,8 +218,6 @@ footer {
 					<!-- 등록 버튼을 검색 바 오른쪽에 배치 -->
 					<a href="<c:url value='/notice/form.do' />" class="action-btn">등록</a>
 				</div>
-
-				<hr>
 
 				<!-- 공지사항 리스트 -->
 				<ul class="notice-list">

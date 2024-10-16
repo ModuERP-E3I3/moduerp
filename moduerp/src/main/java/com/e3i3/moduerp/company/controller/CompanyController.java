@@ -1,6 +1,7 @@
 package com.e3i3.moduerp.company.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,6 +35,7 @@ import com.e3i3.moduerp.department.model.service.DepartmentService;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 import com.e3i3.moduerp.employee.model.service.EmployeeService;
 import com.e3i3.moduerp.employee.util.ExcelParser;
+import com.e3i3.moduerp.module.model.service.ModuleService;
 import com.e3i3.moduerp.paylog.model.dto.PayLogDTO;
 import com.e3i3.moduerp.paylog.model.service.PayLogService;
 
@@ -54,6 +56,9 @@ public class CompanyController {
 
 	@Autowired
 	private PayLogService payLogService;
+
+	@Autowired
+	private ModuleService moduleService;
 
 	// 1. 회원가입 페이지 이동
 	@RequestMapping("/signup.do")
@@ -152,12 +157,33 @@ public class CompanyController {
 	public String cardManagement(Model model, HttpSession session) {
 
 		String bizNumber = (String) session.getAttribute("biz_number");
+
 		// 회사 카드 가져오기
 		BillingInfoDTO cardInfo = billingInfoService.selectBillingInfoByBizNumber(bizNumber);
-		System.out.println("카드 정보" + cardInfo);
+		System.out.println("카드 정보: " + cardInfo);
+
+		
+
+		String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
+		// moduleGrades가 null이면 빈 문자열로 처리
+		if (moduleGrades == null) {
+			moduleGrades = "";
+		}
+
+		// ,로 문자열을 분리해서 배열에 저장
+		String[] gradesArray = moduleGrades.split(",");
+
+		// 배열을 List로 변환
+		List<String> gradesList = Arrays.asList(gradesArray);
+
+		List<String> moduleNames = moduleService.selectModuleNamesByGradesList(gradesList);
+		// 리스트의 각 요소를 ,로 합쳐서 하나의 문자열로 변환
+		String moduleNamesString = String.join(", ", moduleNames);
 
 		model.addAttribute("contentPage", "/WEB-INF/views/mypage/cardManagement.jsp");
-		model.addAttribute("cardInfo", cardInfo);
+		model.addAttribute("cardInfo", cardInfo); // null이 아닌 객체를 넘김
+		model.addAttribute("moduleNamesString", moduleNamesString);
+
 		return "common/mypage"; // 공통 레이아웃 JSP 반환
 	}
 

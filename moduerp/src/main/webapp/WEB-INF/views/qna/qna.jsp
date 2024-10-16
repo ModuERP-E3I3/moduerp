@@ -214,6 +214,10 @@ h2 {
 	background-color: blue;
 	color: white;
 }
+.btn.orange{
+	background-color: orange;
+	color: white;
+}
 #pagebutton {
 	display: flex;
 	justify-content: center;
@@ -232,7 +236,7 @@ h2 {
 	color: black; /* 강조 색상 검은색 유지 */
 }
 .filter-box {
-	margin-bottom: 20px;
+	margin-top: 6%;
 }
 
 .filter-box input, .filter-box select {
@@ -246,6 +250,14 @@ h2 {
 	width: 160px;
 }
 
+h1 {
+	font-size: 45px;
+}
+.header {
+    display: flex;
+    justify-content: space-between; /* 좌측과 우측에 위치 */
+    align-items: center; /* 세로 정렬 */
+}
 </style>
 </head>
 <body>
@@ -259,7 +271,8 @@ h2 {
 		<!-- 공지사항 게시판 -->
 		<div class="QNA-board">
 			<div class="box">
-				<h2>QnA</h2>
+				<div class="header">
+				<h1>QnA</h1>
 
 				<form action="/moduerp/qnaFilter.do">
 				<div class="filter-box">
@@ -271,12 +284,13 @@ h2 {
                 <input type="date" name="startDate" id="startDate" /> <input
 					type="date" name="endDate" id="endDate" /> <input type="text"
 					name="filterText" id="filterText" placeholder="내용 입력" />
-				<button type="submit" class="btn">조회</button>
+				<button type="submit" class="btn green">검색</button>
 				<button type="button" class="btn"
 					onclick="window.location.href=qna.do';">초기화
 				</button>
 				</div>
 				</form>
+				</div>
 				<hr>
 
 				<!-- 동적으로 공지사항 리스트 출력 -->

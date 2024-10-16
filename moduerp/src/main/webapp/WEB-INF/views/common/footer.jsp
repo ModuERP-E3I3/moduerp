@@ -10,7 +10,6 @@
         margin: 0;
         padding: 0;
         font-family: 'Helvetica Neue', Arial, sans-serif;
-        background-color: #f4f4f4;
     }
 
   /* Footer Styles */

@@ -35,4 +35,6 @@ public interface CompanyService {
 	public void updateModuleGrades(String combinedModuleGrades, String bizNumber);
 
 	public void deleteCardExistenceByBizNumber(String bizNumber);
+
+	public String selectCompanyModuleGradesByBizNumber(String bizNumber);
 }

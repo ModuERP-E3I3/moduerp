@@ -234,6 +234,10 @@ footer {
 	width: 160px;
 }
 
+h1 {
+	font-size: 45px;
+}
+
 </style>
 </head>
 <body>
@@ -247,7 +251,7 @@ footer {
 		<!-- 공지사항 게시판 -->
 		<div class="QNA-board">
 			<div class="box">
-				<h2>QnA</h2>
+				<h1>QnA</h1>
 
 				<form action="/moduerp/qnaFilter.do">
 				<div class="filter-box">

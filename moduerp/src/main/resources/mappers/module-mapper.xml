@@ -155,5 +155,15 @@
 		AND MODULE_USAGE = 'Y'
 	</select>
 
-
+	<!-- MODULE_GRADE 리스트에 있는 값과 일치하는 MODULE_NAME을 조회 -->
+	<select id="selectModuleNamesByGradesList" parameterType="list"
+		resultType="string">
+		SELECT MODULE_NAME
+		FROM MODULE
+		WHERE MODULE_GRADE IN
+		<foreach item="grade" index="index" collection="list" open="("
+			separator="," close=")">
+			#{grade}
+		</foreach>
+	</select>
 </mapper>
