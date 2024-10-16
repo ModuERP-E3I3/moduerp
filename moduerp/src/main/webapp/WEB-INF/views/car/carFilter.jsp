@@ -204,7 +204,7 @@ thead tr:hover {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">차량관리 | 차량 예약</div>
+		<div class="content-title">차량관리 | 차량 정보</div>
 		<form action="/moduerp/carFilter.do">
 		<!-- 필터 박스 -->
 		<div class="filter-box">
