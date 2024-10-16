@@ -18,8 +18,8 @@ public class PurchaseOrdersDAOImpl implements PurchaseOrdersDAO {
 	private static final String namespace = "PurchaseOrdersMapper";
 
 	@Override
-	public List<PurchaseOrdersDTO> getAllPurchaseOrders() {
-		return sqlSession.selectList(namespace + ".getAllPurchaseOrders");
+	public List<PurchaseOrdersDTO> getAllPurchaseOrders(String bizNumber) {
+		return sqlSession.selectList(namespace + ".getAllPurchaseOrders", bizNumber);
 	}
 
 	@Override

@@ -35,7 +35,7 @@ public class PurchaseOrdersController {
 		String bizNumber = (String) session.getAttribute("biz_number");
 
 		// Fetch all purchase orders
-		List<PurchaseOrdersDTO> purchaseOrdersList = purchaseOrdersService.getAllPurchaseOrders();
+		List<PurchaseOrdersDTO> purchaseOrdersList = purchaseOrdersService.getAllPurchaseOrders(bizNumber);
 
 		// Pagination logic
 		int ordersPerPage = 10;

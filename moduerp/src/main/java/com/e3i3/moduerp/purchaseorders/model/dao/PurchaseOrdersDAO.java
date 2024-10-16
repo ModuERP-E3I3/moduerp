@@ -7,7 +7,6 @@ import com.e3i3.moduerp.employee.model.dto.Employee;
 import com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO;
 
 public interface PurchaseOrdersDAO {
-	List<PurchaseOrdersDTO> getAllPurchaseOrders();
 
 	void purchaseOrderCreate(PurchaseOrdersDTO purchaseOrderDto);
 
@@ -50,6 +49,8 @@ public interface PurchaseOrdersDAO {
 	List<PurchaseOrdersDTO> getPurchaseOrdersByFilterStartDate(String bizNumber, String startDate);
 
 	List<PurchaseOrdersDTO> getPurchaseOrdersByFilterEndDate(String bizNumber, String endDate);
+
+	List<PurchaseOrdersDTO> getAllPurchaseOrders(String bizNumber);
 
 	
 	
