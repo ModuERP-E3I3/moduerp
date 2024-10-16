@@ -173,7 +173,7 @@ th {
 
 	<div class="content-box">
 		<div class="content-title">생산관리 | 생산입고 | ${itemDetails.itemName}
-			수정하기</div>
+			수정</div>
 
 		<form action="/moduerp/updateProductionStockIn.do" method="POST">
 			<input type="hidden" name="itemCode" value="${itemDetails.itemCode}" />
