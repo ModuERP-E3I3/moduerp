@@ -214,15 +214,19 @@ tbody tr:hover {
 								</c:forEach>
 						</select></td>
 						<td><input type="text" name="jobId" placeholder="직급"
-							value="${employeeDetail.jobId}" /></td>
+							value="${employeeDetail.jobId}" required /></td>
+							
 						<td><input type="text" name="empName" placeholder="직원명"
-							value="${employeeDetail.empName}" /></td>
+							value="${employeeDetail.empName}" required/></td>
+							
 						<td><input type="text" name="email" placeholder="이메일"
-							value="${employeeDetail.email}" /></td>
+							value="${employeeDetail.email}" required/></td>
+							
 						<td><input type="text" name="phone" placeholder="전화번호"
-							value="${employeeDetail.phone}" /></td>
+							value="${employeeDetail.phone}" required/></td>
+							
 						<td><input type="text" name="address" placeholder="주소"
-							value="${employeeDetail.address}" /></td>
+							value="${employeeDetail.address}" required/></td>
 					</tr>
 				</tbody>
 			</table>
