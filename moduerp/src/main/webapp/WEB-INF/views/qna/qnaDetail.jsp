@@ -234,6 +234,9 @@ button:hover {
 	background-color: gray;
 	color: #fff;
 }
+.button-group {
+	margin-top : 10%;
+}
 </style>
 </head>
 <body>
