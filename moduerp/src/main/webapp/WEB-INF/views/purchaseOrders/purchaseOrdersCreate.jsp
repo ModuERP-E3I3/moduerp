@@ -221,7 +221,7 @@ tbody tr:hover {
 				<tbody>
 					<tr>
 						<td><input type="text" name="puItemName"
-							placeholder="발주할 품명 입력" /></td>
+							placeholder="발주할 품명 입력" required/></td>
 					
 						<!-- 거래처 코드 드롭다운 리스트 !!!!! -->
 						<td><select name="accountNo" onchange="setAccountName(this)">
@@ -230,15 +230,15 @@ tbody tr:hover {
 									<option value="${account.ACCOUNTNO}"
 										data-name="${account.ACCOUNTNAME}">${account.ACCOUNTNAME}</option>
 								</c:forEach>
-						</select> <input type="hidden" name="accountName" id="accountNameField" />
+						</select> <input type="hidden" name="accountName" id="accountNameField" required/>
 						</td>			
 							
-						<td><input type="number" name="quantity" placeholder="수량 입력" /></td>
+						<td><input type="number" name="quantity" placeholder="수량 입력" required/></td>
 						
 						<td><input type="number" name="supplyPrice"
-							placeholder="공급가 입력" /></td>
+							placeholder="공급가 입력" required/></td>
 							
-						<td><input type="date" name="deliveryDate" /></td>
+						<td><input type="date" name="deliveryDate" required/></td>
 						
 						<td> <input type="text" name="oDirector" 
 							value="${directorName}" readonly="readonly">

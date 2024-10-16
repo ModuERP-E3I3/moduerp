@@ -188,31 +188,31 @@ th {
 				<tbody>
 					<tr>
 						<!-- 날짜 선택하는 칸 -->
-						<td><input type="date" id="bStockInDate" name="bStockInDate">
+						<td><input type="date" id="bStockInDate" name="bStockInDate" required>
 						</td>
 
 						<!-- 보관장소 선택 칸 -->
 						<td><input list="stockPlaces" name="stockPlace"
-							placeholder="보관장소 선택" /> <datalist id="stockPlaces">
+							placeholder="보관장소 선택" required/> <datalist id="stockPlaces">
 								<c:forEach var="stockPlace" items="${stockPlaces}">
 									<option value="${stockPlace}"></option>
 								</c:forEach>
 							</datalist></td>
 
 						<!-- 입고수량 칸 -->
-						<td><input type="number" name="stockIn" placeholder="수량 입력" /></td>
+						<td><input type="number" name="stockIn" placeholder="수량 입력" required/></td>
 
 						<!-- 품목 이름 칸 -->
-						<td><input type="text" name="itemName" placeholder="품목 이름 입력" /></td>
+						<td><input type="text" name="itemName" placeholder="품목 이름 입력" required/></td>
 
 						<!-- 품목 설명 칸 -->
-						<td><input type="text" name="itemDesc" placeholder="품목 설명 입력" /></td>
+						<td><input type="text" name="itemDesc" placeholder="품목 설명 입력" required/></td>
 
 						<!-- 가격 입력 칸 -->
 						<td><input type="number" name="inPrice" placeholder="가격 입력"
-							step="0.01" /></td>
+							step="0.01" required/></td>
 						<td><input list="accountName" name="accountName"
-							placeholder="거래처" /> <datalist id="accountName">
+							placeholder="거래처" required/> <datalist id="accountName">
 								<c:forEach var="accountName" items="${accountName}">
 									<option value="${accountName}"></option>
 								</c:forEach>
