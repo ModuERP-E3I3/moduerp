@@ -197,10 +197,10 @@ th {
 						<td>${itemDetails.itemDesc}</td>
 						<td><fmt:formatDate
 								value="${productionStockOutDetails.pStockOutDate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
+								pattern="yyyy-MM-dd" /></td>
 						<td><fmt:formatDate
 								value="${productionStockOutDetails.pStockOutUpdate}"
-								pattern="yyyy-MM-dd HH:mm:ss" /></td>
+								pattern="yyyy-MM-dd" /></td>
 						<td><input type="number" name="stockIn"
 							value="${productionStockOutDetails.pStockOutQty}" required /></td>
 						<td><input type="number" name="inPrice"
