@@ -124,7 +124,7 @@ public class PurchaseOrdersController {
 		return "purchaseOrders/purchaseOrdersFilter"; // JSP 파일 경로 반환
 	}
 
-	@RequestMapping(value = "/purchaseOrderCreate.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/purchaseOrdersCreate.do", method = RequestMethod.GET)
 	public String showCreatePurchaseOrderForm(Model model, HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		String uuid = (String) session.getAttribute("uuid");
