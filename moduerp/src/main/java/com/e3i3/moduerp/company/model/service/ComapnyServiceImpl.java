@@ -92,4 +92,9 @@ public class ComapnyServiceImpl implements CompanyService {
 		companyDao.deleteCardExistenceByBizNumber(bizNumber);
 
 	}
+
+	@Override
+	public String selectCompanyModuleGradesByBizNumber(String bizNumber) {
+		return companyDao.selectCompanyModuleGradesByBizNumber(bizNumber);
+	}
 }

@@ -87,4 +87,8 @@ public class CompanyDao {
 		
 	}
 
+	public String selectCompanyModuleGradesByBizNumber(String bizNumber) {
+		return sqlSessionTemplate.selectOne("CompanyMapper.selectCompanyModuleGradesByBizNumber",bizNumber);
+	}
+
 }

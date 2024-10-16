@@ -10,14 +10,22 @@
 <meta charset="UTF-8">
 <title>카드</title>
 <style type="text/css">
+
+
 #cardTable {
-	margin-left: 40%;
+	margin-left: 5%;
+	margin-top: 5%;
+}
+
+#purchasedModules {
+	margin-left: 5%;
 	margin-top: 5%;
 }
 
 .btn_group {
-	text-align: right;
+	text-align: left;
 	margin-top: 2%;
+	margin-left: 5%;
 }
 
 #deleteCard {
@@ -83,6 +91,21 @@
 					등록하기</button>
 			</c:otherwise>
 		</c:choose>
+	</div>
+
+	<div id="purchasedModules">
+		<table border="1" cellpadding="10" cellspacing="0">
+			<thead>
+				<tr>
+					<th>구매중인 모듈 목록</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>${moduleNamesString}</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </body>
 </html>
