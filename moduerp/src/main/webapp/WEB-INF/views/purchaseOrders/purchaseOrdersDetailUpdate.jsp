@@ -223,27 +223,27 @@ tbody tr:hover {
 										data-name="${account.ACCOUNTNAME}">${account.ACCOUNTNAME}</option>
 								</c:forEach>
 						</select> <input type="hidden" name="accountName" id="accountNameField"
-							value="${purchaseOrderDetail.accountName}" /></td>
+							value="${purchaseOrderDetail.accountName}" required/></td>
 
 						<!-- 품명 입력 -->
 						<td><input type="text" name="puItemName" placeholder="품명 입력"
-							value="${purchaseOrderDetail.puItemName}" /></td>
+							value="${purchaseOrderDetail.puItemName}" required/></td>
 
 						<!-- 수량 입력 -->
 						<td><input type="number" name="quantity" placeholder="수량 입력"
-							value="${purchaseOrderDetail.quantity}" /></td>
+							value="${purchaseOrderDetail.quantity}" required/></td>
 
 						<!-- 공급가 입력 -->
 						<td><input type="text" name="supplyPrice"
-							placeholder="공급가 입력" value="${purchaseOrderDetail.supplyPrice}" /></td>
+							placeholder="공급가 입력" value="${purchaseOrderDetail.supplyPrice}" required/></td>
 
 						<!-- 납품일 입력 -->
 						<td><input type="date" name="deliveryDate"
-							value="${purchaseOrderDetail.deliveryDate}" /></td>
+							value="${purchaseOrderDetail.deliveryDate}" required/></td>
 
 						<!-- 담당자명 -->
 						<td><input type="text" name="oDirector" placeholder="담당자명 입력"
-							value="${purchaseOrderDetail.oDirector}" /></td>
+							value="${purchaseOrderDetail.oDirector}" required/></td>
 
 					</tr>
 				</tbody>
