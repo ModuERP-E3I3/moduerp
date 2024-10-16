@@ -14,25 +14,22 @@
            background-color: white;
            display: flex;
            flex-direction: column;
-           align-items: center;
-           justify-content: space-between; /* 컨텐츠와 푸터 사이 공간 확보 */
            min-height: 100vh; /* 최소 높이를 100% 설정 */
        }
 
        .container {
            width: 60%;
-           display: flex;
-           flex-direction: column;
-           margin-top: 100px; /* 상단 여백 추가 */
+           margin: 100px auto 0; /* 상단 여백 추가, 중앙 정렬 */
            flex-grow: 1; /* 남은 공간을 차지하게 함 */
+           padding-left: 20px; /* 좌측 여백 */
        }
 
        h1, h2, .meta, .content {
            text-align: left; /* 왼쪽 정렬 */
        }
-
+       
        h1 {
-           font-size: 35px;
+           font-size: 45px;
            margin-bottom: 20px;
        }
 
@@ -45,7 +42,7 @@
            font-size: 14px;
            color: #777;
            margin-bottom: 20px;
-           margin-left:5px;
+           margin-left: 5px;
        }
 
        .content {
@@ -61,7 +58,7 @@
            margin-top: 30px;
        }
 
-       .back-btn {
+       .back-btn, .edit-btn, .delete-btn {
            padding: 10px 15px;
            background-color: #007bff;
            color: white;
@@ -71,7 +68,7 @@
            border-radius: 4px;
        }
 
-       .back-btn:hover {
+       .back-btn:hover, .edit-btn:hover, .delete-btn:hover {
            background-color: #0056b3;
        }
 
@@ -81,15 +78,33 @@
            text-align: center;
            padding: 20px 0;
            border-top: 1px solid #ddd;
-           position: fixed; /* 푸터를 화면 하단에 고정 */
-           bottom: 0;
-           left: 0;
+           margin-top: auto; /* 푸터가 컨텐츠 아래에 배치되도록 설정 */
        }
 
     </style>
     <script type="text/javascript">
         function goBack() {
             window.history.back(); // 뒤로 가기 기능
+        }
+
+        function deleteNotice(deleteUrl) {
+            if (confirm('정말로 삭제하시겠습니까?')) {
+                fetch(deleteUrl, {
+                    method: 'POST',
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('삭제되었습니다.');
+                        window.location.href = '<c:url value="/notice/list.do" />';
+                    } else {
+                        alert('삭제에 실패했습니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('삭제 처리 중 오류가 발생했습니다.');
+                });
+            }
         }
     </script>
 </head>
@@ -109,13 +124,13 @@
     <div class="content">
         ${notice.body}
     </div>
+<div class="button-group">
+    <a href="javascript:goBack();" class="back-btn">목록으로 돌아가기</a>
+    <a href="<c:url value='/notice/edit/${notice.noticeId}.do' />" class="edit-btn">수정</a>
+    <button class="delete-btn" onclick="deleteNotice('<c:url value='/notice/delete/${notice.noticeId}.do' />')">삭제</button>
+</div>
 </div>
 
-<div class="button-group">
-    <a href="javascript:goBack();" class="back-btn">목록으로 돌아가기</a> <!-- 자바스크립트로 뒤로 가기 -->
-    <a href="noticeUpdateForm.do?noticeId=${notice.noticeId}" class="back-btn">수정</a>
-    <a href="noticeDelete.do?noticeId=${notice.noticeId}" class="back-btn">삭제</a>
-</div>
 
 <!-- 푸터 임포트 -->
 <footer>

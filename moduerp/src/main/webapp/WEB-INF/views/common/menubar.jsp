@@ -118,12 +118,10 @@ nav .moduerp-logo {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.4); /* 배경 어둡게 */
     justify-content: center;
     align-items: center;
 }
 .modal-content {
-    background-color: #fefefe;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
