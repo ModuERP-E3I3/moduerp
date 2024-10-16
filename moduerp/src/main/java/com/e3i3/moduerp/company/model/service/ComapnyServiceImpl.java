@@ -71,4 +71,19 @@ public class ComapnyServiceImpl implements CompanyService {
 		companyDao.updateCardExistence(cardBillingId, bizNumber);
 	}
 
+	@Override
+	public void insertModuleGradesOfCompany(String moduleGrades, String bizNumber) {
+		companyDao.updateModuleGrades(moduleGrades, bizNumber);
+	}
+
+	@Override
+	public String selectPurchasedModule(String bizNumber) {
+		return companyDao.selectPurchasedModule(bizNumber);
+	}
+
+	@Override
+	@Transactional
+	public void updateModuleGrades(String combinedModuleGrades, String bizNumber) {
+		companyDao.updateNewModuleGrades(combinedModuleGrades, bizNumber);
+	}
 }

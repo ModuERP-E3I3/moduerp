@@ -210,6 +210,7 @@ input[type="checkbox"]:disabled {
 							</tr>
 						</thead>
 						<tbody>
+						
 							<c:set var="moduleGroupCount"
 								value="${fn:length(moduleListGroup)}" />
 							<c:forEach var="moduleListGroup" items="${moduleListGroup}"
@@ -219,15 +220,26 @@ input[type="checkbox"]:disabled {
 									<c:if test="${status.index == 0}">
 										<td rowspan="${moduleGroupCount}">그룹웨어</td>
 									</c:if>
-									<td><input type="checkbox" class="moduleCheckboxGroup"
-										value="${moduleListGroup.moduleGrade}"
-										onclick="syncCheckboxesGroup(this)"
-										<c:if test="${moduleListGroup.moduleGrade == 'AD' || moduleListGroup.moduleGrade == 'ATD' || moduleListGroup.moduleGrade == 'EM'}">
-									        checked="checked" disabled="disabled"
-									    </c:if>>
-										<input type="hidden" name=""
-										value="${moduleListGroup.moduleId}"></td>
 
+									<td><c:choose>
+											<c:when
+												test="${fn:contains(purchasedModulesList, moduleListGroup.moduleGrade)}">
+												<span style="color: red; font-weight: bold;">이미 구매한
+													모듈입니다</span>
+											</c:when>
+											<c:otherwise>
+												<input type="checkbox" class="moduleCheckboxGroup"
+													value="${moduleListGroup.moduleGrade}"
+													onclick="syncCheckboxesGroup(this)"
+													<c:if test="${moduleListGroup.moduleGrade == 'AD' 
+						                                        || moduleListGroup.moduleGrade == 'ATD' 
+						                                        || moduleListGroup.moduleGrade == 'EM'}">
+						                               checked="checked" disabled="disabled"
+						                           </c:if>>
+												<input type="hidden" name=""
+													value="${moduleListGroup.moduleId}">
+											</c:otherwise>
+										</c:choose></td>
 
 									<td>${moduleListGroup.moduleName}</td>
 									<td>${moduleListGroup.modulePrice}</td>
@@ -235,6 +247,7 @@ input[type="checkbox"]:disabled {
 									<td>${moduleListGroup.moduleVer}</td>
 								</tr>
 							</c:forEach>
+
 
 
 							<c:set var="moduleProductionCount"
@@ -246,17 +259,29 @@ input[type="checkbox"]:disabled {
 									<c:if test="${status.index == 0}">
 										<td rowspan="${moduleProductionCount}">생산</td>
 									</c:if>
-									<td><input type="checkbox"
-										class="moduleCheckboxProduction"
-										value="${moduleListProduction.moduleGrade}"
-										onclick="syncCheckboxesProduction(this)"> <input
-										type="hidden" name="" value="${moduleListProduction.moduleId}"></td>
+
+									<td><c:choose>
+											<c:when
+												test="${fn:contains(purchasedModulesList, moduleListProduction.moduleGrade)}">
+												<span style="color: red; font-weight: bold;">이미 구매한
+													모듈입니다</span>
+											</c:when>
+											<c:otherwise>
+												<input type="checkbox" class="moduleCheckboxProduction"
+													value="${moduleListProduction.moduleGrade}"
+													onclick="syncCheckboxesProduction(this)">
+												<input type="hidden" name=""
+													value="${moduleListProduction.moduleId}">
+											</c:otherwise>
+										</c:choose></td>
+
 									<td>${moduleListProduction.moduleName}</td>
 									<td>${moduleListProduction.modulePrice}</td>
 									<td>${moduleListProduction.moduleDesc}</td>
 									<td>${moduleListProduction.moduleVer}</td>
 								</tr>
 							</c:forEach>
+
 
 							<c:set var="moduleBuyCount" value="${fn:length(moduleListBuy)}" />
 							<c:forEach var="moduleListBuy" items="${moduleListBuy}"
@@ -266,16 +291,29 @@ input[type="checkbox"]:disabled {
 									<c:if test="${status.index == 0}">
 										<td rowspan="${moduleBuyCount}">구매</td>
 									</c:if>
-									<td><input type="checkbox" class="moduleCheckboxBuy"
-										value="${moduleListBuy.moduleGrade}"
-										onclick="syncCheckboxesBuy(this)"> <input
-										type="hidden" name="" value="${moduleListBuy.moduleId }"></td>
+
+									<td><c:choose>
+											<c:when
+												test="${fn:contains(purchasedModulesList, moduleListBuy.moduleGrade)}">
+												<span style="color: red; font-weight: bold;">이미 구매한
+													모듈입니다</span>
+											</c:when>
+											<c:otherwise>
+												<input type="checkbox" class="moduleCheckboxBuy"
+													value="${moduleListBuy.moduleGrade}"
+													onclick="syncCheckboxesBuy(this)">
+												<input type="hidden" name=""
+													value="${moduleListBuy.moduleId}">
+											</c:otherwise>
+										</c:choose></td>
+
 									<td>${moduleListBuy.moduleName}</td>
 									<td>${moduleListBuy.modulePrice}</td>
 									<td>${moduleListBuy.moduleDesc}</td>
 									<td>${moduleListBuy.moduleVer}</td>
 								</tr>
 							</c:forEach>
+
 
 							<c:set var="moduleSalesCount"
 								value="${fn:length(moduleListSales)}" />
@@ -286,16 +324,29 @@ input[type="checkbox"]:disabled {
 									<c:if test="${status.index == 0}">
 										<td rowspan="${moduleSalesCount}">영업</td>
 									</c:if>
-									<td><input type="checkbox" class="moduleCheckboxSales"
-										value="${moduleListSales.moduleGrade}"
-										onclick="syncCheckboxesSales(this)"> <input
-										type="hidden" name="" value="${moduleListSales.moduleId }"></td>
+
+									<td><c:choose>
+											<c:when
+												test="${fn:contains(purchasedModulesList, moduleListSales.moduleGrade)}">
+												<span style="color: red; font-weight: bold;">이미 구매한
+													모듈입니다</span>
+											</c:when>
+											<c:otherwise>
+												<input type="checkbox" class="moduleCheckboxSales"
+													value="${moduleListSales.moduleGrade}"
+													onclick="syncCheckboxesSales(this)">
+												<input type="hidden" name=""
+													value="${moduleListSales.moduleId}">
+											</c:otherwise>
+										</c:choose></td>
+
 									<td>${moduleListSales.moduleName}</td>
 									<td>${moduleListSales.modulePrice}</td>
 									<td>${moduleListSales.moduleDesc}</td>
 									<td>${moduleListSales.moduleVer}</td>
 								</tr>
 							</c:forEach>
+
 
 							<c:set var="moduleCarCount" value="${fn:length(moduleListCar)}" />
 							<c:forEach var="moduleListCar" items="${moduleListCar}"
@@ -305,16 +356,29 @@ input[type="checkbox"]:disabled {
 									<c:if test="${status.index == 0}">
 										<td rowspan="${moduleCarCount}">차량</td>
 									</c:if>
-									<td><input type="checkbox" class="moduleCheckboxCar"
-										value="${moduleListCar.moduleGrade}"
-										onclick="syncCheckboxesCar(this)"> <input
-										type="hidden" name="" value="${moduleListCar.moduleId }"></td>
+
+									<td><c:choose>
+											<c:when
+												test="${fn:contains(purchasedModulesList, moduleListCar.moduleGrade)}">
+												<span style="color: red; font-weight: bold;">이미 구매한
+													모듈입니다</span>
+											</c:when>
+											<c:otherwise>
+												<input type="checkbox" class="moduleCheckboxCar"
+													value="${moduleListCar.moduleGrade}"
+													onclick="syncCheckboxesCar(this)">
+												<input type="hidden" name=""
+													value="${moduleListCar.moduleId}">
+											</c:otherwise>
+										</c:choose></td>
+
 									<td>${moduleListCar.moduleName}</td>
 									<td>${moduleListCar.modulePrice}</td>
 									<td>${moduleListCar.moduleDesc}</td>
 									<td>${moduleListCar.moduleVer}</td>
 								</tr>
 							</c:forEach>
+
 
 							<c:set var="moduleAccountCount"
 								value="${fn:length(moduleListAccount)}" />
@@ -325,16 +389,29 @@ input[type="checkbox"]:disabled {
 									<c:if test="${status.index == 0}">
 										<td rowspan="${moduleAccountCount}">회계</td>
 									</c:if>
-									<td><input type="checkbox" class="moduleCheckboxAccount"
-										value="${moduleListAccount.moduleGrade}"
-										onclick="syncCheckboxesAccount(this)"> <input
-										type="hidden" name="" value="${moduleListAccount.moduleId }"></td>
+
+									<td><c:choose>
+											<c:when
+												test="${fn:contains(purchasedModulesList, moduleListAccount.moduleGrade)}">
+												<span style="color: red; font-weight: bold;">이미 구매한
+													모듈입니다</span>
+											</c:when>
+											<c:otherwise>
+												<input type="checkbox" class="moduleCheckboxAccount"
+													value="${moduleListAccount.moduleGrade}"
+													onclick="syncCheckboxesAccount(this)">
+												<input type="hidden" name=""
+													value="${moduleListAccount.moduleId}">
+											</c:otherwise>
+										</c:choose></td>
+
 									<td>${moduleListAccount.moduleName}</td>
 									<td>${moduleListAccount.modulePrice}</td>
 									<td>${moduleListAccount.moduleDesc}</td>
 									<td>${moduleListAccount.moduleVer}</td>
 								</tr>
 							</c:forEach>
+
 						</tbody>
 
 					</table>
@@ -390,6 +467,22 @@ input[type="checkbox"]:disabled {
 	function submitCart() {
 		var form = document.getElementById('cartForm');
 
+		// 각 모듈의 체크된 체크박스들을 모두 가져오기
+	    var allCheckedCheckboxes = document.querySelectorAll(
+	        '.moduleCheckboxGroup:checked, ' +
+	        '.moduleCheckboxProduction:checked, ' +
+	        '.moduleCheckboxBuy:checked, ' +
+	        '.moduleCheckboxSales:checked, ' +
+	        '.moduleCheckboxCar:checked, ' +
+	        '.moduleCheckboxAccount:checked'
+	    );
+
+	    // 체크된 항목이 하나도 없을 경우 경고 메시지 출력
+	    if (allCheckedCheckboxes.length === 0) {
+	        alert('장바구니에 담을 제품을 선택해주세요!');
+	        return false; // 폼 제출 방지
+	    }
+		
 		// 기존에 추가된 숨겨진 input 필드 제거
 		while (form.querySelector('input[name="moduleIds"]')) {
 			form.removeChild(form.querySelector('input[name="moduleIds"]'));

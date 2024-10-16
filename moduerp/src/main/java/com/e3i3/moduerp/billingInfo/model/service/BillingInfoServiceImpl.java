@@ -1,5 +1,7 @@
 package com.e3i3.moduerp.billingInfo.model.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,11 @@ public class BillingInfoServiceImpl implements BillingInfoService {
 
 	@Override
 	public BillingInfoDTO selectBillingInfoData(String bizNumber) {
-		  return billingInfoDAO.selectBillingInfoData(bizNumber);
+		return billingInfoDAO.selectBillingInfoData(bizNumber);
+	}
+
+	@Override
+	public List<BillingInfoDTO> getBillingInfoByBizNumbers(List<String> bizNumbers) {
+		return billingInfoDAO.getBillingInfoByBizNumbers(bizNumbers);
 	}
 }
