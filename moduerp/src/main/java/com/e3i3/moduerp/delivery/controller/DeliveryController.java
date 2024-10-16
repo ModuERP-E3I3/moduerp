@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.e3i3.moduerp.buystock.model.dto.BuyStockOutDTO;
 import com.e3i3.moduerp.delivery.model.dto.DeliveryDTO;
@@ -184,8 +186,9 @@ public class DeliveryController {
 		    if (deliveryDetails == null) {
 		        deliveryDetails = new DeliveryDTO(); // 빈 DTO 객체 생성
 		    }
-		    
-
+		    System.out.println("================================");
+		    System.out.println(deliveryDetails);
+		    System.out.println("================================");
 		    // 배송 업체 코드 변환
 		    String deliveryCompany = deliveryDetails.getDeliveryCompany();
 		    
@@ -258,7 +261,7 @@ public class DeliveryController {
 			return "delivery/deliveryDetailUpdate"; 
 		}
 		
-		
+		 
 		
 		
 		@PostMapping("/updateDelivery.do")

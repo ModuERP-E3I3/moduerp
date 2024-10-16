@@ -239,7 +239,7 @@ th {
 
 
 <script>
-    const activeMenu = "buyStockIn";
+    const activeMenu = "purchaseOrders";
 
     document.addEventListener('DOMContentLoaded', function() {
         const menuItems = document.querySelectorAll('nav.side ul li a');
