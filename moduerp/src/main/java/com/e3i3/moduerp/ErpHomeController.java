@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class ErpHomeController {
-	
 	private static final Logger logger = LoggerFactory.getLogger(ErpHomeController.class);
 	
 	/**
@@ -36,9 +37,11 @@ public class ErpHomeController {
 		return "home";
 	}
 	
-	//index.jsp °¡ À£ÄÄ ¿äÃ»µÉ ¶§ Æ÷¿öµùµÈ ¿äÃ»À» ¹Þ¾Æ¼­, common/main.jsp ¸¦ ³»º¸³»±â À§ÇÑ ¸Þ¼Òµå
 	@RequestMapping("erpMain.do")
-	public String forwardMain() {
+	public String forwardMain(HttpSession session) {
+		System.out.println("ì„¸ì…˜ UUID: " + session.getAttribute("uuid"));
+		System.out.println("ì„¸ì…˜ BizNumber: " + session.getAttribute("bizNum"));
+
 		return "common/erpMain";
 	}
 	

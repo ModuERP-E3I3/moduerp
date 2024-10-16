@@ -1,0 +1,47 @@
+package com.e3i3.moduerp.workorder.model.dao;
+
+import java.util.List;
+import com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO;
+
+public interface WorkOrderDAO {
+	List<WorkOrderDTO> selectWorkOrdersByBizNumber(String bizNumber);
+
+	WorkOrderDTO getWorkOrderByOrderNumber(String orderNumber);
+
+	List<String> getWorkerTeamsByBizNumber(String bizNumber);
+
+	List<String> getWorkPlacesByBizNumber(String bizNumber);
+
+	void insertWorkOrder(WorkOrderDTO workOrderDTO);
+
+	void updateWorkOrder(WorkOrderDTO workOrderDTO);
+
+	void deleteWorkOrder(String orderNumber);
+
+	int getTotalQtyByItemCode(String itemCode);
+
+	// -------------------------------
+	// QC
+	List<WorkOrderDTO> findCompletedWorkOrders();
+	// -------------------------------
+
+	List<WorkOrderDTO> getWorkOrderItemNameByFilterDate(String bizNumber, String filterText, String startDate,
+			String endDate);
+
+	List<WorkOrderDTO> getWorkOrdertaskNameByFilterDate(String bizNumber, String filterText, String startDate,
+			String endDate);
+
+	List<WorkOrderDTO> getWorkOrderworkerByFilterDate(String bizNumber, String filterText, String startDate,
+			String endDate);
+
+	List<WorkOrderDTO> getWorkOrderwDirectorByFilterDate(String bizNumber, String filterText, String startDate,
+			String endDate);
+
+	List<WorkOrderDTO> getWorkOrderItemNameByFilter(String bizNumber, String filterText);
+
+	List<WorkOrderDTO> getWorkOrdertaskNameByFilter(String bizNumber, String filterText);
+
+	List<WorkOrderDTO> getWorkOrderworkerByFilter(String bizNumber, String filterText);
+
+	List<WorkOrderDTO> getWorkOrderwDirectorByFilter(String bizNumber, String filterText);
+}

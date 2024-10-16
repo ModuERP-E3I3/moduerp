@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ProductionStockOutMapper">
+
+	<resultMap id="productionStockOutResult"
+		type="com.e3i3.moduerp.productionstock.model.dto.ProductionStockOutDTO">
+		<result property="pStockOutId" column="P_STOCK_OUT_ID" />
+		<result property="itemCode" column="ITEM_CODE" />
+		<result property="pStockOutDate" column="P_STOCK_OUT_DATE" />
+		<result property="pStockOutPlace" column="P_STOCK_OUT_PLACE" />
+		<result property="pStockOutQty" column="P_STOCK_OUT_QTY" />
+		<result property="uuid" column="UUID" />
+		<result property="pStockOutPrice" column="P_STOCK_OUT_PRICE" />
+		<result property="pStockOutUpdate" column="P_STOCK_OUT_UPDATE" />
+		<result property="oDirector" column="ODIRECTOR" />
+	</resultMap>
+
+
+	<select id="selectAllProductionStockOuts"
+		resultMap="productionStockOutResult">
+		SELECT * FROM PRODUCTION_STOCK_OUT
+	</select>
+
+	<insert id="insertProductionStockOut"
+		parameterType="ProductionStockOutDTO">
+		INSERT INTO PRODUCTION_STOCK_OUT (
+		P_STOCK_OUT_ID,
+		ITEM_CODE, P_STOCK_OUT_DATE, P_STOCK_OUT_PLACE, P_STOCK_OUT_QTY, UUID,
+		P_STOCK_OUT_PRICE, ODIRECTOR
+		) VALUES (
+		#{pStockOutId}, #{itemCode},
+		#{pStockOutDate},
+		#{pStockOutPlace}, #{pStockOutQty},
+		#{uuid},
+		#{pStockOutPrice},
+		#{oDirector}
+		)
+	</insert>
+
+	<select id="selectProductionStockOutByItemCode"
+		parameterType="String"
+		resultType="com.e3i3.moduerp.productionstock.model.dto.ProductionStockOutDTO">
+		SELECT * FROM PRODUCTION_STOCK_OUT WHERE ITEM_CODE =
+		#{itemCode}
+	</select>
+
+	<select id="selectProductionStockOutByPStockId"
+		parameterType="String" resultMap="productionStockOutResult">
+		SELECT * FROM PRODUCTION_STOCK_OUT
+		WHERE P_STOCK_OUT_ID = #{pStockOutId}
+	</select>
+
+	<!-- 출고 정보를 업데이트하는 쿼리 -->
+	<update id="updateProductionStockOut"
+		parameterType="com.e3i3.moduerp.productionstock.model.dto.ProductionStockOutDTO">
+		UPDATE PRODUCTION_STOCK_OUT
+		SET P_STOCK_OUT_UPDATE =
+		#{pStockOutUpdate},
+		P_STOCK_OUT_PLACE = #{pStockOutPlace},
+		P_STOCK_OUT_QTY = #{pStockOutQty},
+		P_STOCK_OUT_PRICE =
+		#{pStockOutPrice},
+		UUID = #{uuid}
+		WHERE P_STOCK_OUT_ID = #{pStockOutId}
+	</update>
+
+	<!-- 특정 itemCode의 출고 총합 계산 (P_STOCK_OUT_QTY 합계) -->
+	<select id="getTotalStockOutByItemCode" parameterType="String"
+		resultType="int">
+		SELECT SUM(P_STOCK_OUT_QTY)
+		FROM PRODUCTION_STOCK_OUT
+		WHERE
+		ITEM_CODE = #{itemCode}
+	</select>
+
+	<!-- 삭제 -->
+	<delete id="deleteProductionStockOut" parameterType="String">
+		DELETE FROM
+		PRODUCTION_STOCK_OUT WHERE P_STOCK_OUT_ID = #{pStockOutId}
+	</delete>
+
+	<!-- 가장 최근의 출고 기록을 조회하는 쿼리 -->
+	<select id="selectMostRecentStockOutDetails"
+		parameterType="String" resultMap="productionStockOutResult">
+		SELECT *
+		FROM PRODUCTION_STOCK_OUT
+		WHERE ITEM_CODE = #{itemCode}
+		ORDER BY P_STOCK_OUT_DATE DESC
+		FETCH FIRST 1 ROWS ONLY
+	</select>
+
+
+</mapper>

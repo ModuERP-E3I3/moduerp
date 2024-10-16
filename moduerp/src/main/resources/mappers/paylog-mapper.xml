@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PayLogMapper">
+
+	<!-- PAY_LOG 테이블의 결과를 PayLogDTO로 매핑 -->
+	<resultMap id="payLogResultMap"
+		type="com.e3i3.moduerp.paylog.model.dto.PayLogDTO">
+		<id property="logId" column="LOG_ID" />
+		<result property="payId" column="PAY_ID" />
+		<result property="refundId" column="REFUND_ID" />
+		<result property="status" column="STATUS" />
+		<result property="details" column="DETAILS" />
+		<result property="bizNumber" column="BIZ_NUMBER" />
+		<result property="issuerCode" column="ISSUER_CODE" />
+		<result property="acquirerCode" column="ACQUIRER_CODE" />
+		<result property="currency" column="CURRENCY" />
+		<result property="cardNumber" column="CARD_NUMBER" />
+		<result property="cardType" column="CARD_TYPE" />
+		<result property="ownerType" column="OWNER_TYPE" />
+		<result property="approveNo" column="APPROVE_NO" />
+		<result property="totalAmount" column="TOTAL_AMOUNT" />
+		<result property="suppliedAmount" column="SUPPLIED_AMOUNT" />
+		<result property="vat" column="VAT" />
+		<result property="requestedAt" column="REQUESTED_AT" />
+		<result property="approvedAt" column="APPROVED_AT" />
+		<result property="mId" column="MID" />
+		<result property="paymentKey" column="PAYMENTKEY" />
+		<result property="orderId" column="ORDER_ID" />
+	</resultMap>
+
+
+	<!-- PAY_LOG에 삽입하는 매퍼 -->
+	<insert id="insertPayLog"
+		parameterType="com.e3i3.moduerp.paylog.model.dto.PayLogDTO">
+		INSERT INTO PAY_LOG (
+		LOG_ID, PAY_ID, STATUS, DETAILS,
+		BIZ_NUMBER,
+		ISSUER_CODE, ACQUIRER_CODE, CURRENCY, CARD_NUMBER,
+		CARD_TYPE, OWNER_TYPE, APPROVE_NO, TOTAL_AMOUNT,
+		SUPPLIED_AMOUNT, VAT,
+		REQUESTED_AT, APPROVED_AT,
+		MID, PAYMENTKEY, ORDER_ID
+		) VALUES (
+		#{logId}, #{payId}, #{status}, #{details}, #{bizNumber},
+		#{issuerCode}, #{acquirerCode}, #{currency}, #{cardNumber},
+		#{cardType}, #{ownerType}, #{approveNo}, #{totalAmount},
+		#{suppliedAmount}, #{vat}, #{requestedAt}, #{approvedAt},
+		#{mId},
+		#{paymentKey}, #{orderId}
+		)
+	</insert>
+
+
+
+	<select id="selectPayLogByBizNumber" parameterType="string"
+		resultType="com.e3i3.moduerp.paylog.model.dto.PayLogDTO">
+		SELECT *
+		FROM PAY_LOG
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</select>	
+
+</mapper>

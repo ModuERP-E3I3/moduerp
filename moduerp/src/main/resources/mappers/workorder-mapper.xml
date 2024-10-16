@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="WorkOrderMapper">
+	<resultMap id="resultWorkOrder"
+		type="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		<result property="orderNumber" column="ORDER_NUMBER" />
+		<result property="itemCode" column="ITEM_CODE" />
+		<result property="uuid" column="UUID" />
+		<result property="startDate" column="START_DATE" />
+		<result property="endDate" column="END_DATE" />
+		<result property="taskName" column="TASK_NAME" />
+		<result property="qty" column="QTY" />
+		<result property="progressStatus" column="PROGRESS_STATUS" />
+		<result property="workerTeam" column="WORKER_TEAM" />
+		<result property="worker" column="WORKER" />
+		<result property="workPlace" column="WORK_PLACE" />
+		<result property="wDirector" column="W_DIRECTOR" />
+		<result property="bizNumber" column="BIZ_NUMBER" />
+		<result property="itemName" column="ITEM_NAME" />
+		<result property="endExDate" column="END_EX_DATE" />
+		<result property="updateDate" column="UPDATE_DATE" />
+
+	</resultMap>
+
+	<select id="selectWorkOrdersByBizNumber" parameterType="String"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+		ORDER BY START_DATE ASC
+	</select>
+
+	<select id="getWorkOrderByOrderNumber" parameterType="String"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT * FROM WORK_ORDER WHERE ORDER_NUMBER =
+		#{orderNumber}
+		ORDER BY START_DATE ASC
+	</select>
+
+	<!-- Worker Teams by Biz Number -->
+	<select id="getWorkerTeamsByBizNumber" resultType="string">
+		SELECT
+		 WORKER_TEAM
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+		ORDER BY START_DATE ASC
+	</select>
+
+	<!-- Work Places by Biz Number -->
+	<select id="getWorkPlacesByBizNumber" resultType="string">
+		SELECT 
+		WORK_PLACE
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+		ORDER BY START_DATE ASC
+	</select>
+
+
+	<insert id="insertWorkOrder"
+		parameterType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		INSERT INTO WORK_ORDER (
+		ORDER_NUMBER,
+		ITEM_CODE,
+		UUID,
+		START_DATE,
+		END_DATE,
+		TASK_NAME,
+		QTY,
+		PROGRESS_STATUS,
+		WORKER_TEAM,
+		WORKER,
+		WORK_PLACE,
+		W_DIRECTOR,
+		BIZ_NUMBER,
+		ITEM_NAME,
+		END_EX_DATE
+		) VALUES (
+		#{orderNumber},
+		#{itemCode},
+		#{uuid},
+		#{startDate},
+		#{endDate},
+		#{taskName},
+		#{qty},
+		#{progressStatus},
+		#{workerTeam},
+		#{worker},
+		#{workPlace},
+		#{wDirector},
+		#{bizNumber},
+		#{itemName},
+		#{endExDate}
+		)
+	</insert>
+
+	<select id="getTotalQtyByItemCode" parameterType="String"
+		resultType="int">
+		SELECT NVL(SUM(QTY), 0)
+		FROM WORK_ORDER
+		WHERE ITEM_CODE =
+		#{itemCode}
+	</select>
+
+
+	<update id="updateWorkOrder"
+		parameterType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		UPDATE WORK_ORDER
+		SET
+		TASK_NAME = #{taskName},
+		START_DATE =
+		#{startDate},
+		END_EX_DATE = #{endExDate},
+		QTY = #{qty},
+		PROGRESS_STATUS =
+		#{progressStatus},
+		WORKER_TEAM = #{workerTeam},
+		WORKER = #{worker},
+		WORK_PLACE = #{workPlace},
+		UPDATE_DATE = #{updateDate},
+		END_DATE = CASE
+		WHEN #{progressStatus} = '작업 완료' THEN #{endDate} ELSE NULL END
+		WHERE
+		ORDER_NUMBER = #{orderNumber}
+	</update>
+
+
+	<!-- 작업지시서 삭제 쿼리 -->
+	<delete id="deleteWorkOrder" parameterType="String">
+		DELETE FROM
+		WORK_ORDER
+		WHERE ORDER_NUMBER = #{orderNumber}
+	</delete>
+
+
+	<!-- ======================= -->
+	<!-- QC -->
+	<select id="findCompletedWorkOrders"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE PROGRESS_STATUS = '작업 완료'
+	</select>
+	<!-- ======================= -->
+
+	<select id="selectWorkOrderItemNameByFilterDate" parameterType="map"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		ITEM_NAME LIKE '%' || #{filterText} || '%'
+		AND START_DATE BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+		ORDER BY START_DATE ASC
+	</select>
+	
+	<select id="selectWorkOrdertaskNameByFilterDate" parameterType="map"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		TASK_NAME LIKE '%' || #{filterText} || '%'
+		AND START_DATE BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+		ORDER BY START_DATE ASC
+	</select>
+	
+	<select id="selectWorkOrderworkerByFilterDate" parameterType="map"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		WORKER LIKE '%' || #{filterText} || '%'
+		AND START_DATE BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+		ORDER BY START_DATE ASC
+	</select>
+	
+	<select id="selectWorkOrderwDirectorByFilterDate" parameterType="map"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		W_DIRECTOR LIKE '%' || #{filterText} || '%'
+		AND START_DATE BETWEEN
+		TO_DATE(#{startDate}, 'YYYY-MM-DD') AND
+		TO_DATE(#{endDate},
+		'YYYY-MM-DD')
+		ORDER BY START_DATE ASC
+	</select>
+	
+	<select id="selectWorkOrderItemNameByFilter" parameterType="map"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		ITEM_NAME LIKE '%' || #{filterText} || '%'
+		ORDER BY START_DATE ASC
+	</select>
+	
+	<select id="selectWorkOrdertaskNameByFilter" parameterType="map"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		TASK_NAME LIKE '%' || #{filterText} || '%'
+		ORDER BY START_DATE ASC
+	</select>
+	
+	<select id="selectWorkOrderworkerByFilter" parameterType="map"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		WORKER LIKE '%' || #{filterText} || '%'
+		ORDER BY START_DATE ASC
+	</select>
+	
+	<select id="selectWorkOrderwDirectorByFilter" parameterType="map"
+		resultType="com.e3i3.moduerp.workorder.model.dto.WorkOrderDTO">
+		SELECT *
+		FROM WORK_ORDER
+		WHERE BIZ_NUMBER = #{bizNumber}
+		AND
+		W_DIRECTOR LIKE '%' || #{filterText} || '%'
+		ORDER BY START_DATE ASC
+	</select>
+
+</mapper>
