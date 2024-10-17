@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>qna 작성</title>
+<title>moduerp</title>
 <style type="text/css">
 /* 기본적인 페이지 설정 */
 body {
@@ -242,7 +242,7 @@ button:hover {
     justify-content: center; /* 가로로 중앙 정렬 */
     align-items: center; /* 세로로 중앙 정렬 */
     width: 60%; /* 전체 화면 너비 */
-    margin-top: 40px;
+    margin-top: 60px;
     justify-content: flex-start
 }
 

@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>NoticeList</title>
+<title>moduerp</title>
 <style type="text/css">
 /* 기본적인 페이지 설정 */
 body {
