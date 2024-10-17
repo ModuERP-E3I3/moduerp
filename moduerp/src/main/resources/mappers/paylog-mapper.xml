@@ -86,4 +86,11 @@
 		REFUND_STATUS = ''
 		WHERE LOG_ID = #{logId}
 	</update>
+
+	<update id="updateRefundStatusByBizNumber">
+		UPDATE PAY_LOG
+		SET REFUND_STATUS = #{refundStatus}
+		WHERE BIZ_NUMBER = #{bizNumber}
+	</update>
+
 </mapper>
