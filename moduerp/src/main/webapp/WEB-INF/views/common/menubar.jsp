@@ -223,7 +223,7 @@ nav .moduerp-logo {
                 </c:when>
 
                 <%-- 사장님(CEO)일 때 마이페이지 표시 --%>
-                <c:when test="${not empty sessionScope.uuid}">
+                <c:when test="${not empty sessionScope.uuid and sessionScope.departmentId eq 'ceo-dpt'}">
                     <li><a href="<c:url value='/passwordManagement.do' />">마이페이지</a></li>
                 </c:when>
 

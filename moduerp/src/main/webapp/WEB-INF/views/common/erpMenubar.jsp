@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-pVIYayNfvKjtF6GLsBlEuFrkczFdfMgXnv5iYLdfY+BjOlxryMmlw3BA2b3WxzVd/7cY3AJ5dvoTifVg6sSdCg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <meta charset="UTF-8">
 <title>ERPMenubar</title>
 
@@ -117,8 +118,36 @@ nav.side ul li.moduerp {
 					class="fas fa-car"></i> 차량 관리</a></li>
 			<li><a href="<c:url value='/attendance.do' />"><i
 					class="fas fa-th-large"></i> 그룹 웨어</a></li>
-			<li><a href="<c:url value='/main.do' />"><i
-					class="fas fa-home"></i> HomePage</a></li>
+			
+			     <c:choose>
+			     <%-- 관리자일 때 홈페이지 표시 --%>
+                <c:when test="${not empty sessionScope.uuid and sessionScope.uuid eq sessionScope.adminUUID}">
+                    <li>
+                        <a href="<c:url value='/main.do' />">
+                            <i class="fas fa-home"></i> HomePage
+                        </a>
+                    </li>
+                </c:when>
+                
+                <%-- 사장님(CEO)일 때 홈페이지 표시 --%>
+                <c:when test="${not empty sessionScope.uuid and sessionScope.departmentId eq 'ceo-dpt'}">
+                    <li>
+                        <a href="<c:url value='/main.do' />">
+                            <i class="fas fa-home"></i> HomePage
+                        </a>
+                    </li>
+                </c:when>
+                
+                <%-- 일반 직원일 때 마이페이지 표시 --%>
+                <c:otherwise>
+                    <li>
+                        <a href="<c:url value='/EmpMypage.do' />">
+                            <i class="fa-solid fa-user"></i> 마이페이지
+                        </a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+            
 			<li><a href="<c:url value='/logout.do' />"><i
 					class="fas fa-sign-out-alt"></i> 로그아웃</a></li>
 
