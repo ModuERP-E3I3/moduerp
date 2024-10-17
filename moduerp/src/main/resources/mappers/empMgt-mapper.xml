@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="EmpMgtMapper">
 
-<!-- 직원 정보를 매핑하기 위한 resultMap -->
+	<!-- 직원 정보를 매핑하기 위한 resultMap -->
 	<resultMap id="resultEmployee"
 		type="com.e3i3.moduerp.employee.model.dto.Employee">
-		<id property="uuid" column="uuid"  />
+		<id property="uuid" column="uuid" />
 		<result property="bizNumber" column="biz_number" />
 		<result property="approvalCode" column="approval_code" />
 		<result property="departmentId" column="department_id" /> <!-- 수정됨 -->
@@ -40,7 +40,7 @@
 	<!-- 모든 직원 정보를 조회하는 쿼리 -->
 	<select id="getAllEmployees" resultMap="resultEmployee">
 		SELECT E.UUID,
-		E.EMP_NAME, E.DEPARTMENT_ID, D.DEPARTMENT_NAME, E.JOB_ID,
+		E.EMP_NAME, E.EMP_NO, E.DEPARTMENT_ID, D.DEPARTMENT_NAME, E.JOB_ID,
 		E.EMP_EMAIL,
 		E.USER_PHONE, E.ADDRESS, E.BIZ_NUMBER,
 		E.PRIVATE_AUTHORITY
@@ -55,7 +55,8 @@
 	<select id="selectEmployeeByUUID" parameterType="String"
 		resultMap="resultEmployee">
 		SELECT * FROM (
-		SELECT E.UUID, E.EMP_NAME, E.DEPARTMENT_ID,
+		SELECT E.UUID, E.EMP_NAME, E.EMP_NO, 
+		E.DEPARTMENT_ID,
 		D.DEPARTMENT_NAME, E.JOB_ID,
 		E.EMP_EMAIL,
 		E.USER_PHONE, E.ADDRESS,
@@ -78,11 +79,14 @@
 		DEPARTMENT_ID, JOB_ID, EMP_EMAIL, USER_PHONE,
 		ADDRESS, BIZ_NUMBER,
 		APPROVAL_CODE, PRIVATE_AUTHORITY,
-		REGISTRATION_DATE, PASSWORD, IS_DELETED
+		REGISTRATION_DATE, PASSWORD,
+		IS_DELETED
 		) VALUES (
-		EMP_NO_SEQ.NEXTVAL, #{uuid}, #{empName}, #{departmentId}, #{jobId},
+		#{empNo}, #{uuid}, #{empName}, #{departmentId},
+		#{jobId},
 		#{empEmail}, #{userPhone},
-		#{address}, #{bizNumber}, #{approvalCode},
+		#{address}, #{bizNumber},
+		#{approvalCode},
 		#{privateAuthority},
 		SYSDATE, #{password}, #{isDeleted}
 		)
@@ -105,10 +109,14 @@
 	<update id="updateEmployee"
 		parameterType="com.e3i3.moduerp.employee.model.dto.Employee">
 		UPDATE EMPLOYEE
-		SET EMP_NAME = #{empName}, DEPARTMENT_ID
-		= #{departmentId}, JOB_ID = #{jobId},
+		SET 
+		EMP_NAME = #{empName},
+		EMP_NO = #{empNo},
+		DEPARTMENT_ID = #{departmentId},
+		JOB_ID = #{jobId},
 		EMP_EMAIL = #{empEmail}, USER_PHONE
-		= #{userPhone}, ADDRESS = #{address},
+		= #{userPhone}, ADDRESS
+		= #{address},
 		PRIVATE_AUTHORITY =
 		#{privateAuthority}
 		WHERE UUID =
@@ -124,7 +132,7 @@
 	<!-- 특정 BIZ_NUMBER로 직원 데이터를 조회하는 쿼리 -->
 	<select id="getEmployeesByBizNumber" resultMap="resultEmployee"
 		parameterType="string">
-		SELECT E.UUID, E.EMP_NAME, E.DEPARTMENT_ID,
+		SELECT E.UUID, E.EMP_NAME, E.EMP_NO, E.DEPARTMENT_ID,
 		MAX(D.DEPARTMENT_NAME) AS DEPARTMENT_NAME, E.JOB_ID,
 		E.EMP_EMAIL,
 		E.USER_PHONE, E.ADDRESS, E.BIZ_NUMBER,
@@ -135,7 +143,7 @@
 		ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
 		WHERE
 		E.BIZ_NUMBER = #{bizNumber}
-		GROUP BY E.UUID, E.EMP_NAME,
+		GROUP BY E.UUID, E.EMP_NAME, E.EMP_NO,
 		E.DEPARTMENT_ID, E.JOB_ID,
 		E.EMP_EMAIL, E.USER_PHONE, E.ADDRESS,
 		E.BIZ_NUMBER,
@@ -175,7 +183,7 @@
 	<!-- 직원명으로 조회 : 필터 -->
 	<select id="selectEmployeesByEmpName" parameterType="map"
 		resultMap="resultEmployee">
-		SELECT E.UUID, E.EMP_NAME, MAX(D.DEPARTMENT_NAME) AS
+		SELECT E.UUID, E.EMP_NAME, E.EMP_NO, MAX(D.DEPARTMENT_NAME) AS
 		DEPARTMENT_NAME,
 		E.JOB_ID, E.EMP_EMAIL, E.USER_PHONE, E.ADDRESS,
 		E.BIZ_NUMBER, E.PRIVATE_AUTHORITY
@@ -187,7 +195,7 @@
 		#{filterText} || '%'
 		AND E.BIZ_NUMBER = #{bizNumber}
 		GROUP BY E.UUID,
-		E.EMP_NAME, E.JOB_ID,
+		E.EMP_NAME, E.EMP_NO, E.JOB_ID,
 		E.EMP_EMAIL, E.USER_PHONE, E.ADDRESS,
 		E.BIZ_NUMBER, E.PRIVATE_AUTHORITY
 		ORDER BY E.EMP_NAME ASC
@@ -197,7 +205,7 @@
 	<!-- 부서명 조회 : 필터 -->
 	<select id="selectEmployeesByDepartmentName" parameterType="map"
 		resultMap="resultEmployee">
-		SELECT DISTINCT E.UUID, E.EMP_NAME, D.DEPARTMENT_NAME,
+		SELECT DISTINCT E.UUID, E.EMP_NAME, E.EMP_NO, D.DEPARTMENT_NAME,
 		E.JOB_ID,
 		E.EMP_EMAIL, E.USER_PHONE, E.ADDRESS, E.BIZ_NUMBER,
 		E.PRIVATE_AUTHORITY
@@ -214,14 +222,18 @@
 	<!-- 직급명 조회 : 필터 -->
 	<select id="selectEmployeesByJobId" parameterType="map"
 		resultMap="resultEmployee">
-		SELECT E.UUID, E.EMP_NAME, MAX(D.DEPARTMENT_NAME) AS DEPARTMENT_NAME,
+		SELECT E.UUID, E.EMP_NAME, E.EMP_NO, MAX(D.DEPARTMENT_NAME) AS
+		DEPARTMENT_NAME,
 		E.JOB_ID, E.EMP_EMAIL, E.USER_PHONE, E.ADDRESS,
 		E.BIZ_NUMBER, E.PRIVATE_AUTHORITY
 		FROM EMPLOYEE E
-		JOIN DEPARTMENT D ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
-		WHERE E.JOB_ID LIKE '%' || #{filterText} || '%'
+		JOIN DEPARTMENT D ON
+		E.DEPARTMENT_ID = D.DEPARTMENT_ID
+		WHERE E.JOB_ID LIKE '%' ||
+		#{filterText} || '%'
 		AND E.BIZ_NUMBER = #{bizNumber}
-		GROUP BY E.UUID, E.EMP_NAME, E.JOB_ID,
+		GROUP BY E.UUID,
+		E.EMP_NAME, E.EMP_NO,  E.JOB_ID,
 		E.EMP_EMAIL, E.USER_PHONE, E.ADDRESS,
 		E.BIZ_NUMBER, E.PRIVATE_AUTHORITY
 		ORDER BY E.EMP_NAME ASC

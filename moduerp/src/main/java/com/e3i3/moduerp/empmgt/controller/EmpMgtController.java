@@ -44,7 +44,7 @@ public class EmpMgtController {
 		int startIndex = (page - 1) * employeesPerPage;
 		int endIndex = Math.min(startIndex + employeesPerPage, totalEmployees);
 		List<Employee> paginatedList = employeeList.subList(startIndex, endIndex);
-		
+
 		// 모델에 데이터 추가
 		model.addAttribute("employeeList", paginatedList);
 		model.addAttribute("totalPages", totalPages);
@@ -52,9 +52,6 @@ public class EmpMgtController {
 
 		// privateAuthority
 		model.addAttribute("privateAuthority", session.getAttribute("privateAuthority"));
-
-		// Flash Attribute로 전달된 departmentName 추가
-		// Flash Attribute는 자동으로 모델에 추가되므로 별도의 작업은 필요 없습니다.
 
 		return "empMgt/empMgt";
 	}
@@ -121,7 +118,7 @@ public class EmpMgtController {
 		List<Department> departmentList = empMgtService.getAllDepartments();
 
 		// UUID 생성 또는 설정
-		String uuid = UUID.randomUUID().toString(); 
+		String uuid = UUID.randomUUID().toString();
 
 		// 추가 데이터 로드
 		List<String> empNames = empMgtService.getEmpNamesByBizNumber(bizNumber);
@@ -139,12 +136,17 @@ public class EmpMgtController {
 	}
 
 	@PostMapping("/employeeCreate.do")
-	public String employeeCreate(@RequestParam("empName") String empName,
-			@RequestParam("departmentId") String departmentId, @RequestParam("jobId") String jobId,
-			@RequestParam("empEmail") String email, @RequestParam("userPhone") String phone,
-			@RequestParam("address") String address, @RequestParam("privateAuthority") String privateAuthority,
-			// 권한
-			@RequestParam("departmentName") String departmentName, RedirectAttributes model, HttpSession session) {
+	public String employeeCreate(
+			@RequestParam("empNo") String empNo, 
+			@RequestParam("empName") String empName,
+			@RequestParam("departmentId") String departmentId, 
+			@RequestParam("jobId") String jobId,
+			@RequestParam("empEmail") String email, 
+			@RequestParam("userPhone") String phone,
+			@RequestParam("address") String address,
+			@RequestParam("privateAuthority") String privateAuthority,
+			@RequestParam("departmentName") String departmentName,
+			RedirectAttributes model, HttpSession session) {
 
 		String bizNumber = (String) session.getAttribute("biz_number");
 
@@ -152,21 +154,22 @@ public class EmpMgtController {
 		String approvalCode = empMgtService.getApprovalCodeByBizNumber(bizNumber);
 
 		Employee empMgtDTO = new Employee();
-		empMgtDTO.setUuid(UUID.randomUUID().toString()); // UUID 자동 생성
-		empMgtDTO.setEmpName(empName);
-		empMgtDTO.setDepartmentId(departmentId);
-		empMgtDTO.setJobId(jobId);
-		empMgtDTO.setEmpEmail(email);
-		empMgtDTO.setIsDeleted('N');
-		empMgtDTO.setUserPhone(phone);
-	    empMgtDTO.setDepartmentName(departmentName);
-		empMgtDTO.setAddress(address);
-		empMgtDTO.setBizNumber(bizNumber);
-		empMgtDTO.setPrivateAuthority(privateAuthority); // 권한 설정
-		empMgtDTO.setApprovalCode(approvalCode); // 승인 코드 설정
+		empMgtDTO.setUuid(UUID.randomUUID().toString()); 	// UUID 자동생성
+		empMgtDTO.setEmpNo(empNo);							// 사번
+		empMgtDTO.setEmpName(empName);						// 직원명
+		empMgtDTO.setDepartmentId(departmentId);			// 부서아이디
+		empMgtDTO.setJobId(jobId);							// 직급
+		empMgtDTO.setEmpEmail(email);						// 이메일
+		empMgtDTO.setIsDeleted('N');						// 삭제여부
+		empMgtDTO.setUserPhone(phone);						// 전화번호
+		empMgtDTO.setDepartmentName(departmentName);		// 부서이름
+		empMgtDTO.setAddress(address);						// 주소
+		empMgtDTO.setBizNumber(bizNumber);					// 사업자번호
+		empMgtDTO.setPrivateAuthority(privateAuthority); 	// 사설 권한
+		empMgtDTO.setApprovalCode(approvalCode); 			// 승인 코드
 		empMgtDTO.setPassword(bcryptPasswordEncoder.encode("12345678"));
 
-		model.addFlashAttribute("departmentName", departmentName); // 모델이 부서이름 추가
+		model.addFlashAttribute("departmentName", departmentName); 
 
 		empMgtService.createEmployee(empMgtDTO);
 
@@ -174,18 +177,19 @@ public class EmpMgtController {
 	}
 
 	@GetMapping("getEmployeeDetails.do")
-	public String getEmployeeDetail(@RequestParam("uuid") String uuid, @RequestParam("departmentName") String departmentName,
-			Model model) {
+	public String getEmployeeDetail(@RequestParam("uuid") String uuid,
+			@RequestParam("departmentName") String departmentName, Model model) {
 		Employee employeeDetail = empMgtService.getEmployeeDetailByUUID(uuid);
 		model.addAttribute("employeeDetail", employeeDetail);
 		model.addAttribute("privateAuthority", employeeDetail.getPrivateAuthority()); // privateAuthority 추가
-		 // 필요에 따라 departmentName을 추가로 처리
-        model.addAttribute("departmentName", departmentName);
+		
+		model.addAttribute("departmentName", departmentName);
 		return "empMgt/empMgtDetail";
 	}
 
 	@GetMapping("employeeDetailUpdate.do")
-	public String employeeDetailUpdate(@RequestParam("uuid") String uuid, Model model, HttpSession session) {
+	public String employeeDetailUpdate(
+			@RequestParam("uuid") String uuid, Model model, HttpSession session) {
 		Employee employeeDetail = empMgtService.getEmployeeDetailByUUID(uuid);
 		String bizNumber = (String) session.getAttribute("biz_number");
 
@@ -205,21 +209,28 @@ public class EmpMgtController {
 	}
 
 	@PostMapping("/updateEmployee.do")
-	public String updateEmployee(@RequestParam("uuid") String uuid, @RequestParam("empName") String empName,
-			@RequestParam("departmentId") String departmentId, @RequestParam("jobId") String jobId,
-			@RequestParam("empEmail") String email, @RequestParam("userPhone") String phone,
-			@RequestParam("address") String address, @RequestParam("privateAuthority") String privateAuthority) { // privateAuthority
-																												// 추가
+	public String updateEmployee(
+			@RequestParam("uuid") String uuid, 
+			@RequestParam("empName") String empName,
+			@RequestParam("empNo") String empNo,
+			@RequestParam("departmentId") String departmentId, 
+			@RequestParam("jobId") String jobId,
+			@RequestParam("empEmail") String email, 
+			@RequestParam("userPhone") String phone,
+			@RequestParam("address") String address, 
+			@RequestParam("privateAuthority") String privateAuthority) { 
+																													// 추가
 
 		Employee empMgtDTO = new Employee();
 		empMgtDTO.setUuid(uuid);
 		empMgtDTO.setEmpName(empName);
+		empMgtDTO.setEmpNo(empNo);
 		empMgtDTO.setDepartmentId(departmentId);
 		empMgtDTO.setJobId(jobId);
 		empMgtDTO.setEmpEmail(email);
 		empMgtDTO.setUserPhone(phone);
 		empMgtDTO.setAddress(address);
-		empMgtDTO.setPrivateAuthority(privateAuthority); // privateAuthority 설정
+		empMgtDTO.setPrivateAuthority(privateAuthority);
 
 		empMgtService.updateEmployee(empMgtDTO);
 
