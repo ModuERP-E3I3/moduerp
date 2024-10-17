@@ -21,6 +21,7 @@
  	<select id="getAllQna" resultType="com.e3i3.moduerp.qna.model.dto.QnaDto">
  		SELECT *
  		FROM QUESTION
+ 		ORDER BY Q_DATE DESC
  	</select>
  	
  	<!-- 사원 조회 쿼리 -->
@@ -92,7 +93,7 @@
 		WHERE Q_SEQ = #{qSeq}
 	</update>
 	
-	<!-- 답변 삭제 시 qStatus 'Y'로 업데이트 -->
+	<!-- 답변 삭제 시 qStatus 'N'로 업데이트 -->
 	<update id="updateQStatusN"
 		parameterType="com.e3i3.moduerp.qna.model.dto.QnaDto">
 		UPDATE QUESTION
