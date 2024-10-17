@@ -211,7 +211,7 @@ input[type="checkbox"]:disabled {
 								<tr>
 									<!-- 첫 번째 반복에서만 rowspan이 적용된 <td>를 출력 -->
 									<c:if test="${status.index == 0}">
-										<td rowspan="${moduleListEmpMgt}">그룹웨어</td>
+										<td rowspan="${moduleListEmpMgt}">인사관리</td>
 									</c:if>
 
 									<td><c:choose>
