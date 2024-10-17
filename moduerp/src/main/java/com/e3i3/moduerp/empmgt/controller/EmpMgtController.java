@@ -121,7 +121,7 @@ public class EmpMgtController {
 		List<Department> departmentList = empMgtService.getAllDepartments();
 
 		// UUID 생성 또는 설정
-		String uuid = UUID.randomUUID().toString(); // UUID를 새로 생성합니다.
+		String uuid = UUID.randomUUID().toString(); 
 
 		// 추가 데이터 로드
 		List<String> empNames = empMgtService.getEmpNamesByBizNumber(bizNumber);

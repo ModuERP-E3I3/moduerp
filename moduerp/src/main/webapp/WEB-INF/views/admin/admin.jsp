@@ -26,11 +26,13 @@ body {
 	flex-direction: column;
 	padding: 20px;
 	background-color: white;
+	margin-left : 10%;
 }
 
 .table-container {
 	width: 100%; /* 너비 100%로 설정 */
 	margin-top: 20px;
+	
 }
 
 .scrollable-table {
@@ -117,12 +119,12 @@ footer {
 	<!-- 필터 박스 -->
 	<form action="/moduerp/adminFilter.do"></form>
 
-	<!-- 메뉴바 임포트 -->
 	<c:import url="/WEB-INF/views/common/menubar.jsp" />
 
 	<h1>관리자 페이지</h1>
 
 
+	<c:import url="/WEB-INF/views/common/adminMenubar.jsp" />
 	<div class="container">
 		<h2>회원가입 현황 데이터 테이블</h2>
 		
