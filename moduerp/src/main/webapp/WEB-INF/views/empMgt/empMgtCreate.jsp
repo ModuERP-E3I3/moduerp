@@ -155,7 +155,8 @@ th {
 	<!-- 상단 메뉴 -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="empMgt.do"><i class="fas fa-user-cog"></i> 직원 관리</a></li>
+			<li><a href="empMgt.do"><i class="fas fa-user-cog"></i> 직원
+					관리</a></li>
 
 		</ul>
 	</div>
@@ -182,26 +183,38 @@ th {
 				</thead>
 				<tbody>
 					<tr>
-						<!-- 부서 선택 드롭다운  -->
-						<td><select name="departmentId">
+						<td><select name="departmentId"
+							onchange="setDepartmentName(this)" required>
+								<option value="" disabled selected>부서 선택</option>
 								<c:forEach var="department" items="${departmentList}">
 									<option value="${department.departmentId}">${department.departmentName}</option>
 								</c:forEach>
 						</select></td>
-						<td><input type="text" name="jobId" placeholder="직급 입력" required /></td>
-						<td><input type="text" name="empName" placeholder="직원명 입력" required/></td>
-						<td><input type="text" name="email" placeholder="이메일 입력" required/></td>
-						<td><input type="text" name="phone" placeholder="전화번호 입력" required/></td>
-						<td><input type="text" name="address" placeholder="주소 입력" required/></td>
+
+						<td><input type="text" name="jobId" placeholder="직급 입력"
+							required /></td>
+						<td><input type="text" name="empName" placeholder="직원명 입력"
+							required /></td>
+						<td><input type="text" name="empEmail" placeholder="이메일 입력"
+							required /></td>
+						<td><input type="text" name="userPhone" placeholder="전화번호 입력"
+							required /></td>
+						<td><input type="text" name="address" placeholder="주소 입력"
+							required /></td>
 
 						<!-- 사설권한 라디오 버튼 -->
 						<td><label for="privateAuthority">권한:</label> <input
-							type="radio" name="privateAuthority" value="Y" checked> Y
-							<input type="radio" name="privateAuthority" value="N"> N
+							type="radio" name="privateAuthority" value='Y' checked> Y
+							<input type="radio" name="privateAuthority" value='N'> N
 						</td>
 					</tr>
 				</tbody>
 			</table>
+
+		   <!-- 부서명 숨겨진 입력 필드 -->
+    <input type="hidden" id="departmentNameField" name="departmentName" value="">
+
+
 
 			<!-- 버튼 그룹 -->
 			<div class="btn-group">
@@ -213,6 +226,31 @@ th {
 	</div>
 </body>
 <script>
+function setDepartmentName(select) {
+    const departmentName = select.options[select.selectedIndex].text;
+    const departmentNameField = document.getElementById('departmentNameField');
+    if (departmentNameField) {
+        departmentNameField.value = departmentName;
+        console.log("departmentNameField set to:", departmentName);
+    } else {
+        console.error("departmentNameField 요소를 찾을 수 없습니다.");
+    }
+}
+
+// 페이지 로딩 시 초기 설정
+document.addEventListener('DOMContentLoaded', function() {
+    const departmentSelect = document.querySelector('select[name="departmentId"]');
+    if (departmentSelect) {
+        // 초기 선택된 부서의 이름 설정
+        setDepartmentName(departmentSelect);
+    }
+
+    // 스크립트가 제대로 로드되었는지 확인
+    console.log("JavaScript 파일이 로드되었습니다.");
+});
+</script>
+
+
 function addMaterialType() {
     const container = document.getElementById('materialTypeContainer');
     const newInputDiv = document.createElement('div');

@@ -52,6 +52,8 @@ public interface PurchaseOrdersDAO {
 
 	List<PurchaseOrdersDTO> getAllPurchaseOrders(String bizNumber);
 
+	String findAccountNameByNo(String accountNo, String bizNumber);
+
 	
 	
 	

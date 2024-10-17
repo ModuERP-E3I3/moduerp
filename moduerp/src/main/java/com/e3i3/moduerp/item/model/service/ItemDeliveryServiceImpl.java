@@ -166,6 +166,21 @@ public class ItemDeliveryServiceImpl implements ItemDeliveryService {
 	    return null;
 	}
 
+	@Override
+	public List<ItemDTO> getItemByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
+		return itemDeliveryDAO.getItemByFilterOnlyDate(bizNumber, startDate, endDate);
+	}
+
+	@Override
+	public List<ItemDTO> getItemByFilterStartDate(String bizNumber, String startDate) {
+		return itemDeliveryDAO.getItemByFilterStartDate(bizNumber, startDate);
+	}
+
+	@Override
+	public List<ItemDTO> getItemByFilterEndDate(String bizNumber, String endDate) {
+		return itemDeliveryDAO.getItemByFilterEndDate(bizNumber, endDate);
+	}
+
 
 
 

@@ -5,11 +5,14 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,253 +26,270 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.e3i3.moduerp.car.model.dto.CarDto;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @Controller
 @RequestMapping("/")
 public class CarController {
 
-
 	// carRes.jsp view
-	
-
-	
 
 	// map.jsp view
-	@CrossOrigin(origins = "https://apis-navi.kakaomobility.com/v1/directions") // Ư�� �����θ� ���
+	@CrossOrigin(origins = "https://apis-navi.kakaomobility.com/v1/directions")
 	@RequestMapping(value = "/map.do", method = RequestMethod.GET)
-	public String forwardMap() {
+	public String forwardMap(HttpSession session) {
+		String bizNumber = (String) session.getAttribute("biz_number");
+		
+		// 모듈 등급 검사
+		String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
+		
+		if (moduleGrades != null) {
+			// 쉼표(,)로 문자열을 분리하여 배열로 반환
+			String[] gradesArray = moduleGrades.split(",");
+			// 배열을 List로 변환
+			List<String> gradesList = Arrays.asList(gradesArray);
+			// P_IN이 리스트에 있는지 검사
+			if (gradesList.contains("RTRL")) {
+				System.out.println("RTRL이 리스트에 포함되어 있습니다.");
+			} else {
+				System.out.println("RTRL이 리스트에 없습니다.");
+				return "common/moduleGradesError";
+			}
+		} else {
+			return "common/moduleGradesError";
+
+		}
+
 		return "car/map";
 	}
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(CarController.class);
-	
+
+	@Autowired
+	private com.e3i3.moduerp.company.model.service.CompanyService companyService;
+
 	@Autowired
 	private com.e3i3.moduerp.car.model.service.CarService CarService;
-	
+
 	/*
 	 * @Autowired private com.e3i3.moduerp.carres.model.service.CarresService
 	 * CarresService;
 	 */
-	
-	@Autowired 
+
+	@Autowired
 	private ServletContext servletContext;
-		 
-	
-	
-	
-	@CrossOrigin(origins = "https://apis-navi.kakaomobility.com/v1/directions") // 
+
+	@CrossOrigin(origins = "https://apis-navi.kakaomobility.com/v1/directions") //
 	@RequestMapping(value = "/carRes.do", method = RequestMethod.GET)
-	public String carListView(@RequestParam(value = "page", defaultValue = "1") int page, Model model, HttpSession session) {
+	public String carListView(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
+			HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
-		
+
 		List<CarDto> carList = CarService.getAllCar(bizNumber);
-		
+
+		String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
+		if (moduleGrades != null) {
+			// 쉼표(,)로 문자열을 분리하여 배열로 반환
+			String[] gradesArray = moduleGrades.split(",");
+			// 배열을 List로 변환
+			List<String> gradesList = Arrays.asList(gradesArray);
+			// P_IN이 리스트에 있는지 검사
+			if (gradesList.contains("C_I")) {
+				System.out.println("C_I이 리스트에 포함되어 있습니다.");
+			} else {
+				System.out.println("C_I이 리스트에 없습니다.");
+				return "common/moduleGradesError";
+			}
+		} else {
+			return "common/moduleGradesError";
+
+		}
+
 		// 페이지당 항목 수
 		int carsPerPage = 3;
-		
+
 		// 총 항목 수
 		int totalCars = carList.size();
-		
+
 		// 총 페이지 수
 		int totalPages = (int) Math.ceil((double) totalCars / carsPerPage);
-		
+
 		// 시작 인덱스 계산
 		int startIndex = (page - 1) * carsPerPage;
 		int endIndex = Math.min(startIndex + carsPerPage, totalCars);
-		
+
 		List<CarDto> paginatedList = carList.subList(startIndex, endIndex);
-		
+
 		model.addAttribute("carList", paginatedList);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("currentPage", page);
-		
+
 		return "car/carRes";
 	}
-	
+
 	@RequestMapping(value = "/carFilter.do", method = RequestMethod.GET)
 	public String forwardCarFilter(@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "filterOption", required = false) String option,
-			@RequestParam(value = "filterText", required = false) String filterText,
-			Model model, HttpSession session) {
+			@RequestParam(value = "filterText", required = false) String filterText, Model model, HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		List<CarDto> carList;
-		
+
 		// 필터링 로직 추가
 		if (option != null && filterText != null) {
 			carList = CarService.getCarByFilter(bizNumber, option, filterText);
 		} else {
 			carList = CarService.getAllCar(bizNumber);
 		}
-		
+
 		int carsPerPage = 3;
 		int totalCars = carList.size();
 		int totalPages = (int) Math.ceil((double) totalCars / carsPerPage);
 		int startIndex = (page - 1) * carsPerPage;
 		int endIndex = Math.min(startIndex + carsPerPage, totalCars);
-		
+
 		List<CarDto> paginatedList = carList.subList(startIndex, endIndex);
-		
+
 		model.addAttribute("carList", paginatedList);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("option", option);
 		model.addAttribute("filterText", filterText);
-		
+
 		return "car/carFilter";
 	}
-	
+
 	// 차량 추가 페이지로 이동
-    @RequestMapping(value = "/carCreate.do", method = RequestMethod.GET)
-    public String showCreateCarForm() {
-        return "car/carCreate";  // carCreate.jsp로 이동
-    }
-    
-    /*
-    // 차량 추가 처리
-    @RequestMapping(value = "/insertCar.do", method = RequestMethod.POST)
-    public String insertCar(CarDto carDto) {
-        CarService.insertCar(carDto);  // Service 호출
-        return "redirect:/carRes.do";  // 차량 목록 페이지로 리다이렉트
-    }
-    */
-    @PostMapping("/insertCar.do")
-    public String insertCar(@RequestParam("carNum") String carNum,
-                            @RequestParam("carModel") String carModel,
-                            @RequestParam("ownershipStatus") String ownershipStatus,
-                            @RequestParam("image") MultipartFile image,
-                            HttpSession session) {
-        String bizNumber = (String) session.getAttribute("biz_number");
+	@RequestMapping(value = "/carCreate.do", method = RequestMethod.GET)
+	public String showCreateCarForm() {
+		return "car/carCreate"; // carCreate.jsp로 이동
+	}
 
-        ZonedDateTime nowKST = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
-        Timestamp currentTimestampKST = Timestamp.valueOf(nowKST.toLocalDateTime());
+	/*
+	 * // 차량 추가 처리
+	 * 
+	 * @RequestMapping(value = "/insertCar.do", method = RequestMethod.POST) public
+	 * String insertCar(CarDto carDto) { CarService.insertCar(carDto); // Service 호출
+	 * return "redirect:/carRes.do"; // 차량 목록 페이지로 리다이렉트 }
+	 */
+	@PostMapping("/insertCar.do")
+	public String insertCar(@RequestParam("carNum") String carNum, @RequestParam("carModel") String carModel,
+			@RequestParam("ownershipStatus") String ownershipStatus, @RequestParam("image") MultipartFile image,
+			HttpSession session) {
+		String bizNumber = (String) session.getAttribute("biz_number");
 
-        // ITEM_CODE 생성: biz_number + "C" + 현재 타임스탬프
-        String carId = bizNumber + "C" + currentTimestampKST.getTime();
+		ZonedDateTime nowKST = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+		Timestamp currentTimestampKST = Timestamp.valueOf(nowKST.toLocalDateTime());
 
-        CarDto carDto = new CarDto();
-        carDto.setCarId(carId);
-        carDto.setCarNum(carNum);
-        carDto.setCarModel(carModel);
-        carDto.setOwnershipStatus(ownershipStatus);
-        carDto.setBizNumber(bizNumber);
+		// ITEM_CODE 생성: biz_number + "C" + 현재 타임스탬프
+		String carId = bizNumber + "C" + currentTimestampKST.getTime();
 
-     // 이미지 저장 경로 설정
-        String relativePath = "resources/images/carimg"; // 상대 경로
-        String realPath = servletContext.getRealPath(relativePath); // 실제 경로
-        String fileName = bizNumber + currentTimestampKST.getTime() + "_" + image.getOriginalFilename(); // 파일명 변경
+		CarDto carDto = new CarDto();
+		carDto.setCarId(carId);
+		carDto.setCarNum(carNum);
+		carDto.setCarModel(carModel);
+		carDto.setOwnershipStatus(ownershipStatus);
+		carDto.setBizNumber(bizNumber);
 
-        // 파일 저장
-        File file = new File(realPath, fileName);
-        try {
-            image.transferTo(file);
-            carDto.setImagePath(relativePath + "/" + fileName); // DB에 저장할 경로
-        } catch (IOException e) {
-            e.printStackTrace();
-            // 예외 처리 로직 추가
-            return "redirect:/carCreate.do"; // 예외 발생 시 다시 폼으로 돌아감
-        }
+		// 이미지 저장 경로 설정
+		String relativePath = "resources/images/carimg"; // 상대 경로
+		String realPath = servletContext.getRealPath(relativePath); // 실제 경로
+		String fileName = bizNumber + currentTimestampKST.getTime() + "_" + image.getOriginalFilename(); // 파일명 변경
 
-        CarService.insertCar(carDto);
+		// 파일 저장
+		File file = new File(realPath, fileName);
+		try {
+			image.transferTo(file);
+			carDto.setImagePath(relativePath + "/" + fileName); // DB에 저장할 경로
+		} catch (IOException e) {
+			e.printStackTrace();
+			// 예외 처리 로직 추가
+			return "redirect:/carCreate.do"; // 예외 발생 시 다시 폼으로 돌아감
+		}
 
-        return "redirect:/carRes.do";
-    }
+		CarService.insertCar(carDto);
 
-    
-    
-    
-    // 차량 상세 페이지
-    @GetMapping("/getCarDetail.do")
-    public String getCarDetail(@RequestParam("carId") String carId, Model model) {
-    	CarDto carDetail = CarService.getCarListDetail(carId);
-    	
-    	model.addAttribute("carDetail", carDetail);
-    	
-    	return "car/carDetail";
-    }
-    
-    // 차량 정보 수정 페이지로 이동
-    @GetMapping("/carDetailUpdate.do")
-    public String carDetailUpdate(@RequestParam("carId") String carId, Model model) {
-    	CarDto carDetail = CarService.getCarListDetail(carId);
-    	
-    	model.addAttribute("carDetail", carDetail);
-    	
-    	return "car/carDetailUpdate";
-    }
-    
-    
-    @PostMapping("/updateCar.do") 
-    public String updateCar(@RequestParam("carId") String carId,
-                            @RequestParam("carNum") String carNum,
-                            @RequestParam("carModel") String carModel,
-                            @RequestParam("ownershipStatus") String ownershipStatus,
-                            @RequestParam(value = "image", required = false) MultipartFile image,
-                            HttpSession session) {
+		return "redirect:/carRes.do";
+	}
 
-        CarDto carDto = new CarDto(); 
-        carDto.setCarId(carId);
-        carDto.setCarNum(carNum);
-        carDto.setCarModel(carModel); 
-        carDto.setOwnershipStatus(ownershipStatus);
+	// 차량 상세 페이지
+	@GetMapping("/getCarDetail.do")
+	public String getCarDetail(@RequestParam("carId") String carId, Model model) {
+		CarDto carDetail = CarService.getCarListDetail(carId);
 
-        // 이미지 저장 경로 설정
-        String relativePath = "resources/images/carimg"; // 상대 경로
-        String realPath = servletContext.getRealPath(relativePath); // 실제 경로
-        String fileName = null;
+		model.addAttribute("carDetail", carDetail);
 
-        // 파일이 업로드 되었을 경우
-        if (image != null && !image.isEmpty()) {
-            ZonedDateTime nowKST = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
-            Timestamp currentTimestampKST = Timestamp.valueOf(nowKST.toLocalDateTime());
+		return "car/carDetail";
+	}
 
-            // biz_number를 문자열로 변환하여 파일명 생성
-            fileName = session.getAttribute("biz_number").toString() + currentTimestampKST.getTime() + "_" + image.getOriginalFilename(); // 파일명 변경
+	// 차량 정보 수정 페이지로 이동
+	@GetMapping("/carDetailUpdate.do")
+	public String carDetailUpdate(@RequestParam("carId") String carId, Model model) {
+		CarDto carDetail = CarService.getCarListDetail(carId);
 
-            // 파일 저장
-            File file = new File(realPath, fileName);
-            try {
-                image.transferTo(file);
-                carDto.setImagePath(relativePath + "/" + fileName); // DB에 저장할 경로
-            } catch (IOException e) {
-                e.printStackTrace();
-                // 예외 발생 시 다시 수정 페이지로 돌아감
-                return "redirect:/carDetailUpdate.do?carId=" + carId; 
-            }
-        } else {
-            // 이미지가 없을 경우 기존 이미지 경로 유지
-            CarDto existingCar = CarService.getCarListDetail(carId);
-            carDto.setImagePath(existingCar.getImagePath()); // 기존 이미지 경로를 설정
-        }
+		model.addAttribute("carDetail", carDetail);
 
-        // 로그 출력
-        logger.info("업데이트하려는 차량 ID: " + carId);
-        logger.info("업데이트하려는 차량 번호: " + carNum);
-        logger.info("업데이트하려는 차량 모델: " + carModel);
-        logger.info("업데이트하려는 이미지 경로: " + carDto.getImagePath());
-        
-        CarService.updateCar(carDto);
-        return "redirect:/carRes.do"; 
-    }
+		return "car/carDetailUpdate";
+	}
 
+	@PostMapping("/updateCar.do")
+	public String updateCar(@RequestParam("carId") String carId, @RequestParam("carNum") String carNum,
+			@RequestParam("carModel") String carModel, @RequestParam("ownershipStatus") String ownershipStatus,
+			@RequestParam(value = "image", required = false) MultipartFile image, HttpSession session) {
 
-	 
-	  @PostMapping("/deleteCar.do")
-	  public String deleteCar(@RequestParam("carId") String carId
-			) {
-		  
-		 CarDto carDto = new CarDto();
-		 
-		 carDto.setCarId(carId);
-		 
-		 CarService.deleteCar(carDto);
-		  
-		  return "redirect:/carRes.do";
-	  }
-	
-	 
-	 
-	
+		CarDto carDto = new CarDto();
+		carDto.setCarId(carId);
+		carDto.setCarNum(carNum);
+		carDto.setCarModel(carModel);
+		carDto.setOwnershipStatus(ownershipStatus);
+
+		// 이미지 저장 경로 설정
+		String relativePath = "resources/images/carimg"; // 상대 경로
+		String realPath = servletContext.getRealPath(relativePath); // 실제 경로
+		String fileName = null;
+
+		// 파일이 업로드 되었을 경우
+		if (image != null && !image.isEmpty()) {
+			ZonedDateTime nowKST = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+			Timestamp currentTimestampKST = Timestamp.valueOf(nowKST.toLocalDateTime());
+
+			// biz_number를 문자열로 변환하여 파일명 생성
+			fileName = session.getAttribute("biz_number").toString() + currentTimestampKST.getTime() + "_"
+					+ image.getOriginalFilename(); // 파일명 변경
+
+			// 파일 저장
+			File file = new File(realPath, fileName);
+			try {
+				image.transferTo(file);
+				carDto.setImagePath(relativePath + "/" + fileName); // DB에 저장할 경로
+			} catch (IOException e) {
+				e.printStackTrace();
+				// 예외 발생 시 다시 수정 페이지로 돌아감
+				return "redirect:/carDetailUpdate.do?carId=" + carId;
+			}
+		} else {
+			// 이미지가 없을 경우 기존 이미지 경로 유지
+			CarDto existingCar = CarService.getCarListDetail(carId);
+			carDto.setImagePath(existingCar.getImagePath()); // 기존 이미지 경로를 설정
+		}
+
+		// 로그 출력
+		logger.info("업데이트하려는 차량 ID: " + carId);
+		logger.info("업데이트하려는 차량 번호: " + carNum);
+		logger.info("업데이트하려는 차량 모델: " + carModel);
+		logger.info("업데이트하려는 이미지 경로: " + carDto.getImagePath());
+
+		CarService.updateCar(carDto);
+		return "redirect:/carRes.do";
+	}
+
+	@PostMapping("/deleteCar.do")
+	public String deleteCar(@RequestParam("carId") String carId) {
+
+		CarDto carDto = new CarDto();
+
+		carDto.setCarId(carId);
+
+		CarService.deleteCar(carDto);
+
+		return "redirect:/carRes.do";
+	}
 
 }

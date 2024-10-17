@@ -1,19 +1,17 @@
 package com.e3i3.moduerp.salesstock.controller;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.e3i3.moduerp.company.model.service.CompanyService;
 import com.e3i3.moduerp.employee.model.service.EmployeeProductionService;
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 import com.e3i3.moduerp.item.model.service.ItemSalesStockService;
@@ -32,7 +30,10 @@ import com.e3i3.moduerp.salesstock.service.SalesStockInService;
 @Controller
 @RequestMapping("/")
 public class SalesStockInController {
-
+	
+	@Autowired
+	private CompanyService companyService;
+	
 	@Autowired
 	private SalesStockInService salesStockInService;
 
@@ -47,6 +48,25 @@ public class SalesStockInController {
 			HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		List<ItemDTO> itemList = itemSalesStockService.getItemsByBizNumber(bizNumber);
+		
+//		!! 모듈 권한 설정 !!
+	    String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
+	    if(moduleGrades != null) {
+			// 쉼표(,)로 문자열을 분리하여 배열로 반환
+			String[] gradesArray = moduleGrades.split(",");	
+			// 배열을 List로 변환
+			List<String> gradesList = Arrays.asList(gradesArray);
+			// DT가 리스트에 있는지 검사
+			if (gradesList.contains("S_IN")) {
+			    System.out.println("S_IN가 리스트에 포함되어 있습니다.");
+			} else {
+			    System.out.println("S_IN가 리스트에 없습니다.");
+			    return "common/moduleGradesError";
+			}
+		}else {
+			return "common/moduleGradesError";
+			
+		}
 
 		// Add 9 hours to CREATED_AT
 		for (ItemDTO item : itemList) {

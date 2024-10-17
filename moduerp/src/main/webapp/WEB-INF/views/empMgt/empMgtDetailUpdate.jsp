@@ -177,14 +177,16 @@ tbody tr:hover {
 	<!-- 상단 메뉴 -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="empMgt.do"><i class="fas fa-user-cog"></i> 직원 관리</a></li>
+			<li><a href="empMgt.do"><i class="fas fa-user-cog"></i> 직원
+					관리</a></li>
 
 		</ul>
 	</div>
 
 
 	<div class="content-box">
-		<div class="content-title">인사 관리 | 직원 관리 | ${employeeDetail.empName} 수정</div>
+		<div class="content-title">인사 관리 | 직원 관리 |
+			${employeeDetail.empName} 수정</div>
 
 		<form action="/moduerp/updateEmployee.do" method="POST">
 			<input type="hidden" name="uuid" value="${employeeDetail.uuid}" />
@@ -218,22 +220,27 @@ tbody tr:hover {
 						<td><input type="text" name="empName" placeholder="직원명"
 							value="${employeeDetail.empName}" required /></td>
 
-						<td><input type="text" name="email" placeholder="이메일"
-							value="${employeeDetail.email}" required /></td>
+						<td><input type="text" name="empEmail" placeholder="이메일"
+							value="${employeeDetail.empEmail}" required /></td>
 
-						<td><input type="text" name="phone" placeholder="전화번호"
-							value="${employeeDetail.phone}" required /></td>
+						<td><input type="text" name="userPhone" placeholder="전화번호"
+							value="${employeeDetail.userPhone}" required /></td>
 
 						<td><input type="text" name="address" placeholder="주소"
 							value="${employeeDetail.address}" required /></td>
 
-						<!-- 사설권한 라디오 버튼 -->
-						<td><label for="privateAuthority">권한:</label> <input
-							type="radio" name="privateAuthority" value="Y"
-							${employeeDetail.privateAuthority == 'Y' ? 'checked' : ''}>
-							Y <input type="radio" name="privateAuthority" value="N"
-							${employeeDetail.privateAuthority == 'N' ? 'checked' : ''}>
-							N</td>
+					<!-- 사설권한 라디오 버튼 -->
+<td>
+    <label for="privateAuthority">권한:</label> 
+    <input type="radio" name="privateAuthority" value='Y'
+        ${employeeDetail.privateAuthority eq "Y" ? 'checked' : ''}>
+    Y 
+    <input type="radio" name="privateAuthority" value='N'
+        ${employeeDetail.privateAuthority eq "N" ? 'checked' : ''}>
+    N
+</td>
+
+
 					</tr>
 				</tbody>
 			</table>

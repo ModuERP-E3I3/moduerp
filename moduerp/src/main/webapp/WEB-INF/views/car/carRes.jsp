@@ -215,7 +215,7 @@ thead tr:hover {
 				<option value="ownershipStatus">소유 형태</option>
 			</select>  
 			<input type="text"
-					name="filterText" id="filterText" placeholder="내용 입력" />
+					name="filterText" id="filterText" placeholder="내용 입력" required/>
 			<button type="submit" class="btn">조회</button>
 			<button type="button" class="btn"
 				onclick="window.location.href='carRes.do';">초기화</button>

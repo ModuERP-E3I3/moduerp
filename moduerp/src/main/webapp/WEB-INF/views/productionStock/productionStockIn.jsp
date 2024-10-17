@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>erpMain</title>
+<title>생산 | 입고</title>
 
 <style type="text/css">
 .top-content-box {
@@ -200,7 +200,7 @@ tbody tr:hover {
 					<option value="stockPlace">입고 장소</option>
 					<option value="iDirector">담당자</option>
 				</select> <input type="date" name="startDate" id="startDate" required/> <input
-					type="date" name="endDate" id="endDate" /> <input type="text"
+					type="date" name="endDate" id="endDate" required/> <input type="text"
 					name="filterText" id="filterText" placeholder="내용 입력" required/>
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"

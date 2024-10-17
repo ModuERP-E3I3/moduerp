@@ -5,7 +5,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.e3i3.moduerp.company.model.service.CompanyService;
 import com.e3i3.moduerp.employee.model.service.EmployeeSalesService;
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 import com.e3i3.moduerp.item.model.service.ItemSalesStockService;
@@ -28,7 +29,10 @@ import com.e3i3.moduerp.salesstock.service.SalesStockOutService;
 @Controller
 @RequestMapping("/")
 public class SalesStockOutController {
-
+	
+	@Autowired
+	private CompanyService companyService;
+	
 	@Autowired
 	private ItemSalesStockService itemSalesStockService;
 
@@ -43,6 +47,24 @@ public class SalesStockOutController {
 			HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		List<ItemDTO> itemList = itemSalesStockService.getItemsByBizNumberOutDate(bizNumber);
+		
+	    String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
+	    if(moduleGrades != null) {
+			// 쉼표(,)로 문자열을 분리하여 배열로 반환
+			String[] gradesArray = moduleGrades.split(",");	
+			// 배열을 List로 변환
+			List<String> gradesList = Arrays.asList(gradesArray);
+			// DT가 리스트에 있는지 검사
+			if (gradesList.contains("S_OUT")) {
+			    System.out.println("S_OUT가 리스트에 포함되어 있습니다.");
+			} else {
+			    System.out.println("S_OUT가 리스트에 없습니다.");
+			    return "common/moduleGradesError";
+			}
+		}else {
+			return "common/moduleGradesError";
+			
+		}
 
 		// CREATED_AT에 9시간 추가하는 로직
 		for (ItemDTO item : itemList) {

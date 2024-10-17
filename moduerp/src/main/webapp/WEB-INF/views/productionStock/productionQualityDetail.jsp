@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>erpMain</title>
+<title>생산 | 품질관리 디테일</title>
 
 <style type="text/css">
 .top-content-box {
@@ -216,7 +216,7 @@ th {
 	<div class="content-box">
 
 		<div class="content-title">생산관리 | 품질관리 |
-			${workOrderDetails.taskName}</div>
+			${qualityControl.taskName}</div>
 
 
 

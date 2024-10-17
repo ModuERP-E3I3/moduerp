@@ -134,6 +134,12 @@ public class PurchaseOrdersDAOImpl implements PurchaseOrdersDAO {
 	            Map.of("bizNumber", bizNumber, "endDate", endDate));
 	}
 
+	@Override
+	public String findAccountNameByNo(String accountNo, String bizNumber) {
+		 return sqlSession.selectOne(namespace + ".selectPurchaseOrdersByFilterStartDate",
+		            Map.of("bizNumber", bizNumber));
+	}
+
 	
 
 }

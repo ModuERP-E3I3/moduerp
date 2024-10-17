@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>erpMain</title>
+<title>생산 | 출고 등록</title>
 
 <style type="text/css">
 .top-content-box {
@@ -166,7 +166,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 생산출고</div>
+		<div class="content-title">생산관리 | 생산출고 | 신규 등록</div>
 
 		<!-- 폼 시작 -->
 		<form action="/moduerp/productionStockOutCreate.do" method="POST">

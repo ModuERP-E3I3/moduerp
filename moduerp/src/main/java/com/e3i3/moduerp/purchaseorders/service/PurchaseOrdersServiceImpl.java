@@ -73,6 +73,12 @@ public class PurchaseOrdersServiceImpl implements PurchaseOrdersService {
 		return null;
 	}
 
+	@Override
+	public String getAccountNameByNo(String accountNo) {
+		// 예시: DAO를 통해 데이터베이스에서 accountName 조회
+		return purchaseOrdersDao.findAccountNameByNo(accountNo, accountNo);
+	}
+
 	// -----------------------------------------------
 	// Purchase Orders filter !!!!!
 	@Override
@@ -100,9 +106,10 @@ public class PurchaseOrdersServiceImpl implements PurchaseOrdersService {
 		}
 		return null;
 	}
-	
+
 	@Override
-	public List<PurchaseOrdersDTO> getPurchaseOrdersByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
+	public List<PurchaseOrdersDTO> getPurchaseOrdersByFilterOnlyDate(String bizNumber, String startDate,
+			String endDate) {
 		return purchaseOrdersDao.getPurchaseOrdersByFilterOnlyDate(bizNumber, startDate, endDate);
 	}
 
@@ -123,7 +130,3 @@ public class PurchaseOrdersServiceImpl implements PurchaseOrdersService {
 	}
 
 }
-
-
-
-
