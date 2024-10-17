@@ -166,6 +166,21 @@ public class ItemBuyStockServiceImpl implements ItemBuyStockService {
 	    return null;
 	}
 
+	@Override
+	public List<ItemDTO> getItemByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
+		return itemBuyStockDAO.getItemByFilterOnlyDate(bizNumber, startDate, endDate);
+	}
+
+	@Override
+	public List<ItemDTO> getItemByFilterStartDate(String bizNumber, String startDate) {
+		return itemBuyStockDAO.getItemByFilterStartDate(bizNumber, startDate);
+	}
+
+	@Override
+	public List<ItemDTO> getItemByFilterEndDate(String bizNumber, String endDate) {
+		return itemBuyStockDAO.getItemByFilterEndDate(bizNumber, endDate);
+	}
+
 
 
 

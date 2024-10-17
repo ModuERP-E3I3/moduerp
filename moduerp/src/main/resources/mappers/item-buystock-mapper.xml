@@ -338,6 +338,35 @@
 		TO_DATE(#{endDate}, 'YYYY-MM-DD')
 		ORDER BY CREATED_AT ASC
 	</select>
+	
+	<select id="selectItemByFilterOnlyDate" parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'B%'
+		AND CREATED_AT BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD HH24:MI:SS')
+		AND
+		TO_DATE(#{endDate}, 'YYYY-MM-DD HH24:MI:SS')
+		ORDER BY CREATED_AT ASC
+	</select>
+
+	<select id="selectItemOutByFilterStartDate" parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'B%'
+		AND CREATED_OUT_AT >= TO_DATE(#{startDate}, 'YYYY-MM-DD HH24:MI:SS')
+		ORDER BY CREATED_OUT_AT ASC
+	</select>
+
+	<select id="selectItemOutByFilterEndDate" parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'B%'
+		AND CREATED_OUT_AT &lt;= TO_DATE(#{endDate}, 'YYYY-MM-DD HH24:MI:SS')
+		ORDER BY CREATED_OUT_AT ASC
+	</select>
 
 
 

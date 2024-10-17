@@ -76,36 +76,45 @@ public class BuyStockInController {
 		        @RequestParam(value = "endDate", required = false) String endDate, Model model, HttpSession session) {
 		    String bizNumber = (String) session.getAttribute("biz_number");
 		    List<ItemDTO> itemList;
-		    
-		    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		   
 
-			// startDate의 시분초 기본값 설정 (00:00:00)
-		    if (startDate != null && !startDate.isEmpty()) {
-		        LocalDateTime startDateTime = LocalDateTime.parse(startDate + " 00:00:00", formatter);
-		        startDate = startDateTime.format(formatter);  // 포맷된 문자열로 변환
-		    }
-
-		    // endDate의 시분초 기본값 설정 (23:59:59)
-		    if (endDate != null && !endDate.isEmpty()) {
-		        LocalDateTime endDateTime = LocalDateTime.parse(endDate + " 23:59:59", formatter);
-		        endDate = endDateTime.format(formatter);  // 포맷된 문자열로 변환
-		    }
-
-		    // 필터링 로직 추가
 		    if (option != null && filterText != null) {
-		        if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
-		            System.out.println("날짜있는거 실행");
-		            itemList = itembuyStockService.getItemByFilterDate(bizNumber, option, filterText, startDate, endDate);
-		        }
-		        
-		        else {
-		            // 날짜가 없을 때 모든 날짜를 포함하도록 수정
-		            System.out.println("날짜없는거 실행");
-		            itemList = itembuyStockService.getItemsByFilter(bizNumber, option, filterText); // 날짜 필터 없이 모든 아이템 가져오기
-		        }
-		    } else {
-		        itemList = itembuyStockService.getItemsByBizNumber(bizNumber);
-		    }
+				if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+					System.out.println("날짜있는거 실행");
+					itemList = itembuyStockService.getItemByFilterDate(bizNumber, option, filterText, startDate, endDate);
+				} else if ((option == null || filterText == null || filterText.isEmpty()) && startDate != null
+						&& !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+					// 날짜만 있는 경우 처리
+					System.out.println("날짜만 있는 경우 실행");
+					itemList = itembuyStockService.getItemByFilterOnlyDate(bizNumber, startDate, endDate);
+				} else if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
+					// 시작 날짜만 있는 경우 처리
+					System.out.println("시작 날짜만 있는 경우 실행");
+					itemList = itembuyStockService.getItemByFilterStartDate(bizNumber, startDate);
+				} else if ((startDate == null || startDate.isEmpty()) && endDate != null && !endDate.isEmpty()) {
+					// 종료 날짜만 있는 경우 처리
+					System.out.println("종료 날짜만 있는 경우 실행");
+					itemList = itembuyStockService.getItemByFilterEndDate(bizNumber, endDate);
+				} else {
+					System.out.println("날짜없는거 실행");
+					itemList = itembuyStockService.getItemsByFilter(bizNumber, option, filterText);
+				}
+			} else if ((option == null || filterText == null || filterText.isEmpty()) && startDate != null
+					&& !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+				// 필터 옵션과 텍스트 없이 날짜만 있는 경우
+				System.out.println("날짜만 있는 경우 실행");
+				itemList = itembuyStockService.getItemByFilterOnlyDate(bizNumber, startDate, endDate);
+			} else if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
+				// 시작 날짜만 있는 경우 처리
+				System.out.println("시작 날짜만 있는 경우 실행");
+				itemList = itembuyStockService.getItemByFilterStartDate(bizNumber, startDate);
+			} else if ((startDate == null || startDate.isEmpty()) && endDate != null && !endDate.isEmpty()) {
+				// 종료 날짜만 있는 경우 처리
+				System.out.println("종료 날짜만 있는 경우 실행");
+				itemList = itembuyStockService.getItemByFilterEndDate(bizNumber, endDate);
+			} else {
+				itemList = itembuyStockService.getItemsByBizNumber(bizNumber);
+			}
 
 		    // 페이지네이션 처리
 		    int itemsPerPage = 10;
