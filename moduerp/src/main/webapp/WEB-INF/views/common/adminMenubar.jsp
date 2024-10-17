@@ -97,9 +97,9 @@
             <li class="moduerp"><i class="fas fa-home"></i> ModuERP</li>
 
             <!-- 다른 항목들 -->
-            <li><a href="<c:url value='/empMgt.do' />"><i class="fas fa-users-cog"></i> 회원 관리</a></li>
+            <li><a href="<c:url value='/admin.do' />"><i class="fas fa-users-cog"></i> 회원 관리</a></li>
 
-            <li><a href="<c:url value='/logout.do' />"><i class="fas fa-sign-out-alt"></i> 환불</a></li>
+            <li><a href="<c:url value='/admin.do' />"><i class="fas fa-sign-out-alt"></i> 환불</a></li>
 
         </ul>
     </nav>
