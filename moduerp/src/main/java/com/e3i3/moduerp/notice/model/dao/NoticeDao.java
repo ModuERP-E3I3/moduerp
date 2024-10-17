@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.e3i3.moduerp.notice.model.dto.Notice;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,8 @@ public class NoticeDao {
     
     @Autowired
     private SqlSessionTemplate sqlSessionTemplate;
+    
+    private static final String NAMESPACE = "NoticeMapper";
 
     public int insertNotice(Notice notice) {
         return sqlSessionTemplate.insert("NoticeMapper.insertNotice", notice);
@@ -49,26 +52,42 @@ public class NoticeDao {
     }
     
     
-    // Get notices with pagination
-    public List<Notice> getNoticesWithPagination(int offset, int size) {
-        Map<String, Object> params = Map.of("offset", offset, "size", size);
-        return sqlSessionTemplate.selectList("NoticeMapper.getNoticesWithPagination", params);
+    /**
+     * 전체 공지사항 조회 with 페이징
+     */
+    public List<Notice> findAllNotices(int offset, int limit) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("offset", offset);
+        params.put("limit", limit);
+        return sqlSessionTemplate.selectList(NAMESPACE + ".findAllNotices", params);
     }
 
-    // Count all notices
+    /**
+     * 전체 공지사항 개수 조회
+     */
     public int countAllNotices() {
-        return sqlSessionTemplate.selectOne("NoticeMapper.countAllNotices");
+        return sqlSessionTemplate.selectOne(NAMESPACE + ".countAllNotices");
     }
 
-    // Search notices with pagination
-    public List<Notice> searchNoticesWithPagination(String category, String keyword, int offset, int size) {
-        Map<String, Object> params = Map.of("category", category, "keyword", keyword, "offset", offset, "size", size);
-        return sqlSessionTemplate.selectList("NoticeMapper.searchNoticesWithPagination", params);
+    /**
+     * 조건 검색 공지사항 조회 with 페이징
+     */
+    public List<Notice> searchNotices(String category, String keyword, int offset, int limit) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("category", category);
+        params.put("keyword", keyword);
+        params.put("offset", offset);
+        params.put("limit", limit);
+        return sqlSessionTemplate.selectList(NAMESPACE + ".searchNotices", params);
     }
 
-    // Count filtered notices
-    public int countFilteredNotices(String category, String keyword) {
-        Map<String, Object> params = Map.of("category", category, "keyword", keyword);
-        return sqlSessionTemplate.selectOne("NoticeMapper.countFilteredNotices", params);
+    /**
+     * 조건 검색 공지사항 개수 조회
+     */
+    public int countNotices(String category, String keyword) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("category", category);
+        params.put("keyword", keyword);
+        return sqlSessionTemplate.selectOne(NAMESPACE + ".countNotices", params);
     }
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -150,37 +151,56 @@ public class PurchaseOrdersController {
 
 		return "purchaseOrders/purchaseOrdersCreate";
 	}
-
 	@PostMapping("/purchaseOrderCreate.do")
-	public String purchaseOrderCreate(@RequestParam("accountNo") String accountNo,
-			@RequestParam("accountName") String accountName, 
-			@RequestParam("quantity") int quantity,
-			@RequestParam("supplyPrice") double supplyPrice, 
-			@RequestParam("deliveryDate") Date deliveryDate,
-			@RequestParam("puItemName") String puItemName, 
-			@RequestParam("oDirector") String oDirector,		 // 담당자명 !!!
-			
-			Model model, HttpSession session) {
+	public String purchaseOrderCreate(
+	        @RequestParam("accountNo") String accountNo,
+	        @RequestParam(value = "accountName", required = false) String accountName,
+	        @RequestParam("quantity") int quantity,
+	        @RequestParam("supplyPrice") double supplyPrice,
+	        @RequestParam("deliveryDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date deliveryDate,
+	        @RequestParam("puItemName") String puItemName,
+	        @RequestParam("oDirector") String oDirector, // 담당자명 !!!
+	        Model model,
+	        HttpSession session) {
+	    
+	    System.out.println("************* 폼 데이터 수신 시작 *************");
+	    System.out.println("accountNo: " + accountNo);
+	    System.out.println("accountName: " + accountName);
+	    System.out.println("quantity: " + quantity);
+	    System.out.println("supplyPrice: " + supplyPrice);
+	    System.out.println("deliveryDate: " + deliveryDate);
+	    System.out.println("puItemName: " + puItemName);
+	    System.out.println("oDirector: " + oDirector);
+	    
+	    // 세션에서 bizNumber 가져오기
+	    String bizNumber = (String) session.getAttribute("biz_number");
+	    System.out.println("bizNumber (세션): " + bizNumber);
+	    
+	    // `accountName`이 비어있다면 서버에서 조회
+	    if (accountName == null || accountName.isEmpty()) {
+	        accountName = purchaseOrdersService.getAccountNameByNo(accountNo);
+	        System.out.println("서버에서 조회한 accountName: " + accountName);
+	    }
+	    
+	    System.out.println("************* 폼 데이터 수신 종료 *************");
+	    
+	    // PurchaseOrdersDTO 객체 생성 및 값 설정
+	    PurchaseOrdersDTO purchaseOrderDto = new PurchaseOrdersDTO();
+	    purchaseOrderDto.setAccountNo(accountNo);
+	    purchaseOrderDto.setAccountName(accountName);
+	    purchaseOrderDto.setQuantity(quantity);
+	    purchaseOrderDto.setSupplyPrice(supplyPrice);
+	    purchaseOrderDto.setDeliveryDate(deliveryDate);
+	    purchaseOrderDto.setPuItemName(puItemName);
+	    purchaseOrderDto.setoDirector(oDirector); // 담당자명!!
+	    purchaseOrderDto.setBizNumber(bizNumber);
 
-		// 세션에서 bizNumber 가져오기
-		String bizNumber = (String) session.getAttribute("biz_number");
+	    // purchaseOrderCreate 메서드 호출
+	    purchaseOrdersService.purchaseOrderCreate(purchaseOrderDto);
 
-		// PurchaseOrdersDTO 객체 생성 및 값 설정
-		PurchaseOrdersDTO purchaseOrderDto = new PurchaseOrdersDTO();
-		purchaseOrderDto.setAccountNo(accountNo);
-		purchaseOrderDto.setAccountName(accountName);
-		purchaseOrderDto.setQuantity(quantity);
-		purchaseOrderDto.setSupplyPrice(supplyPrice);
-		purchaseOrderDto.setDeliveryDate(deliveryDate);
-		purchaseOrderDto.setPuItemName(puItemName);
-		purchaseOrderDto.setoDirector(oDirector); 				 // 담당자명!!
-		purchaseOrderDto.setBizNumber(bizNumber); 	
-
-		// purchaseOrderCreate 메서드 호출
-		purchaseOrdersService.purchaseOrderCreate(purchaseOrderDto);
-
-		return "redirect:/purchaseOrders.do";
+	    return "redirect:/purchaseOrders.do";
 	}
+
 
 	@GetMapping("getPurchaseOrderDetails.do")
 	public String getPurchaseOrderDetail(@RequestParam("orderId") String orderId, Model model) {
@@ -216,11 +236,30 @@ public class PurchaseOrdersController {
 			@RequestParam("accountName") String accountName,
 			@RequestParam("quantity") int quantity, 
 			@RequestParam("supplyPrice") double supplyPrice,
-			@RequestParam("deliveryDate") Date deliveryDate, 
+			@RequestParam("deliveryDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date deliveryDate,
 			@RequestParam("puItemName") String puItemName,
-			@RequestParam("oDirector") String oDirector) 			// 담당자명 !!!
-	{ 	
-
+			@RequestParam("oDirector") String oDirector) // 담당자명 !!!
+	{
+		
+		 // 디버깅용 로그
+		System.out.println("******************************************");
+	    System.out.println("Received orderId: " + orderId);
+	    System.out.println("Received accountNo: " + accountNo);
+	    System.out.println("Received accountName: " + accountName);
+	    System.out.println("Received quantity: " + quantity);
+	    System.out.println("Received supplyPrice: " + supplyPrice);
+	    System.out.println("Received deliveryDate: " + deliveryDate);
+	    System.out.println("Received puItemName: " + puItemName);
+	    System.out.println("Received oDirector: " + oDirector);
+	    
+	    
+	    
+	    
+		 // 서버에서 accountName 조회 (예: 서비스 레이어를 통해)
+	    if (accountName == null || accountName.isEmpty()) {
+	        System.out.println("이름 null");
+	    }
+	    
 
 		PurchaseOrdersDTO purchaseOrderDto = new PurchaseOrdersDTO();
 		purchaseOrderDto.setOrderId(orderId);
@@ -230,7 +269,7 @@ public class PurchaseOrdersController {
 		purchaseOrderDto.setSupplyPrice(supplyPrice);
 		purchaseOrderDto.setDeliveryDate(deliveryDate);
 		purchaseOrderDto.setPuItemName(puItemName);
-		purchaseOrderDto.setoDirector(oDirector);					 // 담당자명 !!!
+		purchaseOrderDto.setoDirector(oDirector); // 담당자명 !!!
 
 		purchaseOrdersService.updatePurchaseOrder(purchaseOrderDto);
 

@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -19,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 import com.e3i3.moduerp.carmgt.model.dto.CarmgtDto;
+import com.e3i3.moduerp.company.model.service.CompanyService;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 
 @Controller
@@ -28,13 +29,35 @@ import com.e3i3.moduerp.employee.model.dto.Employee;
 public class CarmgtController {
 
 	@Autowired
+	private CompanyService companyService;
+	
+	@Autowired
 	private com.e3i3.moduerp.carmgt.model.service.CarmgtService CarmgtService;
 
 	@RequestMapping(value = "/carMgt.do", method = RequestMethod.GET)
 	public String forwardCarMgt(@RequestParam(value = "page", defaultValue = "1") int page, Model model, HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		
+		String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
+		
 		List<CarmgtDto> carmgtList = CarmgtService.getAllCarmgt(bizNumber);
+		
+		if(moduleGrades != null) {
+			// 쉼표(,)로 문자열을 분리하여 배열로 반환
+			String[] gradesArray = moduleGrades.split(",");	
+			// 배열을 List로 변환
+			List<String> gradesList = Arrays.asList(gradesArray);
+			// P_IN이 리스트에 있는지 검사
+			if (gradesList.contains("C_P")) {
+			    System.out.println("C_P이 리스트에 포함되어 있습니다.");
+			} else {
+			    System.out.println("C_P이 리스트에 없습니다.");
+			    return "common/moduleGradesError";
+			}
+		}else {
+			return "common/moduleGradesError";
+			
+		}
 		
 		// 페이지당 항목 수
 		int carmgtPerPage = 10;

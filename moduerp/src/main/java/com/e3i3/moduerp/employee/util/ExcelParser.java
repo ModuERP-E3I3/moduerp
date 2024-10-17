@@ -43,7 +43,7 @@ public class ExcelParser {
                     .setBizNumber(company.getBizNumber())
                     .setIsDeleted('N')
                     .setApprovalCode(company.getApprovalCode())
-                    .setPrivateAuthority('N')
+                    .setPrivateAuthority("N")
                     .setLastLoginLocation("default")
                     .setIsEmailChanged('N')
                     .setRegistrationDate(new java.sql.Date(System.currentTimeMillis()));

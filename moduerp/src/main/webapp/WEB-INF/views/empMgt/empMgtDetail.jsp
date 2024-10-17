@@ -226,11 +226,11 @@ th {
 			</thead>
 			<tbody>
 				<tr>
-					<td>${employeeDetail.departmentName}</td>
+					<td>${departmentName}</td>
 					<td>${employeeDetail.jobId}</td>
 					<td>${employeeDetail.empName}</td>
-					<td>${employeeDetail.email}</td>
-					<td>${employeeDetail.phone}</td>
+					<td>${employeeDetail.empEmail}</td>
+					<td>${employeeDetail.userPhone}</td>
 					<td>${employeeDetail.address}</td>
 					<td>${employeeDetail.privateAuthority}</td>
 				</tr>

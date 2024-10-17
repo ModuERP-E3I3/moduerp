@@ -38,57 +38,68 @@
 
 	<!-- 제목으로 검색 -->
 	<select id="searchNoticesByTitle" resultType="Notice">
-		SELECT * FROM notice WHERE title LIKE '%' || #{keyword} || '%'
+		SELECT * FROM
+		notice WHERE title LIKE '%' || #{keyword} || '%'
 	</select>
 
 	<!-- 내용으로 검색 -->
 	<select id="searchNoticesByBody" resultType="Notice">
-		SELECT * FROM notice WHERE body LIKE '%' || #{keyword} || '%'
+		SELECT * FROM notice
+		WHERE body LIKE '%' || #{keyword} || '%'
 	</select>
 
 	<!-- 제목과 내용으로 검색 -->
 	<select id="searchNoticesByTitleAndBody" resultType="Notice">
-		SELECT * FROM notice WHERE title LIKE '%' || #{keyword} || '%' OR body LIKE
-		'%' || #{keyword} || '%'
+		SELECT *
+		FROM notice WHERE title LIKE '%' || #{keyword} || '%' OR body LIKE
+		'%'
+		|| #{keyword} || '%'
 	</select>
-	
-	
-	
-<!-- 전체 공지사항 조회 with 페이징 -->
-<select id="findAllNotices" resultType="Notice">
-    SELECT * FROM notices
-    ORDER BY notice_date DESC
-    LIMIT #{limit} OFFSET #{offset}
-</select>
 
 
-<!-- Count all notices -->
-<select id="countAllNotices" resultType="int">
-    SELECT COUNT(*) FROM notice
-</select>
 
-<!-- 조건 검색 공지사항 조회 with 페이징 -->
-<select id="searchNotices" resultType="Notice">
-    SELECT * FROM notices
-    WHERE 
-        (#{category} = '전체' OR category = #{category})
-        AND 
-        (title LIKE CONCAT('%', #{keyword}, '%') OR content LIKE CONCAT('%', #{keyword}, '%'))
-    ORDER BY notice_date DESC
-    LIMIT #{limit} OFFSET #{offset}
-</select>
+	<!-- 전체 공지사항 조회 with 페이징 -->
+	<select id="findAllNotices" resultType="Notice">
+		SELECT * FROM notice
+		ORDER BY notice_date DESC
+		OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
+	</select>
+
+	<!-- Count all notices -->
+	<select id="countAllNotices" resultType="int">
+		SELECT COUNT(*) FROM notice
+	</select>
+
+	<!-- 조건 검색 공지사항 조회 with 페이징 (동적 SQL 사용) -->
+	<select id="searchNotices" resultType="Notice">
+		SELECT * FROM notice
+		<where>
+			<if test="category != null and category != '전체'">
+				AND category = #{category}
+			</if>
+			<if test="keyword != null and keyword != ''">
+				AND (title LIKE '%' || #{keyword} || '%' OR body LIKE '%' ||
+				#{keyword} || '%')
+			</if>
+		</where>
+		ORDER BY notice_date DESC
+		OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
+	</select>
 
 
-<!-- 공지사항 총 개수 조회 -->
-<select id="countNotices" resultType="int">
-    SELECT COUNT(*) FROM notices
-    WHERE 
-        (#{category} = '전체' OR category = #{category})
-        AND 
-        (title LIKE CONCAT('%', #{keyword}, '%') OR content LIKE CONCAT('%', #{keyword}, '%'))
-</select>
-
-
+	<!-- 공지사항 총 개수 조회 (동적 SQL 사용) -->
+	<select id="countNotices" resultType="int">
+		SELECT COUNT(*) FROM notice
+		<where>
+			<if test="category != null and category != '전체'">
+				AND category = #{category}
+			</if>
+			<if test="keyword != null and keyword != ''">
+				AND (title LIKE CONCAT('%', #{keyword}, '%') OR body LIKE
+				CONCAT('%', #{keyword}, '%'))
+			</if>
+		</where>
+	</select>
 
 
 	<update id="updateNotice" parameterType="Notice">

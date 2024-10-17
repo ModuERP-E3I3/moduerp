@@ -178,14 +178,15 @@ tbody tr:hover {
 	<!-- 상단 메뉴 -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="empMgt.do"><i class="fas fa-user-cog"></i> 직원 관리</a></li>
+			<li><a href="empMgt.do"><i class="fas fa-user-cog"></i> 직원
+					관리</a></li>
 
 		</ul>
 	</div>
 
 	<!-- 직원 관리 내용 박스 -->
 	<div class="content-box">
-		<div class="content-title">인사 관리 | 직원 관리 </div>
+		<div class="content-title">인사 관리 | 직원 관리</div>
 		<form action="/moduerp/empMgtFilter.do" method="get">
 			<div class="filter-box">
 				<select name="filterOption" id="filterOption">
@@ -224,19 +225,25 @@ tbody tr:hover {
 			</thead>
 			<tbody>
 				<c:forEach var="employee" items="${employeeList}" varStatus="status">
-					<tr
-						onclick="window.location.href='getEmployeeDetails.do?uuid=${employee.uuid}'">
+					<!-- URL을 생성하고 departmentName을 파라미터로 추가 -->
+					<c:url var="detailUrl" value="getEmployeeDetails.do">
+						<c:param name="uuid" value="${employee.uuid}" />
+						<c:param name="departmentName" value="${employee.departmentName}" />
+					</c:url>
+					<tr onclick="window.location.href='${detailUrl}'"
+						style="cursor: pointer;">
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
 						<td>${employee.departmentName}</td>
 						<td>${employee.jobId}</td>
 						<td>${employee.empName}</td>
-						<td>${employee.email}</td>
-						<td>${employee.phone}</td>
+						<td>${employee.empEmail}</td>
+						<td>${employee.userPhone}</td>
 						<td>${employee.address}</td>
 						<td>${employee.privateAuthority}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
+
 
 
 

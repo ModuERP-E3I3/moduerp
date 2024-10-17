@@ -2,12 +2,15 @@ package com.e3i3.moduerp.purchaseorders.model.dto;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class PurchaseOrdersDTO {
     private String orderId;
     private int quantity;
     private double supplyPrice;
     private String accountNo;
     private String accountName;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date deliveryDate;
     private String puItemName;
     private String bizNumber; 

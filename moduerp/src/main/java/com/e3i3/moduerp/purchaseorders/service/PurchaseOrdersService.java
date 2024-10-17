@@ -49,6 +49,8 @@ public interface PurchaseOrdersService {
 
 	List<PurchaseOrdersDTO> getAllPurchaseOrders(String bizNumber);
 
+	String getAccountNameByNo(String accountNo);
+
 	
 
 	

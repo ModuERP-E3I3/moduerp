@@ -228,8 +228,8 @@ tbody tr:hover {
 						<td>${employee.departmentName}</td>
 						<td>${employee.jobId}</td>
 						<td>${employee.empName}</td>
-						<td>${employee.email}</td>
-						<td>${employee.phone}</td>
+						<td>${employee.empEmail}</td>
+						<td>${employee.userPhone}</td>
 						<td>${employee.address}</td>
 						<td>${employee.privateAuthority}</td>
 					</tr>

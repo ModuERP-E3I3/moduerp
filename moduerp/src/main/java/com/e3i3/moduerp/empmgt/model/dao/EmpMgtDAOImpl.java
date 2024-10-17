@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.e3i3.moduerp.employee.model.dto.Employee;
-import com.e3i3.moduerp.empmgt.model.dto.EmpMgtDTO;
 import com.e3i3.moduerp.department.model.dto.Department; 
 
 @Repository
@@ -20,12 +19,12 @@ public class EmpMgtDAOImpl implements EmpMgtDAO {
     private static final String namespace = "EmpMgtMapper";
 
     @Override
-    public List<EmpMgtDTO> getAllEmployees() {
+    public List<Employee> getAllEmployees() {
         return sqlSession.selectList(namespace + ".getAllEmployees");
     }
 
     @Override
-    public void createEmployee(EmpMgtDTO empMgtDTO) {
+    public void createEmployee(Employee empMgtDTO) {
         sqlSession.insert(namespace + ".createEmployee", empMgtDTO);
     }
 
@@ -40,7 +39,7 @@ public class EmpMgtDAOImpl implements EmpMgtDAO {
     }
 
     @Override
-    public List<EmpMgtDTO> getEmployeesByBizNumber(String bizNumber) {
+    public List<Employee> getEmployeesByBizNumber(String bizNumber) {
         return sqlSession.selectList(namespace + ".getEmployeesByBizNumber", bizNumber);
     }
 
@@ -50,12 +49,12 @@ public class EmpMgtDAOImpl implements EmpMgtDAO {
     }
 
     @Override
-    public EmpMgtDTO selectEmployeeByUUID(String uuid) {
+    public Employee selectEmployeeByUUID(String uuid) {
         return sqlSession.selectOne(namespace + ".selectEmployeeByUUID", uuid);
     }
 
     @Override
-    public void updateEmployee(EmpMgtDTO empMgtDTO) {
+    public void updateEmployee(Employee empMgtDTO) {
         sqlSession.update(namespace + ".updateEmployee", empMgtDTO);
     }
 
@@ -68,19 +67,19 @@ public class EmpMgtDAOImpl implements EmpMgtDAO {
     // 직원 필터링 관련 메서드
 
     @Override
-    public List<EmpMgtDTO> getEmployeesByEmpName(String bizNumber, String filterText) {
+    public List<Employee> getEmployeesByEmpName(String bizNumber, String filterText) {
         return sqlSession.selectList(namespace + ".selectEmployeesByEmpName",
             Map.of("bizNumber", bizNumber, "filterText", filterText));
     }
 
     @Override
-    public List<EmpMgtDTO> getEmployeesByDepartmentName(String bizNumber, String filterText) {
+    public List<Employee> getEmployeesByDepartmentName(String bizNumber, String filterText) {
         return sqlSession.selectList(namespace + ".selectEmployeesByDepartmentName",
             Map.of("bizNumber", bizNumber, "filterText", filterText));
     }
 
     @Override
-    public List<EmpMgtDTO> getEmployeesByJobId(String bizNumber, String filterText) {
+    public List<Employee> getEmployeesByJobId(String bizNumber, String filterText) {
         return sqlSession.selectList(namespace + ".selectEmployeesByJobId",
             Map.of("bizNumber", bizNumber, "filterText", filterText));
     }

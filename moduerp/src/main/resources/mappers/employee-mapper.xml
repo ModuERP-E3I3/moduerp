@@ -35,6 +35,7 @@
 			column="contract_start_time" />
 		<result property="contractEndTime" column="contract_end_time" />
 		<result property="mgrUuid" column="mgr_uuid" />
+		<result property="departmentName" column="department_name" />
 	</resultMap>
 
 	<!-- 직원 정보 등록용 쿼리 -->

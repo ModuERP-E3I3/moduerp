@@ -231,22 +231,36 @@ footer {
     </c:forEach>
 </ul>
 
-<!-- 페이지네이션 -->
-<div class="pagination">
-    <c:if test="${currentPage > 1}">
-        <a href="?page=${currentPage - 1}&category=${param.category}&keyword=${param.keyword}" class="page-btn">이전</a>
-    </c:if>
+  <!-- 페이지 정보 (선택 사항) -->
+                <div class="page-info">
+                    총 <c:out value="${totalNotices}" />개의 공지사항 중 <c:out value="${currentPage}" /> 페이지
+                </div>
 
-    <c:forEach var="i" begin="1" end="${totalPages}">
-        <a href="?page=${i}&category=${param.category}&keyword=${param.keyword}" class="page-btn ${i == currentPage ? 'active' : ''}">
-            ${i}
-        </a>
-    </c:forEach>
+                <!-- 페이지네이션 -->
+                <div class="pagination">
+                    <!-- 이전 페이지 링크 -->
+                    <c:if test="${currentPage > 1}">
+                        <a href="<c:url value='/notice/list.do' />?page=${currentPage - 1}&category=${category}&keyword=${keyword}" class="page-btn">이전</a>
+                    </c:if>
 
-    <c:if test="${currentPage < totalPages}">
-        <a href="?page=${currentPage + 1}&category=${param.category}&keyword=${param.keyword}" class="page-btn">다음</a>
-    </c:if>
-</div>
+                    <!-- 페이지 번호 링크 -->
+                    <c:forEach var="i" begin="1" end="${totalPages}">
+                        <c:choose>
+                            <c:when test="${i == currentPage}">
+                                <strong class="page-btn active">${i}</strong>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="<c:url value='/notice/list.do' />?page=${i}&category=${category}&keyword=${keyword}" class="page-btn">${i}</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+
+                    <!-- 다음 페이지 링크 -->
+                    <c:if test="${currentPage < totalPages}">
+                        <a href="<c:url value='/notice/list.do' />?page=${currentPage + 1}&category=${category}&keyword=${keyword}" class="page-btn">다음</a>
+                    </c:if>
+                </div>
+
 
 			</div>
 		</div>
