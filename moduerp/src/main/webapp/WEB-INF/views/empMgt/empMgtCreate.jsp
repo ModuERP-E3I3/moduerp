@@ -175,6 +175,7 @@ th {
 						<th>부서명</th>
 						<th>직급</th>
 						<th>직원명</th>
+						<th>사번</th>
 						<th>이메일</th>
 						<th>전화번호</th>
 						<th>주소</th>
@@ -190,10 +191,12 @@ th {
 									<option value="${department.departmentId}">${department.departmentName}</option>
 								</c:forEach>
 						</select></td>
-
+						
 						<td><input type="text" name="jobId" placeholder="직급 입력"
 							required /></td>
 						<td><input type="text" name="empName" placeholder="직원명 입력"
+							required /></td>
+						<td><input type="text" name="empNo" placeholder="사번 입력"
 							required /></td>
 						<td><input type="text" name="empEmail" placeholder="이메일 입력"
 							required /></td>

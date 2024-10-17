@@ -16,4 +16,6 @@ public interface PayLogDAO {
 
 	void updateRefundStatus(String logId);
 
+	void updateRefundStatus(String refundStatus, String bizNumber);
+
 }

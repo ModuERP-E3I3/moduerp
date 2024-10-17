@@ -218,6 +218,7 @@ th {
 					<th>부서코드</th>
 					<th>직급</th>
 					<th>직원명</th>
+					<th>사번</th>
 					<th>이메일</th>
 					<th>전화번호</th>
 					<th>주소</th>
@@ -229,6 +230,7 @@ th {
 					<td>${departmentName}</td>
 					<td>${employeeDetail.jobId}</td>
 					<td>${employeeDetail.empName}</td>
+					<td>${employeeDetail.empNo}</td>
 					<td>${employeeDetail.empEmail}</td>
 					<td>${employeeDetail.userPhone}</td>
 					<td>${employeeDetail.address}</td>

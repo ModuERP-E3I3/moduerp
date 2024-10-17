@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>NoticeList</title>
+<title>moduerp</title>
 <style type="text/css">
 /* 기본적인 페이지 설정 */
 body {
@@ -174,6 +174,17 @@ footer {
 	border-top: 1px solid #ddd;
 	margin-top: 50px;
 }
+/* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+        
+            .sidebar {
+                width: 100%;
+                box-shadow: none;
+            }
+        }
 /* 버튼 스타일 */
 .btn-group {
 	text-align: right;
@@ -234,7 +245,7 @@ footer {
 }
 
 h1 {
-	font-size: 45px;
+	font-size: 50px;
 }
 .header {
     display: flex;
@@ -256,7 +267,7 @@ h1 {
 		<div class="QNA-board">
 			<div class="box">
 				<div class="header">
-				<h1>QnA</h1>
+				<h1 onclick="window.location.href='qna.do';" style="cursor: pointer;">QnA</h1>
 
 				<form action="/moduerp/qnaFilter.do">
 				<div class="filter-box">
@@ -271,7 +282,7 @@ h1 {
 					value="${endDate != null && endDate.length() >= 10 ? endDate.substring(0, 10) : ''}" />
 				<input type="text" name="filterText" id="filterText"
 					placeholder="내용 입력" value="${filterText != null ? filterText : ''}" />
-				<button type="submit" class="btn">조회</button>
+				<button type="submit" class="btn green">조회</button>
 				<button type="button" class="btn"
 					onclick="window.location.href='qna.do';">초기화</button>
 				</div>
@@ -283,7 +294,7 @@ h1 {
 				<ul class="QNA-list">
 					<c:forEach var="qna" items="${qnaList}">
 						<%-- <li class="<c:if test='${notice.noticeImp == "Y"}'>important</c:if>"> --%>
-						<li><a href="qnaDetail.do?qSeq=${qna.qSeq}">${qna.qTitle}</a>
+						<li><a href="qnaDetail.do?qSeq=${qna.qSeq}" style="font-weight: 550;">${qna.qTitle}</a>
 							<div class="meta">
 								<span>${qna.empName}</span>
 								<span>

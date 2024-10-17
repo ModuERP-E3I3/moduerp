@@ -16,7 +16,7 @@
 		<result property="refundStatus" column="REFUND_STATUS" />
 		<result property="refundReason" column="REFUND_REASON" />
 		<result property="refundDate" column="REFUND_DATE" />
-		<result property="bizNumber" column="BIN_NUMBER" />
+		<result property="bizNumber" column="BIZ_NUMBER" />
 		<result property="name" column="NAME" />
 	</resultMap>
 
@@ -32,7 +32,7 @@
 		REFUND_STATUS,
 		REFUND_REASON,
 		REFUND_DATE,
-		BIN_NUMBER,
+		BIZ_NUMBER,
 		NAME
 		)
 		VALUES (
@@ -50,10 +50,39 @@
 	</insert>
 
 	<delete id="deleteRefundByOrderId" parameterType="String">
-		DELETE FROM REFUND WHERE ORDER_ID = #{orderId}
+		DELETE FROM
+		REFUND WHERE ORDER_ID = #{orderId}
 	</delete>
 
+	<select id="selectRefundApply"
+		resultType="com.e3i3.moduerp.refund.model.dto.RefundDTO">
+		SELECT * FROM REFUND
+		WHERE REFUND_STATUS = '환불 신청 완료'
+	</select>
+
+	<select id="selectRefunding"
+		resultType="com.e3i3.moduerp.refund.model.dto.RefundDTO">
+		SELECT * FROM REFUND
+		WHERE REFUND_STATUS = '환불 진행 중'
+	</select>
+
+	<select id="selectRefundComplete"
+		resultType="com.e3i3.moduerp.refund.model.dto.RefundDTO">
+		SELECT * FROM REFUND
+		WHERE REFUND_STATUS = '환불 완료'
+	</select>
 
 
+	<select id="selectRefundDetail" parameterType="string"
+		resultType="com.e3i3.moduerp.refund.model.dto.RefundDTO">
+		SELECT * FROM REFUND
+		WHERE REFUND_ID = #{rdfundId}
+	</select>
+
+	<update id="updateRefundStatus">
+		UPDATE REFUND
+		SET REFUND_STATUS = #{refundStatus}
+		WHERE REFUND_ID = #{refundId}
+	</update>
 
 </mapper>
