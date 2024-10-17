@@ -1,7 +1,10 @@
 package com.e3i3.moduerp.account.controller;
 
+import java.util.Arrays;
 import java.util.List;
+
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,13 +13,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import com.e3i3.moduerp.account.model.dto.AccountDTO;
+import com.e3i3.moduerp.company.model.service.CompanyService;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 
 @Controller
 @RequestMapping("/")
 public class AccountController {
 
+	@Autowired
+	private CompanyService companyService;
+	
 	@Autowired
 	private com.e3i3.moduerp.account.service.AccountService accountService;
 
@@ -27,6 +35,24 @@ public class AccountController {
 
 		// Fetch all accounts
 		List<AccountDTO> accountList = accountService.getAllAccounts(bizNumber);
+		
+	    String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
+	    if(moduleGrades != null) {
+			// 쉼표(,)로 문자열을 분리하여 배열로 반환
+			String[] gradesArray = moduleGrades.split(",");	
+			// 배열을 List로 변환
+			List<String> gradesList = Arrays.asList(gradesArray);
+			// DT가 리스트에 있는지 검사
+			if (gradesList.contains("VM")) {
+			    System.out.println("VM가 리스트에 포함되어 있습니다.");
+			} else {
+			    System.out.println("VM가 리스트에 없습니다.");
+			    return "common/moduleGradesError";
+			}
+		}else {
+			return "common/moduleGradesError";
+			
+		}
 
 		// Pagination logic
 		int accountsPerPage = 10;
