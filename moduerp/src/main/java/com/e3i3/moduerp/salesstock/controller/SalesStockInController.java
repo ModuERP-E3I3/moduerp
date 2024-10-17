@@ -39,8 +39,7 @@ public class SalesStockInController {
 
 	@Autowired
 	private ItemSalesStockService itemSalesStockService;
-	@Autowired
-	private EmployeeProductionService employeeProductionService;
+
 
 	// Sales Stock In GET method
 	@RequestMapping(value = "/salesStockIn.do", method = RequestMethod.GET)
