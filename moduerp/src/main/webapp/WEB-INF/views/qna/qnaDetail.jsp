@@ -37,7 +37,7 @@ h1 {
 }
 
 .form-box {
-	max-width: 80%;
+	max-width: 60%;
 	width: 100%;
 	background-color: white;
 	padding: 30px;
