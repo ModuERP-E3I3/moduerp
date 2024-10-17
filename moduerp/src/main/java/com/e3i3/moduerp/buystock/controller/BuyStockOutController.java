@@ -94,17 +94,39 @@ public class BuyStockOutController {
 		if (option != null && filterText != null) {
 			if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
 				System.out.println("날짜있는거 실행");
-				itemList = itemBuystockService.getItemOutByFilterDate(bizNumber, option, filterText, startDate,
-						endDate);
-			} else if (startDate == null || startDate.isEmpty()) {
-				System.out.println("날짜없는거 실행");
-				itemList = itemBuystockService.getItemOutByFilter(bizNumber, option, filterText);
+				itemList = itemBuystockService.getItemByFilterDate(bizNumber, option, filterText, startDate, endDate);
+			} else if ((option == null || filterText == null || filterText.isEmpty()) && startDate != null
+					&& !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+				// 날짜만 있는 경우 처리
+				System.out.println("날짜만 있는 경우 실행");
+				itemList = itemBuystockService.getItemByFilterOnlyDate(bizNumber, startDate, endDate);
+			} else if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
+				// 시작 날짜만 있는 경우 처리
+				System.out.println("시작 날짜만 있는 경우 실행");
+				itemList = itemBuystockService.getItemByFilterStartDate(bizNumber, startDate);
+			} else if ((startDate == null || startDate.isEmpty()) && endDate != null && !endDate.isEmpty()) {
+				// 종료 날짜만 있는 경우 처리
+				System.out.println("종료 날짜만 있는 경우 실행");
+				itemList = itemBuystockService.getItemByFilterEndDate(bizNumber, endDate);
 			} else {
-				System.out.println("실행 못함");
-				itemList = itemBuystockService.getItemsByBizNumberOutDate(bizNumber);
+				System.out.println("날짜없는거 실행");
+				itemList = itemBuystockService.getItemsByFilter(bizNumber, option, filterText);
 			}
+		} else if ((option == null || filterText == null || filterText.isEmpty()) && startDate != null
+				&& !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+			// 필터 옵션과 텍스트 없이 날짜만 있는 경우
+			System.out.println("날짜만 있는 경우 실행");
+			itemList = itemBuystockService.getItemByFilterOnlyDate(bizNumber, startDate, endDate);
+		} else if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
+			// 시작 날짜만 있는 경우 처리
+			System.out.println("시작 날짜만 있는 경우 실행");
+			itemList = itemBuystockService.getItemByFilterStartDate(bizNumber, startDate);
+		} else if ((startDate == null || startDate.isEmpty()) && endDate != null && !endDate.isEmpty()) {
+			// 종료 날짜만 있는 경우 처리
+			System.out.println("종료 날짜만 있는 경우 실행");
+			itemList = itemBuystockService.getItemByFilterEndDate(bizNumber, endDate);
 		} else {
-			itemList = itemBuystockService.getItemsByBizNumberOutDate(bizNumber);
+			itemList = itemBuystockService.getItemsByBizNumber(bizNumber);
 		}
 
 		// 페이지네이션 처리
