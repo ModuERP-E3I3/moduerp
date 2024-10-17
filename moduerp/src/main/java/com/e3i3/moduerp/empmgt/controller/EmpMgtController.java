@@ -1,6 +1,7 @@
 package com.e3i3.moduerp.empmgt.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.e3i3.moduerp.company.model.service.CompanyService;
 import com.e3i3.moduerp.department.model.dto.Department;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 import com.e3i3.moduerp.empmgt.service.EmpMgtService;
@@ -25,6 +27,9 @@ import com.e3i3.moduerp.empmgt.service.EmpMgtService;
 @RequestMapping("/")
 public class EmpMgtController {
 
+	@Autowired
+	private CompanyService companyService;
+	
 	@Autowired
 	private EmpMgtService empMgtService;
 	@Autowired
@@ -37,6 +42,24 @@ public class EmpMgtController {
 
 		// 직원 데이터 조회
 		List<Employee> employeeList = empMgtService.getEmployeesByBizNumber(bizNumber);
+		
+	    String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
+	    if(moduleGrades != null) {
+			// 쉼표(,)로 문자열을 분리하여 배열로 반환
+			String[] gradesArray = moduleGrades.split(",");	
+			// 배열을 List로 변환
+			List<String> gradesList = Arrays.asList(gradesArray);
+			// P_IN이 리스트에 있는지 검사
+			if (gradesList.contains("B_IN")) {
+			    System.out.println("B_IN이 리스트에 포함되어 있습니다.");
+			} else {
+			    System.out.println("B_IN이 리스트에 없습니다.");
+			    return "common/moduleGradesError";
+			}
+		}else {
+			return "common/moduleGradesError";
+			
+		}
 
 		// Pagination 처리
 		int employeesPerPage = 10;
