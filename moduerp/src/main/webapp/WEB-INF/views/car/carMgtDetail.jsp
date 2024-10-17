@@ -210,7 +210,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">차량관리 | 차량 결제 관리 | 차량 결제 관리 수정</div>
+		<div class="content-title">차량관리 | 차량 결제 관리 | 차량 결제 상세</div>
 
 		
 

@@ -206,7 +206,7 @@ tbody tr:hover {
 					value="${startDate != null ? startDate : ''}" required/> 
 					<input
 					type="date" name="endDate" id="endDate"
-					value="${endDate != null ? endDate : ''}" /> 
+					value="${endDate != null ? endDate : ''}" required/> 
 					<input type="text"
 					name="filterText" id="filterText" placeholder="내용 입력"
 					value="${filterText != null ? filterText : ''}" required/>

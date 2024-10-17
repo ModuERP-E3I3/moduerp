@@ -79,4 +79,10 @@ public interface ItemDeliveryDAO {
 
 	List<ItemDTO> getOutItemByODirector(String bizNumber, String filterText);
 
+	List<ItemDTO> getItemByFilterOnlyDate(String bizNumber, String startDate, String endDate);
+
+	List<ItemDTO> getItemByFilterStartDate(String bizNumber, String startDate);
+
+	List<ItemDTO> getItemByFilterEndDate(String bizNumber, String endDate);
+
 }

@@ -189,7 +189,7 @@ tbody tr:hover {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">구매관리 | 구매입고 | 신규 등록</div>
+		<div class="content-title">구매관리 | 구매입고</div>
 		
 		<form action="/moduerp/buyStockInFilter.do">
 			<!-- 필터 박스 -->
@@ -201,8 +201,8 @@ tbody tr:hover {
 					<option value="iDirector">담당자</option>
 				</select> 
 				<input type="date" name="startDate" id="startDate" required/> 
-				<input type="date" name="endDate" id="endDate" /> 
-				<input type="text" name="filterText" id="filterText" placeholder="내용 입력" />
+				<input type="date" name="endDate" id="endDate" required/> 
+				<input type="text" name="filterText" id="filterText" placeholder="내용 입력" required/>
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
 					onclick="window.location.href='buyStockIn.do';">초기화</button>

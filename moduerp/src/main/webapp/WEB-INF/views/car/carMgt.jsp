@@ -202,7 +202,7 @@ tbody tr:hover {
 					<option value="empName">사원명</option>
 					<option value="departmentId">부서명</option>
 				</select> <input type="date" name="startDate" id="startDate" required/> <input
-					type="date" name="endDate" id="endDate" /> <input type="text"
+					type="date" name="endDate" id="endDate" required/> <input type="text"
 					name="filterText" id="filterText" placeholder="내용 입력" required/>
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"

@@ -223,6 +223,24 @@ public class ItemBuyStockDAOImpl implements ItemBuyStockDAO{
 				Map.of("bizNumber", bizNumber, "filterText", filterText));
 	}
 
+	@Override
+	public List<ItemDTO> getItemByFilterOnlyDate(String bizNumber, String startDate, String endDate) {
+		return sqlSession.selectList(namespace + ".selectItemByFilterOnlyDate",
+				Map.of("bizNumber", bizNumber, "startDate", startDate, "endDate", endDate));
+	}
+
+	@Override
+	public List<ItemDTO> getItemByFilterStartDate(String bizNumber, String startDate) {
+		return sqlSession.selectList(namespace + ".selectItemByFilterStartDate",
+				Map.of("bizNumber", bizNumber, "startDate", startDate));
+	}
+
+	@Override
+	public List<ItemDTO> getItemByFilterEndDate(String bizNumber, String endDate) {
+		return sqlSession.selectList(namespace + ".selectItemByFilterEndDate",
+				Map.of("bizNumber", bizNumber, "endDate", endDate));
+	}
+
 
 	
 

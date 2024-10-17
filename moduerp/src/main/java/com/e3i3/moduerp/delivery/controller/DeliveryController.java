@@ -87,15 +87,37 @@ public class DeliveryController {
 			if (option != null && filterText != null) {
 				if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
 					System.out.println("날짜있는거 실행");
-					itemList = itemDeliveryService.getItemByFilterDate(bizNumber, option, filterText, startDate,
-							endDate);
-				} else if (startDate == null || startDate.isEmpty()) {
+					itemList = itemDeliveryService.getItemByFilterDate(bizNumber, option, filterText, startDate, endDate);
+				} else if ((option == null || filterText == null || filterText.isEmpty()) && startDate != null
+						&& !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+					// 날짜만 있는 경우 처리
+					System.out.println("날짜만 있는 경우 실행");
+					itemList = itemDeliveryService.getItemByFilterOnlyDate(bizNumber, startDate, endDate);
+				} else if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
+					// 시작 날짜만 있는 경우 처리
+					System.out.println("시작 날짜만 있는 경우 실행");
+					itemList = itemDeliveryService.getItemByFilterStartDate(bizNumber, startDate);
+				} else if ((startDate == null || startDate.isEmpty()) && endDate != null && !endDate.isEmpty()) {
+					// 종료 날짜만 있는 경우 처리
+					System.out.println("종료 날짜만 있는 경우 실행");
+					itemList = itemDeliveryService.getItemByFilterEndDate(bizNumber, endDate);
+				} else {
 					System.out.println("날짜없는거 실행");
 					itemList = itemDeliveryService.getItemsByFilter(bizNumber, option, filterText);
-				} else {
-					System.out.println("실행 못함");
-					itemList = itemDeliveryService.getItemsByBizNumber(bizNumber);
 				}
+			} else if ((option == null || filterText == null || filterText.isEmpty()) && startDate != null
+					&& !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+				// 필터 옵션과 텍스트 없이 날짜만 있는 경우
+				System.out.println("날짜만 있는 경우 실행");
+				itemList = itemDeliveryService.getItemByFilterOnlyDate(bizNumber, startDate, endDate);
+			} else if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
+				// 시작 날짜만 있는 경우 처리
+				System.out.println("시작 날짜만 있는 경우 실행");
+				itemList = itemDeliveryService.getItemByFilterStartDate(bizNumber, startDate);
+			} else if ((startDate == null || startDate.isEmpty()) && endDate != null && !endDate.isEmpty()) {
+				// 종료 날짜만 있는 경우 처리
+				System.out.println("종료 날짜만 있는 경우 실행");
+				itemList = itemDeliveryService.getItemByFilterEndDate(bizNumber, endDate);
 			} else {
 				itemList = itemDeliveryService.getItemsByBizNumber(bizNumber);
 			}
