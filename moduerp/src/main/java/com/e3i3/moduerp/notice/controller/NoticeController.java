@@ -38,12 +38,12 @@ public class NoticeController {
 	    List<Notice> noticeList;
 	    int totalNotices;
 
-	    // Check if a search keyword and category are present
+	    // 검색조건이 있을 경우
 	    if (keyword != null && !keyword.isEmpty()) {
 	        noticeList = noticeService.searchNoticesWithPagination(category, keyword, page, size);
 	        totalNotices = noticeService.countFilteredNotices(category, keyword);
 	    } else {
-	        // Fetch the entire list with pagination
+	        // 검색 조건이 없을 경우 전체 조회
 	        noticeList = noticeService.getNoticesWithPagination(page, size);
 	        totalNotices = noticeService.countAllNotices();
 	    }
@@ -51,9 +51,12 @@ public class NoticeController {
 	    int totalPages = (int) Math.ceil((double) totalNotices / size);
 
 	    model.addAttribute("noticeList", noticeList);
-	    model.addAttribute("currentPage", page);
-	    model.addAttribute("totalPages", totalPages);
-
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("category", category);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("totalNotices", totalNotices); // 총 공지사항 수 추가
+        
 	    return "notice/noticeList";
 	}
 

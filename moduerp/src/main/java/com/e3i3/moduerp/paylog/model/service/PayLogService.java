@@ -10,4 +10,10 @@ public interface PayLogService {
 
 	List<PayLogDTO> selectPayLogByBizNumber(String bizNumber);
 
+	PayLogDTO selectPayLogByLogId(String logId);
+
+	void updateRefund(String payLogId);
+
+	void updateRefundStatus(String logId);
+
 }

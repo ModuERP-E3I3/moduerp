@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="RefundMapper">
+
+	<!-- PAY 테이블의 결과를 PayDTO로 매핑 -->
+	<resultMap id="RefundResultMap"
+		type="com.e3i3.moduerp.refund.model.dto.RefundDTO">
+		<id property="refundId" column="REFUND_ID" />
+		<result property="payId" column="PAY_ID" />
+		<result property="orderId" column="ORDER_ID" />
+		<result property="uuid" column="UUID" />
+		<result property="refundPrice" column="REFUND_PRICE" />
+		<result property="refundStatus" column="REFUND_STATUS" />
+		<result property="refundReason" column="REFUND_REASON" />
+		<result property="refundDate" column="REFUND_DATE" />
+		<result property="bizNumber" column="BIN_NUMBER" />
+		<result property="name" column="NAME" />
+	</resultMap>
+
+
+	<insert id="insertRefund"
+		parameterType="com.e3i3.moduerp.refund.model.dto.RefundDTO">
+		INSERT INTO REFUND (
+		REFUND_ID,
+		PAY_ID,
+		ORDER_ID,
+		UUID,
+		REFUND_PRICE,
+		REFUND_STATUS,
+		REFUND_REASON,
+		REFUND_DATE,
+		BIN_NUMBER,
+		NAME
+		)
+		VALUES (
+		#{refundId},
+		#{payId},
+		#{orderId},
+		#{uuid},
+		#{refundPrice},
+		#{refundStatus},
+		#{refundReason},
+		#{refundDate},
+		#{bizNumber},
+		#{name}
+		)
+	</insert>
+
+	<delete id="deleteRefundByOrderId" parameterType="String">
+		DELETE FROM REFUND WHERE ORDER_ID = #{orderId}
+	</delete>
+
+
+
+
+</mapper>

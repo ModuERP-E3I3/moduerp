@@ -32,8 +32,6 @@
 			alias="AccountDTO" />
 		<typeAlias type="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO"
 			alias="PurchaseOrdersDTO" />
-		<typeAlias type="com.e3i3.moduerp.notice.model.dto.Notice"
-			alias="Notice" />
 		<typeAlias type="com.e3i3.moduerp.email.model.dto.Email"
 			alias="Email" />
 			
@@ -55,7 +53,7 @@
 		<typeAlias type="com.e3i3.moduerp.buystock.model.dto.BuyStockOutDTO" 
 			alias="BuyStockOutDTO" />
 		<typeAlias alias="ItemDTO" type="com.e3i3.moduerp.item.model.dto.ItemDTO"/>
-		
+		 <typeAlias alias="Notice" type="com.e3i3.moduerp.notice.model.dto.Notice"/>
 	</typeAliases>
 
 	<typeHandlers>
@@ -113,6 +111,7 @@
 		<mapper resource="mappers/billingInfo-mapper.xml" />
 		<mapper resource="mappers/pay-mapper.xml" />
 		<mapper resource="mappers/paylog-mapper.xml" />
+		<mapper resource="mappers/refund-mapper.xml" />
 		
 		<mapper resource="mappers/qna-mapper.xml" />
 		<mapper resource="mappers/answer-mapper.xml" />
