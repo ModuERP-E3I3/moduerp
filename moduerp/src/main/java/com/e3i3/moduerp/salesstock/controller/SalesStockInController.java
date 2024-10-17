@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.e3i3.moduerp.employee.model.service.EmployeeSalesService;
 import com.e3i3.moduerp.company.model.service.CompanyService;
-import com.e3i3.moduerp.employee.model.service.EmployeeProductionService;
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 import com.e3i3.moduerp.item.model.service.ItemSalesStockService;
 import com.e3i3.moduerp.salesstock.model.dto.SalesStockInDTO;
@@ -39,6 +39,9 @@ public class SalesStockInController {
 
 	@Autowired
 	private ItemSalesStockService itemSalesStockService;
+	
+	@Autowired
+	private EmployeeSalesService employeeSalesService;
 
 
 	// Sales Stock In GET method
@@ -158,6 +161,20 @@ public class SalesStockInController {
 		model.addAttribute("endDate", endDate);
 
 		return "salesStock/salesStockInFilter"; // JSP 파일 경로 반환
+	}
+	
+	// 등록 페이지로 이동
+	@RequestMapping(value = "/salesStockInCreate.do", method = RequestMethod.GET)
+	public String showCreateForm(HttpSession session, Model model) {
+	    String bizNumber = (String) session.getAttribute("biz_number");
+	    String uuid = (String) session.getAttribute("uuid");
+	    String directorName = employeeSalesService.getEmployeeNameByUuid(uuid);
+	    List<ItemDTO> items = itemSalesStockService.getItemsByBizNumberStartingWith(bizNumber);
+
+	    model.addAttribute("itemList", items);
+	    model.addAttribute("directorName", directorName);
+
+	    return "salesStock/salesStockInCreate"; // JSP 파일 경로 반환
 	}
 
 	@PostMapping("/salesStockInCreate.do")
