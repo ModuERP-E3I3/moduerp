@@ -34,8 +34,6 @@
 			alias="EmpMgtDTO" />
 		<typeAlias type="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO"
 			alias="PurchaseOrdersDTO" />
-		<typeAlias type="com.e3i3.moduerp.notice.model.dto.Notice"
-			alias="Notice" />
 		<typeAlias type="com.e3i3.moduerp.email.model.dto.Email"
 			alias="Email" />
 			
@@ -57,7 +55,7 @@
 		<typeAlias type="com.e3i3.moduerp.buystock.model.dto.BuyStockOutDTO" 
 			alias="BuyStockOutDTO" />
 		<typeAlias alias="ItemDTO" type="com.e3i3.moduerp.item.model.dto.ItemDTO"/>
-		
+		 <typeAlias alias="Notice" type="com.e3i3.moduerp.notice.model.dto.Notice"/>
 	</typeAliases>
 
 	<typeHandlers>
