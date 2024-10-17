@@ -256,7 +256,6 @@ button:hover {
 				<h3>${qnaDetail.qTitle}</h3>
 				<p>작성자: ${qnaDetail.empName}</p>
 				<p>
-					작성일:
 					<fmt:formatDate value="${qnaDetail.qDate}" pattern="yyyy-MM-dd" />
 				</p>
 				<hr>
@@ -305,7 +304,6 @@ button:hover {
 						<h3>${answerDetail.aTitle}</h3>
 						<p>작성자: 관리자</p>
 						<p>
-							작성일:
 							<fmt:formatDate value="${answerDetail.aDate}"
 								pattern="yyyy-MM-dd" />
 						</p>

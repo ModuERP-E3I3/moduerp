@@ -47,7 +47,7 @@ body {
 }
 
 .box {
-	max-width: 80%; /* 본문 내용은 80% 너비로 */
+	max-width: 60%; /* 본문 내용은 80% 너비로 */
 	margin: 0 auto;
 	width: 100%;
 }
@@ -176,7 +176,6 @@ footer {
 }
 /* 버튼 스타일 */
 .btn-group {
-	margin-top: 20px;
 	text-align: right;
 }
 
@@ -220,7 +219,7 @@ footer {
 	color: black; /* 강조 색상 검은색 유지 */
 }
 .filter-box {
-	margin-bottom: 20px;
+	margin-top: 6%;
 }
 
 .filter-box input, .filter-box select {
@@ -237,6 +236,11 @@ footer {
 h1 {
 	font-size: 45px;
 }
+.header {
+    display: flex;
+    justify-content: space-between; /* 좌측과 우측에 위치 */
+    align-items: center; /* 세로 정렬 */
+}
 
 </style>
 </head>
@@ -251,6 +255,7 @@ h1 {
 		<!-- 공지사항 게시판 -->
 		<div class="QNA-board">
 			<div class="box">
+				<div class="header">
 				<h1>QnA</h1>
 
 				<form action="/moduerp/qnaFilter.do">
@@ -271,6 +276,7 @@ h1 {
 					onclick="window.location.href='qna.do';">초기화</button>
 				</div>
 				</form>
+				</div>
 				<hr>
 
 				<!-- 동적으로 공지사항 리스트 출력 -->
@@ -279,8 +285,9 @@ h1 {
 						<%-- <li class="<c:if test='${notice.noticeImp == "Y"}'>important</c:if>"> --%>
 						<li><a href="qnaDetail.do?qSeq=${qna.qSeq}">${qna.qTitle}</a>
 							<div class="meta">
-								<span>${qna.empName}</span> <span>No.${qna.qSeq}</span> <span>작성일
-									: <fmt:formatDate value="${qna.qDate}" pattern="yyyy-MM-dd" />
+								<span>${qna.empName}</span>
+								<span>
+								<fmt:formatDate value="${qna.qDate}" pattern="yyyy-MM-dd" />
 								</span>
 								<%-- <span>조회수 : ${notice.viewCnt}</span> --%>
 							</div></li>

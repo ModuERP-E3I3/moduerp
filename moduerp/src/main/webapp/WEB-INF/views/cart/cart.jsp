@@ -121,7 +121,7 @@ th {
 }
 
 .right-group {
-	margin-top: 27%;
+	margin-top: 30%;
 	text-align: right;
 	margin-right: 1.5%;
 	text-align: right;
@@ -155,12 +155,6 @@ th {
 	margin-bottom: 10px;
 	font-weight: bold;
 	font-size: 20px;
-}
-
-#thisMonthPrice {
-	font-weight: bold;
-	font-size: 20px;
-	color: red;
 }
 </style>
 
@@ -196,8 +190,39 @@ th {
 						<tbody>
 							<c:if test="${not empty modules}">
 
+								<!-- 인사관리 카운트 변수 초기화 -->
+								<c:set var="groupwareCount" value="0" />
+
+								<!-- 인사관리 조건 만족 횟수 카운트 -->
+								<c:forEach var="module" items="${modules}">
+									<c:if test="${module.moduleType == '인사관리'}">
+										<c:set var="ErpMgtCount" value="${groupwareCount + 1}" />
+									</c:if>
+								</c:forEach>
+
+								<!-- 인사관리 데이터 출력 -->
+								<c:forEach var="module" items="${modules}" varStatus="status">
+									<c:if test="${module.moduleType == '인사관리'}">
+										<tr>
+											<td><input type="checkbox" name="selectedModules"
+												value="${module.moduleGrade}"></td>
+
+											<c:if test="${status.index == 0}">
+												<td rowspan="${ErpMgtCount}">${module.moduleType}</td>
+											</c:if>
+
+											<td>${module.moduleName}</td>
+											<td>${module.modulePrice}</td>
+											<td>${module.moduleDesc}</td>
+											<td>${module.moduleVer}</td>
+										</tr>
+									</c:if>
+								</c:forEach>
+
 								<!-- 그룹웨어 카운트 변수 초기화 -->
 								<c:set var="groupwareCount" value="0" />
+								<c:set var="firstGroupwareRendered" value="false" />
+								<!-- 첫 번째 표시 여부 확인 변수 -->
 
 								<!-- 그룹웨어 조건 만족 횟수 카운트 -->
 								<c:forEach var="module" items="${modules}">
@@ -207,14 +232,15 @@ th {
 								</c:forEach>
 
 								<!-- 그룹웨어 데이터 출력 -->
-								<c:forEach var="module" items="${modules}" varStatus="status">
+								<c:forEach var="module" items="${modules}">
 									<c:if test="${module.moduleType == '그룹웨어'}">
 										<tr>
 											<td><input type="checkbox" name="selectedModules"
 												value="${module.moduleGrade}"></td>
 											<!-- 첫 번째 그룹웨어일 때만 rowspan 적용 -->
-											<c:if test="${status.index == 0}">
+											<c:if test="${!firstGroupwareRendered}">
 												<td rowspan="${groupwareCount}">${module.moduleType}</td>
+												<c:set var="firstGroupwareRendered" value="true" />
 											</c:if>
 
 											<td>${module.moduleName}</td>
@@ -422,53 +448,32 @@ th {
 					총 금액<br>${totalModulePrice}원
 				</div>
 
-				<!-- purchasedModuleExistence에 따른 분기 -->
 				<c:choose>
-					<c:when test="${purchasedModuleExistence}">
-						<div id="thisMonthPrice">
-							이번달 결제 금액<br>
-
-							<c:choose>
-								<c:when test="${daysUntilNextPayment == 0}">
-									<span>${totalModulePrice}원</span>
-									<input type="hidden" id="calculatedThisMonthPrice"
-										value="${totalModulePrice}">
-								</c:when>
-
-								<c:otherwise>
-									<c:set var="adjustedPrice"
-										value="${(totalModulePrice / 30) * daysUntilNextPayment}" />
-									<span>${fn:substringBefore(adjustedPrice, '.')}원</span>
-									<input type="hidden" id="calculatedThisMonthPrice"
-										value="${fn:substringBefore(adjustedPrice, '.')}">
-								</c:otherwise>
-							</c:choose>
-						</div>
-						<button type="button" class="btn_pay" onclick="submitAllModules()">추가
-							결제하기</button>
+					<c:when test="${companyCardExistence}">
+						<button type="button" class="btn_pay" onclick="submitPayment()">결제하기</button>
 					</c:when>
 
+
+
 					<c:otherwise>
-						<c:choose>
-							<c:when test="${companyCardExistence}">
-								<button id="buymodule" type="button" class="btn_pay"
-									onclick="submitPayment()">결제하기</button>
-							</c:when>
-
-							<c:otherwise>
-								<button id="btnNoCard" type="button" class="btn_pay"
-									onclick="handleNoCard()">결제하기카드 없음</button>
-
-							</c:otherwise>
-						</c:choose>
+						<!-- companyCardExistence가 false일 때 -->
+						<button type="button" class="btn_pay" onclick="handleNoCard()">결제하기</button>
 					</c:otherwise>
 				</c:choose>
 			</div>
+
+
 		</div>
+
+
 	</form>
+
+
 
 	<!-- 메뉴바 임포트 -->
 	<c:import url="/WEB-INF/views/common/menubar.jsp" />
+
+
 
 	<!-- 푸터 임포트 -->
 	<c:import url="/WEB-INF/views/common/footer.jsp" />
@@ -476,19 +481,12 @@ th {
 </body>
 
 <script type="text/javascript">
-
-
-function submitAllModules() {
+function submitPayment() {
     const form = document.getElementById('cartForm');
 
     // 모든 체크박스에서 moduleGrade 값을 가져옴
     const allModules = Array.from(document.querySelectorAll('input[name="selectedModules"]'))
         .map(checkbox => checkbox.value);
-
-    if (allModules.length === 0) {
-        alert("추가 결제할 모듈이 선택되지 않았습니다.");
-        return;
-    }
 
     // 모든 moduleGrade를 숨겨진 필드로 추가
     allModules.forEach(moduleGrade => {
@@ -499,87 +497,39 @@ function submitAllModules() {
         form.appendChild(hiddenInput);
     });
 
-    // totalModulePrice와 thisMonthPrice를 숨겨진 필드로 추가
-    const totalModulePrice = document.getElementById('totalPrice').innerText.replace(/\D/g, '');
-    const thisMonthPrice = document.getElementById('calculatedThisMonthPrice').value;
-
-    const totalPriceInput = document.createElement('input');
-    totalPriceInput.type = 'hidden';
-    totalPriceInput.name = 'totalModulePrice';
-    totalPriceInput.value = totalModulePrice;
-    form.appendChild(totalPriceInput);
-
-    const thisMonthPriceInput = document.createElement('input');
-    thisMonthPriceInput.type = 'hidden';
-    thisMonthPriceInput.name = 'thisMonthPrice';
-    thisMonthPriceInput.value = thisMonthPrice;
-    form.appendChild(thisMonthPriceInput);
-
-    // 폼 제출
-    form.action = 'createAdditionalPayment.do'; // 필요한 매핑 주소로 설정
-    form.method = 'post';
-    form.submit();
-}
-
-
-</script>
-
-<script type="text/javascript">
-function submitPayment() {
-    const form = document.getElementById('cartForm');
-
-    // 모든 모듈의 값을 가져오기 (체크 여부와 상관없이)
-    const allModules = Array.from(document.querySelectorAll('input[name="selectedModules"]'))
-        .map(checkbox => checkbox.value);
-
-    // 테이블이 비어 있는지 확인 (tbody에 행이 있는지 확인)
-    const tableBody = document.querySelector('.moduleTableScroll tbody');
-    const isTableEmpty = tableBody.querySelectorAll('tr').length === 1 &&
-                         tableBody.querySelector('td').colSpan === 6;
-
-    if (isTableEmpty) {
-        alert("결제할 항목이 없습니다!");
-        return; // 결제 진행 막기
-    }
-
-    // 테이블에 항목이 없을 때 경고 표시
-    if (allModules.length === 0) {
-        alert("결제할 항목이 없습니다.");
-        return; // 결제 진행 막기
-    }
-
-    // 모든 모듈을 숨겨진 필드로 추가
-    allModules.forEach(moduleGrade => {
-        const hiddenInput = document.createElement('input');
-        hiddenInput.type = 'hidden';
-        hiddenInput.name = 'moduleGrades';
-        hiddenInput.value = moduleGrade;
-        form.appendChild(hiddenInput);
-    });
-
-    // 결제 폼 제출 설정
     form.action = 'createPayment.do';
     form.method = 'post';
     form.submit();
 }
 
 
-
 </script>
 
 <script>
-function handleNoCard() {
-    console.log("handleNoCard called");
+  function handleNoCard() {
+    // 알림창 표시
     alert("등록된 카드가 없습니다.");
-    window.location.href = "http://localhost:8080/moduerp/cardManagement.do"; 
-}
-
+    // 특정 페이지로 이동
+    window.location.href = "http://localhost:8080/moduerp/payment.do"; 
+  }
 </script>
 
 <script type="text/javascript">
 // GroupWare
 document.addEventListener('DOMContentLoaded', () => {
     const checkboxes = document.querySelectorAll('input[name="selectedModules"]');
+    disableCheckbox(['HR']); // 인사관리 모듈 체크박스 비활성화
+
+    function disableCheckbox(values) {
+        values.forEach(value => {
+            const checkbox = Array.from(checkboxes).find(cb => cb.value === value);
+            if (checkbox) {
+                checkbox.disabled = true; // 비활성화
+            }
+        });
+    }
+
+    
  // ATD와 AD 체크박스는 비활성화
     disableCheckbox(['ATD', 'AD', 'EM']);
  
