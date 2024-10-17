@@ -34,4 +34,8 @@ public interface EmployeeService {
 	// 비밀번호 수정
 	public int updatePassword(String uuid, String password);
 
+	public int updateAddressByUuid(String uuid, String address);
+
+	public int updateUserPhoneByUuid(String uuid, String userPhone);
+
 }

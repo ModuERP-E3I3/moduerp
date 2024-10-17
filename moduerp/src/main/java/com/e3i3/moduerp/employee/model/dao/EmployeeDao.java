@@ -101,4 +101,35 @@ public class EmployeeDao {
         params.put("bizNumber", bizNumber);
         return sqlSessionTemplate.selectOne("EmployeeMapper.selectEmployeeByEmailAndBizNumber", params);
     }
+    
+    
+    /**
+     * UUID를 기준으로 직원의 주소를 업데이트합니다.
+     *
+     * @param uuid     직원의 고유 식별자
+     * @param address  새로운 주소
+     * @return 업데이트된 행의 수
+     */
+    public int updateAddressByUuid(String uuid, String address) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("uuid", uuid);
+        params.put("address", address);
+        return sqlSessionTemplate.update("EmployeeMapper.updateAddressByUuid", params);
+    }
+
+    
+    /**
+     * UUID를 기준으로 직원의 전화번호를 업데이트합니다.
+     *
+     * @param uuid      직원의 고유 식별자
+     * @param userPhone 새로운 전화번호
+     * @return 업데이트된 행의 수
+     */
+    public int updateUserPhoneByUuid(String uuid, String userPhone) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("uuid", uuid);
+        params.put("userPhone", userPhone);
+        return sqlSessionTemplate.update("EmployeeMapper.updateUserPhoneByUuid", params);
+    }
+    
 }

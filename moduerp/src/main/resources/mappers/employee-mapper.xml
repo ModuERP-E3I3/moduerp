@@ -198,7 +198,7 @@
 		resultType="com.e3i3.moduerp.employee.model.dto.Employee">
 		SELECT uuid, emp_email, emp_no, emp_name, department_id AS
 		departmentId,
-		biz_number, approval_code, password, is_deleted
+		biz_number, approval_code, password, is_deleted, address, user_phone
 		FROM
 		employee
 		WHERE emp_email = #{empEmail}
@@ -208,6 +208,19 @@
 		AND is_deleted = 'N'
 	</select>
 
+	 <!-- 직원의 주소를 UUID로 업데이트 -->
+    <update id="updateAddressByUuid" parameterType="map">
+        UPDATE employee
+        SET address = #{address}
+        WHERE uuid = #{uuid}
+    </update>
 
 
+	 <!-- 직원의 전화번호를 UUID로 업데이트 -->
+    <update id="updateUserPhoneByUuid" parameterType="map">
+        UPDATE employee
+        SET user_phone = #{userPhone}
+        WHERE uuid = #{uuid}
+    </update>
+    
 </mapper>

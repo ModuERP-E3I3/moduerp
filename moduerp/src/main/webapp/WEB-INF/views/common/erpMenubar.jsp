@@ -141,7 +141,7 @@ nav.side ul li.moduerp {
                 <%-- 일반 직원일 때 마이페이지 표시 --%>
                 <c:otherwise>
                     <li>
-                        <a href="<c:url value='/EmpMypage.do' />">
+                        <a href="<c:url value='/updatePassword.do' />">
                             <i class="fa-solid fa-user"></i> 마이페이지
                         </a>
                     </li>

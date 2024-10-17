@@ -88,4 +88,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public int updatePassword(String uuid, String password) {
 		return employeeDao.updatePassword(uuid, password);
 	}
+	
+    @Override
+    public int updateUserPhoneByUuid(String uuid, String userPhone) {
+        return employeeDao.updateUserPhoneByUuid(uuid, userPhone);
+    }
+
+	@Override
+	public int updateAddressByUuid(String uuid, String address) {
+		return employeeDao.updateAddressByUuid(uuid, address);
+	}
 }

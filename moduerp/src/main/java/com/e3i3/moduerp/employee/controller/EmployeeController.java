@@ -64,10 +64,12 @@ public class EmployeeController {
 //	        session.setAttribute("uuid", employee.getUuid());
 			session.setAttribute("uuid", employee.getUuid().toString());
 			session.setAttribute("biz_number", employee.getBizNumber());
+			
 			session.setAttribute("email", employee.getEmpEmail());
 			session.setAttribute("name", employee.getEmpName());
 			session.setAttribute("departmentId", employee.getDepartmentId());
 			session.setAttribute("adminUUID", adminUUID); // 세션에 개발자 uuid 넣어줌
+			session.setAttribute("address", employee.getAddress());
 
 			// 콘솔에 로그인 세션 정보 출력
 			System.out.println("로그인한 사용자의 UUID: " + session.getAttribute("uuid"));
