@@ -230,7 +230,7 @@ window.onclick = function(event) {
                 </c:otherwise>
             </c:choose>
             
-            <li><a href="erpMain.do">ERP 테스트용</a></li>
+            <li><a href="<c:url value='/attendance.do' />">ERP 테스트용</a></li>
             <li><a href="forwardCart.do">장바구니</a></li>
         </ul>
     </div>
