@@ -61,23 +61,38 @@ public class NoticeServiceImpl implements NoticeService {
         }
     }
     
+    /**
+     * 전체 공지사항 조회 with 페이징
+     */
     @Override
     public List<Notice> getNoticesWithPagination(int page, int size) {
         int offset = (page - 1) * size;
-        return noticeDAO.getNoticesWithPagination(offset, size);
+        return noticeDAO.findAllNotices(offset, size);
     }
+
+    /**
+     * 조건 검색 공지사항 조회 with 페이징
+     */
+    @Override
+    public List<Notice> searchNoticesWithPagination(String category, String keyword, int page, int size) {
+        int offset = (page - 1) * size;
+        return noticeDAO.searchNotices(category, keyword, offset, size);
+    }
+
+    /**
+     * 전체 공지사항 개수 조회
+     */
     @Override
     public int countAllNotices() {
         return noticeDAO.countAllNotices();
     }
-    @Override
-    public List<Notice> searchNoticesWithPagination(String category, String keyword, int page, int size) {
-        int offset = (page - 1) * size;
-        return noticeDAO.searchNoticesWithPagination(category, keyword, offset, size);
-    }
+
+    /**
+     * 조건 검색 공지사항 개수 조회
+     */
     @Override
     public int countFilteredNotices(String category, String keyword) {
-        return noticeDAO.countFilteredNotices(category, keyword);
+        return noticeDAO.countNotices(category, keyword);
     }
 
 }

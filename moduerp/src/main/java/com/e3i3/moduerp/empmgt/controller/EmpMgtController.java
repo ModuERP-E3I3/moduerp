@@ -44,7 +44,7 @@ public class EmpMgtController {
 		int startIndex = (page - 1) * employeesPerPage;
 		int endIndex = Math.min(startIndex + employeesPerPage, totalEmployees);
 		List<Employee> paginatedList = employeeList.subList(startIndex, endIndex);
-
+		
 		// 모델에 데이터 추가
 		model.addAttribute("employeeList", paginatedList);
 		model.addAttribute("totalPages", totalPages);
@@ -121,7 +121,7 @@ public class EmpMgtController {
 		List<Department> departmentList = empMgtService.getAllDepartments();
 
 		// UUID 생성 또는 설정
-		String uuid = UUID.randomUUID().toString(); // UUID를 새로 생성합니다.
+		String uuid = UUID.randomUUID().toString(); 
 
 		// 추가 데이터 로드
 		List<String> empNames = empMgtService.getEmpNamesByBizNumber(bizNumber);

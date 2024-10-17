@@ -74,6 +74,7 @@ public class EmployeeController {
 			System.out.println("로그인한 사용자의 사업자번호: " + session.getAttribute("biz_number"));
 			System.out.println("로그인한 사용자의 이메일: " + session.getAttribute("email"));
 			System.out.println("로그인한 사용자의 이름: " + session.getAttribute("name"));
+			System.out.println("개발자 uuid: " + session.getAttribute("adminUUID"));
 
 			System.out.println("쿼리로 반환된 UUID: " + employee.getUuid());
 			System.out.println("쿼리로 반환된 사업자번호: " + employee.getBizNumber());

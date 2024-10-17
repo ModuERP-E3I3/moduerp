@@ -26,4 +26,21 @@ public class PayLogServiceImpl implements PayLogService {
 		return payLogDAO.selectPayLogByBizNumber(bizNumber);
 	}
 
+	@Override
+	public PayLogDTO selectPayLogByLogId(String logId) {
+		return payLogDAO.selectPayLogByLogId(logId);
+	}
+
+	@Override
+	public void updateRefund(String payLogId) {
+		payLogDAO.updateRefund(payLogId);
+		
+	}
+
+	@Override
+	public void updateRefundStatus(String logId) {
+		payLogDAO.updateRefundStatus(logId);
+		
+	}
+
 }

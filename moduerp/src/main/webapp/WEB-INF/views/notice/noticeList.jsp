@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
@@ -161,7 +162,7 @@ h1, h2 {
 .page-btn.active {
 	background-color: #007bff;
 	color: white;
-} 
+}
 
 .page-info {
 	text-align: left; /* 페이지 정보도 왼쪽 정렬 */
@@ -215,38 +216,72 @@ footer {
 						</select> <input type="text" name="keyword" placeholder="내용">
 						<button type="submit">검색</button>
 					</form>
-					<!-- 등록 버튼을 검색 바 오른쪽에 배치 -->
-					<a href="<c:url value='/notice/form.do' />" class="action-btn">등록</a>
+
+					<!-- 관리자일 때만 '등록' 버튼 표시 -->
+					<c:choose>
+						<c:when
+							test="${not empty sessionScope.uuid and sessionScope.uuid eq sessionScope.adminUUID}">
+							<a href="<c:url value='/notice/form.do' />" class="action-btn">등록</a>
+						</c:when>
+					</c:choose>
 				</div>
 
-<!-- 공지사항 리스트 -->
-<ul class="notice-list">
-    <c:forEach var="notice" items="${noticeList}">
-        <li>
-            <h2><a href="${pageContext.request.contextPath}/notice/view/${notice.noticeId}.do">${notice.title}</a></h2>
-            <div class="meta">
-                <fmt:formatDate value="${notice.noticeDate}" pattern="yyyy-MM-dd" />
-            </div>
-        </li>
-    </c:forEach>
-</ul>
+				<!-- 공지사항 리스트 -->
+				<ul class="notice-list">
+					<c:forEach var="notice" items="${noticeList}">
+						<li>
+							<h2>
+								<a
+									href="${pageContext.request.contextPath}/notice/view/${notice.noticeId}.do">${notice.title}</a>
+							</h2>
+							<div class="meta">
+								<fmt:formatDate value="${notice.noticeDate}"
+									pattern="yyyy-MM-dd" />
+							</div>
+						</li>
+					</c:forEach>
+				</ul>
 
-<!-- 페이지네이션 -->
-<div class="pagination">
-    <c:if test="${currentPage > 1}">
-        <a href="?page=${currentPage - 1}&category=${param.category}&keyword=${param.keyword}" class="page-btn">이전</a>
-    </c:if>
+				<!-- 페이지 정보 (선택 사항) -->
+				<div class="page-info">
+					총
+					<c:out value="${totalNotices}" />
+					개의 공지사항 중
+					<c:out value="${currentPage}" />
+					페이지
+				</div>
 
-    <c:forEach var="i" begin="1" end="${totalPages}">
-        <a href="?page=${i}&category=${param.category}&keyword=${param.keyword}" class="page-btn ${i == currentPage ? 'active' : ''}">
-            ${i}
-        </a>
-    </c:forEach>
+				<!-- 페이지네이션 -->
+				<div class="pagination">
+					<!-- 이전 페이지 링크 -->
+					<c:if test="${currentPage > 1}">
+						<a
+							href="<c:url value='/notice/list.do' />?page=${currentPage - 1}&category=${category}&keyword=${keyword}"
+							class="page-btn">이전</a>
+					</c:if>
 
-    <c:if test="${currentPage < totalPages}">
-        <a href="?page=${currentPage + 1}&category=${param.category}&keyword=${param.keyword}" class="page-btn">다음</a>
-    </c:if>
-</div>
+					<!-- 페이지 번호 링크 -->
+					<c:forEach var="i" begin="1" end="${totalPages}">
+						<c:choose>
+							<c:when test="${i == currentPage}">
+								<strong class="page-btn active">${i}</strong>
+							</c:when>
+							<c:otherwise>
+								<a
+									href="<c:url value='/notice/list.do' />?page=${i}&category=${category}&keyword=${keyword}"
+									class="page-btn">${i}</a>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+
+					<!-- 다음 페이지 링크 -->
+					<c:if test="${currentPage < totalPages}">
+						<a
+							href="<c:url value='/notice/list.do' />?page=${currentPage + 1}&category=${category}&keyword=${keyword}"
+							class="page-btn">다음</a>
+					</c:if>
+				</div>
+
 
 			</div>
 		</div>

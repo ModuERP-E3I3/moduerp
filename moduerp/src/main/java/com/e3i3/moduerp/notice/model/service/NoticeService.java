@@ -15,12 +15,23 @@ public interface NoticeService {
     // 검색 기능 추가
     List<Notice> searchNotices(String category, String keyword);
     
-    public List<Notice> getNoticesWithPagination(int page, int size);
-    
-    public int countAllNotices();
-    
-    
-    public List<Notice> searchNoticesWithPagination(String category, String keyword, int page, int size);
-    
-    public int countFilteredNotices(String category, String keyword);
+    /**
+     * 전체 공지사항 조회 with 페이징
+     */
+    List<Notice> getNoticesWithPagination(int page, int size);
+
+    /**
+     * 조건 검색 공지사항 조회 with 페이징
+     */
+    List<Notice> searchNoticesWithPagination(String category, String keyword, int page, int size);
+
+    /**
+     * 전체 공지사항 개수 조회
+     */
+    int countAllNotices();
+
+    /**
+     * 조건 검색 공지사항 개수 조회
+     */
+    int countFilteredNotices(String category, String keyword);
 }
