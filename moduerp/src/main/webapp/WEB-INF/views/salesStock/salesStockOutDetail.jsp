@@ -127,24 +127,22 @@ th {
 	<!-- 서브헤더 JSP 임포트 -->
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
-	<!-- 위에 하얀 박스  -->
+	<!-- 상단 메뉴바 -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
+			<li><a href="account.do"><i class="fas fa-building"></i>
 					거래처관리</a></li>
-			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
-					영업 입고</a></li>
-			<!-- 수정 -->
-			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
-					영업 출고</a></li>
-			<!-- 수정 -->
+			<li><a href="salesStockIn.do"><i
+					class="fas fa-truck-loading"></i> 영업 입고</a></li>
+			<li><a href="salesStockOut.do"><i
+					class="fas fa-shipping-fast"></i> 영업 출고</a></li>
 		</ul>
 	</div>
-
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">영업/판매 관리 | 영업출고 | ${itemDetails.itemName} 출고 정보</div>
+		<div class="content-title">영업/판매 관리 | 영업출고 |
+			${itemDetails.itemName} 정보</div>
 
 
 
@@ -193,10 +191,10 @@ th {
 				<c:forEach var="stockOut" items="${salesStockOutDetails}">
 					<tr id="tbpt"
 						onclick="window.location.href='getSalesOutDetailsSub.do?sStockOutId=${stockOut.sStockOutId}&itemCode=${itemDetails.itemCode }'">
-						
+
 						<td><fmt:formatDate value="${stockOut.sStockOutDate}"
 								pattern="yyyy-MM-dd HH:mm:ss" /></td>
-								
+
 						<td>${stockOut.sStockOutPlace}</td>
 						<td>${stockOut.sStockOutQty}</td>
 						<td>${stockOut.sStockOutPrice}</td>
@@ -205,9 +203,8 @@ th {
 						<td><c:choose>
 								<c:when test="${stockOut.paymentStatus == 'Y'}">Yes</c:when>
 								<c:otherwise>No</c:otherwise>
-							</c:choose>
-						</td>
-					
+							</c:choose></td>
+
 					</tr>
 				</c:forEach>
 			</tbody>

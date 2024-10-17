@@ -178,14 +178,15 @@ tbody tr:hover {
 	<!-- 상단 메뉴 -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="empMgt.do">직원 관리</a></li>
-			<li><a href="departmentMgt.do">부서 관리</a></li>
+			<li><a href="empMgt.do"><i class="fas fa-user-cog"></i> 직원
+					관리</a></li>
+
 		</ul>
 	</div>
 
 	<!-- 직원 관리 내용 박스 -->
 	<div class="content-box">
-		<div class="content-title">직원 관리</div>
+		<div class="content-title">인사 관리 | 직원 관리</div>
 		<form action="/moduerp/empMgtFilter.do">
 			<!-- 필터 박스 -->
 			<div class="filter-box">
@@ -215,21 +216,22 @@ tbody tr:hover {
 					<th>이메일</th>
 					<th>전화번호</th>
 					<th>주소</th>
+					<th>사설권한</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="employee" items="${employeeList}" varStatus="status">
 					<tr
 						onclick="window.location.href='getEmployeeDetails.do?uuid=${employee.uuid}'">
-						
+
 						<td>${(currentPage - 1) * 10 + (status.index + 1)}</td>
-						
 						<td>${employee.departmentName}</td>
 						<td>${employee.jobId}</td>
 						<td>${employee.empName}</td>
 						<td>${employee.email}</td>
 						<td>${employee.phone}</td>
 						<td>${employee.address}</td>
+						<td>${employee.privateAuthority}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -258,4 +260,18 @@ tbody tr:hover {
 		</div>
 	</div>
 </body>
+
+<script>
+    const activeMenu = "empMgt";
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuItems = document.querySelectorAll('nav.side ul li a');
+        menuItems.forEach(item => {
+            if (item.href.includes(activeMenu)) {
+                item.classList.add('active');
+            }
+        });
+    });
+</script>
+
 </html>

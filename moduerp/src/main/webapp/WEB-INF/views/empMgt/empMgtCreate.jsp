@@ -152,17 +152,11 @@ th {
 	<!-- 서브헤더 JSP 임포트 -->
 	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
-	<!-- 위에 하얀 박스  -->
+	<!-- 상단 메뉴 -->
 	<div class="top-content-box">
 		<ul id="menubar">
-			<li><a href="account.do"><i class="fas fa-bullhorn"></i>
-					거래처관리</a></li>
-			<li><a href="salesStockIn.do"><i class="fas fa-clipboard"></i>
-					영업 입고</a></li>
-			<!-- 수정 -->
-			<li><a href="salesStockOut.do"><i class="fas fa-code"></i>
-					영업 출고</a></li>
-			<!-- 수정 -->
+			<li><a href="empMgt.do"><i class="fas fa-user-cog"></i> 직원 관리</a></li>
+
 		</ul>
 	</div>
 

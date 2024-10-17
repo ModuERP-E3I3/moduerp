@@ -29,6 +29,7 @@
 	<select id="getAllPurchaseOrders"
 		resultMap="purchaseOrdersResult">
 		SELECT * FROM PURCHASE_ORDERS
+		WHERE BIZ_NUMBER = #{bizNumber}
 	</select>
 
 

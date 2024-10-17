@@ -60,4 +60,24 @@ public class NoticeServiceImpl implements NoticeService {
             return noticeDAO.selectAllNotices();
         }
     }
+    
+    @Override
+    public List<Notice> getNoticesWithPagination(int page, int size) {
+        int offset = (page - 1) * size;
+        return noticeDAO.getNoticesWithPagination(offset, size);
+    }
+    @Override
+    public int countAllNotices() {
+        return noticeDAO.countAllNotices();
+    }
+    @Override
+    public List<Notice> searchNoticesWithPagination(String category, String keyword, int page, int size) {
+        int offset = (page - 1) * size;
+        return noticeDAO.searchNoticesWithPagination(category, keyword, offset, size);
+    }
+    @Override
+    public int countFilteredNotices(String category, String keyword) {
+        return noticeDAO.countFilteredNotices(category, keyword);
+    }
+
 }

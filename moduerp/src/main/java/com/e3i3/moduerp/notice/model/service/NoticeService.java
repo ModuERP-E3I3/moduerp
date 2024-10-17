@@ -14,4 +14,13 @@ public interface NoticeService {
     int removeNotice(String noticeId);
     // 검색 기능 추가
     List<Notice> searchNotices(String category, String keyword);
+    
+    public List<Notice> getNoticesWithPagination(int page, int size);
+    
+    public int countAllNotices();
+    
+    
+    public List<Notice> searchNoticesWithPagination(String category, String keyword, int page, int size);
+    
+    public int countFilteredNotices(String category, String keyword);
 }

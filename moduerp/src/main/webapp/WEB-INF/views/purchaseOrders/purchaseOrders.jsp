@@ -260,7 +260,7 @@ tbody tr:hover {
 
 		<!-- 버튼 그룹 -->
 		<div class="btn-group">
-			<a href="purchaseOrderCreate.do"><button class="btn blue">등록</button></a>
+			<a href="purchaseOrdersCreate.do"><button class="btn blue">등록</button></a>
 		</div>
 
 	</div>

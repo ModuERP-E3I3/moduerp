@@ -18,8 +18,8 @@ public class AccountDAOImpl implements AccountDAO {
     private static final String namespace = "AccountMapper";
     
     @Override
-    public List<AccountDTO> getAllAccounts() {
-        return sqlSession.selectList(namespace + ".getAllAccounts");
+    public List<AccountDTO> getAllAccounts(String bizNumber) {
+        return sqlSession.selectList(namespace + ".getAllAccounts", bizNumber);
     }
     
     @Override

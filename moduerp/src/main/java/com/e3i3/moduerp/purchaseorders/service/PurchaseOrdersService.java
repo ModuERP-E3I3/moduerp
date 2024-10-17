@@ -47,6 +47,8 @@ public interface PurchaseOrdersService {
 
 	List<PurchaseOrdersDTO> getPurchaseOrdersByFilterEndDate(String bizNumber, String endDate);
 
+	List<PurchaseOrdersDTO> getAllPurchaseOrders(String bizNumber);
+
 	
 
 	

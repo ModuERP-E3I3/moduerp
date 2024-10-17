@@ -18,8 +18,8 @@ public class PurchaseOrdersServiceImpl implements PurchaseOrdersService {
 	private PurchaseOrdersDAO purchaseOrdersDao;
 
 	@Override
-	public List<PurchaseOrdersDTO> getAllPurchaseOrders() {
-		return purchaseOrdersDao.getAllPurchaseOrders();
+	public List<PurchaseOrdersDTO> getAllPurchaseOrders(String bizNumber) {
+		return purchaseOrdersDao.getAllPurchaseOrders(bizNumber);
 	}
 
 	@Override
@@ -114,6 +114,12 @@ public class PurchaseOrdersServiceImpl implements PurchaseOrdersService {
 	@Override
 	public List<PurchaseOrdersDTO> getPurchaseOrdersByFilterEndDate(String bizNumber, String endDate) {
 		return purchaseOrdersDao.getPurchaseOrdersByFilterEndDate(bizNumber, endDate);
+	}
+
+	@Override
+	public List<PurchaseOrdersDTO> getAllPurchaseOrders() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

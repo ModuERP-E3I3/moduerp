@@ -215,8 +215,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">구매관리 | 발주서관리 |
-			${purchaseOrderDetail.puItemName}</div>
+		<div class="content-title">구매관리 | 발주서관리 | ${purchaseOrderDetail.puItemName} 정보</div>
 
 		<!-- 테이블 -->
 		<table>
