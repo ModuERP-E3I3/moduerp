@@ -217,6 +217,7 @@ tbody tr:hover {
 					<th>부서명</th>
 					<th>직급</th>
 					<th>직원명</th>
+					<th>사번</th>
 					<th>이메일</th>
 					<th>전화번호</th>
 					<th>주소</th>
@@ -236,6 +237,7 @@ tbody tr:hover {
 						<td>${employee.departmentName}</td>
 						<td>${employee.jobId}</td>
 						<td>${employee.empName}</td>
+						<td>${employee.empNo}</td>
 						<td>${employee.empEmail}</td>
 						<td>${employee.userPhone}</td>
 						<td>${employee.address}</td>
@@ -243,10 +245,6 @@ tbody tr:hover {
 					</tr>
 				</c:forEach>
 			</tbody>
-
-
-
-
 		</table>
 
 		<!-- 페이지 버튼 -->
