@@ -54,6 +54,7 @@ public class ModuleController {
 		List<ModuleDTO> moduleListSales = moduleService.getModuleListSales();
 		List<ModuleDTO> moduleListCar = moduleService.getModuleListCar();
 		List<ModuleDTO> moduleListAccount = moduleService.getModuleListAccount();
+		List<ModuleDTO> moduleListEmpMgt = moduleService.getModuleListEmpMgt();
 
 		String purchasedModule = companyService.selectPurchasedModule(bizNumber);
 		// 구입한 모듈을 쉼표로 구분된 문자열에서 List로 변환
@@ -70,6 +71,7 @@ public class ModuleController {
 		model.addAttribute("moduleListSales", moduleListSales);
 		model.addAttribute("moduleListCar", moduleListCar);
 		model.addAttribute("moduleListAccount", moduleListAccount);
+		model.addAttribute("moduleListEmpMgt", moduleListEmpMgt);
 
 		model.addAttribute("purchasedModulesList", purchasedModulesList);
 

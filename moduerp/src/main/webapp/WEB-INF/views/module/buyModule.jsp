@@ -203,7 +203,43 @@ input[type="checkbox"]:disabled {
 							</tr>
 						</thead>
 						<tbody>
-						
+
+							<c:set var="moduleErpMgtCount"
+								value="${fn:length(moduleListEmpMgt)}" />
+							<c:forEach var="moduleListEmpMgt" items="${moduleListEmpMgt}"
+								varStatus="status">
+								<tr>
+									<!-- 첫 번째 반복에서만 rowspan이 적용된 <td>를 출력 -->
+									<c:if test="${status.index == 0}">
+										<td rowspan="${moduleListEmpMgt}">그룹웨어</td>
+									</c:if>
+
+									<td><c:choose>
+											<c:when
+												test="${fn:contains(purchasedModulesList, moduleListEmpMgt.moduleGrade)}">
+												<span style="color: red; font-weight: bold;">이미 구매한
+													모듈입니다</span>
+											</c:when>
+											<c:otherwise>
+												<input type="checkbox" class="moduleCheckboxGroup"
+													value="${moduleListEmpMgt.moduleGrade}"
+													onclick="syncCheckboxesGroup(this)"
+													<c:if test="${moduleListEmpMgt.moduleGrade == 'HR'}">
+						                               checked="checked" disabled="disabled"
+						                           </c:if>>
+												<input type="hidden" name=""
+													value="${moduleListEmpMgt.moduleId}">
+											</c:otherwise>
+										</c:choose></td>
+
+									<td>${moduleListEmpMgt.moduleName}</td>
+									<td>${moduleListEmpMgt.modulePrice}</td>
+									<td>${moduleListEmpMgt.moduleDesc}</td>
+									<td>${moduleListEmpMgt.moduleVer}</td>
+								</tr>
+							</c:forEach>
+
+
 							<c:set var="moduleGroupCount"
 								value="${fn:length(moduleListGroup)}" />
 							<c:forEach var="moduleListGroup" items="${moduleListGroup}"
@@ -461,21 +497,20 @@ input[type="checkbox"]:disabled {
 		var form = document.getElementById('cartForm');
 
 		// 각 모듈의 체크된 체크박스들을 모두 가져오기
-	    var allCheckedCheckboxes = document.querySelectorAll(
-	        '.moduleCheckboxGroup:checked, ' +
-	        '.moduleCheckboxProduction:checked, ' +
-	        '.moduleCheckboxBuy:checked, ' +
-	        '.moduleCheckboxSales:checked, ' +
-	        '.moduleCheckboxCar:checked, ' +
-	        '.moduleCheckboxAccount:checked'
-	    );
+		var allCheckedCheckboxes = document
+				.querySelectorAll('.moduleCheckboxGroup:checked, '
+						+ '.moduleCheckboxProduction:checked, '
+						+ '.moduleCheckboxBuy:checked, '
+						+ '.moduleCheckboxSales:checked, '
+						+ '.moduleCheckboxCar:checked, '
+						+ '.moduleCheckboxAccount:checked');
 
-	    // 체크된 항목이 하나도 없을 경우 경고 메시지 출력
-	    if (allCheckedCheckboxes.length === 0) {
-	        alert('장바구니에 담을 제품을 선택해주세요!');
-	        return false; // 폼 제출 방지
-	    }
-		
+		// 체크된 항목이 하나도 없을 경우 경고 메시지 출력
+		if (allCheckedCheckboxes.length === 0) {
+			alert('장바구니에 담을 제품을 선택해주세요!');
+			return false; // 폼 제출 방지
+		}
+
 		// 기존에 추가된 숨겨진 input 필드 제거
 		while (form.querySelector('input[name="moduleIds"]')) {
 			form.removeChild(form.querySelector('input[name="moduleIds"]'));

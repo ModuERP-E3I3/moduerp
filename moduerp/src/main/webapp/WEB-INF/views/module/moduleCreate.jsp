@@ -139,6 +139,8 @@ th {
 							<td><select name="moduleName" required
 								onchange="setModuleGrade(this)">
 									<option value="" disabled selected>모듈명 선택</option>
+									<option value="직원관리" data-code="HR" data-type="인사관리">직원관리</option>
+
 									<option value="출퇴근" data-code="ATD" data-type="그룹웨어">출퇴근</option>
 									<option value="근태문서" data-code="AD" data-type="그룹웨어">근태문서</option>
 									<option value="이메일" data-code="EM" data-type="그룹웨어">이메일</option>
