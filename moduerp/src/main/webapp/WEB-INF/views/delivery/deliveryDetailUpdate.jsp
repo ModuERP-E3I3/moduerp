@@ -186,15 +186,15 @@ th {
 					<tr>
 						<td><input type="text" id="spec" name="spec"
 							placeholder="극소형,소형,중형,대형,극대형" value="${deliveryDetails.spec}"
-							style="width: 175px;"></td>
+							style="width: 175px;" required></td>
 						<td><input type="text" name="recipient" placeholder="수취인"
-							value="${deliveryDetails.recipient}" /></td>
+							value="${deliveryDetails.recipient}" required/></td>
 						<td><input type="text" name="receiverId" placeholder="수신자 번호"
-							value="${deliveryDetails.receiverId}" /></td>
+							value="${deliveryDetails.receiverId}" required/></td>
 						<td><input type="text" name="address" placeholder="수신자 주소"
-							value="${deliveryDetails.address}" style="width: 255px;" /></td>
+							value="${deliveryDetails.address}" style="width: 255px;" required/></td>
 						<td><input type="text" name="waybill" placeholder="운송장번호"
-							value="${deliveryDetails.waybill}" /></td>
+							value="${deliveryDetails.waybill}" required/></td>
 						<td><input type="text" id="deliveryCompany"
 							name="deliveryCompany" list="deliveryCompanyCode"
 							placeholder="택배사 선택" value="${deliveryDetails.deliveryCompany}"
