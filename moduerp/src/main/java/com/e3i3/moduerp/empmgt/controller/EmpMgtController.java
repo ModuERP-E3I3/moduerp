@@ -44,7 +44,7 @@ public class EmpMgtController {
 		int startIndex = (page - 1) * employeesPerPage;
 		int endIndex = Math.min(startIndex + employeesPerPage, totalEmployees);
 		List<Employee> paginatedList = employeeList.subList(startIndex, endIndex);
-
+		
 		// 모델에 데이터 추가
 		model.addAttribute("employeeList", paginatedList);
 		model.addAttribute("totalPages", totalPages);
