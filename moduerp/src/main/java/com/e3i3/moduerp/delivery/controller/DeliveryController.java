@@ -60,7 +60,7 @@ public class DeliveryController {
 				if (gradesList.contains("DT")) {
 				    System.out.println("DT가 리스트에 포함되어 있습니다.");
 				} else {
-				    System.out.println("DT가 리스트에 없습니다.");
+				    System.out.println("DT가 리스트에 없습니다.");                                     
 				    return "common/moduleGradesError";
 				}
 			}else {

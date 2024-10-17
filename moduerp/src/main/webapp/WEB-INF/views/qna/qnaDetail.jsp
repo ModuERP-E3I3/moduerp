@@ -37,7 +37,7 @@ h1 {
 }
 
 .form-box {
-	max-width: 80%;
+	max-width: 60%;
 	width: 100%;
 	background-color: white;
 	padding: 30px;
@@ -237,6 +237,19 @@ button:hover {
 .button-group {
 	margin-top : 10%;
 }
+.header {
+    display: flex;
+    justify-content: center; /* 가로로 중앙 정렬 */
+    align-items: center; /* 세로로 중앙 정렬 */
+    width: 60%; /* 전체 화면 너비 */
+    margin-top: 40px;
+    justify-content: flex-start
+}
+
+.header h1 {
+    font-size: 50px;
+    color: black; /* 글씨가 잘 보이도록 컬러 지정 */
+}
 </style>
 </head>
 <body>
@@ -250,13 +263,15 @@ button:hover {
 		<!-- qna 게시판 -->
 		<div class="container">
 
-			<h1>질문글 상세 보기</h1>
-
+			<div class="header">
+				<h1 onclick="window.location.href='qna.do';" style="cursor: pointer;">QnA</h1>
+			</div>
+			
+			
 			<div class="form-box">
 				<h3>${qnaDetail.qTitle}</h3>
 				<p>작성자: ${qnaDetail.empName}</p>
 				<p>
-					작성일:
 					<fmt:formatDate value="${qnaDetail.qDate}" pattern="yyyy-MM-dd" />
 				</p>
 				<hr>
@@ -305,7 +320,6 @@ button:hover {
 						<h3>${answerDetail.aTitle}</h3>
 						<p>작성자: 관리자</p>
 						<p>
-							작성일:
 							<fmt:formatDate value="${answerDetail.aDate}"
 								pattern="yyyy-MM-dd" />
 						</p>

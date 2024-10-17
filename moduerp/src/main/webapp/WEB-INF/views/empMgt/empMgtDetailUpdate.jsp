@@ -199,6 +199,7 @@ tbody tr:hover {
 						<th>부서명</th>
 						<th>직급</th>
 						<th>직원명</th>
+						<th>사번</th>
 						<th>이메일</th>
 						<th>전화번호</th>
 						<th>주소</th>
@@ -220,6 +221,9 @@ tbody tr:hover {
 						<td><input type="text" name="empName" placeholder="직원명"
 							value="${employeeDetail.empName}" required /></td>
 
+						<td><input type="text" name="empNo" placeholder="사번"
+							value="${employeeDetail.empNo}" required /></td>
+
 						<td><input type="text" name="empEmail" placeholder="이메일"
 							value="${employeeDetail.empEmail}" required /></td>
 
@@ -229,16 +233,13 @@ tbody tr:hover {
 						<td><input type="text" name="address" placeholder="주소"
 							value="${employeeDetail.address}" required /></td>
 
-					<!-- 사설권한 라디오 버튼 -->
-<td>
-    <label for="privateAuthority">권한:</label> 
-    <input type="radio" name="privateAuthority" value='Y'
-        ${employeeDetail.privateAuthority eq "Y" ? 'checked' : ''}>
-    Y 
-    <input type="radio" name="privateAuthority" value='N'
-        ${employeeDetail.privateAuthority eq "N" ? 'checked' : ''}>
-    N
-</td>
+						<!-- 사설권한 라디오 버튼 -->
+						<td><label for="privateAuthority">권한:</label> <input
+							type="radio" name="privateAuthority" value='Y'
+							${employeeDetail.privateAuthority eq "Y" ? 'checked' : ''}>
+							Y <input type="radio" name="privateAuthority" value='N'
+							${employeeDetail.privateAuthority eq "N" ? 'checked' : ''}>
+							N</td>
 
 
 					</tr>

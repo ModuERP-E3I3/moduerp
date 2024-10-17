@@ -186,7 +186,7 @@ tbody tr:hover {
 
     <!-- 하얀 큰 박스 -->
     <div class="content-box">
-        <div class="content-title">구매 관리 | 발주서관리 | 신규 등록</div>
+        <div class="content-title">구매관리 | 발주서관리 | 신규 등록</div>
 
         <!-- 테이블 및 폼 -->
         <form action="<c:url value='/purchaseOrderCreate.do' />" method="POST">
