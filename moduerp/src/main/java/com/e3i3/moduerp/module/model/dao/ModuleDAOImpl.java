@@ -78,6 +78,11 @@ public class ModuleDAOImpl implements ModuleDAO {
 	}
 
 	@Override
+	public List<ModuleDTO> getModuleListEmpMgt() {
+		return sqlSession.selectList(namespace + ".getModuleListEmpMgt");
+	}
+
+	@Override
 	public List<String> selectModuleGradesByIds(List<String> moduleIds) {
 		return sqlSession.selectList(namespace + ".selectModuleGradesByIds", moduleIds);
 	}
@@ -96,4 +101,5 @@ public class ModuleDAOImpl implements ModuleDAO {
 	public List<String> selectModuleNamesByGradesList(List<String> gradesList) {
 		return sqlSession.selectList(namespace + ".selectModuleNamesByGradesList", gradesList);
 	}
+
 }

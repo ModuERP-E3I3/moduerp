@@ -77,6 +77,11 @@ public class ModuleServiceImpl implements ModuleService {
 	}
 
 	@Override
+	public List<ModuleDTO> getModuleListEmpMgt() {
+		return moduleDAO.getModuleListEmpMgt();
+	}
+
+	@Override
 	public List<String> getModuleGradesByIds(List<String> moduleIds) {
 		return moduleDAO.selectModuleGradesByIds(moduleIds);
 	}
@@ -95,4 +100,5 @@ public class ModuleServiceImpl implements ModuleService {
 	public List<String> selectModuleNamesByGradesList(List<String> gradesList) {
 		return moduleDAO.selectModuleNamesByGradesList(gradesList);
 	}
+
 }

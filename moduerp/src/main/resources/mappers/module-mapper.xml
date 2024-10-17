@@ -118,6 +118,15 @@
 		ORDER BY CREATE_DATE ASC
 	</select>
 
+
+
+	<select id="getModuleListEmpMgt" resultMap="resultModuleOrder">
+		SELECT * FROM MODULE
+		WHERE MODULE_USAGE = 'Y'
+		AND
+		MODULE_TYPE='인사관리'
+		ORDER BY CREATE_DATE ASC
+	</select>
 	<!-- MODULE_ID 리스트에 해당하는 MODULE_GRADE를 가져오는 쿼리 -->
 	<select id="selectModuleGradesByIds" parameterType="list"
 		resultType="string">

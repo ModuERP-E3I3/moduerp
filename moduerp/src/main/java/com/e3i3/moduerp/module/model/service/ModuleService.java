@@ -30,6 +30,8 @@ public interface ModuleService {
 
 	List<ModuleDTO> getModuleListAccount();
 
+	List<ModuleDTO> getModuleListEmpMgt();
+
 	List<String> getModuleGradesByIds(List<String> moduleIds);
 
 	List<ModuleDTO> selectModulesByGrades(List<String> moduleGrades);
@@ -37,4 +39,5 @@ public interface ModuleService {
 	List<ModuleDTO> getModulesByGrades(List<String> moduleGrades);
 
 	List<String> selectModuleNamesByGradesList(List<String> gradesList);
+
 }
