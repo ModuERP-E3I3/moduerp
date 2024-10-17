@@ -51,18 +51,21 @@ public class DeliveryController {
 		    List<ItemDTO> itemList = itemDeliveryService.getItemsByBizNumber(bizNumber);
 		    
 		    String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
-			// 쉼표(,)로 문자열을 분리하여 배열로 반환
-			String[] gradesArray = moduleGrades.split(",");
-
-			// 배열을 List로 변환
-			List<String> gradesList = Arrays.asList(gradesArray);
-
-			// P_IN이 리스트에 있는지 검사
-			if (gradesList.contains("DT")) {
-			    System.out.println("DT가 리스트에 포함되어 있습니다.");
-			} else {
-			    System.out.println("DT가 리스트에 없습니다.");
-			    return "common/moduleGradesError";
+		    if(moduleGrades != null) {
+				// 쉼표(,)로 문자열을 분리하여 배열로 반환
+				String[] gradesArray = moduleGrades.split(",");	
+				// 배열을 List로 변환
+				List<String> gradesList = Arrays.asList(gradesArray);
+				// DT가 리스트에 있는지 검사
+				if (gradesList.contains("DT")) {
+				    System.out.println("DT가 리스트에 포함되어 있습니다.");
+				} else {
+				    System.out.println("DT가 리스트에 없습니다.");
+				    return "common/moduleGradesError";
+				}
+			}else {
+				return "common/moduleGradesError";
+				
 			}
 
 		    
