@@ -43,4 +43,10 @@ public class PayLogServiceImpl implements PayLogService {
 		
 	}
 
+	@Override
+	public void updateRefundStatus(String refundStatus, String orderId) {
+		payLogDAO.updateRefundStatus(refundStatus,orderId);
+		
+	}
+
 }

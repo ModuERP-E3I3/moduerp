@@ -1,5 +1,7 @@
 package com.e3i3.moduerp.empmgt.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.e3i3.moduerp.company.model.service.CompanyService;
 import com.e3i3.moduerp.department.model.dto.Department;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 import com.e3i3.moduerp.empmgt.service.EmpMgtService;
@@ -24,6 +27,9 @@ import com.e3i3.moduerp.empmgt.service.EmpMgtService;
 @RequestMapping("/")
 public class EmpMgtController {
 
+	@Autowired
+	private CompanyService companyService;
+	
 	@Autowired
 	private EmpMgtService empMgtService;
 	@Autowired
@@ -36,6 +42,24 @@ public class EmpMgtController {
 
 		// 직원 데이터 조회
 		List<Employee> employeeList = empMgtService.getEmployeesByBizNumber(bizNumber);
+		
+	    String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
+	    if(moduleGrades != null) {
+			// 쉼표(,)로 문자열을 분리하여 배열로 반환
+			String[] gradesArray = moduleGrades.split(",");		
+			// 배열을 List로 변환
+			List<String> gradesList = Arrays.asList(gradesArray);
+			// HR이 리스트에 있는지 검사
+			if (gradesList.contains("HR")) {
+			    System.out.println("HR이 리스트에 포함되어 있습니다.");
+			} else {
+			    System.out.println("HR이 리스트에 없습니다.");
+			    return "common/moduleGradesError";
+			}
+		}else {
+			return "common/moduleGradesError";
+			
+		}
 
 		// Pagination 처리
 		int employeesPerPage = 10;
@@ -70,7 +94,7 @@ public class EmpMgtController {
 		}
 
 		// 직원 목록 리스트 초기화
-		List<Employee> employeeList;
+		List<Employee> employeeList = null;
 
 		// 필터 옵션 및 텍스트 확인 후 필터링
 		if (option != null && !option.isEmpty() && filterText != null && !filterText.isEmpty()) {
@@ -83,14 +107,14 @@ public class EmpMgtController {
 			} else {
 				employeeList = empMgtService.getEmployeesByFilter(bizNumber, option, filterText);
 			}
-
-			// 만약 필터 결과가 없다면 기본 직원 목록을 조회하도록 처리
-			if (employeeList == null || employeeList.isEmpty()) {
-				employeeList = empMgtService.getEmployeesByBizNumber(bizNumber);
-			}
 		} else {
 			// 필터 옵션이 없거나 텍스트가 비어있으면 기본 직원 목록 조회
 			employeeList = empMgtService.getEmployeesByBizNumber(bizNumber);
+		}
+
+		// 필터 결과가 없을 때 빈 목록 반환
+		if (employeeList == null || employeeList.isEmpty()) {
+			employeeList = new ArrayList<>(); // 빈 리스트 반환
 		}
 
 		// 페이지네이션 처리
@@ -136,17 +160,11 @@ public class EmpMgtController {
 	}
 
 	@PostMapping("/employeeCreate.do")
-	public String employeeCreate(
-			@RequestParam("empNo") String empNo, 
-			@RequestParam("empName") String empName,
-			@RequestParam("departmentId") String departmentId, 
-			@RequestParam("jobId") String jobId,
-			@RequestParam("empEmail") String email, 
-			@RequestParam("userPhone") String phone,
-			@RequestParam("address") String address,
-			@RequestParam("privateAuthority") String privateAuthority,
-			@RequestParam("departmentName") String departmentName,
-			RedirectAttributes model, HttpSession session) {
+	public String employeeCreate(@RequestParam("empNo") String empNo, @RequestParam("empName") String empName,
+			@RequestParam("departmentId") String departmentId, @RequestParam("jobId") String jobId,
+			@RequestParam("empEmail") String email, @RequestParam("userPhone") String phone,
+			@RequestParam("address") String address, @RequestParam("privateAuthority") String privateAuthority,
+			@RequestParam("departmentName") String departmentName, RedirectAttributes model, HttpSession session) {
 
 		String bizNumber = (String) session.getAttribute("biz_number");
 
@@ -154,22 +172,22 @@ public class EmpMgtController {
 		String approvalCode = empMgtService.getApprovalCodeByBizNumber(bizNumber);
 
 		Employee empMgtDTO = new Employee();
-		empMgtDTO.setUuid(UUID.randomUUID().toString()); 	// UUID 자동생성
-		empMgtDTO.setEmpNo(empNo);							// 사번
-		empMgtDTO.setEmpName(empName);						// 직원명
-		empMgtDTO.setDepartmentId(departmentId);			// 부서아이디
-		empMgtDTO.setJobId(jobId);							// 직급
-		empMgtDTO.setEmpEmail(email);						// 이메일
-		empMgtDTO.setIsDeleted('N');						// 삭제여부
-		empMgtDTO.setUserPhone(phone);						// 전화번호
-		empMgtDTO.setDepartmentName(departmentName);		// 부서이름
-		empMgtDTO.setAddress(address);						// 주소
-		empMgtDTO.setBizNumber(bizNumber);					// 사업자번호
-		empMgtDTO.setPrivateAuthority(privateAuthority); 	// 사설 권한
-		empMgtDTO.setApprovalCode(approvalCode); 			// 승인 코드
+		empMgtDTO.setUuid(UUID.randomUUID().toString()); // UUID 자동생성
+		empMgtDTO.setEmpNo(empNo); // 사번
+		empMgtDTO.setEmpName(empName); // 직원명
+		empMgtDTO.setDepartmentId(departmentId); // 부서아이디
+		empMgtDTO.setJobId(jobId); // 직급
+		empMgtDTO.setEmpEmail(email); // 이메일
+		empMgtDTO.setIsDeleted('N'); // 삭제여부
+		empMgtDTO.setUserPhone(phone); // 전화번호
+		empMgtDTO.setDepartmentName(departmentName); // 부서이름
+		empMgtDTO.setAddress(address); // 주소
+		empMgtDTO.setBizNumber(bizNumber); // 사업자번호
+		empMgtDTO.setPrivateAuthority(privateAuthority); // 사설 권한
+		empMgtDTO.setApprovalCode(approvalCode); // 승인 코드
 		empMgtDTO.setPassword(bcryptPasswordEncoder.encode("12345678"));
 
-		model.addFlashAttribute("departmentName", departmentName); 
+		model.addFlashAttribute("departmentName", departmentName);
 
 		empMgtService.createEmployee(empMgtDTO);
 
@@ -182,14 +200,13 @@ public class EmpMgtController {
 		Employee employeeDetail = empMgtService.getEmployeeDetailByUUID(uuid);
 		model.addAttribute("employeeDetail", employeeDetail);
 		model.addAttribute("privateAuthority", employeeDetail.getPrivateAuthority()); // privateAuthority 추가
-		
+
 		model.addAttribute("departmentName", departmentName);
 		return "empMgt/empMgtDetail";
 	}
 
 	@GetMapping("employeeDetailUpdate.do")
-	public String employeeDetailUpdate(
-			@RequestParam("uuid") String uuid, Model model, HttpSession session) {
+	public String employeeDetailUpdate(@RequestParam("uuid") String uuid, Model model, HttpSession session) {
 		Employee employeeDetail = empMgtService.getEmployeeDetailByUUID(uuid);
 		String bizNumber = (String) session.getAttribute("biz_number");
 
@@ -209,17 +226,12 @@ public class EmpMgtController {
 	}
 
 	@PostMapping("/updateEmployee.do")
-	public String updateEmployee(
-			@RequestParam("uuid") String uuid, 
-			@RequestParam("empName") String empName,
-			@RequestParam("empNo") String empNo,
-			@RequestParam("departmentId") String departmentId, 
-			@RequestParam("jobId") String jobId,
-			@RequestParam("empEmail") String email, 
-			@RequestParam("userPhone") String phone,
-			@RequestParam("address") String address, 
-			@RequestParam("privateAuthority") String privateAuthority) { 
-																													// 추가
+	public String updateEmployee(@RequestParam("uuid") String uuid, @RequestParam("empName") String empName,
+			@RequestParam("empNo") String empNo, @RequestParam("departmentId") String departmentId,
+			@RequestParam("jobId") String jobId, @RequestParam("empEmail") String email,
+			@RequestParam("userPhone") String phone, @RequestParam("address") String address,
+			@RequestParam("privateAuthority") String privateAuthority) {
+		// 추가
 
 		Employee empMgtDTO = new Employee();
 		empMgtDTO.setUuid(uuid);
