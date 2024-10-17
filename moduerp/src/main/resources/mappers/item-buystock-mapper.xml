@@ -326,6 +326,16 @@
 		ORDER BY CREATED_AT ASC
 	</select>
 	
+	<select id="selectItemFilterByiDirector" parameterType="map"
+		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
+		SELECT *
+		FROM ITEM
+		WHERE ITEM_CODE LIKE #{bizNumber} || 'B%'
+		AND
+		IDIRECTOR LIKE '%' || #{filterText} || '%'
+		ORDER BY CREATED_AT ASC
+	</select>
+	
 		<select id="selectItemFilterByiDirectorDate" parameterType="map"
 		resultType="com.e3i3.moduerp.item.model.dto.ItemDTO">
 		SELECT *
