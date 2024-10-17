@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.e3i3.moduerp.department.model.dto.Department;
 import com.e3i3.moduerp.employee.model.dto.Employee;
-import com.e3i3.moduerp.empmgt.model.dto.EmpMgtDTO;
 import com.e3i3.moduerp.empmgt.service.EmpMgtService;
 
 @Controller
@@ -25,6 +26,8 @@ public class EmpMgtController {
 
 	@Autowired
 	private EmpMgtService empMgtService;
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
 
 	@RequestMapping(value = "/empMgt.do", method = RequestMethod.GET)
 	public String forwardEmpMgt(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
@@ -32,7 +35,7 @@ public class EmpMgtController {
 		String bizNumber = (String) session.getAttribute("biz_number");
 
 		// 직원 데이터 조회
-		List<EmpMgtDTO> employeeList = empMgtService.getEmployeesByBizNumber(bizNumber);
+		List<Employee> employeeList = empMgtService.getEmployeesByBizNumber(bizNumber);
 
 		// Pagination 처리
 		int employeesPerPage = 10;
@@ -40,7 +43,7 @@ public class EmpMgtController {
 		int totalPages = (int) Math.ceil((double) totalEmployees / employeesPerPage);
 		int startIndex = (page - 1) * employeesPerPage;
 		int endIndex = Math.min(startIndex + employeesPerPage, totalEmployees);
-		List<EmpMgtDTO> paginatedList = employeeList.subList(startIndex, endIndex);
+		List<Employee> paginatedList = employeeList.subList(startIndex, endIndex);
 
 		// 모델에 데이터 추가
 		model.addAttribute("employeeList", paginatedList);
@@ -49,6 +52,9 @@ public class EmpMgtController {
 
 		// privateAuthority
 		model.addAttribute("privateAuthority", session.getAttribute("privateAuthority"));
+
+		// Flash Attribute로 전달된 departmentName 추가
+		// Flash Attribute는 자동으로 모델에 추가되므로 별도의 작업은 필요 없습니다.
 
 		return "empMgt/empMgt";
 	}
@@ -67,7 +73,7 @@ public class EmpMgtController {
 		}
 
 		// 직원 목록 리스트 초기화
-		List<EmpMgtDTO> employeeList;
+		List<Employee> employeeList;
 
 		// 필터 옵션 및 텍스트 확인 후 필터링
 		if (option != null && !option.isEmpty() && filterText != null && !filterText.isEmpty()) {
@@ -96,7 +102,7 @@ public class EmpMgtController {
 		int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
 		int startIndex = (page - 1) * itemsPerPage;
 		int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-		List<EmpMgtDTO> paginatedList = employeeList.subList(startIndex, endIndex);
+		List<Employee> paginatedList = employeeList.subList(startIndex, endIndex);
 
 		// 모델에 필요한 데이터 추가
 		model.addAttribute("employeeList", paginatedList);
@@ -120,7 +126,7 @@ public class EmpMgtController {
 		// 추가 데이터 로드
 		List<String> empNames = empMgtService.getEmpNamesByBizNumber(bizNumber);
 		List<Employee> empNameDepart = empMgtService.getEmpNameDepart(bizNumber);
-		List<EmpMgtDTO> employees = empMgtService.getEmployeesByBizNumber(bizNumber);
+		List<Employee> employees = empMgtService.getEmployeesByBizNumber(bizNumber);
 
 		// 모델에 추가
 		model.addAttribute("departmentList", departmentList);
@@ -135,26 +141,32 @@ public class EmpMgtController {
 	@PostMapping("/employeeCreate.do")
 	public String employeeCreate(@RequestParam("empName") String empName,
 			@RequestParam("departmentId") String departmentId, @RequestParam("jobId") String jobId,
-			@RequestParam("email") String email, @RequestParam("phone") String phone,
-			@RequestParam("address") String address, @RequestParam("privateAuthority") String privateAuthority, // 권한
-			Model model, HttpSession session) {
+			@RequestParam("empEmail") String email, @RequestParam("userPhone") String phone,
+			@RequestParam("address") String address, @RequestParam("privateAuthority") String privateAuthority,
+			// 권한
+			@RequestParam("departmentName") String departmentName, RedirectAttributes model, HttpSession session) {
 
 		String bizNumber = (String) session.getAttribute("biz_number");
 
 		// 승인 코드를 가져오는 로직
 		String approvalCode = empMgtService.getApprovalCodeByBizNumber(bizNumber);
 
-		EmpMgtDTO empMgtDTO = new EmpMgtDTO();
+		Employee empMgtDTO = new Employee();
 		empMgtDTO.setUuid(UUID.randomUUID().toString()); // UUID 자동 생성
 		empMgtDTO.setEmpName(empName);
 		empMgtDTO.setDepartmentId(departmentId);
 		empMgtDTO.setJobId(jobId);
-		empMgtDTO.setEmail(email);
-		empMgtDTO.setPhone(phone);
+		empMgtDTO.setEmpEmail(email);
+		empMgtDTO.setIsDeleted('N');
+		empMgtDTO.setUserPhone(phone);
+	    empMgtDTO.setDepartmentName(departmentName);
 		empMgtDTO.setAddress(address);
 		empMgtDTO.setBizNumber(bizNumber);
 		empMgtDTO.setPrivateAuthority(privateAuthority); // 권한 설정
 		empMgtDTO.setApprovalCode(approvalCode); // 승인 코드 설정
+		empMgtDTO.setPassword(bcryptPasswordEncoder.encode("12345678"));
+
+		model.addFlashAttribute("departmentName", departmentName); // 모델이 부서이름 추가
 
 		empMgtService.createEmployee(empMgtDTO);
 
@@ -162,20 +174,23 @@ public class EmpMgtController {
 	}
 
 	@GetMapping("getEmployeeDetails.do")
-	public String getEmployeeDetail(@RequestParam("uuid") String uuid, Model model) {
-		EmpMgtDTO employeeDetail = empMgtService.getEmployeeDetailByUUID(uuid);
+	public String getEmployeeDetail(@RequestParam("uuid") String uuid, @RequestParam("departmentName") String departmentName,
+			Model model) {
+		Employee employeeDetail = empMgtService.getEmployeeDetailByUUID(uuid);
 		model.addAttribute("employeeDetail", employeeDetail);
 		model.addAttribute("privateAuthority", employeeDetail.getPrivateAuthority()); // privateAuthority 추가
+		 // 필요에 따라 departmentName을 추가로 처리
+        model.addAttribute("departmentName", departmentName);
 		return "empMgt/empMgtDetail";
 	}
 
 	@GetMapping("employeeDetailUpdate.do")
 	public String employeeDetailUpdate(@RequestParam("uuid") String uuid, Model model, HttpSession session) {
-		EmpMgtDTO employeeDetail = empMgtService.getEmployeeDetailByUUID(uuid);
+		Employee employeeDetail = empMgtService.getEmployeeDetailByUUID(uuid);
 		String bizNumber = (String) session.getAttribute("biz_number");
 
 		List<Employee> empNameDepart = empMgtService.getEmpNameDepart(bizNumber);
-		List<EmpMgtDTO> employees = empMgtService.getEmployeesByBizNumber(bizNumber);
+		List<Employee> employees = empMgtService.getEmployeesByBizNumber(bizNumber);
 
 		// 부서 리스트 가져오기
 		List<Department> departmentList = empMgtService.getAllDepartments();
@@ -192,20 +207,19 @@ public class EmpMgtController {
 	@PostMapping("/updateEmployee.do")
 	public String updateEmployee(@RequestParam("uuid") String uuid, @RequestParam("empName") String empName,
 			@RequestParam("departmentId") String departmentId, @RequestParam("jobId") String jobId,
-			@RequestParam("email") String email, @RequestParam("phone") String phone,
+			@RequestParam("empEmail") String email, @RequestParam("userPhone") String phone,
 			@RequestParam("address") String address, @RequestParam("privateAuthority") String privateAuthority) { // privateAuthority
-																													// 추가
+																												// 추가
 
-		EmpMgtDTO empMgtDTO = new EmpMgtDTO();
+		Employee empMgtDTO = new Employee();
 		empMgtDTO.setUuid(uuid);
 		empMgtDTO.setEmpName(empName);
 		empMgtDTO.setDepartmentId(departmentId);
 		empMgtDTO.setJobId(jobId);
-		empMgtDTO.setEmail(email);
-		empMgtDTO.setPhone(phone);
+		empMgtDTO.setEmpEmail(email);
+		empMgtDTO.setUserPhone(phone);
 		empMgtDTO.setAddress(address);
 		empMgtDTO.setPrivateAuthority(privateAuthority); // privateAuthority 설정
-		
 
 		empMgtService.updateEmployee(empMgtDTO);
 

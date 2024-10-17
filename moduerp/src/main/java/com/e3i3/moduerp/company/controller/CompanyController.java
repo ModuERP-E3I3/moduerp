@@ -96,7 +96,7 @@ public class CompanyController {
 
 			// 6) 사장님 정보도 직원 테이블에 저장
 			Employee ceo = new Employee().setUuid(java.util.UUID.randomUUID().toString()).setBizNumber(bizNumber)
-					.setApprovalCode(approvalCode).setDepartmentId("ceo-dpt").setIsDeleted('N').setPrivateAuthority('N')
+					.setApprovalCode(approvalCode).setDepartmentId("ceo-dpt").setIsDeleted('N').setPrivateAuthority("N")
 					.setLastLoginLocation("default").setIsEmailChanged('N').setEmpEmail(email)
 					.setPassword(encodedPassword).setEmpNo(bizNumber + "_CEO").setEmpName(bizNumber + "_CEO")
 					.setProfileImg(null).setRegistrationDate(new java.sql.Date(System.currentTimeMillis()));
@@ -161,8 +161,6 @@ public class CompanyController {
 		// 회사 카드 가져오기
 		BillingInfoDTO cardInfo = billingInfoService.selectBillingInfoByBizNumber(bizNumber);
 		System.out.println("카드 정보: " + cardInfo);
-
-		
 
 		String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
 		// moduleGrades가 null이면 빈 문자열로 처리

@@ -193,8 +193,8 @@ tbody tr:hover {
 	<div class="content-box">
 		<div class="content-title">구매관리 | 발주서관리 |
 			${purchaseOrderDetail.puItemName} 수정</div>
-
-		<form action="/moduerp/updatePurchaseOrder.do" method="POST">
+			
+		<form action="<c:url value='/updatePurchaseOrder.do' />" method="POST">
 			<input type="hidden" name="orderId"
 				value="${purchaseOrderDetail.orderId}" />
 
@@ -235,7 +235,7 @@ tbody tr:hover {
 							value="${purchaseOrderDetail.quantity}" required /></td>
 
 						<!-- 공급가 입력 -->
-						<td><input type="text" name="supplyPrice"
+						<td><input type="number" name="supplyPrice"
 							placeholder="공급가 입력" value="${purchaseOrderDetail.supplyPrice}"
 							required /></td>
 
@@ -258,11 +258,25 @@ tbody tr:hover {
 	</div>
 
 	<script type="text/javascript">
-		function setAccountName(selectElement) {
-			var selectedOption = selectElement.options[selectElement.selectedIndex];
-			var accountName = selectedOption.getAttribute('data-name');
-			document.getElementById('accountNameField').value = accountName;
-		}
+	  function setAccountName(select) {
+	        const selectedOption = select.options[select.selectedIndex];
+	        const accountName = selectedOption.getAttribute('data-name');
+	        const accountNameField = document.getElementById('accountNameField');
+	        if (accountNameField) {
+	            accountNameField.value = accountName;
+	            console.log("accountNameField set to:", accountName);
+	        } else {
+	            console.error("accountNameField 요소를 찾을 수 없습니다.");
+	        }
+	    }
+
+	    // 페이지 로딩 시 초기 설정 (필요 시)
+	    document.addEventListener('DOMContentLoaded', function() {
+	        const accountSelect = document.querySelector('select[name="accountNo"]');
+	        if (accountSelect) {
+	            setAccountName(accountSelect);
+	        }
+	    });
 	</script>
 
 

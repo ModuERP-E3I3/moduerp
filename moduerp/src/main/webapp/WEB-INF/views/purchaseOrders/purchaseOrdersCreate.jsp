@@ -171,80 +171,66 @@ tbody tr:hover {
 </head>
 
 <body>
-	<!-- 서브헤더 JSP 임포트 -->
-	<c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
+	  <!-- 서브헤더 JSP 임포트 -->
+    <c:import url="/WEB-INF/views/common/erpMenubar.jsp" />
 
-	<!-- 위에 하얀 박스  -->
-	<div class="top-content-box">
-		<ul id="menubar">
+    <!-- 위에 하얀 박스 -->
+    <div class="top-content-box">
+        <ul id="menubar">
+            <li><a href="purchaseOrders.do"><i class="fas fa-bullhorn"></i> 발주서 관리</a></li>
+            <li><a href="buyStockIn.do"><i class="fa-solid fa-bag-shopping"></i> 구매 입고</a></li>
+            <li><a href="buyStockOut.do"><i class="fa-solid fa-truck-ramp-box"></i> 구매 출고</a></li>
+            <li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
+        </ul>
+    </div>
 
-		 <li><a href="purchaseOrders.do"><i class="fas fa-bullhorn"></i> 발주서 관리</a></li>
-		 <li><a href="buyStockIn.do"><i class="fa-solid fa-bag-shopping"></i> 구매 입고</a></li>
-         <li><a href="buyStockOut.do"><i class="fa-solid fa-truck-ramp-box"></i> 구매 출고</a></li>
-         <li><a href="delivery.do"><i class="fa-solid fa-truck"></i> 배송 조회</a></li>
+    <!-- 하얀 큰 박스 -->
+    <div class="content-box">
+        <div class="content-title">구매 관리 | 발주서관리 | 신규 등록</div>
 
-		</ul>
-	</div>
+        <!-- 테이블 및 폼 -->
+        <form action="<c:url value='/purchaseOrderCreate.do' />" method="POST">
+            <table>
+                <thead>
+                    <tr>
+                        <th>품명</th>
+                        <th>거래처명</th>
+                        <th>수량</th>
+                        <th>공급가</th>
+                        <th>납품일</th>
+                        <th>담당자명</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" name="puItemName" placeholder="발주할 품명 입력" required/></td>
+                        <td>
+                            <select name="accountNo" onchange="setAccountName(this)" required>
+                                <option value="" disabled selected>거래처 선택</option>
+                                <c:forEach var="account" items="${accountNames}">
+                                    <option value="${account.ACCOUNTNO}" data-name="${account.ACCOUNTNAME}">${account.ACCOUNTNAME}</option>
+                                </c:forEach>
+                            </select>
+                        </td>          
+                        <td><input type="number" name="quantity" placeholder="수량 입력" required/></td>
+                        <td><input type="number" name="supplyPrice" placeholder="공급가 입력" required/></td>
+                        <td><input type="date" name="deliveryDate" required/></td>
+                        <td><input type="text" name="oDirector" value="${directorName}" readonly="readonly"></td>
+                    </tr>
+                </tbody>
+            </table>
 
-	<!-- 하얀 큰 박스 -->
-	<div class="content-box">
+            <!-- 거래처명 숨겨진 입력 필드 -->
+            <input type="hidden" id="accountNameField" name="accountName" value="">
 
-		<div class="content-title">구매 관리 | 발주서관리 | 신규 등록</div>
-
-
-		<!-- 테이블 -->
-		<form action="/moduerp/purchaseOrderCreate.do" method="POST">
-			<table>
-				<thead>
-					<tr>
-						<th>품명</th>
-						<th>거래처명</th>
-						<th>수량</th>
-						<th>공급가</th>
-						<th>납품일</th>
-						<th>담당자명</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><input type="text" name="puItemName"
-							placeholder="발주할 품명 입력" required/></td>
-					
-						<!-- 거래처 코드 드롭다운 리스트 !!!!! -->
-						<td><select name="accountNo" onchange="setAccountName(this)">
-								<option value="" disabled selected>거래처 선택</option>
-								<c:forEach var="account" items="${accountNames}">
-									<option value="${account.ACCOUNTNO}"
-										data-name="${account.ACCOUNTNAME}">${account.ACCOUNTNAME}</option>
-								</c:forEach>
-						</select> <input type="hidden" name="accountName" id="accountNameField" required/>
-						</td>			
-							
-						<td><input type="number" name="quantity" placeholder="수량 입력" required/></td>
-						
-						<td><input type="number" name="supplyPrice"
-							placeholder="공급가 입력" required/></td>
-							
-						<td><input type="date" name="deliveryDate" required/></td>
-						
-						<td> <input type="text" name="oDirector" 
-							value="${directorName}" readonly="readonly">
-						</td>
-						
-					</tr>
-				</tbody>
-			</table>
-
-			<!-- 버튼 그룹 -->
-			<div class="btn-group">
-				<button type="submit" class="btn blue">등록 완료</button>
-			</div>
-		</form>
-
-
-
-	</div>
+            <!-- 버튼 그룹 -->
+            <div class="btn-group">
+                <button type="submit" class="btn blue">등록 완료</button>
+            </div>
+        </form>
+    </div>
 </body>
+
 <script>
 function addMaterialType() {
     const container = document.getElementById('materialTypeContainer');
@@ -266,8 +252,46 @@ function removeMaterialType(button) {
     const inputDiv = button.parentElement;
     inputDiv.remove();
 }
-</script>
 
+function setAccountName(select) {
+    const accountName = select.options[select.selectedIndex].getAttribute('data-name');
+    console.log("선택된 거래처명:", accountName);
+    const accountNameField = document.getElementById('accountNameField');
+    if (accountNameField) {
+        accountNameField.value = accountName;
+        console.log("accountNameField 값 설정됨:", accountNameField.value);
+    } else {
+        console.error("accountNameField 요소를 찾을 수 없습니다.");
+    }
+}
+
+// 폼 제출 시 데이터 확인을 위한 스크립트
+document.querySelector('form').addEventListener('submit', function(e) {
+    const puItemName = document.querySelector('input[name="puItemName"]').value;
+    const accountNo = document.querySelector('select[name="accountNo"]').value;
+    const accountName = document.getElementById('accountNameField').value;
+    const quantity = document.querySelector('input[name="quantity"]').value;
+    const supplyPrice = document.querySelector('input[name="supplyPrice"]').value;
+    const deliveryDate = document.querySelector('input[name="deliveryDate"]').value;
+    const oDirector = document.querySelector('input[name="oDirector"]').value;
+    
+    console.log("************* 폼 데이터 확인 *************");
+    console.log("품명 (puItemName):", puItemName);
+    console.log("거래처번호 (accountNo):", accountNo);
+    console.log("거래처명 (accountName):", accountName);
+    console.log("수량 (quantity):", quantity);
+    console.log("공급가 (supplyPrice):", supplyPrice);
+    console.log("납품일 (deliveryDate):", deliveryDate);
+    console.log("담당자명 (oDirector):", oDirector);
+    console.log("****************************************");
+    
+    // 추가적인 유효성 검사 (필요 시)
+    if (!accountName) {
+        e.preventDefault(); // 폼 제출 중지
+        alert("거래처명을 선택해주세요.");
+    }
+});
+</script>
 
 <script>
     const activeMenu = "purchaseOrders";
@@ -281,16 +305,4 @@ function removeMaterialType(button) {
         });
     });
 </script>
-
-
-
-<script>
-function setAccountName(select) {
-    const accountName = select.options[select.selectedIndex].getAttribute('data-name');
-    document.getElementById('accountNameField').value = accountName;
-}
-</script>
-
-
-
 </html>

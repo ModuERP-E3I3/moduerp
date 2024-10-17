@@ -22,7 +22,7 @@ public class Employee implements Serializable{
    private String approvalCode; // 승인코드
    private String departmentId; // 부서 ID
    private String jobId; // 직무 ID
-   private char privateAuthority; // 사설 권한 여부
+   private String privateAuthority; // 사설 권한 여부
    private String empNo; // 사원번호
    private String empName; // 사원명
    private String empEmail; // 사원 이메일
@@ -45,4 +45,5 @@ public class Employee implements Serializable{
    private LocalTime contractStartTime; // 계약상 출근 시간
    private LocalTime contractEndTime; // 계약상 퇴근 시간
    private String mgrUuid; // 관리자 uuid
+   private String departmentName; //부서명
 }
