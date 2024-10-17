@@ -58,5 +58,11 @@ public interface ItemDeliveryService {
 			String endDate);
 
 	List<ItemDTO> getItemOutByFilter(String bizNumber, String option, String filterText);
+
+	List<ItemDTO> getItemByFilterOnlyDate(String bizNumber, String startDate, String endDate);
+
+	List<ItemDTO> getItemByFilterStartDate(String bizNumber, String startDate);
+
+	List<ItemDTO> getItemByFilterEndDate(String bizNumber, String endDate);
 	
 }

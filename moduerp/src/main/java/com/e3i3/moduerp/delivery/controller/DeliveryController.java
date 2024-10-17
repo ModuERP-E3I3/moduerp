@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -18,10 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.e3i3.moduerp.buystock.model.dto.BuyStockOutDTO;
+import com.e3i3.moduerp.company.model.service.CompanyService;
 import com.e3i3.moduerp.delivery.model.dto.DeliveryDTO;
 import com.e3i3.moduerp.delivery.model.service.DeliveryService;
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
@@ -34,6 +33,9 @@ import com.e3i3.moduerp.item.model.service.ItemDeliveryService;
 public class DeliveryController {
 	
 
+		@Autowired
+		private CompanyService companyService;
+	
 		@Autowired
 		private DeliveryService DeliveryService;
 		
@@ -48,7 +50,23 @@ public class DeliveryController {
 
 		    List<ItemDTO> itemList = itemDeliveryService.getItemsByBizNumber(bizNumber);
 		    
-		   
+		    String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
+		    if(moduleGrades != null) {
+				// 쉼표(,)로 문자열을 분리하여 배열로 반환
+				String[] gradesArray = moduleGrades.split(",");	
+				// 배열을 List로 변환
+				List<String> gradesList = Arrays.asList(gradesArray);
+				// DT가 리스트에 있는지 검사
+				if (gradesList.contains("DT")) {
+				    System.out.println("DT가 리스트에 포함되어 있습니다.");
+				} else {
+				    System.out.println("DT가 리스트에 없습니다.");
+				    return "common/moduleGradesError";
+				}
+			}else {
+				return "common/moduleGradesError";
+				
+			}
 
 		    
 		    for (ItemDTO item : itemList) {
@@ -87,15 +105,37 @@ public class DeliveryController {
 			if (option != null && filterText != null) {
 				if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
 					System.out.println("날짜있는거 실행");
-					itemList = itemDeliveryService.getItemByFilterDate(bizNumber, option, filterText, startDate,
-							endDate);
-				} else if (startDate == null || startDate.isEmpty()) {
+					itemList = itemDeliveryService.getItemByFilterDate(bizNumber, option, filterText, startDate, endDate);
+				} else if ((option == null || filterText == null || filterText.isEmpty()) && startDate != null
+						&& !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+					// 날짜만 있는 경우 처리
+					System.out.println("날짜만 있는 경우 실행");
+					itemList = itemDeliveryService.getItemByFilterOnlyDate(bizNumber, startDate, endDate);
+				} else if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
+					// 시작 날짜만 있는 경우 처리
+					System.out.println("시작 날짜만 있는 경우 실행");
+					itemList = itemDeliveryService.getItemByFilterStartDate(bizNumber, startDate);
+				} else if ((startDate == null || startDate.isEmpty()) && endDate != null && !endDate.isEmpty()) {
+					// 종료 날짜만 있는 경우 처리
+					System.out.println("종료 날짜만 있는 경우 실행");
+					itemList = itemDeliveryService.getItemByFilterEndDate(bizNumber, endDate);
+				} else {
 					System.out.println("날짜없는거 실행");
 					itemList = itemDeliveryService.getItemsByFilter(bizNumber, option, filterText);
-				} else {
-					System.out.println("실행 못함");
-					itemList = itemDeliveryService.getItemsByBizNumber(bizNumber);
 				}
+			} else if ((option == null || filterText == null || filterText.isEmpty()) && startDate != null
+					&& !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+				// 필터 옵션과 텍스트 없이 날짜만 있는 경우
+				System.out.println("날짜만 있는 경우 실행");
+				itemList = itemDeliveryService.getItemByFilterOnlyDate(bizNumber, startDate, endDate);
+			} else if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
+				// 시작 날짜만 있는 경우 처리
+				System.out.println("시작 날짜만 있는 경우 실행");
+				itemList = itemDeliveryService.getItemByFilterStartDate(bizNumber, startDate);
+			} else if ((startDate == null || startDate.isEmpty()) && endDate != null && !endDate.isEmpty()) {
+				// 종료 날짜만 있는 경우 처리
+				System.out.println("종료 날짜만 있는 경우 실행");
+				itemList = itemDeliveryService.getItemByFilterEndDate(bizNumber, endDate);
 			} else {
 				itemList = itemDeliveryService.getItemsByBizNumber(bizNumber);
 			}

@@ -199,8 +199,8 @@ tbody tr:hover {
 					<option value="stockPlace">출고 장소</option>
 					<option value="ODirector">담당자</option>
 				</select> <input type="date" name="startDate" id="startDate" required/> <input
-					type="date" name="endDate" id="endDate" /> <input type="text"
-					name="filterText" id="filterText" placeholder="내용 입력" />
+					type="date" name="endDate" id="endDate" required/> <input type="text"
+					name="filterText" id="filterText" placeholder="내용 입력" required/>
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
 					onclick="window.location.href='buyStockOut.do';">초기화</button>

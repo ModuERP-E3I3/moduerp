@@ -1,11 +1,11 @@
 package com.e3i3.moduerp.buystock.controller;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -19,16 +19,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.e3i3.moduerp.company.model.service.CompanyService;
 import com.e3i3.moduerp.employee.model.service.EmployeeBuyService;
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 import com.e3i3.moduerp.item.model.service.ItemBuyStockService;
-
 import com.e3i3.moduerp.buystock.model.dto.BuyStockOutDTO;
 import com.e3i3.moduerp.buystock.model.service.BuyStockOutService;
 
 @Controller
 @RequestMapping("/")
 public class BuyStockOutController {
+	
+	@Autowired
+	private CompanyService companyService;
 
 	@Autowired
 	private ItemBuyStockService itemBuystockService;
@@ -41,9 +44,29 @@ public class BuyStockOutController {
 	@RequestMapping(value = "/buyStockOut.do", method = RequestMethod.GET)
 	public String showBuyStockOut(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
 			HttpSession session) {
+		
 		String bizNumber = (String) session.getAttribute("biz_number");
+		
 		List<ItemDTO> itemList = itemBuystockService.getItemsByBizNumberOutDate(bizNumber);
 
+		String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
+		if(moduleGrades != null) {
+			// 쉼표(,)로 문자열을 분리하여 배열로 반환
+			String[] gradesArray = moduleGrades.split(",");	
+			// 배열을 List로 변환
+			List<String> gradesList = Arrays.asList(gradesArray);
+			// B_OUT이 리스트에 있는지 검사
+			if (gradesList.contains("B_OUT")) {
+			    System.out.println("B_OUT이 리스트에 포함되어 있습니다.");
+			} else {
+			    System.out.println("B_OUt이 리스트에 없습니다.");
+			    return "common/moduleGradesError";
+			}
+		}else {
+			return "common/moduleGradesError";
+			
+		}
+		
 		// CREATED_AT에 9시간 추가하는 로직
 		for (ItemDTO item : itemList) {
 			// CREATED_AT 필드에서 Timestamp 값을 가져옴
@@ -94,17 +117,39 @@ public class BuyStockOutController {
 		if (option != null && filterText != null) {
 			if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
 				System.out.println("날짜있는거 실행");
-				itemList = itemBuystockService.getItemOutByFilterDate(bizNumber, option, filterText, startDate,
-						endDate);
-			} else if (startDate == null || startDate.isEmpty()) {
-				System.out.println("날짜없는거 실행");
-				itemList = itemBuystockService.getItemOutByFilter(bizNumber, option, filterText);
+				itemList = itemBuystockService.getItemByFilterDate(bizNumber, option, filterText, startDate, endDate);
+			} else if ((option == null || filterText == null || filterText.isEmpty()) && startDate != null
+					&& !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+				// 날짜만 있는 경우 처리
+				System.out.println("날짜만 있는 경우 실행");
+				itemList = itemBuystockService.getItemByFilterOnlyDate(bizNumber, startDate, endDate);
+			} else if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
+				// 시작 날짜만 있는 경우 처리
+				System.out.println("시작 날짜만 있는 경우 실행");
+				itemList = itemBuystockService.getItemByFilterStartDate(bizNumber, startDate);
+			} else if ((startDate == null || startDate.isEmpty()) && endDate != null && !endDate.isEmpty()) {
+				// 종료 날짜만 있는 경우 처리
+				System.out.println("종료 날짜만 있는 경우 실행");
+				itemList = itemBuystockService.getItemByFilterEndDate(bizNumber, endDate);
 			} else {
-				System.out.println("실행 못함");
-				itemList = itemBuystockService.getItemsByBizNumberOutDate(bizNumber);
+				System.out.println("날짜없는거 실행");
+				itemList = itemBuystockService.getItemsByFilter(bizNumber, option, filterText);
 			}
+		} else if ((option == null || filterText == null || filterText.isEmpty()) && startDate != null
+				&& !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+			// 필터 옵션과 텍스트 없이 날짜만 있는 경우
+			System.out.println("날짜만 있는 경우 실행");
+			itemList = itemBuystockService.getItemByFilterOnlyDate(bizNumber, startDate, endDate);
+		} else if (startDate != null && !startDate.isEmpty() && (endDate == null || endDate.isEmpty())) {
+			// 시작 날짜만 있는 경우 처리
+			System.out.println("시작 날짜만 있는 경우 실행");
+			itemList = itemBuystockService.getItemByFilterStartDate(bizNumber, startDate);
+		} else if ((startDate == null || startDate.isEmpty()) && endDate != null && !endDate.isEmpty()) {
+			// 종료 날짜만 있는 경우 처리
+			System.out.println("종료 날짜만 있는 경우 실행");
+			itemList = itemBuystockService.getItemByFilterEndDate(bizNumber, endDate);
 		} else {
-			itemList = itemBuystockService.getItemsByBizNumberOutDate(bizNumber);
+			itemList = itemBuystockService.getItemsByBizNumber(bizNumber);
 		}
 
 		// 페이지네이션 처리

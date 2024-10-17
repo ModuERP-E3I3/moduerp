@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>erpMain</title>
+<title>생산 | 출고</title>
 
 <style type="text/css">
 .top-content-box {
@@ -206,7 +206,7 @@ tbody tr:hover {
 					value="${startDate != null ? startDate : ''}" required/> 
 					<input
 					type="date" name="endDate" id="endDate"
-					value="${endDate != null ? endDate : ''}" /> 
+					value="${endDate != null ? endDate : ''}" required/> 
 					<input type="text"
 					name="filterText" id="filterText" placeholder="내용 입력"
 					value="${filterText != null ? filterText : ''}" required/>

@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>erpMain</title>
+<title>생산 | 출고 수정</title>
 
 <style type="text/css">
 .top-content-box {
@@ -170,7 +170,7 @@ th {
 	</div>
 
 	<div class="content-box">
-		<div class="content-title">생산관리 | 생산입고 | ${itemDetails.itemName}
+		<div class="content-title">생산관리 | 생산출고 | ${itemDetails.itemName} 출고 
 			수정</div>
 
 		<form action="/moduerp/updateProductionStockSubOut.do" method="POST">

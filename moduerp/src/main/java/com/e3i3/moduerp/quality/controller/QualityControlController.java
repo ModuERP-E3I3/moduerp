@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.e3i3.moduerp.company.model.service.CompanyService;
 import com.e3i3.moduerp.employee.model.service.EmployeeProductionService;
 import com.e3i3.moduerp.quality.model.dto.QualityControlDTO;
 import com.e3i3.moduerp.quality.model.service.QualityControlService;
@@ -40,6 +42,9 @@ public class QualityControlController {
 	@Autowired
 	private EmployeeProductionService employeeProductionService;
 
+	@Autowired
+	private CompanyService companyService;
+
 	@RequestMapping(value = "/productionQuality.do", method = RequestMethod.GET)
 	public String getAllQualityControls(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
 			HttpSession session) {
@@ -49,6 +54,26 @@ public class QualityControlController {
 		// 만약 biz_number가 세션에 없다면 로그인 페이지로 리다이렉트
 		if (bizNumber == null) {
 			return "redirect:/login.do";
+		}
+
+		// 모듈 등급 검사
+		String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
+
+		if (moduleGrades != null) {
+			// 쉼표(,)로 문자열을 분리하여 배열로 반환
+			String[] gradesArray = moduleGrades.split(",");
+			// 배열을 List로 변환
+			List<String> gradesList = Arrays.asList(gradesArray);
+			// P_IN이 리스트에 있는지 검사
+			if (gradesList.contains("P_IN")) {
+				System.out.println("P_IN이 리스트에 포함되어 있습니다.");
+			} else {
+				System.out.println("P_IN이 리스트에 없습니다.");
+				return "common/moduleGradesError";
+			}
+		} else {
+			return "common/moduleGradesError";
+
 		}
 
 		// 서비스 호출하여 biz_number에 해당하는 품질 관리 데이터 가져오기
@@ -97,38 +122,36 @@ public class QualityControlController {
 		List<QualityControlDTO> qualityControlList = qualityControlService.getQualityControlsByBizNumber(bizNumber);
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		
+
 		if (startDate != null && !startDate.isEmpty()) {
-		    try {
-		        // 시간이 없는 경우 기본 시간 00:00:00을 추가
-		        if (startDate.length() == 10) { // 'yyyy-MM-dd' 형식
-		            startDate += " 00:00:00";
-		        }
-		        LocalDateTime startDateTime = LocalDateTime.parse(startDate, formatter);
-		        startDate = startDateTime.format(formatter);  // 포맷된 문자열로 변환
-		    } catch (DateTimeParseException e) {
-		        // 파싱 에러 처리
-		        System.out.println("Invalid startDate format: " + startDate);
-		    }
+			try {
+				// 시간이 없는 경우 기본 시간 00:00:00을 추가
+				if (startDate.length() == 10) { // 'yyyy-MM-dd' 형식
+					startDate += " 00:00:00";
+				}
+				LocalDateTime startDateTime = LocalDateTime.parse(startDate, formatter);
+				startDate = startDateTime.format(formatter); // 포맷된 문자열로 변환
+			} catch (DateTimeParseException e) {
+				// 파싱 에러 처리
+				System.out.println("Invalid startDate format: " + startDate);
+			}
 		}
 
 		// endDate의 시분초 기본값 설정 (23:59:59)
 		if (endDate != null && !endDate.isEmpty()) {
-		    try {
-		        // 시간이 없는 경우 기본 시간 23:59:59을 추가
-		        if (endDate.length() == 10) { // 'yyyy-MM-dd' 형식
-		            endDate += " 23:59:59";
-		        }
-		        LocalDateTime endDateTime = LocalDateTime.parse(endDate, formatter);
-		        endDate = endDateTime.format(formatter);  // 포맷된 문자열로 변환
-		    } catch (DateTimeParseException e) {
-		        // 파싱 에러 처리
-		        System.out.println("Invalid endDate format: " + endDate);
-		    }
+			try {
+				// 시간이 없는 경우 기본 시간 23:59:59을 추가
+				if (endDate.length() == 10) { // 'yyyy-MM-dd' 형식
+					endDate += " 23:59:59";
+				}
+				LocalDateTime endDateTime = LocalDateTime.parse(endDate, formatter);
+				endDate = endDateTime.format(formatter); // 포맷된 문자열로 변환
+			} catch (DateTimeParseException e) {
+				// 파싱 에러 처리
+				System.out.println("Invalid endDate format: " + endDate);
+			}
 		}
-		
-		
-		
+
 		// 필터링 로직 추가
 		if (option != null && filterText != null) {
 			if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
@@ -142,19 +165,19 @@ public class QualityControlController {
 				System.out.println("실행 못함");
 				qualityControlList = qualityControlService.getQualityControlsByBizNumber(bizNumber);
 			}
-		} else if ((option == null || filterText == null || filterText.isEmpty()) 
-		        && startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
-		    System.out.println("필터 텍스트 없이 날짜만 있는 경우 실행");
-		    qualityControlList = qualityControlService.getQualityByFilterOnlyDate(bizNumber, startDate, endDate);
-		} else if ((option == null || filterText == null || filterText.isEmpty()) 
-		        && startDate != null && !startDate.isEmpty()) {
-		    System.out.println("startDate만 있는 경우 실행");
-		    qualityControlList = qualityControlService.getQualityByFilterStartDate(bizNumber, startDate);
-		} else if ((option == null || filterText == null || filterText.isEmpty()) 
-		        && endDate != null && !endDate.isEmpty()) {
-		    System.out.println("endDate만 있는 경우 실행");
-		    qualityControlList = qualityControlService.getQualityByFilterEndDate(bizNumber, endDate);
-		}else {
+		} else if ((option == null || filterText == null || filterText.isEmpty()) && startDate != null
+				&& !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+			System.out.println("필터 텍스트 없이 날짜만 있는 경우 실행");
+			qualityControlList = qualityControlService.getQualityByFilterOnlyDate(bizNumber, startDate, endDate);
+		} else if ((option == null || filterText == null || filterText.isEmpty()) && startDate != null
+				&& !startDate.isEmpty()) {
+			System.out.println("startDate만 있는 경우 실행");
+			qualityControlList = qualityControlService.getQualityByFilterStartDate(bizNumber, startDate);
+		} else if ((option == null || filterText == null || filterText.isEmpty()) && endDate != null
+				&& !endDate.isEmpty()) {
+			System.out.println("endDate만 있는 경우 실행");
+			qualityControlList = qualityControlService.getQualityByFilterEndDate(bizNumber, endDate);
+		} else {
 			qualityControlList = qualityControlService.getQualityControlsByBizNumber(bizNumber);
 		}
 

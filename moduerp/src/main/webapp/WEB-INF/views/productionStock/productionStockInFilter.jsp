@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>erpMain</title>
+<title>생산 | 입고</title>
 
 <style type="text/css">
 .top-content-box {
@@ -204,7 +204,7 @@ tbody tr:hover {
 				</select> <input type="date" name="startDate" id="startDate"
 					value="${startDate != null && startDate.length() >= 10 ? startDate.substring(0, 10) : ''}" required/>
 				<input type="date" name="endDate" id="endDate"
-					value="${endDate != null && endDate.length() >= 10 ? endDate.substring(0, 10) : ''}" />
+					value="${endDate != null && endDate.length() >= 10 ? endDate.substring(0, 10) : ''}" required/>
 				<input type="text" name="filterText" id="filterText"
 					placeholder="내용 입력" value="${filterText != null ? filterText : ''}" required/>
 

@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>erpMain</title>
+<title>생산 | 출고 디테일</title>
 
 <style type="text/css">
 .top-content-box {
@@ -215,7 +215,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 생산출고 | ${itemDetailsSub.itemName}</div>
+		<div class="content-title">생산관리 | 생산출고 | ${itemDetailsSub.itemName} 출고 정보</div>
 
 		<!-- 테이블 -->
 		<table>

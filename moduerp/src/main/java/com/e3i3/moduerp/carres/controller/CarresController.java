@@ -3,6 +3,7 @@ package com.e3i3.moduerp.carres.controller;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -18,12 +19,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.e3i3.moduerp.carres.model.dto.CarresDto;
+import com.e3i3.moduerp.company.model.service.CompanyService;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 
 @Controller
 @RequestMapping("/")
 public class CarresController {
 
+	@Autowired
+	private CompanyService companyService;
+	
 	@Autowired
 	private com.e3i3.moduerp.carres.model.service.CarresService CarresService;
 
@@ -32,9 +37,28 @@ public class CarresController {
 			HttpSession session) {
 		String bizNumber = (String) session.getAttribute("biz_number");
 
+		String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
+		
 		// 차량 예약 list
 		List<CarresDto> carresList = CarresService.getAllCarres(bizNumber);
 
+		if(moduleGrades != null) {
+			// 쉼표(,)로 문자열을 분리하여 배열로 반환
+			String[] gradesArray = moduleGrades.split(",");	
+			// 배열을 List로 변환
+			List<String> gradesList = Arrays.asList(gradesArray);
+			// P_IN이 리스트에 있는지 검사
+			if (gradesList.contains("C_R")) {
+			    System.out.println("C_R이 리스트에 포함되어 있습니다.");
+			} else {
+			    System.out.println("C_R이 리스트에 없습니다.");
+			    return "common/moduleGradesError";
+			}
+		}else {
+			return "common/moduleGradesError";
+			
+		}
+		
 		// 페이지당 항목 수
 		int carresPerPage = 5;
 
