@@ -46,10 +46,10 @@ public class PayLogDAOImpl implements PayLogDAO {
 	}
 
 	@Override
-	public void updateRefundStatus(String refundStatus, String bizNumber) {
+	public void updateRefundStatus(String refundStatus, String orderId) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("refundStatus", refundStatus);
-		params.put("bizNumber", bizNumber);
+		params.put("orderId", orderId);
 		sqlSession.update(namespace + ".updateRefundStatusByBizNumber", params);
 	}
 

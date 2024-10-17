@@ -16,6 +16,6 @@ public interface PayLogService {
 
 	void updateRefundStatus(String logId);
 
-	void updateRefundStatus(String refundStatus, String bizNumber);
+	void updateRefundStatus(String refundStatus, String orderId);
 
 }

@@ -90,7 +90,7 @@
 	<update id="updateRefundStatusByBizNumber">
 		UPDATE PAY_LOG
 		SET REFUND_STATUS = #{refundStatus}
-		WHERE BIZ_NUMBER = #{bizNumber}
+		WHERE ORDER_ID = #{orderId}
 	</update>
 
 </mapper>

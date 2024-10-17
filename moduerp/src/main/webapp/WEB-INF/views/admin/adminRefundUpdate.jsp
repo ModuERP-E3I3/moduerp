@@ -186,7 +186,7 @@ footer {
 					</table>
 					<div id="btn">
 						<input type="hidden" name="refundId" value="${refundDetail.refundId}">
-						<input type="hidden" name="bizNumber" value="${refundDetail.bizNumber}">
+						<input type="hidden" name="orderId" value="${refundDetail.orderId}">
 						<button type="submit" id="refundCompleteBtn">환불 수정 완료</button>
 					</div>
 

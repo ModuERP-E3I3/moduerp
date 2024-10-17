@@ -54,11 +54,11 @@ public class AdminRefundController {
 
 	@PostMapping("/adminRefundUpdate.do")
 	public String adminRefundUpdate(@RequestParam("refundStatus") String refundStatus,
-			@RequestParam("refundId") String refundId, @RequestParam("bizNumber") String bizNumber, Model model) {
+			@RequestParam("refundId") String refundId, @RequestParam("orderId") String orderId, Model model) {
 
 		refundService.updateRefundStatus(refundStatus, refundId);
 		
-		payLogService.updateRefundStatus(refundStatus,bizNumber);
+		payLogService.updateRefundStatus(refundStatus,orderId);
 
 		return "redirect:/adminRefund.do";
 	}
