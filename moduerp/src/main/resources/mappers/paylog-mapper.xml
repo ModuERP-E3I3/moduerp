@@ -29,6 +29,7 @@
 		<result property="mId" column="MID" />
 		<result property="paymentKey" column="PAYMENTKEY" />
 		<result property="orderId" column="ORDER_ID" />
+		<result property="refundStatus" column="REFUND_STATUS" />
 	</resultMap>
 
 
@@ -60,6 +61,29 @@
 		SELECT *
 		FROM PAY_LOG
 		WHERE BIZ_NUMBER = #{bizNumber}
-	</select>	
+	</select>
 
+
+
+	<select id="selectPayLogByLogId" parameterType="string"
+		resultType="com.e3i3.moduerp.paylog.model.dto.PayLogDTO">
+		SELECT *
+		FROM PAY_LOG
+		WHERE LOG_ID = #{logId}
+	</select>
+
+	<update id="updateRefund" parameterType="map">
+		UPDATE PAY_LOG
+		SET
+		REFUND_STATUS = '환불 신청 완료'
+		WHERE LOG_ID = #{payLogId}
+	</update>
+
+
+	<update id="updateRefundStatus" parameterType="map">
+		UPDATE PAY_LOG
+		SET
+		REFUND_STATUS = ''
+		WHERE LOG_ID = #{logId}
+	</update>
 </mapper>

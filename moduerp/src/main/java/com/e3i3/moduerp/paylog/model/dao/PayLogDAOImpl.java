@@ -26,4 +26,21 @@ public class PayLogDAOImpl implements PayLogDAO {
 		return 	sqlSession.selectList(namespace + ".selectPayLogByBizNumber", bizNumber);
 	}
 
+	@Override
+	public PayLogDTO selectPayLogByLogId(String logId) {
+		return 	sqlSession.selectOne(namespace + ".selectPayLogByLogId", logId);
+	}
+
+	@Override
+	public void updateRefund(String payLogId) {
+		sqlSession.update(namespace + ".updateRefund", payLogId);
+		
+	}
+
+	@Override
+	public void updateRefundStatus(String logId) {
+		sqlSession.update(namespace + ".updateRefundStatus", logId);
+		
+	}
+
 }

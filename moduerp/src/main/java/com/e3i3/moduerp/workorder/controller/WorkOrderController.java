@@ -65,10 +65,10 @@ public class WorkOrderController {
 			// 배열을 List로 변환
 			List<String> gradesList = Arrays.asList(gradesArray);
 			// P_IN이 리스트에 있는지 검사
-			if (gradesList.contains("P_IN")) {
-				System.out.println("P_IN이 리스트에 포함되어 있습니다.");
+			if (gradesList.contains("WO")) {
+				System.out.println("WO이 리스트에 포함되어 있습니다.");
 			} else {
-				System.out.println("P_IN이 리스트에 없습니다.");
+				System.out.println("WO이 리스트에 없습니다.");
 				return "common/moduleGradesError";
 			}
 		} else {

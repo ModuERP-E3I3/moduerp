@@ -111,6 +111,7 @@
 		<mapper resource="mappers/billingInfo-mapper.xml" />
 		<mapper resource="mappers/pay-mapper.xml" />
 		<mapper resource="mappers/paylog-mapper.xml" />
+		<mapper resource="mappers/refund-mapper.xml" />
 		
 		<mapper resource="mappers/qna-mapper.xml" />
 		<mapper resource="mappers/answer-mapper.xml" />

@@ -1,5 +1,6 @@
 package com.e3i3.moduerp.purchaseorders.controller;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.e3i3.moduerp.company.model.service.CompanyService;
 import com.e3i3.moduerp.employee.model.dto.Employee;
 import com.e3i3.moduerp.employee.model.service.EmployeeProductionService;
 import com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO;
@@ -23,7 +25,10 @@ import com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO;
 @Controller
 @RequestMapping("/")
 public class PurchaseOrdersController {
-
+	
+	@Autowired
+	private CompanyService companyService;
+	
 	@Autowired
 	private com.e3i3.moduerp.purchaseorders.service.PurchaseOrdersService purchaseOrdersService;
 
@@ -37,6 +42,24 @@ public class PurchaseOrdersController {
 
 		// Fetch all purchase orders
 		List<PurchaseOrdersDTO> purchaseOrdersList = purchaseOrdersService.getAllPurchaseOrders(bizNumber);
+		
+	    String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
+	    if(moduleGrades != null) {
+			// 쉼표(,)로 문자열을 분리하여 배열로 반환
+			String[] gradesArray = moduleGrades.split(",");	
+			// 배열을 List로 변환
+			List<String> gradesList = Arrays.asList(gradesArray);
+			// DT가 리스트에 있는지 검사
+			if (gradesList.contains("OF")) {
+			    System.out.println("OF가 리스트에 포함되어 있습니다.");
+			} else {
+			    System.out.println("OF가 리스트에 없습니다.");
+			    return "common/moduleGradesError";
+			}
+		}else {
+			return "common/moduleGradesError";
+			
+		}
 
 		// Pagination logic
 		int ordersPerPage = 10;
