@@ -44,20 +44,29 @@ public class ProductionstockInController {
 		String bizNumber = (String) session.getAttribute("biz_number");
 		List<ItemDTO> itemList = itemProductionstockService.getItemsByBizNumber(bizNumber);
 
+		// 모듈 등급 검사
 		String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
-		// 쉼표(,)로 문자열을 분리하여 배열로 반환
-		String[] gradesArray = moduleGrades.split(",");
-
-		// 배열을 List로 변환
-		List<String> gradesList = Arrays.asList(gradesArray);
-
-		// P_IN이 리스트에 있는지 검사
-		if (gradesList.contains("P_IN")) {
-		    System.out.println("P_IN이 리스트에 포함되어 있습니다.");
-		} else {
-		    System.out.println("P_IN이 리스트에 없습니다.");
-		    return "common/moduleGradesError";
+		
+		if(moduleGrades != null) {
+			// 쉼표(,)로 문자열을 분리하여 배열로 반환
+			String[] gradesArray = moduleGrades.split(",");	
+			// 배열을 List로 변환
+			List<String> gradesList = Arrays.asList(gradesArray);
+			// P_IN이 리스트에 있는지 검사
+			if (gradesList.contains("P_IN")) {
+			    System.out.println("P_IN이 리스트에 포함되어 있습니다.");
+			} else {
+			    System.out.println("P_IN이 리스트에 없습니다.");
+			    return "common/moduleGradesError";
+			}
+		}else {
+			return "common/moduleGradesError";
+			
 		}
+
+		
+
+		
 
 		// 페이지당 항목 수
 		int itemsPerPage = 10;

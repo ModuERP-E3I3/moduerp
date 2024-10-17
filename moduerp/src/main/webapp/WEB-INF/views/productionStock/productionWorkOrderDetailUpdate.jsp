@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>erpMain</title>
+<title>생산 | 작업지시서 수정</title>
 
 <style type="text/css">
 .top-content-box {
@@ -217,7 +217,7 @@ th {
 	<!-- 하얀 큰 박스 -->
 	<div class="content-box">
 
-		<div class="content-title">생산관리 | 작업지시서 | 수정</div>
+		<div class="content-title">생산관리 | 작업지시서 | ${workOrderDetails.taskName} 수정</div>
 
 		<form action="/moduerp/updateProductionWorkOrderUpdateDo.do"
 			method="POST">

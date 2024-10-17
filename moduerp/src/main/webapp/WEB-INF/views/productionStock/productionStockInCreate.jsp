@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>erpMain</title>
+<title>생산 | 입고 등록</title>
 
 <style type="text/css">
 .top-content-box {
