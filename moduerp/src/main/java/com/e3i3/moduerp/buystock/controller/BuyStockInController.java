@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.e3i3.moduerp.company.model.service.CompanyService;
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 import com.e3i3.moduerp.item.model.service.ItemBuyStockService;
 import com.e3i3.moduerp.buystock.model.dto.BuyStockInDTO;
@@ -28,7 +29,9 @@ import com.e3i3.moduerp.buystock.model.service.BuyStockInService;
 @RequestMapping("/")
 public class BuyStockInController {
 	
-
+		@Autowired
+		private CompanyService companyService;
+	
 		@Autowired
 		private BuyStockInService BuyStockInService;
 		
@@ -39,9 +42,26 @@ public class BuyStockInController {
 		public String forwardBuyIn(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
 		        HttpSession session) {
 		    String bizNumber = (String) session.getAttribute("biz_number");
-		   
 
 		    List<ItemDTO> itemList = itembuyStockService.getItemsByBizNumber(bizNumber);
+		    
+		    String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
+		    if(moduleGrades != null) {
+				// 쉼표(,)로 문자열을 분리하여 배열로 반환
+				String[] gradesArray = moduleGrades.split(",");	
+				// 배열을 List로 변환
+				List<String> gradesList = Arrays.asList(gradesArray);
+				// P_IN이 리스트에 있는지 검사
+				if (gradesList.contains("B_IN")) {
+				    System.out.println("B_IN이 리스트에 포함되어 있습니다.");
+				} else {
+				    System.out.println("B_IN이 리스트에 없습니다.");
+				    return "common/moduleGradesError";
+				}
+			}else {
+				return "common/moduleGradesError";
+				
+			}
 		   
 		    
 
