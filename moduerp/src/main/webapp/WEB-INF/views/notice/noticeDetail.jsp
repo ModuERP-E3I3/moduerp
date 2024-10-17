@@ -130,6 +130,7 @@
         <a href="<c:url value='/resources/templates/email_files/${notice.attachment}' />" download="${fn:substringAfter(notice.attachment, '_')}">
             ${fn:substringAfter(notice.attachment, '_')}
         </a>
+       <img src="<c:url value='/resources/templates/email_files/${notice.attachment}' />" />
     </div>
 </c:if>
 

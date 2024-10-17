@@ -207,38 +207,36 @@ nav .moduerp-logo {
 <p>Admin UUID: ${param.adminUUID}</p> --%>
 
 	<nav>
-		<div class="nav-wrapper">
-			<a href="<c:url value='/main.do' />" class="moduerp-logo">ModuERP</a>
-			<ul id="menubar">
-				<li><a href="<c:url value='/notice/list.do' />">공지사항</a></li>
-				<li><a href="<c:url value='/buyModule.do' />">구매</a></li>
-				<li><a href="<c:url value='/main.do' />">체험페이지</a></li>
-				<li><a href="<c:url value='/qna.do' />">고객서비스</a></li>
-				<li><a href="<c:url value='/main.do' />">회사소개</a></li>
+    <div class="nav-wrapper">
+        <a href="<c:url value='/main.do' />" class="moduerp-logo">ModuERP</a>
+        <ul id="menubar">
+            <li><a href="<c:url value='/notice/list.do' />">공지사항</a></li>
+            <li><a href="<c:url value='/buyModule.do' />">구매</a></li>
+            <li><a href="<c:url value='/main.do' />">체험페이지</a></li>
+            <li><a href="<c:url value='/qna.do' />">고객서비스</a></li>
+            <li><a href="<c:url value='/main.do' />">회사소개</a></li>
 
-				<c:choose>
-					<%-- 관리자일 때 관리자페이지 테스트용 표시 --%>
-					<c:when
-						test="${not empty sessionScope.uuid and sessionScope.uuid eq sessionScope.adminUUID}">
-						<li><a href="admin.do">관리자페이지 테스트용</a></li>
-					</c:when>
+            <c:choose>
+                <%-- 관리자일 때 관리자페이지 테스트용 표시 --%>
+                <c:when test="${not empty sessionScope.uuid and sessionScope.uuid eq sessionScope.adminUUID}">
+                    <li><a href="<c:url value='/admin.do' />">관리자페이지 테스트용</a></li>
+                </c:when>
 
-					<%-- 사장님(CEO)일 때 마이페이지 표시 --%>
-					<c:when test="${not empty sessionScope.uuid}">
-						<li><a href="passwordManagement.do">마이페이지</a></li>
-					</c:when>
+                <%-- 사장님(CEO)일 때 마이페이지 표시 --%>
+                <c:when test="${not empty sessionScope.uuid}">
+                    <li><a href="<c:url value='/passwordManagement.do' />">마이페이지</a></li>
+                </c:when>
 
-					<c:otherwise>
-						<%-- 일반 직원이 로그인하면 아무것도 출력하지 않음 --%>
-					</c:otherwise>
-				</c:choose>
+                <c:otherwise>
+                    <%-- 일반 직원이 로그인하면 아무것도 출력하지 않음 --%>
+                </c:otherwise>
+            </c:choose>
 
-
-				<li><a href="erpMain.do">ERP 테스트용</a></li>
-				<li><a href="forwardCart.do">장바구니</a></li>
-			</ul>
-		</div>
-	</nav>
+            <li><a href="<c:url value='/erpMain.do' />">ERP 테스트용</a></li>
+            <li><a href="<c:url value='/forwardCart.do' />">장바구니</a></li>
+        </ul>
+    </div>
+</nav>
 
 
 	<!-- 로그인 모달 -->

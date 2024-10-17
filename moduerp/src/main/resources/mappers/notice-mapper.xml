@@ -4,116 +4,128 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="NoticeMapper">
 
-	<!-- Notice 테이블과 매핑되는 resultMap -->
-	<resultMap type="Notice" id="resultNotice">
-		<result property="noticeId" column="NOTICEID" /> <!-- noticeId에 매핑 -->
-		<result property="title" column="TITLE" /> <!-- title에 매핑 -->
-		<result property="body" column="BODY" /> <!-- body에 매핑 -->
-		<result property="attachment" column="ATTACHMENT"
-			jdbcType="VARCHAR" /> <!-- attachment에 매핑 (nullable) -->
-		<result property="noticeDate" column="NOTICE_DATE" /> <!-- noticeDate에 매핑 -->
-	</resultMap>
+    <!-- Notice 테이블과 매핑되는 resultMap -->
+    <resultMap type="Notice" id="resultNotice">
+        <result property="noticeId" column="NOTICEID" /> <!-- noticeId에 매핑 -->
+        <result property="title" column="TITLE" /> <!-- title에 매핑 -->
+        <result property="body" column="BODY" /> <!-- body에 매핑 -->
+        <result property="attachment" column="ATTACHMENT"
+            jdbcType="VARCHAR" /> <!-- attachment에 매핑 (nullable) -->
+        <result property="noticeDate" column="NOTICE_DATE" /> <!-- noticeDate에 매핑 -->
+    </resultMap>
 
+    <insert id="insertNotice" parameterType="Notice">
+        INSERT INTO NOTICE
+        (NOTICEID, TITLE, BODY, ATTACHMENT, NOTICE_DATE)
+        VALUES (#{noticeId},
+        #{title}, #{body}, #{attachment}, #{noticeDate})
+    </insert>
 
-	<insert id="insertNotice" parameterType="Notice">
-		INSERT INTO NOTICE
-		(NOTICEID, TITLE, BODY, ATTACHMENT, NOTICE_DATE)
-		VALUES (#{noticeId},
-		#{title}, #{body}, #{attachment}, #{noticeDate})
-	</insert>
+    <select id="selectNoticeById" parameterType="String"
+        resultMap="resultNotice">
+        SELECT NOTICEID, TITLE, BODY, ATTACHMENT, NOTICE_DATE
+        FROM
+        NOTICE
+        WHERE NOTICEID = #{noticeId}
+    </select>
 
-	<select id="selectNoticeById" parameterType="String"
-		resultType="Notice">
-		SELECT NOTICEID, TITLE, BODY, ATTACHMENT, NOTICE_DATE
-		FROM
-		NOTICE
-		WHERE NOTICEID = #{noticeId}
-	</select>
+    <select id="selectAllNotices" resultMap="resultNotice">
+        SELECT NOTICEID, TITLE,
+        BODY, ATTACHMENT, NOTICE_DATE
+        FROM NOTICE
+        ORDER BY NOTICE_DATE DESC
+    </select>
 
-	<select id="selectAllNotices" resultType="Notice">
-		SELECT NOTICEID, TITLE,
-		BODY, ATTACHMENT, NOTICE_DATE
-		FROM NOTICE
-	</select>
+    <!-- 제목으로 검색 -->
+    <select id="searchNoticesByTitle" resultMap="resultNotice">
+        SELECT * FROM
+        notice 
+        WHERE title LIKE '%' || #{keyword} || '%'
+        ORDER BY NOTICE_DATE DESC
+    </select>
 
-	<!-- 제목으로 검색 -->
-	<select id="searchNoticesByTitle" resultType="Notice">
-		SELECT * FROM
-		notice WHERE title LIKE '%' || #{keyword} || '%'
-	</select>
+    <!-- 내용으로 검색 -->
+    <select id="searchNoticesByBody" resultMap="resultNotice">
+        SELECT * FROM notice
+        WHERE body LIKE '%' || #{keyword} || '%'
+        ORDER BY NOTICE_DATE DESC
+    </select>
 
-	<!-- 내용으로 검색 -->
-	<select id="searchNoticesByBody" resultType="Notice">
-		SELECT * FROM notice
-		WHERE body LIKE '%' || #{keyword} || '%'
-	</select>
+    <!-- 제목과 내용으로 검색 -->
+    <select id="searchNoticesByTitleAndBody" resultMap="resultNotice">
+        SELECT *
+        FROM notice
+        WHERE title LIKE '%' || #{keyword} || '%'
+           OR body LIKE '%' || #{keyword} || '%'
+        ORDER BY NOTICE_DATE DESC
+    </select>
 
-	<!-- 제목과 내용으로 검색 -->
-	<select id="searchNoticesByTitleAndBody" resultType="Notice">
-		SELECT *
-		FROM notice WHERE title LIKE '%' || #{keyword} || '%' OR body LIKE
-		'%'
-		|| #{keyword} || '%'
-	</select>
+    <!-- 전체 공지사항 조회 with 페이징 -->
+    <select id="findAllNotices" resultMap="resultNotice">
+        SELECT * FROM notice
+        ORDER BY notice_date DESC
+        OFFSET #{offset} ROWS FETCH NEXT #{limit}
+        ROWS ONLY
+    </select>
 
+    <!-- Count all notices -->
+    <select id="countAllNotices" resultType="int">
+        SELECT COUNT(*) FROM notice
+    </select>
 
+    <!-- 조건 검색 공지사항 조회 with 페이징 (동적 SQL 사용) -->
+    <select id="searchNotices" resultMap="resultNotice">
+        SELECT * FROM notice
+        <where>
+            <choose>
+                <when test="category == '제목'">
+                    AND title LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="category == '내용'">
+                    AND body LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="category == '제목+내용'">
+                    AND (title LIKE '%' || #{keyword} || '%' 
+                         OR body LIKE '%' || #{keyword} || '%')
+                </when>
+                <!-- '전체'일 경우 필터링 없음 -->
+            </choose>
+        </where>
+        ORDER BY notice_date DESC
+        OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
+    </select>
 
-	<!-- 전체 공지사항 조회 with 페이징 -->
-	<select id="findAllNotices" resultType="Notice">
-		SELECT * FROM notice
-		ORDER BY notice_date DESC
-		OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
-	</select>
+    <!-- 공지사항 총 개수 조회 (동적 SQL 사용) -->
+    <select id="countNotices" resultType="int">
+        SELECT COUNT(*) FROM notice
+        <where>
+            <choose>
+                <when test="category == '제목'">
+                    AND title LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="category == '내용'">
+                    AND body LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="category == '제목+내용'">
+                    AND (title LIKE '%' || #{keyword} || '%' 
+                         OR body LIKE '%' || #{keyword} || '%')
+                </when>
+                <!-- '전체'일 경우 필터링 없음 -->
+            </choose>
+        </where>
+    </select>
 
-	<!-- Count all notices -->
-	<select id="countAllNotices" resultType="int">
-		SELECT COUNT(*) FROM notice
-	</select>
+    <update id="updateNotice" parameterType="Notice">
+        UPDATE NOTICE
+        SET TITLE = #{title}, 
+            BODY = #{body}, 
+            ATTACHMENT = #{attachment},
+            NOTICE_DATE = #{noticeDate}
+        WHERE NOTICEID = #{noticeId}
+    </update>
 
-	<!-- 조건 검색 공지사항 조회 with 페이징 (동적 SQL 사용) -->
-	<select id="searchNotices" resultType="Notice">
-		SELECT * FROM notice
-		<where>
-			<if test="category != null and category != '전체'">
-				AND category = #{category}
-			</if>
-			<if test="keyword != null and keyword != ''">
-				AND (title LIKE '%' || #{keyword} || '%' OR body LIKE '%' ||
-				#{keyword} || '%')
-			</if>
-		</where>
-		ORDER BY notice_date DESC
-		OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
-	</select>
-
-
-	<!-- 공지사항 총 개수 조회 (동적 SQL 사용) -->
-	<select id="countNotices" resultType="int">
-		SELECT COUNT(*) FROM notice
-		<where>
-			<if test="category != null and category != '전체'">
-				AND category = #{category}
-			</if>
-			<if test="keyword != null and keyword != ''">
-				AND (title LIKE CONCAT('%', #{keyword}, '%') OR body LIKE
-				CONCAT('%', #{keyword}, '%'))
-			</if>
-		</where>
-	</select>
-
-
-	<update id="updateNotice" parameterType="Notice">
-		UPDATE NOTICE
-		SET TITLE =
-		#{title}, BODY = #{body}, ATTACHMENT = #{attachment},
-		NOTICE_DATE =
-		#{noticeDate}
-		WHERE NOTICEID = #{noticeId}
-	</update>
-
-	<delete id="deleteNotice" parameterType="String">
-		DELETE FROM NOTICE
-		WHERE
-		NOTICEID = #{noticeId}
-	</delete>
+    <delete id="deleteNotice" parameterType="String">
+        DELETE FROM NOTICE
+        WHERE NOTICEID = #{noticeId}
+    </delete>
 </mapper>
