@@ -201,7 +201,7 @@ tbody tr:hover {
 					<option value="worker">작업자</option>
 					<option value="wDirector">지시자</option>
 				</select> <input type="date" name="startDate" id="startDate" required/> <input
-					type="date" name="endDate" id="endDate" /> <input type="text"
+					type="date" name="endDate" id="endDate" required/> <input type="text"
 					name="filterText" id="filterText" placeholder="내용 입력" required/>
 				<button type="submit" class="btn">조회</button>
 				<button type="button" class="btn"
