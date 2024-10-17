@@ -24,6 +24,7 @@ public class PayLogDTO {
 	private String mId;
 	private String paymentKey;
 	private String orderId;
+	private String refundStatus;
 
 	public String getLogId() {
 		return logId;
@@ -193,6 +194,14 @@ public class PayLogDTO {
 
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
+	}
+
+	public String getRefundStatus() {
+		return refundStatus;
+	}
+
+	public void setRefundStatus(String refundStatus) {
+		this.refundStatus = refundStatus;
 	}
 
 }

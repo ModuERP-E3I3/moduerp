@@ -240,6 +240,7 @@ footer {
             <li><a href="${pageContext.request.contextPath}/cardLog.do">
                   <i class="fa-solid fa-clipboard-check"></i> 결제 내역
             </a></li>
+            
          </ul>
       </div>
 
