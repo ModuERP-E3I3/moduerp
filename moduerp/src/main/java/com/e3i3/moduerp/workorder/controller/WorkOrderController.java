@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.e3i3.moduerp.company.model.service.CompanyService;
 import com.e3i3.moduerp.employee.model.service.EmployeeProductionService;
 import com.e3i3.moduerp.item.model.dto.ItemDTO;
 import com.e3i3.moduerp.item.model.service.ItemProductionstockService;
@@ -42,6 +44,9 @@ public class WorkOrderController {
 	@Autowired
 	private EmployeeProductionService employeeProductionService;
 
+	@Autowired
+	private CompanyService companyService;
+
 	@RequestMapping(value = "/productionWorkorder.do", method = RequestMethod.GET)
 	public String showWorkOrders(@RequestParam(value = "page", defaultValue = "1") int page, Model model,
 			HttpSession session) {
@@ -50,6 +55,26 @@ public class WorkOrderController {
 
 		// DB에서 biz_number로 해당하는 WorkOrder 목록 가져오기
 		List<WorkOrderDTO> workOrderList = workOrderService.getWorkOrdersByBizNumber(bizNumber);
+
+		// 모듈 등급 검사
+		String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
+
+		if (moduleGrades != null) {
+			// 쉼표(,)로 문자열을 분리하여 배열로 반환
+			String[] gradesArray = moduleGrades.split(",");
+			// 배열을 List로 변환
+			List<String> gradesList = Arrays.asList(gradesArray);
+			// P_IN이 리스트에 있는지 검사
+			if (gradesList.contains("P_IN")) {
+				System.out.println("P_IN이 리스트에 포함되어 있습니다.");
+			} else {
+				System.out.println("P_IN이 리스트에 없습니다.");
+				return "common/moduleGradesError";
+			}
+		} else {
+			return "common/moduleGradesError";
+
+		}
 
 		// 페이지당 아이템 수 설정
 		int itemsPerPage = 10;

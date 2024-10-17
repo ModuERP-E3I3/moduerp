@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>erpMain</title>
+<title>생산 | 출고</title>
 
 <style type="text/css">
 .top-content-box {
