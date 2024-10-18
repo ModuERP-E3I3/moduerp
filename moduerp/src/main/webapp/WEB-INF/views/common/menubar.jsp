@@ -45,6 +45,8 @@ nav {
 	margin-left: auto; /* 메뉴바를 오른쪽으로 밀어냄 */
 	align-items: center;
 	height: 100%;
+	font-size: 30px;
+	font-weight: bold;
 }
 
 nav ul li {
@@ -212,14 +214,13 @@ nav .moduerp-logo {
         <ul id="menubar">
             <li><a href="<c:url value='/notice/list.do' />">공지사항</a></li>
             <li><a href="<c:url value='/buyModule.do' />">구매</a></li>
-            <li><a href="<c:url value='/main.do' />">체험페이지</a></li>
             <li><a href="<c:url value='/qna.do' />">고객서비스</a></li>
             <li><a href="<c:url value='/company.do' />">회사소개</a></li>
 
             <c:choose>
                 <%-- 관리자일 때 관리자페이지 테스트용 표시 --%>
                 <c:when test="${not empty sessionScope.uuid and sessionScope.uuid eq sessionScope.adminUUID}">
-                    <li><a href="<c:url value='/admin.do' />">관리자페이지 테스트용</a></li>
+                    <li><a href="<c:url value='/admin.do' />">관리자페이지</a></li>
                 </c:when>
 
                 <%-- 사장님(CEO)일 때 마이페이지 표시 --%>
@@ -232,7 +233,7 @@ nav .moduerp-logo {
                 </c:otherwise>
             </c:choose>
 
-            <li><a href="<c:url value='/erpMain.do' />">ERP 테스트용</a></li>
+            <li><a href="<c:url value='/erpMain.do' />">ERP</a></li>
             <li><a href="<c:url value='/forwardCart.do' />">장바구니</a></li>
         </ul>
     </div>

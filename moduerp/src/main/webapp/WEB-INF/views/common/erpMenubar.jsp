@@ -112,8 +112,6 @@ nav.side ul li.moduerp {
 					class="fas fa-shopping-cart"></i> 구매 관리</a></li>
 			<li><a href="<c:url value='/account.do' />"><i
 					class="fas fa-chart-line"></i> 영업/판매 관리</a></li>
-			<li><a href="<c:url value='/bankmg.do' />"><i
-					class="fas fa-file-invoice-dollar"></i> 회계 관리</a></li>
 			<li><a href="<c:url value='/carRes.do' />"><i
 					class="fas fa-car"></i> 차량 관리</a></li>
 			<li><a href="<c:url value='/attendance.do' />"><i
