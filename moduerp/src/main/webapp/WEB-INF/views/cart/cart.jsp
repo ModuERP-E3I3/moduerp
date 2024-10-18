@@ -225,9 +225,10 @@ th {
 									</c:if>
 								</c:forEach>
 
-
 								<!-- 그룹웨어 카운트 변수 초기화 -->
 								<c:set var="groupwareCount" value="0" />
+								<c:set var="firstGroupwareRendered" value="false" />
+								<!-- 첫 번째 표시 여부 확인 변수 -->
 
 								<!-- 그룹웨어 조건 만족 횟수 카운트 -->
 								<c:forEach var="module" items="${modules}">
@@ -237,14 +238,15 @@ th {
 								</c:forEach>
 
 								<!-- 그룹웨어 데이터 출력 -->
-								<c:forEach var="module" items="${modules}" varStatus="status">
+								<c:forEach var="module" items="${modules}">
 									<c:if test="${module.moduleType == '그룹웨어'}">
 										<tr>
 											<td><input type="checkbox" name="selectedModules"
 												value="${module.moduleGrade}"></td>
 											<!-- 첫 번째 그룹웨어일 때만 rowspan 적용 -->
-											<c:if test="${status.index == 0}">
+											<c:if test="${!firstGroupwareRendered}">
 												<td rowspan="${groupwareCount}">${module.moduleType}</td>
+												<c:set var="firstGroupwareRendered" value="true" />
 											</c:if>
 
 											<td>${module.moduleName}</td>
@@ -254,6 +256,7 @@ th {
 										</tr>
 									</c:if>
 								</c:forEach>
+
 
 
 
