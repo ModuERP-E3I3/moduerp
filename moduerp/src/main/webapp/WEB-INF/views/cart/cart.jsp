@@ -487,7 +487,7 @@ th {
 
 							<c:otherwise>
 								<button id="btnNoCard" type="button" class="btn_pay"
-									onclick="handleNoCard()">결제하기카드 없음</button>
+									onclick="handleNoCard()">결제하기</button>
 
 							</c:otherwise>
 						</c:choose>
