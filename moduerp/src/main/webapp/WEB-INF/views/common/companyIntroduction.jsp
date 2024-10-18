@@ -31,10 +31,12 @@ div#image-container {
 	gap: 200px; /* 이미지 사이 간격 */
 	background-color: white;
 	border-radius: 20px;
+	margin-top: -50px;
 	margin: 40px auto; /* 페이지 중앙 정렬 */
 	width: 100%;
 	height: 700px;
 	max-width: 2400px;
+	margin: 40px auto;
 }
 
 div.image-wrapper {
@@ -84,18 +86,43 @@ body {
 
 .image-section {
 	width: 100%;
-	height: 50vh; /* 전체 화면의 절반 높이 */
-	background-image:
-		url('https://commons.wikimedia.org/wiki/Category:16:9?uselang=ko#/media/File:Aspect-ratio-16x9.svg');
-	/* 이미지 경로 설정 */
-	background-size: cover;
-	background-position: center;
+	height: auto;
+	margin: 0 auto; /* 좌우 가운데 정렬 */
+	margin-top: 40px;
+	text-align: center;
+	position: relative; /* 자식 요소의 절대 위치 설정을 위한 기준 */
+}
+
+.image-section img {
+	max-width: 100%; /* div의 크기에 맞춰 이미지 크기 조정 */
+	max-height: 100%; /* 높이도 div에 맞게 조정 */
+	object-fit: cover; /* 이미지가 잘리지 않도록 조정 */
+	
+}
+
+.image-section div {
+	position: absolute; /* 이미지 위에 겹쳐지도록 절대 위치 설정 */
+	color: white; /* 텍스트 색상 */
+	font-size: 36px;
+	font-weight: bold;
+	text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* 텍스트 그림자 */
+	top: 190px; /* 이미지 위에서 20px 아래에 배치 */
+	left: 50%; /* 가운데 정렬 */
+	transform: translateX(-50%); /* 정확한 가로 중앙 정렬을 위한 보정 */
+}
+
+#logo{
+	/* background: #217770; */
+	padding: 12px 10px;
+	font-size: 160px;
+	opacity: 0.7; /* 이미지 반투명 설정 */
+	
 }
 
 .container {
 	max-width: 1200px;
 	margin: 0 auto;
-	padding: 50px 20px;
+	padding: 12px 10px;
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
@@ -164,7 +191,10 @@ p {
 <body>
 
 	<!-- 이미지 섹션 -->
-	<div class="image-section"></div>
+	<div class="image-section">
+		<div id="logo">ModuERP</div>
+		<img src='https://ifh.cc/g/LOAYWS.jpg' border='0'>
+	</div>
 
 	<div class="container">
 		<div class="text-section">
