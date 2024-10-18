@@ -141,8 +141,15 @@
 
 <div class="button-group">
     <a href="javascript:goBack();" class="back-btn">목록으로 돌아가기</a>
-    <a href="<c:url value='/notice/edit/${notice.noticeId}.do' />" class="edit-btn">수정</a>
-    <button class="delete-btn" onclick="deleteNotice('<c:url value='/notice/delete/${notice.noticeId}.do' />')">삭제</button>
+    
+    	<!-- 관리자일 때만 '등록' 버튼 표시 -->
+					<c:choose>
+						<c:when
+							test="${not empty sessionScope.uuid and sessionScope.uuid eq sessionScope.adminUUID}">
+							 <a href="<c:url value='/notice/edit/${notice.noticeId}.do' />" class="edit-btn">수정</a>
+    						<button class="delete-btn" onclick="deleteNotice('<c:url value='/notice/delete/${notice.noticeId}.do' />')">삭제</button>
+						</c:when>
+					</c:choose>
 </div>
 
 </div>

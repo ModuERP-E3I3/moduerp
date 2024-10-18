@@ -1,6 +1,7 @@
 package com.e3i3.moduerp.attendancemanagement.controller;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.e3i3.moduerp.attendancedocument.model.service.AttendanceDocumentService;
 import com.e3i3.moduerp.attendancemanagement.model.dto.Attendance;
 import com.e3i3.moduerp.attendancemanagement.model.service.AttendanceService;
+import com.e3i3.moduerp.company.model.service.CompanyService;
 import com.e3i3.moduerp.email.model.service.EmailService;
 
 @Controller
@@ -32,6 +34,9 @@ public class AttendanceController {
 	private AttendanceDocumentService attendanceRequestService;
 	@Autowired
 	private EmailService emailService;
+	@Autowired
+	private CompanyService companyService;
+	
 	
 	@RequestMapping(value = "/attendance.do", method = RequestMethod.GET)
 	public String forwardAttendance(HttpSession session, Model model) {
@@ -39,6 +44,26 @@ public class AttendanceController {
 		if (loginUUID == null) {
 			return "redirect:/";
 		}
+		String bizNumber = (String) session.getAttribute("biz_number");
+		
+	    String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
+	    if(moduleGrades != null) {
+			// 쉼표(,)로 문자열을 분리하여 배열로 반환
+			String[] gradesArray = moduleGrades.split(",");	
+			// 배열을 List로 변환
+			List<String> gradesList = Arrays.asList(gradesArray);
+			// DT가 리스트에 있는지 검사
+			if (gradesList.contains("ATD")) {
+			    System.out.println("ATD가 리스트에 포함되어 있습니다.");
+			} else {
+			    System.out.println("ATD가 리스트에 없습니다.");
+			    return "common/moduleGradesError";
+			}
+		}else {
+			return "common/moduleGradesError";
+		}
+	    
+	    
 		String userName = (String) session.getAttribute("name");
 		model.addAttribute("userName", userName);
 

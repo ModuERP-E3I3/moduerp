@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.e3i3.moduerp.company.model.service.CompanyService;
 import com.e3i3.moduerp.email.model.dto.Email;
 import com.e3i3.moduerp.email.model.service.EmailService;
 import com.e3i3.moduerp.employee.model.dto.Employee;
@@ -40,7 +41,7 @@ public class EmailController {
 	private EmailService emailService;
 	@Autowired
 	private EmployeeService employeeService; // EmployeeService 추가하여 UUID 조회
-
+	
 	// 필드 추가
 	@Value("${email.upload.dir}")
 	private String uploadDir;
