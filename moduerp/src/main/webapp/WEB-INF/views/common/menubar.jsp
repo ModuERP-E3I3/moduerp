@@ -233,7 +233,7 @@ nav .moduerp-logo {
                 </c:otherwise>
             </c:choose>
 
-            <li><a href="<c:url value='/erpMain.do' />">ERP</a></li>
+            <li><a href="<c:url value='/attendance.do' />">ERP</a></li>
             <li><a href="<c:url value='/forwardCart.do' />">장바구니</a></li>
         </ul>
     </div>
