@@ -45,6 +45,8 @@ nav {
 	margin-left: auto; /* 메뉴바를 오른쪽으로 밀어냄 */
 	align-items: center;
 	height: 100%;
+	font-size: 30px;
+	font-weight: bold;
 }
 
 nav ul li {
@@ -212,7 +214,6 @@ nav .moduerp-logo {
         <ul id="menubar">
             <li><a href="<c:url value='/notice/list.do' />">공지사항</a></li>
             <li><a href="<c:url value='/buyModule.do' />">구매</a></li>
-            <li><a href="<c:url value='/main.do' />">체험페이지</a></li>
             <li><a href="<c:url value='/qna.do' />">고객서비스</a></li>
             <li><a href="<c:url value='/main.do' />">회사소개</a></li>
 

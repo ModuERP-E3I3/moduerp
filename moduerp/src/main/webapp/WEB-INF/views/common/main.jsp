@@ -44,7 +44,7 @@ div.image-wrapper {
 
 /* 이미지 스타일 */
 div.image-wrapper img {
-    width: 800px;
+    width: 70%;
     height: auto; 
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* 입체감 설정 */
     border-radius: 20px; /* 모서리 둥글게 */
@@ -88,15 +88,16 @@ function movePage(){
 <div id="image-container">
     <!-- ModuERP Red 이미지 및 라벨 -->
     <div class="image-wrapper">
-        <img src="${pageContext.request.contextPath}/resources/images/moduerp_red.jpg" alt="ModuERP Red">
-        <div class="image-label">ModuRedERP</div>
+        <%-- <img src="${pageContext.request.contextPath}/resources/images/moduerp_red.jpg" alt="ModuERP Red">
+        <div class="image-label">ModuRedERP</div> --%>     
+       <img src="https://ifh.cc/g/ART0cR.png" alt="moduerp-img1" border="0" />
     </div>
     
     <!-- ModuERP Green 이미지 및 라벨 -->
-    <div class="image-wrapper">
+   <%--  <div class="image-wrapper">
         <img src="${pageContext.request.contextPath}/resources/images/moduerp_green.jpg" alt="ModuERP Green">
         <div class="image-label">ModuGreenERP</div>
-    </div>
+    </div> --%>
 </div>
 
 

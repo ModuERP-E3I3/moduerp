@@ -196,6 +196,36 @@ th {
 						<tbody>
 							<c:if test="${not empty modules}">
 
+								<!-- 인사관리 카운트 변수 초기화 -->
+								<c:set var="groupwareCount" value="0" />
+
+								<!-- 인사관리 조건 만족 횟수 카운트 -->
+								<c:forEach var="module" items="${modules}">
+									<c:if test="${module.moduleType == '인사관리'}">
+										<c:set var="ErpMgtCount" value="${groupwareCount + 1}" />
+									</c:if>
+								</c:forEach>
+
+								<!-- 인사관리 데이터 출력 -->
+								<c:forEach var="module" items="${modules}" varStatus="status">
+									<c:if test="${module.moduleType == '인사관리'}">
+										<tr>
+											<td><input type="checkbox" name="selectedModules"
+												value="${module.moduleGrade}"></td>
+
+											<c:if test="${status.index == 0}">
+												<td rowspan="${ErpMgtCount}">${module.moduleType}</td>
+											</c:if>
+
+											<td>${module.moduleName}</td>
+											<td>${module.modulePrice}</td>
+											<td>${module.moduleDesc}</td>
+											<td>${module.moduleVer}</td>
+										</tr>
+									</c:if>
+								</c:forEach>
+
+
 								<!-- 그룹웨어 카운트 변수 초기화 -->
 								<c:set var="groupwareCount" value="0" />
 
@@ -580,6 +610,18 @@ function handleNoCard() {
 // GroupWare
 document.addEventListener('DOMContentLoaded', () => {
     const checkboxes = document.querySelectorAll('input[name="selectedModules"]');
+    
+    disableCheckbox(['HR']); // 인사관리 모듈 체크박스 비활성화
+
+    function disableCheckbox(values) {
+        values.forEach(value => {
+            const checkbox = Array.from(checkboxes).find(cb => cb.value === value);
+            if (checkbox) {
+                checkbox.disabled = true; // 비활성화
+            }
+        });
+    }
+
  // ATD와 AD 체크박스는 비활성화
     disableCheckbox(['ATD', 'AD', 'EM']);
  
