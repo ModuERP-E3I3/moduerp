@@ -35,100 +35,103 @@
 </head>
 
 <body>
+
+	<!-- 메뉴바 임포트 -->
+	<c:import url="/WEB-INF/views/common/menubar.jsp" />
 	<section id="board">
 		<h1>ModuChatBot</h1>
 		<div class="line"></div>
 
 
 		<div class="top"></div>
-			<h3>쳇봇 모바일 상담 서비스</h3>
-			<button onclick="openSetting()">
-				<img src='https://ifh.cc/g/r9zkrF.png' border='0'>
-			</button>
-			<div id="setting">
-				<div class="chatbot-container">
-					<div id="chatbot">
-						<div id="conversation">
-							<div class="chatbot-message">	
-								<p class="chatbot-text">ModuERP 사이트에 오신것을 환영합니다.!<br><br>원하시는 질문을 말씀하세요</p>
-							</div>
+		<h3>쳇봇 모바일 상담 서비스</h3>
+		<button onclick="openSetting()">
+			<img src='https://ifh.cc/g/r9zkrF.png' border='0'>
+		</button>
+		<div id="setting">
+			<div class="chatbot-container">
+				<div id="chatbot">
+					<div id="conversation">
+						<div class="chatbot-message">
+							<p class="chatbot-text">
+								ModuERP 사이트에 오신것을 환영합니다.!<br> <br>원하시는 질문을 말씀하세요
+							</p>
 						</div>
-						<form id="input-form">
-							<message-container> <input id="input-field"
-								type="text" placeholder="Type your message here">
-
-							<button id="blueBtn" type="submit">제출</button>
-							</message-container>
-						</form>
 					</div>
+					<form id="input-form">
+						<message-container> <input id="input-field"
+							type="text" placeholder="Type your message here">
+
+						<button id="blueBtn" type="submit">제출</button>
+						</message-container>
+					</form>
 				</div>
-			</div>		
-
-
-				<script type="text/javascript">
-					// Add event listener to input form
-					inputForm
-							.addEventListener(
-									'submit',
-									function(event) {
-										// Prevent form submission
-										event.preventDefault();
-
-										// Get user input
-										const input = inputField.value;
-
-										// Get checked checkbox values
-										const checkedItems = [];
-										const checkboxA = document
-												.getElementById('checkboxA');
-										const checkboxB = document
-												.getElementById('checkboxB');
-										if (checkboxA.checked) {
-											checkedItems.push(checkboxA.value);
-										}
-										if (checkboxB.checked) {
-											checkedItems.push(checkboxB.value);
-										}
-
-										// Clear input field
-										inputField.value = '';
-										const currentTime = new Date()
-												.toLocaleTimeString([], {
-													hour : '2-digit',
-													minute : "2-digit"
-												});
-
-										// Add user input to conversation
-										let message = document
-												.createElement('div');
-										message.classList.add(
-												'chatbot-message',
-												'user-message');
-										message.innerHTML = `<p class="chatbot-text" sentTime="${currentTime}">${input}</p>`;
-										conversation.appendChild(message);
-
-										// Generate chatbot response
-										const response = generateResponse(
-												input, checkedItems);
-
-										// Add chatbot response to conversation
-										message = document.createElement('div');
-										message.classList.add(
-												'chatbot-message', 'chatbot');
-										message.innerHTML = `<p class="chatbot-text" sentTime="${currentTime}">${response}</p>`;
-										conversation.appendChild(message);
-										message.scrollIntoView({
-											behavior : "smooth"
-										});
-									});
-				</script>
-
 			</div>
-			
+		</div>
+
+
+		<script type="text/javascript">
+			// Add event listener to input form
+			inputForm
+					.addEventListener(
+							'submit',
+							function(event) {
+								// Prevent form submission
+								event.preventDefault();
+
+								// Get user input
+								const input = inputField.value;
+
+								// Get checked checkbox values
+								const checkedItems = [];
+								const checkboxA = document
+										.getElementById('checkboxA');
+								const checkboxB = document
+										.getElementById('checkboxB');
+								if (checkboxA.checked) {
+									checkedItems.push(checkboxA.value);
+								}
+								if (checkboxB.checked) {
+									checkedItems.push(checkboxB.value);
+								}
+
+								// Clear input field
+								inputField.value = '';
+								const currentTime = new Date()
+										.toLocaleTimeString([], {
+											hour : '2-digit',
+											minute : "2-digit"
+										});
+
+								// Add user input to conversation
+								let message = document.createElement('div');
+								message.classList.add('chatbot-message',
+										'user-message');
+								message.innerHTML = `<p class="chatbot-text" sentTime="${currentTime}">${input}</p>`;
+								conversation.appendChild(message);
+
+								// Generate chatbot response
+								const response = generateResponse(input,
+										checkedItems);
+
+								// Add chatbot response to conversation
+								message = document.createElement('div');
+								message.classList.add('chatbot-message',
+										'chatbot');
+								message.innerHTML = `<p class="chatbot-text" sentTime="${currentTime}">${response}</p>`;
+								conversation.appendChild(message);
+								message.scrollIntoView({
+									behavior : "smooth"
+								});
+							});
+		</script>
+
+		</div>
+
 	</section>
 
 	<script src="resources/js/chatbot.js"></script>
 </body>
 
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+<c:import url="/WEB-INF/views/common/footer.jsp" />
 </html>
