@@ -123,7 +123,7 @@ body {
 .container {
 	max-width: 1200px;
 	margin: 0 auto;
-	padding: 12px 10px;
+	padding: 20px 10px;
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
