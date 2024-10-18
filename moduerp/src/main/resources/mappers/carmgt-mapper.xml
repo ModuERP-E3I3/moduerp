@@ -50,6 +50,7 @@
 		SELECT *
 		FROM CAR
 		WHERE BIZ_NUMBER = #{bizNumber}
+		AND YN = 'Y'
 	</select>
 	
 	
