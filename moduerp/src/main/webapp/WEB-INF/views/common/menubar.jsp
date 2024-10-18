@@ -214,7 +214,7 @@ nav .moduerp-logo {
             <li><a href="<c:url value='/buyModule.do' />">구매</a></li>
             <li><a href="<c:url value='/main.do' />">체험페이지</a></li>
             <li><a href="<c:url value='/qna.do' />">고객서비스</a></li>
-            <li><a href="<c:url value='/main.do' />">회사소개</a></li>
+            <li><a href="<c:url value='/company.do' />">회사소개</a></li>
 
             <c:choose>
                 <%-- 관리자일 때 관리자페이지 테스트용 표시 --%>
