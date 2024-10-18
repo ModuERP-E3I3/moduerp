@@ -80,6 +80,7 @@ body {
 	padding: 0;
 	background-color: #f9f9f9;
 	color: #333;
+	font-weight: 550;
 }
 
 .image-section {
@@ -117,6 +118,7 @@ h1 {
 	font-size: 36px;
 	margin-bottom: 20px;
 	text-align: left;
+	font-weight: 780;
 }
 
 p {
@@ -169,11 +171,11 @@ p {
 	<div class="container">
 		<div class="text-section">
 			<h1>
-				ModuERP는 모든 사업자들이 <br>성장할 수 있도록 함께합니다.
+				Modu ERP <br> 모두를 위한 모듈형 ERP
 			</h1>
 			<p>
-				19개의 모듈을 고객의 필요에 따라 자유롭게 조합하고 <br>혁신적인 기술과 직관적인 사용자 경험을 제공하여 <br>
-				사업장의 업무 효율을 극대화하는 것<br>Modu의 비전이자 목표입니다.
+				19개의 모듈을 고객의 필요에 자유롭게 조합하고  <br> 혁신적인 기술과 직관적인 사용자 경험을 제공하여 <br>
+				 사업장의 업무 효율을 극대화하는 것<br>Modu의 비전이자 목표입니다.
 			</p>
 		</div>
 		<div class="stats-section">
