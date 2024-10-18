@@ -147,11 +147,10 @@ footer {
         <div class="footer-section links">
             <h2>유용한 링크</h2>
             <ul>
-                <li><a href="${pageContext.request.contextPath}/home">홈</a></li>
-                <li><a href="${pageContext.request.contextPath}/services">서비스</a></li>
-                <li><a href="${pageContext.request.contextPath}/support">고객 지원</a></li>
-                <li><a href="${pageContext.request.contextPath}/contact">문의하기</a></li>
-                <li><a href="${pageContext.request.contextPath}/about">회사 소개</a></li>
+                <li><a href="${pageContext.request.contextPath}/main.do">홈</a></li>
+                <li><a href="${pageContext.request.contextPath}/notice/list.do">공지사항</a></li>
+                <li><a href="${pageContext.request.contextPath}/qna.do">문의하기</a></li>
+                <li><a href="${pageContext.request.contextPath}/company.do">회사 소개</a></li>
             </ul>
         </div>
         
@@ -159,9 +158,9 @@ footer {
         <div class="footer-section contact">
             <h2>문의하기</h2>
             <ul>
-                <li><i class="fas fa-map-marker-alt"></i> 서울특별시 서초구 신논현동 ICT기술협회</li>
+                <li><i class="fas fa-map-marker-alt"></i><a href="https://naver.me/G9rjBymy"> 서울특별시 서초구 신논현동 ICT기술협회</a></li>
                 <li><i class="fas fa-phone"></i> TEL: 02-1234-5678 | FAX: 02-1234-5679</li>
-                <li><i class="fas fa-envelope"></i> <a href="mailto:support@moduerp.com">support@moduerp.com</a></li>
+                <li><i class="fas fa-envelope"></i> <a href="mailto:support@moduerp.com">dev.moduerp@gmail.com</a></li>
             </ul>
         </div>
     </div>
