@@ -173,6 +173,7 @@
             <input type="password" id="password" name="password" placeholder="암호 입력 (8자 이상)" minlength="8" required>
             <span id="passwordError" class="error"></span>
         </div>
+        <button type="submit" class="btn" id="loginButton">로그인</button>
     </form>
 </div>
 
@@ -182,7 +183,8 @@
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
     const signinForm = document.getElementById("signinForm");
-
+    const loginButton = document.getElementById("loginButton");
+    
     bizNumberInput.oninput = function () {
         if (/^\d{10}$/.test(bizNumberInput.value)) {
             document.getElementById("bizNumberError").textContent = "";
@@ -210,7 +212,7 @@
             document.getElementById("emailError").textContent = "";
             passwordInput.classList.add("active");
             document.querySelector("label[for='password']").classList.add("active");
-            passwordInput.focus();
+            //passwordInput.focus();
         } else {
             document.getElementById("emailError").textContent = "유효한 이메일 주소를 입력하세요.";
         }
@@ -219,9 +221,10 @@
     passwordInput.oninput = function () {
         if (passwordInput.value.length >= 8) {
             document.getElementById("passwordError").textContent = "";
-            signinForm.submit(); // 자동으로 폼 제출
+            loginButton.classList.add("active"); // 로그인 버튼 보이기
         } else {
             document.getElementById("passwordError").textContent = "암호는 최소 8자 이상이어야 합니다.";
+            loginButton.classList.remove("active"); // 로그인 버튼 숨기기
         }
     };
 
