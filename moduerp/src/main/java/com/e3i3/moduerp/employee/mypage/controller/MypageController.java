@@ -1,4 +1,4 @@
-package com.e3i3.moduerp.mypage.controller;
+package com.e3i3.moduerp.employee.mypage.controller;
 
 import javax.servlet.http.HttpSession;
 

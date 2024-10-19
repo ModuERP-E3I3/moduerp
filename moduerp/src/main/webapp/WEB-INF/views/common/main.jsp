@@ -10,10 +10,20 @@
 <style type="text/css">
 
 /* 전체 페이지 기본 스타일 */
-body, html {
-	margin-top: 2% ;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+html, body {
+    height: 100%;
+    margin: 0;
     padding: 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 메인 컨텐츠 영역 */
+#main-content {
+    flex: 1; /* 남은 공간을 모두 차지 */
+    margin-top: 2%;
+    padding: 20px; /* 필요에 따라 조정 */
 }
 
 /* 구분선 스타일 */
@@ -29,7 +39,7 @@ div#image-container {
     justify-content: center; /* 중앙 정렬 */
     align-items: center;
     gap: 200px; /* 이미지 사이 간격 */
-    background-color: white ;
+    background-color: white;
     border-radius: 20px; 
     margin: 40px auto; /* 페이지 중앙 정렬 */
     width: 100%; 
@@ -73,42 +83,65 @@ div.image-wrapper .image-label {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);   /* 사각형에 그림자 */
 }
 
+/* 푸터 스타일 */
+footer {
+    background-color: #f1f1f1;
+    text-align: center;
+    padding: 20px 0;
+    /* 고정 높이 필요 시 추가 */
+    /* height: 60px; */
+}
+
+/* 반응형 디자인을 위한 미디어 쿼리 (필요 시 추가) */
+@media (max-width: 768px) {
+    div#image-container {
+        flex-direction: column;
+        gap: 20px;
+        height: auto;
+    }
+
+    div.image-wrapper img {
+        width: 90%;
+    }
+}
+
 </style>
 
 <script type="text/javascript">
 function movePage(){
-	location.href = "loginPage.do";
+    location.href = "loginPage.do";
 }
 </script>
 
 </head>
 <body>
 
-<!-- 서브 이미지 컨테이너 -->
-<div id="image-container">
-    <!-- ModuERP Red 이미지 및 라벨 -->
-    <div class="image-wrapper">
-        <%-- <img src="${pageContext.request.contextPath}/resources/images/moduerp_red.jpg" alt="ModuERP Red">
-        <div class="image-label">ModuRedERP</div> --%>     
-       <img src="https://ifh.cc/g/ART0cR.png" alt="moduerp-img1" border="0" />
+    <!-- 메인 컨텐츠 영역 -->
+    <div id="main-content">
+        <!-- 서브 이미지 컨테이너 -->
+        <div id="image-container">
+            <!-- ModuERP Red 이미지 및 라벨 -->
+            <div class="image-wrapper">
+                <%-- <img src="${pageContext.request.contextPath}/resources/images/moduerp_red.jpg" alt="ModuERP Red">
+                <div class="image-label">ModuRedERP</div> --%>     
+                <img src="https://ifh.cc/g/ART0cR.png" alt="moduerp-img1" border="0" />
+            </div>
+            
+            <!-- ModuERP Green 이미지 및 라벨 -->
+            <%--  <div class="image-wrapper">
+                <img src="${pageContext.request.contextPath}/resources/images/moduerp_green.jpg" alt="ModuERP Green">
+                <div class="image-label">ModuGreenERP</div>
+            </div> --%>
+        </div>
     </div>
-    
-    <!-- ModuERP Green 이미지 및 라벨 -->
-   <%--  <div class="image-wrapper">
-        <img src="${pageContext.request.contextPath}/resources/images/moduerp_green.jpg" alt="ModuERP Green">
-        <div class="image-label">ModuGreenERP</div>
-    </div> --%>
-</div>
 
+    <!-- 메뉴바 임포트 -->
+    <c:import url="/WEB-INF/views/common/menubar.jsp"/>
 
-<!-- 메뉴바 임포트 -->
-<c:import url="/WEB-INF/views/common/menubar.jsp"/>
-
-
-
-<!-- 푸터 임포트 -->
-<c:import url="/WEB-INF/views/common/footer.jsp" />
+    <!-- 푸터 임포트 -->
+    <footer>
+        <c:import url="/WEB-INF/views/common/footer.jsp" />
+    </footer>
 
 </body>
 </html>
-
