@@ -18,6 +18,17 @@ body, html {
 	font-family: 'Helvetica Neue', Arial, sans-serif;
 	padding: 0;
 	background-color: #f4f4f4;
+	height: 100%; /* 전체 높이를 100%로 설정 */
+	 display: flex; /* Flex 컨테이너로 설정 */
+    flex-direction: column; /* 수직 방향으로 정렬 */
+}
+
+
+/* 메인 콘텐츠 래퍼 */
+.main-content {
+    flex: 1; /* 남은 공간을 모두 차지 */
+    padding: 20px; /* 내부 여백 조정 */
+    box-sizing: border-box; /* 패딩을 포함한 크기 계산 */
 }
 
 /* 구분선 스타일 */
@@ -172,7 +183,7 @@ th {
 
 </head>
 <body>
-
+  <div class="main-content">
 	<form id="cartForm" method="post">
 		<!-- 서브 이미지 컨테이너 -->
 		<div id="image-container">
@@ -502,7 +513,7 @@ th {
 
 	<!-- 메뉴바 임포트 -->
 	<c:import url="/WEB-INF/views/common/menubar.jsp" />
-
+</div>
 	<!-- 푸터 임포트 -->
 	<c:import url="/WEB-INF/views/common/footer.jsp" />
 
