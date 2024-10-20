@@ -432,14 +432,13 @@
             }
         }
     </script>
-
 	<script>
 tinymce.init({
-  api_key: '3tsdea3vx5lpucf1yoweoga3yn0ezwgmz6ha52ed3603kal9',  // API 키 위치를 가장 위로 설정
+  api_key: 'yd65sb9qim22mgoufo67ztvke6xezrm6kr014ze0rhgvqcgb',  // API 키 위치를 가장 위로 설정
   selector: '#body',  // ID가 body인 textarea에 적용
   plugins: [
     'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-    'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown'
+    , 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown'
   ],
   toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
   tinycomments_mode: 'embedded',
