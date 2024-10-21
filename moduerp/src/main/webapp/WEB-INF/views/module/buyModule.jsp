@@ -13,11 +13,22 @@
 
 /* 전체 페이지 기본 스타일 */
 body, html {
-	margin-top: 2%;
+	height: 100%;
+    margin-top:2%;
 	font-family: 'Helvetica Neue', Arial, sans-serif;
 	padding: 0;
 	background-color: #f4f4f4;
+	   display: flex; /* Flex 컨테이너로 설정 */
+	flex-direction: column; /*!!!!!!이거 추가!!!!!!*//
 }
+#main-content {
+    flex: 1; /* 남은 공간을 모두 차지 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
 
 /* 구분선 스타일 */
 hr {
@@ -37,6 +48,8 @@ div#image-container {
 	width: 100%;
 	height: 700px;
 	max-width: 2400px;
+	flex: 1; /* 남은 공간을 모두 차지 */
+	padding: 20px; /* 필요에 따라 조정 */
 }
 
 div.image-wrapper {
@@ -179,6 +192,13 @@ input[type="checkbox"]:disabled {
 	border: 1px solid green; /* 테두리도 그린으로 설정 */
 	cursor: not-allowed; /* 사용 불가 커서 표시 */
 }
+
+footer {
+    background-color: #f1f1f1;
+    text-align: center;
+    padding: 20px 0;
+}
+
 </style>
 </head>
 <body>
@@ -488,7 +508,10 @@ input[type="checkbox"]:disabled {
 
 
 	<!-- 푸터 임포트 -->
-	<c:import url="/WEB-INF/views/common/footer.jsp" />
+    <footer>
+        <c:import url="/WEB-INF/views/common/footer.jsp" />
+    </footer>
+
 
 </body>
 
