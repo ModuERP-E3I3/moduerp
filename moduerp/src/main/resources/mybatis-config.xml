@@ -26,34 +26,33 @@
 			alias="Department" />
 		<typeAlias type="com.e3i3.moduerp.car.model.dto.CarDto"
 			alias="CarDto" />
-		<typeAlias type="com.e3i3.moduerp.carres.model.dto.CarresDto"
-			alias="CarresDto" />
-		<typeAlias type="com.e3i3.moduerp.account.model.dto.AccountDTO"
+		<typeAlias
+			type="com.e3i3.moduerp.carres.model.dto.CarresDto" alias="CarresDto" />
+		<typeAlias
+			type="com.e3i3.moduerp.account.model.dto.AccountDTO"
 			alias="AccountDTO" />
-		<typeAlias type="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO"
+		<typeAlias
+			type="com.e3i3.moduerp.purchaseorders.model.dto.PurchaseOrdersDTO"
 			alias="PurchaseOrdersDTO" />
 		<typeAlias type="com.e3i3.moduerp.email.model.dto.Email"
 			alias="Email" />
-			
-			
+
+
 		<typeAlias
 			type="com.e3i3.moduerp.productionstock.model.dto.ProductionStockOutDTO"
 			alias="ProductionStockOutDTO" />
-			
+
 		<typeAlias
-		type="com.e3i3.moduerp.salesstock.model.dto.SalesStockOutDTO"
-		alias="SalesStockOutDTO" />
-			
-		<typeAlias 
-			type="com.e3i3.moduerp.bankaccountmanagement.model.dto.Bankmg"
-			alias="Bankmg" />
+			type="com.e3i3.moduerp.salesstock.model.dto.SalesStockOutDTO"
+			alias="SalesStockOutDTO" />
+
 		<typeAlias
-			type="com.e3i3.moduerp.financialclosing.model.dto.FinClose"
-			alias="FinClose" />
-		<typeAlias type="com.e3i3.moduerp.buystock.model.dto.BuyStockOutDTO" 
+			type="com.e3i3.moduerp.buystock.model.dto.BuyStockOutDTO"
 			alias="BuyStockOutDTO" />
-		<typeAlias alias="ItemDTO" type="com.e3i3.moduerp.item.model.dto.ItemDTO"/>
-		 <typeAlias alias="Notice" type="com.e3i3.moduerp.notice.model.dto.Notice"/>
+		<typeAlias alias="ItemDTO"
+			type="com.e3i3.moduerp.item.model.dto.ItemDTO" />
+		<typeAlias alias="Notice"
+			type="com.e3i3.moduerp.notice.model.dto.Notice" />
 	</typeAliases>
 
 	<typeHandlers>
@@ -96,14 +95,13 @@
 		<mapper resource="mappers/account-mapper.xml" />
 		<mapper resource="mappers/purchaseOrders-mapper.xml" />
 		<mapper resource="mappers/admin-mapper.xml" />
-		
+
 		<mapper resource="mappers/item-buystock-mapper.xml" />
 		<mapper resource="mappers/employee-buy-mapper.xml" />
 
 		<mapper resource="mappers/attendance-mapper.xml" />
 		<mapper resource="mappers/attendancedocument-mapper.xml" />
-		<mapper resource="mappers/bankmg-mapper.xml" />
-		<mapper resource="mappers/finClose-mapper.xml" />
+
 		<mapper resource="mappers/module-mapper.xml" />
 		<mapper resource="mappers/item-delivery-mapper.xml" />
 		<mapper resource="mappers/delivery-mapper.xml" />
@@ -112,7 +110,7 @@
 		<mapper resource="mappers/pay-mapper.xml" />
 		<mapper resource="mappers/paylog-mapper.xml" />
 		<mapper resource="mappers/refund-mapper.xml" />
-		
+
 		<mapper resource="mappers/qna-mapper.xml" />
 		<mapper resource="mappers/answer-mapper.xml" />
 		<mapper resource="mappers/notice-mapper.xml" />
