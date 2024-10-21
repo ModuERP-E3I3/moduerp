@@ -123,35 +123,7 @@ public class QualityControlController {
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-		if (startDate != null && !startDate.isEmpty()) {
-			try {
-				// 시간이 없는 경우 기본 시간 00:00:00을 추가
-				if (startDate.length() == 10) { // 'yyyy-MM-dd' 형식
-					startDate += " 00:00:00";
-				}
-				LocalDateTime startDateTime = LocalDateTime.parse(startDate, formatter);
-				startDate = startDateTime.format(formatter); // 포맷된 문자열로 변환
-			} catch (DateTimeParseException e) {
-				// 파싱 에러 처리
-				System.out.println("Invalid startDate format: " + startDate);
-			}
-		}
-
-		// endDate의 시분초 기본값 설정 (23:59:59)
-		if (endDate != null && !endDate.isEmpty()) {
-			try {
-				// 시간이 없는 경우 기본 시간 23:59:59을 추가
-				if (endDate.length() == 10) { // 'yyyy-MM-dd' 형식
-					endDate += " 23:59:59";
-				}
-				LocalDateTime endDateTime = LocalDateTime.parse(endDate, formatter);
-				endDate = endDateTime.format(formatter); // 포맷된 문자열로 변환
-			} catch (DateTimeParseException e) {
-				// 파싱 에러 처리
-				System.out.println("Invalid endDate format: " + endDate);
-			}
-		}
-
+	
 		// 필터링 로직 추가
 		if (option != null && filterText != null) {
 			if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
