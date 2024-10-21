@@ -27,9 +27,10 @@ public class ExcelParser {
             String departmentName = getCellValue(row.getCell(3)); // 부서명
             
             // departmentName이 빈 문자열이거나 null이면 예외 처리
-            if (departmentName == null || departmentName.trim().isEmpty()) {
-                throw new IllegalArgumentException("부서명이 누락된 행이 있습니다. 행 번호: " + (i + 1));
-            }
+			/*
+			 * if (departmentName == null || departmentName.trim().isEmpty()) { throw new
+			 * IllegalArgumentException("부서명이 누락된 행이 있습니다. 행 번호: " + (i + 1)); }
+			 */
             
             // departmentName으로 departmentId 찾기
             String departmentId=findDepartmentIdByName(departmentName, departments);
