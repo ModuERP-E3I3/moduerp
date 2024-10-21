@@ -41,4 +41,9 @@ public class HomeController {
 		return "common/main";
 	}
 	
+	@RequestMapping("/forwardChatbot.do")
+    public String forwardChatbot() {
+        return "chatbot/chatbot"; // chatbot/chatbot.jsp로 포워딩
+    }
+	
 }

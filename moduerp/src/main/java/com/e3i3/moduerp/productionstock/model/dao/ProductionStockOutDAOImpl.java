@@ -34,6 +34,7 @@ public class ProductionStockOutDAOImpl implements ProductionStockOutDAO {
 		return sqlSession.selectList(namespace + ".selectProductionStockOutByItemCode", itemCode);
 	}
 
+	@Override
 	public ProductionStockOutDTO SelectProductionStockOutByPStockId(String pStockOutId) {
 		return sqlSession.selectOne(namespace + ".selectProductionStockOutByPStockId", pStockOutId);
 	}
@@ -46,10 +47,9 @@ public class ProductionStockOutDAOImpl implements ProductionStockOutDAO {
 
 	@Override
 	public int selectTotalStockOutByItemCode(String itemCode) {
-	    Integer totalStockOut = sqlSession.selectOne(namespace + ".getTotalStockOutByItemCode", itemCode);
-	    return totalStockOut != null ? totalStockOut : 0;  // null인 경우 0을 반환
+		Integer totalStockOut = sqlSession.selectOne(namespace + ".getTotalStockOutByItemCode", itemCode);
+		return totalStockOut != null ? totalStockOut : 0; // null인 경우 0을 반환
 	}
-
 
 	@Override
 	public void deleteProductionStockOut(String pStockOutId) {

@@ -46,27 +46,23 @@ public class ProductionstockInController {
 
 		// 모듈 등급 검사
 		String moduleGrades = companyService.selectCompanyModuleGradesByBizNumber(bizNumber);
-		
-		if(moduleGrades != null) {
+
+		if (moduleGrades != null) {
 			// 쉼표(,)로 문자열을 분리하여 배열로 반환
-			String[] gradesArray = moduleGrades.split(",");	
+			String[] gradesArray = moduleGrades.split(",");
 			// 배열을 List로 변환
 			List<String> gradesList = Arrays.asList(gradesArray);
 			// P_IN이 리스트에 있는지 검사
 			if (gradesList.contains("P_IN")) {
-			    System.out.println("P_IN이 리스트에 포함되어 있습니다.");
+				System.out.println("P_IN이 리스트에 포함되어 있습니다.");
 			} else {
-			    System.out.println("P_IN이 리스트에 없습니다.");
-			    return "common/moduleGradesError";
+				System.out.println("P_IN이 리스트에 없습니다.");
+				return "common/moduleGradesError";
 			}
-		}else {
+		} else {
 			return "common/moduleGradesError";
-			
+
 		}
-
-		
-
-		
 
 		// 페이지당 항목 수
 		int itemsPerPage = 10;
@@ -155,13 +151,10 @@ public class ProductionstockInController {
 
 		// stockInDateStr를 LocalDate로 변환 (연월일만)
 		LocalDate parsedDate = LocalDate.parse(stockInDateStr);
-
 		// 현재 시간을 LocalTime으로 가져옴
 		LocalTime currentTime = LocalTime.now();
-
 		// LocalDate와 LocalTime을 합쳐 LocalDateTime을 만듦 (연월일 + 현재 시간)
 		LocalDateTime combinedDateTime = LocalDateTime.of(parsedDate, currentTime);
-
 		// LocalDateTime을 Timestamp로 변환
 		Timestamp stockInDate = Timestamp.valueOf(combinedDateTime);
 

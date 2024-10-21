@@ -18,6 +18,17 @@ body, html {
 	font-family: 'Helvetica Neue', Arial, sans-serif;
 	padding: 0;
 	background-color: #f4f4f4;
+	height: 100%; /* 전체 높이를 100%로 설정 */
+	 display: flex; /* Flex 컨테이너로 설정 */
+    flex-direction: column; /* 수직 방향으로 정렬 */
+}
+
+
+/* 메인 콘텐츠 래퍼 */
+.main-content {
+    flex: 1; /* 남은 공간을 모두 차지 */
+    padding: 20px; /* 내부 여백 조정 */
+    box-sizing: border-box; /* 패딩을 포함한 크기 계산 */
 }
 
 /* 구분선 스타일 */
@@ -172,7 +183,7 @@ th {
 
 </head>
 <body>
-
+  <div class="main-content">
 	<form id="cartForm" method="post">
 		<!-- 서브 이미지 컨테이너 -->
 		<div id="image-container">
@@ -225,9 +236,10 @@ th {
 									</c:if>
 								</c:forEach>
 
-
 								<!-- 그룹웨어 카운트 변수 초기화 -->
 								<c:set var="groupwareCount" value="0" />
+								<c:set var="firstGroupwareRendered" value="false" />
+								<!-- 첫 번째 표시 여부 확인 변수 -->
 
 								<!-- 그룹웨어 조건 만족 횟수 카운트 -->
 								<c:forEach var="module" items="${modules}">
@@ -237,14 +249,15 @@ th {
 								</c:forEach>
 
 								<!-- 그룹웨어 데이터 출력 -->
-								<c:forEach var="module" items="${modules}" varStatus="status">
+								<c:forEach var="module" items="${modules}">
 									<c:if test="${module.moduleType == '그룹웨어'}">
 										<tr>
 											<td><input type="checkbox" name="selectedModules"
 												value="${module.moduleGrade}"></td>
 											<!-- 첫 번째 그룹웨어일 때만 rowspan 적용 -->
-											<c:if test="${status.index == 0}">
+											<c:if test="${!firstGroupwareRendered}">
 												<td rowspan="${groupwareCount}">${module.moduleType}</td>
+												<c:set var="firstGroupwareRendered" value="true" />
 											</c:if>
 
 											<td>${module.moduleName}</td>
@@ -254,6 +267,7 @@ th {
 										</tr>
 									</c:if>
 								</c:forEach>
+
 
 
 
@@ -487,7 +501,7 @@ th {
 
 							<c:otherwise>
 								<button id="btnNoCard" type="button" class="btn_pay"
-									onclick="handleNoCard()">결제하기카드 없음</button>
+									onclick="handleNoCard()">결제하기</button>
 
 							</c:otherwise>
 						</c:choose>
@@ -499,7 +513,7 @@ th {
 
 	<!-- 메뉴바 임포트 -->
 	<c:import url="/WEB-INF/views/common/menubar.jsp" />
-
+</div>
 	<!-- 푸터 임포트 -->
 	<c:import url="/WEB-INF/views/common/footer.jsp" />
 

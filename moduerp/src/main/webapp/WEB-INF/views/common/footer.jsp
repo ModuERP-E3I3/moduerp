@@ -1,18 +1,21 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8" 
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
 <meta charset="UTF-8">
 <title>Footer Example</title>
 <style type="text/css">
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Helvetica Neue', Arial, sans-serif;
-    }
+/* 기존 스타일 유지 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
 
-  /* Footer Styles */
+/* Footer Styles */
 footer {
     background-color: #1c1c1c; /* 어두운 회색 배경 */
     color: #e0e0e0; /* 밝은 회색 텍스트 */
@@ -25,7 +28,7 @@ footer {
     flex-wrap: wrap;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 20px;
     gap: 20px;
 }
 
@@ -49,20 +52,42 @@ footer {
 .footer-section ul {
     list-style: none;
     padding: 0;
-}
-.footer-section.links {
-    text-align: center; /* 가운데 정렬 적용 */
+    margin: 0;
 }
 
-
-.footer-section.links ul li {
-  text-align: center; /* 가운데 정렬 적용 */
-}
-
+/* 기존 'ul li' 스타일 */
 .footer-section ul li {
     margin-bottom: 10px;
     display: flex;
     align-items: center;
+}
+
+/* 'links' 섹션의 <ul> 스타일 수정 */
+.footer-section.links ul {
+    /* Flexbox 속성 제거 */
+    /* display: flex; */
+    /* justify-content: center; */
+    /* gap: 15px; */
+    padding: 0;
+    margin: 0;
+}
+
+/* 'links' 섹션의 <li> 스타일 수정 */
+.footer-section.links {
+    text-align: center; /* 섹션 내 텍스트 중앙 정렬 */
+}
+
+.footer-section.links ul li {
+    display: block; /* Flexbox 영향을 받지 않도록 설정 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    margin-bottom: 10px; /* 링크 간 간격 유지 */
+}
+
+/* 아이콘이 있는 다른 섹션의 <li> 스타일 유지 */
+.footer-section.contact ul li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
 .footer-section ul li i {
@@ -91,7 +116,6 @@ footer {
     color: #1abc9c;
 }
 
-
 .footer-bottom {
     text-align: center;
     margin-top: 20px;
@@ -107,17 +131,17 @@ footer {
         padding: 20px;
         font-size: 0.8rem;
     }
-    
+
     .footer-container {
         flex-direction: column;
         align-items: center;
     }
-    
+
     .footer-section {
         max-width: 500px;
         text-align: center;
     }
-    
+
     .footer-section .socials a {
         margin: 0 5px;
     }
